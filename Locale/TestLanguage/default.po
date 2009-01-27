@@ -1,0 +1,1519 @@
+# Translation for CubicExplorer
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"CE-POT-Version: 918\n"
+"CE-Language:     \n"
+
+#. CEActions..ActionList..act_gen_exit..Category
+#: dCE_Actions.dfm:13
+#. CEActions..ActionList..act_gen_singleinstance..Category
+#: dCE_Actions.dfm:336
+#. CEActions..ActionList..act_gen_remembertabs..Category
+#: dCE_Actions.dfm:365
+#. BookmarkPropDlg..PageControl..GeneralSheet..Caption
+#: fCE_BookmarkPropDlg.dfm:33
+msgid "General"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_gen_exit..Caption
+#: dCE_Actions.dfm:14
+#. MainForm..TopToolDock..MainToolbar..fileMenuItem..SpTBXItem3..Caption
+#: Main.dfm:98
+msgid "Exit"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_navi_closetab..Category
+#: dCE_Actions.dfm:20
+#. CEActions..ActionList..act_navi_addtab..Category
+#: dCE_Actions.dfm:28
+#. CEActions..ActionList..act_navi_forward..Category
+#: dCE_Actions.dfm:36
+#. CEActions..ActionList..act_navi_back..Category
+#: dCE_Actions.dfm:44
+#. CEActions..ActionList..act_navi_folderup..Category
+#: dCE_Actions.dfm:52
+#. CEActions..ActionList..act_navi_refresh..Category
+#: dCE_Actions.dfm:59
+#. CEActions..ActionList..act_navi_texteditor..Category
+#: dCE_Actions.dfm:273
+#. CEActions..ActionList..act_navi_filesearch..Category
+#: dCE_Actions.dfm:280
+#. CEActions..ActionList..act_navi_dublicatetab..Category
+#: dCE_Actions.dfm:391
+#. MainForm..TopToolDock..NavigationToolbar..Caption
+#: Main.dfm:467
+msgid "Navigation"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_navi_closetab..Caption
+#: dCE_Actions.dfm:21
+#. MainForm..TopToolDock..MainToolbar..fileMenuItem..SpTBXItem6..Caption
+#: Main.dfm:68
+#. MainForm..TopToolDock..NavigationToolbar..SpTBXItem36..Caption
+#: Main.dfm:497
+msgid "Close Tab"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_navi_addtab..Caption
+#: dCE_Actions.dfm:29
+#. MainForm..TopToolDock..MainToolbar..fileMenuItem..SpTBXItem4..Caption
+#: Main.dfm:50
+#. MainForm..TopToolDock..NavigationToolbar..SpTBXItem37..Caption
+#: Main.dfm:493
+msgid "Add Tab"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_navi_forward..Caption
+#: dCE_Actions.dfm:37
+#. CETextEditorPage..FindPanel..opt_radio....Items.Strings
+#: fCE_TextEditor.dfm:361
+#. CETextEditor..FindPanel..opt_radio....Items.Strings
+#: fCE_TextEditor_1.dfm:368
+#. MainForm..TopToolDock..MainToolbar..fileMenuItem..SpTBXItem8..Caption
+#: Main.dfm:78
+#. MainForm..TopToolDock..NavigationToolbar..SpTBXItem39..Caption
+#: Main.dfm:479
+msgid "Forward"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_navi_back..Caption
+#: dCE_Actions.dfm:45
+#. MainForm..TopToolDock..MainToolbar..fileMenuItem..SpTBXItem9..Caption
+#: Main.dfm:74
+#. MainForm..TopToolDock..NavigationToolbar..SpTBXItem40..Caption
+#: Main.dfm:475
+msgid "Back"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_navi_folderup..Caption
+#: dCE_Actions.dfm:53
+#. MainForm..TopToolDock..MainToolbar..fileMenuItem..SpTBXItem7..Caption
+#: Main.dfm:82
+#. MainForm..TopToolDock..NavigationToolbar..SpTBXItem38..Caption
+#: Main.dfm:483
+msgid "Folder Up"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_navi_refresh..Caption
+#: dCE_Actions.dfm:60
+#. MainForm..TopToolDock..NavigationToolbar..SpTBXItem41..Caption
+#: Main.dfm:487
+msgid "Refresh"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_folders..Category
+#: dCE_Actions.dfm:67
+#. CEActions..ActionList..act_view_bookmark..Category
+#: dCE_Actions.dfm:75
+#. CEActions..ActionList..act_view_large..Category
+#: dCE_Actions.dfm:83
+#. CEActions..ActionList..act_view_small..Category
+#: dCE_Actions.dfm:90
+#. CEActions..ActionList..act_view_list..Category
+#: dCE_Actions.dfm:97
+#. CEActions..ActionList..act_view_showheaderalways..Category
+#: dCE_Actions.dfm:104
+#. CEActions..ActionList..act_view_filters..Category
+#: dCE_Actions.dfm:110
+#. CEActions..ActionList..act_view_details..Category
+#: dCE_Actions.dfm:118
+#. CEActions..ActionList..act_view_thumbs..Category
+#: dCE_Actions.dfm:125
+#. CEActions..ActionList..act_view_tiles..Category
+#: dCE_Actions.dfm:132
+#. CEActions..ActionList..act_view_filmstrip..Category
+#: dCE_Actions.dfm:139
+#. CEActions..ActionList..act_view_quickview..Category
+#: dCE_Actions.dfm:258
+#. CEActions..ActionList..act_view_showhints..Category
+#: dCE_Actions.dfm:312
+#. CEActions..ActionList..act_view_smoothscroll..Category
+#: dCE_Actions.dfm:318
+#. CEActions..ActionList..act_view_hiddenfiles..Category
+#: dCE_Actions.dfm:330
+#. CEActions..ActionList..act_view_statusbar..Category
+#: dCE_Actions.dfm:378
+#. CEActions..ActionList..act_view_fullscreen..Category
+#: dCE_Actions.dfm:384
+#. CEActions..ActionList..act_view_showextensions..Category
+#: dCE_Actions.dfm:415
+#. CEActions..BackgroundCMItems_up..View1..Caption
+#: dCE_Actions.dfm:448
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem4..Caption
+#: fCE_TextEditor.dfm:113
+#. CETextEditorPage..ActionList..text_view_toolbar..Category
+#: fCE_TextEditor.dfm:495
+#. CETextEditorPage..ActionList..text_view_statusbar..Category
+#: fCE_TextEditor.dfm:511
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem4..Caption
+#: fCE_TextEditor_1.dfm:114
+#. CETextEditor..ActionList..text_view_toolbar..Category
+#: fCE_TextEditor_1.dfm:502
+#. CETextEditor..ActionList..text_view_statusbar..Category
+#: fCE_TextEditor_1.dfm:518
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..Caption
+#: Main.dfm:148
+#. MainForm..TopToolDock..ViewToolbar..Caption
+#: Main.dfm:427
+msgid "View"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_folders..Caption
+#: dCE_Actions.dfm:68
+#. CEFolderPanel..Caption
+#: fCE_FolderPanel.dfm:2
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem9..SpTBXItem26..Caption
+#: Main.dfm:196
+msgid "Folders"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_bookmark..Caption
+#: dCE_Actions.dfm:76
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem9..SpTBXItem18..Caption
+#: Main.dfm:200
+#. MainForm..TopToolDock..MainToolbar..bookmarkMenuItem..Caption
+#: Main.dfm:323
+msgid "Bookmarks"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_large..Caption
+#: dCE_Actions.dfm:84
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_icon..Caption
+#: fCE_FileView.dfm:54
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem7..SpTBXItem16..Caption
+#: Main.dfm:152
+#. MainForm..TopToolDock..ViewToolbar..SpTBXItem28..Caption
+#: Main.dfm:436
+msgid "Large Icons"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_small..Caption
+#: dCE_Actions.dfm:91
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_smallicon..Caption
+#: fCE_FileView.dfm:61
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem7..SpTBXItem15..Caption
+#: Main.dfm:156
+#. MainForm..TopToolDock..ViewToolbar..SpTBXItem33..Caption
+#: Main.dfm:440
+msgid "Small Icons"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_list..Caption
+#: dCE_Actions.dfm:98
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_list..Caption
+#: fCE_FileView.dfm:68
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem7..SpTBXItem14..Caption
+#: Main.dfm:160
+#. MainForm..TopToolDock..ViewToolbar..SpTBXItem32..Caption
+#: Main.dfm:444
+msgid "List"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_showheaderalways..Caption
+#: dCE_Actions.dfm:105
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXItem50..Caption
+#: Main.dfm:318
+msgid "Always Show Sort Columns"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_filters..Caption
+#: dCE_Actions.dfm:111
+#. CE_FiltersPanel..Caption
+#: fCE_FiltersPanel.dfm:2
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem9..SpTBXItem53..Caption
+#: Main.dfm:208
+msgid "Filters"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_details..Caption
+#: dCE_Actions.dfm:119
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_details..Caption
+#: fCE_FileView.dfm:75
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem7..SpTBXItem13..Caption
+#: Main.dfm:164
+#. MainForm..TopToolDock..ViewToolbar..SpTBXItem31..Caption
+#: Main.dfm:448
+msgid "Details"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_thumbs..Caption
+#: dCE_Actions.dfm:126
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_thumbnails..Caption
+#: fCE_FileView.dfm:89
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem7..SpTBXItem11..Caption
+#: Main.dfm:172
+#. MainForm..TopToolDock..ViewToolbar..SpTBXItem29..Caption
+#: Main.dfm:456
+msgid "Thumbnails"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_tiles..Caption
+#: dCE_Actions.dfm:133
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_tiles..Caption
+#: fCE_FileView.dfm:82
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem7..SpTBXItem12..Caption
+#: Main.dfm:168
+#. MainForm..TopToolDock..ViewToolbar..SpTBXItem30..Caption
+#: Main.dfm:452
+msgid "Tiles"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_filmstrip..Caption
+#: dCE_Actions.dfm:140
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_filmstrip..Caption
+#: fCE_FileView.dfm:96
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem7..SpTBXItem10..Caption
+#: Main.dfm:176
+#. MainForm..TopToolDock..ViewToolbar..SpTBXItem34..Caption
+#: Main.dfm:460
+msgid "Filmstrip"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_edit_copy..Category
+#: dCE_Actions.dfm:146
+#. CEActions..ActionList..act_edit_cut..Category
+#: dCE_Actions.dfm:156
+#. CEActions..ActionList..act_edit_paste..Category
+#: dCE_Actions.dfm:164
+#. CEActions..ActionList..act_edit_delete..Category
+#: dCE_Actions.dfm:174
+#. CEActions..ActionList..act_edit_selall..Category
+#: dCE_Actions.dfm:182
+#. CEActions..ActionList..act_edit_invertsel..Category
+#: dCE_Actions.dfm:189
+#. CEActions..ActionList..act_edit_properties..Category
+#: dCE_Actions.dfm:196
+#. CEActions..ActionList..act_edit_rename..Category
+#: dCE_Actions.dfm:203
+#. CEActions..ActionList..act_edit_duplicate..Category
+#: dCE_Actions.dfm:266
+#. CEActions..ActionList..act_edit_newfile..Category
+#: dCE_Actions.dfm:299
+#. CEActions..ActionList..act_edit_copypath..Category
+#: dCE_Actions.dfm:305
+#. CEActions..ActionList..act_edit_newfolder..Category
+#: dCE_Actions.dfm:342
+#. CEActions..ActionList..act_edit_paste_shortcut..Category
+#: dCE_Actions.dfm:350
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem2..Caption
+#: fCE_TextEditor.dfm:51
+#. CETextEditorPage..ActionList..text_edit_undo..Category
+#: fCE_TextEditor.dfm:377
+#. CETextEditorPage..ActionList..text_edit_redo..Category
+#: fCE_TextEditor.dfm:415
+#. CETextEditorPage..ActionList..text_edit_copy..Category
+#: fCE_TextEditor.dfm:422
+#. CETextEditorPage..ActionList..text_edit_cut..Category
+#: fCE_TextEditor.dfm:429
+#. CETextEditorPage..ActionList..text_edit_paste..Category
+#: fCE_TextEditor.dfm:436
+#. CETextEditorPage..ActionList..text_edit_delete..Category
+#: fCE_TextEditor.dfm:443
+#. CETextEditorPage..ActionList..text_edit_selall..Category
+#: fCE_TextEditor.dfm:450
+#. CETextEditorPage..ActionList..text_edit_search..Category
+#: fCE_TextEditor.dfm:457
+#. CETextEditorPage..ActionList..text_edit_findnext..Category
+#: fCE_TextEditor.dfm:465
+#. CETextEditorPage..ActionList..text_edit_findprev..Category
+#: fCE_TextEditor.dfm:473
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..Caption
+#: fCE_TextEditor_1.dfm:52
+#. CETextEditor..ActionList..text_edit_undo..Category
+#: fCE_TextEditor_1.dfm:384
+#. CETextEditor..ActionList..text_edit_redo..Category
+#: fCE_TextEditor_1.dfm:422
+#. CETextEditor..ActionList..text_edit_copy..Category
+#: fCE_TextEditor_1.dfm:429
+#. CETextEditor..ActionList..text_edit_cut..Category
+#: fCE_TextEditor_1.dfm:436
+#. CETextEditor..ActionList..text_edit_paste..Category
+#: fCE_TextEditor_1.dfm:443
+#. CETextEditor..ActionList..text_edit_delete..Category
+#: fCE_TextEditor_1.dfm:450
+#. CETextEditor..ActionList..text_edit_selall..Category
+#: fCE_TextEditor_1.dfm:457
+#. CETextEditor..ActionList..text_edit_search..Category
+#: fCE_TextEditor_1.dfm:464
+#. CETextEditor..ActionList..text_edit_findnext..Category
+#: fCE_TextEditor_1.dfm:472
+#. CETextEditor..ActionList..text_edit_findprev..Category
+#: fCE_TextEditor_1.dfm:480
+#. MainForm..TopToolDock..MainToolbar..editMenuItem..Caption
+#: Main.dfm:103
+#. MainForm..TopToolDock..EditToolbar..Caption
+#: Main.dfm:514
+msgid "Edit"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_edit_copy..Caption
+#: dCE_Actions.dfm:147
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem8..Caption
+#: fCE_TextEditor.dfm:63
+#. CETextEditorPage..ActionList..text_edit_copy..Caption
+#: fCE_TextEditor.dfm:423
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem8..Caption
+#: fCE_TextEditor_1.dfm:64
+#. CETextEditor..ActionList..text_edit_copy..Caption
+#: fCE_TextEditor_1.dfm:430
+#. MainForm..TopToolDock..MainToolbar..editMenuItem..SpTBXItem25..Caption
+#: Main.dfm:105
+#. MainForm..TopToolDock..EditToolbar..SpTBXItem67..Caption
+#: Main.dfm:521
+msgid "Copy"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_edit_cut..Caption
+#: dCE_Actions.dfm:157
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem9..Caption
+#: fCE_TextEditor.dfm:67
+#. CETextEditorPage..ActionList..text_edit_cut..Caption
+#: fCE_TextEditor.dfm:430
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem9..Caption
+#: fCE_TextEditor_1.dfm:68
+#. CETextEditor..ActionList..text_edit_cut..Caption
+#: fCE_TextEditor_1.dfm:437
+#. MainForm..TopToolDock..MainToolbar..editMenuItem..SpTBXItem24..Caption
+#: Main.dfm:109
+#. MainForm..TopToolDock..EditToolbar..SpTBXItem68..Caption
+#: Main.dfm:525
+msgid "Cut"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_edit_paste..Caption
+#: dCE_Actions.dfm:165
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem10..Caption
+#: fCE_TextEditor.dfm:71
+#. CETextEditorPage..ActionList..text_edit_paste..Caption
+#: fCE_TextEditor.dfm:437
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem10..Caption
+#: fCE_TextEditor_1.dfm:72
+#. CETextEditor..ActionList..text_edit_paste..Caption
+#: fCE_TextEditor_1.dfm:444
+#. MainForm..TopToolDock..MainToolbar..editMenuItem..SpTBXItem23..Caption
+#: Main.dfm:113
+#. MainForm..TopToolDock..EditToolbar..SpTBXItem69..Caption
+#: Main.dfm:529
+msgid "Paste"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_edit_delete..Caption
+#: dCE_Actions.dfm:175
+#. CEBookmarkPanel..BookmarkPopupMenu..but_delete..Caption
+#: fCE_BookmarkPanel.dfm:37
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem11..Caption
+#: fCE_TextEditor.dfm:75
+#. CETextEditorPage..ActionList..text_edit_delete..Caption
+#: fCE_TextEditor.dfm:444
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem11..Caption
+#: fCE_TextEditor_1.dfm:76
+#. CETextEditor..ActionList..text_edit_delete..Caption
+#: fCE_TextEditor_1.dfm:451
+#. MainForm..TopToolDock..MainToolbar..editMenuItem..SpTBXItem22..Caption
+#: Main.dfm:123
+#. MainForm..TopToolDock..EditToolbar..SpTBXItem70..Caption
+#: Main.dfm:533
+msgid "Delete"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_edit_selall..Caption
+#: dCE_Actions.dfm:183
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem12..Caption
+#: fCE_TextEditor.dfm:81
+#. CETextEditorPage..ActionList..text_edit_selall..Caption
+#: fCE_TextEditor.dfm:451
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem12..Caption
+#: fCE_TextEditor_1.dfm:82
+#. CETextEditor..ActionList..text_edit_selall..Caption
+#: fCE_TextEditor_1.dfm:458
+#. MainForm..TopToolDock..MainToolbar..editMenuItem..SpTBXItem20..Caption
+#: Main.dfm:133
+msgid "Select All"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_edit_invertsel..Caption
+#: dCE_Actions.dfm:190
+#. MainForm..TopToolDock..MainToolbar..editMenuItem..SpTBXItem19..Caption
+#: Main.dfm:137
+msgid "Invert Selection"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_edit_properties..Caption
+#: dCE_Actions.dfm:197
+#. CEBookmarkPanel..BookmarkPopupMenu..but_properties..Caption
+#: fCE_BookmarkPanel.dfm:27
+#. MainForm..TopToolDock..MainToolbar..editMenuItem..SpTBXItem17..Caption
+#: Main.dfm:143
+msgid "Properties..."
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_edit_rename..Caption
+#: dCE_Actions.dfm:204
+#. CEBookmarkPanel..BookmarkPopupMenu..but_rename..Caption
+#: fCE_BookmarkPanel.dfm:32
+#. MainForm..TopToolDock..MainToolbar..editMenuItem..SpTBXItem21..Caption
+#: Main.dfm:127
+msgid "Rename"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_quick_none..Category
+#: dCE_Actions.dfm:210
+#. CEActions..ActionList..act_quick_auto..Category
+#: dCE_Actions.dfm:216
+#. CEActions..ActionList..act_quick_text..Category
+#: dCE_Actions.dfm:222
+#. CEActions..ActionList..act_quick_image..Category
+#: dCE_Actions.dfm:228
+#. CEActions..ActionList..act_quick_hex..Category
+#: dCE_Actions.dfm:234
+#. CEActions..ActionList..act_view_quickview..Caption
+#: dCE_Actions.dfm:259
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem9..SpTBXItem27..Caption
+#: Main.dfm:204
+msgid "Quickview"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_quick_none..Caption
+#: dCE_Actions.dfm:211
+#. CETextEditorPage..TopDock..MainToolbar..highlighterSubmenu..SpTBXItem16..Caption
+#: fCE_TextEditor.dfm:127
+#. CETextEditor..TopDock..MainToolbar..highlighterSubmenu..SpTBXItem16..Caption
+#: fCE_TextEditor_1.dfm:128
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem57..Caption
+#: Main.dfm:234
+msgid "None"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_quick_auto..Caption
+#: dCE_Actions.dfm:217
+msgid "Auto"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_quick_text..Caption
+#: dCE_Actions.dfm:223
+msgid "Text"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_quick_image..Caption
+#: dCE_Actions.dfm:229
+msgid "Image"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_quick_hex..Caption
+#: dCE_Actions.dfm:235
+msgid "Hex"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_help_home..Category
+#: dCE_Actions.dfm:240
+#. CEActions..ActionList..act_help_forum..Category
+#: dCE_Actions.dfm:246
+#. CEActions..ActionList..act_help_about..Category
+#: dCE_Actions.dfm:252
+#. CEActions..ActionList..act_help_poedit_tab..Category
+#: dCE_Actions.dfm:421
+#. CEActions..ActionList..act_help_poedit_form..Category
+#: dCE_Actions.dfm:427
+#. MainForm..TopToolDock..MainToolbar..helpMenuItem..Caption
+#: Main.dfm:373
+msgid "Help"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_help_home..Caption
+#: dCE_Actions.dfm:241
+#. MainForm..TopToolDock..MainToolbar..helpMenuItem..SpTBXItem5..Caption
+#: Main.dfm:375
+msgid "CubicExplore Home Page"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_help_forum..Caption
+#: dCE_Actions.dfm:247
+#. MainForm..TopToolDock..MainToolbar..helpMenuItem..SpTBXItem2..Caption
+#: Main.dfm:379
+msgid "Support Forum"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_help_about..Caption
+#: dCE_Actions.dfm:253
+#. MainForm..TopToolDock..MainToolbar..helpMenuItem..SpTBXItem1..Caption
+#: Main.dfm:398
+msgid "About..."
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_edit_duplicate..Caption
+#: dCE_Actions.dfm:267
+#. MainForm..TopToolDock..MainToolbar..editMenuItem..SpTBXItem42..Caption
+#: Main.dfm:117
+msgid "Duplicate"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_navi_texteditor..Caption
+#: dCE_Actions.dfm:274
+#. MainForm..TopToolDock..MainToolbar..fileMenuItem..SpTBXItem43..Caption
+#: Main.dfm:54
+#. MainForm..TopToolDock..NavigationToolbar..SpTBXItem48..Caption
+#: Main.dfm:503
+msgid "Text Editor"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_navi_filesearch..Caption
+#: dCE_Actions.dfm:281
+#. MainForm..TopToolDock..MainToolbar..fileMenuItem..SpTBXItem81..Caption
+#: Main.dfm:58
+#. MainForm..TopToolDock..NavigationToolbar..SpTBXItem49..Caption
+#: Main.dfm:507
+msgid "File Search"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_tools_mapdrive..Category
+#: dCE_Actions.dfm:287
+#. CEActions..ActionList..act_tools_disconnectdrive..Category
+#: dCE_Actions.dfm:293
+#. CEActions..ActionList..act_tools_showcustomizer..Category
+#: dCE_Actions.dfm:324
+#. CEActions..ActionList..act_tools_emptytrash..Category
+#: dCE_Actions.dfm:358
+#. CEActions..ActionList..act_tools_cmd..Category
+#: dCE_Actions.dfm:371
+#. MainForm..TopToolDock..MainToolbar..toolsMenuItem..Caption
+#: Main.dfm:326
+msgid "Tools"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_tools_mapdrive..Caption
+#: dCE_Actions.dfm:288
+#. MainForm..TopToolDock..MainToolbar..toolsMenuItem..SpTBXItem54..Caption
+#: Main.dfm:328
+msgid "Map Network Drive..."
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_tools_disconnectdrive..Caption
+#: dCE_Actions.dfm:294
+#. MainForm..TopToolDock..MainToolbar..toolsMenuItem..SpTBXItem55..Caption
+#: Main.dfm:332
+msgid "Disconnect Network Drive..."
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_edit_newfile..Caption
+#: dCE_Actions.dfm:300
+#. CEPoEditor..SpTBXDock1..SpTBXToolbar1..SpTBXItem2..Caption
+#: fCE_PoEditor.dfm:39
+#. CEPoEditor..ActionList..act_new..Caption
+#: fCE_PoEditor.dfm:393
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem1..Caption
+#: fCE_TextEditor.dfm:22
+#. CETextEditorPage..ActionList..text_file_new..Caption
+#: fCE_TextEditor.dfm:371
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem1..Caption
+#: fCE_TextEditor_1.dfm:23
+#. CETextEditor..ActionList..text_file_new..Caption
+#: fCE_TextEditor_1.dfm:378
+msgid "New"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_edit_copypath..Caption
+#: dCE_Actions.dfm:306
+msgid "Copy Path"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_showhints..Caption
+#: dCE_Actions.dfm:313
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXItem71..Caption
+#: Main.dfm:310
+msgid "Show Hints"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_smoothscroll..Caption
+#: dCE_Actions.dfm:319
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXItem72..Caption
+#: Main.dfm:314
+msgid "Smooth Scroll"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_tools_showcustomizer..Caption
+#: dCE_Actions.dfm:325
+#. MainForm..TopToolDock..MainToolbar..toolsMenuItem..SpTBXItem44..Caption
+#: Main.dfm:338
+#. MainForm..ToolbarPopupMenu..SpTBXItem52..Caption
+#: Main.dfm:572
+msgid "Customizer..."
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_hiddenfiles..Caption
+#: dCE_Actions.dfm:331
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXItem35..Caption
+#: Main.dfm:181
+msgid "Show Hidden Files"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_gen_singleinstance..Caption
+#: dCE_Actions.dfm:337
+#. MainForm..TopToolDock..MainToolbar..fileMenuItem..SpTBXItem47..Caption
+#: Main.dfm:88
+msgid "Single Instance Only"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_edit_newfolder..Caption
+#: dCE_Actions.dfm:343
+msgid "New Folder"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_edit_paste_shortcut..Caption
+#: dCE_Actions.dfm:351
+msgid "Paste Shortcut"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_tools_emptytrash..Caption
+#: dCE_Actions.dfm:359
+msgid "Empty Recycle Bin"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_gen_remembertabs..Caption
+#: dCE_Actions.dfm:366
+#. MainForm..TopToolDock..MainToolbar..fileMenuItem..SpTBXItem51..Caption
+#: Main.dfm:92
+msgid "Remember Tabs"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_tools_cmd..Caption
+#: dCE_Actions.dfm:372
+msgid "Open Command Prompt"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_statusbar..Caption
+#: dCE_Actions.dfm:379
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXItem56..Caption
+#: Main.dfm:213
+msgid "Status Bar"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_fullscreen..Caption
+#: dCE_Actions.dfm:385
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXItem74..Caption
+#: Main.dfm:304
+msgid "Fullscreen"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_navi_dublicatetab..Caption
+#: dCE_Actions.dfm:392
+#. MainForm..TopToolDock..MainToolbar..fileMenuItem..SpTBXItem73..Caption
+#: Main.dfm:64
+msgid "Dublicate Tab"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_quickopt_autocollapse..Category
+#: dCE_Actions.dfm:397
+#. CEActions..ActionList..act_quickopt_autoexpand..Category
+#: dCE_Actions.dfm:403
+#. CEActions..ActionList..act_quickopt_filterimage..Category
+#: dCE_Actions.dfm:409
+#. MainForm..TopToolDock..MainToolbar..toolsMenuItem..SpTBXSubmenuItem1..Caption
+#: Main.dfm:344
+msgid "Quick Options"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_quickopt_autocollapse..Caption
+#: dCE_Actions.dfm:398
+#. MainForm..TopToolDock..MainToolbar..toolsMenuItem..SpTBXSubmenuItem1..SpTBXItem76..Caption
+#: Main.dfm:350
+msgid "Auto Collapse Trees"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_quickopt_autoexpand..Caption
+#: dCE_Actions.dfm:404
+#. MainForm..TopToolDock..MainToolbar..toolsMenuItem..SpTBXSubmenuItem1..SpTBXItem77..Caption
+#: Main.dfm:346
+msgid "Auto Expand Trees"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_quickopt_filterimage..Caption
+#: dCE_Actions.dfm:410
+#. MainForm..TopToolDock..MainToolbar..toolsMenuItem..SpTBXSubmenuItem1..SpTBXItem78..Caption
+#: Main.dfm:354
+msgid "Show Filtering Background"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_view_showextensions..Caption
+#: dCE_Actions.dfm:416
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXItem79..Caption
+#: Main.dfm:185
+msgid "Show Extensions"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_help_poedit_tab..Caption
+#: dCE_Actions.dfm:422
+#. MainForm..TopToolDock..MainToolbar..helpMenuItem..SpTBXSubmenuItem2..SpTBXItem82..Caption
+#: Main.dfm:387
+msgid "Open Editor in Tab"
+msgstr "!!!Test!!!"
+
+#. CEActions..ActionList..act_help_poedit_form..Caption
+#: dCE_Actions.dfm:428
+#. MainForm..TopToolDock..MainToolbar..helpMenuItem..SpTBXSubmenuItem2..SpTBXItem83..Caption
+#: Main.dfm:391
+msgid "Open Editor in new window"
+msgstr "!!!Test!!!"
+
+#. CEAboutBox..Caption
+#: fCE_AboutBox.dfm:5
+msgid "About CubicExplorer"
+msgstr "!!!Test!!!"
+
+#. CEAboutBox..Button1..Caption
+#: fCE_AboutBox.dfm:165
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem5..Caption
+#: fCE_TextEditor.dfm:42
+#. CETextEditorPage..ActionList..text_file_close..Caption
+#: fCE_TextEditor.dfm:409
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem5..Caption
+#: fCE_TextEditor_1.dfm:43
+#. CETextEditor..ActionList..text_file_close..Caption
+#: fCE_TextEditor_1.dfm:416
+msgid "Close"
+msgstr "!!!Test!!!"
+
+#. CEBookmarkPanel..BookmarkPopupMenu..but_addCat..Caption
+#: fCE_BookmarkPanel.dfm:15
+msgid "Add Category"
+msgstr "!!!Test!!!"
+
+#. CEBookmarkPanel..BookmarkPopupMenu..but_addBookmark..Caption
+#: fCE_BookmarkPanel.dfm:20
+msgid "Add Bookmark"
+msgstr "!!!Test!!!"
+
+#. CEBookmarkPanel..BookmarkPopupMenu..but_openAll..Caption
+#: fCE_BookmarkPanel.dfm:44
+#: CE_BookmarkBar.pas:296
+msgid "Open All in Tabs"
+msgstr "!!!Test!!!"
+
+#. CEBookmarkPanel..BookmarkPopupMenu..but_openAll..SpTBXItem1..Caption
+#: fCE_BookmarkPanel.dfm:49
+#. "And Launch Files" item
+#: CE_BookmarkBar.pas:300
+msgid "And Launch Files"
+msgstr "!!!Test!!!"
+
+#. CEBookmarkPanel..BookmarkPopupMenu..but_openAll..SpTBXItem2..Caption
+#: fCE_BookmarkPanel.dfm:54
+#. "Launch Files Only" item
+#: CE_BookmarkBar.pas:307
+msgid "Launch Files Only"
+msgstr "!!!Test!!!"
+
+#. BookmarkPropDlg..Caption
+#: fCE_BookmarkPropDlg.dfm:5
+msgid "Properties"
+msgstr "!!!Test!!!"
+
+#. BookmarkPropDlg..PageControl..GeneralSheet..TargetPanel..Label2..Caption
+#: fCE_BookmarkPropDlg.dfm:68
+msgid "Target"
+msgstr "!!!Test!!!"
+
+#. BookmarkPropDlg..PageControl..GeneralSheet..TargetPanel..check_relative..Caption
+#: fCE_BookmarkPropDlg.dfm:96
+msgid "Relative"
+msgstr "!!!Test!!!"
+
+#. BookmarkPropDlg..PageControl..GeneralSheet..TargetPanel..but_browse..Caption
+#: fCE_BookmarkPropDlg.dfm:105
+#. CENewTranslationDlg..but_browser..Caption
+#: fCE_PoEditor_NewForm.dfm:60
+msgid "Browse..."
+msgstr "!!!Test!!!"
+
+#. BookmarkPropDlg..but_OK..Caption
+#: fCE_BookmarkPropDlg.dfm:118
+msgid "OK"
+msgstr "!!!Test!!!"
+
+#. BookmarkPropDlg..but_Cancel..Caption
+#: fCE_BookmarkPropDlg.dfm:129
+#. CENewTranslationDlg..but_cancel..Caption
+#: fCE_PoEditor_NewForm.dfm:80
+msgid "Cancel"
+msgstr "!!!Test!!!"
+
+#. BookmarkPropDlg..but_Apply..Caption
+#: fCE_BookmarkPropDlg.dfm:140
+#. CEPoEditor..SpTBXDock1..SpTBXToolbar1..SpTBXItem3..Caption
+#: fCE_PoEditor.dfm:32
+#. CEPoEditor..ActionList..act_apply..Caption
+#: fCE_PoEditor.dfm:399
+msgid "Apply"
+msgstr "!!!Test!!!"
+
+#. CEFileSearchPage..SearchPanel..label1..Caption
+#: fCE_FileSearch.dfm:19
+msgid "Search File Mask"
+msgstr "!!!Test!!!"
+
+#. CEFileSearchPage..SearchPanel..but_start..Caption
+#: fCE_FileSearch.dfm:38
+msgid "Start"
+msgstr "!!!Test!!!"
+
+#. CEFileSearchPage..SearchPanel..label2..Caption
+#: fCE_FileSearch.dfm:54
+msgid "Search Word or Phrase in File Name"
+msgstr "!!!Test!!!"
+
+#. CEFileSearchPage..SearchPanel..but_pause..Caption
+#: fCE_FileSearch.dfm:73
+msgid "Pause"
+msgstr "!!!Test!!!"
+
+#. CEFileSearchPage..SearchPanel..but_stop..Caption
+#: fCE_FileSearch.dfm:88
+msgid "Stop"
+msgstr "!!!Test!!!"
+
+#. CEFileSearchPage..SearchPanel..label3..Caption
+#: fCE_FileSearch.dfm:103
+msgid "Search in Directory"
+msgstr "!!!Test!!!"
+
+#. CEFileSearchPage..SearchPanel..check_subdir..Caption
+#: fCE_FileSearch.dfm:115
+msgid "Subdirectories"
+msgstr "!!!Test!!!"
+
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem1..Caption
+#: fCE_FileView.dfm:17
+msgid "Thumbs Position"
+msgstr "!!!Test!!!"
+
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem1..but_thumbpos_left..Caption
+#: fCE_FileView.dfm:19
+msgid "Left"
+msgstr "!!!Test!!!"
+
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem1..but_thumbpos_top..Caption
+#: fCE_FileView.dfm:27
+msgid "Top"
+msgstr "!!!Test!!!"
+
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem1..but_thumbpos_right..Caption
+#: fCE_FileView.dfm:35
+msgid "Right"
+msgstr "!!!Test!!!"
+
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem1..but_thumbpos_bottom..Caption
+#: fCE_FileView.dfm:43
+msgid "Bottom"
+msgstr "!!!Test!!!"
+
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..Caption
+#: fCE_FileView.dfm:51
+msgid "Thumbs View Style"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..SpTBXDock1..SpTBXToolbar1..SpTBXItem1..Caption
+#: fCE_PoEditor.dfm:27
+#. CEPoEditor..ActionList..act_save..Caption
+#: fCE_PoEditor.dfm:387
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem3..Caption
+#: fCE_TextEditor.dfm:32
+#. CETextEditorPage..ActionList..text_file_save..Caption
+#: fCE_TextEditor.dfm:393
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem3..Caption
+#: fCE_TextEditor_1.dfm:33
+#. CETextEditor..ActionList..text_file_save..Caption
+#: fCE_TextEditor_1.dfm:400
+msgid "Save"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..SpTBXDock1..SpTBXToolbar1..SpTBXItem1..Hint
+#: fCE_PoEditor.dfm:28
+#. CEPoEditor..ActionList..act_save..Hint
+#: fCE_PoEditor.dfm:388
+msgid "Save changes."
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..SpTBXDock1..SpTBXToolbar1..SpTBXItem3..Hint
+#: fCE_PoEditor.dfm:33
+#. CEPoEditor..ActionList..act_apply..Hint
+#: fCE_PoEditor.dfm:400
+msgid "Apply changes."
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..SpTBXDock1..SpTBXToolbar1..SpTBXItem2..Hint
+#: fCE_PoEditor.dfm:40
+#. CEPoEditor..ActionList..act_new..Hint
+#: fCE_PoEditor.dfm:394
+msgid "Create new translation."
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..TabControl..SpTBXTabItem2..Caption
+#: fCE_PoEditor.dfm:56
+#. CEPoEditor..TabControl..WordsSheet..Translation_panel..PoItemStrMsg_panel..SpTBXLabel2..Caption
+#: fCE_PoEditor.dfm:159
+#. CEPoEditor..TabControl..WordsSheet..PoList_panel..PoList......WideText
+#: fCE_PoEditor.dfm:228
+#. CEPoEditor..TabControl..SettingsSheet..Caption
+#: fCE_PoEditor.dfm:238
+msgid "Translation"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..TabControl..SpTBXTabItem1..Caption
+#: fCE_PoEditor.dfm:61
+#. CEPoEditor..TabControl..WordsSheet..Caption
+#: fCE_PoEditor.dfm:69
+msgid "Word List"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..TabControl..WordsSheet..Translation_panel..vert_splitter..Caption
+#: fCE_PoEditor.dfm:85
+msgid "vert_splitter"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..TabControl..WordsSheet..Translation_panel..PoItemStrID_panel..Caption
+#: fCE_PoEditor.dfm:93
+msgid "PoItemStrID_panel"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..TabControl..WordsSheet..Translation_panel..PoItemStrID_panel..SpTBXLabel1..Caption
+#: fCE_PoEditor.dfm:122
+#. CEPoEditor..TabControl..WordsSheet..PoList_panel..PoList......WideText
+#: fCE_PoEditor.dfm:223
+msgid "Original"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..TabControl..WordsSheet..Translation_panel..PoItemStrMsg_panel..Caption
+#: fCE_PoEditor.dfm:135
+msgid "PoItemStrMsg_panel"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..TabControl..WordsSheet..horz_splitter..Caption
+#: fCE_PoEditor.dfm:174
+msgid "horz_splitter"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..TabControl..WordsSheet..PoList_panel..Caption
+#: fCE_PoEditor.dfm:183
+msgid "PoList_panel"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..SpTBXDockablePanel1..TntLabel1..Caption
+#: fCE_PoEditor.dfm:263
+msgid "Translator's Name"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..SpTBXDockablePanel1..TntLabel2..Caption
+#: fCE_PoEditor.dfm:271
+msgid "Translator's Email"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..SpTBXDockablePanel1..TntLabel3..Caption
+#: fCE_PoEditor.dfm:279
+#. CENewTranslationDlg..TntLabel1..Caption
+#: fCE_PoEditor_NewForm.dfm:37
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..LanguageMenuItem..Caption
+#: Main.dfm:224
+msgid "Language"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..SpTBXDockablePanel1..TntLabel4..Caption
+#: fCE_PoEditor.dfm:286
+msgid "Translation Version"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..SpTBXDockablePanel1..label2..Caption
+#: fCE_PoEditor.dfm:295
+msgid "Translation Rev:"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..SpTBXDockablePanel1..label1..Caption
+#: fCE_PoEditor.dfm:303
+msgid "Application Rev:"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXButton1..Caption
+#: fCE_PoEditor.dfm:371
+msgid "Publish Translation"
+msgstr "!!!Test!!!"
+
+#. CENewTranslationDlg..Caption
+#: fCE_PoEditor_NewForm.dfm:5
+msgid "Create New Translation"
+msgstr "!!!Test!!!"
+
+#. CENewTranslationDlg..Path..Caption
+#: fCE_PoEditor_NewForm.dfm:44
+msgid "Path"
+msgstr "!!!Test!!!"
+
+#. CENewTranslationDlg..but_create..Caption
+#: fCE_PoEditor_NewForm.dfm:70
+msgid "Create"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem1..Caption
+#: fCE_TextEditor.dfm:20
+#. CETextEditorPage..ActionList..text_file_new..Category
+#: fCE_TextEditor.dfm:370
+#. CETextEditorPage..ActionList..text_file_open..Category
+#: fCE_TextEditor.dfm:384
+#. CETextEditorPage..ActionList..text_file_save..Category
+#: fCE_TextEditor.dfm:392
+#. CETextEditorPage..ActionList..text_file_saveas..Category
+#: fCE_TextEditor.dfm:400
+#. CETextEditorPage..ActionList..text_file_close..Category
+#: fCE_TextEditor.dfm:408
+#. CETextEditorPage..ActionList..text_file_reload..Category
+#: fCE_TextEditor.dfm:503
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem1..Caption
+#: fCE_TextEditor_1.dfm:21
+#. CETextEditor..ActionList..text_file_new..Category
+#: fCE_TextEditor_1.dfm:377
+#. CETextEditor..ActionList..text_file_open..Category
+#: fCE_TextEditor_1.dfm:391
+#. CETextEditor..ActionList..text_file_save..Category
+#: fCE_TextEditor_1.dfm:399
+#. CETextEditor..ActionList..text_file_saveas..Category
+#: fCE_TextEditor_1.dfm:407
+#. CETextEditor..ActionList..text_file_close..Category
+#: fCE_TextEditor_1.dfm:415
+#. CETextEditor..ActionList..text_file_reload..Category
+#: fCE_TextEditor_1.dfm:510
+#. MainForm..TopToolDock..MainToolbar..fileMenuItem..Caption
+#: Main.dfm:47
+msgid "File"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem2..Caption
+#: fCE_TextEditor.dfm:26
+#. CETextEditorPage..ActionList..text_file_open..Caption
+#: fCE_TextEditor.dfm:385
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem2..Caption
+#: fCE_TextEditor_1.dfm:27
+#. CETextEditor..ActionList..text_file_open..Caption
+#: fCE_TextEditor_1.dfm:392
+msgid "Open..."
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem4..Caption
+#: fCE_TextEditor.dfm:36
+#. CETextEditorPage..ActionList..text_file_saveas..Caption
+#: fCE_TextEditor.dfm:401
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem4..Caption
+#: fCE_TextEditor_1.dfm:37
+#. CETextEditor..ActionList..text_file_saveas..Caption
+#: fCE_TextEditor_1.dfm:408
+msgid "Save As..."
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem21..Caption
+#: fCE_TextEditor.dfm:46
+#. CETextEditorPage..ActionList..text_file_reload..Caption
+#: fCE_TextEditor.dfm:504
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem21..Caption
+#: fCE_TextEditor_1.dfm:47
+#. CETextEditor..ActionList..text_file_reload..Caption
+#: fCE_TextEditor_1.dfm:511
+msgid "Reload"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem6..Caption
+#: fCE_TextEditor.dfm:53
+#. CETextEditorPage..ActionList..text_edit_undo..Caption
+#: fCE_TextEditor.dfm:378
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem6..Caption
+#: fCE_TextEditor_1.dfm:54
+#. CETextEditor..ActionList..text_edit_undo..Caption
+#: fCE_TextEditor_1.dfm:385
+msgid "Undo"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem7..Caption
+#: fCE_TextEditor.dfm:57
+#. CETextEditorPage..ActionList..text_edit_redo..Caption
+#: fCE_TextEditor.dfm:416
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem7..Caption
+#: fCE_TextEditor_1.dfm:58
+#. CETextEditor..ActionList..text_edit_redo..Caption
+#: fCE_TextEditor_1.dfm:423
+msgid "Redo"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem13..Caption
+#: fCE_TextEditor.dfm:87
+#. CETextEditorPage..ActionList..text_edit_search..Caption
+#: fCE_TextEditor.dfm:458
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem13..Caption
+#: fCE_TextEditor_1.dfm:88
+#. CETextEditor..ActionList..text_edit_search..Caption
+#: fCE_TextEditor_1.dfm:465
+msgid "Search and Replace"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem14..Caption
+#: fCE_TextEditor.dfm:91
+#. CETextEditorPage..ActionList..text_edit_findnext..Caption
+#: fCE_TextEditor.dfm:466
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem14..Caption
+#: fCE_TextEditor_1.dfm:92
+#. CETextEditor..ActionList..text_edit_findnext..Caption
+#: fCE_TextEditor_1.dfm:473
+msgid "Find Next"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem15..Caption
+#: fCE_TextEditor.dfm:95
+#. CETextEditorPage..ActionList..text_edit_findprev..Caption
+#: fCE_TextEditor.dfm:474
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem15..Caption
+#: fCE_TextEditor_1.dfm:96
+#. CETextEditor..ActionList..text_edit_findprev..Caption
+#: fCE_TextEditor_1.dfm:481
+msgid "Find Previous"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem3..Caption
+#: fCE_TextEditor.dfm:100
+#. CETextEditorPage..ActionList..text_format_wrap..Category
+#: fCE_TextEditor.dfm:481
+#. CETextEditorPage..ActionList..text_format_options..Category
+#: fCE_TextEditor.dfm:488
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem3..Caption
+#: fCE_TextEditor_1.dfm:101
+#. CETextEditor..ActionList..text_format_wrap..Category
+#: fCE_TextEditor_1.dfm:488
+#. CETextEditor..ActionList..text_format_options..Category
+#: fCE_TextEditor_1.dfm:495
+msgid "Format"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem3..SpTBXItem17..Caption
+#: fCE_TextEditor.dfm:102
+#. CETextEditorPage..ActionList..text_format_wrap..Caption
+#: fCE_TextEditor.dfm:482
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem3..SpTBXItem17..Caption
+#: fCE_TextEditor_1.dfm:103
+#. CETextEditor..ActionList..text_format_wrap..Caption
+#: fCE_TextEditor_1.dfm:489
+msgid "Word Wrap"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem3..SpTBXItem19..Caption
+#: fCE_TextEditor.dfm:108
+#. CETextEditorPage..ActionList..text_format_options..Caption
+#: fCE_TextEditor.dfm:489
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem3..SpTBXItem19..Caption
+#: fCE_TextEditor_1.dfm:109
+#. CETextEditor..ActionList..text_format_options..Caption
+#: fCE_TextEditor_1.dfm:496
+msgid "Editor Options..."
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem4..SpTBXItem20..Caption
+#: fCE_TextEditor.dfm:115
+#. CETextEditorPage..ActionList..text_view_toolbar..Caption
+#: fCE_TextEditor.dfm:496
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem4..SpTBXItem20..Caption
+#: fCE_TextEditor_1.dfm:116
+#. CETextEditor..ActionList..text_view_toolbar..Caption
+#: fCE_TextEditor_1.dfm:503
+msgid "Show Toolbar"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem4..SpTBXItem22..Caption
+#: fCE_TextEditor.dfm:119
+#. CETextEditorPage..ActionList..text_view_statusbar..Caption
+#: fCE_TextEditor.dfm:512
+#. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem4..SpTBXItem22..Caption
+#: fCE_TextEditor_1.dfm:120
+#. CETextEditor..ActionList..text_view_statusbar..Caption
+#: fCE_TextEditor_1.dfm:519
+msgid "Show Statusbar"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..TopDock..MainToolbar..highlighterSubmenu..Caption
+#: fCE_TextEditor.dfm:124
+#. CETextEditor..TopDock..MainToolbar..highlighterSubmenu..Caption
+#: fCE_TextEditor_1.dfm:125
+msgid "Highlighter"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..TopDock..MainToolbar..highlighterSubmenu..SpTBXItem18..Caption
+#: fCE_TextEditor.dfm:133
+#. CETextEditor..TopDock..MainToolbar..highlighterSubmenu..SpTBXItem18..Caption
+#: fCE_TextEditor_1.dfm:135
+msgid "Automatic"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..StatusBar..label_input..Caption
+#: fCE_TextEditor.dfm:177
+#. CETextEditor..StatusBar..label_input..Caption
+#: fCE_TextEditor_1.dfm:180
+#: fCE_TextEditor.pas:720
+msgid "Insert"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..FindPanel..SpTBXLabel1..Caption
+#: fCE_TextEditor.dfm:210
+#. CETextEditorPage..FindPanel..SpTBXButton1..Caption
+#: fCE_TextEditor.dfm:305
+#. CETextEditor..FindPanel..SpTBXLabel1..Caption
+#: fCE_TextEditor_1.dfm:214
+#. CETextEditor..FindPanel..SpTBXButton1..Caption
+#: fCE_TextEditor_1.dfm:309
+msgid "Search"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..FindPanel..SpTBXLabel2..Caption
+#: fCE_TextEditor.dfm:231
+#. CETextEditorPage..FindPanel..SpTBXButton2..Caption
+#: fCE_TextEditor.dfm:322
+#. CETextEditor..FindPanel..SpTBXLabel2..Caption
+#: fCE_TextEditor_1.dfm:235
+#. CETextEditor..FindPanel..SpTBXButton3..Caption
+#: fCE_TextEditor_1.dfm:327
+msgid "Replace"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..FindPanel..SpTBXGroupBox1..Caption
+#: fCE_TextEditor.dfm:252
+#. CETextEditor..FindPanel..SpTBXGroupBox1..Caption
+#: fCE_TextEditor_1.dfm:256
+msgid "Options"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..FindPanel..SpTBXGroupBox1..opt_check1..Caption
+#: fCE_TextEditor.dfm:262
+#. CETextEditor..FindPanel..SpTBXGroupBox1..opt_check1..Caption
+#: fCE_TextEditor_1.dfm:266
+msgid "Case sensitivity"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..FindPanel..SpTBXGroupBox1..opt_check2..Caption
+#: fCE_TextEditor.dfm:270
+#. CETextEditor..FindPanel..SpTBXGroupBox1..opt_check2..Caption
+#: fCE_TextEditor_1.dfm:274
+msgid "Whole words only"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..FindPanel..SpTBXGroupBox1..opt_check3..Caption
+#: fCE_TextEditor.dfm:278
+#. CETextEditor..FindPanel..SpTBXGroupBox1..opt_check3..Caption
+#: fCE_TextEditor_1.dfm:282
+msgid "Search from cursor"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..FindPanel..SpTBXGroupBox1..opt_check4..Caption
+#: fCE_TextEditor.dfm:288
+#. CETextEditor..FindPanel..SpTBXGroupBox1..opt_check4..Caption
+#: fCE_TextEditor_1.dfm:292
+msgid "Selected text only"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..FindPanel..SpTBXGroupBox1..opt_check5..Caption
+#: fCE_TextEditor.dfm:296
+#. CETextEditor..FindPanel..SpTBXGroupBox1..opt_check5..Caption
+#: fCE_TextEditor_1.dfm:300
+msgid "Regular expression"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..FindPanel..SpTBXButton3..Caption
+#: fCE_TextEditor.dfm:338
+#. CETextEditor..FindPanel..SpTBXButton5..Caption
+#: fCE_TextEditor_1.dfm:344
+msgid "Replace All"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..FindPanel..opt_radio..Caption
+#: fCE_TextEditor.dfm:354
+#. CETextEditor..FindPanel..opt_radio..Caption
+#: fCE_TextEditor_1.dfm:361
+msgid "Direction"
+msgstr "!!!Test!!!"
+
+#. CETextEditorPage..FindPanel..opt_radio....Items.Strings
+#: fCE_TextEditor.dfm:362
+#. CETextEditor..FindPanel..opt_radio....Items.Strings
+#: fCE_TextEditor_1.dfm:369
+msgid "Backward"
+msgstr "!!!Test!!!"
+
+#. CETextEditor..StatusBar..label_path..Caption
+#: fCE_TextEditor_1.dfm:191
+#: fCE_TextEditor.pas:931
+#: fCE_TextEditor.pas:932
+msgid "Untitled"
+msgstr "!!!Test!!!"
+
+#. CEToolbarCustomizer..Caption
+#: fCE_ToolbarCustomizer.dfm:5
+msgid "Customize"
+msgstr "!!!Test!!!"
+
+#. CEToolbarCustomizer..Label1..Caption
+#: fCE_ToolbarCustomizer.dfm:29
+msgid "Actions"
+msgstr "!!!Test!!!"
+
+#. CEToolbarCustomizer..ActionTree......WideText
+#: fCE_ToolbarCustomizer.dfm:62
+msgid "Name"
+msgstr "!!!Test!!!"
+
+#. MainForm..TopToolDock..MainToolbar..Caption
+#: Main.dfm:34
+msgid "MainMenu"
+msgstr "!!!Test!!!"
+
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem7..Caption
+#: Main.dfm:150
+msgid "View Style"
+msgstr "!!!Test!!!"
+
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..toolbarsMenuItem..Caption
+#: Main.dfm:191
+msgid "Toolbars"
+msgstr "!!!Test!!!"
+
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem9..Caption
+#: Main.dfm:194
+msgid "Panels"
+msgstr "!!!Test!!!"
+
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem6..Caption
+#: Main.dfm:219
+msgid "Theme"
+msgstr "!!!Test!!!"
+
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..Caption
+#: Main.dfm:230
+msgid "Transparency"
+msgstr "!!!Test!!!"
+
+#. MainForm..TopToolDock..MainToolbar..toolsMenuItem..SpTBXItem46..Caption
+#: Main.dfm:362
+msgid "Solitaire (experiment)"
+msgstr "!!!Test!!!"
+
+#. MainForm..TopToolDock..MainToolbar..toolsMenuItem..SpTBXItem80..Caption
+#: Main.dfm:367
+msgid "Computer Management (experiment)"
+msgstr "!!!Test!!!"
+
+#. MainForm..TopToolDock..MainToolbar..helpMenuItem..SpTBXSubmenuItem2..Caption
+#: Main.dfm:385
+msgid "Translate CubicExplorer"
+msgstr "!!!Test!!!"
+
+#: CE_StatusBar.pas:51
+#: CE_StatusBar.pas:124
+#: CE_StatusBar.pas:155
+msgid "Selected"
+msgstr "!!!Test!!!"
+
+#: CE_StatusBar.pas:57
+#: CE_StatusBar.pas:138
+#: CE_StatusBar.pas:145
+msgid "KB"
+msgstr "!!!Test!!!"
+
+#: CE_StatusBar.pas:140
+#: CE_StatusBar.pas:147
+msgid "MB"
+msgstr "!!!Test!!!"
+
+#: CE_StatusBar.pas:142
+#: CE_StatusBar.pas:149
+msgid "Bytes"
+msgstr "!!!Test!!!"
+
+#: CE_StatusBar.pas:155
+msgid "Total Size"
+msgstr "!!!Test!!!"
+
+#: CE_ToolbarButtons.pas:251
+msgid "Folder Path"
+msgstr "!!!Test!!!"
+
+#: CE_ToolbarButtons.pas:257
+msgid "Name Only"
+msgstr "!!!Test!!!"
+
+#: CE_ToolbarButtons.pas:266
+msgid "Short Path"
+msgstr "!!!Test!!!"
+
+#: CE_ToolbarButtons.pas:272
+msgid "Short Folder Path"
+msgstr "!!!Test!!!"
+
+#: CE_ToolbarButtons.pas:278
+msgid "Short Name Only"
+msgstr "!!!Test!!!"
+
+#: fCE_AboutBox.pas:81
+msgid "Version:"
+msgstr "!!!Test!!!"
+
+#: fCE_PoEditor.pas:799
+msgid "Save changes before closing?"
+msgstr "!!!Test!!!"
+
+#: fCE_PoEditor.pas:800
+msgid "Save changes?"
+msgstr "!!!Test!!!"
+
+#: fCE_PoEditor.pas:814
+#: fCE_PoEditor.pas:823
+msgid "Language Editor"
+msgstr "!!!Test!!!"
+
+#: fCE_TextEditor.pas:722
+msgid "Override"
+msgstr "!!!Test!!!"
+
+#: fCE_TextEditor.pas:727
+msgid "Modified"
+msgstr "!!!Test!!!"
+
+#. Add default menu items
+#: Main.pas:684
+msgid "English (default)"
+msgstr "!!!Test!!!"
+
+#. CEPoEditor..SpTBXDock1..SpTBXToolbar1..SpTBXItem4..Caption
+#: fCE_PoEditor.dfm:44
+msgid "Test Values"
+msgstr "!!!Test!!!"
+
+#. Create FolderCombo Toolbar
+#: Main.pas:339
+msgid "Address Bar"
+msgstr "!!!Test!!!"
+
+#. Create DriveToolbar
+#: Main.pas:347
+msgid "Drives"
+msgstr "!!!Test!!!"
+
+#. Create BreadcrumbBar
+#: Main.pas:368
+msgid "Breadcrumb Navigation"
+msgstr "!!!Test!!!"
+
+#: CE_FilterPanel.pas:317
+msgid "Show All Files"
+msgstr "!!!Test!!!"
+
+#: CE_FilterPanel.pas:319
+msgid "Show Folders"
+msgstr "!!!Test!!!"
+
+#: CE_FilterPanel.pas:322
+msgid "No Extension"
+msgstr "!!!Test!!!"
+

@@ -1,0 +1,2 @@
+inherited CEExtAppTabPage: TCEExtAppTabPage
+end

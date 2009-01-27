@@ -1,0 +1,679 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"CE-POT-Version: 1068\n"
+"CE-Language: Japanese\n"
+"Last-Translator: sirahama <sirahama@gmail.com>\n"
+
+msgid "About CubicExplorer"
+msgstr "CubicExplorerについて"
+
+msgid "About..."
+msgstr "情報"
+
+msgid "Actions"
+msgstr "アクション"
+
+msgid "Add Bookmark"
+msgstr "ﾌﾞｯｸﾏｰｸを追加"
+
+msgid "Add Category"
+msgstr "ｶﾃｺﾞﾘを追加"
+
+msgid "Add Tab"
+msgstr "ﾀﾌﾞを追加"
+
+msgid "Address Bar"
+msgstr "ｱﾄﾞﾚｽﾊﾞｰ"
+
+msgid "Always Show Sort Columns"
+msgstr "ｿｰﾄカラムを常に表示"
+
+msgid "And Launch Files"
+msgstr "ﾌｫﾙﾀﾞとﾌｧｲﾙ"
+
+msgid "Application Revision:"
+msgstr "ｱﾌﾟﾘｹｰｼｮﾝﾘﾋﾞｼﾞｮﾝ:"
+
+msgid "Apply"
+msgstr "適用"
+
+msgid "Apply changes."
+msgstr "修正を適用"
+
+msgid "Arrange By"
+msgstr "配置"
+
+msgid "Attributes"
+msgstr "属性"
+
+msgid "Auto"
+msgstr "自動"
+
+msgid "Auto collapse tree"
+msgstr "自動的にツリーを閉じる"
+
+msgid "Auto expand tree"
+msgstr "自動的にツリーを展開する"
+
+msgid "Automatic"
+msgstr "自動"
+
+msgid "Back"
+msgstr "前へ"
+
+msgid "Backward"
+msgstr "前へ"
+
+msgid "Bookmarks"
+msgstr "ﾌﾞｯｸﾏｰｸ"
+
+msgid "Bookmarks Panel Settings"
+msgstr "ﾌﾞｯｸﾏｰｸﾊﾟﾈﾙ設定"
+
+msgid "Bottom"
+msgstr "下端"
+
+msgid "Breadcrumb Navigation"
+msgstr "ﾌｧﾙﾀﾞ・ﾅﾋﾞｹﾞｰｼｮﾝ"
+
+msgid "Browse..."
+msgstr "参照..."
+
+msgid "Bytes"
+msgstr "ﾊﾞｲﾄ"
+
+msgid "Cancel"
+msgstr "いいえ"
+
+msgid "Case sensitivity"
+msgstr "大文字と小文字を区別"
+
+msgid "Clear List"
+msgstr "リスト消去"
+
+msgid "Close"
+msgstr "閉じる"
+
+msgid "Close Tab"
+msgstr "ﾀﾌﾞを閉じる"
+
+msgid "Copy"
+msgstr "ｺﾋﾟｰ"
+
+msgid "Copy Path"
+msgstr "ﾊﾟｽをｺﾋﾟｰ"
+
+msgid "Copy of active tab"
+msgstr "使用中のﾀﾌﾞをｺﾋﾟｰ"
+
+msgid "Create"
+msgstr "作成"
+
+msgid "Create New Translation"
+msgstr "新しい翻訳の作成"
+
+msgid "Create new translation."
+msgstr "新しい翻訳の作成"
+
+msgid "CubicExplore Home Page"
+msgstr "CubicExplorerﾎｰﾑﾍﾟｰｼﾞ"
+
+msgid "CubicExplorer Options"
+msgstr "CubicExplorerｵﾌﾟｼｮﾝ"
+
+msgid "Custom..."
+msgstr "ｶｽﾀﾑ..."
+
+msgid "Customize"
+msgstr "ｶｽﾀﾏｲｽﾞ"
+
+msgid "Customizer..."
+msgstr "ｶｽﾀﾏｲｻﾞ..."
+
+msgid "Cut"
+msgstr "切り取り"
+
+msgid "Date Accessed"
+msgstr "参照日"
+
+msgid "Date Created"
+msgstr "作成日"
+
+msgid "Date Modified"
+msgstr "編集日"
+
+msgid "Default"
+msgstr "ﾃﾞﾌｫﾙﾄ"
+
+msgid "Delete"
+msgstr "削除"
+
+msgid "Delete active session."
+msgstr "現在のｾｯｼｮﾝを削除"
+
+msgid "Desktop"
+msgstr "ﾃﾞｽｸﾄｯﾌﾟ"
+
+msgid "Details"
+msgstr "詳細"
+
+msgid "Direction"
+msgstr "方向"
+
+msgid "Disconnect Network Drive..."
+msgstr "ﾈｯﾄﾜｰｸドライブを切断..."
+
+msgid "Display"
+msgstr "表示"
+
+msgid "Display Settings"
+msgstr "表示設定"
+
+msgid "Drives"
+msgstr "ﾄﾞﾗｲﾌﾞ"
+
+msgid "Drop Stack"
+msgstr "ｽﾀｯｸ廃棄"
+
+msgid "Duplicate"
+msgstr "複製"
+
+msgid "Duplicate Tab"
+msgstr "ﾀﾌﾞの複製"
+
+msgid "Edit"
+msgstr "編集"
+
+msgid "Edit Session"
+msgstr "ｾｯｼｮﾝの編集"
+
+msgid "Edit session properties."
+msgstr "ｾｯｼｮﾝ・ﾌﾟﾛﾊﾟﾃｨ編集"
+
+msgid "Editor Options..."
+msgstr "ｴﾃﾞｨﾀ・ｵﾌﾟｼｮﾝ"
+
+msgid "Empty Recycle Bin"
+msgstr "ゴミ箱を空にする"
+
+msgid "English (default)"
+msgstr "英語(ﾃﾞﾌｫﾙﾄ)"
+
+msgid "Exit"
+msgstr "終了"
+
+msgid "File"
+msgstr "ﾌｧｲﾙ"
+
+msgid "File Search"
+msgstr "ﾌｧｲﾙ検索"
+
+msgid "Fileview"
+msgstr "ﾌｧｲﾙ・ﾋﾞｭｰ"
+
+msgid "Fileview Settings"
+msgstr "ﾌｧｲﾙ・ﾋﾞｭｰ設定"
+
+msgid "Filmstrip"
+msgstr "ｽﾗｲﾄﾞ"
+
+msgid "Filters"
+msgstr "ﾌｨﾙﾀ"
+
+msgid "Find Next"
+msgstr "次を検索"
+
+msgid "Find Previous"
+msgstr "前を検索"
+
+msgid "Folder Path"
+msgstr "ﾌｫﾙﾀﾞ・ﾊﾟｽ"
+
+msgid "Folder Up"
+msgstr "上のﾌｫﾙﾀﾞへ"
+
+msgid "Folders"
+msgstr "フォルダー"
+
+msgid "Folders Panel Settings"
+msgstr "ﾌｫﾙﾀﾞ・ﾊﾟﾈﾙ設定"
+
+msgid "Format"
+msgstr "書式"
+
+msgid "Forward"
+msgstr "次へ"
+
+msgid "Fullscreen"
+msgstr "全画面"
+
+msgid "General"
+msgstr "一般"
+
+msgid "General Settings"
+msgstr "一般設定"
+
+msgid "Group By"
+msgstr "ｸﾞﾙｰﾌﾟ化"
+
+msgid "Help"
+msgstr "ﾍﾙﾌﾟ"
+
+msgid "Hex"
+msgstr "16進"
+
+msgid "Highlight row completely"
+msgstr "行全体を強調"
+
+msgid "Highlighter"
+msgstr "蛍光ﾏｰｶ"
+
+msgid "Image"
+msgstr "ｲﾒｰｼﾞ"
+
+msgid "Insert"
+msgstr "挿入"
+
+msgid "Invert Selection"
+msgstr "選択を反転"
+
+msgid "KB"
+msgstr "KB"
+
+msgid "Language"
+msgstr "言語"
+
+msgid "Language Editor"
+msgstr "言語ｴﾃﾞｨﾀ"
+
+msgid "Large Icons"
+msgstr "大きいｱｲｺﾝ"
+
+msgid "Launch Files Only"
+msgstr "ﾌｧｲﾙのみ"
+
+msgid "Layouts"
+msgstr "ﾚｲｱｳﾄ"
+
+msgid "Left"
+msgstr "左"
+
+msgid "List"
+msgstr "リスト"
+
+msgid "Load Skin..."
+msgstr "ｽｷﾝの読込み..."
+
+msgid "Load skin from file"
+msgstr "ﾌｧｲﾙからｽｷﾝを読込む"
+
+msgid "Load this session on startup."
+msgstr "起動時にこのｾｯｼｮﾝを読込む"
+
+msgid "Loading..."
+msgstr "読込み中..."
+
+msgid "MB"
+msgstr "MB"
+
+msgid "Map Network Drive..."
+msgstr "ﾈｯﾄﾜｰｸドライブの割当..."
+
+msgid "Modified"
+msgstr "修正"
+
+msgid "More..."
+msgstr "より詳しく..."
+
+msgid "Name"
+msgstr "名前"
+
+msgid "Name Only"
+msgstr "名前のみ"
+
+msgid "Navigation"
+msgstr "ﾅﾋﾞｹﾞｰｼｮﾝ"
+
+msgid "New"
+msgstr "新規"
+
+msgid "New Folder"
+msgstr "新規ﾌｫﾙﾀﾞ"
+
+msgid "New Session"
+msgstr "新規ｾｯｼｮﾝ"
+
+msgid "No Extension"
+msgstr "拡張子なし"
+
+msgid "No file loaded."
+msgstr "ﾌｧｲﾙは読込まれなかった。"
+
+msgid "None"
+msgstr "なし"
+
+msgid "OK"
+msgstr "はい"
+
+msgid "Open All in Tabs"
+msgstr "ﾀﾌﾞで全てを開く"
+
+msgid "Open Command Prompt"
+msgstr "ｺﾏﾝﾄﾞ・ﾌﾟﾛﾝﾌﾟﾄを開く"
+
+msgid "Open new tab as"
+msgstr "新たしいﾀﾌﾞとして開く"
+
+msgid "Open..."
+msgstr "開く..."
+
+msgid "Options"
+msgstr "ｵﾌﾟｼｮﾝ"
+
+msgid "Options..."
+msgstr "ｵﾌﾟｼｮﾝ..."
+
+msgid "Original"
+msgstr "ｵﾘｼﾞﾅﾙ"
+
+msgid "Override"
+msgstr "無効にする"
+
+msgid "Panels"
+msgstr "ﾊﾟﾈﾙ"
+
+msgid "Paste"
+msgstr "貼り付け"
+
+msgid "Paste Shortcut"
+msgstr "ｼｮｰﾄｶｯﾄの貼り付け"
+
+msgid "Path"
+msgstr "ﾊﾟｽ"
+
+msgid "Pause"
+msgstr "一時停止"
+
+msgid "Properties"
+msgstr "ﾌﾟﾛﾊﾟﾃｨ"
+
+msgid "Properties..."
+msgstr "ﾌﾟﾛﾊﾟﾃｨ..."
+
+msgid "Publish Translation"
+msgstr "翻訳を公開する"
+
+msgid "Quickview"
+msgstr "ｸｲｯｸ・ﾋﾞｭｰ"
+
+msgid "Redo"
+msgstr "やり直す"
+
+msgid "Refresh"
+msgstr "再表示"
+
+msgid "Regular expression"
+msgstr "正規表現"
+
+msgid "Relative"
+msgstr "相対する"
+
+msgid "Reload"
+msgstr "再読込み"
+
+msgid "Remember Tabs"
+msgstr "ﾀﾌﾞを記憶"
+
+msgid "Rename"
+msgstr "名前の変更"
+
+msgid "Replace"
+msgstr "置換"
+
+msgid "Replace All"
+msgstr "全て置換"
+
+msgid "Reuse already open tabs"
+msgstr "既にｵｰﾌﾟﾝしているﾀﾌﾞを再利用"
+
+msgid "Right"
+msgstr "右"
+
+msgid "Save"
+msgstr "保存"
+
+msgid "Save As..."
+msgstr "別名で保存..."
+
+msgid "Save active session with new name."
+msgstr "新たしいｾｯｼｮﾝ名で使用中のｾｯｼｮﾝを保存"
+
+msgid "Save active session."
+msgstr "使用中のｾｯｼｮﾝを保存"
+
+msgid "Save changes before closing?"
+msgstr "閉じる前に変更を保存しますか?"
+
+msgid "Save changes."
+msgstr "変更を保存"
+
+msgid "Save changes?"
+msgstr "変更を保存しますか?"
+
+msgid "Save settings automatically."
+msgstr "設定の自動保存"
+
+msgid "Save/Load Settings"
+msgstr "保存/読込み設定"
+
+msgid "Scroll Left"
+msgstr "左へｽｸﾛｰﾙ"
+
+msgid "Scroll Right"
+msgstr "右へｽｸﾛｰﾙ"
+
+msgid "Search"
+msgstr "検索"
+
+msgid "Search File Mask"
+msgstr "ﾌｧｲﾙ・ﾏｽｸ検索"
+
+msgid "Search Word or Phrase in File Name"
+msgstr "ｷｰﾜｰﾄﾞかﾌﾚｰｽﾞによるﾌｧｲﾙ名検索"
+
+msgid "Search and Replace"
+msgstr "検索・置換"
+
+msgid "Search from cursor"
+msgstr "ｶｰｿﾙから検索"
+
+msgid "Search in Directory"
+msgstr "ﾃﾞｨﾚｸﾄﾘ内検索"
+
+msgid "Select All"
+msgstr "全て選択"
+
+msgid "Select default folder for new tabs."
+msgstr "新規ﾀﾌﾞのﾃﾞﾌｫﾙﾄ・ﾌｫﾙﾀﾞを選択"
+
+msgid "Selected"
+msgstr "選択"
+
+msgid "Selected text only"
+msgstr "ﾃｷｽﾄ選択のみ"
+
+msgid "Separator"
+msgstr "区切り"
+
+msgid "Session Name"
+msgstr "ｾｯｼｮﾝ名"
+
+msgid "Sessions"
+msgstr "ｾｯｼｮﾝ"
+
+msgid "Short Folder Path"
+msgstr "ｼｮｰﾄ・ﾌｫﾙﾀﾞﾊﾟｽ"
+
+msgid "Short Name Only"
+msgstr "ｼｮｰﾄ・ﾈｰﾑのみ"
+
+msgid "Short Path"
+msgstr "ｼｮｰﾄ・ﾊﾟｽ"
+
+msgid "Show All Files"
+msgstr "全てのﾌｧｲﾙを表示"
+
+msgid "Show Extensions"
+msgstr "拡張子を表示する"
+
+msgid "Show Folders"
+msgstr "ﾌｫﾙﾀﾞを表示する"
+
+msgid "Show Hidden Files"
+msgstr "隠しﾌｧｲﾙを表示する"
+
+msgid "Show Hints"
+msgstr "ﾋﾝﾄを表示する"
+
+msgid "Show Path in Title bar"
+msgstr "ﾀｲﾄﾙバーにﾊﾟｽを表示する"
+
+msgid "Show Statusbar"
+msgstr "ｽﾃｰﾀｽﾊﾞｰを表示"
+
+msgid "Show Toolbar"
+msgstr "ﾂｰﾙﾊﾞｰを表示"
+
+msgid "Show in Groups"
+msgstr "ｸﾞﾙｰﾌﾟで表示"
+
+msgid "Single Instance Only"
+msgstr "単一ｲﾝｽﾀﾝｽのみ"
+
+msgid "Single click mode"
+msgstr "ｼﾝｸﾞﾙ・ｸﾘｯｸ・ﾓｰﾄﾞ"
+
+msgid "Size"
+msgstr "ｻｲｽﾞ"
+
+msgid "Small Icons"
+msgstr "小さいｱｲｺﾝ"
+
+msgid "Stack"
+msgstr "ｽﾀｯｸ"
+
+msgid "Start"
+msgstr "開始"
+
+msgid "Status Bar"
+msgstr "ｽﾃｰﾀｽﾊﾞｰ"
+
+msgid "Stop"
+msgstr "停止"
+
+msgid "Subdirectories"
+msgstr "ｻﾌﾞﾃﾞｨﾚｸﾄﾘ"
+
+msgid "Support Forum"
+msgstr "ｻﾎﾟｰﾄﾌｫｰﾗﾑ"
+
+msgid "Switch to a new tab immediately"
+msgstr "新しいﾀﾌﾞに直ぐに切り換る"
+
+msgid "Tabs"
+msgstr "ﾀﾌﾞ"
+
+msgid "Tabs Settings"
+msgstr "ﾀﾌﾞ設定"
+
+msgid "Target"
+msgstr "ﾀｰｹﾞｯﾄ"
+
+msgid "Text"
+msgstr "ﾃｷｽﾄ"
+
+msgid "Text Editor"
+msgstr "ﾃｷｽﾄｴﾃﾞｨﾀ"
+
+msgid "Theme"
+msgstr "ﾃｰﾏ"
+
+msgid "Thumbnails"
+msgstr "ｻﾑﾈｲﾙ"
+
+msgid "Thumbs Position"
+msgstr "ｻﾑﾈｲﾙ位置"
+
+msgid "Thumbs View Style"
+msgstr "ｻﾑﾈｲﾙのビュー・ｽﾀｲﾙ"
+
+msgid "Tiles"
+msgstr "ﾀｲﾙ"
+
+msgid "Toolbars"
+msgstr "ﾂｰﾙﾊﾞｰ"
+
+msgid "Tools"
+msgstr "ﾂｰﾙ"
+
+msgid "Top"
+msgstr "上端"
+
+msgid "Total Size"
+msgstr "合計ｻｲｽﾞ"
+
+msgid "Translate CubicExplorer"
+msgstr "CubicExplorerｲﾝﾀﾌｪｰｽ翻訳"
+
+msgid "Translation"
+msgstr "翻訳"
+
+msgid "Translation Revision:"
+msgstr "翻訳ﾘﾋﾞｼﾞｮﾝ:"
+
+msgid "Translation Version"
+msgstr "翻訳ﾊﾞｰｼﾞｮﾝ"
+
+msgid "Translator's Email"
+msgstr "翻訳者Email"
+
+msgid "Translator's Name"
+msgstr "翻訳者名"
+
+msgid "Transparency"
+msgstr "透過"
+
+msgid "Type"
+msgstr "ﾌｧｲﾙ形式"
+
+msgid "Undo"
+msgstr "元に戻す"
+
+msgid "Untitled"
+msgstr "無題"
+
+msgid "Version:"
+msgstr "ﾊﾞｰｼﾞｮﾝ:"
+
+msgid "View"
+msgstr "表示"
+
+msgid "View Style"
+msgstr "表示ｽﾀｲﾙ"
+
+msgid "When I open folder/file in a new tab, switch to it immediately "
+msgstr "ﾌｫﾙﾀﾞ/ﾌｧｲﾙを新しいﾀﾌﾞで開いたら、そのﾀﾌﾞに切り換える"
+
+msgid "Whole words only"
+msgstr "全ｷｰﾜｰﾄﾞのみ"
+
+msgid "Word List"
+msgstr "ｷｰﾜｰﾄﾞ・ﾘｽﾄ"
+
+msgid "Word Wrap"
+msgstr "ﾃｷｽﾄの折り返し"
+

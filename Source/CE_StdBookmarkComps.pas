@@ -1,0 +1,590 @@
+unit CE_StdBookmarkComps;
+
+interface
+
+uses
+  // CE Units
+  CE_Bookmarks, CE_Utils, CE_CommonObjects,
+  // JVCL
+  JvSimpleXml,
+  // VSTools
+  MPShellUtilities, MPCommonObjects,
+  // Tnt
+  TntClasses, TntSysUtils,
+  // System Units
+  Classes, SysUtils, Windows, Messages, ImgList, Controls, Contnrs, Dialogs,
+  ShlObj;
+
+type
+  TCECategoryComp = class(TCECustomBookComp)
+  public
+    constructor Create; override;
+    function GetImageIndex(Open: Boolean = false): Integer; override;
+  end;
+
+  TCENormalItemComp = class(TCECustomBookComp)
+  private
+    fPath: WideString;
+    fRelative: Boolean;
+    fSpecialFolderID: Integer;
+    function GetNameForParsing: WideString;
+    function GetNameParseAddress: WideString;
+    procedure SetRelative(const Value: Boolean);
+  protected
+    fIsSpecial: Boolean;
+    fIsPath: Boolean;
+    fIsPIDL: Boolean;
+    fPIDL: string;
+  public
+    Namespace: TNamespace;
+    constructor Create; override;
+    destructor Destroy; override;
+    procedure Assign(From: TCECustomBookComp); override;
+    procedure AssignTo(ToComp: TCECustomBookComp); override;
+    function GetImageIndex(Open: Boolean = false): Integer; override;
+    function IsFile: Boolean;
+    function IsFolder: Boolean;
+    procedure KeyAction(CharCode: Word; Shift: TShiftState); override;
+    procedure LoadFromPath(APath: WideString; RelativePath: Boolean = false);
+    procedure LoadFromPIDL(APIDL: PItemIDList);
+    procedure LoadFromXmlNode(XmlNode: TJvSimpleXmlElem); override;
+    procedure MouseClick(Shift: TShiftState; Button: TMouseButton; SingleClickMode:
+        Boolean = false); override;
+    procedure Refresh(OnlyIfLocal: Boolean = false);
+    procedure SaveToXmlNode(XmlNode: TJvSimpleXmlElem); override;
+    property NameForParsing: WideString read GetNameForParsing;
+    property NameParseAddress: WideString read GetNameParseAddress;
+    property Path: WideString read fPath write fPath;
+    property Relative: Boolean read fRelative write SetRelative;
+  end;
+
+var
+  OpenBookmarkInNewTabByDefault: Boolean = false;  
+
+implementation
+
+uses
+  CE_GlobalCtrl, dCE_Images, dCE_Actions, Main;
+
+{*------------------------------------------------------------------------------
+  Create an instance of TCECategoryComp object.
+-------------------------------------------------------------------------------}
+constructor TCECategoryComp.Create;
+begin
+  inherited;
+  fTitle:= 'New Category';
+  fSubMenuOnly:= true;
+  fImageList:= CE_Images.BookmarkImages;
+end;
+
+{*------------------------------------------------------------------------------
+  Get ImageIndex
+-------------------------------------------------------------------------------}
+function TCECategoryComp.GetImageIndex(Open: Boolean = false): Integer;
+begin
+  if Open then
+  Result:= 1
+  else
+  Result:= 0;
+end;
+
+{##############################################################################}
+
+{*------------------------------------------------------------------------------
+  Create an instance of TCENormalItemComp object.
+-------------------------------------------------------------------------------}
+constructor TCENormalItemComp.Create;
+begin
+  inherited;
+  fIsPIDL:= false;
+  fIsPath:= false;
+  fIsSpecial:= false;
+  fSpecialFolderID:= -1;
+end;
+
+{*------------------------------------------------------------------------------
+  Destroy TCENormalItemComp
+-------------------------------------------------------------------------------}
+destructor TCENormalItemComp.Destroy;
+begin
+  if assigned(Namespace) then
+  FreeAndNil(Namespace);
+  inherited;
+end;
+
+{*------------------------------------------------------------------------------
+  Assign values from component
+-------------------------------------------------------------------------------}
+procedure TCENormalItemComp.Assign(From: TCECustomBookComp);
+var
+  c: TCENormalItemComp;
+begin
+  inherited;
+  if not (From is TCENormalItemComp) then
+  Exit;
+  c:= TCENormalItemComp(From);
+  
+  fIsPath:= c.fIsPath;
+  fIsPIDL:= c.fIsPIDL;
+  fPath:= c.fPath;
+  fPIDL:= c.fPIDL;
+  fRelative:= c.fRelative;
+  if not assigned(c.Namespace) then
+  begin
+    if assigned(Namespace) then
+    FreeAndNil(Namespace);
+  end
+  else if not assigned(Namespace) then
+  begin
+    Namespace:= TNamespace.Create(PIDLMgr.CopyPIDL(c.Namespace.AbsolutePIDL),nil);//c.Namespace.Parent);
+  end
+  else if not ILIsEqual(Namespace.AbsolutePIDL, c.Namespace.AbsolutePIDL) then
+  begin
+    if assigned(Namespace) then
+    FreeAndNil(Namespace);
+    Namespace:= TNamespace.Create(PIDLMgr.CopyPIDL(c.Namespace.AbsolutePIDL),nil);//c.Namespace.Parent);
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Assign values to component
+-------------------------------------------------------------------------------}
+procedure TCENormalItemComp.AssignTo(ToComp: TCECustomBookComp);
+var
+  c: TCENormalItemComp;
+begin
+  inherited;
+  if not (ToComp is TCENormalItemComp) then
+  Exit;
+  c:= TCENormalItemComp(ToComp);
+  
+  c.fIsPath:= fIsPath;
+  c.fIsPIDL:= fIsPIDL;
+  c.fPath:= fPath;
+  c.fPIDL:= fPIDL;
+  c.fRelative:= fRelative;
+  if not assigned(Namespace) then
+  begin
+    if assigned(c.Namespace) then
+    FreeAndNil(c.Namespace);
+  end
+  else if not assigned(c.Namespace) then
+  begin
+    c.Namespace:= TNamespace.Create(PIDLMgr.CopyPIDL(Namespace.AbsolutePIDL),Namespace.Parent);
+  end
+  else if not ILIsEqual(c.Namespace.AbsolutePIDL, Namespace.AbsolutePIDL) then
+  begin
+    if assigned(c.Namespace) then
+    FreeAndNil(c.Namespace);
+    c.Namespace:= TNamespace.Create(PIDLMgr.CopyPIDL(Namespace.AbsolutePIDL),Namespace.Parent);
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Get ImageIndex
+-------------------------------------------------------------------------------}
+function TCENormalItemComp.GetImageIndex(Open: Boolean = false): Integer;
+begin
+  if assigned(Namespace) then
+  Result:= Namespace.GetIconIndex(Open,icSmall)
+  else
+  Result:= 4;
+end;
+
+{*------------------------------------------------------------------------------
+  Get NameForParsing
+-------------------------------------------------------------------------------}
+function TCENormalItemComp.GetNameForParsing: WideString;
+begin
+  if assigned(Namespace) then
+  Result:= Namespace.NameForParsing
+  else
+  Result:= fPath;
+end;
+
+{*------------------------------------------------------------------------------
+  Get NameParseAddress
+-------------------------------------------------------------------------------}
+function TCENormalItemComp.GetNameParseAddress: WideString;
+begin
+  if assigned(Namespace) then
+  Result:= Namespace.NameParseAddress
+  else
+  Result:= fPath;
+end;
+
+{*------------------------------------------------------------------------------
+  Is this a file
+-------------------------------------------------------------------------------}
+function TCENormalItemComp.IsFile: Boolean;
+begin
+  Result:= false;
+  if assigned(Namespace) then
+  begin
+    if IsSameText(Namespace.Extension,'.zip') then
+    begin
+      Result:= true;
+    end
+    else if not Namespace.Folder then
+    begin
+      if WideFileExists(Namespace.NameForParsing) then
+      Result:= true;
+    end
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Is this a folder
+-------------------------------------------------------------------------------}
+function TCENormalItemComp.IsFolder: Boolean;
+begin
+  Result:= true;
+  if assigned(Namespace) then
+  begin
+    if not Namespace.Folder then
+    begin
+      Result:= false;
+    end
+    else if IsSameText(Namespace.Extension,'.zip') then
+    begin
+      Result:= false;
+    end
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Handle Key action
+-------------------------------------------------------------------------------}
+procedure TCENormalItemComp.KeyAction(CharCode: Word; Shift: TShiftState);
+begin
+  if CharCode = VK_RETURN then
+  begin
+    if Shift = [ssCtrl] then
+    MouseClick([ssMiddle],mbMiddle)
+    else
+    MouseClick([ssDouble,ssLeft],mbLeft);
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Load values from Path.
+-------------------------------------------------------------------------------}
+procedure TCENormalItemComp.LoadFromPath(APath: WideString; RelativePath:
+    Boolean = false);
+var
+  PIDL: PItemIDList;
+begin
+  if assigned(Namespace) then
+  FreeAndNil(Namespace);
+
+  fIsPath:= true;
+  fIsPIDL:= false;
+  fIsSpecial:= false;
+  fPath:= APath;
+  fRelative:= RelativePath;
+  if fRelative then
+  PIDL:= PathToPIDL(DecodeRelativePath(fPath))
+  else
+  PIDL:= PathToPIDL(fPath);
+
+  if PIDLMgr.IsDesktopFolder(PIDL) then
+  begin
+    Namespace:= TNamespace.Create(PIDL,nil);
+    ImageList:= SmallSysImages;
+  end
+  else
+  begin
+    Namespace:= TNamespace.Create(PIDL,nil);
+    if Namespace.IsDesktop then
+    begin
+      FreeAndNil(Namespace);
+      fGhosted:= true;
+      ImageList:= CE_Images.BookmarkImages;
+    end
+    else
+    begin
+      fGhosted:= false;
+      ImageList:= SmallSysImages;
+    end;
+  end;  
+end;
+
+{*------------------------------------------------------------------------------
+  Load values from PIDL.
+-------------------------------------------------------------------------------}
+procedure TCENormalItemComp.LoadFromPIDL(APIDL: PItemIDList);
+var
+  PIDL: PItemIDList;
+begin
+  if assigned(Namespace) then
+  FreeAndNil(Namespace);
+
+  Namespace:= TNamespace.Create(APIDL,nil);
+  fTitle:= Namespace.NameInFolder;
+  fImageList:= SmallSysImages;
+
+  fIsPath:= false;
+  fIsPIDL:= false;
+  fIsSpecial:= false;
+  fSpecialFolderID:= CE_SpecialNamespaces.GetSpecialID(Namespace.AbsolutePIDL);
+  if fSpecialFolderID > -1 then
+  begin
+    fIsSpecial:= true;
+  end
+  else
+  begin
+    PIDL:= PathToPIDL(Namespace.NameForParsing);
+    if assigned(PIDL) then
+    begin
+      fIsPath:= true;
+      fPath:= Namespace.NameForParsing;
+      PIDLMgr.FreePIDL(PIDL);
+    end
+    else
+    begin
+      fIsPIDL:= true;
+      fPIDL:= SavePIDLToMime(Namespace.AbsolutePIDL);
+    end;
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Load values from xml node.
+-------------------------------------------------------------------------------}
+procedure TCENormalItemComp.LoadFromXmlNode(XmlNode: TJvSimpleXmlElem);
+var
+  PIDL: PItemIDList;
+begin
+  inherited;
+  if assigned(Namespace) then
+  FreeAndNil(Namespace);
+  fIsPIDL:= XmlNode.Properties.ItemNamed['pidl'] <> nil;
+  fIsSpecial:= XmlNode.Properties.ItemNamed['special'] <> nil;
+  if fIsPIDL then
+  begin
+    fPIDL:= XmlNode.Properties.Value('pidl');
+    PIDL:= LoadPIDLFromMime(fPIDL);
+  end
+  else if fIsSpecial then
+  begin
+    fSpecialFolderID:= XmlNode.Properties.IntValue('special', -1);
+    SHGetspecialFolderLocation(0, fSpecialFolderID, PIDL);
+  end
+  else
+  begin
+    fPath:= UTF8Decode(XmlNode.Properties.Value('path'));
+    fRelative:= XmlNode.Properties.BoolValue('relative', false);
+    if fRelative then
+    PIDL:= PathToPIDL(DecodeRelativePath(fPath))
+    else
+    PIDL:= PathToPIDL(fPath);
+    fIsPath:= true;
+  end;
+
+  ImageList:= SmallSysImages;
+
+  if PIDLMgr.IsDesktopFolder(PIDL) then
+  begin
+    Namespace:= TNamespace.Create(PIDL,nil);
+  end
+  else
+  begin
+    Namespace:= TNamespace.Create(PIDL,nil);
+    if Namespace.IsDesktop then
+    begin
+      FreeAndNil(Namespace);
+      fGhosted:= true;
+      ImageList:= CE_Images.BookmarkImages;
+    end
+    else
+    begin
+      fGhosted:= false;
+    end;
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Save values to xml node.
+-------------------------------------------------------------------------------}
+procedure TCENormalItemComp.SaveToXmlNode(XmlNode: TJvSimpleXmlElem);
+var
+  PIDL: PItemIDList;
+  FolderID: Integer;
+begin
+  XmlNode.Properties.Add('name', UTF8Encode(fTitle));
+  if fExpanded then
+  XmlNode.Properties.Add('isopen', 'true');
+  if assigned(Namespace) then
+  begin
+    if Namespace.IsDesktop then
+    FolderID:= 0
+    else
+    FolderID:= CE_SpecialNamespaces.GetSpecialID(Namespace.AbsolutePIDL);
+
+    if FolderID > -1 then
+    begin
+      XmlNode.Properties.Add('special', FolderID);
+    end
+    else
+    begin
+      PIDL:= PathToPIDL(Namespace.NameForParsing);
+      if assigned(PIDL) or fIsPath then // Save Path
+      begin
+        if fRelative then
+        begin
+          XmlNode.Properties.Add('path',UTF8Encode(EncodeRelativePath(Namespace.NameForParsing)));
+          XmlNode.Properties.Add('relative', '1');
+        end
+        else
+        XmlNode.Properties.Add('path',UTF8Encode(Namespace.NameForParsing));
+
+        PIDLMgr.FreePIDL(PIDL);
+      end
+      else // Save PIDL
+      begin
+        XmlNode.Properties.Add('pidl', SavePIDLToMime(Namespace.AbsolutePIDL));
+      end;
+    end;
+  end
+  else
+  begin
+    if fIsPIDL then
+    XmlNode.Properties.Add('pidl',fPIDL)
+    else
+    XmlNode.Properties.Add('path',UTF8Encode(fPath));
+
+    if fRelative then
+     XmlNode.Properties.Add('relative', '1');
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Handle mouse click
+-------------------------------------------------------------------------------}
+procedure TCENormalItemComp.MouseClick(Shift: TShiftState; Button:
+    TMouseButton; SingleClickMode: Boolean = false);
+begin
+  if not assigned(Namespace) then
+  Exit;
+  
+  if Shift = [ssDouble,ssLeft] then
+  begin
+    if IsSameText(Namespace.Extension,'.zip') then
+    begin
+      Namespace.ShellExecuteNamespace('','',true);
+    end
+    else if not Namespace.Folder then
+    begin
+      Namespace.ShellExecuteNamespace('','');
+    end
+    else if not SingleClickMode then
+    begin
+      if OpenBookmarkInNewTabByDefault then
+      OpenFolderInTab(nil, Namespace.AbsolutePIDL, MainForm.TabSet.OpenTabSelect)
+      else
+      GlobalPathCtrl.ChangeGlobalPathPIDL(Self, Namespace.AbsolutePIDL);
+    end;
+  end
+  else if Shift = [ssLeft] then
+  begin
+    if SingleClickMode and Namespace.Folder and not IsSameText(Namespace.Extension,'.zip') then
+    begin
+      if OpenBookmarkInNewTabByDefault then
+      OpenFolderInTab(nil, Namespace.AbsolutePIDL, MainForm.TabSet.OpenTabSelect)
+      else
+      GlobalPathCtrl.ChangeGlobalPathPIDL(Self, Namespace.AbsolutePIDL);
+    end
+  end
+  else if (Shift = [ssAlt,ssLeft]) then
+  begin
+    if OpenBookmarkInNewTabByDefault then
+    GlobalPathCtrl.ChangeGlobalPathPIDL(Self, Namespace.AbsolutePIDL)
+    else
+    OpenFolderInTab(nil, Namespace.AbsolutePIDL, MainForm.TabSet.OpenTabSelect);
+  end
+  else if (Shift = [ssMiddle]) then
+  begin
+    if Namespace.Folder and not IsSameText(Namespace.Extension,'.zip') then
+    OpenFolderInTab(nil, Namespace.AbsolutePIDL, MainForm.TabSet.OpenTabSelect)
+    else
+    OpenFileInTab(Namespace.NameForParsing, MainForm.TabSet.OpenTabSelect);
+  end
+  else if (Shift = [ssShift,ssMiddle]) or (Shift = [ssShift,ssAlt,ssLeft]) then
+  begin
+    if Namespace.Folder and not IsSameText(Namespace.Extension,'.zip') then 
+    OpenFolderInTab(nil, Namespace.AbsolutePIDL, not MainForm.TabSet.OpenTabSelect)
+    else
+    OpenFileInTab(Namespace.NameForParsing, not MainForm.TabSet.OpenTabSelect);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Refresh Item
+-------------------------------------------------------------------------------}
+procedure TCENormalItemComp.Refresh(OnlyIfLocal: Boolean = false);
+var
+  PIDL: PItemIDList;
+begin
+  if assigned(Namespace) then
+  begin
+    if OnlyIfLocal and Namespace.IsNetworkNeighborhoodChild then
+    begin
+      Exit;
+    end;
+    
+    FreeAndNil(Namespace);
+  end;
+
+  if fIsPIDL then
+  begin
+    PIDL:= LoadPIDLFromMime(fPIDL);
+  end
+  else if fIsSpecial then
+  begin
+    SHGetspecialFolderLocation(0, fSpecialFolderID, PIDL);
+  end
+  else
+  begin
+    if fRelative then
+    PIDL:= PathToPIDL(DecodeRelativePath(fPath))
+    else
+    PIDL:= PathToPIDL(fPath);
+  end;
+
+  ImageList:= SmallSysImages;
+
+  if PIDLMgr.IsDesktopFolder(PIDL) then
+  begin
+    Namespace:= TNamespace.Create(PIDL,nil);
+  end
+  else
+  begin
+    Namespace:= TNamespace.Create(PIDL,nil);
+    if Namespace.IsDesktop then
+    begin
+      FreeAndNil(Namespace);
+      fGhosted:= true;
+      ImageList:= CE_Images.BookmarkImages;
+    end
+    else
+    begin
+      fGhosted:= false;
+    end;
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  SetRelative
+-------------------------------------------------------------------------------}
+procedure TCENormalItemComp.SetRelative(const Value: Boolean);
+begin
+  fRelative:= Value;
+end;
+
+{##############################################################################}
+
+initialization
+  CEBookCompList.RegisterBookComp('category', TCECategoryComp);
+  CEBookCompList.RegisterBookComp('item', TCENormalItemComp);
+
+end.

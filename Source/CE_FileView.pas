@@ -1,0 +1,655 @@
+unit CE_FileView;
+
+interface
+
+uses
+  // CE Units
+  CE_Consts, CE_BaseFileView, CE_Toolbar, CE_VistaFuncs, CE_LanguageEngine,
+  CE_Settings, CE_SettingsIntf,
+  // Jvcl
+  JvBalloonHint, JvSimpleXML,
+  // VSTools
+  MPCommonObjects, MPCommonUtilities, MPShellUtilities,
+  EasyListview, VirtualExplorerEasyListview, VirtualResources,
+  VirtualExplorerTree,  VirtualShellHistory,
+  VirtualShellNewMenu, VirtualShellNotifier,
+  // SpTBX, TB2K
+  SpTBXItem, TB2Item,
+  // Tnt Controls
+  TntSysUtils,
+  // System Units
+  Windows, Messages, SysUtils, Classes, Controls, ExtCtrls, Forms,
+  Graphics, Menus, ShellAPI, ShlObj;
+
+type
+
+  TCEColSetting = record
+    Index: Integer;
+    Position: Integer;
+    Width: Integer;
+    Sort: TEasySortDirection;
+  end;
+
+  PCEColSettings = ^TCEColSettings;
+  TCEColSettings = array of TCEColSetting;
+
+  PCEGroupBySetting = ^TCEGroupBySetting;
+  TCEGroupBySetting = record
+    Index: Integer;
+    Enabled: Boolean;
+  end;
+
+  TCEFileView = class(TCECustomFileView)
+  private
+    fAutoSelectFirstItem: Boolean;
+    fOnViewStyleChange: TNotifyEvent;
+    fSelectPreviousFolder: Boolean;
+    fTranslateHeader: Boolean;
+    fUseKernelNotification: Boolean;
+    procedure SetUseKernelNotification(const Value: Boolean);
+  protected
+    procedure DoCustomColumnAdd; override;
+    procedure DoKeyAction(var CharCode: Word; var Shift: TShiftState; var
+        DoDefault: Boolean); override;
+    procedure DoRootChange; override;
+    procedure DoRootChanging(const NewRoot: TRootFolder; Namespace: TNamespace; var
+        Allow: Boolean); override;
+    procedure DoRootRebuild; override;
+    procedure HandleDblClick(Button: TCommonMouseButton; Msg: TWMMouse); override;
+    procedure HistoryChange(Sender: TBaseVirtualShellPersistent; ItemIndex:
+        Integer; ChangeType: TVSHChangeType);
+    procedure SetNotifyFolder(Namespace: TNamespace);
+    procedure SetView(Value: TEasyListStyle); override;
+  public
+    fChangeHistory: Boolean;
+    History: TVirtualShellHistory;
+    ShellNewMenu: TVirtualShellNewMenu;
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+    procedure ClearHistory;
+    procedure CreateNewFolder;
+    procedure GoBackInHistory;
+    procedure GoFolderUp;
+    procedure GoForwardInHistory;
+    procedure OnCreateNewFile(Sender: TMenu; const NewMenuItem:
+        TVirtualShellNewItem; var Path, FileName: WideString; var Allow: Boolean);
+    procedure PasteShortcutFromClipboard;
+    procedure SetFocus; override;
+    property TranslateHeader: Boolean read fTranslateHeader write fTranslateHeader;
+  published
+    property AutoSelectFirstItem: Boolean read fAutoSelectFirstItem write
+        fAutoSelectFirstItem;
+    property SelectPreviousFolder: Boolean read fSelectPreviousFolder write
+        fSelectPreviousFolder;
+    property UseKernelNotification: Boolean read fUseKernelNotification write
+        SetUseKernelNotification;
+    property OnViewStyleChange: TNotifyEvent read fOnViewStyleChange write
+        fOnViewStyleChange;
+  end;
+
+implementation
+
+uses
+  CE_GlobalCtrl, CE_Utils, dCE_Actions;
+
+{##############################################################################}
+
+{*------------------------------------------------------------------------------
+  Create an instance of TCEFileView
+-------------------------------------------------------------------------------}
+constructor TCEFileView.Create(AOwner: TComponent);
+begin
+  inherited;
+  fChangeHistory:= false;
+  fTranslateHeader:= false;
+  History:= TVirtualShellHistory.Create(self);
+  History.Add(TNamespace.Create(nil,nil),true); // Add Desktop to history
+  //History.ItemIndex:= -1;
+  History.OnChange:= HistoryChange;
+  fChangeHistory:= true;
+
+  ShellNewMenu:= TVirtualShellNewMenu.Create(self);
+  ShellNewMenu.NewFolderItem:= true;
+  //ShellNewMenu.NewShortcutItem:= true;
+  ShellNewMenu.OnCreateNewFile:= OnCreateNewFile;
+  //self.PopupMenu:= ShellNewMenu;
+  UsePNGAlpha:= true;
+  fUseKernelNotification:= true;
+  ChangeNotifier.RegisterKernelChangeNotify(Self,AllKernelNotifiers);
+  fSelectPreviousFolder:= true;
+  fAutoSelectFirstItem:= true;
+end;
+
+{*------------------------------------------------------------------------------
+  Destroy an instance of TCEFileView.
+-------------------------------------------------------------------------------}
+destructor TCEFileView.Destroy;
+begin
+  fChangeHistory:= false;
+  if fUseKernelNotification then
+  ChangeNotifier.UnRegisterKernelChangeNotify(Self);
+  //ClearHistory;
+  //History.Free;
+  //ShellNewMenu.Free;
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Clear History
+-------------------------------------------------------------------------------}
+procedure TCEFileView.ClearHistory;
+begin
+  fChangeHistory:= false;
+  try
+    History.Clear;
+  finally
+    fChangeHistory:= true;
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Get's called on mouse dbl click.
+-------------------------------------------------------------------------------}
+procedure TCEFileView.HandleDblClick(Button: TCommonMouseButton; Msg: TWMMouse);
+var
+  WindowPt: TPoint;
+  item: TEasyItem;
+  HitInfo: TEasyItemHitTestInfoSet;
+begin
+  if Self.EditManager.Editing then
+  Exit;
+  
+  WindowPt:= Self.Scrollbars.MapWindowToView(Msg.Pos);
+  if (Button = cmbLeft) and (WindowPt.Y >= 0) then
+  begin
+    item:= self.Groups.ItemByPoint(WindowPt);
+    if item = nil then
+    begin
+      self.BrowseToPrevLevel;
+    end
+    else
+    begin
+      item.HitTestAt(WindowPt, HitInfo);
+      if HitInfo = [] then
+      begin
+        self.BrowseToPrevLevel;
+      end
+    end;
+  end;
+  inherited;
+end;
+
+{*------------------------------------------------------------------------------
+  Get's called when new file is created from ShellNewMenu.
+-------------------------------------------------------------------------------}
+procedure TCEFileView.OnCreateNewFile(Sender: TMenu; const NewMenuItem:
+    TVirtualShellNewItem; var Path, FileName: WideString; var Allow: Boolean);
+var
+  Handle: THandle;
+  TemplateFound: Boolean;
+  NewFileSourcePath: WideString;
+  Skip: Boolean;
+  NewFileTargetPath: WideString;
+  ASCIOpen: string;
+  NS: TNamespace;
+  item: TEasyItem;
+  tmpNS: TNamespace;
+begin
+  NewFileTargetPath:= self.RootFolderNamespace.NameForParsing;
+
+  if WideDirectoryExists(NewFileTargetPath) then
+  begin
+    NewFileTargetPath := WideIncludeTrailingBackslash(NewFileTargetPath);
+    if FileName = '' then
+    begin
+      if NewMenuItem.NewShellKind <> nmk_Folder then
+        NewFileTargetPath := UniqueFileName(NewFileTargetPath + S_NEW + NewMenuItem.FileType + NewMenuItem.Extension)
+      else
+        NewFileTargetPath := UniqueDirName(NewFileTargetPath + S_NEW + NewMenuItem.FileType)
+    end else
+    begin
+      if NewMenuItem.NewShellKind <> nmk_Folder then
+        NewFileTargetPath := NewFileTargetPath + WideStripExt(FileName) + NewMenuItem.Extension
+      else
+        NewFileTargetPath := NewFileTargetPath + FileName
+    end;
+
+    Skip := False;
+    if ShellNewMenu.WarnOnOverwrite then
+    begin
+      if FileExists(NewFileTargetPath) then
+        Skip := WideMessageBox(Application.Handle, S_WARNING, S_OVERWRITE_EXISTING_FILE, MB_OKCANCEL or MB_ICONWARNING) = IDCANCEL
+    end;
+    if not Skip then
+    begin
+      case NewMenuItem.NewShellKind of
+        nmk_Null:
+          begin
+             Handle := FileCreate(NewFileTargetPath);
+             if Handle <> INVALID_HANDLE_VALUE then
+             begin
+               FileClose(Handle);
+             end;
+
+          end;
+        nmk_FileName:
+          begin
+            TemplateFound := False;
+            { This is where the template should be }
+            if Assigned(TemplatesFolder) then
+            begin
+              NewFileSourcePath := TemplatesFolder.NameParseAddress + '\' + NewMenuItem.NewShellKindStr;
+              TemplateFound := WideFileExists(NewFileSourcePath);
+            end;
+            
+            {Look from common templates folder}
+            if not TemplateFound then
+            begin
+              tmpNS:= CreateSpecialNamespace($002d);
+              if assigned(tmpNS) then
+              begin
+                NewFileSourcePath := tmpNS.NameParseAddress + '\' + NewMenuItem.NewShellKindStr;
+                TemplateFound := WideFileExists(NewFileSourcePath);
+                tmpNS.Free;
+              end;
+            end;
+
+            {NEW: Some Programs like WinRAR store the templates elsewhere (like in their own programdirectory)}
+            {So check if NewShellKindStr points directly to a template and - if yes - use it ...}
+            if not TemplateFound then
+            begin
+              NewFileSourcePath := NewMenuItem.NewShellKindStr;
+              TemplateFound := FileExists(NewFileSourcePath);
+            end; 
+
+            { Microsoft can't seem to even get its applications to follow the rules   }
+            { Some Templates are in the old ShellNew folder in the Windows directory. }
+            if not TemplateFound then
+            begin
+              NewFileSourcePath := WindowsDirectory + '\ShellNew\' + NewMenuItem.NewShellKindStr;
+              TemplateFound := FileExists(NewFileSourcePath);
+            end;
+            if TemplateFound then
+            begin
+              WideCopyFile(NewFileSourcePath, NewFileTargetPath, True);
+              //SHChangeNotify(SHCNE_CREATE, SHCNF_PATH, PChar(NewFileTargetPath), nil);
+            end;
+          end;
+        nmk_Data:
+          begin
+            Handle := FileCreate(NewFileTargetPath);
+            if Handle <> INVALID_HANDLE_VALUE then
+            try
+              FileWrite(Handle, NewMenuItem.Data^, NewMenuItem.DataSize)
+            finally
+              FileClose(Handle);
+              //SHChangeNotify(SHCNE_CREATE, SHCNF_PATH, PChar(NewFileTargetPath), nil);
+            end
+          end;
+        nmk_Command:
+          begin
+            if NewMenuItem.IsBriefcase then
+            { The Briefcase is a special case that we need to be careful with     }
+            begin
+              { Strip the *.bfc extension from the file name }
+              NewFileTargetPath := WideStripExt(NewFileTargetPath);
+              { This is a bit of a hack.  The true Command string in Win2k looks  }
+              { like:                                                             }
+              {  %SystemRoot%\system32\rundll32.exe %SystemRoot%\system32\syncui.dll,Briefcase_Create %2!d! %1 }
+              { This is undocumented as the the parameters but in Win2k and XP if }
+              { You pass a path of the new Briefcase for %1 and then set %2 to a  }
+              { number > 0 then a Briefcase will be created in the passed folder. }
+              { In Win9x the param are reversed and the string is filled in:      }
+              { c:\Windows\System\rundll32.exe c:\Windows\System\\syncui.dll,Briefcase_Create %1!d! %2 }
+              { In this OS it is not necessary to change the %1 to 1? Oh well     }
+              { Undocumented Shell fun at its best.                               }
+              Path := SystemDirectory + S_RUNDLL32;
+              if not FileExists(Path) then
+                Path := WindowsDirectory + S_RUNDLL32;
+              ASCIOpen := S_OPEN;
+              WideShellExecute(Application.Handle, ASCIOpen, Path,
+                S_BRIEFCASE_HACK_STRING + NewFileTargetPath,'', SW_SHOW)
+            end else
+              { Being lazy here, this way I don't have to try to parse arguments  }
+              WinExec(PChar(NewMenuItem.NewShellKindStr), SW_SHOW);
+          end;
+        nmk_Folder:
+          begin
+            WideCreateDir(NewFileTargetPath);
+          end;
+        nmk_Shortcut:
+          begin
+            NewFileTargetPath := ExtractFilePath(NewFileTargetPath);
+            NewFileTargetPath := 'rundll32.exe appwiz.cpl,NewLinkHere ' + NewFileTargetPath;
+            WinExec(PChar(String(NewFileTargetPath)), SW_SHOW);
+          end;
+      end;
+
+      if WideFileExists(NewFileTargetPath) or WideDirectoryExists(NewFileTargetPath) then
+      begin
+        if not Self.Focused then
+        Self.SetFocus;
+        
+        NS:= TNamespace.CreateFromFileName(NewFileTargetPath);
+        item:= self.AddCustomItem(nil,NS,true);
+        Self.Selection.SelectRange(item,item,false,true);
+        Self.Selection.FocusedItem:= item;
+        self.Refresh;
+        item.Edit;
+      end;
+
+    end
+  end;
+  Allow:= false;
+end;
+
+{*------------------------------------------------------------------------------
+  Set View Mode
+-------------------------------------------------------------------------------}
+procedure TCEFileView.SetView(Value: TEasyListStyle);
+begin
+  inherited;
+  if assigned(fOnViewStyleChange) then
+  fOnViewStyleChange(self);
+end;
+
+{*------------------------------------------------------------------------------
+  Create new folder
+-------------------------------------------------------------------------------}
+procedure TCEFileView.CreateNewFolder;
+var
+  path: WideString;
+  NS: TNamespace;
+  item: TEasyItem;
+begin
+  if WideDirectoryExists(RootFolderNamespace.NameForParsing) then
+  begin
+   path:= UniqueDirName(WideIncludeTrailingBackslash(RootFolderNamespace.NameForParsing) + _('New Folder'));
+   WideCreateDir(path);
+   if WideDirectoryExists(path) then
+   begin
+     if not Self.Focused then
+     Self.SetFocus;
+     NS:= TNamespace.CreateFromFileName(path);
+     item:= AddCustomItem(nil,NS,true);
+     Self.Selection.SelectRange(item,item,false,true);
+     Self.Selection.FocusedItem:= item;
+     //Refresh;
+     item.Edit;
+   end;
+  end;
+end;
+
+procedure TCEFileView.DoCustomColumnAdd;
+var
+  i: Integer;
+  col: TEasyColumn;
+begin
+  inherited;
+  if fTranslateHeader then
+  begin
+    for i:= 0 to Self.Header.Columns.Count-1 do
+    begin
+      col:= Self.Header.Columns[i];
+      col.Caption:= _(col.Caption);
+    end;
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Handle Key Action
+-------------------------------------------------------------------------------}
+procedure TCEFileView.DoKeyAction(var CharCode: Word; var Shift: TShiftState;
+    var DoDefault: Boolean);
+begin
+  if DoDefault then
+  begin
+    DoDefault:= True;
+    case CharCode of
+      VK_BACK: begin
+        GoFolderUp;
+        DoDefault:= false;
+      end;
+      VK_F2,
+      VK_F5,
+      VK_DELETE: DoDefault:= Shift <> [];
+      Ord('C'), Ord('c'): begin
+        if ssCtrl in Shift then
+        DoDefault:= false;
+      end;
+      Ord('X'), Ord('x'): begin
+        if ssCtrl in Shift then
+        DoDefault:= false;
+      end;
+      Ord('V'), Ord('v'): begin
+        if ssCtrl in Shift then
+        DoDefault:= false;
+      end;
+      Ord('A'), Ord('a'): begin
+        if (Shift = [ssShift,ssCtrl]) or (Shift = [ssCtrl]) then
+        DoDefault:= false;
+      end;
+      VK_LEFT, VK_RIGHT:
+      begin
+        if Shift = [ssAlt] then
+        DoDefault:= false;
+      end;
+      VK_INSERT:
+      begin
+        if (ssShift in Shift) or (ssCtrl in Shift) then
+        DoDefault:= false;
+      end;
+    end
+  end;
+
+  inherited DoKeyAction(CharCode, Shift, DoDefault);
+end;
+
+{*------------------------------------------------------------------------------
+  Do Root Change
+-------------------------------------------------------------------------------}
+procedure TCEFileView.DoRootChange;
+begin
+  inherited;
+  // TODO: Redesign history feature
+  if fChangeHistory then
+  begin
+    fChangeHistory:= false;
+    if History.ItemIndex > -1 then
+    begin
+      if RootFolderNamespace.ComparePIDL(History.Items[History.ItemIndex].AbsolutePIDL, true) <> 0 then
+      History.Add(RootFolderNamespace, false, true, true);
+    end;    
+    fChangeHistory:= true;
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Root changing
+-------------------------------------------------------------------------------}
+procedure TCEFileView.DoRootChanging(const NewRoot: TRootFolder; Namespace:
+    TNamespace; var Allow: Boolean);
+begin
+  inherited;
+  SetNotifyFolder(Namespace);
+end;
+
+{-------------------------------------------------------------------------------
+  Root rebuild
+-------------------------------------------------------------------------------}
+procedure TCEFileView.DoRootRebuild;
+begin
+  inherited;
+  if AutoSelectFirstItem then
+  Selection.SelectFirst;
+end;
+
+{-------------------------------------------------------------------------------
+  Go Back In History
+-------------------------------------------------------------------------------}
+procedure TCEFileView.GoBackInHistory;
+var
+  oldIndex: Integer;
+  item: TExplorerItem;
+begin
+  if SelectPreviousFolder then
+  begin
+    oldIndex:= History.ItemIndex;
+    BeginUpdate;
+    try
+      History.Back;
+      Application.ProcessMessages;
+      if (oldIndex > History.ItemIndex) and (oldIndex > -1) and (oldIndex < History.Count) then
+      begin
+        Selection.ClearAll;
+        item:= FindItemByPIDL(History.Items[oldIndex].AbsolutePIDL);
+        if assigned(item) then
+        begin
+          item.MakeVisible(emvTop);
+          item.Focused:= true;
+          item.Selected:= true;
+        end;
+      end;
+    finally
+      EndUpdate;
+    end;
+  end
+  else
+  begin
+    History.Back;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Go folder up
+-------------------------------------------------------------------------------}
+procedure TCEFileView.GoFolderUp;
+var
+  oldPIDL: PItemIDList;
+  item: TExplorerItem;
+begin
+  if SelectPreviousFolder then
+  begin
+    oldPIDL:= PIDLMgr.CopyPIDL(Self.RootFolderNamespace.AbsolutePIDL);
+    BeginUpdate;
+    try
+      BrowseToPrevLevel;
+      Application.ProcessMessages;
+      Selection.ClearAll;
+      item:= FindItemByPIDL(oldPIDL);
+      if assigned(item) then
+      begin
+        item.MakeVisible(emvTop);
+        item.Focused:= true;
+        item.Selected:= true;
+      end;
+    finally
+      PIDLMgr.FreeAndNilPIDL(oldPIDL);
+      EndUpdate;
+    end;
+  end
+  else
+  begin
+    BrowseToPrevLevel;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Go Forward in history
+-------------------------------------------------------------------------------}
+procedure TCEFileView.GoForwardInHistory;
+begin
+  History.Next;
+end;
+
+{*------------------------------------------------------------------------------
+  On History change
+-------------------------------------------------------------------------------}
+procedure TCEFileView.HistoryChange(Sender: TBaseVirtualShellPersistent;
+    ItemIndex: Integer; ChangeType: TVSHChangeType);
+begin
+  if fChangeHistory then
+  begin
+    if (ChangeType = hctSelected) and (ItemIndex > -1) then
+    begin
+      fChangeHistory:= false;
+      if assigned(History.Items[ItemIndex]) then
+      BrowseToByPIDL(History.Items[ItemIndex].AbsolutePIDL, false);
+      fChangeHistory:= true;
+    end;
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Paste Shortcut From Clipboard
+-------------------------------------------------------------------------------}
+procedure TCEFileView.PasteShortcutFromClipboard;
+var
+  NSA: TNamespaceArray;
+begin
+  Cursor := crHourglass;
+  try
+    if Assigned(RootFolderNamespace) then
+    begin
+      SetLength(NSA, 1);
+      NSA[0] := RootFolderNamespace;
+      RootFolderNamespace.Paste(NSA, True);
+    end;
+  finally
+    Cursor:= crDefault;
+  end
+end;
+
+{*------------------------------------------------------------------------------
+  Set Focus
+-------------------------------------------------------------------------------}
+procedure TCEFileView.SetFocus;
+begin
+  if not GetRealVisibility(self) then Exit;
+  inherited;
+  UpdateAllActions;
+end;
+
+{-------------------------------------------------------------------------------
+  Set Notify Folder
+-------------------------------------------------------------------------------}
+procedure TCEFileView.SetNotifyFolder(Namespace: TNamespace);
+var
+  useKernel: Boolean;
+begin
+  if assigned(Namespace) then
+  begin
+    if fUseKernelNotification then
+    begin
+      useKernel:= not Namespace.IsNetworkNeighborhoodChild;
+      if useKernel then
+      useKernel:= WideGetDriveType(WideIncludeTrailingBackslash(Namespace.NameForParsing)) = DRIVE_FIXED;
+
+      if useKernel then
+      ChangeNotifier.NotifyWatchFolder(Self, Namespace.NameForParsing)
+      else
+      ChangeNotifier.NotifyWatchFolder(Self, '');
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set UseKernelNotification
+-------------------------------------------------------------------------------}
+procedure TCEFileView.SetUseKernelNotification(const Value: Boolean);
+begin
+  if Value <> fUseKernelNotification then
+  begin
+    fUseKernelNotification:= Value;
+    if fUseKernelNotification then
+    begin
+      ChangeNotifier.RegisterKernelChangeNotify(Self,AllKernelNotifiers);
+    end
+    else
+    begin
+      ChangeNotifier.UnRegisterKernelChangeNotify(Self);
+    end;
+  end;
+end;
+
+end.

@@ -1,0 +1,547 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"CE-POT-Version: 924\n"
+"CE-Language: French\n"
+"Last-Translator: Cool <veuxpas-depub@yahoo.fr>\n"
+
+msgid "About CubicExplorer"
+msgstr "A propos de Clubic Explorer"
+
+msgid "About..."
+msgstr "A propos de ..."
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Add Bookmark"
+msgstr "Ajouter un favoris"
+
+msgid "Add Category"
+msgstr "Ajouter une catégorie"
+
+msgid "Add Tab"
+msgstr "Ajouter onglet"
+
+msgid "Address Bar"
+msgstr "Barre d'adresses"
+
+msgid "Always Show Sort Columns"
+msgstr "Toujours montrer les entêtes de colonnes"
+
+msgid "And Launch Files"
+msgstr "Un onglet par favori défini"
+
+msgid "Application Revision:"
+msgstr "Révision de l'application :"
+
+msgid "Apply"
+msgstr "Appliquer"
+
+msgid "Apply changes."
+msgstr "Appliquer les changements"
+
+msgid "Attributes"
+msgstr "Attributs"
+
+msgid "Auto"
+msgstr "Automatique"
+
+msgid "Auto Collapse Trees"
+msgstr "Réduire automatiquement"
+
+msgid "Auto Expand Trees"
+msgstr "Développer automatiquement"
+
+msgid "Automatic"
+msgstr "Automatique"
+
+msgid "Back"
+msgstr "Précédent"
+
+msgid "Backward"
+msgstr "En arrière"
+
+msgid "Bookmarks"
+msgstr "Favoris"
+
+msgid "Bottom"
+msgstr "Bas"
+
+msgid "Breadcrumb Navigation"
+msgstr "Historique navigation"
+
+msgid "Browse..."
+msgstr "Parcourir ..."
+
+msgid "Bytes"
+msgstr "Octets"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Case sensitivity"
+msgstr "Case à cocher"
+
+msgid "Close"
+msgstr "Fermer"
+
+msgid "Close Tab"
+msgstr "Fermer l'onglet"
+
+msgid "Copy"
+msgstr "Copier"
+
+msgid "Copy Path"
+msgstr "Copier le chemin"
+
+msgid "Create"
+msgstr "Créer"
+
+msgid "Create New Translation"
+msgstr "Nouvelle traduction"
+
+msgid "Create new translation."
+msgstr "Nouvelle traduction"
+
+msgid "CubicExplore Home Page"
+msgstr "Site Cubic Explorer"
+
+msgid "Customize"
+msgstr "Personnalisation"
+
+msgid "Customizer..."
+msgstr "Personnaliser ... "
+
+msgid "Cut"
+msgstr "Couper"
+
+msgid "Date Accessed"
+msgstr "Date de dernière utilisation"
+
+msgid "Date Created"
+msgstr "Date de création"
+
+msgid "Date Modified"
+msgstr "Date de modification"
+
+msgid "Delete"
+msgstr "Effacer"
+
+msgid "Details"
+msgstr "Détails"
+
+msgid "Direction"
+msgstr "Direction"
+
+msgid "Disconnect Network Drive..."
+msgstr "Déconnecter un lecteur réseau ..."
+
+msgid "Drives"
+msgstr "Volumes"
+
+msgid "Dublicate Tab"
+msgstr "Dupliquer l'onglet"
+
+msgid "Duplicate"
+msgstr "Dupliquer"
+
+msgid "Edit"
+msgstr "Edition"
+
+msgid "Editor Options..."
+msgstr "Editeur d'options ..."
+
+msgid "Empty Recycle Bin"
+msgstr "Vider la corbeille"
+
+msgid "English (default)"
+msgstr "Anglais (par défaut)"
+
+msgid "Exit"
+msgstr "Fermer"
+
+msgid "File"
+msgstr "Fichier"
+
+msgid "File Search"
+msgstr "Chercher un fichier"
+
+msgid "Filmstrip"
+msgstr "Aperçu rapide"
+
+msgid "Filters"
+msgstr "Filtres"
+
+msgid "Find Next"
+msgstr "Chercher le suivant"
+
+msgid "Find Previous"
+msgstr "Chercher le précédent"
+
+msgid "Folder Path"
+msgstr "Chemin complet"
+
+msgid "Folder Up"
+msgstr "Dossier parent"
+
+msgid "Folders"
+msgstr "Dossiers"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Forward"
+msgstr "Suivant"
+
+msgid "Fullscreen"
+msgstr "Plein écran"
+
+msgid "General"
+msgstr "Général"
+
+msgid "Help"
+msgstr "Aide"
+
+msgid "Hex"
+msgstr "Hexa"
+
+msgid "Highlighter"
+msgstr "Surlignage"
+
+msgid "Image"
+msgstr "Image"
+
+msgid "Insert"
+msgstr "Insérer"
+
+msgid "Invert Selection"
+msgstr "Inverser la sélection"
+
+msgid "KB"
+msgstr "Ko"
+
+msgid "Language"
+msgstr "Langues"
+
+msgid "Language Editor"
+msgstr "Editeur de langue"
+
+msgid "Large Icons"
+msgstr "Grandes icônes"
+
+msgid "Launch Files Only"
+msgstr "Lancer les fichiers uniquement"
+
+msgid "Left"
+msgstr "Gauche"
+
+msgid "List"
+msgstr "Liste"
+
+msgid "Loading..."
+msgstr "Chargement ..."
+
+msgid "MB"
+msgstr "Mo"
+
+msgid "Map Network Drive..."
+msgstr "Connecter un lecteur réseau"
+
+msgid "Modified"
+msgstr "Modifié"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Name Only"
+msgstr "Nom seul"
+
+msgid "Navigation"
+msgstr "Navigation"
+
+msgid "New"
+msgstr "Nouveau"
+
+msgid "New Folder"
+msgstr "Nouveau dossier"
+
+msgid "No Extension"
+msgstr "Sans extension"
+
+msgid "No file loaded."
+msgstr "Aucun fichier image sélectionné"
+
+msgid "None"
+msgstr "Aucun"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open All in Tabs"
+msgstr "Ouvrir des onglets"
+
+msgid "Open Command Prompt"
+msgstr "Ouvrir ligne de commande"
+
+msgid "Open..."
+msgstr "Ouvrir ..."
+
+msgid "Options"
+msgstr "Options"
+
+msgid "Original"
+msgstr "Original"
+
+msgid "Override"
+msgstr "Ignorer"
+
+msgid "Panels"
+msgstr "Fenêtres"
+
+msgid "Paste"
+msgstr "Coller"
+
+msgid "Paste Shortcut"
+msgstr "Coller le raccourci"
+
+msgid "Path"
+msgstr "Chemin"
+
+msgid "Pause"
+msgstr "Pause"
+
+msgid "Properties"
+msgstr "Propriétés"
+
+msgid "Properties..."
+msgstr "Propriétés ..."
+
+msgid "Publish Translation"
+msgstr "Publier la traduction"
+
+msgid "Quick Options"
+msgstr "Options rapides"
+
+msgid "Quickview"
+msgstr "Aperçu images"
+
+msgid "Redo"
+msgstr "Répéter"
+
+msgid "Refresh"
+msgstr "Rafraîchir"
+
+msgid "Regular expression"
+msgstr "Expression régulière"
+
+msgid "Relative"
+msgstr "Relatif"
+
+msgid "Reload"
+msgstr "Relancer"
+
+msgid "Remember Tabs"
+msgstr "Mémoriser les onglets à la fermeture"
+
+msgid "Rename"
+msgstr "Renommer"
+
+msgid "Replace"
+msgstr "Remplacer"
+
+msgid "Replace All"
+msgstr "Remplacer tout"
+
+msgid "Right"
+msgstr "Droite"
+
+msgid "Save"
+msgstr "Enregistrer"
+
+msgid "Save As..."
+msgstr "Enregistrer sous ..."
+
+msgid "Save changes before closing?"
+msgstr "Enregistrer les modifications avant de quitter ?"
+
+msgid "Save changes."
+msgstr "Enregistrer les modifications"
+
+msgid "Save changes?"
+msgstr "Enregistrer les modifications ?"
+
+msgid "Search"
+msgstr "Chercher"
+
+msgid "Search File Mask"
+msgstr "Chercher une partie ou l'ensemble du nom du fichier :"
+
+msgid "Search Word or Phrase in File Name"
+msgstr "Chercher un mot ou une phrase dans un nom de fichier"
+
+msgid "Search and Replace"
+msgstr "Chercher et remplacer"
+
+msgid "Search from cursor"
+msgstr "Chercher à partir du curseur"
+
+msgid "Search in Directory"
+msgstr "Chercher dans :"
+
+msgid "Select All"
+msgstr "Sélectionner tout"
+
+msgid "Selected"
+msgstr "Sélectionner"
+
+msgid "Selected text only"
+msgstr "Texte sélectionné uniquement"
+
+msgid "Short Folder Path"
+msgstr "Chemin du dossier abrégé"
+
+msgid "Short Name Only"
+msgstr "Nom abrégé"
+
+msgid "Short Path"
+msgstr "Chemin abrégé"
+
+msgid "Show All Files"
+msgstr "Afficher tous les fichiers"
+
+msgid "Show Extensions"
+msgstr "Montrer les extensions"
+
+msgid "Show Filtering Background"
+msgstr "Montrer le filtrage en arrière plan"
+
+msgid "Show Folders"
+msgstr "Afficher les dossiers"
+
+msgid "Show Hidden Files"
+msgstr "Montrer les fichiers cachés"
+
+msgid "Show Hints"
+msgstr "Montrer les infos bulles"
+
+msgid "Show Statusbar"
+msgstr "Afficher la barre d'état"
+
+msgid "Show Toolbar"
+msgstr "Afficher la barre d'outils"
+
+msgid "Single Instance Only"
+msgstr "Une seule instance"
+
+msgid "Size"
+msgstr "Taille"
+
+msgid "Small Icons"
+msgstr "Petites icônes"
+
+msgid "Smooth Scroll"
+msgstr "Défilement doux"
+
+msgid "Start"
+msgstr "Démarrer"
+
+msgid "Status Bar"
+msgstr "Barre d'état"
+
+msgid "Stop"
+msgstr "Arrêter"
+
+msgid "Subdirectories"
+msgstr "Sous répertoires"
+
+msgid "Support Forum"
+msgstr "Forum utilisateurs"
+
+msgid "Target"
+msgstr "Cible"
+
+msgid "Text"
+msgstr "Texte"
+
+msgid "Text Editor"
+msgstr "Editeur de texte"
+
+msgid "Theme"
+msgstr "Thème"
+
+msgid "Thumbnails"
+msgstr "Miniatures"
+
+msgid "Thumbs Position"
+msgstr "Positionnement des miniatures"
+
+msgid "Thumbs View Style"
+msgstr "Style d'affichage des miniatures"
+
+msgid "Tiles"
+msgstr "Mosaïques"
+
+msgid "Toolbars"
+msgstr "Barres d'outils"
+
+msgid "Tools"
+msgstr "Outils"
+
+msgid "Top"
+msgstr "Haut"
+
+msgid "Total Size"
+msgstr "Taille totale"
+
+msgid "Translate CubicExplorer"
+msgstr "Traduire Cubic Explorer"
+
+msgid "Translation"
+msgstr "Traduction"
+
+msgid "Translation Revision:"
+msgstr "Dernière révision"
+
+msgid "Translation Version"
+msgstr "Version"
+
+msgid "Translator's Email"
+msgstr "Email du traducteur"
+
+msgid "Translator's Name"
+msgstr "Traducteur"
+
+msgid "Transparency"
+msgstr "Effet de transparence"
+
+msgid "Type"
+msgstr "Saisie"
+
+msgid "Undo"
+msgstr "Annuler"
+
+msgid "Untitled"
+msgstr "Sans titre"
+
+msgid "Version:"
+msgstr "Version :"
+
+msgid "View"
+msgstr "Affichage"
+
+msgid "View Style"
+msgstr "Style d'affichage"
+
+msgid "Whole words only"
+msgstr "Mots entiers seulement"
+
+msgid "Word List"
+msgstr "Liste de mots"
+
+msgid "Word Wrap"
+msgstr "Retour à la ligne"
+

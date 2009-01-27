@@ -1,0 +1,577 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"POT-Creation-Date: 2007-08-21 23:06\n"
+"PO-Revision-Date: 2007-09-13 12:25+0200\n"
+"Last-Translator: Stein Skjervold <steinskjervold@hotmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: dxgettext 1.2.1\n"
+"Language-Team:      \n"
+"X-Poedit-Language: Norwegian Bokmal\n"
+"X-Poedit-Country: NORWAY\n"
+"CE-POT-Version: 924\n"
+"CE-Language: Norwegian Bokmaal\n"
+
+msgid "About CubicExplorer"
+msgstr "Om Cubicexplorer"
+
+msgid "About..."
+msgstr "Om..."
+
+msgid "Actions"
+msgstr "Handling"
+
+msgid "Add Bookmark"
+msgstr "Legg til Bokmerke"
+
+msgid "Add Category"
+msgstr "Legg til Kategori"
+
+msgid "Add Tab"
+msgstr "Ny fane"
+
+msgid "Address Bar"
+msgstr "Adresselinje"
+
+msgid "Always Show Sort Columns"
+msgstr "Alltid vis sorteringskolonner"
+
+msgid "And Launch Files"
+msgstr "Åpne filer"
+
+msgid "Application Revision:"
+msgstr "Programrevisjon"
+
+msgid "Apply"
+msgstr "Utfør"
+
+msgid "Apply changes."
+msgstr "Foreta endringer"
+
+msgid "Attributes"
+msgstr "Egenskaper"
+
+msgid "Auto"
+msgstr "Auto"
+
+msgid "Auto Collapse Trees"
+msgstr "Slå sammen mappetre automatisk"
+
+msgid "Auto Expand Trees"
+msgstr "Utvid mappetre automatisk"
+
+msgid "Automatic"
+msgstr "Automatisk"
+
+msgid "Back"
+msgstr "Tilbake"
+
+msgid "Backward"
+msgstr "Bakover"
+
+msgid "Bookmarks"
+msgstr "Bokmerker"
+
+msgid "Bottom"
+msgstr "Bunn"
+
+msgid "Breadcrumb Navigation"
+msgstr "Navigasjonssti"
+
+msgid "Browse..."
+msgstr "Bla gjennom.."
+
+msgid "Bytes"
+msgstr "Bytes"
+
+msgid "Cancel"
+msgstr "Avbryt"
+
+msgid "Case sensitivity"
+msgstr "Versalsensitiv"
+
+msgid "Close"
+msgstr "Lukk"
+
+msgid "Close Tab"
+msgstr "Lukk fane"
+
+msgid "Computer Management (experiment)"
+msgstr "Computer Management (experiment)"
+
+msgid "Copy"
+msgstr "Kopier"
+
+msgid "Copy In test"
+msgstr "Copy In test"
+
+msgid "Copy Path"
+msgstr "Kopier sti"
+
+msgid "Copyright 2006-2007 Marko Savolainen"
+msgstr "Copyright 2006-2007 Marko Savolainen"
+
+msgid "Create"
+msgstr "Lag"
+
+msgid "Create New Translation"
+msgstr "Lag ny oversettelse"
+
+msgid "Create new translation."
+msgstr "Lag ny oversettelse"
+
+msgid "CubicExplore Home Page"
+msgstr "CubicExplorers hjemmeside"
+
+msgid "CubicExplorer"
+msgstr "CubicExplorer"
+
+msgid "Customize"
+msgstr "Konfigurer"
+
+msgid "Customizer..."
+msgstr "Konfigurer"
+
+msgid "Cut"
+msgstr "Klipp ut"
+
+msgid "Date Accessed"
+msgstr "Aksessert dato"
+
+msgid "Date Created"
+msgstr "Opprettet dato"
+
+msgid "Date Modified"
+msgstr "Endret dato"
+
+msgid "Delete"
+msgstr "Slett"
+
+msgid "Demo Crash"
+msgstr "Demo Crash"
+
+msgid "Details"
+msgstr "Detaljer"
+
+msgid "Direction"
+msgstr "Retning"
+
+msgid "Disconnect Network Drive..."
+msgstr "Koble fra nettverksstasjon"
+
+msgid "Drives"
+msgstr "Stasjoner"
+
+msgid "Dublicate Tab"
+msgstr "Kopier fane"
+
+msgid "Duplicate"
+msgstr "Lag kopi"
+
+msgid "Edit"
+msgstr "Rediger"
+
+msgid "Editor Options..."
+msgstr "Redigeringsvalg"
+
+msgid "Empty Recycle Bin"
+msgstr "Tøm papirkurven"
+
+msgid "English (default)"
+msgstr "English (default)"
+
+msgid "Exit"
+msgstr "Avslutt"
+
+msgid "File"
+msgstr "Fil"
+
+msgid "File Search"
+msgstr "Filsøk"
+
+msgid "Filmstrip"
+msgstr "Filmstripe"
+
+msgid "Filters"
+msgstr "Filter"
+
+msgid "Find Next"
+msgstr "Finn neste"
+
+msgid "Find Previous"
+msgstr "Finn forrige"
+
+msgid "Folder Path"
+msgstr "Mappesti"
+
+msgid "Folder Up"
+msgstr "Opp"
+
+msgid "Folders"
+msgstr "Mapper"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "Forward"
+msgstr "Frem"
+
+msgid "Fullscreen"
+msgstr "Fullskjerm"
+
+msgid "General"
+msgstr "Generelt"
+
+msgid "Help"
+msgstr "Hjelp"
+
+msgid "Hex"
+msgstr "Hex"
+
+msgid "Highlighter"
+msgstr "Uthever"
+
+msgid "Image"
+msgstr "Bilde"
+
+msgid "Insert"
+msgstr "Sett inn"
+
+msgid "Invert Selection"
+msgstr "Inverter utvalg"
+
+msgid "KB"
+msgstr "KB"
+
+msgid "Language"
+msgstr "Språk"
+
+msgid "Language Editor"
+msgstr "Språkeditor"
+
+msgid "Large Icons"
+msgstr "Store ikoner"
+
+msgid "Launch Files Only"
+msgstr "Kun åpne filer"
+
+msgid "Left"
+msgstr "Venstre"
+
+msgid "List"
+msgstr "Liste"
+
+msgid "Loading..."
+msgstr "Laster.."
+
+msgid "MB"
+msgstr "MB"
+
+msgid "MainMenu"
+msgstr "Hovedmeny"
+
+msgid "Map Network Drive..."
+msgstr "Koble til nettverksstasjon"
+
+msgid "Modified"
+msgstr "Endret"
+
+msgid "Name"
+msgstr "Navn"
+
+msgid "Name Only"
+msgstr "Kun navn"
+
+msgid "Navigation"
+msgstr "Naviger"
+
+msgid "New"
+msgstr "Ny"
+
+msgid "New Folder"
+msgstr "Ny mappe"
+
+msgid "No Extension"
+msgstr "Ikke vis filtype"
+
+msgid "No file loaded."
+msgstr "Ingen fil er valgt"
+
+msgid "None"
+msgstr "Ingen"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open All in Tabs"
+msgstr "Åpne alle i faner"
+
+msgid "Open Command Prompt"
+msgstr "Åpne ledetekst"
+
+msgid "Open..."
+msgstr "Åpne"
+
+msgid "Options"
+msgstr "Valg"
+
+msgid "Original"
+msgstr "Original"
+
+msgid "Override"
+msgstr "Overstyr"
+
+msgid "Panels"
+msgstr "Panel"
+
+msgid "Paste"
+msgstr "Lim inn"
+
+msgid "Paste Shortcut"
+msgstr "Lim inn snarvei"
+
+msgid "Path"
+msgstr "Sti"
+
+msgid "Pause"
+msgstr "Pause"
+
+msgid "Properties"
+msgstr "Egenskaper"
+
+msgid "Properties..."
+msgstr "Egenskaper"
+
+msgid "Publish Translation"
+msgstr "Publiser oversettelse"
+
+msgid "Quick Options"
+msgstr "Hurtigvalg"
+
+msgid "Quickview"
+msgstr "Hurtigvisning"
+
+msgid "Redo"
+msgstr "Gjenta"
+
+msgid "Refresh"
+msgstr "Oppdater"
+
+msgid "Regular expression"
+msgstr "Vanlig uttrykk"
+
+msgid "Relative"
+msgstr "Relativ"
+
+msgid "Reload"
+msgstr "Last inn på nytt"
+
+msgid "Remember Tabs"
+msgstr "Husk faner"
+
+msgid "Rename"
+msgstr "Gi nytt navn"
+
+msgid "Replace"
+msgstr "Erstatt"
+
+msgid "Replace All"
+msgstr "Erstatt alle"
+
+msgid "Right"
+msgstr "Høyre"
+
+msgid "Save"
+msgstr "Lagre"
+
+msgid "Save As..."
+msgstr "Lagre som"
+
+msgid "Save changes before closing?"
+msgstr "Lagre endringer?"
+
+msgid "Save changes."
+msgstr "Lagre endringer"
+
+msgid "Save changes?"
+msgstr "Lagre endringer?"
+
+msgid "Search"
+msgstr "Søk"
+
+msgid "Search File Mask"
+msgstr "Søkemaske"
+
+msgid "Search Word or Phrase in File Name"
+msgstr "Søk etter ord eller frase i filnavn"
+
+msgid "Search and Replace"
+msgstr "Søk og erstatt"
+
+msgid "Search from cursor"
+msgstr "Søk fra markør"
+
+msgid "Search in Directory"
+msgstr "Søk i mappe"
+
+msgid "Select All"
+msgstr "Velg alle"
+
+msgid "Selected"
+msgstr "Valgte"
+
+msgid "Selected text only"
+msgstr "Kun valgt tekst"
+
+msgid "Short Folder Path"
+msgstr "Kort mappesti"
+
+msgid "Short Name Only"
+msgstr "Kun kort navn"
+
+msgid "Short Path"
+msgstr "Kort sti"
+
+msgid "Show All Files"
+msgstr "Vis alle files"
+
+msgid "Show Extensions"
+msgstr "Vis filtype"
+
+msgid "Show Filtering Background"
+msgstr "Vis bakgrunn v. bruk av filter"
+
+msgid "Show Folders"
+msgstr "Vis mapper"
+
+msgid "Show Hidden Files"
+msgstr "Vis skjulte filer"
+
+msgid "Show Hints"
+msgstr "Vis hint"
+
+msgid "Show Statusbar"
+msgstr "Vis statusbar"
+
+msgid "Show Toolbar"
+msgstr "Vis verktøylinje"
+
+msgid "Single Instance Only"
+msgstr "Åpne kun en instans av CE"
+
+msgid "Size"
+msgstr "Størrelse"
+
+msgid "Small Icons"
+msgstr "Små ikoner"
+
+msgid "Smooth Scroll"
+msgstr "Myk scrolling"
+
+msgid "Solitaire (experiment)"
+msgstr "Solitaire (eksperiment)"
+
+msgid "Start"
+msgstr "Start"
+
+msgid "Status Bar"
+msgstr "Statuslinje"
+
+msgid "Stop"
+msgstr "Stopp"
+
+msgid "Subdirectories"
+msgstr "Undermapper"
+
+msgid "Support Forum"
+msgstr "Forum"
+
+msgid "Target"
+msgstr "Mål"
+
+msgid "Text"
+msgstr "Tekst"
+
+msgid "Text Editor"
+msgstr "Teksteditor"
+
+msgid "Theme"
+msgstr "Temaer"
+
+msgid "Thumbnails"
+msgstr "Miniatyrbilder"
+
+msgid "Thumbs Position"
+msgstr "Plassering av miniatyrbilder"
+
+msgid "Thumbs View Style"
+msgstr "Miniatyrbildestil"
+
+msgid "Tiles"
+msgstr "Side ved side"
+
+msgid "Toolbars"
+msgstr "Verktøylinjer"
+
+msgid "Tools"
+msgstr "Verktøy"
+
+msgid "Top"
+msgstr "Topp"
+
+msgid "Total Size"
+msgstr "Total størrelse"
+
+msgid "Translate CubicExplorer"
+msgstr "Oversett Cubicexplorer"
+
+msgid "Translation"
+msgstr "Oversettelse"
+
+msgid "Translation Revision:"
+msgstr "Oversettelsesrevisjon"
+
+msgid "Translation Version"
+msgstr "Oversettelsesversjon"
+
+msgid "Translator's Email"
+msgstr "Oversetters epost"
+
+msgid "Translator's Name"
+msgstr "Oversetters navn"
+
+msgid "Transparency"
+msgstr "Gjennomsiktighet"
+
+msgid "Type"
+msgstr "Type"
+
+msgid "Undo"
+msgstr "Angre"
+
+msgid "Untitled"
+msgstr "Uten navn"
+
+msgid "Version:"
+msgstr "Versjon:"
+
+msgid "Version: 0.8.0."
+msgstr "Versjon 0.8.0"
+
+msgid "View"
+msgstr "Vis"
+
+msgid "View Style"
+msgstr "Visninger"
+
+msgid "Whole words only"
+msgstr "Kun hele ord"
+
+msgid "Word List"
+msgstr "Ordliste"
+
+msgid "Word Wrap"
+msgstr "Tekstbryting"
+

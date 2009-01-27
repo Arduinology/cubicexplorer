@@ -1,0 +1,616 @@
+#  Doesn't have any letters
+#. CEActions..BackgroundCMItems_up..N1..Caption
+#: dCE_Actions.dfm:466
+#. CEActions..BackgroundCMItems_up..N2..Caption
+#: dCE_Actions.dfm:472
+#. CEActions..BackgroundCMItems_up..N4..Caption
+#: dCE_Actions.dfm:484
+#. CEActions..BackgroundCMItems_down..N3..Caption
+#: dCE_Actions.dfm:491
+msgid "-"
+msgstr ""
+
+#  Doesn't have any letters
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..SpTBXDockablePanel1..label_translation_rev..Caption
+#: fCE_PoEditor.dfm:148
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..SpTBXDockablePanel1..label_pot_rev..Caption
+#: fCE_PoEditor.dfm:155
+msgid "0000"
+msgstr ""
+
+#  Doesn't have any letters
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem58..Caption
+#: Main.dfm:240
+msgid "10%"
+msgstr ""
+
+#  Doesn't have any letters
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem59..Caption
+#: Main.dfm:247
+msgid "20%"
+msgstr ""
+
+#  Doesn't have any letters
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem60..Caption
+#: Main.dfm:254
+msgid "30%"
+msgstr ""
+
+#  Doesn't have any letters
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem61..Caption
+#: Main.dfm:261
+msgid "40%"
+msgstr ""
+
+#  Doesn't have any letters
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem62..Caption
+#: Main.dfm:268
+msgid "50%"
+msgstr ""
+
+#  Doesn't have any letters
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem63..Caption
+#: Main.dfm:275
+msgid "60%"
+msgstr ""
+
+#  Doesn't have any letters
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem64..Caption
+#: Main.dfm:282
+msgid "70%"
+msgstr ""
+
+#  Doesn't have any letters
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem65..Caption
+#: Main.dfm:289
+msgid "80%"
+msgstr ""
+
+#  Doesn't have any letters
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem66..Caption
+#: Main.dfm:296
+msgid "90%"
+msgstr ""
+
+#  Seems like a Font.Name extract
+#. CEAboutBox..Label1..Font.Name
+#: fCE_AboutBox.dfm:126
+msgid "Arial"
+msgstr ""
+
+#. CE_FolderTreeForm..Caption
+#: fCE_FolderTreeForm.dfm:5
+msgid "CE_FolderTreeForm"
+msgstr ""
+
+#. CEBookmarkPanel..Caption
+#: fCE_BookmarkPanel.dfm:2
+msgid "CEBookmarkPanel"
+msgstr ""
+
+#. CECustomDockableForm..Caption
+#: fCE_DockableForm.dfm:5
+msgid "CECustomDockableForm"
+msgstr ""
+
+#. CEDestDlg..Caption
+#: fCE_FileSearchDestDlg.dfm:4
+msgid "CEDestDlg"
+msgstr ""
+
+#. CEDockHostForm..Caption
+#: fCE_DockHostForm.dfm:5
+msgid "CEDockHostForm"
+msgstr ""
+
+#. CEQuickViewPanel..Caption
+#: fCE_QuickViewPanel.dfm:2
+msgid "CEQuickViewPanel"
+msgstr ""
+
+#. MainForm..TopToolDock..MainToolbar..toolsMenuItem..SpTBXItem80..Caption
+#: Main.dfm:366
+msgid "Computer Management (experiment)"
+msgstr ""
+
+#. MainForm..TopToolDock..MainToolbar..helpMenuItem..SpTBXItem75..Caption
+#: Main.dfm:402
+msgid "Copy In test"
+msgstr ""
+
+#. CEAboutBox..Label3..Caption
+#: fCE_AboutBox.dfm:151
+msgid "Copyright 2006-2008 Marko Savolainen"
+msgstr ""
+
+#. CEAboutBox..SynMemo1....Lines.WideStrings
+#: fCE_AboutBox.dfm:212
+msgid "Copyright 2006-2008 Marko Savolainen.\n"
+"\nHomepage - http://www.cubicreality.com\n"
+"Support - http://www.cubicreality.com/forum\n"
+"\n==================================================================\n"
+"   CubicExplorer uses the following 3rd party Delphi components\n"
+"==================================================================\n"
+"\n-VirtualShellTools and EasyListview\nhttp://www.mustangpeak.net\n\n"
+"-Virtual Treeview and GraphicEx\n"
+"http://www.soft-gems.net\n"
+"\n-TNT Unicode Controls\nhttp://www.tntware.com/delphicontrols/unicode/\n"
+"\n-PngComponents\nhttp://www.thany.org/article/32/PngComponents\n\n"
+"-Toolbar2000\n"
+"http://www.jrsoftware.org\n"
+"\n-SpTBXLib\n"
+"http://club.telepolis.com/silverpointdev/sptbxlib/index.htm\n"
+"\n-Graphics32\nhttp://www.graphics32.org\n\n-ATBinHex\n"
+"http://atorg.net.ru/other/atbinhex.htm\n"
+"\n-JVCL\nhttp://jvcl.sourceforge.net\n\n-Unicode SynEdit\n"
+"http://mh-nexus.de/unisynedit.htm\n"
+"\n==================================================================\n"
+"  Many thanks to all developers of those great components.\n"
+"  \n"
+"  A special thanks goes to Jim Kueneman for his great work on\n"
+"  VirtualShellTools and EasyListview. Without VirtualShellTools,\n"
+"  CubicExplorer would not exist.\n"
+"\n  Also thanks to Stas Lebedev for the Vista icons which are\n"
+"  used in CubicExplorer.\n"
+"\n  -Vista Icons Pack 3\n  http://kudesnick.blogspot.com/\n"
+"==================================================================\n"
+"\n\nThanks for using CubicExplorer :)\n\nRegards,\n"
+"Marko Savolainen."
+msgstr ""
+
+#  Seems like a Font.Name extract
+#. CEAboutBox..SynMemo1..Font.Name
+#: fCE_AboutBox.dfm:178
+#. CEAboutBox..SynMemo1..Gutter.Font.Name
+#: fCE_AboutBox.dfm:184
+#. CETextEditorPage..Editor..Font.Name
+#: fCE_TextEditor.dfm:152
+#. CETextEditorPage..Editor..Gutter.Font.Name
+#: fCE_TextEditor.dfm:159
+#. CETextEditor..Editor..Font.Name
+#: fCE_TextEditor_1.dfm:155
+#. CETextEditor..Editor..Gutter.Font.Name
+#: fCE_TextEditor_1.dfm:162
+msgid "Courier New"
+msgstr ""
+
+#. CEActions..ActionList..act_edit_copy....SecondaryShortCuts.Strings
+#: dCE_Actions.dfm:151
+msgid "Ctrl+Ins"
+msgstr ""
+
+#. CEAboutBox..Label1..Caption
+#: fCE_AboutBox.dfm:122
+#. MainForm..Caption
+#: Main.dfm:5
+msgid "CubicExplorer"
+msgstr ""
+
+#. MainForm..TopToolDock..MainToolbar..helpMenuItem..SpTBXItem45..Caption
+#: Main.dfm:397
+msgid "Demo Crash"
+msgstr ""
+
+#. CETextEditorPage..TopDock..MainToolbar..Caption
+#: fCE_TextEditor.dfm:14
+#. CETextEditor..TopDock..MainToolbar..Caption
+#: fCE_TextEditor_1.dfm:16
+msgid "MainToolbar"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:156
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3279
+#. CE_Images..BookmarkImages......Name
+#: dCE_Images.dfm:6110
+#. CE_Images..MiscImages......Name
+#: dCE_Images.dfm:6491
+#. CEQuickViewPanel..PngImageList......Name
+#: fCE_QuickViewPanel.dfm:114
+msgid "PngImage0"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:264
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3382
+#. CE_Images..BookmarkImages......Name
+#: dCE_Images.dfm:6227
+msgid "PngImage1"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:1395
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4371
+msgid "PngImage10"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:1962
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4931
+msgid "PngImage11"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:2212
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5156
+msgid "PngImage12"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:1514
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4485
+msgid "PngImage13"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:1733
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4707
+msgid "PngImage14"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:1846
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4819
+msgid "PngImage15"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:1624
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4596
+msgid "PngImage16"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:2092
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5045
+msgid "PngImage17"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:2268
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5274
+msgid "PngImage18"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:2403
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5390
+msgid "PngImage19"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:388
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3488
+#. CE_Images..BookmarkImages......Name
+#: dCE_Images.dfm:6343
+msgid "PngImage2"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:2517
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5498
+msgid "PngImage20"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:2620
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5602
+msgid "PngImage21"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:2750
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5709
+msgid "PngImage22"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:2805
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5747
+msgid "PngImage23"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:2861
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5786
+msgid "PngImage24"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:2918
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5814
+msgid "PngImage25"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:2950
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5838
+msgid "PngImage26"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:2975
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5857
+msgid "PngImage27"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:3014
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5883
+msgid "PngImage28"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:3153
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5986
+msgid "PngImage29"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:525
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3596
+#. CE_Images..BookmarkImages......Name
+#: dCE_Images.dfm:6451
+msgid "PngImage3"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:654
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3708
+#. CE_Images..BookmarkImages......Name
+#: dCE_Images.dfm:6474
+msgid "PngImage4"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:770
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3813
+msgid "PngImage5"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:881
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3918
+msgid "PngImage6"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:1016
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4149
+msgid "PngImage7"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:1146
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4034
+msgid "PngImage8"
+msgstr ""
+
+#  Doesn't look like text
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:1270
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4260
+msgid "PngImage9"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3216
+#: dCE_Images.dfm:6087
+msgid "PngImage30"
+msgstr ""
+
+#. CEFileViewPage..QuickViewSplitter..Caption
+#: fCE_FileView.dfm:7
+msgid "QuickViewSplitter"
+msgstr ""
+
+#. CEFileSearchPage..SearchPanel..Caption
+#: fCE_FileSearch.dfm:7
+msgid "SearchPanel"
+msgstr ""
+
+#. CEActions..ActionList..act_edit_paste....SecondaryShortCuts.Strings
+#: dCE_Actions.dfm:169
+#. CEActions..ActionList..act_edit_paste_shortcut....SecondaryShortCuts.Strings
+#: dCE_Actions.dfm:353
+msgid "Shift+Ins"
+msgstr ""
+
+#. MainForm..TopToolDock..MainToolbar..toolsMenuItem..SpTBXItem46..Caption
+#: Main.dfm:361
+msgid "Solitaire (experiment)"
+msgstr ""
+
+#  Doesn't look like text
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..SpTBXDockablePanel1..Caption
+#: fCE_PoEditor.dfm:88
+msgid "SpTBXDockablePanel1"
+msgstr ""
+
+#  Doesn't look like text
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..Caption
+#: fCE_PoEditor.dfm:82
+msgid "SpTBXPanel1"
+msgstr ""
+
+#  Doesn't look like text
+#. CEPoEditor..TabControl..WordsSheet..TabItem
+#: fCE_PoEditor.dfm:78
+msgid "SpTBXTabItem1"
+msgstr ""
+
+#  Doesn't look like text
+#. CEPoEditor..TabControl..SettingsSheet..TabItem
+#: fCE_PoEditor.dfm:234
+msgid "SpTBXTabItem2"
+msgstr ""
+
+#  Doesn't look like text
+#. CEPoEditor..SpTBXDock1..SpTBXToolbar1..Caption
+#: fCE_PoEditor.dfm:17
+msgid "SpTBXToolbar1"
+msgstr ""
+
+#. CEFileSearchPage..StatusPanel..Caption
+#: fCE_FileSearch.dfm:143
+msgid "StatusPanel"
+msgstr ""
+
+#  Seems like a Font.Name extract
+#. CEAboutBox..Font.Name
+#: fCE_AboutBox.dfm:12
+#. CEAboutBox..Label2..Font.Name
+#: fCE_AboutBox.dfm:140
+#. CEAboutBox..Label3..Font.Name
+#: fCE_AboutBox.dfm:155
+#. BookmarkPropDlg..Font.Name
+#: fCE_BookmarkPropDlg.dfm:12
+#. BookmarkPropDlg..PageControl..GeneralSheet..TargetPanel..edit_target..EditButton.LinkFont.Name
+#: fCE_BookmarkPropDlg.dfm:87
+#. CEFileSearchPage..SearchPanel..label1..LinkFont.Name
+#: fCE_FileSearch.dfm:23
+#. CEFileSearchPage..SearchPanel..but_start..LinkFont.Name
+#: fCE_FileSearch.dfm:45
+#. CEFileSearchPage..SearchPanel..label2..LinkFont.Name
+#: fCE_FileSearch.dfm:58
+#. CEFileSearchPage..SearchPanel..but_pause..LinkFont.Name
+#: fCE_FileSearch.dfm:79
+#. CEFileSearchPage..SearchPanel..but_stop..LinkFont.Name
+#: fCE_FileSearch.dfm:94
+#. CEFileSearchPage..SearchPanel..label3..LinkFont.Name
+#: fCE_FileSearch.dfm:107
+#. CEFileSearchPage..SearchPanel..DestinationEdit..EditButton.LinkFont.Name
+#: fCE_FileSearch.dfm:134
+#. CEFileSearchPage..StatusPanel..StatusLabel..LinkFont.Name
+#: fCE_FileSearch.dfm:163
+#. CEDestDlg..Font.Name
+#: fCE_FileSearchDestDlg.dfm:11
+#. CEDestDlg..FolderTree..Header.Font.Name
+#: fCE_FileSearchDestDlg.dfm:41
+#. CE_FolderTreeForm..Font.Name
+#: fCE_FolderTreeForm.dfm:12
+#. CE_FolderTreeForm..FolderTree..Header.Font.Name
+#: fCE_FolderTreeForm.dfm:36
+#. CEPoEditor..TabControl..WordsSheet..Translation_panel..PoItemStrID_panel..PoItemStrID..Font.Name
+#: fCE_PoEditor.dfm:123
+#. CEPoEditor..TabControl..WordsSheet..PoList_panel..PoList..Header.Font.Name
+#: fCE_PoEditor.dfm:193
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXButton1..LinkFont.Name
+#: fCE_PoEditor.dfm:370
+#. CENewTranslationDlg..Font.Name
+#: fCE_PoEditor_NewForm.dfm:12
+#. CETextEditorPage..FindPanel..SpTBXLabel1..LinkFont.Name
+#: fCE_TextEditor.dfm:214
+#. CETextEditorPage..FindPanel..SpTBXLabel2..LinkFont.Name
+#: fCE_TextEditor.dfm:235
+#. CETextEditorPage..FindPanel..SpTBXButton1..LinkFont.Name
+#: fCE_TextEditor.dfm:313
+#. CETextEditorPage..FindPanel..SpTBXButton2..LinkFont.Name
+#: fCE_TextEditor.dfm:329
+#. CETextEditorPage..FindPanel..SpTBXButton3..LinkFont.Name
+#: fCE_TextEditor.dfm:345
+#. CETextEditor..FindPanel..SpTBXLabel1..LinkFont.Name
+#: fCE_TextEditor_1.dfm:218
+#. CETextEditor..FindPanel..SpTBXLabel2..LinkFont.Name
+#: fCE_TextEditor_1.dfm:239
+#. CETextEditor..FindPanel..SpTBXButton1..LinkFont.Name
+#: fCE_TextEditor_1.dfm:318
+#. CETextEditor..FindPanel..SpTBXButton3..LinkFont.Name
+#: fCE_TextEditor_1.dfm:335
+#. CETextEditor..FindPanel..SpTBXButton5..LinkFont.Name
+#: fCE_TextEditor_1.dfm:352
+#. CEToolbarCustomizer..Font.Name
+#: fCE_ToolbarCustomizer.dfm:12
+#. CEToolbarCustomizer..ActionTree..Header.Font.Name
+#: fCE_ToolbarCustomizer.dfm:42
+#. MainForm..Font.Name
+#: Main.dfm:12
+msgid "Tahoma"
+msgstr ""
+
+#  Doesn't look like text
+#. CEPoEditor..SpTBXDock1..SpTBXToolbar1..SpTBXItem4..Caption
+#: fCE_PoEditor.dfm:46
+#. MainForm..TopToolDock..MainToolbar..test_act1..Caption
+#: Main.dfm:411
+msgid "Test1"
+msgstr ""
+
+#. CE_FiltersPanel..Images......Bitmap.ResamplerClassName
+#: fCE_FiltersPanel.dfm:14
+msgid "TNearestResampler"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3288
+#: dCE_Images.dfm:6362
+msgid "PngImage31"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3401
+#: dCE_Images.dfm:6465
+msgid "PngImage32"
+msgstr ""

@@ -1,0 +1,709 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.90 RC1\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"CE-POT-Version: 1079\n"
+"CE-Language: Chinese (Simplified)\n"
+"Last-Translator: Gniob <runningwaterpro@gmail.com>\n"
+
+msgid "About CubicExplorer"
+msgstr "关于 CubicExplorer"
+
+msgid "About..."
+msgstr "关于..."
+
+msgid "Actions"
+msgstr "动作"
+
+msgid "Add Bookmark"
+msgstr "添加书签"
+
+msgid "Add Category"
+msgstr "添加类别"
+
+msgid "Add Tab"
+msgstr "添加选项卡"
+
+msgid "Address Bar"
+msgstr "地址栏"
+
+msgid "Always On Top"
+msgstr "总在最上"
+
+msgid "Always Show Sort Columns"
+msgstr "总是显示排序栏"
+
+msgid "And Launch Files"
+msgstr "同时打开文件"
+
+msgid "Application Revision:"
+msgstr "程序更新:"
+
+msgid "Apply"
+msgstr "应用"
+
+msgid "Apply changes."
+msgstr "应用更新"
+
+msgid "Arrange By"
+msgstr "排列按"
+
+msgid "Attributes"
+msgstr "属性"
+
+msgid "Auto"
+msgstr "自动"
+
+msgid "Auto Collapse Trees"
+msgstr "自动收缩目录树"
+
+msgid "Auto Expand Trees"
+msgstr "自动展开目录树"
+
+msgid "Auto collapse tree"
+msgstr "自动收缩子目录"
+
+msgid "Auto expand tree"
+msgstr "自动展开子目录"
+
+msgid "Automatic"
+msgstr "自动"
+
+msgid "Back"
+msgstr "后退"
+
+msgid "Backward"
+msgstr "后退"
+
+msgid "Bookmarks"
+msgstr "书签"
+
+msgid "Bookmarks Panel Settings"
+msgstr "将版面设定加入书签"
+
+msgid "Bottom"
+msgstr "底端"
+
+msgid "Breadcrumb Navigation"
+msgstr "路径导航"
+
+msgid "Browse..."
+msgstr "浏览..."
+
+msgid "Bytes"
+msgstr "字节"
+
+msgid "Cancel"
+msgstr "取消"
+
+msgid "Case sensitivity"
+msgstr "区分大小写"
+
+msgid "Clear List"
+msgstr "清空列表"
+
+msgid "Close"
+msgstr "关闭"
+
+msgid "Close Tab"
+msgstr "关闭选项卡"
+
+msgid "Copy"
+msgstr "复制"
+
+msgid "Copy Path"
+msgstr "复制路径"
+
+msgid "Copy of active tab"
+msgstr "复制当前选项卡"
+
+msgid "Create"
+msgstr "创建"
+
+msgid "Create New Translation"
+msgstr "创建新翻译"
+
+msgid "Create new translation."
+msgstr "创建新翻译"
+
+msgid "CubicExplore Home Page"
+msgstr "CubicExplorer 首页"
+
+msgid "CubicExplorer Options"
+msgstr "CubicExplorer 选项"
+
+msgid "Custom..."
+msgstr "自定义..."
+
+msgid "Customize"
+msgstr "自定义"
+
+msgid "Customizer..."
+msgstr "自定义..."
+
+msgid "Cut"
+msgstr "剪切"
+
+msgid "Date Accessed"
+msgstr "上次访问"
+
+msgid "Date Created"
+msgstr "创建日期"
+
+msgid "Date Modified"
+msgstr "修改日期"
+
+msgid "Default"
+msgstr "默认"
+
+msgid "Delete"
+msgstr "删除"
+
+msgid "Delete active session."
+msgstr "删除当前工作区"
+
+msgid "Desktop"
+msgstr "桌面"
+
+msgid "Details"
+msgstr "详细"
+
+msgid "Direction"
+msgstr "方向"
+
+msgid "Disconnect Network Drive..."
+msgstr "断开网络驱动器..."
+
+msgid "Display"
+msgstr "显示"
+
+msgid "Display Settings"
+msgstr "显示设定"
+
+msgid "Drives"
+msgstr "驱动器"
+
+msgid "Drop Stack"
+msgstr "临时容器"
+
+msgid "Dublicate Tab"
+msgstr "复制选项卡"
+
+msgid "Duplicate"
+msgstr "复制"
+
+msgid "Duplicate Tab"
+msgstr "复制选项卡"
+
+msgid "Edit"
+msgstr "编辑"
+
+msgid "Edit Session"
+msgstr "编辑工作区"
+
+msgid "Edit session properties."
+msgstr "编辑工作区属性"
+
+msgid "Editor Options..."
+msgstr "编辑器选项..."
+
+msgid "Empty Recycle Bin"
+msgstr "清空回收站"
+
+msgid "English (default)"
+msgstr "英语(默认)"
+
+msgid "Exit"
+msgstr "退出"
+
+msgid "File"
+msgstr "文件"
+
+msgid "File Search"
+msgstr "文件查找"
+
+msgid "Fileview"
+msgstr "文件视图"
+
+msgid "Fileview Settings"
+msgstr "文件视图设置"
+
+msgid "Filmstrip"
+msgstr "幻灯片"
+
+msgid "Filters"
+msgstr "过滤"
+
+msgid "Find Next"
+msgstr "查找下一个"
+
+msgid "Find Previous"
+msgstr "查找上一个"
+
+msgid "Folder Path"
+msgstr "文件夹路径"
+
+msgid "Folder Up"
+msgstr "向上"
+
+msgid "Folders"
+msgstr "文件夹"
+
+msgid "Folders Panel Settings"
+msgstr "文件夹设定"
+
+msgid "Format"
+msgstr "格式"
+
+msgid "Forward"
+msgstr "前进"
+
+msgid "Fullscreen"
+msgstr "全屏"
+
+msgid "General"
+msgstr "常用"
+
+msgid "General Settings"
+msgstr "基本设置"
+
+msgid "Group By"
+msgstr "分组"
+
+msgid "Help"
+msgstr "帮助"
+
+msgid "Hex"
+msgstr ""
+
+msgid "Highlight row completely"
+msgstr "高亮当前行"
+
+msgid "Highlighter"
+msgstr "高亮"
+
+msgid "Image"
+msgstr "图片"
+
+msgid "Insert"
+msgstr "插入"
+
+msgid "Invert Selection"
+msgstr "反选"
+
+msgid "KB"
+msgstr ""
+
+msgid "Language"
+msgstr "语言"
+
+msgid "Language Editor"
+msgstr "语言编辑器"
+
+msgid "Large Icons"
+msgstr "大图标"
+
+msgid "Launch Files Only"
+msgstr "只打开文件"
+
+msgid "Layouts"
+msgstr "布局"
+
+msgid "Left"
+msgstr "左"
+
+msgid "List"
+msgstr "列表"
+
+msgid "Load Skin..."
+msgstr "加载皮肤..."
+
+msgid "Load skin from file"
+msgstr "从文件中加载皮肤"
+
+msgid "Load this session on startup."
+msgstr "启动时载入此工作区"
+
+msgid "Loading..."
+msgstr "正在加载..."
+
+msgid "MB"
+msgstr ""
+
+msgid "Map Network Drive..."
+msgstr "映射网络驱动器..."
+
+msgid "Modified"
+msgstr "已修改"
+
+msgid "More..."
+msgstr "更多..."
+
+msgid "Name"
+msgstr "名称"
+
+msgid "Name Only"
+msgstr "只显示名称"
+
+msgid "Navigation"
+msgstr "导航"
+
+msgid "New"
+msgstr "新建"
+
+msgid "New Folder"
+msgstr "新建文件夹"
+
+msgid "New Session"
+msgstr "新工作区"
+
+msgid "No Extension"
+msgstr "不显示扩展名"
+
+msgid "No file loaded."
+msgstr "文件未加载"
+
+msgid "None"
+msgstr "无"
+
+msgid "OK"
+msgstr "确定"
+
+msgid "Open All in Tabs"
+msgstr "分别在选项卡中打开"
+
+msgid "Open Command Prompt"
+msgstr "打卡命令行窗口"
+
+msgid "Open in new tab by default"
+msgstr "在新选项卡中打开默认文件夹"
+
+msgid "Open new tab as"
+msgstr "以新选项卡打开"
+
+msgid "Open..."
+msgstr "打开..."
+
+msgid "Options"
+msgstr "选项"
+
+msgid "Options..."
+msgstr "选项..."
+
+msgid "Original"
+msgstr "原始"
+
+msgid "Override"
+msgstr "覆盖"
+
+msgid "Panels"
+msgstr "面板"
+
+msgid "Paste"
+msgstr "粘贴"
+
+msgid "Paste Shortcut"
+msgstr "粘贴路径"
+
+msgid "Path"
+msgstr "路径"
+
+msgid "Pause"
+msgstr "暂停"
+
+msgid "Properties"
+msgstr "属性"
+
+msgid "Properties..."
+msgstr "属性..."
+
+msgid "Publish Translation"
+msgstr "发布翻译"
+
+msgid "Quick Options"
+msgstr "快速选项"
+
+msgid "Quickview"
+msgstr "快速查看"
+
+msgid "Redo"
+msgstr "重做"
+
+msgid "Refresh"
+msgstr "刷新"
+
+msgid "Regular expression"
+msgstr "正则表达式"
+
+msgid "Relative"
+msgstr "关系"
+
+msgid "Reload"
+msgstr "重新加载"
+
+msgid "Remember Tabs"
+msgstr "记住选项卡列表"
+
+msgid "Rename"
+msgstr "重命名"
+
+msgid "Replace"
+msgstr "替换"
+
+msgid "Replace All"
+msgstr "全部替换"
+
+msgid "Reuse already open tabs"
+msgstr "重复使用已打开选项卡"
+
+msgid "Right"
+msgstr "右"
+
+msgid "Save"
+msgstr "保存"
+
+msgid "Save As..."
+msgstr "另存为... "
+
+msgid "Save active session with new name."
+msgstr "使用新名保存当前工作区"
+
+msgid "Save active session."
+msgstr "保存当前工作区"
+
+msgid "Save changes before closing?"
+msgstr "关闭前是否保存?"
+
+msgid "Save changes."
+msgstr "保存修改"
+
+msgid "Save changes?"
+msgstr "保存修改吗?"
+
+msgid "Save settings automatically."
+msgstr "自动保存设置"
+
+msgid "Save/Load Settings"
+msgstr "保存/载入设置"
+
+msgid "Scroll Left"
+msgstr "左滚动"
+
+msgid "Scroll Right"
+msgstr "右滚动"
+
+msgid "Search"
+msgstr "查找"
+
+msgid "Search File Mask"
+msgstr "查找文件模板"
+
+msgid "Search Word or Phrase in File Name"
+msgstr "从文件中查找关键字"
+
+msgid "Search and Replace"
+msgstr "查找与替换"
+
+msgid "Search from cursor"
+msgstr "从光标处开始查找"
+
+msgid "Search in Directory"
+msgstr "从文件夹中查找"
+
+msgid "Select All"
+msgstr "全选"
+
+msgid "Select default folder for new tabs."
+msgstr "新选项卡打开时的默认文件夹"
+
+msgid "Select previous folder"
+msgstr "选择上一个文件夹"
+
+msgid "Selected"
+msgstr "已选择"
+
+msgid "Selected text only"
+msgstr "只选择文本"
+
+msgid "Separator"
+msgstr "分隔符"
+
+msgid "Session Name"
+msgstr "工作区名称"
+
+msgid "Sessions"
+msgstr "工作区"
+
+msgid "Short Folder Path"
+msgstr "文件夹短路径"
+
+msgid "Short Name Only"
+msgstr "只显示短名称"
+
+msgid "Short Path"
+msgstr "短路径"
+
+msgid "Show All Files"
+msgstr "显示所有文件"
+
+msgid "Show Extensions"
+msgstr "显示扩展名"
+
+msgid "Show Folders"
+msgstr "实施文件夹"
+
+msgid "Show Hidden Files"
+msgstr "显示隐藏文件夹"
+
+msgid "Show Hints"
+msgstr "显示提示"
+
+msgid "Show Path in Title bar"
+msgstr "在标题栏中显示路径"
+
+msgid "Show Statusbar"
+msgstr "显示任务栏"
+
+msgid "Show Toolbar"
+msgstr "显示工具栏"
+
+msgid "Show in Groups"
+msgstr "以分组显示"
+
+msgid "Single Instance Only"
+msgstr "禁止重复运行"
+
+msgid "Single click mode"
+msgstr "单击模式"
+
+msgid "Size"
+msgstr "大小"
+
+msgid "Small Icons"
+msgstr "小图标"
+
+msgid "Smooth Scroll"
+msgstr "平滑滚动"
+
+msgid "Stack"
+msgstr "栈"
+
+msgid "Start"
+msgstr "开始"
+
+msgid "Status Bar"
+msgstr "任务栏"
+
+msgid "Stop"
+msgstr "停止"
+
+msgid "Subdirectories"
+msgstr "子目录"
+
+msgid "Support Forum"
+msgstr "论坛支持"
+
+msgid "Switch to a new tab immediately"
+msgstr "立即切换到新选项卡"
+
+msgid "Tabs"
+msgstr "选项卡"
+
+msgid "Tabs Settings"
+msgstr "选项卡设置"
+
+msgid "Target"
+msgstr "目标"
+
+msgid "Text"
+msgstr "文本"
+
+msgid "Text Editor"
+msgstr "文本编辑器"
+
+msgid "Theme"
+msgstr "主题"
+
+msgid "Thumbnails"
+msgstr "缩略图"
+
+msgid "Thumbs Position"
+msgstr "缩略图位置"
+
+msgid "Thumbs View Style"
+msgstr "缩略图风格"
+
+msgid "Tiles"
+msgstr "标题"
+
+msgid "Toolbars"
+msgstr "工具栏"
+
+msgid "Tools"
+msgstr "工具"
+
+msgid "Top"
+msgstr "顶端"
+
+msgid "Total Size"
+msgstr "总大小"
+
+msgid "Translate CubicExplorer"
+msgstr "翻译 CubicExplorer"
+
+msgid "Translation"
+msgstr "翻译"
+
+msgid "Translation Revision:"
+msgstr "翻译更新:"
+
+msgid "Translation Version"
+msgstr "翻译版本"
+
+msgid "Translator's Email"
+msgstr "译者 Email"
+
+msgid "Translator's Name"
+msgstr "译者姓名"
+
+msgid "Transparency"
+msgstr "透明度"
+
+msgid "Type"
+msgstr "类型"
+
+msgid "Undo"
+msgstr "取消"
+
+msgid "Untitled"
+msgstr "未命名"
+
+msgid "Version:"
+msgstr "版本:"
+
+msgid "View"
+msgstr "视图"
+
+msgid "View Style"
+msgstr "视图风格"
+
+msgid "When I open folder/file in a new tab, switch to it immediately "
+msgstr "当在新选项卡中打开文件/文件夹时"
+
+msgid "Whole words only"
+msgstr "只是整个词"
+
+msgid "Word List"
+msgstr "关键词类表"
+
+msgid "Word Wrap"
+msgstr "自动换行"
+
+msgid "前进"
+msgstr "前一個"
+
+msgid "显示过滤背景"
+msgstr "顯示過濾中背景"
+
