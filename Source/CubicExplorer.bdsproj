@@ -124,7 +124,7 @@
 			<Directories Name="PackageDLLOutputDir"></Directories>
 			<Directories Name="PackageDCPOutputDir">..\dcu</Directories>
 			<Directories Name="SearchPath"></Directories>
-			<Directories Name="Packages">rtl;vcl;vclx;dbrtl;vcldb;GR32_DSGN_BDS2006;GR32_BDS2006;tb2k_d10;tbx_d10;OverbyteIcsDel100Package;Png10;VirtualTreesD10;IndyCore100;IndySystem100;IndyProtocols100;S404_r100;S404br100;MPHexEditor_D7;mbTBXLibD9D;SortGridD10;madBasic_;madDisAsm_;madExcept_;PerlRegExD2006;KHexEditor_R7;SynEdit_R2006;SynWeb_R2006;ATBinHexD2006;Jcl;JclVcl;JvCoreD10R;JvSystemD10R;JvStdCtrlsD10R;JvAppFrmD10R;JvBandsD10R;bdertl;JvDBD10R;JvDlgsD10R;JvBDED10R;JvCmpD10R;JvCryptD10R;JvCtrlsD10R;JvCustomD10R;JvDockingD10R;JvDotNetCtrlsD10R;JvEDID10R;JvGlobusD10R;JvHMID10R;JvInterpreterD10R;JvJansD10R;JvManagedThreadsD10R;JvMMD10R;JvNetD10R;JvPageCompsD10R;JvPluginD10R;JvPrintPreviewD10R;JvRuntimeDesignD10R;JvTimeFrameworkD10R;JvUIBD10R;JvValidatorsD10R;JvWizardD10R;JvXPCtrlsD10R;mbTBXJvLibD10D;delphi10;vclactnband;vclie;VclSmp;xmlrtl;inet;inetdbbde;inetdbxpress;TUOScript100</Directories>
+			<Directories Name="Packages">rtl;vcl;vclx;dbrtl;vcldb;tb2k_d10;tbx_d10;OverbyteIcsDel100Package;Png10;VirtualTreesD10;S404_r100;S404br100;MPHexEditor_D7;mbTBXLibD9D;SortGridD10;madBasic_;madDisAsm_;madExcept_;PerlRegExD2006;KHexEditor_R7;SynEdit_R2006;SynWeb_R2006;ATBinHexD2006;Jcl;bdertl;JvUIBD10R;mbTBXJvLibD10D;delphi10;vclactnband;vclie;VclSmp;xmlrtl;inet;inetdbbde;inetdbxpress;TUOScript100;GR32_BDS2006;GR32_DSGN_BDS2006</Directories>
 			<Directories Name="Conditionals">madExcept</Directories>
 			<Directories Name="DebugSourceDirs"></Directories>
 			<Directories Name="UsePackages">False</Directories>
@@ -150,7 +150,7 @@
 			<VersionInfo Name="MajorVer">0</VersionInfo>
 			<VersionInfo Name="MinorVer">90</VersionInfo>
 			<VersionInfo Name="Release">0</VersionInfo>
-			<VersionInfo Name="Build">1085</VersionInfo>
+			<VersionInfo Name="Build">1087</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">True</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
@@ -162,7 +162,7 @@
 		<VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName">Cubic Reality Software</VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription">File Manager</VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">0.90.0.1085</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">0.90.0.1087</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName"></VersionInfoKeys>
 			<VersionInfoKeys Name="LegalCopyright">Marko Savolainen 2006-2008</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
@@ -170,15 +170,58 @@
 			<VersionInfoKeys Name="ProductName">CubicExplorer</VersionInfoKeys>
 			<VersionInfoKeys Name="ProductVersion">0.90 RC 3</VersionInfoKeys>
 			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
-		</VersionInfoKeys>  <Excluded_Packages>
+		</VersionInfoKeys>  
+    <Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\dclIndyCore100.bpl">Indy 10 Core Design Time</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvCoreD10D.bpl">JVCL Core Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvDBD10D.bpl">JVCL Database Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\DCDSPComponents_D10.bpl">DC-DSP Components v1.0</Excluded_Packages>
+      <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dclofficexp100.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+      <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dclie100.bpl">Internet Explorer Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\dclIndyProtocols100.bpl">Indy 10 Protocols Design Time</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JclDebugExpert100.bpl">JCL Debug IDE extension</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JclSIMDViewExpert100.bpl">JCL Debug Window of XMM registers</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvAppFrmD10D.bpl">JVCL Application and Form Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvBandsD10D.bpl">JVCL Band Objects</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvBDED10D.bpl">JVCL BDE Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvCmpD10D.bpl">JVCL Non-Visual Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvCryptD10D.bpl">JVCL Encryption and Compression</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvCtrlsD10D.bpl">JVCL Visual Controls</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvCustomD10D.bpl">JVCL Custom Controls</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvDlgsD10D.bpl">JVCL Dialog Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvDockingD10D.bpl">JVCL Docking Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvDotNetCtrlsD10D.bpl">JVCL DotNet Controls</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvEDID10D.bpl">JVCL EDI Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvGlobusD10D.bpl">JVCL Globus Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvHMID10D.bpl">JVCL HMI Controls</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvInterpreterD10D.bpl">JVCL Interpreter Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvJansD10D.bpl">JVCL Jans Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvManagedThreadsD10D.bpl">JVCL Managed Threads</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvMMD10D.bpl">JVCL Multimedia and Image Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvNetD10D.bpl">JVCL Network Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvPageCompsD10D.bpl">JVCL Page Style Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvPluginD10D.bpl">JVCL Plugin Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvPrintPreviewD10D.bpl">JVCL Print Preview Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvRuntimeDesignD10D.bpl">JVCL Runtime Design Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvStdCtrlsD10D.bpl">JVCL Standard Controls</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvSystemD10D.bpl">JVCL System Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvTimeFrameworkD10D.bpl">JVCL Time Framework</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvValidatorsD10D.bpl">JVCL Validators and Error Provider Components</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvWizardD10D.bpl">JVCL Wizard</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvXPCtrlsD10D.bpl">JVCL XP Controls</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\MiscComponents.bpl">(untitled)</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\DSPackDesign_D10.bpl">DSPack 2.3: Multimedia Package for Delphi</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\DSPackDCDSPFilter_D10.bpl">DSPack DCDSP-Filter v1.0</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\DScitD10.bpl">Delphi Scintilla Interface Components Designtime</Excluded_Packages>
+      <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dclIntraweb_80_100.bpl">Intraweb 8.0 Design Package for Borland Development Studio 2006</Excluded_Packages>
+      <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dcltee100.bpl">TeeChart Components</Excluded_Packages>
+      <Excluded_Packages Name="C:\Program Files\madCollection\madBasic\DeXter\madHelp_.bpl">madHelp 1.1a  -  www.madshi.net</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\OverbyteIcsSslDel100Package.bpl">Overbyte ICS-SSL for Delphi 2006</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dclsmpedit100.bpl">Borland Editor Script Enhancements</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dclmlwiz100.bpl">Borland Markup Language Wizards</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\applet100.bpl">Borland Control Panel Applet Package</Excluded_Packages>
-      <Excluded_Packages Name="C:\Documents and Settings\Marko\My Documents\Borland Studio Projects\Bpl\MPCommonLibD10D.bpl">Mustangpeak Common Library RunTime Package</Excluded_Packages>
-      <Excluded_Packages Name="C:\Documents and Settings\Marko\My Documents\Borland Studio Projects\Bpl\EasyListviewD10D.bpl">MustangPeak EasyListview Designtime Package</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dcl31w100.bpl">Delphi 1.0 Compatibility Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dclemacsedit100.bpl">Borland Editor Emacs Enhancements</Excluded_Packages>
-      <Excluded_Packages Name="C:\Documents and Settings\Marko\My Documents\Borland Studio Projects\Bpl\tbxdsgn_d10.bpl">File C:\Documents and Settings\Marko\My Documents\Borland Studio Projects\Bpl\tbxdsgn_d10.bpl not found</Excluded_Packages>
     </Excluded_Packages>
   </Delphi.Personality>
 	<StarTeamAssociation></StarTeamAssociation>
