@@ -1,0 +1,32 @@
+- Delphi versions:
+
+* Delphi 7       (not tested)
+* Delphi 8       (not tested)
+* Delphi 2005    (not tested)
+* Delphi 2006    (working)
+* Delphi 2007    (not tested)
+* Delphi 2009    (not tested)
+
+
+- Packages needed:
+
+=== CubicExplorer repository (svn/trunk/Components) ===
+
+* CEAction - http://cubicexplorer.googlecode.com/files/CEAction.zip
+* PNG Components - http://cubicexplorer.googlecode.com/files/PngComponents.zip
+* Tnt Controls - http://cubicexplorer.googlecode.com/files/TNTControls.zip
+* fcl-xml - http://cubicexplorer.googlecode.com/files/fcl-xml.zip
+
+=== External download ===
+
+* Virtual Treeview - http://www.soft-gems.net
+* Mustangpeak Common Library - http://www.mustangpeak.net
+* EasyListview - http://www.mustangpeak.net
+* VirtualShellTools - http://www.mustangpeak.net
+* Toolbar2000 - http://www.jrsoftware.org/tb2k.php
+* SpTBXLib - http://www.silverpointdevelopment.com/sptbxlib/
+* Unicode SynEdit - http://mh-nexus.de/en/unisynedit.php
+* GraphicEx - http://www.soft-gems.net
+* Graphic32 - http://graphics32.org
+* JVCL - http://homepages.codegear.com/jedi/jvcl/
+
