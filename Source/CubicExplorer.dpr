@@ -4,10 +4,6 @@ program CubicExplorer;
 
 
 uses
-  madExcept,
-  madLinkDisAsm,
-  //madExcept,
-  //madLinkDisAsm,
   Forms,
   Controls,
   Messages,
@@ -86,7 +82,10 @@ uses
   fCE_OptionsPage_Display_FileView in 'fCE_OptionsPage_Display_FileView.pas' {CE_OptionsPage_Display_FileView: TFrame},
   fCE_StackPanel in 'fCE_StackPanel.pas' {CEStackPanel},
   CE_DropStack in 'CE_DropStack.pas',
-  CE_SpTabBar in 'CE_SpTabBar.pas';
+  CE_SpTabBar in 'CE_SpTabBar.pas',
+  JvDockVSNetStyle in 'Components\jvcl\JvDockVSNetStyle.pas',
+  JvDockControlForm in 'Components\jvcl\JvDockControlForm.pas',
+  JvDockTree in 'Components\jvcl\JvDockTree.pas';
 
 {$R *.res}
 {$R 'CE_Resources.res'}
