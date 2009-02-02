@@ -4,6 +4,8 @@ program CubicExplorer;
 
 
 uses
+  madExcept,
+  madLinkDisAsm,
   Forms,
   Controls,
   Messages,
@@ -135,8 +137,11 @@ begin
 
   // Create Main Form
   Application.CreateForm(TMainForm, MainForm);
-  Application.CreateForm(TCEStackPanel, CEStackPanel);
   MainForm.BeginUIUpdate;
+
+  // Create Stack Panel
+  Application.CreateForm(TCEStackPanel, CEStackPanel);
+
   // Create Folder Panel
   CEFolderPanel:= TCEFolderPanel.Create(MainForm);
   CEFolderPanel.Name:= 'FolderPanel';

@@ -111,7 +111,7 @@
 			<Linker Name="GenerateHpps">False</Linker>
 			<Linker Name="ConsoleApp">1</Linker>
 			<Linker Name="DebugInfo">False</Linker>
-			<Linker Name="RemoteSymbols">True</Linker>
+			<Linker Name="RemoteSymbols">False</Linker>
 			<Linker Name="GenerateDRC">False</Linker>
 			<Linker Name="MinStackSize">16384</Linker>
 			<Linker Name="MaxStackSize">1048576</Linker>
@@ -125,7 +125,7 @@
 			<Directories Name="PackageDCPOutputDir">..\dcu</Directories>
 			<Directories Name="SearchPath">Components\fcl-xml;Components\jvcl;Components\DirectX</Directories>
 			<Directories Name="Packages">rtl;vcl;vclx;dbrtl;vcldb;tb2k_d10;tbx_d10;OverbyteIcsDel100Package;Png10;VirtualTreesD10;S404_r100;S404br100;MPHexEditor_D7;mbTBXLibD9D;SortGridD10;madBasic_;madDisAsm_;madExcept_;PerlRegExD2006;KHexEditor_R7;SynEdit_R2006;SynWeb_R2006;ATBinHexD2006;Jcl;bdertl;JvUIBD10R;mbTBXJvLibD10D;delphi10;vclactnband;vclie;VclSmp;xmlrtl;inet;inetdbbde;inetdbxpress;TUOScript100;GR32_BDS2006;GR32_DSGN_BDS2006;JclVcl;JvCoreD10R;JvSystemD10R;JvStdCtrlsD10R;JvAppFrmD10R;JvBandsD10R;JvDBD10R;JvDlgsD10R;JvBDED10R;JvCustomD10R;JvDotNetCtrlsD10R;JvEDID10R;JvCryptD10R;JvGlobusD10R;JvHMID10R;JvInterpreterD10R;JvJansD10R;JvManagedThreadsD10R;JvCtrlsD10R;JvCmpD10R;JvMMD10R;JvNetD10R;JvPageCompsD10R;JvPluginD10R;JvPrintPreviewD10R;JvRuntimeDesignD10R;JvTimeFrameworkD10R;JvValidatorsD10R;JvWizardD10R;JvXPCtrlsD10R;OverbyteIcsSslDel100Package</Directories>
-			<Directories Name="Conditionals"></Directories>
+			<Directories Name="Conditionals">madExcept</Directories>
 			<Directories Name="DebugSourceDirs"></Directories>
 			<Directories Name="UsePackages">False</Directories>
 		</Directories>
@@ -150,7 +150,7 @@
 			<VersionInfo Name="MajorVer">0</VersionInfo>
 			<VersionInfo Name="MinorVer">90</VersionInfo>
 			<VersionInfo Name="Release">0</VersionInfo>
-			<VersionInfo Name="Build">1091</VersionInfo>
+			<VersionInfo Name="Build">1094</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">True</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
@@ -162,7 +162,7 @@
 		<VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName">Cubic Reality Software</VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription">File Manager</VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">0.90.0.1091</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">0.90.0.1094</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName"></VersionInfoKeys>
 			<VersionInfoKeys Name="LegalCopyright">Marko Savolainen 2006-2008</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
@@ -171,23 +171,24 @@
 			<VersionInfoKeys Name="ProductVersion">0.90 RC 3</VersionInfoKeys>
 			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
 		</VersionInfoKeys>  
-    
-    
     <Excluded_Packages>
-      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\JvDockingD10D.bpl">JVCL Docking Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dclofficexp100.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dclie100.bpl">Internet Explorer Components</Excluded_Packages>
-      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\dclIndyProtocols100.bpl">Indy 10 Protocols Design Time</Excluded_Packages>
-      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\MiscComponents.bpl">(untitled)</Excluded_Packages>
-      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\DSPackDesign_D10.bpl">DSPack 2.3: Multimedia Package for Delphi</Excluded_Packages>
-      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\DSPackDCDSPFilter_D10.bpl">DSPack DCDSP-Filter v1.0</Excluded_Packages>
-      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\DScitD10.bpl">Delphi Scintilla Interface Components Designtime</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dclIntraweb_80_100.bpl">Intraweb 8.0 Design Package for Borland Development Studio 2006</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dcltee100.bpl">TeeChart Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dclsmpedit100.bpl">Borland Editor Script Enhancements</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dclmlwiz100.bpl">Borland Markup Language Wizards</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dcl31w100.bpl">Delphi 1.0 Compatibility Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dclemacsedit100.bpl">Borland Editor Emacs Enhancements</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\dclIndyCore100.bpl">File D:\Delphi 3rd Party Components\BPL\dclIndyCore100.bpl not found</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\Png10.bpl">File D:\Delphi 3rd Party Components\BPL\Png10.bpl not found</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\DCDSPComponents_D10.bpl">File D:\Delphi 3rd Party Components\BPL\DCDSPComponents_D10.bpl not found</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\OverbyteIcsSslDel100Package.bpl">File D:\Delphi 3rd Party Components\BPL\OverbyteIcsSslDel100Package.bpl not found</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\dclIndyProtocols100.bpl">File D:\Delphi 3rd Party Components\BPL\dclIndyProtocols100.bpl not found</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\MiscComponents.bpl">File D:\Delphi 3rd Party Components\BPL\MiscComponents.bpl not found</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\DSPackDesign_D10.bpl">File D:\Delphi 3rd Party Components\BPL\DSPackDesign_D10.bpl not found</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\DSPackDCDSPFilter_D10.bpl">File D:\Delphi 3rd Party Components\BPL\DSPackDCDSPFilter_D10.bpl not found</Excluded_Packages>
+      <Excluded_Packages Name="D:\Delphi 3rd Party Components\BPL\DScitD10.bpl">File D:\Delphi 3rd Party Components\BPL\DScitD10.bpl not found</Excluded_Packages>
     </Excluded_Packages>
   </Delphi.Personality>
 	<StarTeamAssociation></StarTeamAssociation>

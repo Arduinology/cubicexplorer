@@ -139,12 +139,12 @@ inherited CETextEditorPage: TCETextEditorPage
     Gutter.Font.Name = 'Courier New'
     Gutter.Font.Style = []
     Gutter.Visible = False
+    Gutter.Width = 0
     Options = [eoAltSetsColumnMode, eoAutoIndent, eoAutoSizeMaxScrollWidth, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
     RightEdgeColor = clWindow
     WantTabs = True
     OnReplaceText = EditorReplaceText
     OnStatusChange = EditorStatusChange
-    ExplicitTop = 29
   end
   object StatusBar: TSpTBXStatusBar
     Left = 0
@@ -187,11 +187,6 @@ inherited CETextEditorPage: TCETextEditorPage
       Width = 39
       Height = 19
       Caption = 'Search'
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
     end
     object SearchMemo: TTntMemo
       Left = 8
@@ -208,11 +203,6 @@ inherited CETextEditorPage: TCETextEditorPage
       Width = 44
       Height = 19
       Caption = 'Replace'
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
     end
     object ReplaceMemo: TTntMemo
       Left = 8
@@ -284,11 +274,6 @@ inherited CETextEditorPage: TCETextEditorPage
       TabOrder = 5
       OnClick = SpTBXButton1Click
       Default = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
     end
     object SpTBXButton2: TSpTBXButton
       Left = 559
@@ -299,11 +284,6 @@ inherited CETextEditorPage: TCETextEditorPage
       Anchors = [akTop, akRight]
       TabOrder = 6
       OnClick = SpTBXButton2Click
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
     end
     object SpTBXButton3: TSpTBXButton
       Left = 559
@@ -314,11 +294,6 @@ inherited CETextEditorPage: TCETextEditorPage
       Anchors = [akTop, akRight]
       TabOrder = 7
       OnClick = SpTBXButton3Click
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
     end
     object opt_radio: TSpTBXRadioGroup
       Left = 559

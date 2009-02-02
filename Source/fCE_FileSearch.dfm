@@ -1,25 +1,25 @@
 inherited CEFileSearchPage: TCEFileSearchPage
+  Width = 586
+  Height = 423
+  ExplicitWidth = 586
+  ExplicitHeight = 423
   object SearchPanel: TSpTBXPanel
     Left = 0
     Top = 0
-    Width = 587
+    Width = 586
     Height = 133
     Caption = 'SearchPanel'
     Align = alTop
     TabOrder = 0
     Borders = False
     TBXStyleBackground = True
+    ExplicitWidth = 587
     object label1: TSpTBXLabel
       Left = 8
       Top = 8
       Width = 85
       Height = 19
       Caption = 'Search File Mask'
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
     end
     object edit_dosmask: TSpTBXEdit
       Left = 8
@@ -37,11 +37,6 @@ inherited CEFileSearchPage: TCEFileSearchPage
       TabOrder = 5
       OnClick = but_startClick
       Default = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
     end
     object label2: TSpTBXLabel
       Left = 163
@@ -49,11 +44,6 @@ inherited CEFileSearchPage: TCEFileSearchPage
       Width = 177
       Height = 19
       Caption = 'Search Word or Phrase in File Name'
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
     end
     object edit_wordphrase: TSpTBXEdit
       Left = 163
@@ -70,11 +60,6 @@ inherited CEFileSearchPage: TCEFileSearchPage
       Caption = 'Pause'
       TabOrder = 6
       OnClick = but_pauseClick
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
     end
     object but_stop: TSpTBXButton
       Left = 256
@@ -84,11 +69,6 @@ inherited CEFileSearchPage: TCEFileSearchPage
       Caption = 'Stop'
       TabOrder = 7
       OnClick = but_stopClick
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
     end
     object label3: TSpTBXLabel
       Left = 8
@@ -96,11 +76,6 @@ inherited CEFileSearchPage: TCEFileSearchPage
       Width = 97
       Height = 19
       Caption = 'Search in Directory'
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
     end
     object check_subdir: TSpTBXCheckBox
       Left = 8
@@ -123,38 +98,31 @@ inherited CEFileSearchPage: TCEFileSearchPage
       EditButton.Height = 17
       EditButton.Align = alRight
       EditButton.DropDownMenu = FolderTreePopup
-      EditButton.LinkFont.Charset = DEFAULT_CHARSET
-      EditButton.LinkFont.Color = clBlue
-      EditButton.LinkFont.Height = -11
-      EditButton.LinkFont.Name = 'Tahoma'
-      EditButton.LinkFont.Style = [fsUnderline]
     end
   end
   object StatusPanel: TSpTBXPanel
     Left = 0
-    Top = 402
-    Width = 587
+    Top = 401
+    Width = 586
     Height = 22
     Caption = 'StatusPanel'
     Align = alBottom
     TabOrder = 1
     Borders = False
     TBXStyleBackground = True
+    ExplicitTop = 402
+    ExplicitWidth = 587
     DesignSize = (
-      587
+      586
       22)
     object StatusLabel: TSpTBXLabel
       Left = 4
       Top = 2
-      Width = 580
+      Width = 579
       Height = 18
       Anchors = [akLeft, akTop, akRight, akBottom]
       AutoSize = False
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
+      ExplicitWidth = 580
     end
   end
   object FolderTreePopup: TSpTBXFormPopupMenu

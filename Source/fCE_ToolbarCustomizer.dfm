@@ -36,6 +36,7 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
     Anchors = [akLeft, akTop, akRight, akBottom]
     DragType = dtVCL
     Header.AutoSizeIndex = 0
+    Header.DefaultHeight = 17
     Header.Font.Charset = DEFAULT_CHARSET
     Header.Font.Color = clWindowText
     Header.Font.Height = -11

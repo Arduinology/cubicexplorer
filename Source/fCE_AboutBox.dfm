@@ -157,7 +157,7 @@ object CEAboutBox: TCEAboutBox
     ParentFont = False
   end
   object SynMemo1: TSynMemo
-    Left = 4
+    Left = 8
     Top = 67
     Width = 484
     Height = 198
@@ -174,8 +174,9 @@ object CEAboutBox: TCEAboutBox
     Gutter.Font.Name = 'Courier New'
     Gutter.Font.Style = []
     Gutter.Visible = False
+    Gutter.Width = 0
     Highlighter = SynURISyn1
-    Lines.WideStrings = 
+    Lines.UnicodeStrings = 
       'Copyright 2006-2008 Marko Savolainen.'#13#10#13#10'Homepage - http://www.c' +
       'ubicreality.com'#13#10'Support - http://www.cubicreality.com/forum'#13#10#13#10 +
       '================================================================' +
@@ -187,19 +188,18 @@ object CEAboutBox: TCEAboutBox
       'ontrols/unicode/'#13#10#13#10'-PngComponents'#13#10'http://www.thany.org/article' +
       '/32/PngComponents'#13#10#13#10'-Toolbar2000'#13#10'http://www.jrsoftware.org'#13#10#13#10 +
       '-SpTBXLib'#13#10'http://club.telepolis.com/silverpointdev/sptbxlib/ind' +
-      'ex.htm'#13#10#13#10'-Graphics32'#13#10'http://www.graphics32.org'#13#10#13#10'-ATBinHex'#13#10'h' +
-      'ttp://atorg.net.ru/other/atbinhex.htm'#13#10#13#10'-JVCL'#13#10'http://jvcl.sour' +
-      'ceforge.net'#13#10#13#10'-Unicode SynEdit'#13#10'http://mh-nexus.de/unisynedit.h' +
-      'tm'#13#10#13#10'==========================================================' +
-      '========'#13#10'  Many thanks to all developers of those great compone' +
-      'nts.'#13#10'  '#13#10'  A special thanks goes to Jim Kueneman for his great ' +
-      'work on'#13#10'  VirtualShellTools and EasyListview. Without VirtualSh' +
-      'ellTools,'#13#10'  CubicExplorer would not exist.'#13#10#13#10'  Also thanks to ' +
-      'Stas Lebedev for the Vista icons which are'#13#10'  used in CubicExplo' +
-      'rer.'#13#10#13#10'  -Vista Icons Pack 3'#13#10'  http://kudesnick.blogspot.com/'#13 +
-      #10'===============================================================' +
-      '==='#13#10#13#10#13#10'Thanks for using CubicExplorer :)'#13#10#13#10'Regards,'#13#10'Marko Sa' +
-      'volainen.'
+      'ex.htm'#13#10#13#10'-Graphics32'#13#10'http://www.graphics32.org'#13#10#13#10'-JVCL'#13#10'http:' +
+      '//jvcl.sourceforge.net'#13#10#13#10'-Unicode SynEdit'#13#10'http://mh-nexus.de/u' +
+      'nisynedit.htm'#13#10#13#10'===============================================' +
+      '==================='#13#10'  Many thanks to all developers of those gr' +
+      'eat components.'#13#10'  '#13#10'  A special thanks goes to Jim Kueneman for' +
+      ' his great work on'#13#10'  VirtualShellTools and EasyListview. Withou' +
+      't VirtualShellTools,'#13#10'  CubicExplorer would not exist.'#13#10#13#10'  Also' +
+      ' thanks to Stas Lebedev for the Vista icons which are'#13#10'  used in' +
+      ' CubicExplorer.'#13#10#13#10'  -Vista Icons Pack 3'#13#10'  http://kudesnick.blo' +
+      'gspot.com/'#13#10'====================================================' +
+      '=============='#13#10#13#10#13#10'Thanks for using CubicExplorer :)'#13#10#13#10'Regards' +
+      ','#13#10'Marko Savolainen.'
     Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoNoCaret, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
     ReadOnly = True
     RightEdgeColor = clWindow
@@ -209,6 +209,7 @@ object CEAboutBox: TCEAboutBox
     Top = 271
     Width = 75
     Height = 25
+    Anchors = [akRight, akBottom]
     Caption = 'Close'
     TabOrder = 1
     OnClick = but_closeClick

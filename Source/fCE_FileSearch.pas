@@ -20,7 +20,7 @@ uses
   VirtualExplorerTree, MPShellUtilities,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Menus, StdCtrls, ShlObj, ExtCtrls;
+  Dialogs, Menus, StdCtrls, ShlObj, ExtCtrls, SpTBXItem;
 
 type
   TCEFileSearchPage = class(TCECustomTabPage)
