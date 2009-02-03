@@ -19,7 +19,7 @@ uses
   TntSysUtils,
   // System Units
   Windows, Messages, SysUtils, Classes, Controls, ExtCtrls, Forms,
-  Graphics, Menus, ShellAPI, ShlObj;
+  Graphics, Menus, ShellAPI, ShlObj, Math;
 
 type
 
@@ -41,14 +41,20 @@ type
 
   TCEFileView = class(TCECustomFileView)
   private
+    fAutosizeListViewStyle: Boolean;
     fAutoSelectFirstItem: Boolean;
     fOnViewStyleChange: TNotifyEvent;
     fSelectPreviousFolder: Boolean;
     fTranslateHeader: Boolean;
     fUseKernelNotification: Boolean;
+    fCellWidth: Integer;
+    procedure SetAutosizeListViewStyle(const Value: Boolean);
     procedure SetUseKernelNotification(const Value: Boolean);
   protected
     procedure DoCustomColumnAdd; override;
+    procedure DoEnumFinished; override;
+    procedure DoEnumFolder(const Namespace: TNamespace; var AllowAsChild: Boolean);
+        override;
     procedure DoKeyAction(var CharCode: Word; var Shift: TShiftState; var
         DoDefault: Boolean); override;
     procedure DoRootChange; override;
@@ -75,6 +81,8 @@ type
         TVirtualShellNewItem; var Path, FileName: WideString; var Allow: Boolean);
     procedure PasteShortcutFromClipboard;
     procedure SetFocus; override;
+    property AutosizeListViewStyle: Boolean read fAutosizeListViewStyle write
+        SetAutosizeListViewStyle;
     property TranslateHeader: Boolean read fTranslateHeader write fTranslateHeader;
   published
     property AutoSelectFirstItem: Boolean read fAutoSelectFirstItem write
@@ -100,6 +108,7 @@ uses
 constructor TCEFileView.Create(AOwner: TComponent);
 begin
   inherited;
+  fCellWidth:= 0;
   fChangeHistory:= false;
   fTranslateHeader:= false;
   History:= TVirtualShellHistory.Create(self);
@@ -118,6 +127,7 @@ begin
   ChangeNotifier.RegisterKernelChangeNotify(Self,AllKernelNotifiers);
   fSelectPreviousFolder:= true;
   fAutoSelectFirstItem:= true;
+  fAutosizeListViewStyle:= true;
 end;
 
 {*------------------------------------------------------------------------------
@@ -347,8 +357,24 @@ end;
   Set View Mode
 -------------------------------------------------------------------------------}
 procedure TCEFileView.SetView(Value: TEasyListStyle);
+var
+  i: Integer;
 begin
   inherited;
+  if Value = elsList then
+  begin
+    if AutosizeListViewStyle then
+    begin
+      fCellWidth:= 0;
+      for i:= 0 to Self.ItemCount - 1 do
+      begin
+        fCellWidth:= Max(fCellWidth, Canvas.TextWidth(Self.Items.Items[i].Caption));
+      end;
+      if fCellWidth > 0 then
+      Self.CellSizes.List.Width:= fCellWidth + 32;
+      fCellWidth:= 0;
+    end;
+  end;
   if assigned(fOnViewStyleChange) then
   fOnViewStyleChange(self);
 end;
@@ -380,6 +406,9 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  DoCustomColumnAdd
+-------------------------------------------------------------------------------}
 procedure TCEFileView.DoCustomColumnAdd;
 var
   i: Integer;
@@ -394,6 +423,37 @@ begin
       col.Caption:= _(col.Caption);
     end;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  DoEnumFinished
+-------------------------------------------------------------------------------}
+procedure TCEFileView.DoEnumFinished;
+begin
+  if (View = elsList) and AutosizeListViewStyle then
+  begin
+    if fCellWidth > 0 then
+    CellSizes.List.Width:= fCellWidth + 32
+    else
+    CellSizes.List.RestoreDefaults;
+    fCellWidth:= 0;
+  end;
+
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  DoEnumFolder
+-------------------------------------------------------------------------------}
+procedure TCEFileView.DoEnumFolder(const Namespace: TNamespace; var
+    AllowAsChild: Boolean);
+begin
+  if (View = elsList) and AutosizeListViewStyle then
+  begin
+    fCellWidth:= Max(fCellWidth, Canvas.TextWidth(Namespace.NameInFolder));
+  end;
+  
+  inherited;
 end;
 
 {*------------------------------------------------------------------------------
@@ -598,6 +658,32 @@ begin
   finally
     Cursor:= crDefault;
   end
+end;
+
+{-------------------------------------------------------------------------------
+  Set AutosizeListViewStyle
+-------------------------------------------------------------------------------}
+procedure TCEFileView.SetAutosizeListViewStyle(const Value: Boolean);
+var
+  i: Integer;
+begin
+  if Value <> fAutosizeListViewStyle then
+  begin
+    fAutosizeListViewStyle:= Value;
+    if not fAutosizeListViewStyle then
+    Self.CellSizes.List.RestoreDefaults
+    else
+    begin
+      fCellWidth:= 0;
+      for i:= 0 to Self.ItemCount - 1 do
+      begin
+        fCellWidth:= Max(fCellWidth, Canvas.TextWidth(Self.Items.Items[i].Caption));
+      end;
+      if fCellWidth > 0 then
+      Self.CellSizes.List.Width:= fCellWidth + 32;
+      fCellWidth:= 0;
+    end;
+  end;
 end;
 
 {*------------------------------------------------------------------------------

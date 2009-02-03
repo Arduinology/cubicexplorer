@@ -16,6 +16,7 @@ type
     check_fullrowselect: TTntCheckBox;
     check_selectprev: TTntCheckBox;
     check_autoselect: TTntCheckBox;
+    check_autosize_liststyle: TTntCheckBox;
     procedure HandleChange(Sender: TObject);
   private
     { Private declarations }
@@ -57,6 +58,7 @@ begin
   GlobalFileViewSettings.FullRowSelect:= check_fullrowselect.Checked;
   GlobalFileViewSettings.SelectPreviousFolder:= check_selectprev.Checked;
   GlobalFileViewSettings.AutoSelectFirstItem:= check_autoselect.Checked;
+  GlobalFileViewSettings.AutosizeListViewStyle:= check_autosize_liststyle.Checked;
 end;
 
 {-------------------------------------------------------------------------------
@@ -79,6 +81,7 @@ begin
     check_fullrowselect.Checked:= Storage.ReadBoolean('FullRowSelect', GlobalFileViewSettings.FullRowSelect);
     check_selectprev.Checked:= Storage.ReadBoolean('SelectPreviousFolder', GlobalFileViewSettings.SelectPreviousFolder);
     check_autoselect.Checked:= Storage.ReadBoolean('AutoSelectFirstItem', GlobalFileViewSettings.AutoSelectFirstItem);
+    check_autosize_liststyle.Checked:= Storage.ReadBoolean('AutosizeListViewMode', GlobalFileViewSettings.AutosizeListViewStyle);
   finally
     Storage.ClosePath;
   end;
@@ -96,6 +99,7 @@ begin
     Storage.ReadBoolean('FullRowSelect', check_fullrowselect.Checked);
     Storage.ReadBoolean('SelectPreviousFolder', check_selectprev.Checked);
     Storage.ReadBoolean('AutoSelectFirstItem', check_autoselect.Checked);
+    Storage.ReadBoolean('AutosizeListViewMode', check_autosize_liststyle.Checked);
   finally
     Storage.ClosePath;
   end;

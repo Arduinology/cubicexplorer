@@ -109,6 +109,7 @@ type
     fHiddenFiles: Boolean;
     fSelectPreviousFolder: Boolean;
     fAutoSelectFirstItem: Boolean;
+    fAutosizeListViewStyle: Boolean;
     fShowExtensions: Boolean;
     fShowHeaderAlways: Boolean;
     fUpdating: Boolean;
@@ -117,6 +118,7 @@ type
     procedure SetHiddenFiles(const Value: Boolean);
     procedure SetSelectPreviousFolder(const Value: Boolean);
     procedure SetAutoSelectFirstItem(const Value: Boolean);
+    procedure SetAutosizeListViewStyle(const Value: Boolean);
     procedure SetShowExtensions(const Value: Boolean);
     procedure SetShowHeaderAlways(const Value: Boolean);
     procedure SetSmoothScroll(const Value: Boolean);
@@ -146,6 +148,8 @@ type
     procedure SaveToStorage(Storage: ICESettingsStorage); stdcall;
     procedure SendChanges;
     procedure AssignColumnSettingsFrom(FileView: TVirtualExplorerEasyListview);
+    property AutosizeListViewStyle: Boolean read fAutosizeListViewStyle write
+        SetAutosizeListViewStyle;
     property FullRowSelect: Boolean read fFullRowSelect write SetFullRowSelect;
     property HiddenFiles: Boolean read fHiddenFiles write SetHiddenFiles;
     property ShowExtensions: Boolean read fShowExtensions write SetShowExtensions;
@@ -885,6 +889,7 @@ begin
     FileViewPage.FileView.ShowExtension:= fShowExtensions;
     FileViewPage.FileView.SelectPreviousFolder:= SelectPreviousFolder;
     FileViewPage.FileView.AutoSelectFirstItem:= AutoSelectFirstItem;
+    FileViewPage.FileView.AutosizeListViewStyle:= AutosizeListViewStyle;
     for i:= 0 to Length(CellSizes) - 1 do
     begin
       case i of
@@ -1086,11 +1091,12 @@ begin
     // Toggles
     fSmoothScroll:= Storage.ReadBoolean('SmoothScroll', false);
     fHiddenFiles:= Storage.ReadBoolean('HiddenFiles', false);
-    fShowHeaderAlways:= Storage.ReadBoolean('ShowHeaderAlways',false);
-    fFullRowSelect:= Storage.ReadBoolean('FullRowSelect',true);
-    fShowExtensions:= Storage.ReadBoolean('ShowExtensions',true);
-    fSelectPreviousFolder:= Storage.ReadBoolean('SelectPreviousFolder',true);
-    fAutoSelectFirstItem:= Storage.ReadBoolean('AutoSelectFirstItem',true);
+    fShowHeaderAlways:= Storage.ReadBoolean('ShowHeaderAlways', false);
+    fFullRowSelect:= Storage.ReadBoolean('FullRowSelect', true);
+    fShowExtensions:= Storage.ReadBoolean('ShowExtensions', true);
+    fSelectPreviousFolder:= Storage.ReadBoolean('SelectPreviousFolder', true);
+    fAutoSelectFirstItem:= Storage.ReadBoolean('AutoSelectFirstItem', true);
+    fAutosizeListViewStyle:= Storage.ReadBoolean('AutosizeListViewStyle', true);
     // Cell Sizes
     Storage.OpenPath('/FileView/CellSizes');
     for i:= 0 to Length(CellSizes) -1  do
@@ -1221,6 +1227,7 @@ begin
     Storage.WriteBoolean('ShowExtensions',fShowExtensions);
     Storage.WriteBoolean('SelectPreviousFolder',fSelectPreviousFolder);
     Storage.WriteBoolean('AutoSelectFirstItem',fAutoSelectFirstItem);
+    Storage.WriteBoolean('AutosizeListViewStyle', fAutosizeListViewStyle);
     // CellSizes
     Storage.OpenPath('/FileView/CellSizes');
     Storage.WritePoint('Icon', CellSizes[0]);
@@ -1267,7 +1274,8 @@ begin
       FileViewPage.FileView.Selection.FullRowSelect:= fFullRowSelect;
       FileViewPage.FileView.SelectPreviousFolder:= SelectPreviousFolder;
       FileViewPage.FileView.AutoSelectFirstItem:= AutoSelectFirstItem;
-
+      FileViewPage.FileView.AutosizeListViewStyle:= AutosizeListViewStyle;
+      
       doRebuild:=  FileViewPage.FileView.ShowExtension <> fShowExtensions;
       FileViewPage.FileView.ShowExtension:= fShowExtensions;
       
@@ -1410,6 +1418,15 @@ end;
 procedure TCEFileViewSettings.SetAutoSelectFirstItem(const Value: Boolean);
 begin
   fAutoSelectFirstItem:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set AutosizeListViewStyle
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetAutosizeListViewStyle(const Value: Boolean);
+begin
+  fAutosizeListViewStyle:= Value;
   SendChanges;
 end;
 

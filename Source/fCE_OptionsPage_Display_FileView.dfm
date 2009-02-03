@@ -26,4 +26,13 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
     TabOrder = 2
     OnClick = HandleChange
   end
+  object check_autosize_liststyle: TTntCheckBox
+    Left = 16
+    Top = 85
+    Width = 401
+    Height = 17
+    Caption = 'Auto size cells in list view style.'
+    TabOrder = 3
+    OnClick = HandleChange
+  end
 end
