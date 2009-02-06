@@ -216,10 +216,11 @@ begin
   GlobalFocusCtrl.CtrlList.Add(FileView);
   FileView.OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
   GlobalFileViewSettings.RegisterNotify(Self);
-  //GlobalFileViewSettings.AssignToFileView(Self);
   SetDesktopIconFonts(FileView.Font);
   
   GlobalFileViewSettings.AssignToFileView(Self);
+  if Self.FileView.View = elsFilmStrip then  // TODO: work around bug in TEasyScrollbarManager.ValidateOffsets. Remove onces fixed
+  Self.FileView.CellSizes.List.Width:= Self.FileView.CellSizes.FilmStrip.Width; // TODO: work around bug in TEasyScrollbarManager.ValidateOffsets. Remove onces fixed
 end;
 
 {*------------------------------------------------------------------------------

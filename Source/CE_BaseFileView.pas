@@ -269,7 +269,7 @@ begin
   self.CompressedFile.Hilight:= true;
   self.CompressedFile.Font.Assign(self.Font);
 
-  self.Scrollbars.SnapHorzView:= false;
+  self.Scrollbars.SnapHorzView:= true;
   
   BalloonHint:= TJvBalloonHint.Create(self);
   BalloonHint.Options:= [];
@@ -911,6 +911,7 @@ function TCECustomFileView.DoMouseWheel(Shift: TShiftState; WheelDelta:
     Integer; MousePos: TPoint): Boolean;
 var
   handled: Boolean;
+  delta: Integer;
 begin
   handled:= false;
   
@@ -925,10 +926,17 @@ begin
   begin
     if (Self.View = elsFilmstrip) or (Self.View = elsList) then
     begin
+      case Self.View of
+        elsList: delta:= Self.CellSizes.List.Width;
+        elsFilmstrip: delta:= Self.CellSizes.Filmstrip.Width;
+        else
+        delta:= fScrollSize;
+      end;
+
       if WheelDelta > 0 then
-      self.Scrollbars.Scroll(-fScrollSize,0)
+      self.Scrollbars.Scroll(-delta,0)
       else if WheelDelta < 0 then
-      self.Scrollbars.Scroll(fScrollSize,0);
+      self.Scrollbars.Scroll(delta,0);
     end
     else
     begin
@@ -1230,6 +1238,7 @@ procedure TCECustomFileView.DoScroll(DeltaX, DeltaY: Integer);
 begin
   if EditManager.Editing then
   EditManager.EndEdit;
+  inherited;
 end;
 
 procedure TCECustomFileView.DoShellNotify(ShellEvent: TVirtualShellEvent);

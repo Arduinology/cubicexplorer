@@ -373,8 +373,17 @@ begin
       if fCellWidth > 0 then
       Self.CellSizes.List.Width:= fCellWidth + 32;
       fCellWidth:= 0;
+    end
+    else
+    begin
+      Self.CellSizes.List.RestoreDefaults;
     end;
+  end
+  else if Value = elsFilmStrip then // TODO: work around bug in TEasyScrollbarManager.ValidateOffsets. Remove onces fixed
+  begin
+    Self.CellSizes.List.Width:= Self.CellSizes.FilmStrip.Width;
   end;
+
   if assigned(fOnViewStyleChange) then
   fOnViewStyleChange(self);
 end;
@@ -670,18 +679,21 @@ begin
   if Value <> fAutosizeListViewStyle then
   begin
     fAutosizeListViewStyle:= Value;
-    if not fAutosizeListViewStyle then
-    Self.CellSizes.List.RestoreDefaults
-    else
+    if Self.View = elsList then
     begin
-      fCellWidth:= 0;
-      for i:= 0 to Self.ItemCount - 1 do
+      if not fAutosizeListViewStyle then
+      Self.CellSizes.List.RestoreDefaults
+      else
       begin
-        fCellWidth:= Max(fCellWidth, Canvas.TextWidth(Self.Items.Items[i].Caption));
+        fCellWidth:= 0;
+        for i:= 0 to Self.ItemCount - 1 do
+        begin
+          fCellWidth:= Max(fCellWidth, Canvas.TextWidth(Self.Items.Items[i].Caption));
+        end;
+        if fCellWidth > 0 then
+        Self.CellSizes.List.Width:= fCellWidth + 32;
+        fCellWidth:= 0;
       end;
-      if fCellWidth > 0 then
-      Self.CellSizes.List.Width:= fCellWidth + 32;
-      fCellWidth:= 0;
     end;
   end;
 end;
