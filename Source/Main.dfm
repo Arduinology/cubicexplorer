@@ -45,7 +45,7 @@ object MainForm: TMainForm
         Caption = 'File'
         DisplayMode = nbdmTextOnly
         object SpTBXItem4: TSpTBXItem
-          Action = CEActions.act_navi_addtab
+          Action = CEActions.act_tabs_addtab
         end
         object SpTBXItem43: TSpTBXItem
           Action = CEActions.act_navi_texteditor
@@ -56,10 +56,10 @@ object MainForm: TMainForm
         object SpTBXSeparatorItem13: TSpTBXSeparatorItem
         end
         object SpTBXItem72: TSpTBXItem
-          Action = CEActions.act_navi_duplicatetab
+          Action = CEActions.act_tabs_duplicatetab
         end
         object SpTBXItem6: TSpTBXItem
-          Action = CEActions.act_navi_closetab
+          Action = CEActions.act_tabs_closetab
         end
         object SpTBXSeparatorItem5: TSpTBXSeparatorItem
         end
@@ -428,10 +428,10 @@ object MainForm: TMainForm
       object SpTBXSeparatorItem10: TSpTBXSeparatorItem
       end
       object SpTBXItem37: TSpTBXItem
-        Action = CEActions.act_navi_addtab
+        Action = CEActions.act_tabs_addtab
       end
       object SpTBXItem36: TSpTBXItem
-        Action = CEActions.act_navi_closetab
+        Action = CEActions.act_tabs_closetab
       end
       object SpTBXSeparatorItem14: TSpTBXSeparatorItem
       end
@@ -510,5 +510,24 @@ object MainForm: TMainForm
     OnTimer = StartUpTimerTimer
     Left = 48
     Top = 64
+  end
+  object TabPopupMenu: TSpTBXPopupMenu
+    Images = CE_Images.SmallIcons
+    Left = 96
+    Top = 64
+    object SpTBXItem14: TSpTBXItem
+      Action = CEActions.act_tabs_addtab
+    end
+    object SpTBXItem15: TSpTBXItem
+      Action = CEActions.act_tabs_duplicatetab
+    end
+    object SpTBXSeparatorItem24: TSpTBXSeparatorItem
+    end
+    object SpTBXItem12: TSpTBXItem
+      Action = CEActions.act_tabs_closetab
+    end
+    object SpTBXItem13: TSpTBXItem
+      Action = CEActions.act_tabs_closeothertabs
+    end
   end
 end

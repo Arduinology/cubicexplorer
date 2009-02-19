@@ -8,6 +8,17 @@ object CEActions: TCEActions
     Images = CE_Images.SmallIcons
     Left = 24
     Top = 12
+    object act_tabs_closetab: TTntAction
+      Tag = 661
+      Category = 'Tabs'
+      Caption = 'Close Tab'
+      Hint = 'Close Tab'
+      ImageIndex = 10
+      ShortCut = 16471
+      SecondaryShortCuts.Strings = (
+        'Ctrl+Ins')
+      OnExecute = ActionExecute
+    end
     object act_gen_exit: TTntAction
       Tag = 100
       Category = 'General'
@@ -16,27 +27,11 @@ object CEActions: TCEActions
       ShortCut = 32883
       OnExecute = ActionExecute
     end
-    object act_navi_closetab: TTntAction
-      Tag = 602
-      Category = 'Navigation'
-      Caption = 'Close Tab'
-      ImageIndex = 10
-      ShortCut = 16471
-      OnExecute = ActionExecute
-    end
     object act_view_dropstack: TTntAction
       Tag = 305
       Category = 'View'
       Caption = 'Drop Stack'
       ImageIndex = 18
-      OnExecute = ActionExecute
-    end
-    object act_navi_addtab: TTntAction
-      Tag = 601
-      Category = 'Navigation'
-      Caption = 'Add Tab'
-      ImageIndex = 9
-      ShortCut = 16468
       OnExecute = ActionExecute
     end
     object act_navi_forward: TCEToolbarAction
@@ -411,13 +406,6 @@ object CEActions: TCEActions
       ShortCut = 122
       OnExecute = ActionExecute
     end
-    object act_navi_duplicatetab: TTntAction
-      Tag = 607
-      Category = 'Navigation'
-      Caption = 'Duplicate Tab'
-      ImageIndex = 32
-      OnExecute = ActionExecute
-    end
     object act_view_showextensions: TTntAction
       Tag = 334
       Category = 'View'
@@ -481,6 +469,36 @@ object CEActions: TCEActions
       Tag = 609
       Category = 'Navigation'
       Caption = 'Scroll Right'
+      OnExecute = ActionExecute
+    end
+    object act_tabs_closeothertabs: TTntAction
+      Tag = 662
+      Category = 'Tabs'
+      Caption = 'Close Other Tabs'
+      Hint = 'Close Other Tabs'
+      SecondaryShortCuts.Strings = (
+        'Ctrl+Ins')
+      OnExecute = ActionExecute
+    end
+    object act_tabs_addtab: TTntAction
+      Tag = 663
+      Category = 'Tabs'
+      Caption = 'Add Tab'
+      Hint = 'Add Tab'
+      ImageIndex = 9
+      ShortCut = 16468
+      SecondaryShortCuts.Strings = (
+        'Ctrl+Ins')
+      OnExecute = ActionExecute
+    end
+    object act_tabs_duplicatetab: TTntAction
+      Tag = 664
+      Category = 'Tabs'
+      Caption = 'Duplicate Tab'
+      Hint = 'Duplicate Tab'
+      ImageIndex = 32
+      SecondaryShortCuts.Strings = (
+        'Ctrl+Ins')
       OnExecute = ActionExecute
     end
   end

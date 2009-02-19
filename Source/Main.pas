@@ -165,6 +165,12 @@ type
     SpTBXItem86: TSpTBXItem;
     SpTBXItem10: TSpTBXItem;
     SpTBXItem11: TSpTBXItem;
+    TabPopupMenu: TSpTBXPopupMenu;
+    SpTBXItem12: TSpTBXItem;
+    SpTBXItem13: TSpTBXItem;
+    SpTBXItem14: TSpTBXItem;
+    SpTBXSeparatorItem24: TSpTBXSeparatorItem;
+    SpTBXItem15: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -353,6 +359,7 @@ begin
   TabSet.LayoutController:= Layouts;
   TabSet.Toolbar.Customizable:= true;
   TabSet.Images:= CE_Images.SmallIcons;
+  TabSet.TabPopupMenu:= TabPopupMenu;
   GlobalFocusCtrl.CtrlList.Add(TabSet.Toolbar);
   //TCESpTabToolbar(TabSet.Toolbar).OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
 
@@ -566,7 +573,7 @@ begin
   // Atleast one tab has to be open
   if TabSet.TabCount = 0 then
   begin
-    CEActions.act_navi_addtab.Execute;
+    CEActions.act_tabs_addtab.Execute;
   end;
 
 
@@ -1316,6 +1323,8 @@ begin
     GlobalSessions.ActiveSession:= TSpTBXItem(Sender).Caption;
   end;
 end;
+
+
 
 procedure TMainForm.test_act1Click(Sender: TObject);
 begin

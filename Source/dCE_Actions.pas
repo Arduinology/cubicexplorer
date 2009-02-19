@@ -36,8 +36,6 @@ type
     ActionList: TTntActionList;
     act_gen_exit: TTntAction;
     UpdateTimer: TTimer;
-    act_navi_addtab: TTntAction;
-    act_navi_closetab: TTntAction;
     act_navi_folderup: TTntAction;
     act_navi_refresh: TTntAction;
     act_view_folders: TTntAction;
@@ -87,7 +85,6 @@ type
     act_view_filters: TTntAction;
     act_view_statusbar: TTntAction;
     act_view_fullscreen: TTntAction;
-    act_navi_duplicatetab: TTntAction;
     BackgroundCMItems_up: TTntPopupMenu;
     BackgroundCMItems_down: TTntPopupMenu;
     View1: TTntMenuItem;
@@ -125,6 +122,10 @@ type
     act_navi_scrollleft: TTntAction;
     act_navi_scrollright: TTntAction;
     act_view_alwaysontop: TTntAction;
+    act_tabs_closetab: TTntAction;
+    act_tabs_closeothertabs: TTntAction;
+    act_tabs_addtab: TTntAction;
+    act_tabs_duplicatetab: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -151,7 +152,7 @@ procedure UpdateCEAction(ActionID: Integer; TargetAction: TTntAction);
 procedure ExecuteGeneralCategory(ActionID: Integer);
 procedure ExecuteEditCategory(ActionID: Integer);
 procedure ExecuteSessionsCategory(ActionID: Integer);
-procedure ExecuteToolsCategory(ActionID: Integer);
+procedure ExecuteTabsCategory(ActionID: Integer);
 procedure ExecuteHelpCategory(ActionID: Integer);
 procedure ExecuteNavigationCategory(ActionID: Integer);
 procedure ExecuteQuickviewCategory(ActionID: Integer);
@@ -196,6 +197,10 @@ procedure UpdateViewCategory(ActionID: Integer; TargetAction: TTntAction);
 procedure UpdateAllActions;
 
 procedure HandleInputMessage(var Msg : TMessage; var Handled: Boolean);
+
+procedure UpdateTabsCategory(ActionID: Integer; TargetAction: TTntAction);
+
+procedure ExecuteToolsCategory(ActionID: Integer);
 
 var
   CEActions: TCEActions;
@@ -280,7 +285,8 @@ begin
     300..399: ExecuteViewCategory(ActionID);
     400..499: ExecuteToolsCategory(ActionID);
     500..599: ExecuteHelpCategory(ActionID);
-    600..699: ExecuteNavigationCategory(ActionID);
+    600..659: ExecuteNavigationCategory(ActionID);
+    660..699: ExecuteTabsCategory(ActionID);
     700..799: ExecuteQuickviewCategory(ActionID);
     800..849: ExecuteBookmarksCategory(ActionID);
     850..899: ExecuteSessionsCategory(ActionID);
@@ -299,7 +305,8 @@ begin
     300..399: UpdateViewCategory(ActionID, TargetAction);
     400..499: UpdateToolsCategory(ActionID, TargetAction);
     500..599: UpdateHelpCategory(ActionID, TargetAction);
-    600..699: UpdateNavigationCategory(ActionID, TargetAction);
+    600..659: UpdateNavigationCategory(ActionID, TargetAction);
+    660..699: UpdateTabsCategory(ActionID, TargetAction);
     700..799: UpdateQuickviewCategory(ActionID, TargetAction);
     800..849: UpdateBookmarksCategory(ActionID, TargetAction);
     850..899: UpdateSessionsCategory(ActionID, TargetAction);
@@ -629,28 +636,7 @@ var
 begin
   case ActionID of
     601: begin
-           GlobalFileViewSettings.AssignFromActivePage;
-           if MainForm.TabSet.NewTabType = 1 then // Clone active tab
-           begin
-             if GlobalPathCtrl.ActivePage is TCEFileViewPage then
-             begin
-              if MainForm.TabSet.Toolbar.GetTabsCount(true) = 0 then
-              pidl:= DrivesFolder.AbsolutePIDL
-              else
-              pidl:= TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.RootFolderNamespace.AbsolutePIDL
-             end
-             else
-             pidl:= nil;
-             OpenFolderInTab(nil, pidl, MainForm.TabSet.NewTabSelect, true, true);
-           end
-           else if MainForm.TabSet.NewTabType = 3 then // Open custom path
-           begin
-             OpenFolderInTab(nil, MainForm.TabSet.NewTabNamespace.AbsolutePIDL, MainForm.TabSet.NewTabSelect, true, true);
-           end
-           else // Open desktop
-           begin
-             OpenFolderInTab(nil, nil, MainForm.TabSet.NewTabSelect, true, true);
-           end;
+           ExecuteTabsCategory(663);
          end;
     602: begin
            MainForm.TabSet.CloseSelectedTab;
@@ -675,8 +661,7 @@ begin
            MainForm.StatusBar.UpdateLabels(true);
          end;
     607: begin
-           if GlobalPathCtrl.ActivePage is TCEFileViewPage then
-           OpenFolderInTab(GlobalPathCtrl.ActivePage, TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.RootFolderNamespace.AbsolutePIDL, MainForm.TabSet.OpenTabSelect);
+           ExecuteTabsCategory(664);
          end;
     608: MainForm.TabSet.ScrollLeft;
     609: MainForm.TabSet.ScrollRight;
@@ -743,6 +728,70 @@ begin
         end;
       end;
     end;
+  end;
+end;
+
+{##############################################################################}
+
+{*------------------------------------------------------------------------------
+  Tabs Category Execute
+-------------------------------------------------------------------------------}
+procedure ExecuteTabsCategory(ActionID: Integer);
+var
+  pidl: PItemIDList;
+begin
+  if not assigned(MainForm.TabSet.ActivePopupTab) then
+  begin
+    MainForm.TabSet.ActivePopupTab:= MainForm.TabSet.GetActiveTab;
+  end;
+
+  case ActionID of
+    661: MainForm.TabSet.CloseTab(MainForm.TabSet.ActivePopupTab);
+    662: MainForm.TabSet.CloseAllTabs(MainForm.TabSet.ActivePopupTab);
+    663: begin
+           GlobalFileViewSettings.AssignFromActivePage;
+           if MainForm.TabSet.NewTabType = 1 then // Clone active tab
+           begin
+             if GlobalPathCtrl.ActivePage is TCEFileViewPage then
+             begin
+              if MainForm.TabSet.Toolbar.GetTabsCount(true) = 0 then
+              pidl:= DrivesFolder.AbsolutePIDL
+              else
+              pidl:= TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.RootFolderNamespace.AbsolutePIDL
+             end
+             else
+             pidl:= nil;
+             OpenFolderInTab(nil, pidl, MainForm.TabSet.NewTabSelect, true, true);
+           end
+           else if MainForm.TabSet.NewTabType = 3 then // Open custom path
+           begin
+             OpenFolderInTab(nil, MainForm.TabSet.NewTabNamespace.AbsolutePIDL, MainForm.TabSet.NewTabSelect, true, true);
+           end
+           else // Open desktop
+           begin
+             OpenFolderInTab(nil, nil, MainForm.TabSet.NewTabSelect, true, true);
+           end;
+         end;
+    664: begin
+           if assigned(MainForm.TabSet.ActivePopupTab) then
+           begin
+             if MainForm.TabSet.ActivePopupTab.Page is TCEFileViewPage then
+             OpenFolderInTab(MainForm.TabSet.ActivePopupTab,
+                             TCEFileViewPage(MainForm.TabSet.ActivePopupTab.Page).FileView.RootFolderNamespace.AbsolutePIDL, MainForm.TabSet.OpenTabSelect);
+           end;
+         end;
+  end;
+
+  MainForm.TabSet.ActivePopupTab:= nil; // popup has closed so set this to nil
+end;
+
+{*------------------------------------------------------------------------------
+  Tabs Category  Update
+-------------------------------------------------------------------------------}
+procedure UpdateTabsCategory(ActionID: Integer; TargetAction: TTntAction);
+begin
+  case ActionID of
+    661..662,664: TargetAction.Enabled:= assigned(MainForm.TabSet.ActivePopupTab) or (MainForm.TabSet.GetActiveTab <> nil);
   end;
 end;
 

@@ -11,7 +11,7 @@ uses
   MPShellUtilities,
   // Windows
   Classes, Windows, SysUtils, Dialogs, Messages, Controls, Forms, ActiveX,
-  ExtCtrls, Graphics, StrUtils, ShlObj;
+  ExtCtrls, Graphics, StrUtils, ShlObj, Menus;
 
 type
   TSpTBXCustomTabSetAccess = class(TSpTBXCustomTabSet);
@@ -66,6 +66,7 @@ type
   // Tab Set
   TCESpTabSet = class(TSpTBXTabSet, IDropTarget, ICESettingsHandler)
   private
+    fActivePopupTab: TCESpTabItem;
     fClosingTab: TCESpTabItem;
     fDropTab: TCESpTabItem;
     fDropTimer: TTimer;
@@ -77,6 +78,7 @@ type
     fOpenTabSelect: Boolean;
     fReuseTabs: Boolean;
     fTabPageHost: TWinControl;
+    fTabPopupMenu: TPopupMenu;
     function GetTabCount: Integer;
     procedure SetNewTabPath(const Value: WideString);
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
@@ -109,8 +111,10 @@ type
     destructor Destroy; override;
     function AddTab(TabPageClass: TCECustomTabPageClass; SelectTab: Boolean =
         false; ActivatePage: Boolean = true): TCESpTabItem;
-    function CloseAllTabs(Force: Boolean = false): Boolean;
+    function CloseAllTabs(ExceptThis: TCESpTabItem = nil; Force: Boolean = false):
+        Boolean;
     function CloseSelectedTab(Force: Boolean = false): Boolean;
+    function CloseTab(ATab: TCESpTabItem; Force: Boolean = false): Boolean;
     function GetActiveTab: TCESpTabItem;
     function GetFirstTab: TSpTBXTabItem;
     function GetLastTab: TSpTBXTabItem;
@@ -119,6 +123,8 @@ type
     function GetTabAt(X, Y: Integer): TCESpTabItem;
     procedure SelectNextTab(GoForward: Boolean = true);
     procedure SelectTab(ATab: TSpTBXTabItem);
+    property ActivePopupTab: TCESpTabItem read fActivePopupTab write
+        fActivePopupTab;
     property LayoutController: TCELayoutController read fLayoutController write
         fLayoutController;
     property NewTabPath: WideString read fNewTabPath write SetNewTabPath;
@@ -129,6 +135,7 @@ type
     property OpenTabSelect: Boolean read fOpenTabSelect write fOpenTabSelect;
     property TabCount: Integer read GetTabCount;
     property TabPageHost: TWinControl read fTabPageHost write fTabPageHost;
+    property TabPopupMenu: TPopupMenu read fTabPopupMenu write fTabPopupMenu;
   published
     property ReuseTabs: Boolean read fReuseTabs write fReuseTabs;
   end;
@@ -235,7 +242,7 @@ begin
   begin
     if T.GetTabsCount(true) = 0 then
     begin
-      CEActions.act_navi_addtab.Execute;
+      CEActions.act_tabs_addtab.Execute;
     end;
   end;
 end;
@@ -315,7 +322,8 @@ end;
 {-------------------------------------------------------------------------------
   Close All Tabs
 -------------------------------------------------------------------------------}
-function TCESpTabSet.CloseAllTabs(Force: Boolean = false): Boolean;
+function TCESpTabSet.CloseAllTabs(ExceptThis: TCESpTabItem = nil; Force:
+    Boolean = false): Boolean;
 var
   i: Integer;
 begin
@@ -325,17 +333,22 @@ begin
   begin
     if Items.Items[i] is TCESpTabItem then
     begin
-      if Force then
+      if Items.Items[i] <> ExceptThis then
       begin
-        Items.Items[i].Free;
+        if Force then
+        begin
+          Items.Items[i].Free;
+        end
+        else
+        begin
+          if TCESpTabItem(Items.Items[i]).Page.TabClosing then
+          Items.Items[i].Free
+          else
+          Exit;
+        end;
       end
       else
-      begin
-        if TCESpTabItem(Items.Items[i]).Page.TabClosing then
-        Items.Items[i].Free
-        else
-        Exit;
-      end;
+      i:= i + 1;
     end
     else
     i:= i + 1;
@@ -347,15 +360,21 @@ end;
   Close SelectedTab
 -------------------------------------------------------------------------------}
 function TCESpTabSet.CloseSelectedTab(Force: Boolean = false): Boolean;
-var
-  tab: TCESpTabItem;
 begin
-  tab:= GetActiveTab;
-  if assigned(tab) then
+  Result:= CloseTab(GetActiveTab,Force);
+end;
+
+{-------------------------------------------------------------------------------
+  Close Tab
+-------------------------------------------------------------------------------}
+function TCESpTabSet.CloseTab(ATab: TCESpTabItem; Force: Boolean = false):
+    Boolean;
+begin
+  if assigned(ATab) then
   begin
-    Result:= tab.CloseTab;
+    Result:= ATab.CloseTab;
     if Result or Force then
-    tab.Free;
+    ATab.Free;
   end
   else
   Result:= false;
@@ -644,6 +663,7 @@ procedure TCESpTabSet.HandleMouseUp(Sender: TObject; Button: TMouseButton;
     Shift: TShiftState; X, Y: Integer);
 var
   tab: TCESpTabItem;
+  p: TPoint;
 begin
   if assigned(fClosingTab) then
   begin
@@ -661,19 +681,34 @@ begin
 
   if Shift = [ssLeft,ssDouble] then
   begin
-    tab:= GetTabAt(X, Y);
-    if assigned(tab) then
+    fActivePopupTab:= GetTabAt(X, Y);
+    if assigned(fActivePopupTab) then
     begin
-      if tab.Page is TCEFileViewPage then
-      OpenFolderInTab(Self, TCEFileViewPage(tab.Page).FileView.RootFolderNamespace.AbsolutePIDL, true, false, true)
+      if fActivePopupTab.Page is TCEFileViewPage then
+      CEActions.act_tabs_duplicatetab.Execute
       else
-      CEActions.act_navi_addtab.Execute;
+      CEActions.act_tabs_addtab.Execute;
     end
     else
     begin
-      CEActions.act_navi_addtab.Execute;
+      CEActions.act_tabs_addtab.Execute;
     end;
+    fActivePopupTab:= nil;
   end
+  else if Button = mbRight then
+  begin
+    fActivePopupTab:= GetTabAt(X, Y);
+    if not assigned(fActivePopupTab) then
+    fActivePopupTab:= Self.GetActiveTab;
+
+    if assigned(fActivePopupTab) and Assigned(fTabPopupMenu) then
+    begin
+      p:= Self.ClientToScreen(Point(X, Y));
+      fTabPopupMenu.Popup(p.X, p.Y);
+      Application.ProcessMessages;
+      fActivePopupTab:= nil;
+    end;
+  end;
 end;
 
 {-------------------------------------------------------------------------------

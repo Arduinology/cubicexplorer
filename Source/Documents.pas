@@ -74,7 +74,13 @@ Unit Documents;
 // 608 = Scroll Left
 // 609 = Scroll Right
 // 650 = Add Text Editor tab.
-// 650 = Add File Search tab.
+// 651 = Add File Search tab.
+
+// **** Tabs (660) ****
+// 661 = Close tab under mouse
+// 662 = Close other tabs
+// 663 = Add Tab
+// 664 = Duplicate Tab
 
 // **** QuickView (700) ****
     // begin - group 700 -->
