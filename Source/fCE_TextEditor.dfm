@@ -183,7 +183,7 @@ inherited CETextEditorPage: TCETextEditorPage
       155)
     object SpTBXLabel1: TSpTBXLabel
       Left = 8
-      Top = 6
+      Top = 2
       Width = 39
       Height = 19
       Caption = 'Search'
@@ -199,7 +199,7 @@ inherited CETextEditorPage: TCETextEditorPage
     end
     object SpTBXLabel2: TSpTBXLabel
       Left = 8
-      Top = 79
+      Top = 75
       Width = 44
       Height = 19
       Caption = 'Replace'

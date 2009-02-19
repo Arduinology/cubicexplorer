@@ -1,11 +1,23 @@
 inherited CEBookmarkPanel: TCEBookmarkPanel
   Caption = 'CEBookmarkPanel'
+  ClientHeight = 297
+  ClientWidth = 429
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  ExplicitWidth = 434
-  ExplicitHeight = 322
+  ExplicitWidth = 437
+  ExplicitHeight = 323
   PixelsPerInch = 96
   TextHeight = 13
+  inherited TopDock: TSpTBXDock
+    Width = 429
+    ExplicitWidth = 429
+  end
+  inherited BottomDock: TSpTBXDock
+    Top = 288
+    Width = 429
+    ExplicitTop = 288
+    ExplicitWidth = 429
+  end
   object BookmarkPopupMenu: TSpTBXPopupMenu
     OnPopup = BookmarkPopupMenuPopup
     Left = 376

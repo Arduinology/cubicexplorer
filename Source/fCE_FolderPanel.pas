@@ -78,7 +78,8 @@ begin
   FolderTree.AutoCollapse:= true;
   FolderTree.AutoExpand:= true;
   FolderTree.Indent:= 24;
-
+  FolderTree.TabOrder:= 1;
+  
   SetDesktopIconFonts(FolderTree.Font);
   TopDock.Name:= 'FolderPanel_TopDock';
   BottomDock.Name:= 'FolderPanel_BottomDock';

@@ -1,4 +1,4 @@
-upx -9 ..\Snapshot\CubicExplorer_dev\CubicExplorer.exe
+REM upx -9 ..\Snapshot\CubicExplorer_dev\CubicExplorer.exe
 
 DEL Output\*.* /Q
 "C:\Program Files\7-Zip\7z.exe" a -tzip Output\CubicExplorer_0.90rc3.zip ..\Snapshot\CubicExplorer_dev

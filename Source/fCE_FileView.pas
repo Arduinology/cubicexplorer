@@ -205,6 +205,7 @@ begin
   FileView.Selection.MouseButton:= [cmbLeft,cmbRight];
   FileView.ParentShowHint:= true;
   FileView.HintType:= ehtText;
+  FileView.TabOrder:= 1;
   // translate header
   FileView.TranslateHeader:= false;
 

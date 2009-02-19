@@ -674,6 +674,7 @@ begin
   ControlStyle := ControlStyle + [csOpaque];
   TabPanelClass:= TJvDockVSNETTabPanelTBX;
   TabSheetClass:= TCEJvDockVSNETTabSheet;
+  Self.TabStop:= false;
 end;
 
 procedure TJvDockVSNETTabPageControlTBX.CreatePanel;

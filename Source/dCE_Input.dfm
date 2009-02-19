@@ -2,6 +2,6 @@ object CEInput: TCEInput
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Height = 150
-  Width = 215
+  Height = 152
+  Width = 218
 end

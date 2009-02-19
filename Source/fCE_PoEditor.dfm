@@ -11,7 +11,6 @@ object CEPoEditor: TCEPoEditor
     Width = 419
     Height = 25
     AllowDrag = False
-    ExplicitWidth = 420
     object SpTBXToolbar1: TSpTBXToolbar
       Left = 0
       Top = 0
@@ -57,8 +56,7 @@ object CEPoEditor: TCEPoEditor
     Height = 476
     Align = alClient
     ActiveTabIndex = 0
-    ExplicitWidth = 420
-    ExplicitHeight = 475
+    ExplicitTop = 27
     HiddenItems = <>
     object SpTBXTabItem2: TSpTBXTabItem
       Caption = 'Translation'
@@ -74,8 +72,6 @@ object CEPoEditor: TCEPoEditor
       Height = 453
       Caption = 'Word List'
       ImageIndex = -1
-      ExplicitWidth = 420
-      ExplicitHeight = 452
       TabItem = 'SpTBXTabItem1'
       object horz_splitter: TSpTBXSplitter
         Left = 2
@@ -85,8 +81,6 @@ object CEPoEditor: TCEPoEditor
         Cursor = crSizeNS
         Align = alBottom
         ResizeStyle = rsPattern
-        ExplicitTop = 372
-        ExplicitWidth = 414
       end
       object Translation_panel: TPanel
         Left = 2
@@ -96,8 +90,6 @@ object CEPoEditor: TCEPoEditor
         Align = alBottom
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitTop = 377
-        ExplicitWidth = 414
         object vert_splitter: TSpTBXSplitter
           Left = 201
           Top = 0
@@ -151,7 +143,6 @@ object CEPoEditor: TCEPoEditor
           TabOrder = 0
           OnResize = PoItemStrMsg_panelResize
           TBXStyleBackground = True
-          ExplicitWidth = 208
           object TntLabel5: TTntLabel
             Left = 6
             Top = 6
@@ -183,8 +174,6 @@ object CEPoEditor: TCEPoEditor
         Height = 373
         Align = alClient
         TabOrder = 1
-        ExplicitWidth = 414
-        ExplicitHeight = 372
         object PoList: TVirtualStringTree
           Left = 2
           Top = 2
@@ -195,7 +184,6 @@ object CEPoEditor: TCEPoEditor
           BevelOuter = bvNone
           BorderStyle = bsNone
           Header.AutoSizeIndex = 1
-          Header.DefaultHeight = 17
           Header.Font.Charset = DEFAULT_CHARSET
           Header.Font.Color = clWindowText
           Header.Font.Height = -11
@@ -219,8 +207,6 @@ object CEPoEditor: TCEPoEditor
           OnMouseDown = PoListMouseDown
           OnMouseUp = PoListMouseUp
           OnNewText = PoListNewText
-          ExplicitWidth = 410
-          ExplicitHeight = 368
           Columns = <
             item
               Position = 0
@@ -242,8 +228,6 @@ object CEPoEditor: TCEPoEditor
       Height = 453
       Caption = 'Translation'
       ImageIndex = -1
-      ExplicitWidth = 420
-      ExplicitHeight = 452
       TabItem = 'SpTBXTabItem2'
       object SpTBXPanel1: TSpTBXPanel
         Left = 12

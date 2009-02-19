@@ -7,20 +7,20 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2008-08-09 01:09\n"
-"PO-Revision-Date: 2008-08-09 01:09\n"
+"POT-Creation-Date: 2009-02-06 17:15\n"
+"PO-Revision-Date: 2009-02-06 17:15\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: dxgettext 1.2.1\n"
+"X-Generator: dxgettext 1.2.2\n"
 
 #. CEActions..ActionList..act_gen_exit..Category
 #: dCE_Actions.dfm:13
 #. CEActions..ActionList..act_gen_remembertabs..Category
 #: dCE_Actions.dfm:390
 #. BookmarkPropDlg..PageControl..GeneralSheet..Caption
-#: fCE_BookmarkPropDlg.dfm:33
+#: fCE_BookmarkPropDlg.dfm:34
 #: fCE_OptionsPage_General.pas:41
 msgid "General"
 msgstr ""
@@ -113,9 +113,9 @@ msgstr ""
 #. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem4..Caption
 #: fCE_TextEditor.dfm:95
 #. CETextEditorPage..ActionList..text_view_toolbar..Category
-#: fCE_TextEditor.dfm:467
+#: fCE_TextEditor.dfm:442
 #. CETextEditorPage..ActionList..text_view_statusbar..Category
-#: fCE_TextEditor.dfm:483
+#: fCE_TextEditor.dfm:458
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem4..Caption
 #: fCE_TextEditor_1.dfm:114
 #. CETextEditor..ActionList..text_view_toolbar..Category
@@ -142,7 +142,7 @@ msgstr ""
 #. CEActions..ActionList..act_navi_forward..Caption
 #: dCE_Actions.dfm:45
 #. CETextEditorPage..FindPanel..opt_radio....Items.Strings
-#: fCE_TextEditor.dfm:333
+#: fCE_TextEditor.dfm:308
 #. CETextEditor..FindPanel..opt_radio....Items.Strings
 #: fCE_TextEditor_1.dfm:368
 msgid "Forward"
@@ -316,25 +316,25 @@ msgstr ""
 #. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem2..Caption
 #: fCE_TextEditor.dfm:45
 #. CETextEditorPage..ActionList..text_edit_undo..Category
-#: fCE_TextEditor.dfm:349
+#: fCE_TextEditor.dfm:324
 #. CETextEditorPage..ActionList..text_edit_redo..Category
-#: fCE_TextEditor.dfm:387
+#: fCE_TextEditor.dfm:362
 #. CETextEditorPage..ActionList..text_edit_copy..Category
-#: fCE_TextEditor.dfm:394
+#: fCE_TextEditor.dfm:369
 #. CETextEditorPage..ActionList..text_edit_cut..Category
-#: fCE_TextEditor.dfm:401
+#: fCE_TextEditor.dfm:376
 #. CETextEditorPage..ActionList..text_edit_paste..Category
-#: fCE_TextEditor.dfm:408
+#: fCE_TextEditor.dfm:383
 #. CETextEditorPage..ActionList..text_edit_delete..Category
-#: fCE_TextEditor.dfm:415
+#: fCE_TextEditor.dfm:390
 #. CETextEditorPage..ActionList..text_edit_selall..Category
-#: fCE_TextEditor.dfm:422
+#: fCE_TextEditor.dfm:397
 #. CETextEditorPage..ActionList..text_edit_search..Category
-#: fCE_TextEditor.dfm:429
+#: fCE_TextEditor.dfm:404
 #. CETextEditorPage..ActionList..text_edit_findnext..Category
-#: fCE_TextEditor.dfm:437
+#: fCE_TextEditor.dfm:412
 #. CETextEditorPage..ActionList..text_edit_findprev..Category
-#: fCE_TextEditor.dfm:445
+#: fCE_TextEditor.dfm:420
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..Caption
 #: fCE_TextEditor_1.dfm:52
 #. CETextEditor..ActionList..text_edit_undo..Category
@@ -367,7 +367,7 @@ msgstr ""
 #. CEActions..ActionList..act_edit_copy..Caption
 #: dCE_Actions.dfm:182
 #. CETextEditorPage..ActionList..text_edit_copy..Caption
-#: fCE_TextEditor.dfm:395
+#: fCE_TextEditor.dfm:370
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem8..Caption
 #: fCE_TextEditor_1.dfm:64
 #. CETextEditor..ActionList..text_edit_copy..Caption
@@ -383,7 +383,7 @@ msgstr ""
 #. CEActions..ActionList..act_edit_cut..Caption
 #: dCE_Actions.dfm:192
 #. CETextEditorPage..ActionList..text_edit_cut..Caption
-#: fCE_TextEditor.dfm:402
+#: fCE_TextEditor.dfm:377
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem9..Caption
 #: fCE_TextEditor_1.dfm:68
 #. CETextEditor..ActionList..text_edit_cut..Caption
@@ -394,7 +394,7 @@ msgstr ""
 #. CEActions..ActionList..act_edit_paste..Caption
 #: dCE_Actions.dfm:200
 #. CETextEditorPage..ActionList..text_edit_paste..Caption
-#: fCE_TextEditor.dfm:409
+#: fCE_TextEditor.dfm:384
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem10..Caption
 #: fCE_TextEditor_1.dfm:72
 #. CETextEditor..ActionList..text_edit_paste..Caption
@@ -416,7 +416,7 @@ msgstr ""
 #. CEBookmarkPanel..BookmarkPopupMenu..but_delete..Caption
 #: fCE_BookmarkPanel.dfm:37
 #. CETextEditorPage..ActionList..text_edit_delete..Caption
-#: fCE_TextEditor.dfm:416
+#: fCE_TextEditor.dfm:391
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem11..Caption
 #: fCE_TextEditor_1.dfm:76
 #. CETextEditor..ActionList..text_edit_delete..Caption
@@ -427,7 +427,7 @@ msgstr ""
 #. CEActions..ActionList..act_edit_selall..Caption
 #: dCE_Actions.dfm:218
 #. CETextEditorPage..ActionList..text_edit_selall..Caption
-#: fCE_TextEditor.dfm:423
+#: fCE_TextEditor.dfm:398
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem12..Caption
 #: fCE_TextEditor_1.dfm:82
 #. CETextEditor..ActionList..text_edit_selall..Caption
@@ -575,12 +575,10 @@ msgstr ""
 
 #. CEActions..ActionList..act_edit_newfile..Caption
 #: dCE_Actions.dfm:337
-#. CEPoEditor..SpTBXDock1..SpTBXToolbar1..SpTBXItem2..Caption
-#: fCE_PoEditor.dfm:38
 #. CEPoEditor..ActionList..act_new..Caption
-#: fCE_PoEditor.dfm:388
+#: fCE_PoEditor.dfm:372
 #. CETextEditorPage..ActionList..text_file_new..Caption
-#: fCE_TextEditor.dfm:343
+#: fCE_TextEditor.dfm:318
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem1..Caption
 #: fCE_TextEditor_1.dfm:23
 #. CETextEditor..ActionList..text_file_new..Caption
@@ -610,7 +608,7 @@ msgstr ""
 
 #. CEActions..ActionList..act_edit_newfolder..Caption
 #: dCE_Actions.dfm:368
-#: CE_FileView.pas:367
+#: CE_FileView.pas:402
 msgid "New Folder"
 msgstr ""
 
@@ -681,12 +679,10 @@ msgstr ""
 
 #. CEActions..ActionList..act_sessions_save..Caption
 #: dCE_Actions.dfm:442
-#. CEPoEditor..SpTBXDock1..SpTBXToolbar1..SpTBXItem1..Caption
-#: fCE_PoEditor.dfm:26
 #. CEPoEditor..ActionList..act_save..Caption
-#: fCE_PoEditor.dfm:382
+#: fCE_PoEditor.dfm:366
 #. CETextEditorPage..ActionList..text_file_save..Caption
-#: fCE_TextEditor.dfm:365
+#: fCE_TextEditor.dfm:340
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem3..Caption
 #: fCE_TextEditor_1.dfm:33
 #. CETextEditor..ActionList..text_file_save..Caption
@@ -702,7 +698,7 @@ msgstr ""
 #. CEActions..ActionList..act_sessions_saveas..Caption
 #: dCE_Actions.dfm:449
 #. CETextEditorPage..ActionList..text_file_saveas..Caption
-#: fCE_TextEditor.dfm:373
+#: fCE_TextEditor.dfm:348
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem4..Caption
 #: fCE_TextEditor_1.dfm:37
 #. CETextEditor..ActionList..text_file_saveas..Caption
@@ -1035,24 +1031,6 @@ msgstr ""
 #: fCE_AboutBox.dfm:155
 #. BookmarkPropDlg..Font.Name
 #: fCE_BookmarkPropDlg.dfm:12
-#. BookmarkPropDlg..PageControl..GeneralSheet..TargetPanel..edit_target..EditButton.LinkFont.Name
-#: fCE_BookmarkPropDlg.dfm:86
-#. CEFileSearchPage..SearchPanel..label1..LinkFont.Name
-#: fCE_FileSearch.dfm:21
-#. CEFileSearchPage..SearchPanel..but_start..LinkFont.Name
-#: fCE_FileSearch.dfm:43
-#. CEFileSearchPage..SearchPanel..label2..LinkFont.Name
-#: fCE_FileSearch.dfm:55
-#. CEFileSearchPage..SearchPanel..but_pause..LinkFont.Name
-#: fCE_FileSearch.dfm:76
-#. CEFileSearchPage..SearchPanel..but_stop..LinkFont.Name
-#: fCE_FileSearch.dfm:90
-#. CEFileSearchPage..SearchPanel..label3..LinkFont.Name
-#: fCE_FileSearch.dfm:102
-#. CEFileSearchPage..SearchPanel..DestinationEdit..EditButton.LinkFont.Name
-#: fCE_FileSearch.dfm:129
-#. CEFileSearchPage..StatusPanel..StatusLabel..LinkFont.Name
-#: fCE_FileSearch.dfm:156
 #. CEDestDlg..Font.Name
 #: fCE_FileSearchDestDlg.dfm:11
 #. CEDestDlg..FolderTree..Header.Font.Name
@@ -1068,25 +1046,13 @@ msgstr ""
 #. CEOptionsDialog..MainPanel..PageTree..Header.Font.Name
 #: fCE_OptionsDialog.dfm:79
 #. CEPoEditor..TabControl..WordsSheet..Translation_panel..PoItemStrID_panel..PoItemStrID..Font.Name
-#: fCE_PoEditor.dfm:139
+#: fCE_PoEditor.dfm:128
 #. CEPoEditor..TabControl..WordsSheet..PoList_panel..PoList..Header.Font.Name
-#: fCE_PoEditor.dfm:200
-#. CEPoEditor..TabControl..SettingsSheet..SpTBXButton1..LinkFont.Name
-#: fCE_PoEditor.dfm:373
+#: fCE_PoEditor.dfm:189
 #. CENewTranslationDlg..Font.Name
 #: fCE_PoEditor_NewForm.dfm:12
 #. CESessionEditDlg..Font.Name
 #: fCE_SessionDlg.dfm:13
-#. CETextEditorPage..FindPanel..SpTBXLabel1..LinkFont.Name
-#: fCE_TextEditor.dfm:193
-#. CETextEditorPage..FindPanel..SpTBXLabel2..LinkFont.Name
-#: fCE_TextEditor.dfm:214
-#. CETextEditorPage..FindPanel..SpTBXButton1..LinkFont.Name
-#: fCE_TextEditor.dfm:290
-#. CETextEditorPage..FindPanel..SpTBXButton2..LinkFont.Name
-#: fCE_TextEditor.dfm:305
-#. CETextEditorPage..FindPanel..SpTBXButton3..LinkFont.Name
-#: fCE_TextEditor.dfm:320
 #. CETextEditor..FindPanel..SpTBXLabel1..LinkFont.Name
 #: fCE_TextEditor_1.dfm:218
 #. CETextEditor..FindPanel..SpTBXLabel2..LinkFont.Name
@@ -1100,7 +1066,7 @@ msgstr ""
 #. CEToolbarCustomizer..Font.Name
 #: fCE_ToolbarCustomizer.dfm:12
 #. CEToolbarCustomizer..ActionTree..Header.Font.Name
-#: fCE_ToolbarCustomizer.dfm:42
+#: fCE_ToolbarCustomizer.dfm:43
 #. MainForm..Font.Name
 #: Main.dfm:11
 msgid "Tahoma"
@@ -1138,7 +1104,7 @@ msgstr ""
 msgid "Courier New"
 msgstr ""
 
-#. CEAboutBox..SynMemo1....Lines.WideStrings
+#. CEAboutBox..SynMemo1....Lines.UnicodeStrings
 #: fCE_AboutBox.dfm:202
 msgid "Copyright 2006-2008 Marko Savolainen.\n"
 "\nHomepage - http://www.cubicreality.com\n"
@@ -1155,11 +1121,10 @@ msgid "Copyright 2006-2008 Marko Savolainen.\n"
 "http://www.jrsoftware.org\n"
 "\n-SpTBXLib\n"
 "http://club.telepolis.com/silverpointdev/sptbxlib/index.htm\n"
-"\n-Graphics32\nhttp://www.graphics32.org\n\n-ATBinHex\n"
-"http://atorg.net.ru/other/atbinhex.htm\n"
-"\n-JVCL\nhttp://jvcl.sourceforge.net\n\n-Unicode SynEdit\n"
-"http://mh-nexus.de/unisynedit.htm\n"
-"\n==================================================================\n"
+"\n-Graphics32\nhttp://www.graphics32.org\n\n-JVCL\n"
+"http://jvcl.sourceforge.net\n"
+"\n-Unicode SynEdit\nhttp://mh-nexus.de/unisynedit.htm\n\n"
+"==================================================================\n"
 "  Many thanks to all developers of those great components.\n"
 "  \n"
 "  A special thanks goes to Jim Kueneman for his great work on\n"
@@ -1174,9 +1139,9 @@ msgid "Copyright 2006-2008 Marko Savolainen.\n"
 msgstr ""
 
 #. CEAboutBox..but_close..Caption
-#: fCE_AboutBox.dfm:212
+#: fCE_AboutBox.dfm:213
 #. CETextEditorPage..ActionList..text_file_close..Caption
-#: fCE_TextEditor.dfm:381
+#: fCE_TextEditor.dfm:356
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem5..Caption
 #: fCE_TextEditor_1.dfm:43
 #. CETextEditor..ActionList..text_file_close..Caption
@@ -1225,17 +1190,17 @@ msgid "Properties"
 msgstr ""
 
 #. BookmarkPropDlg..PageControl..GeneralSheet..TargetPanel..Label2..Caption
-#: fCE_BookmarkPropDlg.dfm:68
+#: fCE_BookmarkPropDlg.dfm:71
 msgid "Target"
 msgstr ""
 
 #. BookmarkPropDlg..PageControl..GeneralSheet..TargetPanel..check_relative..Caption
-#: fCE_BookmarkPropDlg.dfm:94
+#: fCE_BookmarkPropDlg.dfm:92
 msgid "Relative"
 msgstr ""
 
 #. BookmarkPropDlg..PageControl..GeneralSheet..TargetPanel..but_browse..Caption
-#: fCE_BookmarkPropDlg.dfm:103
+#: fCE_BookmarkPropDlg.dfm:101
 #. CEOptionsPage_Tabs..NewTabGroup..but_newtab..Caption
 #: fCE_OptionsPage_Tabs.dfm:61
 #. CENewTranslationDlg..but_browser..Caption
@@ -1244,7 +1209,7 @@ msgid "Browse..."
 msgstr ""
 
 #. BookmarkPropDlg..but_OK..Caption
-#: fCE_BookmarkPropDlg.dfm:116
+#: fCE_BookmarkPropDlg.dfm:114
 #. CEOptionsDialog..BottomPanel..but_ok..Caption
 #: fCE_OptionsDialog.dfm:112
 #. CESessionEditDlg..TntButton1..Caption
@@ -1253,7 +1218,7 @@ msgid "OK"
 msgstr ""
 
 #. BookmarkPropDlg..but_Cancel..Caption
-#: fCE_BookmarkPropDlg.dfm:127
+#: fCE_BookmarkPropDlg.dfm:126
 #. CEOptionsDialog..BottomPanel..but_cancel..Caption
 #: fCE_OptionsDialog.dfm:122
 #. CENewTranslationDlg..but_cancel..Caption
@@ -1267,10 +1232,8 @@ msgstr ""
 #: fCE_BookmarkPropDlg.dfm:138
 #. CEOptionsDialog..BottomPanel..but_apply..Caption
 #: fCE_OptionsDialog.dfm:131
-#. CEPoEditor..SpTBXDock1..SpTBXToolbar1..SpTBXItem3..Caption
-#: fCE_PoEditor.dfm:31
 #. CEPoEditor..ActionList..act_apply..Caption
-#: fCE_PoEditor.dfm:394
+#: fCE_PoEditor.dfm:378
 msgid "Apply"
 msgstr ""
 
@@ -1285,12 +1248,12 @@ msgid "CEDockHostForm"
 msgstr ""
 
 #. CEFileSearchPage..SearchPanel..Caption
-#: fCE_FileSearch.dfm:7
+#: fCE_FileSearch.dfm:11
 msgid "SearchPanel"
 msgstr ""
 
 #. CEFileSearchPage..SearchPanel..label1..Caption
-#: fCE_FileSearch.dfm:17
+#: fCE_FileSearch.dfm:22
 msgid "Search File Mask"
 msgstr ""
 
@@ -1300,32 +1263,32 @@ msgid "Start"
 msgstr ""
 
 #. CEFileSearchPage..SearchPanel..label2..Caption
-#: fCE_FileSearch.dfm:51
+#: fCE_FileSearch.dfm:46
 msgid "Search Word or Phrase in File Name"
 msgstr ""
 
 #. CEFileSearchPage..SearchPanel..but_pause..Caption
-#: fCE_FileSearch.dfm:70
+#: fCE_FileSearch.dfm:60
 msgid "Pause"
 msgstr ""
 
 #. CEFileSearchPage..SearchPanel..but_stop..Caption
-#: fCE_FileSearch.dfm:84
+#: fCE_FileSearch.dfm:69
 msgid "Stop"
 msgstr ""
 
 #. CEFileSearchPage..SearchPanel..label3..Caption
-#: fCE_FileSearch.dfm:98
+#: fCE_FileSearch.dfm:78
 msgid "Search in Directory"
 msgstr ""
 
 #. CEFileSearchPage..SearchPanel..check_subdir..Caption
-#: fCE_FileSearch.dfm:110
+#: fCE_FileSearch.dfm:85
 msgid "Subdirectories"
 msgstr ""
 
 #. CEFileSearchPage..StatusPanel..Caption
-#: fCE_FileSearch.dfm:138
+#: fCE_FileSearch.dfm:108
 msgid "StatusPanel"
 msgstr ""
 
@@ -1432,6 +1395,11 @@ msgstr ""
 msgid "Select first item automatically"
 msgstr ""
 
+#. CE_OptionsPage_Display_FileView..check_autosize_liststyle..Caption
+#: fCE_OptionsPage_Display_FileView.dfm:34
+msgid "Auto size cells in list view style."
+msgstr ""
+
 #. CEOptionsPage_General..check_singleinstance..Caption
 #: fCE_OptionsPage_General.dfm:7
 msgid "Single Instance Only"
@@ -1477,86 +1445,63 @@ msgstr ""
 msgid "SpTBXToolbar1"
 msgstr ""
 
-#. CEPoEditor..SpTBXDock1..SpTBXToolbar1..SpTBXItem1..Hint
-#: fCE_PoEditor.dfm:27
-#. CEPoEditor..ActionList..act_save..Hint
-#: fCE_PoEditor.dfm:383
-msgid "Save changes."
-msgstr ""
-
-#. CEPoEditor..SpTBXDock1..SpTBXToolbar1..SpTBXItem3..Hint
-#: fCE_PoEditor.dfm:32
-#. CEPoEditor..ActionList..act_apply..Hint
-#: fCE_PoEditor.dfm:395
-msgid "Apply changes."
-msgstr ""
-
-#. CEPoEditor..SpTBXDock1..SpTBXToolbar1..SpTBXItem2..Hint
-#: fCE_PoEditor.dfm:39
-#. CEPoEditor..ActionList..act_new..Hint
-#: fCE_PoEditor.dfm:389
-msgid "Create new translation."
-msgstr ""
-
 #. CEPoEditor..SpTBXDock1..SpTBXToolbar1..SpTBXItem4..Caption
-#: fCE_PoEditor.dfm:43
+#: fCE_PoEditor.dfm:37
 #. MainForm..TopToolDock..MainToolbar..test_act1..Caption
 #: Main.dfm:368
 msgid "Test1"
 msgstr ""
 
-#. CEPoEditor..TabControl......Name
-#: fCE_PoEditor.dfm:68
-#. CEPoEditor..TabControl..WordsSheet..TabItem
-#: fCE_PoEditor.dfm:84
-msgid "SpTBXTabItem1"
-msgstr ""
-
 #. CEPoEditor..TabControl..SpTBXTabItem2..Caption
-#: fCE_PoEditor.dfm:71
+#: fCE_PoEditor.dfm:61
 #. CEPoEditor..TabControl..WordsSheet..Translation_panel..PoItemStrMsg_panel..TntLabel5..Caption
-#: fCE_PoEditor.dfm:161
+#: fCE_PoEditor.dfm:150
 #. CEPoEditor..TabControl..WordsSheet..PoList_panel..PoList......WideText
-#: fCE_PoEditor.dfm:229
+#: fCE_PoEditor.dfm:218
 #. CEPoEditor..TabControl..SettingsSheet..Caption
-#: fCE_PoEditor.dfm:239
+#: fCE_PoEditor.dfm:228
 #: fCE_PoEditor.pas:207
 msgid "Translation"
 msgstr ""
 
 #. CEPoEditor..TabControl..SpTBXTabItem1..Caption
-#: fCE_PoEditor.dfm:75
+#: fCE_PoEditor.dfm:65
 #. CEPoEditor..TabControl..WordsSheet..Caption
-#: fCE_PoEditor.dfm:82
+#: fCE_PoEditor.dfm:72
 msgid "Word List"
 msgstr ""
 
+#. CEPoEditor..TabControl..WordsSheet..TabItem
+#: fCE_PoEditor.dfm:74
+msgid "SpTBXTabItem1"
+msgstr ""
+
 #. CEPoEditor..TabControl..WordsSheet..Translation_panel..PoItemStrID_panel..TntLabel6..Caption
-#: fCE_PoEditor.dfm:124
+#: fCE_PoEditor.dfm:113
 #. CEPoEditor..TabControl..WordsSheet..PoList_panel..PoList......WideText
-#: fCE_PoEditor.dfm:224
+#: fCE_PoEditor.dfm:213
 #. Init stuff
 #: fCE_PoEditor.pas:206
 msgid "Original"
 msgstr ""
 
 #. CEPoEditor..TabControl..SettingsSheet..TabItem
-#: fCE_PoEditor.dfm:241
+#: fCE_PoEditor.dfm:230
 msgid "SpTBXTabItem2"
 msgstr ""
 
 #. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel1..Caption
-#: fCE_PoEditor.dfm:253
+#: fCE_PoEditor.dfm:242
 msgid "Translator's Name"
 msgstr ""
 
 #. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel2..Caption
-#: fCE_PoEditor.dfm:261
+#: fCE_PoEditor.dfm:250
 msgid "Translator's Email"
 msgstr ""
 
 #. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel3..Caption
-#: fCE_PoEditor.dfm:269
+#: fCE_PoEditor.dfm:258
 #. CENewTranslationDlg..TntLabel1..Caption
 #: fCE_PoEditor_NewForm.dfm:37
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..LanguageMenuItem..Caption
@@ -1565,23 +1510,38 @@ msgid "Language"
 msgstr ""
 
 #. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel4..Caption
-#: fCE_PoEditor.dfm:277
+#: fCE_PoEditor.dfm:266
 msgid "Translation Version"
 msgstr ""
 
 #. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..label1..Caption
-#: fCE_PoEditor.dfm:286
+#: fCE_PoEditor.dfm:275
 msgid "Application Revision:"
 msgstr ""
 
 #. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..label2..Caption
-#: fCE_PoEditor.dfm:295
+#: fCE_PoEditor.dfm:284
 msgid "Translation Revision:"
 msgstr ""
 
 #. CEPoEditor..TabControl..SettingsSheet..SpTBXButton1..Caption
-#: fCE_PoEditor.dfm:367
+#: fCE_PoEditor.dfm:356
 msgid "Publish Translation"
+msgstr ""
+
+#. CEPoEditor..ActionList..act_save..Hint
+#: fCE_PoEditor.dfm:367
+msgid "Save changes."
+msgstr ""
+
+#. CEPoEditor..ActionList..act_new..Hint
+#: fCE_PoEditor.dfm:373
+msgid "Create new translation."
+msgstr ""
+
+#. CEPoEditor..ActionList..act_apply..Hint
+#: fCE_PoEditor.dfm:379
+msgid "Apply changes."
 msgstr ""
 
 #. CENewTranslationDlg..Caption
@@ -1661,17 +1621,17 @@ msgstr ""
 #. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem1..Caption
 #: fCE_TextEditor.dfm:20
 #. CETextEditorPage..ActionList..text_file_new..Category
-#: fCE_TextEditor.dfm:342
+#: fCE_TextEditor.dfm:317
 #. CETextEditorPage..ActionList..text_file_open..Category
-#: fCE_TextEditor.dfm:356
+#: fCE_TextEditor.dfm:331
 #. CETextEditorPage..ActionList..text_file_save..Category
-#: fCE_TextEditor.dfm:364
+#: fCE_TextEditor.dfm:339
 #. CETextEditorPage..ActionList..text_file_saveas..Category
-#: fCE_TextEditor.dfm:372
+#: fCE_TextEditor.dfm:347
 #. CETextEditorPage..ActionList..text_file_close..Category
-#: fCE_TextEditor.dfm:380
+#: fCE_TextEditor.dfm:355
 #. CETextEditorPage..ActionList..text_file_reload..Category
-#: fCE_TextEditor.dfm:475
+#: fCE_TextEditor.dfm:450
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem1..Caption
 #: fCE_TextEditor_1.dfm:21
 #. CETextEditor..ActionList..text_file_new..Category
@@ -1694,9 +1654,9 @@ msgstr ""
 #. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem3..Caption
 #: fCE_TextEditor.dfm:84
 #. CETextEditorPage..ActionList..text_format_wrap..Category
-#: fCE_TextEditor.dfm:453
+#: fCE_TextEditor.dfm:428
 #. CETextEditorPage..ActionList..text_format_options..Category
-#: fCE_TextEditor.dfm:460
+#: fCE_TextEditor.dfm:435
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem3..Caption
 #: fCE_TextEditor_1.dfm:101
 #. CETextEditor..ActionList..text_format_wrap..Category
@@ -1731,7 +1691,7 @@ msgstr ""
 #. CETextEditorPage..FindPanel..SpTBXLabel1..Caption
 #: fCE_TextEditor.dfm:189
 #. CETextEditorPage..FindPanel..SpTBXButton1..Caption
-#: fCE_TextEditor.dfm:282
+#: fCE_TextEditor.dfm:272
 #. CETextEditor..FindPanel..SpTBXLabel1..Caption
 #: fCE_TextEditor_1.dfm:214
 #. CETextEditor..FindPanel..SpTBXButton1..Caption
@@ -1740,9 +1700,9 @@ msgid "Search"
 msgstr ""
 
 #. CETextEditorPage..FindPanel..SpTBXLabel2..Caption
-#: fCE_TextEditor.dfm:210
+#: fCE_TextEditor.dfm:205
 #. CETextEditorPage..FindPanel..SpTBXButton2..Caption
-#: fCE_TextEditor.dfm:298
+#: fCE_TextEditor.dfm:283
 #. CETextEditor..FindPanel..SpTBXLabel2..Caption
 #: fCE_TextEditor_1.dfm:235
 #. CETextEditor..FindPanel..SpTBXButton3..Caption
@@ -1751,70 +1711,70 @@ msgid "Replace"
 msgstr ""
 
 #. CETextEditorPage..FindPanel..SpTBXGroupBox1..Caption
-#: fCE_TextEditor.dfm:231
+#: fCE_TextEditor.dfm:221
 #. CETextEditor..FindPanel..SpTBXGroupBox1..Caption
 #: fCE_TextEditor_1.dfm:256
 msgid "Options"
 msgstr ""
 
 #. CETextEditorPage..FindPanel..SpTBXGroupBox1..opt_check1..Caption
-#: fCE_TextEditor.dfm:239
+#: fCE_TextEditor.dfm:229
 #. CETextEditor..FindPanel..SpTBXGroupBox1..opt_check1..Caption
 #: fCE_TextEditor_1.dfm:266
 msgid "Case sensitivity"
 msgstr ""
 
 #. CETextEditorPage..FindPanel..SpTBXGroupBox1..opt_check2..Caption
-#: fCE_TextEditor.dfm:247
+#: fCE_TextEditor.dfm:237
 #. CETextEditor..FindPanel..SpTBXGroupBox1..opt_check2..Caption
 #: fCE_TextEditor_1.dfm:274
 msgid "Whole words only"
 msgstr ""
 
 #. CETextEditorPage..FindPanel..SpTBXGroupBox1..opt_check3..Caption
-#: fCE_TextEditor.dfm:255
+#: fCE_TextEditor.dfm:245
 #. CETextEditor..FindPanel..SpTBXGroupBox1..opt_check3..Caption
 #: fCE_TextEditor_1.dfm:282
 msgid "Search from cursor"
 msgstr ""
 
 #. CETextEditorPage..FindPanel..SpTBXGroupBox1..opt_check4..Caption
-#: fCE_TextEditor.dfm:265
+#: fCE_TextEditor.dfm:255
 #. CETextEditor..FindPanel..SpTBXGroupBox1..opt_check4..Caption
 #: fCE_TextEditor_1.dfm:292
 msgid "Selected text only"
 msgstr ""
 
 #. CETextEditorPage..FindPanel..SpTBXGroupBox1..opt_check5..Caption
-#: fCE_TextEditor.dfm:273
+#: fCE_TextEditor.dfm:263
 #. CETextEditor..FindPanel..SpTBXGroupBox1..opt_check5..Caption
 #: fCE_TextEditor_1.dfm:300
 msgid "Regular expression"
 msgstr ""
 
 #. CETextEditorPage..FindPanel..SpTBXButton3..Caption
-#: fCE_TextEditor.dfm:313
+#: fCE_TextEditor.dfm:293
 #. CETextEditor..FindPanel..SpTBXButton5..Caption
 #: fCE_TextEditor_1.dfm:344
 msgid "Replace All"
 msgstr ""
 
 #. CETextEditorPage..FindPanel..opt_radio..Caption
-#: fCE_TextEditor.dfm:328
+#: fCE_TextEditor.dfm:303
 #. CETextEditor..FindPanel..opt_radio..Caption
 #: fCE_TextEditor_1.dfm:361
 msgid "Direction"
 msgstr ""
 
 #. CETextEditorPage..FindPanel..opt_radio....Items.Strings
-#: fCE_TextEditor.dfm:334
+#: fCE_TextEditor.dfm:309
 #. CETextEditor..FindPanel..opt_radio....Items.Strings
 #: fCE_TextEditor_1.dfm:369
 msgid "Backward"
 msgstr ""
 
 #. CETextEditorPage..ActionList..text_edit_undo..Caption
-#: fCE_TextEditor.dfm:350
+#: fCE_TextEditor.dfm:325
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem6..Caption
 #: fCE_TextEditor_1.dfm:54
 #. CETextEditor..ActionList..text_edit_undo..Caption
@@ -1823,7 +1783,7 @@ msgid "Undo"
 msgstr ""
 
 #. CETextEditorPage..ActionList..text_file_open..Caption
-#: fCE_TextEditor.dfm:357
+#: fCE_TextEditor.dfm:332
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem2..Caption
 #: fCE_TextEditor_1.dfm:27
 #. CETextEditor..ActionList..text_file_open..Caption
@@ -1832,7 +1792,7 @@ msgid "Open..."
 msgstr ""
 
 #. CETextEditorPage..ActionList..text_edit_redo..Caption
-#: fCE_TextEditor.dfm:388
+#: fCE_TextEditor.dfm:363
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem7..Caption
 #: fCE_TextEditor_1.dfm:58
 #. CETextEditor..ActionList..text_edit_redo..Caption
@@ -1841,7 +1801,7 @@ msgid "Redo"
 msgstr ""
 
 #. CETextEditorPage..ActionList..text_edit_search..Caption
-#: fCE_TextEditor.dfm:430
+#: fCE_TextEditor.dfm:405
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem13..Caption
 #: fCE_TextEditor_1.dfm:88
 #. CETextEditor..ActionList..text_edit_search..Caption
@@ -1850,7 +1810,7 @@ msgid "Search and Replace"
 msgstr ""
 
 #. CETextEditorPage..ActionList..text_edit_findnext..Caption
-#: fCE_TextEditor.dfm:438
+#: fCE_TextEditor.dfm:413
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem14..Caption
 #: fCE_TextEditor_1.dfm:92
 #. CETextEditor..ActionList..text_edit_findnext..Caption
@@ -1859,7 +1819,7 @@ msgid "Find Next"
 msgstr ""
 
 #. CETextEditorPage..ActionList..text_edit_findprev..Caption
-#: fCE_TextEditor.dfm:446
+#: fCE_TextEditor.dfm:421
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem15..Caption
 #: fCE_TextEditor_1.dfm:96
 #. CETextEditor..ActionList..text_edit_findprev..Caption
@@ -1868,7 +1828,7 @@ msgid "Find Previous"
 msgstr ""
 
 #. CETextEditorPage..ActionList..text_format_wrap..Caption
-#: fCE_TextEditor.dfm:454
+#: fCE_TextEditor.dfm:429
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem3..SpTBXItem17..Caption
 #: fCE_TextEditor_1.dfm:103
 #. CETextEditor..ActionList..text_format_wrap..Caption
@@ -1877,7 +1837,7 @@ msgid "Word Wrap"
 msgstr ""
 
 #. CETextEditorPage..ActionList..text_format_options..Caption
-#: fCE_TextEditor.dfm:461
+#: fCE_TextEditor.dfm:436
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem3..SpTBXItem19..Caption
 #: fCE_TextEditor_1.dfm:109
 #. CETextEditor..ActionList..text_format_options..Caption
@@ -1886,7 +1846,7 @@ msgid "Editor Options..."
 msgstr ""
 
 #. CETextEditorPage..ActionList..text_view_toolbar..Caption
-#: fCE_TextEditor.dfm:468
+#: fCE_TextEditor.dfm:443
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem4..SpTBXItem20..Caption
 #: fCE_TextEditor_1.dfm:116
 #. CETextEditor..ActionList..text_view_toolbar..Caption
@@ -1895,7 +1855,7 @@ msgid "Show Toolbar"
 msgstr ""
 
 #. CETextEditorPage..ActionList..text_file_reload..Caption
-#: fCE_TextEditor.dfm:476
+#: fCE_TextEditor.dfm:451
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem21..Caption
 #: fCE_TextEditor_1.dfm:47
 #. CETextEditor..ActionList..text_file_reload..Caption
@@ -1904,7 +1864,7 @@ msgid "Reload"
 msgstr ""
 
 #. CETextEditorPage..ActionList..text_view_statusbar..Caption
-#: fCE_TextEditor.dfm:484
+#: fCE_TextEditor.dfm:459
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem4..SpTBXItem22..Caption
 #: fCE_TextEditor_1.dfm:120
 #. CETextEditor..ActionList..text_view_statusbar..Caption
@@ -1930,7 +1890,7 @@ msgid "Actions"
 msgstr ""
 
 #. CEToolbarCustomizer..ActionTree......WideText
-#: fCE_ToolbarCustomizer.dfm:62
+#: fCE_ToolbarCustomizer.dfm:63
 msgid "Name"
 msgstr ""
 
@@ -2026,16 +1986,16 @@ msgstr ""
 msgid "No Extension"
 msgstr ""
 
-#: CE_QuickView.pas:84
-#: CE_QuickView.pas:371
+#: CE_QuickView.pas:81
+#. FreeAndNil(fHexView);
+#: CE_QuickView.pas:368
 msgid "No file loaded."
 msgstr ""
 
-#: CE_QuickView.pas:189
+#: CE_QuickView.pas:186
 #. fImage.Bitmap.DrawMode:= dmBlend;
-#: CE_QuickView.pas:265
-#: CE_QuickView.pas:339
-#: CE_QuickView.pas:420
+#: CE_QuickView.pas:262
+#: CE_QuickView.pas:417
 msgid "Loading..."
 msgstr ""
 
@@ -2124,11 +2084,11 @@ msgstr ""
 msgid "Bookmarks Panel Settings"
 msgstr ""
 
-#: fCE_OptionsPage_Display_FileView.pas:46
+#: fCE_OptionsPage_Display_FileView.pas:47
 msgid "Fileview"
 msgstr ""
 
-#: fCE_OptionsPage_Display_FileView.pas:47
+#: fCE_OptionsPage_Display_FileView.pas:48
 msgid "Fileview Settings"
 msgstr ""
 

@@ -85,7 +85,7 @@ inherited CEOptionsPage_Tabs: TCEOptionsPage_Tabs
   object check_reusetabs_switch: TTntCheckBox
     Left = 16
     Top = 198
-    Width = 406
+    Width = 409
     Height = 17
     Caption = 'Reuse already open tabs'
     TabOrder = 3

@@ -46,7 +46,7 @@ object CENewTranslationDlg: TCENewTranslationDlg
   object edit_path: TTntEdit
     Left = 20
     Top = 88
-    Width = 246
+    Width = 242
     Height = 21
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 0

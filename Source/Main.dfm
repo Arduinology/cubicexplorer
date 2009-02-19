@@ -493,7 +493,7 @@ object MainForm: TMainForm
     Height = 375
     Align = alClient
     BevelOuter = bvNone
-    TabOrder = 4
+    TabOrder = 0
   end
   object ToolbarPopupMenu: TSpTBXPopupMenu
     Left = 16

@@ -29,7 +29,7 @@ uses
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ShellAPI, Menus, ShlObj, XPMan, ActiveX,
-  ImgList, Registry;
+  ImgList, Registry, AppEvnts;
 
 type
   TMainForm = class(TTntForm, ICESettingsHandler)
@@ -181,7 +181,6 @@ type
     procedure SpTBXItem80Click(Sender: TObject);
     procedure SpTBXItem85Click(Sender: TObject);
     procedure test_act1Click(Sender: TObject);
-  strict private
   private
     fFullscreen: Boolean;
     fActiveLanguage: WideString;
@@ -581,11 +580,6 @@ begin
 
 
 
-
-
-
-
-
  //test_act1Click(self);
 
 
@@ -608,6 +602,9 @@ procedure TMainForm.StartUpTimerTimer(Sender: TObject);
 begin
   StartUpTimer.Enabled:= false;
   EndUIUpdate;
+
+  if GlobalPathCtrl.ActivePage is TCEFileViewPage then
+  TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.SetFocus;
 end;
 
 {*------------------------------------------------------------------------------

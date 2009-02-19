@@ -1,19 +1,19 @@
 inherited CEFileSearchPage: TCEFileSearchPage
-  Width = 586
+  Width = 585
   Height = 423
-  ExplicitWidth = 586
+  ExplicitWidth = 585
   ExplicitHeight = 423
   object SearchPanel: TSpTBXPanel
     Left = 0
     Top = 0
-    Width = 586
+    Width = 585
     Height = 133
     Caption = 'SearchPanel'
     Align = alTop
     TabOrder = 0
     Borders = False
     TBXStyleBackground = True
-    ExplicitWidth = 587
+    ExplicitWidth = 586
     object label1: TSpTBXLabel
       Left = 8
       Top = 8
@@ -103,26 +103,25 @@ inherited CEFileSearchPage: TCEFileSearchPage
   object StatusPanel: TSpTBXPanel
     Left = 0
     Top = 401
-    Width = 586
+    Width = 585
     Height = 22
     Caption = 'StatusPanel'
     Align = alBottom
     TabOrder = 1
     Borders = False
     TBXStyleBackground = True
-    ExplicitTop = 402
-    ExplicitWidth = 587
+    ExplicitWidth = 586
     DesignSize = (
-      586
+      585
       22)
     object StatusLabel: TSpTBXLabel
       Left = 4
       Top = 2
-      Width = 579
+      Width = 578
       Height = 18
       Anchors = [akLeft, akTop, akRight, akBottom]
       AutoSize = False
-      ExplicitWidth = 580
+      ExplicitWidth = 579
     end
   end
   object FolderTreePopup: TSpTBXFormPopupMenu

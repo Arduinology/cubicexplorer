@@ -3,8 +3,8 @@ object CE_FolderTreeForm: TCE_FolderTreeForm
   Top = 0
   BorderStyle = bsNone
   Caption = 'CE_FolderTreeForm'
-  ClientHeight = 320
-  ClientWidth = 434
+  ClientHeight = 317
+  ClientWidth = 422
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,8 +17,8 @@ object CE_FolderTreeForm: TCE_FolderTreeForm
   object FolderTree: TVirtualExplorerTree
     Left = 0
     Top = 0
-    Width = 434
-    Height = 320
+    Width = 422
+    Height = 317
     Active = True
     Align = alClient
     BorderStyle = bsNone
@@ -53,6 +53,8 @@ object CE_FolderTreeForm: TCE_FolderTreeForm
     OnKeyAction = FolderTreeKeyAction
     OnMouseDown = FolderTreeMouseDown
     OnMouseUp = FolderTreeMouseUp
+    ExplicitWidth = 434
+    ExplicitHeight = 320
     Columns = <>
   end
 end

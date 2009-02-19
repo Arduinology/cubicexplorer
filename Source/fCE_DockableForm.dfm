@@ -4,7 +4,7 @@ object CECustomDockableForm: TCECustomDockableForm
   BorderStyle = bsSizeToolWin
   Caption = 'CECustomDockableForm'
   ClientHeight = 296
-  ClientWidth = 426
+  ClientWidth = 425
   Color = clBtnFace
   ParentFont = True
   FormStyle = fsStayOnTop
@@ -15,14 +15,16 @@ object CECustomDockableForm: TCECustomDockableForm
   object TopDock: TSpTBXDock
     Left = 0
     Top = 0
-    Width = 426
+    Width = 425
     Height = 9
+    ExplicitWidth = 426
   end
   object BottomDock: TSpTBXDock
     Left = 0
     Top = 287
-    Width = 426
+    Width = 425
     Height = 9
     Position = dpBottom
+    ExplicitWidth = 426
   end
 end

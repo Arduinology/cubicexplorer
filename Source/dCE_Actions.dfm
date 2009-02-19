@@ -2,8 +2,8 @@ object CEActions: TCEActions
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Height = 306
-  Width = 387
+  Height = 305
+  Width = 385
   object ActionList: TTntActionList
     Images = CE_Images.SmallIcons
     Left = 24

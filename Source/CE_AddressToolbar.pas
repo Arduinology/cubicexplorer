@@ -135,6 +135,7 @@ begin
   Self.Margins.Top:= 0;
   Self.Margins.Bottom:= 0;
   Self.AlignWithMargins:= true;
+  Self.TabOrder:= 3;
 end;
 
 {*------------------------------------------------------------------------------

@@ -2,10 +2,14 @@ inherited CE_FiltersPanel: TCE_FiltersPanel
   Caption = 'Filters'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  ExplicitWidth = 434
-  ExplicitHeight = 322
   PixelsPerInch = 96
   TextHeight = 13
+  inherited TopDock: TSpTBXDock
+    ExplicitWidth = 425
+  end
+  inherited BottomDock: TSpTBXDock
+    ExplicitWidth = 425
+  end
   object Images: TBitmap32List
     Bitmaps = <
       item

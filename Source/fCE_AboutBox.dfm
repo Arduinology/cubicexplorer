@@ -3,8 +3,8 @@ object CEAboutBox: TCEAboutBox
   Top = 0
   BorderIcons = [biSystemMenu]
   Caption = 'About CubicExplorer'
-  ClientHeight = 300
-  ClientWidth = 492
+  ClientHeight = 303
+  ClientWidth = 491
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,8 +18,8 @@ object CEAboutBox: TCEAboutBox
   OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (
-    492
-    300)
+    491
+    303)
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
@@ -115,7 +115,7 @@ object CEAboutBox: TCEAboutBox
   object Label1: TLabel
     Left = 63
     Top = 8
-    Width = 425
+    Width = 424
     Height = 21
     Anchors = [akLeft, akTop, akRight]
     AutoSize = False
@@ -126,11 +126,12 @@ object CEAboutBox: TCEAboutBox
     Font.Name = 'Arial'
     Font.Style = []
     ParentFont = False
+    ExplicitWidth = 425
   end
   object Label2: TLabel
     Left = 63
     Top = 29
-    Width = 425
+    Width = 424
     Height = 20
     Anchors = [akLeft, akTop, akRight]
     AutoSize = False
@@ -140,11 +141,12 @@ object CEAboutBox: TCEAboutBox
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
+    ExplicitWidth = 425
   end
   object Label3: TLabel
     Left = 63
     Top = 46
-    Width = 425
+    Width = 424
     Height = 19
     Anchors = [akLeft, akTop, akRight]
     AutoSize = False
@@ -155,12 +157,13 @@ object CEAboutBox: TCEAboutBox
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
+    ExplicitWidth = 425
   end
   object SynMemo1: TSynMemo
     Left = 8
     Top = 67
-    Width = 484
-    Height = 198
+    Width = 483
+    Height = 201
     Anchors = [akLeft, akTop, akRight, akBottom]
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -203,16 +206,20 @@ object CEAboutBox: TCEAboutBox
     Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoNoCaret, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
     ReadOnly = True
     RightEdgeColor = clWindow
+    ExplicitWidth = 484
+    ExplicitHeight = 198
   end
   object but_close: TTntButton
-    Left = 413
-    Top = 271
+    Left = 412
+    Top = 274
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
     Caption = 'Close'
     TabOrder = 1
     OnClick = but_closeClick
+    ExplicitLeft = 413
+    ExplicitTop = 271
   end
   object SynURIOpener1: TSynURIOpener
     CtrlActivatesLinks = False

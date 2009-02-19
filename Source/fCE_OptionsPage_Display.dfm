@@ -18,7 +18,7 @@ inherited CEOptionsPage_Display: TCEOptionsPage_Display
   object check_path_in_title: TTntCheckBox
     Left = 16
     Top = 71
-    Width = 401
+    Width = 409
     Height = 17
     Caption = 'Show Path in Title bar'
     TabOrder = 1

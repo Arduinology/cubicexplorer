@@ -3,8 +3,8 @@ object BookmarkPropDlg: TBookmarkPropDlg
   Top = 0
   BorderStyle = bsDialog
   Caption = 'Properties'
-  ClientHeight = 262
-  ClientWidth = 360
+  ClientHeight = 261
+  ClientWidth = 359
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,25 +17,27 @@ object BookmarkPropDlg: TBookmarkPropDlg
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   DesignSize = (
-    360
-    262)
+    359
+    261)
   PixelsPerInch = 96
   TextHeight = 13
   object PageControl: TPageControl
     Left = 4
     Top = 4
-    Width = 352
-    Height = 223
+    Width = 351
+    Height = 222
     ActivePage = GeneralSheet
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
-    ExplicitHeight = 222
+    ExplicitWidth = 352
+    ExplicitHeight = 223
     object GeneralSheet: TTabSheet
       Caption = 'General'
-      ExplicitHeight = 194
+      ExplicitWidth = 344
+      ExplicitHeight = 195
       DesignSize = (
-        344
-        195)
+        343
+        194)
       object img_icon: TImage
         Left = 11
         Top = 12
@@ -56,13 +58,14 @@ object BookmarkPropDlg: TBookmarkPropDlg
       object TargetPanel: TPanel
         Left = 3
         Top = 47
-        Width = 338
-        Height = 145
+        Width = 337
+        Height = 144
         Anchors = [akLeft, akTop, akRight, akBottom]
         BevelInner = bvRaised
         BevelOuter = bvLowered
         TabOrder = 1
-        ExplicitHeight = 144
+        ExplicitWidth = 338
+        ExplicitHeight = 145
         object Label2: TLabel
           Left = 8
           Top = 8
@@ -106,8 +109,8 @@ object BookmarkPropDlg: TBookmarkPropDlg
     end
   end
   object but_OK: TButton
-    Left = 119
-    Top = 233
+    Left = 118
+    Top = 232
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
@@ -115,11 +118,12 @@ object BookmarkPropDlg: TBookmarkPropDlg
     ModalResult = 1
     TabOrder = 1
     OnClick = but_OKClick
-    ExplicitTop = 232
+    ExplicitLeft = 119
+    ExplicitTop = 233
   end
   object but_Cancel: TButton
-    Left = 200
-    Top = 233
+    Left = 199
+    Top = 232
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
@@ -127,18 +131,20 @@ object BookmarkPropDlg: TBookmarkPropDlg
     ModalResult = 2
     TabOrder = 2
     OnClick = but_CancelClick
-    ExplicitTop = 232
+    ExplicitLeft = 200
+    ExplicitTop = 233
   end
   object but_Apply: TButton
-    Left = 281
-    Top = 233
+    Left = 280
+    Top = 232
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
     Caption = 'Apply'
     TabOrder = 3
     OnClick = but_ApplyClick
-    ExplicitTop = 232
+    ExplicitLeft = 281
+    ExplicitTop = 233
   end
   object FormPopupMenu: TSpTBXFormPopupMenu
     OnPopup = FormPopupMenuPopup

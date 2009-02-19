@@ -1,9 +1,20 @@
 inherited CEQuickViewPanel: TCEQuickViewPanel
   Caption = 'CEQuickViewPanel'
+  ClientWidth = 428
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  ExplicitWidth = 436
+  ExplicitHeight = 322
   PixelsPerInch = 96
   TextHeight = 13
+  inherited TopDock: TSpTBXDock
+    Width = 428
+    ExplicitWidth = 425
+  end
+  inherited BottomDock: TSpTBXDock
+    Width = 428
+    ExplicitWidth = 425
+  end
   object PngImageList: TPngImageList
     PngImages = <
       item

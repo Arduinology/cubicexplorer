@@ -1,11 +1,20 @@
 inherited CEStackPanel: TCEStackPanel
   Caption = 'Stack'
+  ClientWidth = 422
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  ExplicitWidth = 434
-  ExplicitHeight = 320
+  ExplicitWidth = 430
+  ExplicitHeight = 322
   PixelsPerInch = 96
   TextHeight = 13
+  inherited TopDock: TSpTBXDock
+    Width = 422
+    ExplicitWidth = 425
+  end
+  inherited BottomDock: TSpTBXDock
+    Width = 422
+    ExplicitWidth = 425
+  end
   object DropStackPopup: TSpTBXPopupMenu
     OnPopup = DropStackPopupPopup
     Left = 360

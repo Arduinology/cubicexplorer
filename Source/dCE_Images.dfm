@@ -1,7 +1,7 @@
 object CE_Images: TCE_Images
   OldCreateOrder = False
-  Height = 150
-  Width = 339
+  Height = 151
+  Width = 335
   object MediumIcons: TPngImageList
     Height = 24
     Width = 24

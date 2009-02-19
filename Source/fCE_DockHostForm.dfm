@@ -4,7 +4,7 @@ object CEDockHostForm: TCEDockHostForm
   BorderStyle = bsNone
   Caption = 'CEDockHostForm'
   ClientHeight = 320
-  ClientWidth = 434
+  ClientWidth = 433
   Color = clBtnFace
   ParentFont = True
   OldCreateOrder = False
@@ -15,31 +15,35 @@ object CEDockHostForm: TCEDockHostForm
   object CenterPanel: TPanel
     Left = 0
     Top = 0
-    Width = 434
+    Width = 433
     Height = 320
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitWidth = 434
     object PageHostPanel: TPanel
       Left = 0
       Top = 0
-      Width = 434
+      Width = 433
       Height = 320
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 0
+      ExplicitWidth = 434
       object TopPageToolDock: TSpTBXDock
         Left = 0
         Top = 0
-        Width = 434
+        Width = 433
         Height = 9
+        ExplicitWidth = 434
       end
       object BottomPageToolDock: TSpTBXDock
         Left = 0
         Top = 311
-        Width = 434
+        Width = 433
         Height = 9
         Position = dpBottom
+        ExplicitWidth = 434
       end
       object LeftPageToolDock: TSpTBXDock
         Left = 0
@@ -49,11 +53,12 @@ object CEDockHostForm: TCEDockHostForm
         Position = dpLeft
       end
       object RightPageToolDock: TSpTBXDock
-        Left = 425
+        Left = 424
         Top = 9
         Width = 9
         Height = 302
         Position = dpRight
+        ExplicitLeft = 425
       end
     end
   end
