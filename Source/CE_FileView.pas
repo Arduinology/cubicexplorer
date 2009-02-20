@@ -378,10 +378,6 @@ begin
     begin
       Self.CellSizes.List.RestoreDefaults;
     end;
-  end
-  else if Value = elsFilmStrip then // TODO: work around bug in TEasyScrollbarManager.ValidateOffsets. Remove onces fixed
-  begin
-    Self.CellSizes.List.Width:= Self.CellSizes.FilmStrip.Width;
   end;
 
   if assigned(fOnViewStyleChange) then

@@ -33,12 +33,12 @@ type
   TCEStringEditor = class(TEasyStringEditor)
   protected
   public
-    procedure SetEditorFocus; override;
+    function SetEditorFocus: Boolean; override;
   end;
 
   TCEMemoEditor = class(TEasyMemoEditor)
   public
-    procedure SetEditorFocus; override;
+    function SetEditorFocus: Boolean; override;
   end;
 
   TCECustomFileView = class(TVirtualExplorerEasyListview, IShellBrowser, IOleWindow)
@@ -145,7 +145,7 @@ implementation
 {*------------------------------------------------------------------------------
   Get's called on set focus
 -------------------------------------------------------------------------------}
-procedure TCEStringEditor.SetEditorFocus;
+function TCEStringEditor.SetEditorFocus: Boolean;
 var
   l: Integer;
   edit: TEasyEdit;
@@ -173,6 +173,7 @@ begin
   begin
     edit.SelectAll;
   end;
+  Result:= true;
 end;
 
 {##############################################################################}
@@ -180,7 +181,7 @@ end;
 {*------------------------------------------------------------------------------
   Get's called on set focus
 -------------------------------------------------------------------------------}
-procedure TCEMemoEditor.SetEditorFocus;
+function TCEMemoEditor.SetEditorFocus: Boolean;
 var
   l: Integer;
   edit: TEasyMemo;
@@ -208,6 +209,7 @@ begin
   begin
     edit.SelectAll;
   end;
+  Result:= true;
 end;
 
 {##############################################################################}

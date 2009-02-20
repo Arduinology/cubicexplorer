@@ -632,7 +632,6 @@ procedure ExecuteNavigationCategory(ActionID: Integer);
 var
   page: TCECustomTabPage;
   ws: WideString;
-  pidl: PItemIDList;
 begin
   case ActionID of
     601: begin
