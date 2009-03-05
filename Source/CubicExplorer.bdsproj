@@ -150,7 +150,7 @@
 			<VersionInfo Name="MajorVer">0</VersionInfo>
 			<VersionInfo Name="MinorVer">90</VersionInfo>
 			<VersionInfo Name="Release">0</VersionInfo>
-			<VersionInfo Name="Build">1103</VersionInfo>
+			<VersionInfo Name="Build">1104</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">True</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
@@ -162,7 +162,7 @@
 		<VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName">Cubic Reality Software</VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription">File Manager</VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">0.90.0.1103</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">0.90.0.1104</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName"></VersionInfoKeys>
 			<VersionInfoKeys Name="LegalCopyright">Marko Savolainen 2006-2009</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>

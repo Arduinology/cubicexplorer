@@ -18,6 +18,8 @@ uses
   JvDockControlForm,
   // SpTBX
   SpTBXSkins,
+  // GraphicEx
+  GraphicEx,
   // System Units
   SysUtils, Classes, ActnList, ImgList, Controls, Windows, ExtCtrls, Forms,
   ShellAPI, AppEvnts, Messages, ShlObj, Clipbrd, Menus;
@@ -215,7 +217,7 @@ uses
   CE_Bookmarks, CE_BookmarkTree, fCE_AboutBox, fCE_FileSearch,
   CE_ToolbarButtons, fCE_ToolbarCustomizer, fCE_TabPage, fCE_FiltersPanel,
   fCE_PoEditor, fCE_OptionsDialog, CE_Sessions, fCE_SessionDlg, fCE_StackPanel,
-  CE_BaseFileView;
+  CE_BaseFileView, fCE_QuickViewTab;
 
 {##############################################################################}
 
@@ -918,12 +920,28 @@ procedure OpenFileInTab(FilePath: WideString; SelectTab: Boolean = true;
     ActivateApp: Boolean = false);
 var
   editor: TCETextEditorPage;
+  quickview: TCEQuickViewPage;
+  filetype: TCEQuickViewType;
+  ext: WideString;
 begin
   if WideFileExists(FilePath) then
   begin
     GlobalFileViewSettings.AssignFromActivePage;
-    editor:= TCETextEditorPage(MainForm.TabSet.AddTab(TCETextEditorPage, SelectTab).Page);
-    editor.OpenDocument(FilePath);
+
+    ext:= WideExtractFileExt(FilePath);
+    filetype:= QuickViewSettings.GetViewType(ext);
+    case filetype of
+      qvImage, qvVideo: begin
+        quickview:= TCEQuickViewPage(MainForm.TabSet.AddTab(TCEQuickViewPage, SelectTab).Page);
+        quickview.OpenFile(FilePath);
+      end;
+      else
+      begin
+        editor:= TCETextEditorPage(MainForm.TabSet.AddTab(TCETextEditorPage, SelectTab).Page);
+        editor.OpenDocument(FilePath);
+      end;
+    end;
+
     if ActivateApp then
     MainForm.MakeVisible;
   end;

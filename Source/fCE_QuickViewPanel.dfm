@@ -9,11 +9,11 @@ inherited CEQuickViewPanel: TCEQuickViewPanel
   TextHeight = 13
   inherited TopDock: TSpTBXDock
     Width = 428
-    ExplicitWidth = 425
+    ExplicitWidth = 428
   end
   inherited BottomDock: TSpTBXDock
     Width = 428
-    ExplicitWidth = 425
+    ExplicitWidth = 428
   end
   object PngImageList: TPngImageList
     PngImages = <

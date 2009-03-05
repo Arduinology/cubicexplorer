@@ -87,7 +87,8 @@ uses
   CE_SpTabBar in 'CE_SpTabBar.pas',
   JvDockVSNetStyle in 'Components\jvcl\JvDockVSNetStyle.pas',
   JvDockControlForm in 'Components\jvcl\JvDockControlForm.pas',
-  JvDockTree in 'Components\jvcl\JvDockTree.pas';
+  JvDockTree in 'Components\jvcl\JvDockTree.pas',
+  fCE_QuickViewTab in 'fCE_QuickViewTab.pas' {CEQuickViewPage: TFrame};
 
 {$R *.res}
 {$R 'CE_Resources.res'}

@@ -72,11 +72,11 @@
 #define SynEditStrConst_SYNS_FriendlyAttrOctal 64861
 #define SynEditStrConst_SYNS_FriendlyAttrOperator 64862
 #define SynEditStrConst_SYNS_FriendlyAttrPragma 64863
-#define MZLib_SUnknownCompression 64864
-#define MZLib_SInvalidWindowSize 64865
-#define MZLib_SIncorrectHeaderCheck 64866
-#define MZLib_SNeedDictionary 64867
-#define JPG_sJPEGError 64868
+#define pnglang_EPNGCannotChangeSizeText 64864
+#define pnglang_EPNGCannotAddChunkText 64865
+#define pnglang_EPNGCannotAddInvalidImageText 64866
+#define pnglang_EPNGOutMemoryText 64867
+#define pnglang_EPNGHeaderNotPresentText 64868
 #define OleConst_sNoRunningObject 64869
 #define SynEditStrConst_SYNS_FriendlyAttrAssembler 64870
 #define SynEditStrConst_SYNS_FriendlyAttrAttributeName 64871
@@ -88,102 +88,102 @@
 #define SynEditStrConst_SYNS_FriendlyAttrDOCTYPESection 64877
 #define SynEditStrConst_SYNS_FriendlyAttrDocumentation 64878
 #define SynEditStrConst_SYNS_FriendlyAttrElementName 64879
-#define MZLib_SDataError 64880
-#define MZLib_SInsufficientMemory 64881
-#define MZLib_SBufferError 64882
-#define MZLib_SIncompatibleVersion 64883
-#define MZLib_SInvalidDistanceCode 64884
-#define MZLib_SInvalidLengthCode 64885
-#define MZLib_SOversubscribedDBLTree 64886
-#define MZLib_SIncompleteDBLTree 64887
-#define MZLib_SOversubscribedLLTree 64888
-#define MZLib_SIncompleteLLTree 64889
-#define MZLib_SEmptyDistanceTree 64890
-#define MZLib_SInvalidBlockType 64891
-#define MZLib_SInvalidStoredBlockLengths 64892
-#define MZLib_STooManyLDSymbols 64893
-#define MZLib_SInvalidBitLengthRepeat 64894
-#define MZLib_SIncorrectDataCheck 64895
-#define GraphicStrings_gesLoadingData 64896
-#define GraphicStrings_gesUpsampling 64897
-#define GraphicStrings_gesTransfering 64898
-#define GraphicStrings_gesLZ77Error 64899
-#define GraphicStrings_gesJPEGEOI 64900
-#define GraphicStrings_gesJPEGStripSize 64901
-#define GraphicStrings_gesJPEGComponentCount 64902
-#define GraphicStrings_gesJPEGDataPrecision 64903
-#define GraphicStrings_gesJPEGSamplingFactors 64904
-#define GraphicStrings_gesJPEGBogusTableField 64905
-#define GraphicStrings_gesJPEGFractionalLine 64906
-#define GraphicStrings_gesWarning 64907
-#define MZLib_SNeedDict 64908
-#define MZLib_SStreamEnd 64909
-#define MZLib_SFileError 64910
-#define MZLib_SStreamError 64911
-#define GraphicStrings_gesInvalidColorFormat 64912
-#define GraphicStrings_gesStreamReadError 64913
-#define GraphicStrings_gesUnsupportedFeature 64914
-#define GraphicStrings_gesInvalidCRC 64915
-#define GraphicStrings_gesCompression 64916
-#define GraphicStrings_gesExtraCompressedData 64917
-#define GraphicStrings_gesInvalidPalette 64918
-#define GraphicStrings_gesUnknownCriticalChunk 64919
-#define GraphicStrings_gesCompressionScheme 64920
-#define GraphicStrings_gesIndexedNotSupported 64921
-#define GraphicStrings_gesConversionUnsupported 64922
-#define GraphicStrings_gesInvalidSampleDepth 64923
-#define GraphicStrings_gesInvalidPixelDepth 64924
-#define GraphicStrings_gesInvalidSubSampling 64925
-#define GraphicStrings_gesVerticalSubSamplingError 64926
-#define GraphicStrings_gesPreparing 64927
-#define GraphicStrings_gesZSoft 64928
-#define GraphicStrings_gesZSoftWord 64929
-#define GraphicStrings_gesAliasWaveFront 64930
-#define GraphicStrings_gesSGITrueColorAlpha 64931
-#define GraphicStrings_gesSGIMono 64932
-#define GraphicStrings_gesPhotoshop 64933
-#define GraphicStrings_gesPortable 64934
-#define GraphicStrings_gesPortablePixel 64935
-#define GraphicStrings_gesPortableGray 64936
-#define GraphicStrings_gesPortableMono 64937
-#define GraphicStrings_gesAutoDesk 64938
-#define GraphicStrings_gesKodakPhotoCD 64939
-#define GraphicStrings_gesHalo 64940
-#define GraphicStrings_gesPaintShopPro 64941
-#define GraphicStrings_gesPortableNetworkGraphic 64942
-#define GraphicStrings_gesInvalidImage 64943
-#define GraphicStrings_gesDIBs 64944
-#define GraphicStrings_gesEPS 64945
-#define GraphicStrings_gesIcons 64946
-#define GraphicStrings_gesMetaFiles 64947
-#define GraphicStrings_gesEnhancedMetaFiles 64948
-#define GraphicStrings_gesJPGImages 64949
-#define GraphicStrings_gesJPEGImages 64950
-#define GraphicStrings_gesJPEImages 64951
-#define GraphicStrings_gesJFIFImages 64952
-#define GraphicStrings_gesTruevision 64953
-#define GraphicStrings_gesTIFF 64954
-#define GraphicStrings_gesMacTIFF 64955
-#define GraphicStrings_gesPCTIF 64956
-#define GraphicStrings_gesGFIFax 64957
-#define GraphicStrings_gesSGI 64958
-#define GraphicStrings_gesSGITrueColor 64959
-#define pnglang_EPNGSizeExceedsText 64960
-#define pnglang_EPNGUnknownPalEntryText 64961
-#define pnglang_EPNGUnknownCriticalChunkText 64962
-#define pnglang_EPNGUnknownCompressionText 64963
-#define pnglang_EPNGUnknownInterlaceText 64964
-#define pnglang_EPNGCannotAssignChunkText 64965
-#define pnglang_EPNGUnexpectedEndText 64966
-#define pnglang_EPNGNoImageDataText 64967
-#define pnglang_EPNGCannotChangeSizeText 64968
-#define pnglang_EPNGCannotAddChunkText 64969
-#define pnglang_EPNGCannotAddInvalidImageText 64970
-#define pnglang_EPNGOutMemoryText 64971
-#define pnglang_EPNGHeaderNotPresentText 64972
-#define GraphicStrings_gesRegistration 64973
-#define GraphicStrings_gesBitmaps 64974
-#define GraphicStrings_gesRLEBitmaps 64975
+#define JPG_sJPEGError 64880
+#define pnglang_EPngInvalidCRCText 64881
+#define pnglang_EPNGInvalidIHDRText 64882
+#define pnglang_EPNGMissingMultipleIDATText 64883
+#define pnglang_EPNGZLIBErrorText 64884
+#define pnglang_EPNGInvalidPaletteText 64885
+#define pnglang_EPNGInvalidFileHeaderText 64886
+#define pnglang_EPNGIHDRNotFirstText 64887
+#define pnglang_EPNGSizeExceedsText 64888
+#define pnglang_EPNGUnknownPalEntryText 64889
+#define pnglang_EPNGUnknownCriticalChunkText 64890
+#define pnglang_EPNGUnknownCompressionText 64891
+#define pnglang_EPNGUnknownInterlaceText 64892
+#define pnglang_EPNGCannotAssignChunkText 64893
+#define pnglang_EPNGUnexpectedEndText 64894
+#define pnglang_EPNGNoImageDataText 64895
+#define MZLib_SInvalidDistanceCode 64896
+#define MZLib_SInvalidLengthCode 64897
+#define MZLib_SOversubscribedDBLTree 64898
+#define MZLib_SIncompleteDBLTree 64899
+#define MZLib_SOversubscribedLLTree 64900
+#define MZLib_SIncompleteLLTree 64901
+#define MZLib_SEmptyDistanceTree 64902
+#define MZLib_SInvalidBlockType 64903
+#define MZLib_SInvalidStoredBlockLengths 64904
+#define MZLib_STooManyLDSymbols 64905
+#define MZLib_SInvalidBitLengthRepeat 64906
+#define MZLib_SIncorrectDataCheck 64907
+#define MZLib_SUnknownCompression 64908
+#define MZLib_SInvalidWindowSize 64909
+#define MZLib_SIncorrectHeaderCheck 64910
+#define MZLib_SNeedDictionary 64911
+#define GraphicStrings_gesJPEGEOI 64912
+#define GraphicStrings_gesJPEGStripSize 64913
+#define GraphicStrings_gesJPEGComponentCount 64914
+#define GraphicStrings_gesJPEGDataPrecision 64915
+#define GraphicStrings_gesJPEGSamplingFactors 64916
+#define GraphicStrings_gesJPEGBogusTableField 64917
+#define GraphicStrings_gesJPEGFractionalLine 64918
+#define GraphicStrings_gesWarning 64919
+#define MZLib_SNeedDict 64920
+#define MZLib_SStreamEnd 64921
+#define MZLib_SFileError 64922
+#define MZLib_SStreamError 64923
+#define MZLib_SDataError 64924
+#define MZLib_SInsufficientMemory 64925
+#define MZLib_SBufferError 64926
+#define MZLib_SIncompatibleVersion 64927
+#define GraphicStrings_gesCompression 64928
+#define GraphicStrings_gesExtraCompressedData 64929
+#define GraphicStrings_gesInvalidPalette 64930
+#define GraphicStrings_gesUnknownCriticalChunk 64931
+#define GraphicStrings_gesCompressionScheme 64932
+#define GraphicStrings_gesIndexedNotSupported 64933
+#define GraphicStrings_gesConversionUnsupported 64934
+#define GraphicStrings_gesInvalidSampleDepth 64935
+#define GraphicStrings_gesInvalidPixelDepth 64936
+#define GraphicStrings_gesInvalidSubSampling 64937
+#define GraphicStrings_gesVerticalSubSamplingError 64938
+#define GraphicStrings_gesPreparing 64939
+#define GraphicStrings_gesLoadingData 64940
+#define GraphicStrings_gesUpsampling 64941
+#define GraphicStrings_gesTransfering 64942
+#define GraphicStrings_gesLZ77Error 64943
+#define GraphicStrings_gesSGIMono 64944
+#define GraphicStrings_gesPhotoshop 64945
+#define GraphicStrings_gesPortable 64946
+#define GraphicStrings_gesPortablePixel 64947
+#define GraphicStrings_gesPortableGray 64948
+#define GraphicStrings_gesPortableMono 64949
+#define GraphicStrings_gesAutoDesk 64950
+#define GraphicStrings_gesKodakPhotoCD 64951
+#define GraphicStrings_gesHalo 64952
+#define GraphicStrings_gesPaintShopPro 64953
+#define GraphicStrings_gesPortableNetworkGraphic 64954
+#define GraphicStrings_gesInvalidImage 64955
+#define GraphicStrings_gesInvalidColorFormat 64956
+#define GraphicStrings_gesStreamReadError 64957
+#define GraphicStrings_gesUnsupportedFeature 64958
+#define GraphicStrings_gesInvalidCRC 64959
+#define GraphicStrings_gesEnhancedMetaFiles 64960
+#define GraphicStrings_gesJPGImages 64961
+#define GraphicStrings_gesJPEGImages 64962
+#define GraphicStrings_gesJPEImages 64963
+#define GraphicStrings_gesJFIFImages 64964
+#define GraphicStrings_gesTruevision 64965
+#define GraphicStrings_gesTIFF 64966
+#define GraphicStrings_gesMacTIFF 64967
+#define GraphicStrings_gesPCTIF 64968
+#define GraphicStrings_gesGFIFax 64969
+#define GraphicStrings_gesSGI 64970
+#define GraphicStrings_gesSGITrueColor 64971
+#define GraphicStrings_gesZSoft 64972
+#define GraphicStrings_gesZSoftWord 64973
+#define GraphicStrings_gesAliasWaveFront 64974
+#define GraphicStrings_gesSGITrueColorAlpha 64975
 #define JvDockGlobals_RsDockJvDockInfoSplitter 64976
 #define JvDockGlobals_RsDockJvDockTreeCloseBtnHint 64977
 #define JvDockGlobals_RsDockVSNETDockTreeAutoHideBtnHint 64978
@@ -193,13 +193,13 @@
 #define JvDockGlobals_RsEDockCannotLayAnother 64982
 #define JvDockGlobals_RsEDockCannotSetTabPosition 64983
 #define JvDockGlobals_RsDockCannotFindWindow 64984
-#define pnglang_EPngInvalidCRCText 64985
-#define pnglang_EPNGInvalidIHDRText 64986
-#define pnglang_EPNGMissingMultipleIDATText 64987
-#define pnglang_EPNGZLIBErrorText 64988
-#define pnglang_EPNGInvalidPaletteText 64989
-#define pnglang_EPNGInvalidFileHeaderText 64990
-#define pnglang_EPNGIHDRNotFirstText 64991
+#define GraphicStrings_gesRegistration 64985
+#define GraphicStrings_gesBitmaps 64986
+#define GraphicStrings_gesRLEBitmaps 64987
+#define GraphicStrings_gesDIBs 64988
+#define GraphicStrings_gesEPS 64989
+#define GraphicStrings_gesIcons 64990
+#define GraphicStrings_gesMetaFiles 64991
 #define JvResources_RsClBtnFace 64992
 #define JvResources_RsClBtnShadow 64993
 #define JvResources_RsClGrayText 64994
@@ -810,11 +810,11 @@ BEGIN
 	SynEditStrConst_SYNS_FriendlyAttrOctal,	"Octal"
 	SynEditStrConst_SYNS_FriendlyAttrOperator,	"Operator"
 	SynEditStrConst_SYNS_FriendlyAttrPragma,	"Pragma"
-	MZLib_SUnknownCompression,	"unknown compression method"
-	MZLib_SInvalidWindowSize,	"invalid window size"
-	MZLib_SIncorrectHeaderCheck,	"incorrect header check"
-	MZLib_SNeedDictionary,	"need dictionary"
-	JPG_sJPEGError,	"JPEG error #%d"
+	pnglang_EPNGCannotChangeSizeText,	"The \"Portable Network Graphics\" image can not be resize by changing width and height properties. Try assigning the image from a bitmap."
+	pnglang_EPNGCannotAddChunkText,	"The program tried to add a existent critical chunk to the current image which is not allowed."
+	pnglang_EPNGCannotAddInvalidImageText,	"It's not allowed to add a new chunk because the current image is invalid."
+	pnglang_EPNGOutMemoryText,	"Some operation could not be performed because the system is out of resources. Close some windows and try again."
+	pnglang_EPNGHeaderNotPresentText,	"This operation is not valid because the current image contains no valid header."
 	OleConst_sNoRunningObject,	"Unable to retrieve a pointer to a running object registered with OLE for %s/%s"
 	SynEditStrConst_SYNS_FriendlyAttrAssembler,	"Assembler"
 	SynEditStrConst_SYNS_FriendlyAttrAttributeName,	"Attribute Name"
@@ -826,10 +826,22 @@ BEGIN
 	SynEditStrConst_SYNS_FriendlyAttrDOCTYPESection,	"DOCTYPE Section"
 	SynEditStrConst_SYNS_FriendlyAttrDocumentation,	"Documentation"
 	SynEditStrConst_SYNS_FriendlyAttrElementName,	"Element Name"
-	MZLib_SDataError,	"data error"
-	MZLib_SInsufficientMemory,	"insufficient memory"
-	MZLib_SBufferError,	"buffer error"
-	MZLib_SIncompatibleVersion,	"incompatible version"
+	JPG_sJPEGError,	"JPEG error #%d"
+	pnglang_EPngInvalidCRCText,	"This \"Portable Network Graphics\" image is not valid because it contains invalid pieces of data (crc error)"
+	pnglang_EPNGInvalidIHDRText,	"The \"Portable Network Graphics\" image could not be loaded because one of its main piece of data (ihdr) might be corrupted"
+	pnglang_EPNGMissingMultipleIDATText,	"This \"Portable Network Graphics\" image is invalid because it has missing image parts."
+	pnglang_EPNGZLIBErrorText,	"Could not decompress the image because it contains invalid compressed data.\r\n Description: "
+	pnglang_EPNGInvalidPaletteText,	"The \"Portable Network Graphics\" image contains an invalid palette."
+	pnglang_EPNGInvalidFileHeaderText,	"The file being readed is not a valid \"Portable Network Graphics\" image because it contains an invalid header. This file may be corruped, try obtaining it again."
+	pnglang_EPNGIHDRNotFirstText,	"This \"Portable Network Graphics\" image is not supported or it might be invalid.\r\n(IHDR chunk is not the first)"
+	pnglang_EPNGSizeExceedsText,	"This \"Portable Network Graphics\" image is not supported because either it's width or height exceeds the maximum size, which is 65535 pixels length."
+	pnglang_EPNGUnknownPalEntryText,	"There is no such palette entry."
+	pnglang_EPNGUnknownCriticalChunkText,	"This \"Portable Network Graphics\" image contains an unknown critical part which could not be decoded."
+	pnglang_EPNGUnknownCompressionText,	"This \"Portable Network Graphics\" image is encoded with an unknown compression scheme which could not be decoded."
+	pnglang_EPNGUnknownInterlaceText,	"This \"Portable Network Graphics\" image uses an unknown interlace scheme which could not be decoded."
+	pnglang_EPNGCannotAssignChunkText,	"The chunks must be compatible to be assigned."
+	pnglang_EPNGUnexpectedEndText,	"This \"Portable Network Graphics\" image is invalid because the decoder found an unexpected end of the file."
+	pnglang_EPNGNoImageDataText,	"This \"Portable Network Graphics\" image contains no data."
 	MZLib_SInvalidDistanceCode,	"invalid distance code"
 	MZLib_SInvalidLengthCode,	"invalid literal/length code"
 	MZLib_SOversubscribedDBLTree,	"oversubscribed dynamic bit lengths tree"
@@ -842,10 +854,10 @@ BEGIN
 	MZLib_STooManyLDSymbols,	"too many length or distance symbols"
 	MZLib_SInvalidBitLengthRepeat,	"invalid bit length repeat"
 	MZLib_SIncorrectDataCheck,	"incorrect data check"
-	GraphicStrings_gesLoadingData,	"Loading data..."
-	GraphicStrings_gesUpsampling,	"Upsampling..."
-	GraphicStrings_gesTransfering,	"Transfering..."
-	GraphicStrings_gesLZ77Error,	"LZ77 decompression error."
+	MZLib_SUnknownCompression,	"unknown compression method"
+	MZLib_SInvalidWindowSize,	"invalid window size"
+	MZLib_SIncorrectHeaderCheck,	"incorrect header check"
+	MZLib_SNeedDictionary,	"need dictionary"
 	GraphicStrings_gesJPEGEOI,	"JPEG decompression error. Unexpected end of input."
 	GraphicStrings_gesJPEGStripSize,	"Improper JPEG strip/tile size."
 	GraphicStrings_gesJPEGComponentCount,	"Improper JPEG component count."
@@ -858,10 +870,10 @@ BEGIN
 	MZLib_SStreamEnd,	"stream end"
 	MZLib_SFileError,	"file error"
 	MZLib_SStreamError,	"stream error"
-	GraphicStrings_gesInvalidColorFormat,	"Invalid color format in %s file."
-	GraphicStrings_gesStreamReadError,	"Stream read error in %s file."
-	GraphicStrings_gesUnsupportedFeature,	"Cannot load image. %s not supported for %s files."
-	GraphicStrings_gesInvalidCRC,	"Cannot load image. CRC error found in %s file."
+	MZLib_SDataError,	"data error"
+	MZLib_SInsufficientMemory,	"insufficient memory"
+	MZLib_SBufferError,	"buffer error"
+	MZLib_SIncompatibleVersion,	"incompatible version"
 	GraphicStrings_gesCompression,	"Cannot load image. Compression error found in %s file."
 	GraphicStrings_gesExtraCompressedData,	"Cannot load image. Extra compressed data found in %s file."
 	GraphicStrings_gesInvalidPalette,	"Cannot load image. Palette in %s file is invalid."
@@ -874,10 +886,10 @@ BEGIN
 	GraphicStrings_gesInvalidSubSampling,	"Subsampling value is invalid. Allowed are 1, 2 and 4."
 	GraphicStrings_gesVerticalSubSamplingError,	"Vertical subsampling value must be <= horizontal subsampling value."
 	GraphicStrings_gesPreparing,	"Preparing..."
-	GraphicStrings_gesZSoft,	"ZSoft Paintbrush images"
-	GraphicStrings_gesZSoftWord,	"Word 5.x screen capture images"
-	GraphicStrings_gesAliasWaveFront,	"Alias/Wavefront images"
-	GraphicStrings_gesSGITrueColorAlpha,	"SGI true color images with alpha"
+	GraphicStrings_gesLoadingData,	"Loading data..."
+	GraphicStrings_gesUpsampling,	"Upsampling..."
+	GraphicStrings_gesTransfering,	"Transfering..."
+	GraphicStrings_gesLZ77Error,	"LZ77 decompression error."
 	GraphicStrings_gesSGIMono,	"SGI black/white images"
 	GraphicStrings_gesPhotoshop,	"Photoshop images"
 	GraphicStrings_gesPortable,	"Portable map images"
@@ -890,10 +902,10 @@ BEGIN
 	GraphicStrings_gesPaintShopPro,	"Paintshop Pro images"
 	GraphicStrings_gesPortableNetworkGraphic,	"Portable network graphic images"
 	GraphicStrings_gesInvalidImage,	"Cannot load image. Invalid or unexpected %s image format."
-	GraphicStrings_gesDIBs,	"Device independant Windows bitmaps"
-	GraphicStrings_gesEPS,	"Encapsulated Postscript images"
-	GraphicStrings_gesIcons,	"Windows icons"
-	GraphicStrings_gesMetaFiles,	"Windows metafiles"
+	GraphicStrings_gesInvalidColorFormat,	"Invalid color format in %s file."
+	GraphicStrings_gesStreamReadError,	"Stream read error in %s file."
+	GraphicStrings_gesUnsupportedFeature,	"Cannot load image. %s not supported for %s files."
+	GraphicStrings_gesInvalidCRC,	"Cannot load image. CRC error found in %s file."
 	GraphicStrings_gesEnhancedMetaFiles,	"Windows enhanced meta files"
 	GraphicStrings_gesJPGImages,	"JPG images"
 	GraphicStrings_gesJPEGImages,	"JPEG images"
@@ -906,22 +918,10 @@ BEGIN
 	GraphicStrings_gesGFIFax,	"GFI fax images"
 	GraphicStrings_gesSGI,	"SGI images"
 	GraphicStrings_gesSGITrueColor,	"SGI true color images"
-	pnglang_EPNGSizeExceedsText,	"This \"Portable Network Graphics\" image is not supported because either it's width or height exceeds the maximum size, which is 65535 pixels length."
-	pnglang_EPNGUnknownPalEntryText,	"There is no such palette entry."
-	pnglang_EPNGUnknownCriticalChunkText,	"This \"Portable Network Graphics\" image contains an unknown critical part which could not be decoded."
-	pnglang_EPNGUnknownCompressionText,	"This \"Portable Network Graphics\" image is encoded with an unknown compression scheme which could not be decoded."
-	pnglang_EPNGUnknownInterlaceText,	"This \"Portable Network Graphics\" image uses an unknown interlace scheme which could not be decoded."
-	pnglang_EPNGCannotAssignChunkText,	"The chunks must be compatible to be assigned."
-	pnglang_EPNGUnexpectedEndText,	"This \"Portable Network Graphics\" image is invalid because the decoder found an unexpected end of the file."
-	pnglang_EPNGNoImageDataText,	"This \"Portable Network Graphics\" image contains no data."
-	pnglang_EPNGCannotChangeSizeText,	"The \"Portable Network Graphics\" image can not be resize by changing width and height properties. Try assigning the image from a bitmap."
-	pnglang_EPNGCannotAddChunkText,	"The program tried to add a existent critical chunk to the current image which is not allowed."
-	pnglang_EPNGCannotAddInvalidImageText,	"It's not allowed to add a new chunk because the current image is invalid."
-	pnglang_EPNGOutMemoryText,	"Some operation could not be performed because the system is out of resources. Close some windows and try again."
-	pnglang_EPNGHeaderNotPresentText,	"This operation is not valid because the current image contains no valid header."
-	GraphicStrings_gesRegistration,	"Attempt to register %s twice."
-	GraphicStrings_gesBitmaps,	"Windows bitmaps"
-	GraphicStrings_gesRLEBitmaps,	"Run length encoded Windows bitmaps"
+	GraphicStrings_gesZSoft,	"ZSoft Paintbrush images"
+	GraphicStrings_gesZSoftWord,	"Word 5.x screen capture images"
+	GraphicStrings_gesAliasWaveFront,	"Alias/Wavefront images"
+	GraphicStrings_gesSGITrueColorAlpha,	"SGI true color images with alpha"
 	JvDockGlobals_RsDockJvDockInfoSplitter,	"@"
 	JvDockGlobals_RsDockJvDockTreeCloseBtnHint,	"Close"
 	JvDockGlobals_RsDockVSNETDockTreeAutoHideBtnHint,	"Auto Hide"
@@ -931,13 +931,13 @@ BEGIN
 	JvDockGlobals_RsEDockCannotLayAnother,	"Only one %s allowed on each form. Cannot add another %s"
 	JvDockGlobals_RsEDockCannotSetTabPosition,	"Cannot set TabPosition property to tpLeft or tpRight"
 	JvDockGlobals_RsDockCannotFindWindow,	"Cannot find window"
-	pnglang_EPngInvalidCRCText,	"This \"Portable Network Graphics\" image is not valid because it contains invalid pieces of data (crc error)"
-	pnglang_EPNGInvalidIHDRText,	"The \"Portable Network Graphics\" image could not be loaded because one of its main piece of data (ihdr) might be corrupted"
-	pnglang_EPNGMissingMultipleIDATText,	"This \"Portable Network Graphics\" image is invalid because it has missing image parts."
-	pnglang_EPNGZLIBErrorText,	"Could not decompress the image because it contains invalid compressed data.\r\n Description: "
-	pnglang_EPNGInvalidPaletteText,	"The \"Portable Network Graphics\" image contains an invalid palette."
-	pnglang_EPNGInvalidFileHeaderText,	"The file being readed is not a valid \"Portable Network Graphics\" image because it contains an invalid header. This file may be corruped, try obtaining it again."
-	pnglang_EPNGIHDRNotFirstText,	"This \"Portable Network Graphics\" image is not supported or it might be invalid.\r\n(IHDR chunk is not the first)"
+	GraphicStrings_gesRegistration,	"Attempt to register %s twice."
+	GraphicStrings_gesBitmaps,	"Windows bitmaps"
+	GraphicStrings_gesRLEBitmaps,	"Run length encoded Windows bitmaps"
+	GraphicStrings_gesDIBs,	"Device independant Windows bitmaps"
+	GraphicStrings_gesEPS,	"Encapsulated Postscript images"
+	GraphicStrings_gesIcons,	"Windows icons"
+	GraphicStrings_gesMetaFiles,	"Windows metafiles"
 	JvResources_RsClBtnFace,	"Button face"
 	JvResources_RsClBtnShadow,	"Button shadow"
 	JvResources_RsClGrayText,	"Dimmed text"

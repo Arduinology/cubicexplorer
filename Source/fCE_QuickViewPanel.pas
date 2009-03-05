@@ -18,6 +18,9 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ShlObj, ImgList, StdCtrls;
 
+const
+  WM_ActivateQuickView = WM_USER + 1;
+    
 type
   TCEQuickViewPanel = class(TCECustomDockableForm)
     PngImageList: TPngImageList;
@@ -28,6 +31,8 @@ type
   protected
     procedure GlobalFocusChanged(Sender: TObject; NewPath: WideString); override;
         stdcall;
+    procedure WMActivateQuickView(var Message: TMessage); message
+        WM_ActivateQuickView;
   public
     Viewer: TCEQuickView;
     procedure DoFormHide; override;
@@ -36,6 +41,8 @@ type
 
 var
   CEQuickViewPanel: TCEQuickViewPanel;
+
+
 
 implementation
 
@@ -54,7 +61,6 @@ begin
   Viewer.Parent:= self;
   Viewer.Align:= alClient;
   Viewer.UseThumbImage:= true;
-  GlobalSettings.RegisterHandler(Viewer);
   GlobalPathCtrl.RegisterNotify(self);
   ImageList:= CE_Images.SmallIcons;
   ImageIndex:= 20;
@@ -93,7 +99,17 @@ end;
 procedure TCEQuickViewPanel.DoFormShow;
 begin
   inherited;
-  Viewer.Active:= true;
+  Application.ProcessMessages;
+  PostMessage(Handle, WM_ActivateQuickView, 1,0);
+end;
+
+{-------------------------------------------------------------------------------
+  Activate QuickView
+-------------------------------------------------------------------------------}
+procedure TCEQuickViewPanel.WMActivateQuickView(var Message: TMessage);
+begin
+  inherited;
+  Viewer.Active:= Message.WParam = 1;
 end;
 
 end.

@@ -1,0 +1,2 @@
+inherited CEQuickViewPage: TCEQuickViewPage
+end

@@ -5,7 +5,7 @@ interface
 uses
   // CE Units
   CE_Consts, CE_Utils, CE_GifAnim, CE_VideoPlayer, CE_VistaFuncs,
-  CE_LanguageEngine, CE_SettingsIntf,
+  CE_LanguageEngine, CE_SettingsIntf, CE_Settings,
   // Tnt Controls
   TntStdCtrls, TntSysUtils, TntClasses,
   // GraphicEx
@@ -17,12 +17,13 @@ uses
   // VSTools
   VirtualThumbnails,
   // System Units
-  Windows, Classes, Controls, SysUtils, ExtCtrls, Forms, Graphics, StdCtrls;
+  Windows, Classes, Controls, SysUtils, ExtCtrls, Forms, Graphics, StdCtrls,
+  Contnrs;
 
 type
   TCEQuickViewType = (qvNone, qvAuto, qvMemo, qvImage, qvHex, qvVideo);
 
-  TCEQuickView = class(TPanel, ICESettingsHandler)
+  TCEQuickView = class(TPanel)
   private
     fActive: Boolean;
     fFilePath: WideString;
@@ -33,23 +34,16 @@ type
     fMuted: Boolean;
     fVideoPlayer: TCEVideoPlayer;
     fUseThumbImage: Boolean;
-    fVolume: Byte;
+    fVolume: Integer;
     procedure DoMemoKeyPress(Sender: TObject; var Key: Char);
     procedure SetActive(const Value: Boolean);
     procedure SetViewType(const Value: TCEQuickViewType);
   protected
-    procedure LoadFromStorage(Storage: ICESettingsStorage); stdcall;
-    procedure SaveToStorage(Storage: ICESettingsStorage); stdcall;
   public
-    MemoExts: TStrings;
-    ImageExts: TStrings;
-    HexExts: TStrings;
-    VideoExts: TStrings;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     function AutoLoadFile(AFilePath: WideString): TCEQuickViewType;
     function CloseFile: Boolean;
-    function GetViewType(Ext: String): TCEQuickViewType;
     procedure LoadFile(AFilePath: WideString);
     procedure LoadFileToMemo(AFilePath: WideString);
     procedure LoadFileToImage(AFilePath: WideString);
@@ -61,7 +55,35 @@ type
     property Muted: Boolean read fMuted write fMuted;
     property UseThumbImage: Boolean read fUseThumbImage write fUseThumbImage;
     property ViewType: TCEQuickViewType read fViewType write SetViewType;
-    property Volume: Byte read fVolume write fVolume;
+    property Volume: Integer read fVolume write fVolume;
+  end;
+
+  TCEQuickViewSettings = class(TInterfacedObject, ICESettingsHandler)
+  private
+    fActiveViewers: TObjectList;
+    fMuted: Boolean;
+    fVolume: Integer;
+    procedure SetMuted(const Value: Boolean);
+    procedure SetVolume(const Value: Integer);
+  protected
+    procedure LoadFromStorage(Storage: ICESettingsStorage); stdcall;
+    procedure SaveToStorage(Storage: ICESettingsStorage); stdcall;
+    property ActiveViewers: TObjectList read fActiveViewers write fActiveViewers;
+  public
+    HexExts: TStrings;
+    ImageExts: TStrings;
+    MemoExts: TStrings;
+    VideoExts: TStrings;
+    constructor Create;
+    destructor Destroy; override;
+    procedure AssignFrom(AQuickView: TCEQuickView);
+    procedure AssignTo(AQuickView: TCEQuickView);
+    function GetViewType(Ext: String): TCEQuickViewType;
+    procedure RegisterViewer(AQuickView: TCEQuickView);
+    procedure SendChanges;
+    procedure UnRegisterViewer(AQuickView: TCEQuickView);
+    property Muted: Boolean read fMuted write SetMuted;
+    property Volume: Integer read fVolume write SetVolume;
   end;
 
 const
@@ -69,7 +91,12 @@ const
   DefaultHexExts = '';
   DefaultVideoExts = 'avi'#13'wmv'#13'mp4'#13'mpg'#13'mpeg'#13'ogg'#13'ogm'#13'mkv'#13'dvr-ms'#13'mp3'#13'vob'#13'wav';
 
+var
+  QuickViewSettings: TCEQuickViewSettings;
+
 implementation
+
+{##############################################################################}
 
 {*------------------------------------------------------------------------------
   Create instance of Object
@@ -83,23 +110,9 @@ begin
   fViewType:= qvAuto;
   BevelInner:= bvNone;
   BevelOuter:= bvNone;
-  MemoExts:= TStringList.Create;
-  MemoExts.Delimiter:= ',';
-  MemoExts.Text:= DefaultMemoExts;
-
-  ImageExts:= TStringList.Create;
-  ImageExts.Delimiter:= ',';
-  GraphicEx.FileFormatList.GetExtensionList(ImageExts);
-
-  HexExts:= TStringList.Create;
-  HexExts.Delimiter:= ',';
-  HexExts.Text:= DefaultHexExts;
-
-  VideoExts:= TStringList.Create;
-  VideoExts.Delimiter:= ',';
-  VideoExts.Text:= DefaultVideoExts;
-
   fActive:= false;
+  QuickViewSettings.RegisterViewer(Self);
+  QuickViewSettings.AssignTo(Self);
 end;
 
 {*------------------------------------------------------------------------------
@@ -108,10 +121,7 @@ end;
 destructor TCEQuickView.Destroy;
 begin
   CloseFile;
-  MemoExts.Free;
-  ImageExts.Free;
-  HexExts.Free;
-  VideoExts.Free;
+  QuickViewSettings.UnRegisterViewer(Self);
   inherited;
 end;
 
@@ -123,7 +133,7 @@ var
   ext: String;
 begin
   ext:= ExtractFileExt(AFilePath);
-  Result:= GetViewType(ext);
+  Result:= QuickViewSettings.GetViewType(ext);
   case Result of
     qvNone: CloseFile;
     qvMemo: LoadFileToMemo(AFilePath);
@@ -349,6 +359,8 @@ end;
 function TCEQuickView.CloseFile: Boolean;
 begin
   Result:= false;
+  
+
   if assigned(fMemo) then
   FreeAndNil(fMemo);
   if assigned(fImage) then
@@ -365,39 +377,10 @@ begin
     Muted:= fVideoPlayer.Controller.Muted;
     FreeAndNil(fVideoPlayer);
   end;
+  QuickViewSettings.AssignFrom(Self);
+
   Caption:= _('No file loaded.');
   Result:= true;
-end;
-
-{*------------------------------------------------------------------------------
-  Get View type from Extension
--------------------------------------------------------------------------------}
-function TCEQuickView.GetViewType(Ext: String): TCEQuickViewType;
-var
-  s: String;
-begin
-  Result:= qvNone;
-  if Length(Ext) > 0 then
-  begin
-    if Ext[1] = '.' then
-    s:= Copy(Ext,2,Length(Ext));
-  end;
-  if ImageExts.IndexOf(s) > -1 then
-  begin
-    Result:= qvImage;
-  end
-  else if MemoExts.IndexOf(s) > -1 then
-  begin
-    Result:= qvMemo;
-  end
-  else if VideoExts.IndexOf(s) > -1 then
-  begin
-    Result:= qvVideo;
-  end
-  else if HexExts.IndexOf(s) > -1 then
-  begin
-    Result:= qvHex;
-  end;
 end;
 
 {*------------------------------------------------------------------------------
@@ -437,7 +420,6 @@ begin
   begin
     if not fVideoPlayer.DSEngine.IsLoaded then
     fVideoPlayer.OpenFile(AFilePath);
-    Exit;
   end
   else if CloseFile then
   begin
@@ -494,10 +476,106 @@ begin
   end;
 end;
 
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Create an instance of TCEQuickViewSettings
+-------------------------------------------------------------------------------}
+constructor TCEQuickViewSettings.Create;
+begin
+  fActiveViewers:= TObjectList.Create(false);
+  MemoExts:= TStringList.Create;
+  MemoExts.Delimiter:= ',';
+  MemoExts.Text:= DefaultMemoExts;
+
+  ImageExts:= TStringList.Create;
+  ImageExts.Delimiter:= ',';
+  GraphicEx.FileFormatList.GetExtensionList(ImageExts);
+
+  HexExts:= TStringList.Create;
+  HexExts.Delimiter:= ',';
+  HexExts.Text:= DefaultHexExts;
+
+  VideoExts:= TStringList.Create;
+  VideoExts.Delimiter:= ',';
+  VideoExts.Text:= DefaultVideoExts;
+  
+  GlobalSettings.RegisterHandler(Self);
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy TCEQuickViewSettings
+-------------------------------------------------------------------------------}
+destructor TCEQuickViewSettings.Destroy;
+begin
+  MemoExts.Free;
+  ImageExts.Free;
+  HexExts.Free;
+  VideoExts.Free;
+  fActiveViewers.Free;
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Assign settings from
+-------------------------------------------------------------------------------}
+procedure TCEQuickViewSettings.AssignFrom(AQuickView: TCEQuickView);
+begin
+  if assigned(AQuickView) then
+  begin
+    fVolume:= AQuickView.Volume;
+    fMuted:= AQuickView.Muted;
+    SendChanges;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Assign settings to
+-------------------------------------------------------------------------------}
+procedure TCEQuickViewSettings.AssignTo(AQuickView: TCEQuickView);
+begin
+  if assigned(AQuickView) then
+  begin
+    AQuickView.Volume:= fVolume;
+    AQuickView.Muted:= fMuted;
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Get View type from Extension
+-------------------------------------------------------------------------------}
+function TCEQuickViewSettings.GetViewType(Ext: String): TCEQuickViewType;
+var
+  s: String;
+begin
+  Result:= qvNone;
+  if Length(Ext) > 0 then
+  begin
+    if Ext[1] = '.' then
+    s:= Copy(Ext,2,Length(Ext));
+  end;
+  if ImageExts.IndexOf(s) > -1 then
+  begin
+    Result:= qvImage;
+  end
+  else if MemoExts.IndexOf(s) > -1 then
+  begin
+    Result:= qvMemo;
+  end
+  else if VideoExts.IndexOf(s) > -1 then
+  begin
+    Result:= qvVideo;
+  end
+  else if HexExts.IndexOf(s) > -1 then
+  begin
+    Result:= qvHex;
+  end;
+end;
+
 {-------------------------------------------------------------------------------
   Load from storage
 -------------------------------------------------------------------------------}
-procedure TCEQuickView.LoadFromStorage(Storage: ICESettingsStorage);
+procedure TCEQuickViewSettings.LoadFromStorage(Storage: ICESettingsStorage);
 begin
   Storage.OpenPath('QuickView');
   try
@@ -506,25 +584,80 @@ begin
   finally
     Storage.ClosePath;
   end;
+  SendChanges;
 end;
 
 {-------------------------------------------------------------------------------
   Save to storage
 -------------------------------------------------------------------------------}
-procedure TCEQuickView.SaveToStorage(Storage: ICESettingsStorage);
+procedure TCEQuickViewSettings.SaveToStorage(Storage: ICESettingsStorage);
 begin
   Storage.OpenPath('QuickView');
   try
-    if assigned(fVideoPlayer) then
-    begin
-      Volume:= fVideoPlayer.Controller.Volume;
-      Muted:= fVideoPlayer.Controller.Muted;
-    end;
     Storage.WriteInteger('Volume',fVolume);
     Storage.WriteBoolean('Muted',fMuted);
   finally
     Storage.ClosePath;
   end;
 end;
+
+{-------------------------------------------------------------------------------
+  Register Viewer
+-------------------------------------------------------------------------------}
+procedure TCEQuickViewSettings.RegisterViewer(AQuickView: TCEQuickView);
+begin
+  if assigned(AQuickView) then
+  begin
+    if ActiveViewers.IndexOf(AQuickView) = -1 then
+    ActiveViewers.Add(AQuickView);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  UnRegister viewer
+-------------------------------------------------------------------------------}
+procedure TCEQuickViewSettings.UnRegisterViewer(AQuickView: TCEQuickView);
+begin
+  ActiveViewers.Remove(AQuickView);
+end;
+
+{-------------------------------------------------------------------------------
+  Send Changes to active viewers
+-------------------------------------------------------------------------------}
+procedure TCEQuickViewSettings.SendChanges;
+var
+  i: Integer;
+begin
+  for i:= 0 to ActiveViewers.Count - 1 do
+  begin
+    AssignTo(TCEQuickView(ActiveViewers.Items[i]));
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set Muted
+-------------------------------------------------------------------------------}
+procedure TCEQuickViewSettings.SetMuted(const Value: Boolean);
+begin
+  fMuted:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set Volume
+-------------------------------------------------------------------------------}
+procedure TCEQuickViewSettings.SetVolume(const Value: Integer);
+begin
+  fVolume:= Value;
+  SendChanges;
+end;
+
+{##############################################################################}
+
+initialization
+  QuickViewSettings:= TCEQuickViewSettings.Create;
+  
+finalization
+  QuickViewSettings:= nil;
 
 end.
