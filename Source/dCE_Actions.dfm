@@ -501,6 +501,24 @@ object CEActions: TCEActions
         'Ctrl+Ins')
       OnExecute = ActionExecute
     end
+    object act_tabs_closeonleft: TTntAction
+      Tag = 665
+      Category = 'Tabs'
+      Caption = 'Close Tabs on Left'
+      Hint = 'Close Tabs on Left'
+      SecondaryShortCuts.Strings = (
+        'Ctrl+Ins')
+      OnExecute = ActionExecute
+    end
+    object act_tabs_closeonright: TTntAction
+      Tag = 666
+      Category = 'Tabs'
+      Caption = 'Close Tabs on Right'
+      Hint = 'Close Tabs on Right'
+      SecondaryShortCuts.Strings = (
+        'Ctrl+Ins')
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

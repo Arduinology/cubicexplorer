@@ -115,6 +115,8 @@ type
         Boolean;
     function CloseSelectedTab(Force: Boolean = false): Boolean;
     function CloseTab(ATab: TCESpTabItem; Force: Boolean = false): Boolean;
+    function CloseTabsOnLeft(ATab: TCESpTabItem; Force: Boolean = false): Boolean;
+    function CloseTabsOnRight(ATab: TCESpTabItem; Force: Boolean = false): Boolean;
     function GetActiveTab: TCESpTabItem;
     function GetFirstTab: TSpTBXTabItem;
     function GetLastTab: TSpTBXTabItem;
@@ -375,6 +377,94 @@ begin
     Result:= ATab.CloseTab;
     if Result or Force then
     ATab.Free;
+  end
+  else
+  Result:= false;
+end;
+
+{-------------------------------------------------------------------------------
+  Close tabs on left
+-------------------------------------------------------------------------------}
+function TCESpTabSet.CloseTabsOnLeft(ATab: TCESpTabItem; Force: Boolean =
+    false): Boolean;
+var
+  i: Integer;
+begin
+  if assigned(ATab) then
+  begin
+    Result:= Items.IndexOf(ATab) > 0;
+    if Result then
+    begin
+      i:= 0;
+      while i < Items.Count do
+      begin
+        if Items.Items[i] is TCESpTabItem then
+        begin
+          if Items.Items[i] <> ATab then
+          begin
+            if Force then
+            begin
+              Items.Items[i].Free;
+            end
+            else
+            begin
+              if TCESpTabItem(Items.Items[i]).Page.TabClosing then
+              Items.Items[i].Free
+              else
+              Exit;
+            end;
+          end
+          else
+          break;
+        end
+        else
+        i:= i + 1;
+      end;
+    end;
+  end
+  else
+  Result:= false;
+end;
+
+{-------------------------------------------------------------------------------
+  Close tabs on right
+-------------------------------------------------------------------------------}
+function TCESpTabSet.CloseTabsOnRight(ATab: TCESpTabItem; Force: Boolean =
+    false): Boolean;
+var
+  i: Integer;
+begin
+  if assigned(ATab) then
+  begin
+    i:= Items.IndexOf(ATab) + 1;
+    Result:= (i > 0) and (i < Items.Count);
+    if Result then
+    begin
+      while i < Items.Count do
+      begin
+        if Items.Items[i] is TCESpTabItem then
+        begin
+          if Items.Items[i] <> ATab then
+          begin
+            if Force then
+            begin
+              Items.Items[i].Free;
+            end
+            else
+            begin
+              if TCESpTabItem(Items.Items[i]).Page.TabClosing then
+              Items.Items[i].Free
+              else
+              Exit;
+            end;
+          end
+          else
+          break;
+        end
+        else
+        i:= i + 1;
+      end;
+    end;
   end
   else
   Result:= false;

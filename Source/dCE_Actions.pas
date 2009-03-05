@@ -128,6 +128,8 @@ type
     act_tabs_closeothertabs: TTntAction;
     act_tabs_addtab: TTntAction;
     act_tabs_duplicatetab: TTntAction;
+    act_tabs_closeonleft: TTntAction;
+    act_tabs_closeonright: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -781,6 +783,8 @@ begin
                              TCEFileViewPage(MainForm.TabSet.ActivePopupTab.Page).FileView.RootFolderNamespace.AbsolutePIDL, MainForm.TabSet.OpenTabSelect);
            end;
          end;
+    665: MainForm.TabSet.CloseTabsOnLeft(MainForm.TabSet.ActivePopupTab);
+    666: MainForm.TabSet.CloseTabsOnRight(MainForm.TabSet.ActivePopupTab);
   end;
 
   MainForm.TabSet.ActivePopupTab:= nil; // popup has closed so set this to nil

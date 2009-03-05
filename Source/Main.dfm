@@ -529,5 +529,11 @@ object MainForm: TMainForm
     object SpTBXItem13: TSpTBXItem
       Action = CEActions.act_tabs_closeothertabs
     end
+    object SpTBXItem16: TSpTBXItem
+      Action = CEActions.act_tabs_closeonleft
+    end
+    object SpTBXItem89: TSpTBXItem
+      Action = CEActions.act_tabs_closeonright
+    end
   end
 end
