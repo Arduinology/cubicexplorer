@@ -519,6 +519,12 @@ object CEActions: TCEActions
         'Ctrl+Ins')
       OnExecute = ActionExecute
     end
+    object act_gen_menu: TCEToolbarAction
+      Tag = 103
+      Category = 'General'
+      Caption = 'Menu'
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

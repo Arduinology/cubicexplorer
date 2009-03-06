@@ -173,6 +173,7 @@ type
     SpTBXItem15: TSpTBXItem;
     SpTBXItem16: TSpTBXItem;
     SpTBXItem89: TSpTBXItem;
+    MainMenuPopupMenu: TSpTBXPopupMenu;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -352,6 +353,10 @@ begin
   DockHostForm.Show;
   //BeginUIUpdate;
 
+  // Setup MainMenuPopup
+  MainMenuPopupMenu.LinkSubitems:= MainToolbar.Items;
+
+  // Create TabSet
   TabSet:= TCESpTabSet.Create(nil);
   TabSet.Parent:= MainPanel;
   TabSet.Align:= alTop;
@@ -418,6 +423,7 @@ begin
   StatusBar:= TCEStatusBar.Create(Self);
   StatusBar.Parent:= Self;
   StatusBar.Initialize;
+  StatusBar.PopupMenu:= MainMenuPopupMenu;
   GlobalPathCtrl.RegisterNotify(StatusBar);
   // Add Layout items
   CELayoutItems.Add(MainToolbar);
@@ -444,6 +450,7 @@ begin
   CELayoutItems.PopulateMenuItem(ToolbarPopupMenu.Items);
 
   sessionsMenuItem.Add(TCESessionsMenuItem.Create(self));
+
 
   // Add custom menu items
   MainToolbar.BeginUpdate;
@@ -1333,6 +1340,7 @@ procedure TMainForm.test_act1Click(Sender: TObject);
 begin
   //  
 end;
+
 
 {##############################################################################}
 

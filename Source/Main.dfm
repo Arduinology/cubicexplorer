@@ -28,7 +28,6 @@ object MainForm: TMainForm
     Width = 628
     Height = 57
     PopupMenu = ToolbarPopupMenu
-    ExplicitTop = -6
     object MainToolbar: TSpTBXToolbar
       Left = 0
       Top = 0
@@ -38,10 +37,10 @@ object MainForm: TMainForm
       DragHandleStyle = dhNone
       Images = CE_Images.SmallIcons
       MenuBar = True
-      ProcessShortCuts = True
       ShrinkMode = tbsmWrap
       Stretch = True
       TabOrder = 0
+      Caption = 'Main Menu'
       Customizable = False
       object fileMenuItem: TSpTBXSubmenuItem
         Caption = 'File'
@@ -445,9 +444,9 @@ object MainForm: TMainForm
       end
     end
     object EditToolbar: TSpTBXToolbar
-      Left = 499
+      Left = 503
       Top = 23
-      DockPos = 499
+      DockPos = 503
       DockRow = 1
       Images = CE_Images.SmallIcons
       PopupMenu = ToolbarPopupMenu
@@ -537,5 +536,10 @@ object MainForm: TMainForm
     object SpTBXItem89: TSpTBXItem
       Action = CEActions.act_tabs_closeonright
     end
+  end
+  object MainMenuPopupMenu: TSpTBXPopupMenu
+    Images = CE_Images.SmallIcons
+    Left = 128
+    Top = 64
   end
 end

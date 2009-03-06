@@ -675,18 +675,15 @@ begin
     if (CELayoutItems.Items[i] is TTBCustomDockableWindow) or (CELayoutItems.Items[i] is TCESpTabSet) then
     begin
       comp:= TControl(Items[i]);
-      if comp.Name <> 'MainToolbar' then
-      begin
-        item:= TSpTBXItem.Create(RootItem);
-        RootItem.Add(item);
-        item.Control:= comp;
-        if comp is TSpTBXToolbar then
-        item.Caption:= TSpTBXToolbar(comp).Caption
-        else if comp is TSpTBXToolWindow then
-        item.Caption:= TSpTBXToolWindow(comp).Caption
-        else if comp is TCESpTabSet then
-        item.Caption:= TCESpTabSet(comp).Toolbar.Caption;
-      end;
+      item:= TSpTBXItem.Create(RootItem);
+      RootItem.Add(item);
+      item.Control:= comp;
+      if comp is TSpTBXToolbar then
+      item.Caption:= TSpTBXToolbar(comp).Caption
+      else if comp is TSpTBXToolWindow then
+      item.Caption:= TSpTBXToolWindow(comp).Caption
+      else if comp is TCESpTabSet then
+      item.Caption:= TCESpTabSet(comp).Toolbar.Caption;
     end;
   end;
 end;

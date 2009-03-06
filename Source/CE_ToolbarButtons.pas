@@ -84,10 +84,17 @@ type
     procedure OnSubClick(Sender: TObject);
   end;
 
+type
+  TCEMainMenuButton = class(TCEToolbarSubmenuItem)
+  protected
+  public
+    constructor Create(AOwner: TComponent); override;
+  end;
+
 implementation
 
 uses
-  CE_FileView, fCE_FileView, CE_BaseFileView, dCE_Actions, dCE_Images;
+  CE_FileView, fCE_FileView, CE_BaseFileView, dCE_Actions, dCE_Images, Main;
 
 {##############################################################################}
 
@@ -656,6 +663,19 @@ begin
       page.FileView.GroupingColumn:= col.Index;
     end;
   end;
+end;
+
+{##############################################################################}
+
+{*------------------------------------------------------------------------------
+  Create an instance of TCEMainMenuButton
+-------------------------------------------------------------------------------}
+constructor TCEMainMenuButton.Create(AOwner: TComponent);
+begin
+  inherited;
+  Self.DropdownCombo:= false;
+  Self.Options:= [tboDropdownArrow];
+  Self.LinkSubitems:= MainForm.MainToolbar.Items;
 end;
 
 

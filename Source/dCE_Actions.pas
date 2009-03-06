@@ -130,6 +130,7 @@ type
     act_tabs_duplicatetab: TTntAction;
     act_tabs_closeonleft: TTntAction;
     act_tabs_closeonright: TTntAction;
+    act_gen_menu: TCEToolbarAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -252,6 +253,7 @@ begin
   act_view_arrangeby.ItemClass:= TCEArrangeByButton;
   act_view_viewstyle.ItemClass:= TCEViewStyleButton;
   act_view_groupby.ItemClass:= TCEGroupByButton;
+  act_gen_menu.ItemClass:= TCEMainMenuButton;
 end;
 
 {##############################################################################}
