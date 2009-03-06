@@ -27,6 +27,8 @@ object MainForm: TMainForm
     Top = 0
     Width = 628
     Height = 57
+    PopupMenu = ToolbarPopupMenu
+    ExplicitTop = -6
     object MainToolbar: TSpTBXToolbar
       Left = 0
       Top = 0

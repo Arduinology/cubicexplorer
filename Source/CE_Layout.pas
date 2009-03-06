@@ -281,6 +281,7 @@ var
   i: Integer;
   s: String;
   dockablewindow: TTBCustomDockableWindow;
+  tabset: TCESpTabSet;
 begin
   if not assigned(AppStorage) then
   Exit;
@@ -297,23 +298,32 @@ begin
         dockablewindow.BeginUpdate;
         AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, dockablewindow.Name]);
         try
-        // Read toolbar properties
-        s:= AppStorage.ReadString('Dock', 'TopToolDock');
-        if s <> '' then
-        begin
-          dockablewindow.CurrentDock:= CEToolbarDocks.FindDockNamed(s);
-          dockablewindow.DockPos:= AppStorage.ReadInteger('DockPos', dockablewindow.DockPos);
-          dockablewindow.DockRow:= AppStorage.ReadInteger('DockRow', dockablewindow.DockRow);
-          dockablewindow.Visible:= AppStorage.ReadBoolean('Visible', dockablewindow.Visible);
-        end
-        else
-        begin
-          dockablewindow.Visible:= AppStorage.ReadBoolean('Visible', dockablewindow.Visible);
-          dockablewindow.Floating:= true;
-        end;
-
+          // Read toolbar properties
+          s:= AppStorage.ReadString('Dock', 'TopToolDock');
+          if s <> '' then
+          begin
+            dockablewindow.CurrentDock:= CEToolbarDocks.FindDockNamed(s);
+            dockablewindow.DockPos:= AppStorage.ReadInteger('DockPos', dockablewindow.DockPos);
+            dockablewindow.DockRow:= AppStorage.ReadInteger('DockRow', dockablewindow.DockRow);
+            dockablewindow.Visible:= AppStorage.ReadBoolean('Visible', dockablewindow.Visible);
+          end
+          else
+          begin
+            dockablewindow.Visible:= AppStorage.ReadBoolean('Visible', dockablewindow.Visible);
+            dockablewindow.Floating:= true;
+          end;
         finally
           dockablewindow.EndUpdate;
+          AppStorage.Path:= RootPath;
+        end;
+      end
+      else if CELayoutItems.Items[i] is TCESpTabSet then
+      begin
+        tabset:= TCESpTabSet(CELayoutItems.Items[i]);
+        AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, tabset.Name]);
+        try
+          tabset.Visible:= AppStorage.ReadBoolean('Visible', tabset.Visible);
+        finally
           AppStorage.Path:= RootPath;
         end;
       end;
@@ -333,6 +343,7 @@ var
   RootPath: String;
   i: Integer;
   dockablewindow: TTBCustomDockableWindow;
+  tabset: TCESpTabSet;
 begin
   if not assigned(AppStorage) then
   Exit;
@@ -361,6 +372,16 @@ begin
 
         AppStorage.Path:= RootPath;
       end
+      else if CELayoutItems.Items[i] is TCESpTabSet then
+      begin
+        tabset:= TCESpTabSet(CELayoutItems.Items[i]);
+        AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, tabset.Name]);
+        try
+          AppStorage.WriteBoolean('Visible', tabset.Visible);
+        finally
+          AppStorage.Path:= RootPath;
+        end;
+      end;
     end;
   finally
     AppStorage.Path:= OldPath;
@@ -646,23 +667,25 @@ end;
 procedure TCELayoutItems.PopulateMenuItem(RootItem: TTBCustomItem);
 var
   i: Integer;
-  dockablewindow: TTBCustomDockableWindow;
+  comp: TControl;
   item: TSpTBXItem;
 begin
   for i:= 0 to Count - 1 do
   begin
-    if CELayoutItems.Items[i] is TTBCustomDockableWindow then
+    if (CELayoutItems.Items[i] is TTBCustomDockableWindow) or (CELayoutItems.Items[i] is TCESpTabSet) then
     begin
-      dockablewindow:= TTBCustomDockableWindow(Items[i]);
-      if dockablewindow.Name <> 'MainToolbar' then
+      comp:= TControl(Items[i]);
+      if comp.Name <> 'MainToolbar' then
       begin
         item:= TSpTBXItem.Create(RootItem);
         RootItem.Add(item);
-        item.Control:= dockablewindow;
-        if dockablewindow is TSpTBXToolbar then
-        item.Caption:= TSpTBXToolbar(dockablewindow).Caption
-        else if dockablewindow is TSpTBXToolWindow then
-        item.Caption:= TSpTBXToolWindow(dockablewindow).Caption;
+        item.Control:= comp;
+        if comp is TSpTBXToolbar then
+        item.Caption:= TSpTBXToolbar(comp).Caption
+        else if comp is TSpTBXToolWindow then
+        item.Caption:= TSpTBXToolWindow(comp).Caption
+        else if comp is TCESpTabSet then
+        item.Caption:= TCESpTabSet(comp).Toolbar.Caption;
       end;
     end;
   end;

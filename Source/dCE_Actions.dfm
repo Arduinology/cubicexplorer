@@ -31,7 +31,7 @@ object CEActions: TCEActions
       Tag = 305
       Category = 'View'
       Caption = 'Drop Stack'
-      ImageIndex = 18
+      ShortCut = 16437
       OnExecute = ActionExecute
     end
     object act_navi_forward: TCEToolbarAction
@@ -70,7 +70,7 @@ object CEActions: TCEActions
       Category = 'View'
       Caption = 'Folders'
       ImageIndex = 28
-      ShortCut = 16454
+      ShortCut = 16433
       OnExecute = ActionExecute
     end
     object act_view_bookmark: TTntAction
@@ -78,7 +78,7 @@ object CEActions: TCEActions
       Category = 'View'
       Caption = 'Bookmarks'
       ImageIndex = 18
-      ShortCut = 16450
+      ShortCut = 16434
       OnExecute = ActionExecute
     end
     object act_view_large: TTntAction
@@ -113,7 +113,7 @@ object CEActions: TCEActions
       Category = 'View'
       Caption = 'Filters'
       ImageIndex = 29
-      ShortCut = 16455
+      ShortCut = 16436
       OnExecute = ActionExecute
     end
     object act_view_details: TTntAction
@@ -289,7 +289,7 @@ object CEActions: TCEActions
       Category = 'View'
       Caption = 'Quickview'
       ImageIndex = 20
-      ShortCut = 16465
+      ShortCut = 16435
       OnExecute = ActionExecute
     end
     object act_edit_duplicate: TTntAction

@@ -356,6 +356,7 @@ begin
   TabSet.Parent:= MainPanel;
   TabSet.Align:= alTop;
   TabSet.Toolbar.Name:= 'TabBar';
+  TabSet.Toolbar.Caption:= _('Tabs');
   TabSet.TabDragReorder:= true;
   TabSet.TabPageHost:= DockHostForm.PageHostPanel;
   TabSet.LayoutController:= Layouts;
