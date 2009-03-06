@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 <Root>
+  <QuickView>
+    <Volume>200</Volume>
+    <Muted>False</Muted>
+  </QuickView>
   <FileView>
     <Filmstrip>
       <ThumbPos>1</ThumbPos>
@@ -17,7 +21,7 @@
     </CellSizes>
     <Columns>
       <Default>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0</Default>
-      <MyComputer>0,0,180,0|1,1,120,0|2,2,96,0|3,3,96,0</MyComputer>
+      <MyComputer/>
       <Network/>
       <ControlPanel/>
     </Columns>
@@ -33,19 +37,26 @@
     <ShowHeaderAlways>False</ShowHeaderAlways>
     <FullRowSelect>True</FullRowSelect>
     <ShowExtensions>True</ShowExtensions>
+    <SelectPreviousFolder>True</SelectPreviousFolder>
+    <AutoSelectFirstItem>True</AutoSelectFirstItem>
+    <AutosizeListViewStyle>True</AutosizeListViewStyle>
   </FileView>
   <TextEditor>
     <WordWrap>True</WordWrap>
   </TextEditor>
   <Tabs>
     <NewTabType>1</NewTabType>
-    <NewTabPath/>
+    <NewTabPath>PIDL:FgAAABQAH1DgT9Ag6jppEKLYCAArMDCdAAA=</NewTabPath>
     <NewTabSelect>True</NewTabSelect>
-    <OpenTabSelect>False</OpenTabSelect>
+    <OpenTabSelect>True</OpenTabSelect>
+    <ReuseTabs>False</ReuseTabs>
   </Tabs>
+  <AddressBar>
+    <Breadcrumb>False</Breadcrumb>
+  </AddressBar>
   <MainForm>
-    <Left>28</Left>
-    <Top>13</Top>
+    <Left>16</Left>
+    <Top>57</Top>
     <Width>640</Width>
     <Height>480</Height>
     <ShowCmd>1</ShowCmd>
@@ -55,6 +66,7 @@
     <SingleInstance>True</SingleInstance>
     <ShowHints>True</ShowHints>
     <PathInTitle>False</PathInTitle>
+    <AlwaysOnTop>False</AlwaysOnTop>
     <LastSession>Default</LastSession>
   </MainForm>
   <StackPanel>
@@ -63,20 +75,20 @@
   <FolderPanel>
     <AutoCollapse>False</AutoCollapse>
     <AutoExpand>False</AutoExpand>
+    <OpenInNewTab>False</OpenInNewTab>
   </FolderPanel>
   <BookmarksPanel>
     <SingleClickMode>False</SingleClickMode>
     <AutoExpand>False</AutoExpand>
     <AutoCollapse>False</AutoCollapse>
+    <OpenInNewTab>False</OpenInNewTab>
   </BookmarksPanel>
-  <QuickView>
-    <Volume>200</Volume>
-    <Muted>False</Muted>
-  </QuickView>
   <FilterPanel>
     <ShowBkgrd>True</ShowBkgrd>
   </FilterPanel>
-  <AddressBar>
-    <Breadcrumb>False</Breadcrumb>
-  </AddressBar>
+  <FileSearch>
+    <Columns>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0|44,44,120,0</Columns>
+    <SubFolders>True</SubFolders>
+    <ShowExtensions>True</ShowExtensions>
+  </FileSearch>
 </Root>
