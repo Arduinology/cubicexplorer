@@ -4,9 +4,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 924\n"
+"CE-POT-Version: 1105\n"
 "CE-Language: French\n"
-"Last-Translator: Cool <veuxpas-depub@yahoo.fr>\n"
+"Last-Translator: Chris <veuxpas-depub@yahoo.fr>\n"
 
 msgid "About CubicExplorer"
 msgstr "A propos de Clubic Explorer"
@@ -29,6 +29,9 @@ msgstr "Ajouter onglet"
 msgid "Address Bar"
 msgstr "Barre d'adresses"
 
+msgid "Always On Top"
+msgstr "Toujours au dessus"
+
 msgid "Always Show Sort Columns"
 msgstr "Toujours montrer les entêtes de colonnes"
 
@@ -44,6 +47,9 @@ msgstr "Appliquer"
 msgid "Apply changes."
 msgstr "Appliquer les changements"
 
+msgid "Arrange By"
+msgstr "Arranger par"
+
 msgid "Attributes"
 msgstr "Attributs"
 
@@ -56,6 +62,15 @@ msgstr "Réduire automatiquement"
 msgid "Auto Expand Trees"
 msgstr "Développer automatiquement"
 
+msgid "Auto collapse tree"
+msgstr "Réduction automatique de l'arborescence"
+
+msgid "Auto expand tree"
+msgstr "Développer automatiquement l'arborescence"
+
+msgid "Auto size cells in list view style."
+msgstr "Taille automatique des cellules en mode liste"
+
 msgid "Automatic"
 msgstr "Automatique"
 
@@ -67,6 +82,9 @@ msgstr "En arrière"
 
 msgid "Bookmarks"
 msgstr "Favoris"
+
+msgid "Bookmarks Panel Settings"
+msgstr "Options du panneau des favoris"
 
 msgid "Bottom"
 msgstr "Bas"
@@ -86,17 +104,32 @@ msgstr "Annuler"
 msgid "Case sensitivity"
 msgstr "Case à cocher"
 
+msgid "Clear List"
+msgstr "Nettoyer la liste"
+
 msgid "Close"
 msgstr "Fermer"
 
+msgid "Close Other Tabs"
+msgstr "Fermer les autres onglets"
+
 msgid "Close Tab"
 msgstr "Fermer l'onglet"
+
+msgid "Close Tabs on Left"
+msgstr "Fermer les onglets de gauche"
+
+msgid "Close Tabs on Right"
+msgstr "Fermer les onglets de droite"
 
 msgid "Copy"
 msgstr "Copier"
 
 msgid "Copy Path"
 msgstr "Copier le chemin"
+
+msgid "Copy of active tab"
+msgstr "Copie de l'onglet actif"
 
 msgid "Create"
 msgstr "Créer"
@@ -109,6 +142,12 @@ msgstr "Nouvelle traduction"
 
 msgid "CubicExplore Home Page"
 msgstr "Site Cubic Explorer"
+
+msgid "CubicExplorer Options"
+msgstr "Options CubicExplorer"
+
+msgid "Custom..."
+msgstr "Personnalisé..."
 
 msgid "Customize"
 msgstr "Personnalisation"
@@ -128,8 +167,17 @@ msgstr "Date de création"
 msgid "Date Modified"
 msgstr "Date de modification"
 
+msgid "Default"
+msgstr "Défaut"
+
 msgid "Delete"
 msgstr "Effacer"
+
+msgid "Delete active session."
+msgstr "Supprimer la session active"
+
+msgid "Desktop"
+msgstr "Bureau"
 
 msgid "Details"
 msgstr "Détails"
@@ -140,8 +188,17 @@ msgstr "Direction"
 msgid "Disconnect Network Drive..."
 msgstr "Déconnecter un lecteur réseau ..."
 
+msgid "Display"
+msgstr "Affichage"
+
+msgid "Display Settings"
+msgstr "Options d'affichage"
+
 msgid "Drives"
 msgstr "Volumes"
+
+msgid "Drop Stack"
+msgstr ""
 
 msgid "Dublicate Tab"
 msgstr "Dupliquer l'onglet"
@@ -149,8 +206,17 @@ msgstr "Dupliquer l'onglet"
 msgid "Duplicate"
 msgstr "Dupliquer"
 
+msgid "Duplicate Tab"
+msgstr "Dupliquer l'onglet"
+
 msgid "Edit"
 msgstr "Edition"
+
+msgid "Edit Session"
+msgstr "Editer la session"
+
+msgid "Edit session properties."
+msgstr "Editeur les propriétés de la session"
 
 msgid "Editor Options..."
 msgstr "Editeur d'options ..."
@@ -169,6 +235,12 @@ msgstr "Fichier"
 
 msgid "File Search"
 msgstr "Chercher un fichier"
+
+msgid "Fileview"
+msgstr "Fichiers"
+
+msgid "Fileview Settings"
+msgstr "Paramètres d'affichage des fichiers"
 
 msgid "Filmstrip"
 msgstr "Aperçu rapide"
@@ -191,6 +263,9 @@ msgstr "Dossier parent"
 msgid "Folders"
 msgstr "Dossiers"
 
+msgid "Folders Panel Settings"
+msgstr "Options du panneau des dossiers"
+
 msgid "Format"
 msgstr "Format"
 
@@ -203,11 +278,20 @@ msgstr "Plein écran"
 msgid "General"
 msgstr "Général"
 
+msgid "General Settings"
+msgstr "Configuration générale"
+
+msgid "Group By"
+msgstr "Grouper par"
+
 msgid "Help"
 msgstr "Aide"
 
 msgid "Hex"
 msgstr "Hexa"
+
+msgid "Highlight row completely"
+msgstr "Mettre en surbrillance la ligne"
 
 msgid "Highlighter"
 msgstr "Surlignage"
@@ -236,11 +320,23 @@ msgstr "Grandes icônes"
 msgid "Launch Files Only"
 msgstr "Lancer les fichiers uniquement"
 
+msgid "Layouts"
+msgstr "Disposition"
+
 msgid "Left"
 msgstr "Gauche"
 
 msgid "List"
 msgstr "Liste"
+
+msgid "Load Skin..."
+msgstr "Charger skin..."
+
+msgid "Load skin from file"
+msgstr "Charger skin à partir d'un fichier"
+
+msgid "Load this session on startup."
+msgstr "Charger cette session au démarrage"
 
 msgid "Loading..."
 msgstr "Chargement ..."
@@ -248,11 +344,20 @@ msgstr "Chargement ..."
 msgid "MB"
 msgstr "Mo"
 
+msgid "Main Menu"
+msgstr "Menu principal"
+
 msgid "Map Network Drive..."
 msgstr "Connecter un lecteur réseau"
 
+msgid "Menu"
+msgstr "Menu"
+
 msgid "Modified"
 msgstr "Modifié"
+
+msgid "More..."
+msgstr "Plus..."
 
 msgid "Name"
 msgstr "Nom"
@@ -268,6 +373,9 @@ msgstr "Nouveau"
 
 msgid "New Folder"
 msgstr "Nouveau dossier"
+
+msgid "New Session"
+msgstr "Nouvelle session"
 
 msgid "No Extension"
 msgstr "Sans extension"
@@ -287,11 +395,20 @@ msgstr "Ouvrir des onglets"
 msgid "Open Command Prompt"
 msgstr "Ouvrir ligne de commande"
 
+msgid "Open in new tab by default"
+msgstr "Ouvrir dans un nouvel onglet par défaut"
+
+msgid "Open new tab as"
+msgstr "Ouvrir le nouvel onglet comme"
+
 msgid "Open..."
 msgstr "Ouvrir ..."
 
 msgid "Options"
 msgstr "Options"
+
+msgid "Options..."
+msgstr "Options..."
 
 msgid "Original"
 msgstr "Original"
@@ -356,6 +473,9 @@ msgstr "Remplacer"
 msgid "Replace All"
 msgstr "Remplacer tout"
 
+msgid "Reuse already open tabs"
+msgstr "Toujours réutiliser les onglets ouverts"
+
 msgid "Right"
 msgstr "Droite"
 
@@ -365,6 +485,12 @@ msgstr "Enregistrer"
 msgid "Save As..."
 msgstr "Enregistrer sous ..."
 
+msgid "Save active session with new name."
+msgstr "Sauver la session active sous un nouveau nom"
+
+msgid "Save active session."
+msgstr "Sauver la session active"
+
 msgid "Save changes before closing?"
 msgstr "Enregistrer les modifications avant de quitter ?"
 
@@ -373,6 +499,18 @@ msgstr "Enregistrer les modifications"
 
 msgid "Save changes?"
 msgstr "Enregistrer les modifications ?"
+
+msgid "Save settings automatically."
+msgstr "Sauver automatiquement les paramètres"
+
+msgid "Save/Load Settings"
+msgstr "Sauver/Charger paramètres"
+
+msgid "Scroll Left"
+msgstr "	Faire défiler vers la gauche"
+
+msgid "Scroll Right"
+msgstr "Faire défiler vers la droite"
 
 msgid "Search"
 msgstr "Chercher"
@@ -395,11 +533,29 @@ msgstr "Chercher dans :"
 msgid "Select All"
 msgstr "Sélectionner tout"
 
+msgid "Select default folder for new tabs."
+msgstr "Sélectionner le dossier par défaut pour les nouveaux onglets"
+
+msgid "Select first item automatically"
+msgstr "Sélectionner automatiquement le premier objet"
+
+msgid "Select previous folder"
+msgstr "Sélectionner le dossier précédent"
+
 msgid "Selected"
 msgstr "Sélectionner"
 
 msgid "Selected text only"
 msgstr "Texte sélectionné uniquement"
+
+msgid "Separator"
+msgstr "Séparateur"
+
+msgid "Session Name"
+msgstr "Nom de la session"
+
+msgid "Sessions"
+msgstr "Sessions"
 
 msgid "Short Folder Path"
 msgstr "Chemin du dossier abrégé"
@@ -428,14 +584,23 @@ msgstr "Montrer les fichiers cachés"
 msgid "Show Hints"
 msgstr "Montrer les infos bulles"
 
+msgid "Show Path in Title bar"
+msgstr "Afficher le chemin dans la barre de titre"
+
 msgid "Show Statusbar"
 msgstr "Afficher la barre d'état"
 
 msgid "Show Toolbar"
 msgstr "Afficher la barre d'outils"
 
+msgid "Show in Groups"
+msgstr "Afficher en groupe"
+
 msgid "Single Instance Only"
 msgstr "Une seule instance"
+
+msgid "Single click mode"
+msgstr "Mode simple clic"
 
 msgid "Size"
 msgstr "Taille"
@@ -445,6 +610,9 @@ msgstr "Petites icônes"
 
 msgid "Smooth Scroll"
 msgstr "Défilement doux"
+
+msgid "Stack"
+msgstr ""
 
 msgid "Start"
 msgstr "Démarrer"
@@ -460,6 +628,15 @@ msgstr "Sous répertoires"
 
 msgid "Support Forum"
 msgstr "Forum utilisateurs"
+
+msgid "Switch to a new tab immediately"
+msgstr "Aller sur le nouvel onglet immédiatement"
+
+msgid "Tabs"
+msgstr "Onglets"
+
+msgid "Tabs Settings"
+msgstr "Options des onglets"
 
 msgid "Target"
 msgstr "Cible"
@@ -535,6 +712,9 @@ msgstr "Affichage"
 
 msgid "View Style"
 msgstr "Style d'affichage"
+
+msgid "When I open folder/file in a new tab, switch to it immediately "
+msgstr "Quand j'ouvre un dossier/fichier dans un nouvel onglet"
 
 msgid "Whole words only"
 msgstr "Mots entiers seulement"
