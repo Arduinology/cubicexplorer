@@ -74,6 +74,8 @@ begin
   Controller.OnVolumeChanged:= onVolumeChanged;
   Controller.OnProgressBarClick:= OnProgressBarClicked;
   Controller.OnFullscreenClick:= OnFullscreenClick;
+  Controller.MinPosition:= 0;
+  Controller.MaxPosition:= High(Integer);
   // Init VideoPanel
   VideoPanel:= TPanel.Create(self);
   VideoPanel.Parent:= self;
@@ -167,8 +169,7 @@ begin
       BackImage.Bitmap.SetSize(0,0);
     end;
     Controller.TimeString:= DSEngine.PositionString + ' / ' + DSEngine.DurationString;
-    Controller.MaxPosition:= DSEngine.Duration;
-    Controller.Position:= DSEngine.Position;
+    Controller.Position:= Round(Controller.MaxPosition * (DSEngine.Position / DSEngine.Duration));
   end
   else
   begin
@@ -201,7 +202,7 @@ begin
   Caption:= IntTostr(Position);
   Controller.Position:= Position;
   Controller.Draw;
-  DSEngine.Position:= Position;
+  DSEngine.Position:= Round(DSEngine.Duration * (Position / Controller.MaxPosition));
 end;
 
 {*------------------------------------------------------------------------------

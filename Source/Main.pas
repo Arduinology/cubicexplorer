@@ -174,6 +174,7 @@ type
     SpTBXItem16: TSpTBXItem;
     SpTBXItem89: TSpTBXItem;
     MainMenuPopupMenu: TSpTBXPopupMenu;
+    SpTBXItem90: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

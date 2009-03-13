@@ -51,6 +51,9 @@ object MainForm: TMainForm
         object SpTBXItem43: TSpTBXItem
           Action = CEActions.act_navi_texteditor
         end
+        object SpTBXItem90: TSpTBXItem
+          Action = CEActions.act_navi_quickview
+        end
         object SpTBXItem81: TSpTBXItem
           Action = CEActions.act_navi_filesearch
         end

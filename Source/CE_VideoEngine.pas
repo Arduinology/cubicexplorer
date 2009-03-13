@@ -14,7 +14,7 @@ type
 
   TCEDSPlayer = class(TComponent)
   private
-    fDuration: Integer;
+    fDuration: Int64;
     fDurationString: String;
     fHasVideo: Boolean;
     fIsPaused: Boolean;
@@ -22,13 +22,13 @@ type
     fLoop: Boolean;
     fMessageHandle: HWND;
     fOnProgress: TNotifyEvent;
-    fPosition: Integer;
+    fPosition: Int64;
     fPositionString: string;
     fProgressTimer: TTimer;
     fVideoPanel: TWinControl;
     fVolume: Byte;
     function GetFullscreen: boolean;
-    procedure SetPosition(const Value: Integer);
+    procedure SetPosition(const Value: Int64);
   protected
     procedure Progress(Sender: TObject);
     procedure SetVolume(const Value: Byte);
@@ -54,14 +54,14 @@ type
     procedure ResizeVideo;
     procedure Stop;
     procedure WinProc(var msg: TMessage);
-    property Duration: Integer read fDuration;
+    property Duration: Int64 read fDuration;
     property DurationString: String read fDurationString;
     property Fullscreen: boolean read GetFullscreen write SetFullscreen;
     property HasVideo: Boolean read fHasVideo;
     property IsPaused: Boolean read fIsPaused;
     property IsPlaying: Boolean read fIsPlaying;
     property Loop: Boolean read fLoop write fLoop;
-    property Position: Integer read fPosition write SetPosition;
+    property Position: Int64 read fPosition write SetPosition;
     property PositionString: string read fPositionString;
     property VideoPanel: TWinControl read fVideoPanel write fVideoPanel;
     property Volume: Byte read fVolume write SetVolume;
@@ -115,7 +115,7 @@ begin
   inherited;
   fProgressTimer:= TTimer.Create(self);
   fProgressTimer.Enabled:= false;
-  fProgressTimer.Interval:= 1000;
+  fProgressTimer.Interval:= 250;
   fProgressTimer.OnTimer:= Progress;
   fMessageHandle:= Classes.AllocateHWND(WinProc);
   fLoop:= false;
@@ -382,11 +382,11 @@ begin
   if assigned(MediaSeeking) then
   begin
     MediaSeeking.GetDuration(i);
-    fDuration:= i div 10000000;
+    fDuration:= i div 10000;
     MediaSeeking.GetCurrentPosition(i);
-    fPosition:= i div 10000000;
-    fDurationString:= SecToTime(fDuration);
-    fPositionString:= SecToTime(fPosition);
+    fPosition:= i div 10000;
+    fDurationString:= SecToTime(fDuration div 1000);
+    fPositionString:= SecToTime(fPosition div 1000);
   end
   else
   begin
@@ -401,13 +401,13 @@ end;
 {*------------------------------------------------------------------------------
   Set playback position
 -------------------------------------------------------------------------------}
-procedure TCEDSPlayer.SetPosition(const Value: Integer);
+procedure TCEDSPlayer.SetPosition(const Value: Int64);
 var
   i,i2: Int64;
 begin
   if assigned(MediaSeeking) then
   begin
-    i:= Value * 10000000;
+    i:= Value * 10000;
     i2:= 0;
     MediaSeeking.SetPositions(i, AM_SEEKING_AbsolutePositioning , i2, AM_SEEKING_NoPositioning);
     Progress(self);
