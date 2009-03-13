@@ -13,7 +13,6 @@ inherited CEFileSearchPage: TCEFileSearchPage
     TabOrder = 0
     Borders = False
     TBXStyleBackground = True
-    ExplicitWidth = 586
     object label1: TSpTBXLabel
       Left = 8
       Top = 8
@@ -110,7 +109,6 @@ inherited CEFileSearchPage: TCEFileSearchPage
     TabOrder = 1
     Borders = False
     TBXStyleBackground = True
-    ExplicitWidth = 586
     DesignSize = (
       585
       22)
@@ -121,7 +119,6 @@ inherited CEFileSearchPage: TCEFileSearchPage
       Height = 18
       Anchors = [akLeft, akTop, akRight, akBottom]
       AutoSize = False
-      ExplicitWidth = 579
     end
   end
   object FolderTreePopup: TSpTBXFormPopupMenu

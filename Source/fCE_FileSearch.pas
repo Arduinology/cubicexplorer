@@ -46,12 +46,17 @@ type
     procedure FolderTreePopupClosePopup(Sender: TObject; Selected: Boolean);
     procedure UpdateTimerTimer(Sender: TObject);
   private
+    fDownShiftState: TShiftState;
+    fShowItemContextMenu: Boolean;
     { Private declarations }
   protected
     procedure GlobalPathChanged(Sender: TObject; NewPath: WideString); override;
         stdcall;
     procedure GlobalPIDLChanged(Sender: TObject; NewPIDL: PItemIDList); override;
         stdcall;
+    procedure OnItemContextMenu(Sender: TCustomEasyListview; HitInfo:
+        TEasyHitInfoItem; WindowPoint: TPoint; var Menu: TPopupMenu; var Handled:
+        Boolean);
   public
     Results: TCEFileSearchView;
     DestDlg: TCEDestDlg;
@@ -62,6 +67,10 @@ type
     procedure OnDirectoryChange(Sender: TObject; NewDirectory: WideString);
     procedure OnFileMatch(Sender: TObject; Directory: WideString; FileName:
         WideString);
+    procedure OnMouseDown(Sender: TObject; Button: TMouseButton; Shift:
+        TShiftState; X, Y: Integer);
+    procedure OnMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState;
+        X, Y: Integer);
     procedure OnSearchBegin(Sender: TObject);
     procedure OnSearchFinished(Sender: TObject);
     procedure SaveToStorage(Storage: ICESettingsStorage); override; stdcall;
@@ -77,7 +86,7 @@ var
 implementation
 
 uses
-  dCE_Images, CE_GlobalCtrl;
+  dCE_Images, CE_GlobalCtrl, dCE_Actions, Main;
 {$R *.dfm}
 
 {*------------------------------------------------------------------------------
@@ -96,6 +105,9 @@ begin
   Results.FindFile.OnDirectoryChange:= OnDirectoryChange;
   Results.OnItemSelectionsChanged:= ItemSelectionsChanged;
   Results.FullSizeColumn:= Results.PathIndex;
+  Results.OnMouseDown:= OnMouseDown;
+  Results.OnMouseUp:= OnMouseUp;
+  Results.OnItemContextMenu:= OnItemContextMenu;
 
   DestDlg:= TCEDestDlg.Create(self);
   FolderTreePopup.PopupForm:= DestDlg;
@@ -390,6 +402,79 @@ begin
   finally
     Storage.ClosePath;
   end;
+end;
+
+procedure TCEFileSearchPage.OnItemContextMenu(Sender: TCustomEasyListview;
+    HitInfo: TEasyHitInfoItem; WindowPoint: TPoint; var Menu: TPopupMenu; var
+    Handled: Boolean);
+begin
+  if not Handled then
+  Handled:= not fShowItemContextMenu;
+end;
+
+{*------------------------------------------------------------------------------
+  Get's called on item mouse down.
+-------------------------------------------------------------------------------}
+procedure TCEFileSearchPage.OnMouseDown(Sender: TObject; Button: TMouseButton;
+    Shift: TShiftState; X, Y: Integer);
+begin
+  fDownShiftState:= Shift;
+  fShowItemContextMenu:= not (Shift = [ssRight, ssAlt]);
+end;
+
+{*------------------------------------------------------------------------------
+  Get's called on item mouse up.
+-------------------------------------------------------------------------------}
+procedure TCEFileSearchPage.OnMouseUp(Sender: TObject; Button: TMouseButton;
+    Shift: TShiftState; X, Y: Integer);
+var
+  NS: TNamespace;
+  item: TEasyItem;
+  WindowPt: TPoint;
+begin
+  if (ssMiddle in fDownShiftState) or ((ssLeft in fDownShiftState) and (ssAlt in Shift)) then
+  begin
+    WindowPt := Results.Scrollbars.MapWindowToView(Point(X,Y));
+    item:= Results.Groups.ItemByPoint(WindowPt);
+    if assigned(item) and not Results.EditManager.Editing then
+    begin
+      Results.EditManager.EndEdit;
+      Results.ValidateNamespace(Item,NS);
+      if assigned(NS) then
+      begin
+        if NS.FileSystem and not NS.Folder then
+        begin
+          if ssShift in Shift then
+          OpenFileInTab(NS.NameForParsing, not MainForm.TabSet.OpenTabSelect)
+          else
+          OpenFileInTab(NS.NameForParsing, MainForm.TabSet.OpenTabSelect)
+        end
+        else
+        begin
+          if ssShift in Shift then
+          OpenFolderInTab(Self, NS.AbsolutePIDL, not MainForm.TabSet.OpenTabSelect)
+          else
+          OpenFolderInTab(Self, NS.AbsolutePIDL, MainForm.TabSet.OpenTabSelect)
+        end;
+      end;
+    end;
+  end
+  else if (ssRight in fDownShiftState) and (Shift = [ssAlt]) then
+  begin
+    WindowPt := Results.Scrollbars.MapWindowToView(Point(X,Y));
+    item:= Results.Groups.ItemByPoint(WindowPt);
+    if assigned(item) and not Results.EditManager.Editing then
+    begin
+      Results.ValidateNamespace(Item,NS);
+      if assigned(NS) then
+      begin
+        NS.ShowPropertySheet;
+      end;
+    end;
+    fShowItemContextMenu:= false;
+  end;
+
+  fDownShiftState:= [];
 end;
 
 {-------------------------------------------------------------------------------

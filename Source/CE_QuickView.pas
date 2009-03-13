@@ -491,6 +491,7 @@ begin
   ImageExts:= TStringList.Create;
   ImageExts.Delimiter:= ',';
   GraphicEx.FileFormatList.GetExtensionList(ImageExts);
+  ImageExts.Add('gif');
 
   HexExts:= TStringList.Create;
   HexExts.Delimiter:= ',';

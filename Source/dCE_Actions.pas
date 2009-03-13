@@ -678,10 +678,21 @@ begin
     650: begin
            GlobalFileViewSettings.AssignFromActivePage;
            ws:= '';
-           if GlobalPathCtrl.ActivePage is TCEFileViewPage then
+           if (GlobalPathCtrl.ActivePage is TCEFileViewPage) then
            begin
              item:= TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.Selection.First;
              if TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.ValidateNamespace(item, ns) then
+             begin
+               if NS.FileSystem and not NS.Folder then
+               begin
+                 ws:= NS.NameForParsing;
+               end;
+             end;
+           end
+           else if (GlobalPathCtrl.ActivePage is TCEFileSearchPage) then
+           begin
+             item:= TCEFileSearchPage(GlobalPathCtrl.ActivePage).Results.Selection.First;
+             if TCEFileSearchPage(GlobalPathCtrl.ActivePage).Results.ValidateNamespace(item, ns) then
              begin
                if NS.FileSystem and not NS.Folder then
                begin
@@ -717,7 +728,19 @@ begin
                  ws:= NS.NameForParsing;
                end;
              end;
+           end
+           else if (GlobalPathCtrl.ActivePage is TCEFileSearchPage) then
+           begin
+             item:= TCEFileSearchPage(GlobalPathCtrl.ActivePage).Results.Selection.First;
+             if TCEFileSearchPage(GlobalPathCtrl.ActivePage).Results.ValidateNamespace(item, ns) then
+             begin
+               if NS.FileSystem and not NS.Folder then
+               begin
+                 ws:= NS.NameForParsing;
+               end;
+             end;
            end;
+           
            quickview:= TCEQuickViewPage(MainForm.TabSet.AddTab(TCEQuickViewPage, MainForm.TabSet.NewTabSelect).Page);
            if ws <> '' then
            quickview.OpenFile(ws);
