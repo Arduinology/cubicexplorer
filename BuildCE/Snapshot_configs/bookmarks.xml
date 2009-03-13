@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <bookmarks>
   <item name="My Computer" special="17"/>
+  <item name="My Documents" special="5">
+    <item name="My Pictures" special="39"/>
+    <item name="My Music" special="13"/>
+    <item name="My Videos" special="14"/>
+  </item>
+  <item name="My Network Places" special="18"/>
+  <item name="Control Panel" isopen="true" special="3">
+    <item name="Add or Remove Programs" pidl="nwAAABQAH1DgT9Ag6jppEKLYCAArMDCdFAAuACAg7CHqOmkQot0IACswMJ11AAAAJPr//x8ANgBDOlxXSU5ET1dTXHN5c3RlbTMyXGFwcHdpei5jcGwAQWRkIG9yIFJlbW92ZSBQcm9ncmFtcwBJbnN0YWxsIG9yIHJlbW92ZSBwcm9ncmFtcyBhbmQgV2luZG93cyBjb21wb25lbnRzLgAAAA=="/>
+    <item name="Folder Options" path="::{20D04FE0-3AEA-1069-A2D8-08002B30309D}\::{21EC2020-3AEA-1069-A2DD-08002B30309D}\::{6DFD7C5C-2451-11D3-A299-00C04F8EF6AF}"/>
+    <item name="Network Connections" special="49"/>
+  </item>
+  <item name="Recycle Bin" special="10"/>
 </bookmarks>

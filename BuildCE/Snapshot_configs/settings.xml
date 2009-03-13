@@ -11,19 +11,13 @@
       <ThumbSize>120</ThumbSize>
     </Filmstrip>
     <CellSizes>
-      <Icon>75,75</Icon>
-      <SmallIcon>200,17</SmallIcon>
-      <List>250,17</List>
-      <Details>75,17</Details>
-      <Tiles>218,58</Tiles>
-      <Thumbnails>125,143</Thumbnails>
-      <Filmstrip>125,143</Filmstrip>
+
     </CellSizes>
     <Columns>
       <Default>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0</Default>
-      <MyComputer/>
-      <Network/>
-      <ControlPanel/>
+      <MyComputer>0,0,180,0|1,1,120,0|2,2,96,0|3,3,96,0</MyComputer>
+      <Network>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0</Network>
+      <ControlPanel>0,0,180,0|1,1,300,0</ControlPanel>
     </Columns>
     <GroupBy>
       <ControlPanel Index="0" Enabled="False"/>
@@ -55,8 +49,8 @@
     <Breadcrumb>False</Breadcrumb>
   </AddressBar>
   <MainForm>
-    <Left>16</Left>
-    <Top>57</Top>
+    <Left>49</Left>
+    <Top>19</Top>
     <Width>640</Width>
     <Height>480</Height>
     <ShowCmd>1</ShowCmd>

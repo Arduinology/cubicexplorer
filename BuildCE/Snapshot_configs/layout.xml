@@ -11,6 +11,7 @@
       <item action="act_tabs_closetab"/>
       <separator/>
       <item action="act_navi_texteditor"/>
+      <item action="act_navi_quickview"/>
       <item action="act_navi_filesearch"/>
       <separator/>
       <item action="act_tools_emptytrash"/>
@@ -382,7 +383,7 @@
         <FolderPanel>
           <ParentName>DockHost@LeftDockPanel</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,159,433,481]</DockLoc>
+          <DockLoc>[0,205,433,527]</DockLoc>
           <UnDockRect>[-192,301,433,322]</UnDockRect>
           <Visible>FALSE</Visible>
           <LRDockWidth>100</LRDockWidth>
@@ -596,7 +597,7 @@
         <BookmarkPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[-212,187,225,510]</DockLoc>
+          <DockLoc>[-179,149,258,472]</DockLoc>
           <UnDockRect>[24,140,437,323]</UnDockRect>
           <Visible>FALSE</Visible>
           <LRDockWidth>230</LRDockWidth>
@@ -618,7 +619,7 @@
         <QuickViewPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[-212,187,224,509]</DockLoc>
+          <DockLoc>[-179,149,257,471]</DockLoc>
           <UnDockRect>[24,140,436,322]</UnDockRect>
           <Visible>FALSE</Visible>
           <LRDockWidth>499</LRDockWidth>
@@ -640,7 +641,7 @@
         <FiltersPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[-212,187,221,509]</DockLoc>
+          <DockLoc>[-179,149,254,471]</DockLoc>
           <UnDockRect>[24,140,433,322]</UnDockRect>
           <Visible>FALSE</Visible>
           <LRDockWidth>100</LRDockWidth>
@@ -684,7 +685,7 @@
         <FolderPanel>
           <ParentName>DockHost@LeftDockPanel</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,159,433,481]</DockLoc>
+          <DockLoc>[0,205,433,527]</DockLoc>
           <UnDockRect>[-89,301,433,322]</UnDockRect>
           <Visible>FALSE</Visible>
           <LRDockWidth>100</LRDockWidth>
@@ -898,7 +899,7 @@
         <BookmarkPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,0,227,96]</DockLoc>
+          <DockLoc>[0,0,227,142]</DockLoc>
           <UnDockRect>[24,140,437,323]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>230</LRDockWidth>
@@ -920,7 +921,7 @@
         <QuickViewPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,0,227,96]</DockLoc>
+          <DockLoc>[0,0,227,142]</DockLoc>
           <UnDockRect>[24,140,436,322]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>499</LRDockWidth>
@@ -942,7 +943,7 @@
         <FiltersPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,0,227,96]</DockLoc>
+          <DockLoc>[0,0,227,142]</DockLoc>
           <UnDockRect>[24,140,433,322]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>100</LRDockWidth>
@@ -964,7 +965,7 @@
         <TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0>
           <ParentName>DockHost@LeftDockPanel</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,18,227,137]</DockLoc>
+          <DockLoc>[0,18,227,183]</DockLoc>
           <UnDockRect>[24,140,434,320]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>100</LRDockWidth>
@@ -986,7 +987,7 @@
         <FolderPanel>
           <ParentName>DockHost@LeftDockPanel</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,159,227,341]</DockLoc>
+          <DockLoc>[0,205,227,341]</DockLoc>
           <UnDockRect>[-89,301,433,322]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>100</LRDockWidth>
@@ -1011,7 +1012,7 @@
           <DockLoc>[0,0,227,341]</DockLoc>
           <UnDockRect>[0,0,205,474]</UnDockRect>
           <Visible>TRUE</Visible>
-          <DockClientData>00000400550100000000000001E300000001000000000001000000000101000000008D00000001013C0200000137000000544A76446F636B546162486F7374466F726D5F46696C7465727350616E656C5F517569636B5669657750616E656C5F30304542443542300101000000005501000001013C020000010B000000466F6C64657250616E656C01FFFFFFFF</DockClientData>
+          <DockClientData>00000400550100000000000001E30000000100000000000100000000010100000000BB00000001013C0200000137000000544A76446F636B546162486F7374466F726D5F46696C7465727350616E656C5F517569636B5669657750616E656C5F30304542443542300101000000005501000001013C020000010B000000466F6C64657250616E656C01FFFFFFFF</DockClientData>
         </DockHost_LeftDockPanel>
         <DockHost_LeftDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>

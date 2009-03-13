@@ -578,6 +578,7 @@ function GetSmallShellIconSize: Integer;
 var
   reg: TRegistry;
 begin
+  Result:= 16;
   reg:= TRegistry.Create(KEY_READ);
   try
     reg.RootKey:= HKEY_CURRENT_USER;
@@ -607,6 +608,7 @@ function GetLargeShellIconSize: Integer;
 var
   reg: TRegistry;
 begin
+  Result:= 32;
   reg:= TRegistry.Create(KEY_READ);
   try
     reg.RootKey:= HKEY_CURRENT_USER;
