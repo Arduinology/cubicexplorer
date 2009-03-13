@@ -98,9 +98,9 @@ procedure TCEQuickViewPage.UpdateCaption;
 begin
   if ActiveFile = '' then
   begin
-    TabCaption:= _('Loading...');
-    TabItem.Images:= SmallSysImages;
-    TabItem.ImageIndex:= 0;
+    TabCaption:= _('QuickView');
+    TabItem.Images:= CE_Images.SmallIcons;
+    TabItem.ImageIndex:= 20;
   end
   else
   begin

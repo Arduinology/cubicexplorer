@@ -525,6 +525,14 @@ object CEActions: TCEActions
       Caption = 'Menu'
       OnExecute = ActionExecute
     end
+    object act_navi_quickview: TTntAction
+      Tag = 652
+      Category = 'Navigation'
+      Caption = 'QuickView'
+      ImageIndex = 20
+      ShortCut = 119
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

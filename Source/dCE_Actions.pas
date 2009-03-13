@@ -131,6 +131,7 @@ type
     act_tabs_closeonleft: TTntAction;
     act_tabs_closeonright: TTntAction;
     act_gen_menu: TCEToolbarAction;
+    act_navi_quickview: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -638,6 +639,10 @@ procedure ExecuteNavigationCategory(ActionID: Integer);
 var
   page: TCECustomTabPage;
   ws: WideString;
+  ns: TNamespace;
+  item: TEasyItem;
+  editor: TCETextEditorPage;
+  quickview: TCEQuickViewPage;
 begin
   case ActionID of
     601: begin
@@ -672,7 +677,22 @@ begin
     609: MainForm.TabSet.ScrollRight;
     650: begin
            GlobalFileViewSettings.AssignFromActivePage;
-           MainForm.TabSet.AddTab(TCETextEditorPage, MainForm.TabSet.NewTabSelect);
+           ws:= '';
+           if GlobalPathCtrl.ActivePage is TCEFileViewPage then
+           begin
+             item:= TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.Selection.First;
+             if TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.ValidateNamespace(item, ns) then
+             begin
+               if NS.FileSystem and not NS.Folder then
+               begin
+                 ws:= NS.NameForParsing;
+               end;
+             end;
+           end;
+
+           editor:= TCETextEditorPage(MainForm.TabSet.AddTab(TCETextEditorPage, MainForm.TabSet.NewTabSelect).Page);
+           if ws <> '' then
+           editor.OpenDocument(ws);
          end;
     651: begin
            GlobalFileViewSettings.AssignFromActivePage;
@@ -683,6 +703,24 @@ begin
            begin
              TCEFileSearchPage(page).DestinationEdit.Text:= ws;
            end;
+         end;
+    652: begin
+           GlobalFileViewSettings.AssignFromActivePage;
+           ws:= '';
+           if GlobalPathCtrl.ActivePage is TCEFileViewPage then
+           begin
+             item:= TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.Selection.First;
+             if TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.ValidateNamespace(item, ns) then
+             begin
+               if NS.FileSystem and not NS.Folder then
+               begin
+                 ws:= NS.NameForParsing;
+               end;
+             end;
+           end;
+           quickview:= TCEQuickViewPage(MainForm.TabSet.AddTab(TCEQuickViewPage, MainForm.TabSet.NewTabSelect).Page);
+           if ws <> '' then
+           quickview.OpenFile(ws);
          end;
   end;
 end;
