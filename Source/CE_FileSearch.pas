@@ -4,7 +4,7 @@ interface
 
 uses
   // CE Units
-  CE_BaseFileView, CE_FindFile,
+  CE_BaseFileView, CE_FindFile, CE_Utils,
   // Easy Listview
   EasyListview,
   // VSTools
@@ -52,6 +52,7 @@ constructor TCEFileSearchView.Create(AOwner: TComponent);
 begin
   inherited;
   Self.View:= elsReport;
+  Self.CellSizes.Report.Height:= SmallShellIconSize + 1;
   Self.Sort.AutoSort:= false;
   FindFile:= TCEFindFile.Create;
   FindFile.OnFileMatch:= OnFileMatch;

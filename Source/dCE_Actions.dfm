@@ -16,7 +16,7 @@ object CEActions: TCEActions
       ImageIndex = 10
       ShortCut = 16471
       SecondaryShortCuts.Strings = (
-        'Ctrl+Ins')
+        'Ctrl+F4')
       OnExecute = ActionExecute
     end
     object act_gen_exit: TTntAction

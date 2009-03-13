@@ -10,7 +10,7 @@ uses
   // VSTools
   MPCommonUtilities, MPCommonObjects, MPShellUtilities,
   // System Units
-  SysUtils, Classes, Windows, StrUtils, ShlObj, ShellAPI, Forms, Controls;
+  SysUtils, Classes, Windows, StrUtils, ShlObj, ShellAPI, Forms, Controls, Registry;
 
 type
   TWinVersion = (wvUnknown, wvWin95, wvWin98, wvWin98SE, wvWinNT, wvWinME, wvWin2000, wvWinXP, wvWin2003, wvWinVista);
@@ -42,8 +42,13 @@ type
   function WideGetDriveType(lpRootPathName: WideString): Integer;
   function BrowseForFolderPIDL(aTitle: WideString): PItemIDList;
 
+function GetLargeShellIconSize: Integer;
+
+function GetSmallShellIconSize: Integer;
+
 var
   ExePath: WideString;
+  LargeShellIconSize, SmallShellIconSize: Integer;
   CE_SHLockShared: function(Handle: THandle; DWord: DWord): Pointer; stdcall;
   CE_SHUnlockShared: function (Pnt: Pointer): BOOL; stdcall;
 
@@ -566,8 +571,68 @@ begin
   Result:= Tnt_SHBrowseForFolderW(info);
 end;
 
+{-------------------------------------------------------------------------------
+  Get Small Shell Icon Size
+-------------------------------------------------------------------------------}
+function GetSmallShellIconSize: Integer;
+var
+  reg: TRegistry;
+begin
+  reg:= TRegistry.Create(KEY_READ);
+  try
+    reg.RootKey:= HKEY_CURRENT_USER;
+    reg.OpenKey('\Control Panel\Desktop\WindowMetrics', False);
+    if reg.ValueExists('Shell Small Icon Size') then
+    begin
+      try
+      case reg.GetDataType('Shell Small Icon Size') of
+        rdString, rdExpandString: Result:= StrToIntDef(reg.ReadString('Shell Small Icon Size'), GetSystemMetrics(SM_CXICON));
+        rdInteger, rdUnknown, rdBinary: Result:= reg.ReadInteger('Shell Small Icon Size');
+      end;
+      except
+        Result:= GetSystemMetrics(SM_CXICON);
+      end;
+    end
+    else
+    Result:= GetSystemMetrics(SM_CXICON);
+  finally
+    reg.Free;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Get Large Shell Icon Size
+-------------------------------------------------------------------------------}
+function GetLargeShellIconSize: Integer;
+var
+  reg: TRegistry;
+begin
+  reg:= TRegistry.Create(KEY_READ);
+  try
+    reg.RootKey:= HKEY_CURRENT_USER;
+    reg.OpenKey('\Control Panel\Desktop\WindowMetrics', False);
+    if reg.ValueExists('Shell Icon Size') then
+    begin
+      try
+      case reg.GetDataType('Shell Icon Size') of
+        rdString, rdExpandString: Result:= StrToIntDef(reg.ReadString('Shell Icon Size'), GetSystemMetrics(SM_CXICON));
+        rdInteger, rdUnknown, rdBinary: Result:= reg.ReadInteger('Shell Icon Size');
+      end;
+      except
+        Result:= GetSystemMetrics(SM_CXICON);
+      end;
+    end
+    else
+    Result:= GetSystemMetrics(SM_CXICON);
+  finally
+    reg.Free;
+  end;
+end;
+
 initialization
   ExePath:= WideExtractFilePath(WideParamStr(0));
+  LargeShellIconSize:= GetLargeShellIconSize;
+  SmallShellIconSize:= GetSmallShellIconSize;
   CELoadShellProcs;
 
 finalization

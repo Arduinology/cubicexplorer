@@ -86,7 +86,6 @@ begin
   BookmarkTree.Align:= alClient;
   BookmarkTree.Indent:= 24;
   BookmarkTree.SingleClickMode:= true;
-  BookmarkTree.Images:= CE_Images.BookmarkImages;
   BookmarkTree.TabOrder:= 2;
   ImageList:= CE_Images.SmallIcons;
   ImageIndex:= 18;

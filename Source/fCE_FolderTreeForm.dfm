@@ -19,7 +19,7 @@ object CE_FolderTreeForm: TCE_FolderTreeForm
     Top = 0
     Width = 422
     Height = 317
-    Active = True
+    Active = False
     Align = alClient
     BorderStyle = bsNone
     ColumnDetails = cdUser
@@ -53,8 +53,6 @@ object CE_FolderTreeForm: TCE_FolderTreeForm
     OnKeyAction = FolderTreeKeyAction
     OnMouseDown = FolderTreeMouseDown
     OnMouseUp = FolderTreeMouseUp
-    ExplicitWidth = 434
-    ExplicitHeight = 320
     Columns = <>
   end
 end

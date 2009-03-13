@@ -4,7 +4,7 @@ interface
 
 uses
   // CE Units
-  CE_Bookmarks, CE_VistaFuncs, CE_SettingsIntf, CE_SpTabBar,
+  CE_Bookmarks, CE_VistaFuncs, CE_SettingsIntf, CE_SpTabBar, CE_Utils,
   // JVCL
   JvSimpleXml, JvAppStorage,
   // VSTools
@@ -102,6 +102,7 @@ begin
   Self.ButtonFillMode:= fmShaded;
   Self.Images:= SmallSysImages;
   Self.IncrementalSearch:= isAll;
+  Self.DefaultNodeHeight:= SmallShellIconSize;
 end;
 
 {*------------------------------------------------------------------------------

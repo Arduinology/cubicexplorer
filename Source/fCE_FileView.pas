@@ -1105,9 +1105,9 @@ begin
     begin
       case i of
         0: CellSizes[i]:= Storage.ReadPoint('Icon', Point(75,75));
-        1: CellSizes[i]:= Storage.ReadPoint('SmallIcon', Point(200,17));
-        2: CellSizes[i]:= Storage.ReadPoint('List', Point(250,17));
-        3: CellSizes[i]:= Storage.ReadPoint('Details', Point(75,17));
+        1: CellSizes[i]:= Storage.ReadPoint('SmallIcon', Point(200,SmallShellIconSize + 1));
+        2: CellSizes[i]:= Storage.ReadPoint('List', Point(250,SmallShellIconSize + 1));
+        3: CellSizes[i]:= Storage.ReadPoint('Details', Point(75,SmallShellIconSize + 1));
         4: CellSizes[i]:= Storage.ReadPoint('Tiles', Point(218,58));
         5: CellSizes[i]:= Storage.ReadPoint('Thumbnails', Point(125,143));
         6: CellSizes[i]:= Storage.ReadPoint('Filmstrip', Point(125,143));
@@ -1117,9 +1117,9 @@ begin
       begin
         case i of
           0: CellSizes[i]:= Point(75,75);
-          1: CellSizes[i]:= Point(200,17);
-          2: CellSizes[i]:= Point(250,17);
-          3: CellSizes[i]:= Point(75,17);
+          1: CellSizes[i]:= Point(200,SmallShellIconSize + 1);
+          2: CellSizes[i]:= Point(250,SmallShellIconSize + 1);
+          3: CellSizes[i]:= Point(75,SmallShellIconSize + 1);
           4: CellSizes[i]:= Point(218,58);
           5: CellSizes[i]:= Point(125,143);
           6: CellSizes[i]:= Point(125,143);
@@ -1231,15 +1231,15 @@ begin
     Storage.WriteBoolean('AutoSelectFirstItem',fAutoSelectFirstItem);
     Storage.WriteBoolean('AutosizeListViewStyle', fAutosizeListViewStyle);
     // CellSizes
-    Storage.OpenPath('/FileView/CellSizes');
-    Storage.WritePoint('Icon', CellSizes[0]);
-    Storage.WritePoint('SmallIcon', CellSizes[1]);
-    Storage.WritePoint('List', CellSizes[2]);
-    Storage.WritePoint('Details', CellSizes[3]);
-    Storage.WritePoint('Tiles', CellSizes[4]);
-    Storage.WritePoint('Thumbnails', CellSizes[5]);
-    Storage.WritePoint('Filmstrip', CellSizes[6]);
-    Storage.OpenPath('/FileView');
+//    Storage.OpenPath('/FileView/CellSizes');
+//    Storage.WritePoint('Icon', CellSizes[0]);
+//    Storage.WritePoint('SmallIcon', CellSizes[1]);
+//    Storage.WritePoint('List', CellSizes[2]);
+//    Storage.WritePoint('Details', CellSizes[3]);
+//    Storage.WritePoint('Tiles', CellSizes[4]);
+//    Storage.WritePoint('Thumbnails', CellSizes[5]);
+//    Storage.WritePoint('Filmstrip', CellSizes[6]);
+//    Storage.OpenPath('/FileView');
     // Columns
     SaveColumns;
     // GroupBy

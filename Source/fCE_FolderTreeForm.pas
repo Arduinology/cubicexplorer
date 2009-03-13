@@ -4,7 +4,7 @@ interface
 
 uses
   // CE Units
-  CE_GlobalCtrl, CE_VistaFuncs,
+  CE_GlobalCtrl, CE_VistaFuncs, CE_Utils,
   // VSTools, VT
   VirtualTrees, VirtualExplorerTree, MPShellUtilities,
   // System Units
@@ -49,6 +49,8 @@ begin
   inherited;
   SetDesktopIconFonts(Font);
   fCloseOnChange:= true;
+  FolderTree.DefaultNodeHeight:= SmallShellIconSize + 1;
+  FolderTree.Active:= true;
 end;
 
 {*------------------------------------------------------------------------------

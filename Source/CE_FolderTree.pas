@@ -4,7 +4,7 @@ interface
 
 uses
   // CE Units
-
+  CE_Utils,
   // VSTools, VT
   VirtualTrees, VirtualExplorerTree, MPShellUtilities, VirtualShellNotifier,
   MPCommonObjects, MPThreadManager,
@@ -91,6 +91,7 @@ begin
   fSelectionTimer.Enabled:= false;
   fSelectionTimer.Interval:= 500;
   fSelectionTimer.OnTimer:= SelectionTimer;
+  Self.DefaultNodeHeight:= SmallShellIconSize + 1;
 end;
 
 {*------------------------------------------------------------------------------
