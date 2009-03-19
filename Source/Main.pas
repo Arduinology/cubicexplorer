@@ -250,7 +250,7 @@ var
 implementation
 
 uses
-  madExcept;
+  madExcept, CE_QuickView, Clipbrd;
 
 {$R *.dfm}
 
@@ -1336,10 +1336,9 @@ begin
 end;
 
 
-
 procedure TMainForm.test_act1Click(Sender: TObject);
 begin
-  //  
+  //
 end;
 
 

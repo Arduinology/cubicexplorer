@@ -407,6 +407,7 @@ begin
   // Save old tab's column settings
   if GlobalPathCtrl.ActivePage is TCEFileViewPage then
   GlobalFileViewSettings.AssignColumnSettingsFrom(TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView);
+
   // Load column settings
   GlobalFileViewSettings.AssignColumnSettingsTo(FileView);
   // Set Page as active
@@ -423,6 +424,7 @@ procedure TCEFileViewPage.SetActive(const Value: Boolean);
 begin
   inherited;
   FileView.Active:= Value;
+  GlobalFileViewSettings.AssignColumnSettingsTo(FileView);
 end;
 
 {*------------------------------------------------------------------------------

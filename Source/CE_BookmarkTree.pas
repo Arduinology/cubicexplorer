@@ -102,7 +102,7 @@ begin
   Self.ButtonFillMode:= fmShaded;
   Self.Images:= SmallSysImages;
   Self.IncrementalSearch:= isAll;
-  Self.DefaultNodeHeight:= SmallShellIconSize;
+  Self.DefaultNodeHeight:= SmallShellIconSize + 1;
 end;
 
 {*------------------------------------------------------------------------------

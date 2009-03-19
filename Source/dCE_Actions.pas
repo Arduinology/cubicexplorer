@@ -82,7 +82,6 @@ type
     act_edit_newfolder: TTntAction;
     act_view_showheaderalways: TTntAction;
     act_tools_emptytrash: TCEToolbarAction;
-    act_gen_remembertabs: TTntAction;
     act_tools_cmd: TTntAction;
     act_view_filters: TTntAction;
     act_view_statusbar: TTntAction;

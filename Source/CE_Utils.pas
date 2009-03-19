@@ -587,15 +587,15 @@ begin
     begin
       try
       case reg.GetDataType('Shell Small Icon Size') of
-        rdString, rdExpandString: Result:= StrToIntDef(reg.ReadString('Shell Small Icon Size'), GetSystemMetrics(SM_CXICON));
+        rdString, rdExpandString: Result:= StrToIntDef(reg.ReadString('Shell Small Icon Size'), GetSystemMetrics(SM_CXSMICON));
         rdInteger, rdUnknown, rdBinary: Result:= reg.ReadInteger('Shell Small Icon Size');
       end;
       except
-        Result:= GetSystemMetrics(SM_CXICON);
+        Result:= GetSystemMetrics(SM_CXSMICON);
       end;
     end
     else
-    Result:= GetSystemMetrics(SM_CXICON);
+    Result:= GetSystemMetrics(SM_CXSMICON);
   finally
     reg.Free;
   end;

@@ -380,12 +380,6 @@ object CEActions: TCEActions
       ImageIndex = 24
       OnExecute = ActionExecute
     end
-    object act_gen_remembertabs: TTntAction
-      Tag = 102
-      Category = 'General'
-      Caption = 'Remember Tabs'
-      OnExecute = ActionExecute
-    end
     object act_tools_cmd: TTntAction
       Tag = 454
       Category = 'Tools'
