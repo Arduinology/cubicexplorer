@@ -112,6 +112,7 @@ type
     fAutosizeListViewStyle: Boolean;
     fShowExtensions: Boolean;
     fShowHeaderAlways: Boolean;
+    fSortFolderFirstAlways: Boolean;
     fUpdating: Boolean;
     NotifyList: TComponentList;
     procedure SetFullRowSelect(const Value: Boolean);
@@ -122,6 +123,7 @@ type
     procedure SetShowExtensions(const Value: Boolean);
     procedure SetShowHeaderAlways(const Value: Boolean);
     procedure SetSmoothScroll(const Value: Boolean);
+    procedure SetSortFolderFirstAlways(const Value: Boolean);
   public
     CellSizes: Array [0..6] of TPoint;
     Columns_ControlPanel: TCEColSettings;
@@ -156,6 +158,8 @@ type
     property ShowHeaderAlways: Boolean read fShowHeaderAlways write
         SetShowHeaderAlways;
     property SmoothScroll: Boolean read fSmoothScroll write SetSmoothScroll;
+    property SortFolderFirstAlways: Boolean read fSortFolderFirstAlways write
+        SetSortFolderFirstAlways;
   published
     property SelectPreviousFolder: Boolean read fSelectPreviousFolder write
         SetSelectPreviousFolder;
@@ -213,7 +217,6 @@ begin
   FileView.PaintInfoGroup.BandColor:= clWindowText;
   FileView.PaintInfoGroup.BandColorFade:= clWindow;
   FileView.GroupFont.Style:= [fsBold];
-
   GlobalFocusCtrl.CtrlList.Add(FileView);
   FileView.OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
   GlobalFileViewSettings.RegisterNotify(Self);
@@ -894,6 +897,7 @@ begin
     FileViewPage.FileView.SelectPreviousFolder:= SelectPreviousFolder;
     FileViewPage.FileView.AutoSelectFirstItem:= AutoSelectFirstItem;
     FileViewPage.FileView.AutosizeListViewStyle:= AutosizeListViewStyle;
+    FileViewPage.FileView.SortFolderFirstAlways:= SortFolderFirstAlways;
     for i:= 0 to Length(CellSizes) - 1 do
     begin
       case i of
@@ -1101,6 +1105,7 @@ begin
     fSelectPreviousFolder:= Storage.ReadBoolean('SelectPreviousFolder', true);
     fAutoSelectFirstItem:= Storage.ReadBoolean('AutoSelectFirstItem', true);
     fAutosizeListViewStyle:= Storage.ReadBoolean('AutosizeListViewStyle', true);
+    fSortFolderFirstAlways:= Storage.ReadBoolean('SortFolderFirstAlways', true);
     // Cell Sizes
     Storage.OpenPath('/FileView/CellSizes');
     for i:= 0 to Length(CellSizes) -1  do
@@ -1232,6 +1237,8 @@ begin
     Storage.WriteBoolean('SelectPreviousFolder',fSelectPreviousFolder);
     Storage.WriteBoolean('AutoSelectFirstItem',fAutoSelectFirstItem);
     Storage.WriteBoolean('AutosizeListViewStyle', fAutosizeListViewStyle);
+    Storage.WriteBoolean('SortFolderFirstAlways', fSortFolderFirstAlways);
+
     // CellSizes
 //    Storage.OpenPath('/FileView/CellSizes');
 //    Storage.WritePoint('Icon', CellSizes[0]);
@@ -1279,7 +1286,7 @@ begin
       FileViewPage.FileView.SelectPreviousFolder:= SelectPreviousFolder;
       FileViewPage.FileView.AutoSelectFirstItem:= AutoSelectFirstItem;
       FileViewPage.FileView.AutosizeListViewStyle:= AutosizeListViewStyle;
-      
+      FileViewPage.FileView.SortFolderFirstAlways:= SortFolderFirstAlways;
       doRebuild:=  FileViewPage.FileView.ShowExtension <> fShowExtensions;
       FileViewPage.FileView.ShowExtension:= fShowExtensions;
       
@@ -1431,6 +1438,15 @@ end;
 procedure TCEFileViewSettings.SetAutosizeListViewStyle(const Value: Boolean);
 begin
   fAutosizeListViewStyle:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set SortFolderFirstAlways
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetSortFolderFirstAlways(const Value: Boolean);
+begin
+  fSortFolderFirstAlways:= Value;
   SendChanges;
 end;
 

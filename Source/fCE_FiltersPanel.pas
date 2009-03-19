@@ -148,7 +148,8 @@ end;
 procedure TCE_FiltersPanel.DoFormHide;
 begin
   inherited;
-  Filters.Active:= false;
+  // TODO: make filters deactivate when panel is hidden but not when auto hidden.
+  //Filters.Active:= false;
 end;
 
 {-------------------------------------------------------------------------------

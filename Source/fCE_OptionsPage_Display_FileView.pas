@@ -17,6 +17,7 @@ type
     check_selectprev: TTntCheckBox;
     check_autoselect: TTntCheckBox;
     check_autosize_liststyle: TTntCheckBox;
+    check_sortfoldersfirst: TTntCheckBox;
     procedure HandleChange(Sender: TObject);
   private
     { Private declarations }
@@ -59,6 +60,7 @@ begin
   GlobalFileViewSettings.SelectPreviousFolder:= check_selectprev.Checked;
   GlobalFileViewSettings.AutoSelectFirstItem:= check_autoselect.Checked;
   GlobalFileViewSettings.AutosizeListViewStyle:= check_autosize_liststyle.Checked;
+  GlobalFileViewSettings.SortFolderFirstAlways:= check_sortfoldersfirst.Checked;
 end;
 
 {-------------------------------------------------------------------------------
@@ -82,6 +84,7 @@ begin
     check_selectprev.Checked:= Storage.ReadBoolean('SelectPreviousFolder', GlobalFileViewSettings.SelectPreviousFolder);
     check_autoselect.Checked:= Storage.ReadBoolean('AutoSelectFirstItem', GlobalFileViewSettings.AutoSelectFirstItem);
     check_autosize_liststyle.Checked:= Storage.ReadBoolean('AutosizeListViewMode', GlobalFileViewSettings.AutosizeListViewStyle);
+    check_sortfoldersfirst.Checked:= Storage.ReadBoolean('SortFolderFirstAlways', GlobalFileViewSettings.AutosizeListViewStyle);
   finally
     Storage.ClosePath;
   end;
@@ -100,6 +103,7 @@ begin
     Storage.ReadBoolean('SelectPreviousFolder', check_selectprev.Checked);
     Storage.ReadBoolean('AutoSelectFirstItem', check_autoselect.Checked);
     Storage.ReadBoolean('AutosizeListViewMode', check_autosize_liststyle.Checked);
+     Storage.ReadBoolean('SortFolderFirstAlways', check_sortfoldersfirst.Checked);
   finally
     Storage.ClosePath;
   end;

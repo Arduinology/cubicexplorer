@@ -35,4 +35,13 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
     TabOrder = 3
     OnClick = HandleChange
   end
+  object check_sortfoldersfirst: TTntCheckBox
+    Left = 16
+    Top = 108
+    Width = 401
+    Height = 17
+    Caption = 'Always sort folders first.'
+    TabOrder = 4
+    OnClick = HandleChange
+  end
 end
