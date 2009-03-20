@@ -1349,10 +1349,6 @@ end;
 
 // TODO: Minimizing bug fix try -->
 procedure TMainForm.CreateParams(var Params: TCreateParams);
-var
-  LParent: TCustomForm;
-  CreateStyle: TFormBorderStyle;
-  LPopupMode: TPopupMode;
 begin
   inherited CreateParams(Params);
   Params.WndParent:= 0;

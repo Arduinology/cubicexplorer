@@ -17,8 +17,8 @@
 ;=== Initialize =================================================
 
 ;---Version info---
-  !define VERSION "0.90rc3"
-  !define VERSION_STR "0.90 RC 3"
+  !define VERSION "0.90rc5"
+  !define VERSION_STR "0.90 RC 5"
 
 ;---Reserved Files---
   ReserveFile "ShortcutPage.ini"
