@@ -59,6 +59,7 @@ type
     ActiveFilters: TTntStrings;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    procedure ClearFilters;
     procedure DeFilter;
     procedure DoFiltering;
     function FindByExtension(ext: WideString): PVirtualNode;
@@ -102,6 +103,16 @@ destructor TCEFilterPanel.Destroy;
 begin
   ActiveFilters.Free;
   inherited;
+end;
+
+{*------------------------------------------------------------------------------
+  Clear Filters
+-------------------------------------------------------------------------------}
+procedure TCEFilterPanel.ClearFilters;
+begin
+  ActiveFilters.Clear;
+  ShowAllExtensions:= true;
+  ShowFolders:= true;
 end;
 
 {*------------------------------------------------------------------------------
@@ -509,7 +520,7 @@ begin
 
   if fShowAllExtensions <> Value then
   begin
-    fShowAllExtensions:= Value;    
+    fShowAllExtensions:= Value;
     DoFiltering;
   end;
 end;

@@ -637,7 +637,7 @@ end;
 procedure ExecuteNavigationCategory(ActionID: Integer);
 var
   page: TCECustomTabPage;
-  ws: WideString;
+  ws,ext: WideString;
   ns: TNamespace;
   item: TEasyItem;
   editor: TCETextEditorPage;
@@ -701,8 +701,18 @@ begin
            end;
 
            editor:= TCETextEditorPage(MainForm.TabSet.AddTab(TCETextEditorPage, MainForm.TabSet.NewTabSelect).Page);
-           if ws <> '' then
-           editor.OpenDocument(ws);
+           if (ws <> '') then
+           begin
+            ext:= WideUpperCase(WideExtractFileExt(ws));
+            case QuickViewSettings.GetViewType(ext) of
+              qvImage, qvVideo:
+              else
+              begin
+                if (ext <> '.EXE') and (ext <> '.DLL') then
+                editor.OpenDocument(ws);
+              end;
+            end;
+           end;
          end;
     651: begin
            GlobalFileViewSettings.AssignFromActivePage;

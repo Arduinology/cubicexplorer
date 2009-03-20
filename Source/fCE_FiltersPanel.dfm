@@ -534,4 +534,13 @@ inherited CE_FiltersPanel: TCE_FiltersPanel
     Left = 8
     Top = 56
   end
+  object FiltersPopupMenu: TSpTBXPopupMenu
+    OnPopup = FiltersPopupMenuPopup
+    Left = 48
+    Top = 56
+    object check_resetfilters: TSpTBXItem
+      Caption = 'Clear filters on folder change'
+      OnClick = check_resetfiltersClick
+    end
+  end
 end

@@ -545,4 +545,9 @@ object MainForm: TMainForm
     Left = 128
     Top = 64
   end
+  object ApplicationEvents: TApplicationEvents
+    OnMessage = ApplicationEventsMessage
+    Left = 160
+    Top = 64
+  end
 end

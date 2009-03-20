@@ -8,30 +8,45 @@ uses
   fCE_FileView, dCE_Images, fCE_FileSearch, CE_SettingsIntf, CE_Settings,
   // TB2k, TBX, SpTBX
   TB2Dock, SpTBXItem,
+  // VSTools
+  VirtualExplorerEasyListview,
+  // Graphics32
+  GR32_Image, GR32,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, VirtualExplorerEasyListview, GR32_Image, GR32;
+  Dialogs, ShlObj, Menus, TB2Item;
 
 type
   TControlHack = class(TControl);
 
   TCE_FiltersPanel = class(TCECustomDockableForm, ICESettingsHandler)
     Images: TBitmap32List;
+    FiltersPopupMenu: TSpTBXPopupMenu;
+    check_resetfilters: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure check_resetfiltersClick(Sender: TObject);
+    procedure FiltersPopupMenuPopup(Sender: TObject);
   private
+    fResetOnPathChange: Boolean;
   protected
     FilterBackgroundBitmap: TBitmap;
     procedure DrawFilterBitmap;
     procedure GlobalActivePageChange(OldPage, NewPage: TComponent); override;
         stdcall;
     procedure GlobalContentChange(Sender: TObject); override; stdcall;
+    procedure GlobalPathChanged(Sender: TObject; NewPath: WideString); override;
+        stdcall;
+    procedure GlobalPIDLChanged(Sender: TObject; NewPIDL: PItemIDList); override;
+        stdcall;
     procedure LoadFromStorage(Storage: ICESettingsStorage); stdcall;
     procedure SaveToStorage(Storage: ICESettingsStorage); stdcall;
   public
     Filters: TCEFilterPanel;
     procedure DoFormHide; override;
     procedure DoFormShow; override;
+    property ResetOnPathChange: Boolean read fResetOnPathChange write
+        fResetOnPathChange;
   end;
 
 var
@@ -55,6 +70,7 @@ begin
   Filters.Parent:= self;
   Filters.Align:= alClient;
   Filters.FilteringImage:= FilterBackgroundBitmap;
+  Filters.PopupMenu:= FiltersPopupMenu;
   SetDesktopIconFonts(Filters.Font);
   ImageList:= CE_Images.SmallIcons;
   ImageIndex:= 29;
@@ -62,6 +78,7 @@ begin
   TControlHack(Filters).OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
   GlobalPathCtrl.RegisterNotify(self);
   GlobalSettings.RegisterHandler(Self);
+  fResetOnPathChange:= true;
 end;
 
 {*------------------------------------------------------------------------------
@@ -152,6 +169,29 @@ begin
   //Filters.Active:= false;
 end;
 
+{*------------------------------------------------------------------------------
+  Get's called when Global path has changed (String)
+-------------------------------------------------------------------------------}
+procedure TCE_FiltersPanel.GlobalPathChanged(Sender: TObject; NewPath:
+    WideString);
+begin
+  if ResetOnPathChange then
+  begin
+    Filters.ShowAllExtensions:= true;
+    Filters.ShowFolders:= true;
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Get's called when Global path has changed (PIDL)
+-------------------------------------------------------------------------------}
+procedure TCE_FiltersPanel.GlobalPIDLChanged(Sender: TObject; NewPIDL:
+    PItemIDList);
+begin
+  if ResetOnPathChange then
+  Filters.ClearFilters;
+end;
+
 {-------------------------------------------------------------------------------
   Load From storage
 -------------------------------------------------------------------------------}
@@ -161,6 +201,7 @@ begin
   try
     // Toggles
     Filters.ShowFilteringBackground:= Storage.ReadBoolean('ShowBkgrd', true);
+    ResetOnPathChange:= Storage.ReadBoolean('AutoResetFilters', true);
   finally
     Storage.ClosePath;
   end;
@@ -175,9 +216,26 @@ begin
   try
     // Toggles
     Storage.WriteBoolean('ShowBkgrd', Filters.ShowFilteringBackground);
+    Storage.WriteBoolean('AutoResetFilters', ResetOnPathChange);
   finally
     Storage.ClosePath;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  On check_resetfilter click
+-------------------------------------------------------------------------------}
+procedure TCE_FiltersPanel.check_resetfiltersClick(Sender: TObject);
+begin
+  ResetOnPathChange:= not ResetOnPathChange;
+end;
+
+{-------------------------------------------------------------------------------
+  On FiltersPopupMenu popup
+-------------------------------------------------------------------------------}
+procedure TCE_FiltersPanel.FiltersPopupMenuPopup(Sender: TObject);
+begin
+  check_resetfilters.Checked:= ResetOnPathChange;
 end;
 
 end.
