@@ -12,9 +12,11 @@ object CEOptionsDialog: TCEOptionsDialog
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsStayOnTop
+  KeyPreview = True
   OldCreateOrder = False
   Position = poScreenCenter
   OnClose = FormClose
+  OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
   object MainPanel: TPanel

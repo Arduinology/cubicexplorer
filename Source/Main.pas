@@ -176,7 +176,6 @@ type
     MainMenuPopupMenu: TSpTBXPopupMenu;
     SpTBXItem90: TSpTBXItem;
     ApplicationEvents: TApplicationEvents;
-    procedure ApplicationEventsMessage(var Msg: tagMSG; var Handled: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -205,15 +204,12 @@ type
     procedure SetActiveLanguage(const Value: WideString);
     procedure SetPathInTitle(const Value: Boolean);
     procedure SetSingleInstance(const Value: Boolean);
-    procedure WMSysCommand(var Message: TWMSysCommand); message WM_SYSCOMMAND;
-
   protected
     fIsReady: Boolean;
     procedure ForceIconCachRebuild;
     procedure GetLanguageList;
     procedure GetSkinsFromFolder(AFolderPath: WideString);
     procedure ConvertCustomActions(Root: TTBCustomItem; Recursive: Boolean = true);
-    procedure CreateParams(var Params: TCreateParams); override;
     procedure InitLanguage;
     procedure LanguageItemClick(Sender: TObject);
     procedure WMDeviceChange(var Message: TMessage); message WM_DEVICECHANGE;
@@ -314,12 +310,6 @@ end;
 -------------------------------------------------------------------------------}
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  // TODO: Minimizing bug fix try -->
-  ShowWindow(Application.Handle, SW_HIDE) ;
-  SetWindowLong(Application.Handle, GWL_EXSTYLE, getWindowLong(Application.Handle, GWL_EXSTYLE) or WS_EX_TOOLWINDOW);
-  ShowWindow(Application.Handle, SW_SHOW);
-  // <----
-
   ChangeNotifier.RegisterShellChangeNotify(Self);
   fLanguageList:= TTntStringList.Create;
   fLanguageList.NameValueSeparator:= '=';
@@ -1345,34 +1335,6 @@ end;
 procedure TMainForm.test_act1Click(Sender: TObject);
 begin
   //
-end;
-
-// TODO: Minimizing bug fix try -->
-procedure TMainForm.CreateParams(var Params: TCreateParams);
-begin
-  inherited CreateParams(Params);
-  Params.WndParent:= 0;
-end;
-
-procedure TMainForm.WMSysCommand(var Message: TWMSysCommand);
-begin
-  with Message do
-  begin
-    if (CmdType and $FFF0 = SC_MINIMIZE) and (Application.MainForm = Self) then
-    ShowWindow(Self.handle, SW_MINIMIZE )
-    else if (CmdType and $FFF0 <> SC_MOVE) or (csDesigning in ComponentState) or
-      (Align = alNone) or (WindowState = wsMinimized) then
-      inherited;
-    if ((CmdType and $FFF0 = SC_MINIMIZE) or (CmdType and $FFF0 = SC_RESTORE)) and
-      not (csDesigning in ComponentState) and (Align <> alNone) then
-      RequestAlign;
-  end;
-end;
-
-procedure TMainForm.ApplicationEventsMessage(var Msg: tagMSG; var Handled:
-    Boolean);
-begin
-  Handled:= (Msg.message = WM_SysCommand) and (Msg.wParam = SC_MINIMIZE) and (Msg.hwnd <> Handle);
 end;
 
 // <---- fix try end

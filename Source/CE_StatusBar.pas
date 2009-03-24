@@ -134,17 +134,17 @@ begin
 
     it:= fileView.RootFolderNamespace.FolderSize(InvalidateParent);
 
-    if (i > 1024) and (i < 1024000) then
+    if (i > 1024) and (i < 1048576) then
     si:= FloatToStrF(i / 1024, ffFixed, 4,0) + ' ' + _('KB')
-    else if i >= 1024000 then
-    si:= FloatToStrF(i / 1024000, ffFixed, 6,2) + ' ' + _('MB')
+    else if i >= 1048576 then
+    si:= FloatToStrF(i / 1048576, ffFixed, 6,2) + ' ' + _('MB')
     else
     si:= IntToStr(i) + ' ' + _('Bytes');
 
-    if (it > 1024) and (it < 1024000) then
+    if (it > 1024) and (it < 1048576) then
     st:= FloatToStrF(it / 1024, ffFixed , 4,0) + ' ' + _('KB')
-    else if it >= 1024000 then
-    st:= FloatToStrF(it / 1024000, ffFixed , 6,2) + ' ' + _('MB')
+    else if it >= 1048576 then
+    st:= FloatToStrF(it / 1048576, ffFixed , 6,2) + ' ' + _('MB')
     else
     st:= IntToStr(it) + ' ' + _('Bytes');
 

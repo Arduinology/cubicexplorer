@@ -40,6 +40,7 @@ type
     procedure but_cancelClick(Sender: TObject);
     procedure but_okClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure PageTreeAfterCellPaint(Sender: TBaseVirtualTree; TargetCanvas:
         TCanvas; Node: PVirtualNode; Column: TColumnIndex; CellRect: TRect);
     procedure PageTreeAfterItemPaint(Sender: TBaseVirtualTree; TargetCanvas:
@@ -536,6 +537,16 @@ begin
     page:= TCEOptionsCustomPage(Pagelist.Items[i]);
     page.ApplySettings;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  On Form Key Down
+-------------------------------------------------------------------------------}
+procedure TCEOptionsDialog.FormKeyDown(Sender: TObject; var Key: Word; Shift:
+    TShiftState);
+begin
+  if Key = VK_ESCAPE then
+  but_cancelClick(self);
 end;
 
 {-------------------------------------------------------------------------------
