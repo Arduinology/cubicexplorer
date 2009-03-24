@@ -9,20 +9,22 @@ uses
   pngimage,
   // Syn Edit
   SynEditHighlighter, SynHighlighterURI, SynURIOpener, SynEdit, SynMemo,
+  // Tnt
+  TntForms,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, TntStdCtrls;
 
 type
-  TCEAboutBox = class(TForm)
+  TCEAboutBox = class(TTntForm)
     Image1: TImage;
     Label1: TLabel;
-    Label2: TLabel;
     Label3: TLabel;
     SynMemo1: TSynMemo;
     SynURIOpener1: TSynURIOpener;
     SynURISyn1: TSynURISyn;
     but_close: TTntButton;
+    VersionLabel: TTntLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure but_closeClick(Sender: TObject);
@@ -78,7 +80,7 @@ var
 begin
   SetVistaFont(Font);
   ver:= TJclFileVersionInfo.Create(Application.ExeName);
-  Label2.Caption:= _('Version:') + ' ' + ver.FileVersion;
+  VersionLabel.Caption:= _('Version:') + ' ' + ver.FileVersion;
   Label1.Caption:= ver.ProductName + ' ' + ver.ProductVersion;
   ver.Free;
   CEGlobalTranslator.TranslateComponent(Self);

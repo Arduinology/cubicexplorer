@@ -11,7 +11,7 @@ uses
   // Toolbar2000
   TB2Dock, TB2Toolbar, TB2Item,
   // TNT Controls
-  TntActnList,
+  TntActnList, TntForms,
   // Png Controls
   PngImageList,
   // SpTBXLib
@@ -33,7 +33,7 @@ type
     IsSeparator: Boolean;
   end;
 
-  TCEToolbarCustomizer = class(TForm)
+  TCEToolbarCustomizer = class(TTntForm)
     ActionTree: TVirtualStringTree;
     TntLabel1: TTntLabel;
     procedure ActionTreeDragAllowed(Sender: TBaseVirtualTree; Node: PVirtualNode;
@@ -301,7 +301,7 @@ begin
   node:= ActionTree.GetFirst;
   node:= ActionTree.InsertNode(node, amInsertBefore);
   data:= ActionTree.GetNodeData(Node);
-  data.Name:= _('Separator');
+  data.Name:= UTF8Encode(_('Separator'));
   data.IconIndex:= -1;
   data.IsCategory:= true;
   data.IsSeparator:= false;
@@ -345,6 +345,9 @@ begin
   if Column <> 0 then
   Exit;
   data:= ActionTree.GetNodeData(Node);
+  if data.IsCategory then
+  CellText:= UTF8Decode(data.Name)
+  else
   CellText:= data.Name;
 end;
 

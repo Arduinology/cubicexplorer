@@ -113,7 +113,7 @@ var
   i,it: Int64;
   Item: TEasyItem;
   fileView: TCEFileView;
-  si, st: String;
+  si, st: WideString;
   ws: WideString;
   NS: TNamespace;
 begin

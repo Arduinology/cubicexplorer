@@ -81,7 +81,9 @@ type
   
 
 function gettext(const szMsgId: WideString): WideString;
-function _(const szMsgId: WideString): WideString;
+function _(const szMsgId: WideString): WideString; overload;
+
+function _(const szMsgId: String): WideString; overload;
 
 var
   CEGlobalTranslator: TCETranslator;
@@ -99,6 +101,12 @@ end;
 function _(const szMsgId: WideString): WideString;
 begin
   Result:= gettext(szMsgId);
+end;
+
+// gettext (shorter version)
+function _(const szMsgId: String): WideString;
+begin
+  Result:= gettext(WideString(szMsgId));
 end;
 
 {##############################################################################}
@@ -290,6 +298,7 @@ begin
       SetWideStrProp(item.Obj, item.Propname, item.OldValue);
     end;
   end;
+  POFile.Clear;
   if ClearItems then
   ClearCollections;
 end;
@@ -442,6 +451,9 @@ begin
               begin
                 if remember then
                 RememberProperty(AObject, Propname, old, ItemCollection);
+                if PropInfo^.PropType^.Kind <> tkWString then
+                SetStrProp(AObject, ppi, UTF8Encode(ws))
+                else
                 SetWideStrProp(AObject, ppi, ws);
               end;
             end;

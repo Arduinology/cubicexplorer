@@ -8,7 +8,7 @@ uses
   // VirtualTree
   VirtualTrees,
   // Tnt Controls
-  TntStdCtrls, TntExtCtrls,
+  TntStdCtrls, TntExtCtrls, TntForms,
   // SpTBXLib
   SpTBXSkins,
   // System Units
@@ -24,7 +24,7 @@ type
     ImageIndex: Integer;
   end;
 
-  TCEOptionsDialog = class(TForm)
+  TCEOptionsDialog = class(TTntForm)
     MainPanel: TPanel;
     BottomPanel: TPanel;
     PagePanel: TPanel;
@@ -134,8 +134,6 @@ var
   node: PVirtualNode;
 begin
   inherited Create(AOwner);
-  CEGlobalTranslator.TranslateComponent(Self);
-  
   PageTree.NodeDataSize:= SizeOf(APageData);
   PageList := TObjectList.Create(true);
   CreatePages;
@@ -147,6 +145,8 @@ begin
     PageTree.FocusedNode:= node;
     PageTree.Selected[node]:= true;
   end;
+  
+  CEGlobalTranslator.TranslateComponent(Self);
 end;
 
 {*------------------------------------------------------------------------------
@@ -436,7 +436,7 @@ var
   r: TRect;
   textColor: TColor;
   NodeLevel,NextNodeLevel: Integer;
-  s: String;
+  ws: WideString;
 begin
   data:= Sender.GetNodeData(Node);
   if not assigned(data) then
@@ -461,12 +461,8 @@ begin
     TargetCanvas.Font.Color:= textColor;
     if data.ImageIndex > -1 then
     r.Left:= r.Left + 34;
-    s:= data.PageName;
-    DrawText(TargetCanvas.Handle,
-             PChar(s),
-             Length(s),
-             r,
-             DT_VCENTER or DT_SINGLELINE or DT_END_ELLIPSIS);
+    ws:= data.PageName;
+    SpDrawXPText(TargetCanvas, ws, r, DT_VCENTER or DT_SINGLELINE or DT_END_ELLIPSIS);
   end
   else
   begin
@@ -486,12 +482,8 @@ begin
     else
     r.Left:= r.Left + 2;
     
-    s:= data.PageName;
-    DrawText(TargetCanvas.Handle,
-             PChar(s),
-             Length(s),
-             r,
-             DT_VCENTER or DT_SINGLELINE or DT_END_ELLIPSIS);
+    ws:= data.PageName;
+    SpDrawXPText(TargetCanvas, ws, r, DT_VCENTER or DT_SINGLELINE or DT_END_ELLIPSIS);
   end;  
 end;
 

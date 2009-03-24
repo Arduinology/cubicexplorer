@@ -9,7 +9,7 @@ uses
   // TB2K, SpTBX
   SpTBXEditors, SpTBXFormPopupMenu, SpTBXControls,
   // Tnt Controls
-  TntStdCtrls,
+  TntStdCtrls, TntForms,
   // VSTools
   MPCommonObjects, MPShellUtilities,
   // VirtualTrees
@@ -19,7 +19,7 @@ uses
   Dialogs, ComCtrls, StdCtrls, ExtCtrls,  Menus, ImgList;
 
 type
-  TBookmarkPropDlg = class(TForm)
+  TBookmarkPropDlg = class(TTntForm)
     PageControl: TPageControl;
     GeneralSheet: TTabSheet;
     but_OK: TButton;

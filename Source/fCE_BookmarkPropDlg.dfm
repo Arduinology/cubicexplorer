@@ -29,12 +29,8 @@ object BookmarkPropDlg: TBookmarkPropDlg
     ActivePage = GeneralSheet
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
-    ExplicitWidth = 352
-    ExplicitHeight = 223
     object GeneralSheet: TTabSheet
       Caption = 'General'
-      ExplicitWidth = 344
-      ExplicitHeight = 195
       DesignSize = (
         343
         194)
@@ -64,8 +60,6 @@ object BookmarkPropDlg: TBookmarkPropDlg
         BevelInner = bvRaised
         BevelOuter = bvLowered
         TabOrder = 1
-        ExplicitWidth = 338
-        ExplicitHeight = 145
         object Label2: TLabel
           Left = 8
           Top = 8
@@ -118,8 +112,6 @@ object BookmarkPropDlg: TBookmarkPropDlg
     ModalResult = 1
     TabOrder = 1
     OnClick = but_OKClick
-    ExplicitLeft = 119
-    ExplicitTop = 233
   end
   object but_Cancel: TButton
     Left = 199
@@ -131,8 +123,6 @@ object BookmarkPropDlg: TBookmarkPropDlg
     ModalResult = 2
     TabOrder = 2
     OnClick = but_CancelClick
-    ExplicitLeft = 200
-    ExplicitTop = 233
   end
   object but_Apply: TButton
     Left = 280
@@ -143,8 +133,6 @@ object BookmarkPropDlg: TBookmarkPropDlg
     Caption = 'Apply'
     TabOrder = 3
     OnClick = but_ApplyClick
-    ExplicitLeft = 281
-    ExplicitTop = 233
   end
   object FormPopupMenu: TSpTBXFormPopupMenu
     OnPopup = FormPopupMenuPopup

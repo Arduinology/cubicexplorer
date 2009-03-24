@@ -7,7 +7,7 @@ uses
   CE_Consts, CE_Utils, CE_GifAnim, CE_VideoPlayer, CE_VistaFuncs,
   CE_LanguageEngine, CE_SettingsIntf, CE_Settings,
   // Tnt Controls
-  TntStdCtrls, TntSysUtils, TntClasses,
+  TntStdCtrls, TntSysUtils, TntClasses, TntExtCtrls,
   // GraphicEx
   GraphicEx,
   //Graphics32
@@ -23,7 +23,7 @@ uses
 type
   TCEQuickViewType = (qvNone, qvAuto, qvMemo, qvImage, qvHex, qvVideo);
 
-  TCEQuickView = class(TPanel)
+  TCEQuickView = class(TTntPanel)
   private
     fActive: Boolean;
     fFilePath: WideString;

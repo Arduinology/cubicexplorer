@@ -66,7 +66,7 @@ implementation
 
 uses
   dCE_Actions, CE_BookmarkBar, fCE_FileView, CE_VistaFuncs,
-  CE_StdBookmarkComps, fCE_BookmarkPropDlg;
+  CE_StdBookmarkComps, fCE_BookmarkPropDlg, CE_LanguageEngine;
 
 {$R *.dfm}
 

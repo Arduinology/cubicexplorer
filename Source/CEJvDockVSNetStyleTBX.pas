@@ -549,9 +549,8 @@ begin
         if c = clNone then
         c:= SkinManager.CurrentSkin.GetTextColor(skncToolbarItem, sknsNormal);
         Canvas.Font.Color:= c;
-        
         SpDrawXPText(Canvas,
-                     TForm(Control).Caption,
+                     UTF8Decode(TForm(Control).Caption),
                      CRect,
                      DT_SINGLELINE+DT_VCENTER+DT_END_ELLIPSIS);
 
@@ -786,7 +785,7 @@ var
   CurrTabWidth: Integer;
   I, CompleteWidth: Integer;
   ImageWidth: Integer;
-  CaptionString: string;
+  CaptionString: WideString;
 begin
   //inherited Paint;
   if Page = nil then
@@ -923,9 +922,11 @@ begin
     end;
 
     Canvas.Brush.Style:= bsClear;
-    CaptionString:= Page.Pages[I].Caption;
-    DrawText(Canvas.Handle, PChar(CaptionString), Length(CaptionString),
-      ARect, DT_LEFT or DT_SINGLELINE or DT_END_ELLIPSIS);
+    CaptionString:= UTF8Decode(Page.Pages[I].Caption);
+
+    SpDrawXPText(Canvas, CaptionString, ARect, DT_LEFT or DT_SINGLELINE or DT_END_ELLIPSIS);
+    //DrawText(Canvas.Handle, PChar(CaptionString), Length(CaptionString),
+    //  ARect, DT_LEFT or DT_SINGLELINE or DT_END_ELLIPSIS);
 
     // finally paint the image
     if ShowTabImages and (Page.Images <> nil) and (CurrTabWidth > ImageWidth + 2 * CaptionLeftOffset) then
@@ -1230,7 +1231,9 @@ var
         OldGraphicsMode := SetGraphicsMode(Canvas.Handle, GM_ADVANCED);
         Canvas.Brush.Style := bsClear;
 
-        DrawText(Canvas.Handle, PChar(Block.VSPane[I].DockForm.Caption), -1, DrawRect, DT_END_ELLIPSIS or DT_NOCLIP);
+        SpDrawXPText(Canvas, UTF8Decode(Block.VSPane[I].DockForm.Caption), DrawRect, DT_END_ELLIPSIS or DT_NOCLIP);
+//        else
+//        DrawText(Canvas.Handle, PChar(Block.VSPane[I].DockForm.Caption), -1, DrawRect, DT_END_ELLIPSIS or DT_NOCLIP);
         SetGraphicsMode(Canvas.Handle, OldGraphicsMode);
         
       //end;

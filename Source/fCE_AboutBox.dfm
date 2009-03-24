@@ -128,21 +128,6 @@ object CEAboutBox: TCEAboutBox
     ParentFont = False
     ExplicitWidth = 425
   end
-  object Label2: TLabel
-    Left = 63
-    Top = 29
-    Width = 424
-    Height = 20
-    Anchors = [akLeft, akTop, akRight]
-    AutoSize = False
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    ExplicitWidth = 425
-  end
   object Label3: TLabel
     Left = 63
     Top = 46
@@ -158,6 +143,13 @@ object CEAboutBox: TCEAboutBox
     Font.Style = []
     ParentFont = False
     ExplicitWidth = 425
+  end
+  object VersionLabel: TTntLabel
+    Left = 63
+    Top = 27
+    Width = 39
+    Height = 13
+    Caption = 'Version:'
   end
   object SynMemo1: TSynMemo
     Left = 8
@@ -206,8 +198,6 @@ object CEAboutBox: TCEAboutBox
     Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoNoCaret, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
     ReadOnly = True
     RightEdgeColor = clWindow
-    ExplicitWidth = 484
-    ExplicitHeight = 198
   end
   object but_close: TTntButton
     Left = 412
@@ -218,8 +208,6 @@ object CEAboutBox: TCEAboutBox
     Caption = 'Close'
     TabOrder = 1
     OnClick = but_closeClick
-    ExplicitLeft = 413
-    ExplicitTop = 271
   end
   object SynURIOpener1: TSynURIOpener
     CtrlActivatesLinks = False

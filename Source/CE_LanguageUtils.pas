@@ -328,7 +328,7 @@ begin
   FItems:= TList.Create;
   FItems.Capacity:= 128;
   fTestMode:= false;
-  fTestValue:= '!!!Test!!!';
+  fTestValue:= 'Test';
 end;
 
 {*------------------------------------------------------------------------------
