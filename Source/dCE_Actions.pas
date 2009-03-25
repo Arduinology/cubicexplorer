@@ -852,7 +852,7 @@ begin
            begin
              if MainForm.TabSet.ActivePopupTab.Page is TCEFileViewPage then
              OpenFolderInTab(MainForm.TabSet.ActivePopupTab,
-                             TCEFileViewPage(MainForm.TabSet.ActivePopupTab.Page).FileView.RootFolderNamespace.AbsolutePIDL, MainForm.TabSet.OpenTabSelect);
+                             TCEFileViewPage(MainForm.TabSet.ActivePopupTab.Page).FileView.RootFolderNamespace.AbsolutePIDL, MainForm.TabSet.NewTabSelect, true, true);
            end;
          end;
     665: MainForm.TabSet.CloseTabsOnLeft(MainForm.TabSet.ActivePopupTab);

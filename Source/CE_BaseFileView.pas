@@ -358,6 +358,7 @@ begin
   oldCaption:= NS.NameForEditing // Folders
   else
   oldCaption:= NS.NameParseAddressInFolder;
+  
 
   if WideCompareStr(path,oldCaption) = 0 then
   begin
@@ -370,7 +371,7 @@ begin
   end;
 
   path:= self.RootFolderNamespace.NameForParsing +'\'+ NewValue;
-  
+
   if NS.Folder and not NS.Browsable then
   begin
     if NewValue = '' then
@@ -652,7 +653,7 @@ begin
       if not (scInFolderName in NS.ShellCache.ShellCacheFlags) then
       begin
         // Normal files
-        if not NS.Folder and NS.FileSystem then 
+        if NS.FileSystem and not (NS.Folder and not NS.Browsable) then
         begin
           // Show Extension
           if fShowExtension then 
@@ -691,7 +692,7 @@ begin
         Include(NS.FShellCache.ShellCacheFlags, scInFolderName);
       end;
       ACaption:= NS.NameInFolder;
-    end;
+   end;
   end
   else
   begin
@@ -1034,7 +1035,7 @@ var
 begin
   NS:= TExplorerItem(Item).Namespace;
 
-  if NS.FileSystem and not NS.Folder then
+  if NS.FileSystem and not (NS.Folder and not NS.Browsable) then
   Caption:= NS.NameParseAddressInFolder // Files  (This is done because extensions might be cut when using NameForEditing).
   else
   Caption:= NS.NameForEditing; // Everything else

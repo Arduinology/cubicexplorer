@@ -165,7 +165,9 @@ var
   WindowPt: TPoint;
   item: TEasyItem;
   HitInfo: TEasyItemHitTestInfoSet;
+  GoBack: Boolean;
 begin
+  GoBack:= false;
   if Self.EditManager.Editing then
   Exit;
   
@@ -173,19 +175,23 @@ begin
   if (Button = cmbLeft) and (WindowPt.Y >= 0) then
   begin
     item:= self.Groups.ItemByPoint(WindowPt);
-    if item = nil then
-    begin
-      self.BrowseToPrevLevel;
-    end
-    else
+    GoBack:= item = nil;
+
+    if not GoBack then
     begin
       item.HitTestAt(WindowPt, HitInfo);
-      if HitInfo = [] then
-      begin
-        self.BrowseToPrevLevel;
-      end
+      case View of
+        elsReport: GoBack:= HitInfo = [];
+        elsTile: GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnText in HitInfo) and not (ehtOnClickSelectBounds in HitInfo);
+        else
+        GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnText in HitInfo);
+      end;
     end;
   end;
+
+  if GoBack then
+  self.BrowseToPrevLevel
+  else
   inherited;
 end;
 
