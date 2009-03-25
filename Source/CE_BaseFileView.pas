@@ -158,7 +158,7 @@ begin
   TCECustomFileView(self.Listview).ValidateNamespace(self.Item, NS);
   if assigned(NS) then
   begin
-    if NS.Folder and (WideCompareText(NS.Extension,'.zip') <> 0) then
+    if NS.Folder and (not NS.Browsable) then
     begin
       edit.SelectAll;
     end
@@ -194,7 +194,7 @@ begin
   TCECustomFileView(self.Listview).ValidateNamespace(self.Item, NS);
   if assigned(NS) then
   begin
-    if NS.Folder and (WideCompareText(NS.Extension,'.zip') <> 0) then
+    if NS.Folder and (not NS.Browsable) then
     begin
       edit.SelectAll;
     end
@@ -443,8 +443,6 @@ var
   Item: TEasyItem;
   CtlDown, ShiftDown, DoDefaultItemUp: Boolean;
 begin
-  /// TODO: This is just to fix a bug when selection files with Ctrl+Shift+LeftClick
-
   Group := nil;
   KeyState := KeyToKeyStates(Msg.Keys);
   CtlDown := cksControl in KeyState;
@@ -482,9 +480,9 @@ begin
                 if CtlDown then
                 begin
                   TEasyEditManagerHack(EditManager).StopAutoEditTimer;
+                  Item.Focused := True;
                   if not ShiftDown then
                   Item.Selected:= not Item.Selected;
-                  Item.Focused := True;
                 end
               end
             end
@@ -631,7 +629,7 @@ begin
     OnItemCreateEditor(Self, Item, Editor);
   if not Assigned(Editor) then
   begin
-    if View in MULTILINEVIEWS then
+    if (View in MULTILINEVIEWS) and (View <> elsTile) then
       Editor := TCEMemoEditor.Create
     else
       Editor := TCEStringEditor.Create;

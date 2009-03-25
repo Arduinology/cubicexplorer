@@ -276,7 +276,7 @@ end;
 procedure TCEFileViewPage.ItemSelectionsChanged(Sender: TCustomEasyListview);
 var
   NS: TNamespace;
-  Item: TEasyItem;
+  Item, nItem: TEasyItem;
 begin
   if FileView.Selection.Count > 1 then
   Item:= FileView.Selection.FocusedItem
