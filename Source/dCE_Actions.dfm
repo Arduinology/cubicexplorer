@@ -470,6 +470,7 @@ object CEActions: TCEActions
       Category = 'Tabs'
       Caption = 'Close Other Tabs'
       Hint = 'Close Other Tabs'
+      ImageIndex = 34
       SecondaryShortCuts.Strings = (
         'Ctrl+Ins')
       OnExecute = ActionExecute
@@ -500,6 +501,7 @@ object CEActions: TCEActions
       Category = 'Tabs'
       Caption = 'Close Tabs on Left'
       Hint = 'Close Tabs on Left'
+      ImageIndex = 35
       SecondaryShortCuts.Strings = (
         'Ctrl+Ins')
       OnExecute = ActionExecute
@@ -509,6 +511,7 @@ object CEActions: TCEActions
       Category = 'Tabs'
       Caption = 'Close Tabs on Right'
       Hint = 'Close Tabs on Right'
+      ImageIndex = 33
       SecondaryShortCuts.Strings = (
         'Ctrl+Ins')
       OnExecute = ActionExecute
