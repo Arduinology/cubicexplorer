@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1068\n"
+"CE-POT-Version: 1113\n"
 "CE-Language: Japanese\n"
 "Last-Translator: sirahama <sirahama@gmail.com>\n"
 
@@ -15,7 +15,7 @@ msgid "About..."
 msgstr "情報"
 
 msgid "Actions"
-msgstr "アクション"
+msgstr "ｱｸｼｮﾝ"
 
 msgid "Add Bookmark"
 msgstr "ﾌﾞｯｸﾏｰｸを追加"
@@ -29,8 +29,14 @@ msgstr "ﾀﾌﾞを追加"
 msgid "Address Bar"
 msgstr "ｱﾄﾞﾚｽﾊﾞｰ"
 
+msgid "Always On Top"
+msgstr "常に前面に表示する"
+
 msgid "Always Show Sort Columns"
-msgstr "ｿｰﾄカラムを常に表示"
+msgstr "常にｿｰﾄｶﾗﾑを表示"
+
+msgid "Always sort folders first."
+msgstr "常に最初にﾌｫﾙﾀﾞをｿｰﾄ"
 
 msgid "And Launch Files"
 msgstr "ﾌｫﾙﾀﾞとﾌｧｲﾙ"
@@ -59,6 +65,9 @@ msgstr "自動的にツリーを閉じる"
 msgid "Auto expand tree"
 msgstr "自動的にツリーを展開する"
 
+msgid "Auto size cells in list view style."
+msgstr "表示ｽﾀｲﾙがﾘｽﾄの場合、ﾌｫﾙﾀﾞ名・ﾌｧｲﾙ名を省略表示しない"
+
 msgid "Automatic"
 msgstr "自動"
 
@@ -78,7 +87,7 @@ msgid "Bottom"
 msgstr "下端"
 
 msgid "Breadcrumb Navigation"
-msgstr "ﾌｧﾙﾀﾞ・ﾅﾋﾞｹﾞｰｼｮﾝ"
+msgstr "ﾌｫﾙﾀﾞﾞ・ﾅﾋﾞｹﾞｰｼｮﾝ"
 
 msgid "Browse..."
 msgstr "参照..."
@@ -93,13 +102,25 @@ msgid "Case sensitivity"
 msgstr "大文字と小文字を区別"
 
 msgid "Clear List"
-msgstr "リスト消去"
+msgstr "ﾘｽﾄ消去"
+
+msgid "Clear filters on folder change"
+msgstr "ﾌｫﾙﾀﾞ変更時、ﾌｨﾙﾀをｸﾘｱ"
 
 msgid "Close"
 msgstr "閉じる"
 
+msgid "Close Other Tabs"
+msgstr "他のﾀﾌﾞを閉じる"
+
 msgid "Close Tab"
 msgstr "ﾀﾌﾞを閉じる"
+
+msgid "Close Tabs on Left"
+msgstr "左側のﾀﾌﾞを閉じる"
+
+msgid "Close Tabs on Right"
+msgstr "右側のﾀﾌﾞを閉じる"
 
 msgid "Copy"
 msgstr "ｺﾋﾟｰ"
@@ -118,6 +139,9 @@ msgstr "新しい翻訳の作成"
 
 msgid "Create new translation."
 msgstr "新しい翻訳の作成"
+
+msgid "Ctrl+F4"
+msgstr "Ctrl+F4"
 
 msgid "CubicExplore Home Page"
 msgstr "CubicExplorerﾎｰﾑﾍﾟｰｼﾞ"
@@ -237,7 +261,7 @@ msgid "Folder Up"
 msgstr "上のﾌｫﾙﾀﾞへ"
 
 msgid "Folders"
-msgstr "フォルダー"
+msgstr "ﾌｫﾙﾀﾞ"
 
 msgid "Folders Panel Settings"
 msgstr "ﾌｫﾙﾀﾞ・ﾊﾟﾈﾙ設定"
@@ -267,7 +291,7 @@ msgid "Hex"
 msgstr "16進"
 
 msgid "Highlight row completely"
-msgstr "行全体を強調"
+msgstr "行全体を選択可能とする"
 
 msgid "Highlighter"
 msgstr "蛍光ﾏｰｶ"
@@ -303,7 +327,7 @@ msgid "Left"
 msgstr "左"
 
 msgid "List"
-msgstr "リスト"
+msgstr "ﾘｽﾄ"
 
 msgid "Load Skin..."
 msgstr "ｽｷﾝの読込み..."
@@ -320,8 +344,14 @@ msgstr "読込み中..."
 msgid "MB"
 msgstr "MB"
 
+msgid "Main Menu"
+msgstr "ﾒｲﾝ･ﾒﾆｭｰ"
+
 msgid "Map Network Drive..."
 msgstr "ﾈｯﾄﾜｰｸドライブの割当..."
+
+msgid "Menu"
+msgstr "ﾒﾆｭｰ"
 
 msgid "Modified"
 msgstr "修正"
@@ -351,7 +381,7 @@ msgid "No Extension"
 msgstr "拡張子なし"
 
 msgid "No file loaded."
-msgstr "ﾌｧｲﾙは読込まれなかった。"
+msgstr "ﾌｧｲﾙが選択されていません。"
 
 msgid "None"
 msgstr "なし"
@@ -364,6 +394,9 @@ msgstr "ﾀﾌﾞで全てを開く"
 
 msgid "Open Command Prompt"
 msgstr "ｺﾏﾝﾄﾞ・ﾌﾟﾛﾝﾌﾟﾄを開く"
+
+msgid "Open in new tab by default"
+msgstr "ﾌｫﾙﾀﾞを新しいﾀﾌﾞとして開く"
 
 msgid "Open new tab as"
 msgstr "新たしいﾀﾌﾞとして開く"
@@ -406,6 +439,9 @@ msgstr "ﾌﾟﾛﾊﾟﾃｨ..."
 
 msgid "Publish Translation"
 msgstr "翻訳を公開する"
+
+msgid "QuickView"
+msgstr "ｸｲｯｸ･ﾋﾞｭｰ"
 
 msgid "Quickview"
 msgstr "ｸｲｯｸ・ﾋﾞｭｰ"
@@ -500,6 +536,12 @@ msgstr "全て選択"
 msgid "Select default folder for new tabs."
 msgstr "新規ﾀﾌﾞのﾃﾞﾌｫﾙﾄ・ﾌｫﾙﾀﾞを選択"
 
+msgid "Select first item automatically"
+msgstr "ﾌｫﾙﾀﾞを開いた時、最初のﾌｫﾙﾀﾞ･ﾌｧｲﾙを選択状態とする"
+
+msgid "Select previous folder"
+msgstr "前のﾌｫﾙﾀﾞを選択"
+
 msgid "Selected"
 msgstr "選択"
 
@@ -540,7 +582,7 @@ msgid "Show Hints"
 msgstr "ﾋﾝﾄを表示する"
 
 msgid "Show Path in Title bar"
-msgstr "ﾀｲﾄﾙバーにﾊﾟｽを表示する"
+msgstr "ﾀｲﾄﾙﾊﾞｰにﾊﾟｽを表示する"
 
 msgid "Show Statusbar"
 msgstr "ｽﾃｰﾀｽﾊﾞｰを表示"
@@ -552,7 +594,7 @@ msgid "Show in Groups"
 msgstr "ｸﾞﾙｰﾌﾟで表示"
 
 msgid "Single Instance Only"
-msgstr "単一ｲﾝｽﾀﾝｽのみ"
+msgstr "複数のCubicExplorerを起動しない"
 
 msgid "Single click mode"
 msgstr "ｼﾝｸﾞﾙ・ｸﾘｯｸ・ﾓｰﾄﾞ"
