@@ -140,10 +140,14 @@ begin
   begin
     if NewPage is TCEFileViewPage then
     begin
+      if ResetOnPathChange then
+      Filters.ClearFilters;
       Filters.ExplorerEasyListview:= TCEFileViewPage(NewPage).FileView;
     end
     else if NewPage is TCEFileSearchPage then
     begin
+      if ResetOnPathChange then
+      Filters.ClearFilters;
       Filters.ExplorerEasyListview:= TCEFileSearchPage(NewPage).Results;
     end
     else
@@ -197,10 +201,7 @@ procedure TCE_FiltersPanel.GlobalPathChanged(Sender: TObject; NewPath:
     WideString);
 begin
   if ResetOnPathChange then
-  begin
-    Filters.ShowAllExtensions:= true;
-    Filters.ShowFolders:= true;
-  end;
+  Filters.ClearFilters;
 end;
 
 {*------------------------------------------------------------------------------
