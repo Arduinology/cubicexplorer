@@ -1,7 +1,7 @@
 REM upx -9 ..\Snapshot\CubicExplorer_dev\CubicExplorer.exe
 
 DEL Output\*.* /Q
-"C:\Program Files\7-Zip\7z.exe" a -tzip Output\CubicExplorer_0.90rc5.zip ..\Snapshot\CubicExplorer_dev
+"C:\Program Files\7-Zip\7z.exe" a -tzip Output\CubicExplorer_0.90rc6.zip ..\Snapshot\CubicExplorer_dev
 
 "C:\Program Files\NSIS\makensis.exe" CE_InstallerScript.nsi
 

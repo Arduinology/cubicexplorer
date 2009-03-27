@@ -1,4 +1,4 @@
-Copyright 2006-2008 Marko Savolainen.
+Copyright 2006-2009 Marko Savolainen.
 
 Homepage - http://www.cubicreality.com
 Support - http://www.cubicreality.com/forum

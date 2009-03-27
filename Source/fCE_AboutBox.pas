@@ -34,18 +34,18 @@ uses
   TntForms,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, TntStdCtrls;
+  Dialogs, StdCtrls, ExtCtrls, TntStdCtrls, jpeg, SpTBXItem, SpTBXControls;
 
 type
   TCEAboutBox = class(TTntForm)
     Image1: TImage;
-    Label1: TLabel;
-    Label3: TLabel;
     SynMemo1: TSynMemo;
     SynURIOpener1: TSynURIOpener;
     SynURISyn1: TSynURISyn;
     but_close: TTntButton;
-    VersionLabel: TTntLabel;
+    Panel1: TPanel;
+    VersionLabel: TSpTBXLabel;
+    BuildLabel: TSpTBXLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure but_closeClick(Sender: TObject);
@@ -101,8 +101,8 @@ var
 begin
   SetVistaFont(Font);
   ver:= TJclFileVersionInfo.Create(Application.ExeName);
-  VersionLabel.Caption:= _('Version:') + ' ' + ver.FileVersion;
-  Label1.Caption:= ver.ProductName + ' ' + ver.ProductVersion;
+  BuildLabel.Caption:= _('Version:') + ' ' + ver.FileVersion;
+  VersionLabel.Caption:= ver.ProductVersion;
   ver.Free;
   CEGlobalTranslator.TranslateComponent(Self);
 end;

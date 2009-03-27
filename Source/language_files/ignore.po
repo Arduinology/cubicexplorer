@@ -126,7 +126,7 @@ msgstr ""
 #. CEAboutBox..SynMemo1....Lines.UnicodeStrings
 #: fCE_AboutBox.dfm:202
 msgid ""
-"Copyright 2006-2008 Marko Savolainen.\n"
+"Copyright 2006-2009 Marko Savolainen.\n"
 "\n"
 "Homepage - http://www.cubicreality.com\n"
 "Support - http://www.cubicreality.com/forum\n"
@@ -638,4 +638,30 @@ msgstr ""
 #: dCE_Images.dfm:3401
 #: dCE_Images.dfm:6465
 msgid "PngImage32"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3188
+#: dCE_Images.dfm:6097
+msgid "PngImage33"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3219
+#: dCE_Images.dfm:6122
+msgid "PngImage34"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3249
+#: dCE_Images.dfm:6144
+msgid "PngImage35"
+msgstr ""
+
+#. CEActions..ActionList..act_tabs_closetab....SecondaryShortCuts.Strings
+#: dCE_Actions.dfm:19
+msgid "Ctrl+F4"
 msgstr ""
