@@ -189,16 +189,19 @@ end;
 procedure TCEDSPlayer.InitGraph;
 begin
   CoCreateInstance(CLSID_FilterGraph, nil, CLSCTX_INPROC,IID_IGraphBuilder, Graph);
-  Graph.QueryInterface(IID_IMediaControl, MediaControl);
-  Graph.QueryInterface(IID_IMediaSeeking, MediaSeeking);
-  Graph.QueryInterface(IID_IMediaEventEx, MediaEventEx);
-  Graph.QueryInterface(IID_IVideoWindow, VWin);
-  Graph.QueryInterface(IID_IBasicVideo2, BasicVideo);
-  Graph.QueryInterface(IID_IBasicAudio, BasicAudio);
-
-  if assigned(MediaEventEx) then
+  if assigned(Graph) then
   begin
-    MediaEventEx.SetNotifyWindow(fMessageHandle, WM_ShellNotify, 0);
+    Graph.QueryInterface(IID_IMediaControl, MediaControl);
+    Graph.QueryInterface(IID_IMediaSeeking, MediaSeeking);
+    Graph.QueryInterface(IID_IMediaEventEx, MediaEventEx);
+    Graph.QueryInterface(IID_IVideoWindow, VWin);
+    Graph.QueryInterface(IID_IBasicVideo2, BasicVideo);
+    Graph.QueryInterface(IID_IBasicAudio, BasicAudio);
+
+    if assigned(MediaEventEx) then
+    begin
+      MediaEventEx.SetNotifyWindow(fMessageHandle, WM_ShellNotify, 0);
+    end;
   end;
 end;
 
@@ -212,6 +215,8 @@ begin
   if not WideFileExists(AFilePath) then Exit;
   ClearGraph;
   InitGraph;
+  if not assigned(Graph) then
+  Exit;
   // Build Graph
   Result:= Graph.RenderFile(PWideChar(AFilePath),nil);
 

@@ -83,6 +83,7 @@ type
     fPopupFormHeight: Integer;
     fPopupFormWidth: Integer;
   protected
+    procedure InternalClosePopup(Sender: TObject; Selected: Boolean); override;
     function InternalPopup(X, Y: Integer; ForceFocus: Boolean; PopupControl:
         TControl = nil): Boolean; override;
   public
@@ -120,6 +121,7 @@ type
     procedure Initialize;
     procedure OnBreadToggleClick(Sender: TObject);
     procedure OnDropClick(Sender: TObject);
+    procedure OnGetFormClass(Sender: TObject; var AFormClass: TCustomFormClass);
     procedure OnPopup(Sender: TObject);
     procedure OnTextKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure Paint; override;
@@ -308,6 +310,15 @@ begin
   fPopupFormHeight:= 200;
 end;
 
+{-------------------------------------------------------------------------------
+  Handle Close Popup
+-------------------------------------------------------------------------------}
+procedure TCE_AFormPopupMenu.InternalClosePopup(Sender: TObject; Selected:
+    Boolean);
+begin
+  //
+end;
+
 {*------------------------------------------------------------------------------
   Handle Popup
 -------------------------------------------------------------------------------}
@@ -319,18 +330,21 @@ begin
   SetPopupPoint(Point(X, Y));
   if Assigned(FPopupForm) then
   begin
-    FPopupForm.Parent:= FWrapperForm;
-    FPopupForm.Align:= alClient;
-    FPopupForm.BorderStyle:= bsNone;
-    FPopupForm.Visible:= True;
+    if FPopupForm.Parent <> FWrapperForm then
+    begin
+      FPopupForm.Parent:= FWrapperForm;
+      FPopupForm.Align:= alClient;
+      FPopupForm.BorderStyle:= bsNone;
+      FPopupForm.Visible:= True;
+    end;
     //FPopupForm.Color:= CurrentTheme.GetViewColor(PVT_POPUPMENU);
     fPopupFormHeight:= FPopupForm.Height;
+
     if Assigned(OnPopup) then OnPopup(Self);
     if Assigned(PopupControl) then
       FWrapperForm.RollDown(PopupControl, fPopupFormWidth, fPopupFormHeight, False, PopupFocus)
     else
       FWrapperForm.RollDown(X, Y, fPopupFormWidth, fPopupFormHeight, PopupFocus);
-
     Result:= True;  
   end;
 end;
@@ -351,19 +365,19 @@ begin
   BreadToggleButton:= TCE_AButton.Create(nil);
   Breadcrumb:= TCEBreadcrumb.Create(nil);
 
-  FolderForm:= TCE_FolderTreeForm.Create(self);
-  FolderForm.CloseOnChange:= true;
-  FolderForm.ChangeGlobalPathOnChange:= true;
-
   FolderPopupMenu:= TCE_AFormPopupMenu.Create(nil);
   FolderPopupMenu.OnPopup:= OnPopup;
   FolderPopupMenu.BorderStyle:= pbsSizeableRightBottom;
   FolderPopupMenu.PopupFocus:= true;
+  FolderPopupMenu.OnGetPopupFormClass:= OnGetFormClass;
+  FolderForm:= TCE_FolderTreeForm.Create(nil);
+  FolderForm.CloseOnChange:= true;
+  FolderForm.ChangeGlobalPathOnChange:= true;
   FolderPopupMenu.PopupForm:= FolderForm;
   SkinManager.AddSkinNotification(Self);
 
   RootNamespace:= TNamespace.Create(nil,nil);
-  GlobalPathCtrl.RegisterNotify(self);  
+  GlobalPathCtrl.RegisterNotify(self);
 end;
 
 {*------------------------------------------------------------------------------
@@ -373,6 +387,8 @@ destructor TCEAddressBar.Destroy;
 begin
   if assigned(RootNamespace) then
   FreeAndNil(RootNamespace);
+  if assigned(FolderForm) then
+  FolderForm.Free;
   
   SkinManager.RemoveSkinNotification(Self);
   FolderPopupMenu.Free;
@@ -567,8 +583,13 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEAddressBar.OnPopup(Sender: TObject);
 begin
-  if assigned(RootNamespace) then
-  FolderForm.FolderTree.BrowseToByPIDL(RootNamespace.AbsolutePIDL, true, true, false, true);
+  if assigned(FolderForm) then
+  begin
+    FolderForm.CloseOnChange:= true;
+    FolderForm.ChangeGlobalPathOnChange:= true;
+    if assigned(RootNamespace) then
+    FolderForm.FolderTree.BrowseToByPIDL(RootNamespace.AbsolutePIDL, true, true, false, true);
+  end;
 end;
 
 {*------------------------------------------------------------------------------
@@ -583,6 +604,15 @@ begin
   p.Y:= Self.Height;
   p:= Self.ClientToScreen(p);
   FolderPopupMenu.Popup(p.X, p.Y);
+end;
+
+{-------------------------------------------------------------------------------
+  On Get Form Class
+-------------------------------------------------------------------------------}
+procedure TCEAddressBar.OnGetFormClass(Sender: TObject; var AFormClass:
+    TCustomFormClass);
+begin
+  AFormClass:= nil;
 end;
 
 {*------------------------------------------------------------------------------
