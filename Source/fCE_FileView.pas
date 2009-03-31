@@ -209,7 +209,7 @@ begin
   fThumbViewStyle:= elsFilmStrip;
   Layout:= 'FileView';
   Images:= SmallSysImages;
-  FileView:= TCEFileView.Create(Self);
+  FileView:= TCEFileView.Create(nil);
   FileView.Parent:= self;
   FileView.Align:= alClient;
   FileView.Themed:= false;
@@ -257,6 +257,7 @@ begin
   begin
     GlobalPathCtrl.ActivePage:= nil;
   end;
+  FileView.Free;
   inherited;
 end;
 

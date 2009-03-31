@@ -349,6 +349,7 @@ function TCESpTabSet.CloseAllTabs(ExceptThis: TCESpTabItem = nil; Force:
     Boolean = false): Boolean;
 var
   i: Integer;
+  item: TCESpTabItem;
 begin
   Result:= false;
   i:= 0;
@@ -356,18 +357,24 @@ begin
   begin
     if Items.Items[i] is TCESpTabItem then
     begin
-      if Items.Items[i] <> ExceptThis then
+      item:= TCESpTabItem(Items.Items[i]);
+      if item <> ExceptThis then
       begin
         if Force then
         begin
-          Items.Items[i].Free;
+          item.Free;
         end
         else
         begin
-          if TCESpTabItem(Items.Items[i]).Page.TabClosing then
-          Items.Items[i].Free
+          if assigned(item.Page) then
+          begin
+            if item.Page.TabClosing then
+            item.Free
+            else
+            Exit;
+          end
           else
-          Exit;
+          item.Free;
         end;
       end
       else

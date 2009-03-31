@@ -159,6 +159,7 @@ begin
 
   // Create Main Form
   Application.CreateForm(TMainForm, MainForm);
+  MainForm.InitializeUI;
   MainForm.BeginUIUpdate;
 
   // Create Stack Panel

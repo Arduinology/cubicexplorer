@@ -1185,7 +1185,7 @@ begin
             end;
         end;
     end
-    else
+    else if DockForm <> nil then
     begin
       if DockForm.HostDockSite <> nil then
       begin

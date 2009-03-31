@@ -338,7 +338,6 @@ begin
   fUpdatingCount:= 0;
   fPathInTitle:= false;
   SetVistaFont(Self.Font);
-  InitializeUI;
   GlobalSettings.RegisterHandler(Self);
 end;
 
@@ -632,6 +631,7 @@ begin
     test_sep1.Visible:= true;
     test_act1.Visible:= true;
   end;
+  //test_act1.Visible:= true;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1356,6 +1356,7 @@ end;
 procedure TMainForm.test_act1Click(Sender: TObject);
 begin
   //
+  Raise Exception.CreateFmt('Test exception', [name]);
 end;
 
 // <---- fix try end

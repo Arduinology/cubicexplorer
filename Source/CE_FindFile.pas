@@ -61,6 +61,8 @@ type
   TCEFindFile = class(TObject)
   private
     fDirectories: TTntStringList;
+    fFileName: WideString;
+    fFolderPath: WideString;
     fOnDirectoryChange: TOnDirectoryChange;
     fOnFileMatch: TOnFileMatch;
     fOnSearchBegin: TOnSearchBegin;
@@ -73,8 +75,8 @@ type
     SearchThread: TThread;
     procedure ThreadTerminated(Sender: TObject);
   protected
-    procedure DoDirectoryChange(NewDirectory: WideString); virtual;
-    procedure DoFileMatch(Directory, FileName: WideString); virtual;
+    procedure DoDirectoryChange; virtual;
+    procedure DoFileMatch; virtual;
     procedure DoSearchBegin; virtual;
     procedure DoSearchFinished; virtual;
     procedure ExecuteSearchW;
@@ -137,17 +139,17 @@ end;
 {*------------------------------------------------------------------------------
   Call directory changed event.
 -------------------------------------------------------------------------------}
-procedure TCEFindFile.DoDirectoryChange(NewDirectory: WideString);
+procedure TCEFindFile.DoDirectoryChange;
 begin
-  if Assigned(fOnDirectoryChange) then fOnDirectoryChange(Self, NewDirectory);
+  if Assigned(fOnDirectoryChange) then fOnDirectoryChange(Self, fFolderPath);
 end;
 
 {*------------------------------------------------------------------------------
   Call file match event.
 -------------------------------------------------------------------------------}
-procedure TCEFindFile.DoFileMatch(Directory, FileName: WideString);
+procedure TCEFindFile.DoFileMatch;
 begin
-  if Assigned(fOnFileMatch) then fOnFileMatch(Self, Directory, FileName);
+  if Assigned(fOnFileMatch) then fOnFileMatch(Self, fFolderPath, fFileName);
 end;
 
 {*------------------------------------------------------------------------------
@@ -243,8 +245,8 @@ procedure TCEFindFile.ExecuteSearchW;
   begin
     if fTerminated then
     Exit;
-
-    DoDirectoryChange(aFolder);
+    fFolderPath:= aFolder;
+    SearchThread.Synchronize(SearchThread, DoDirectoryChange);
     // Enum Files
     try
       if WideFindFirst(aFolder + FileCriteria.DOSMask, FileCriteria.Attributes, sr) = 0 then
@@ -255,7 +257,9 @@ procedure TCEFindFile.ExecuteSearchW;
             if FileCriteria.DoesFileMatch(aFolder, sr) then
             begin
               inc(fResultCount,1);
-              DoFileMatch(aFolder,sr.Name);
+              fFileName:= sr.Name;
+              fFolderPath:= aFolder;
+              SearchThread.Synchronize(SearchThread, DoFileMatch);
             end;
           end;
         until (WideFindNext(sr) <> 0) or fTerminated;
