@@ -34,6 +34,12 @@ object CEActions: TCEActions
       ShortCut = 16437
       OnExecute = ActionExecute
     end
+    object act_help_donate: TTntAction
+      Tag = 505
+      Category = 'Help'
+      Caption = 'Donate'
+      OnExecute = ActionExecute
+    end
     object act_navi_forward: TCEToolbarAction
       Tag = 604
       Category = 'Navigation'

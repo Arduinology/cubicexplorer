@@ -83,6 +83,8 @@ Unit Documents;
 // 501 = Go to Home page
 // 502 = Go to support forum
 // 503 = About box
+// 504 = Translate CE
+// 505 = Go to Donate page
 
 // **** Navigation (600) ****
 // 601 = Add new tab (FileView)

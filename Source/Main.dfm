@@ -341,6 +341,9 @@ object MainForm: TMainForm
         object SpTBXItem2: TSpTBXItem
           Action = CEActions.act_help_forum
         end
+        object SpTBXItem91: TSpTBXItem
+          Action = CEActions.act_help_donate
+        end
         object SpTBXSeparatorItem12: TSpTBXSeparatorItem
         end
         object SpTBXItem83: TSpTBXItem

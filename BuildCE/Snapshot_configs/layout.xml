@@ -31,8 +31,9 @@
       <item action="act_edit_paste"/>
       <item action="act_edit_delete"/>
       <separator/>
+      <item action="act_edit_newfile"/>
       <separator/>
-      <item action="act_edit_copypath"/>
+      <separator/>
       <separator/>
     </EditToolbar>
     <TabBar/>
@@ -365,7 +366,7 @@
           <UnDockRect>[24,140,434,320]</UnDockRect>
           <Visible>FALSE</Visible>
           <LRDockWidth>100</LRDockWidth>
-          <TBDockHeight>341</TBDockHeight>
+          <TBDockHeight>357</TBDockHeight>
           <VSPaneWidth>0</VSPaneWidth>
           <BorderStyle>0</BorderStyle>
           <FormStyle>3</FormStyle>
@@ -383,11 +384,11 @@
         <FolderPanel>
           <ParentName>DockHost@LeftDockPanel</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,205,433,527]</DockLoc>
+          <DockLoc>[0,196,433,518]</DockLoc>
           <UnDockRect>[-192,301,433,322]</UnDockRect>
           <Visible>FALSE</Visible>
           <LRDockWidth>100</LRDockWidth>
-          <TBDockHeight>341</TBDockHeight>
+          <TBDockHeight>357</TBDockHeight>
           <VSPaneWidth>0</VSPaneWidth>
           <BorderStyle>0</BorderStyle>
           <FormStyle>3</FormStyle>
@@ -405,10 +406,10 @@
         <DockHost_LeftDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,0,341]</DockLoc>
+          <DockLoc>[0,0,0,357]</DockLoc>
           <UnDockRect>[0,0,205,474]</UnDockRect>
           <Visible>TRUE</Visible>
-          <DockClientData>00000400550100000000000001D50000000100000000000100000000010100000000550100000000160100000137000000544A76446F636B546162486F7374466F726D5F46696C7465727350616E656C5F517569636B5669657750616E656C5F303045424435423001010000000055010000000089010000010B000000466F6C64657250616E656C01FFFFFFFF</DockClientData>
+          <DockClientData>00000400650100000000000001D50000000100000000000100000000010100000000650100000000160100000137000000544A76446F636B546162486F7374466F726D5F46696C7465727350616E656C5F517569636B5669657750616E656C5F303045424435423001010000000065010000000089010000010B000000466F6C64657250616E656C01FFFFFFFF</DockClientData>
         </DockHost_LeftDockPanel>
         <DockHost_LeftDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
@@ -421,7 +422,7 @@
         <DockHost_RightDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[632,0,632,341]</DockLoc>
+          <DockLoc>[632,0,632,357]</DockLoc>
           <UnDockRect>[0,0,0,474]</UnDockRect>
           <Visible>TRUE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -445,7 +446,7 @@
         <DockHost_TopDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,199,21]</DockLoc>
+          <DockLoc>[0,0,199,37]</DockLoc>
           <UnDockRect>[0,0,247,154]</UnDockRect>
           <Visible>FALSE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -453,7 +454,7 @@
         <DockHost_BottomDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,341,632,341]</DockLoc>
+          <DockLoc>[0,357,632,357]</DockLoc>
           <UnDockRect>[0,0,473,0]</UnDockRect>
           <Visible>TRUE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -461,7 +462,7 @@
         <DockHost_BottomDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,199,21]</DockLoc>
+          <DockLoc>[0,0,199,37]</DockLoc>
           <UnDockRect>[0,0,247,154]</UnDockRect>
           <Visible>FALSE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -469,7 +470,7 @@
         <DockHost>
           <ParentName/>
           <LastDockSiteName/>
-          <DockLoc>[0,30,632,371]</DockLoc>
+          <DockLoc>[0,28,632,385]</DockLoc>
           <UnDockRect>[0,0,681,474]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>681</LRDockWidth>
@@ -597,7 +598,7 @@
         <BookmarkPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[-179,149,258,472]</DockLoc>
+          <DockLoc>[-190,150,247,473]</DockLoc>
           <UnDockRect>[24,140,437,323]</UnDockRect>
           <Visible>FALSE</Visible>
           <LRDockWidth>230</LRDockWidth>
@@ -619,7 +620,7 @@
         <QuickViewPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[-179,149,257,471]</DockLoc>
+          <DockLoc>[-190,150,246,472]</DockLoc>
           <UnDockRect>[24,140,436,322]</UnDockRect>
           <Visible>FALSE</Visible>
           <LRDockWidth>499</LRDockWidth>
@@ -641,7 +642,7 @@
         <FiltersPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[-179,149,254,471]</DockLoc>
+          <DockLoc>[-190,150,243,472]</DockLoc>
           <UnDockRect>[24,140,433,322]</UnDockRect>
           <Visible>FALSE</Visible>
           <LRDockWidth>100</LRDockWidth>
@@ -667,7 +668,7 @@
           <UnDockRect>[24,140,434,320]</UnDockRect>
           <Visible>FALSE</Visible>
           <LRDockWidth>100</LRDockWidth>
-          <TBDockHeight>341</TBDockHeight>
+          <TBDockHeight>357</TBDockHeight>
           <VSPaneWidth>0</VSPaneWidth>
           <BorderStyle>0</BorderStyle>
           <FormStyle>3</FormStyle>
@@ -685,11 +686,11 @@
         <FolderPanel>
           <ParentName>DockHost@LeftDockPanel</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,205,433,527]</DockLoc>
+          <DockLoc>[0,196,433,518]</DockLoc>
           <UnDockRect>[-89,301,433,322]</UnDockRect>
           <Visible>FALSE</Visible>
           <LRDockWidth>100</LRDockWidth>
-          <TBDockHeight>341</TBDockHeight>
+          <TBDockHeight>357</TBDockHeight>
           <VSPaneWidth>255</VSPaneWidth>
           <BorderStyle>0</BorderStyle>
           <FormStyle>3</FormStyle>
@@ -707,10 +708,10 @@
         <DockHost_LeftDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,0,341]</DockLoc>
+          <DockLoc>[0,0,0,357]</DockLoc>
           <UnDockRect>[0,0,205,474]</UnDockRect>
           <Visible>TRUE</Visible>
-          <DockClientData>00000400550100000000000001E30000000100000000000100000000010100000000550100000000820000000137000000544A76446F636B546162486F7374466F726D5F46696C7465727350616E656C5F517569636B5669657750616E656C5F30304542443542300101000000005501000000003B010000010B000000466F6C64657250616E656C01FFFFFFFF</DockClientData>
+          <DockClientData>00000400650100000000000001E30000000100000000000100000000010100000000650100000000820000000137000000544A76446F636B546162486F7374466F726D5F46696C7465727350616E656C5F517569636B5669657750616E656C5F30304542443542300101000000006501000000003B010000010B000000466F6C64657250616E656C01FFFFFFFF</DockClientData>
         </DockHost_LeftDockPanel>
         <DockHost_LeftDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
@@ -723,7 +724,7 @@
         <DockHost_RightDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[632,0,632,341]</DockLoc>
+          <DockLoc>[632,0,632,357]</DockLoc>
           <UnDockRect>[0,0,0,474]</UnDockRect>
           <Visible>TRUE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -747,7 +748,7 @@
         <DockHost_TopDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,199,21]</DockLoc>
+          <DockLoc>[0,0,199,37]</DockLoc>
           <UnDockRect>[0,0,247,154]</UnDockRect>
           <Visible>FALSE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -755,7 +756,7 @@
         <DockHost_BottomDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,341,632,341]</DockLoc>
+          <DockLoc>[0,357,632,357]</DockLoc>
           <UnDockRect>[0,0,473,0]</UnDockRect>
           <Visible>TRUE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -763,7 +764,7 @@
         <DockHost_BottomDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,199,21]</DockLoc>
+          <DockLoc>[0,0,199,37]</DockLoc>
           <UnDockRect>[0,0,247,154]</UnDockRect>
           <Visible>FALSE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -771,7 +772,7 @@
         <DockHost>
           <ParentName/>
           <LastDockSiteName/>
-          <DockLoc>[0,30,632,371]</DockLoc>
+          <DockLoc>[0,28,632,385]</DockLoc>
           <UnDockRect>[0,0,681,474]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>681</LRDockWidth>
@@ -899,7 +900,7 @@
         <BookmarkPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,0,227,142]</DockLoc>
+          <DockLoc>[0,0,227,133]</DockLoc>
           <UnDockRect>[24,140,437,323]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>230</LRDockWidth>
@@ -921,7 +922,7 @@
         <QuickViewPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,0,227,142]</DockLoc>
+          <DockLoc>[0,0,227,133]</DockLoc>
           <UnDockRect>[24,140,436,322]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>499</LRDockWidth>
@@ -943,7 +944,7 @@
         <FiltersPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,0,227,142]</DockLoc>
+          <DockLoc>[0,0,227,133]</DockLoc>
           <UnDockRect>[24,140,433,322]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>100</LRDockWidth>
@@ -965,7 +966,7 @@
         <TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0>
           <ParentName>DockHost@LeftDockPanel</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,18,227,183]</DockLoc>
+          <DockLoc>[0,18,227,174]</DockLoc>
           <UnDockRect>[24,140,434,320]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>100</LRDockWidth>
@@ -987,7 +988,7 @@
         <FolderPanel>
           <ParentName>DockHost@LeftDockPanel</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,205,227,341]</DockLoc>
+          <DockLoc>[0,196,227,357]</DockLoc>
           <UnDockRect>[-89,301,433,322]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>100</LRDockWidth>
@@ -1009,10 +1010,10 @@
         <DockHost_LeftDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,227,341]</DockLoc>
+          <DockLoc>[0,0,227,357]</DockLoc>
           <UnDockRect>[0,0,205,474]</UnDockRect>
           <Visible>TRUE</Visible>
-          <DockClientData>00000400550100000000000001E30000000100000000000100000000010100000000BB00000001013C0200000137000000544A76446F636B546162486F7374466F726D5F46696C7465727350616E656C5F517569636B5669657750616E656C5F30304542443542300101000000005501000001013C020000010B000000466F6C64657250616E656C01FFFFFFFF</DockClientData>
+          <DockClientData>00000400650100000000000001E30000000100000000000100000000010100000000B200000001013C0200000137000000544A76446F636B546162486F7374466F726D5F46696C7465727350616E656C5F517569636B5669657750616E656C5F30304542443542300101000000006501000001013C020000010B000000466F6C64657250616E656C01FFFFFFFF</DockClientData>
         </DockHost_LeftDockPanel>
         <DockHost_LeftDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
@@ -1025,7 +1026,7 @@
         <DockHost_RightDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[632,0,632,341]</DockLoc>
+          <DockLoc>[632,0,632,357]</DockLoc>
           <UnDockRect>[0,0,0,474]</UnDockRect>
           <Visible>TRUE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1049,7 +1050,7 @@
         <DockHost_TopDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,199,21]</DockLoc>
+          <DockLoc>[0,0,199,37]</DockLoc>
           <UnDockRect>[0,0,247,154]</UnDockRect>
           <Visible>FALSE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1057,7 +1058,7 @@
         <DockHost_BottomDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,341,400,341]</DockLoc>
+          <DockLoc>[0,357,400,357]</DockLoc>
           <UnDockRect>[0,0,473,0]</UnDockRect>
           <Visible>TRUE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1065,7 +1066,7 @@
         <DockHost_BottomDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,199,21]</DockLoc>
+          <DockLoc>[0,0,199,37]</DockLoc>
           <UnDockRect>[0,0,247,154]</UnDockRect>
           <Visible>FALSE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1073,7 +1074,7 @@
         <DockHost>
           <ParentName/>
           <LastDockSiteName/>
-          <DockLoc>[0,30,632,371]</DockLoc>
+          <DockLoc>[0,28,632,385]</DockLoc>
           <UnDockRect>[0,0,681,474]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>681</LRDockWidth>

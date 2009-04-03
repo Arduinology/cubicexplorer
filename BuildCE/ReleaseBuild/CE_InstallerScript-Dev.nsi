@@ -4,21 +4,21 @@
 
 ;================================================================
 ;=== Compression ================================================
-  SetCompressor "LZMA"
+  ?etCompressor "LZMA"
   SetCompress "auto"
 ;================================================================
 ;=== Include ====================================================
 
   !include "MUI.nsh"
-  !include "FileFunc.nsh"
+  ?include "FileFunc.nsh"
 
 
 ;================================================================
 ;=== Initialize =================================================
 
 ;---Version info---
-  !define VERSION "0.90rc6"
-  !define VERSION_STR "0.90 RC 6"
+  !define VERSION "0.90final"
+  !define VERSION_STR "0.90 Final"
 
 ;---Reserved Files---
   ReserveFile "ShortcutPage.ini"
@@ -32,7 +32,7 @@
   Name "CubicExplorer"
   Caption 'CubicExplorer ${VERSION_STR}'
   OutFile "Output\CubicExplorer_${VERSION}_Setup.exe"
-  InstallDir "$PROGRAMFILES\CubicExplorer_dev"
+  InstallDir "$PROGRAMFILES\CubicExplorer"
 
 ;---OnInit---
 Function .onInit

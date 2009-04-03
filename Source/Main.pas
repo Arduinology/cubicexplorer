@@ -197,6 +197,7 @@ type
     MainMenuPopupMenu: TSpTBXPopupMenu;
     SpTBXItem90: TSpTBXItem;
     ApplicationEvents: TApplicationEvents;
+    SpTBXItem91: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

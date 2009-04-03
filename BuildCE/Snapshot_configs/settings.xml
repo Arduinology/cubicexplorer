@@ -10,9 +10,7 @@
       <ThumbStyle>6</ThumbStyle>
       <ThumbSize>120</ThumbSize>
     </Filmstrip>
-    <CellSizes>
-
-    </CellSizes>
+    <CellSizes/>
     <Columns>
       <Default>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0</Default>
       <MyComputer>0,0,180,0|1,1,120,0|2,2,96,0|3,3,96,0</MyComputer>
@@ -29,11 +27,12 @@
     <SmoothScroll>False</SmoothScroll>
     <HiddenFiles>False</HiddenFiles>
     <ShowHeaderAlways>False</ShowHeaderAlways>
-    <FullRowSelect>True</FullRowSelect>
+    <FullRowSelect>False</FullRowSelect>
     <ShowExtensions>True</ShowExtensions>
     <SelectPreviousFolder>True</SelectPreviousFolder>
-    <AutoSelectFirstItem>True</AutoSelectFirstItem>
+    <AutoSelectFirstItem>False</AutoSelectFirstItem>
     <AutosizeListViewStyle>True</AutosizeListViewStyle>
+    <SortFolderFirstAlways>True</SortFolderFirstAlways>
   </FileView>
   <TextEditor>
     <WordWrap>True</WordWrap>
@@ -49,13 +48,13 @@
     <Breadcrumb>False</Breadcrumb>
   </AddressBar>
   <MainForm>
-    <Left>49</Left>
-    <Top>19</Top>
+    <Left>38</Left>
+    <Top>22</Top>
     <Width>640</Width>
-    <Height>480</Height>
+    <Height>494</Height>
     <ShowCmd>1</ShowCmd>
     <AlphaBlend>255</AlphaBlend>
-    <Skin>Default</Skin>
+    <Skin>Office 2003</Skin>
     <Language/>
     <SingleInstance>True</SingleInstance>
     <ShowHints>True</ShowHints>
@@ -67,21 +66,22 @@
     <ViewStyle>2</ViewStyle>
   </StackPanel>
   <FolderPanel>
-    <AutoCollapse>False</AutoCollapse>
-    <AutoExpand>False</AutoExpand>
+    <AutoCollapse>True</AutoCollapse>
+    <AutoExpand>True</AutoExpand>
     <OpenInNewTab>False</OpenInNewTab>
   </FolderPanel>
   <BookmarksPanel>
-    <SingleClickMode>False</SingleClickMode>
-    <AutoExpand>False</AutoExpand>
-    <AutoCollapse>False</AutoCollapse>
+    <SingleClickMode>True</SingleClickMode>
+    <AutoExpand>True</AutoExpand>
+    <AutoCollapse>True</AutoCollapse>
     <OpenInNewTab>False</OpenInNewTab>
   </BookmarksPanel>
   <FilterPanel>
     <ShowBkgrd>True</ShowBkgrd>
+    <AutoResetFilters>True</AutoResetFilters>
   </FilterPanel>
   <FileSearch>
-    <Columns>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0|44,44,120,0</Columns>
+    <Columns>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0</Columns>
     <SubFolders>True</SubFolders>
     <ShowExtensions>True</ShowExtensions>
   </FileSearch>

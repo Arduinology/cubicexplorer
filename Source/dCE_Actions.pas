@@ -152,6 +152,7 @@ type
     act_tabs_closeonright: TTntAction;
     act_gen_menu: TCEToolbarAction;
     act_navi_quickview: TTntAction;
+    act_help_donate: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -639,6 +640,7 @@ begin
       form.PoEditor.ActiveLanguage:= MainForm.ActiveLanguage;
       form.Show;
     end;
+    505: ShellExecute(0,'open','http://www.cubicreality.com/donate/','','',SW_NORMAL);
   end;
 end;
 
