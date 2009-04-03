@@ -78,6 +78,12 @@ type
     procedure SpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
     function BrowseObject(pidl: PItemIDList; flags: UINT): HResult; stdcall;
+    procedure HandleContextMenuAfterCmdCallback(Namespace: TNamespace; Verb:
+        WideString; MenuItemID: Integer; Successful: Boolean);
+    procedure HandleContextMenuCmdCallback(Namespace: TNamespace; Verb: WideString;
+        MenuItemID: Integer; var Handled: Boolean);
+    procedure HandleContextMenuShowCallback(Namespace: TNamespace; Menu: hMenu; var
+        Allow: Boolean);
     function ContextSensitiveHelp(fEnterMode: BOOL): HResult; stdcall;
     procedure DoColumnCustomView(Column: TEasyColumn; var ViewClass:
         TEasyViewColumnClass); override;
@@ -615,8 +621,8 @@ begin
     ShellNotifySuspended:= True;
     FContextMenuItem := HitInfo.Item;
     try
-      TExplorerItem(HitInfo.Item).Namespace.ShowContextMenuMulti(Self, ContextMenuCmdCallback,
-        ContextMenuShowCallback, ContextMenuAfterCmdCallback, SelectedToNamespaceArray, @WindowPoint,
+      TExplorerItem(HitInfo.Item).Namespace.ShowContextMenuMulti(Self, HandleContextMenuCmdCallback,
+        HandleContextMenuShowCallback, HandleContextMenuAfterCmdCallback, SelectedToNamespaceArray, @WindowPoint,
         nil, '', TExplorerItem(HitInfo.Item).Namespace);
       Handled:= True
     finally
@@ -1146,6 +1152,77 @@ begin
   end
 end;
 
+{-------------------------------------------------------------------------------
+  Handle ContextMenuAfterCmdCallback
+-------------------------------------------------------------------------------}
+procedure TCECustomFileView.HandleContextMenuAfterCmdCallback(Namespace:
+    TNamespace; Verb: WideString; MenuItemID: Integer; Successful: Boolean);
+begin
+  DoContextMenuAfterCmd(Namespace, Verb, MenuItemID, Successful);
+end;
+
+{-------------------------------------------------------------------------------
+  Handle ContextMenuCmdCallback
+-------------------------------------------------------------------------------}
+procedure TCECustomFileView.HandleContextMenuCmdCallback(Namespace: TNamespace;
+    Verb: WideString; MenuItemID: Integer; var Handled: Boolean);
+begin
+  if Assigned(Parent) then
+    Handled := DoContextMenuCmd(Namespace, Verb, MenuItemID)
+  else
+    Handled := False
+end;
+
+{-------------------------------------------------------------------------------
+  Handle ContextMenuShowCallback
+-------------------------------------------------------------------------------}
+procedure TCECustomFileView.HandleContextMenuShowCallback(Namespace:
+    TNamespace; Menu: hMenu; var Allow: Boolean);
+
+  function IndexIsSeparator(Index: Integer): Boolean;
+  var
+    MenuInfo: TMenuItemInfo;
+  begin
+    ZeroMemory(@MenuInfo, SizeOf(MenuInfo));
+    MenuInfo.cbSize := SizeOf(MenuInfo);
+    MenuInfo.fMask := MIIM_TYPE;
+    GetMenuItemInfo(Menu, Index, True, MenuInfo);
+    Result :=  MenuInfo.fType and MFT_SEPARATOR  <> 0
+  end;
+
+var
+  i: Integer;
+  S: AnsiString;
+  Done: Boolean;
+
+begin
+  if Assigned(Parent) then
+  begin
+    if eloRemoveContextMenuShortCut in Options then
+    begin
+      Done := False;
+      i := 0;
+      while not Done and (i < GetMenuItemCount(Menu)) do
+      begin
+        S := Namespace.ContextMenuVerb(GetMenuItemID(Menu, i));
+        if StrComp(PAnsiChar(S), 'link') = 0 then
+        begin
+          DeleteMenu(Menu, i, MF_BYPOSITION);
+          if IndexIsSeparator(i - 1) then
+          begin
+            if (GetMenuItemCount(Menu) = i) or IndexIsSeparator(i) then
+              DeleteMenu(Menu, i - 1, MF_BYPOSITION)
+          end;
+          Done := True
+        end;
+        Inc(i)
+      end
+    end;
+    Allow := DoContextMenuShow(Namespace, Menu);
+  end else
+    Allow := False
+end;
+
 {*------------------------------------------------------------------------------
   BEGIN of IShellBrowser implementation
 -------------------------------------------------------------------------------}
@@ -1156,6 +1233,7 @@ begin
   BrowseToByPIDL(pidl, True);
   Result:= S_OK
 end;
+
 // IShellBrowser.EnableModelessSB
 function TCECustomFileView.EnableModelessSB(Enable: BOOL): HResult;
 begin
