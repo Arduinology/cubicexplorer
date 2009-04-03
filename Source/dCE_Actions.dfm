@@ -233,6 +233,7 @@ object CEActions: TCEActions
       Tag = 208
       Category = 'Edit'
       Caption = 'Rename'
+      ImageIndex = 38
       ShortCut = 113
       OnExecute = ActionExecute
     end
@@ -296,6 +297,7 @@ object CEActions: TCEActions
       Tag = 209
       Category = 'Edit'
       Caption = 'Duplicate'
+      ImageIndex = 37
       ShortCut = 16452
       OnExecute = ActionExecute
     end
@@ -330,6 +332,7 @@ object CEActions: TCEActions
       Tag = 210
       Category = 'Edit'
       Caption = 'New'
+      ImageIndex = 36
       OnExecute = ActionExecute
     end
     object act_edit_copypath: TCEToolbarAction
@@ -349,6 +352,7 @@ object CEActions: TCEActions
       Tag = 401
       Category = 'Tools'
       Caption = 'Customizer...'
+      ImageIndex = 40
       OnExecute = ActionExecute
     end
     object act_view_hiddenfiles: TTntAction
@@ -416,6 +420,7 @@ object CEActions: TCEActions
       Tag = 402
       Category = 'Tools'
       Caption = 'Options...'
+      ImageIndex = 39
       OnExecute = ActionExecute
     end
     object act_sessions_save: TTntAction

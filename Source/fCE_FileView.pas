@@ -704,7 +704,8 @@ var
 begin
   FileView.BeginUpdate;
   try
-    ViewStyle:= TEasyListStyle(Storage.ReadInteger('ViewStyle', 0));
+    // TODO: Fix this. Should be loaded only on non Default session.
+    //ViewStyle:= TEasyListStyle(Storage.ReadInteger('ViewStyle', 0));
 
     ws:= Storage.ReadString('PIDL', '');
     if ws <> '' then
