@@ -550,7 +550,7 @@ begin
     if History.ItemIndex > -1 then
     begin
       if RootFolderNamespace.ComparePIDL(History.Items[History.ItemIndex].AbsolutePIDL, true) <> 0 then
-      History.Add(RootFolderNamespace, false, true, true);
+      History.Add(RootFolderNamespace, false, true);
     end;    
     fChangeHistory:= true;
   end;
