@@ -1,14 +1,14 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.5\n"
-"POT-Creation-Date:                                 \n"
+"Project-Id-Version: 1.6\n"
+"POT-Creation-Date:                                   \n"
 "PO-Revision-Date: 2007-11-01 00:00+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Portugues\n"
 "X-Poedit-Country: PORTUGAL\n"
-"CE-POT-Version: 1068\n"
+"CE-POT-Version: 1131\n"
 "CE-Language: Portuguese\n"
 "Last-Translator: Mário F. Gonçalves <mail.mario.goncalves@gmail.com>\n"
 
@@ -33,8 +33,14 @@ msgstr "Adicionar Separador"
 msgid "Address Bar"
 msgstr "Barra de Endereços"
 
+msgid "Always On Top"
+msgstr "Sempre por cima"
+
 msgid "Always Show Sort Columns"
 msgstr "Mostrar Sempre Colunas Ordenadas"
+
+msgid "Always sort folders first."
+msgstr "Ordenar sempre pastas primeiro"
 
 msgid "And Launch Files"
 msgstr "E Lançar as Aplicações"
@@ -68,6 +74,9 @@ msgstr "Auto colapsar árvore"
 
 msgid "Auto expand tree"
 msgstr "Auto expandir árvore"
+
+msgid "Auto size cells in list view style."
+msgstr "Auto dimensionar células no estilo lista"
 
 msgid "Automatic"
 msgstr "Automático"
@@ -105,11 +114,23 @@ msgstr "Sensível a caixa"
 msgid "Clear List"
 msgstr "Limpar a Lista"
 
+msgid "Clear filters on folder change"
+msgstr "Limpar filtros na mudança de pasta"
+
 msgid "Close"
 msgstr "Fechar"
 
+msgid "Close Other Tabs"
+msgstr "Fechar outros separadores"
+
 msgid "Close Tab"
 msgstr "Fechar Separador"
+
+msgid "Close Tabs on Left"
+msgstr "Fechar separadores à esquerda"
+
+msgid "Close Tabs on Right"
+msgstr "Fechar separadores à direita"
 
 msgid "Copy"
 msgstr "Copiar"
@@ -333,8 +354,14 @@ msgstr "Carregando ..."
 msgid "MB"
 msgstr "Mb"
 
+msgid "Main Menu"
+msgstr "Menu principal"
+
 msgid "Map Network Drive..."
 msgstr "Mapear Unidade de Rede"
+
+msgid "Menu"
+msgstr "Menu"
 
 msgid "Modified"
 msgstr "Modificado"
@@ -377,6 +404,9 @@ msgstr "Abrir Todos os Separadores"
 
 msgid "Open Command Prompt"
 msgstr "Abrir a Linha de Comandos"
+
+msgid "Open in new tab by default"
+msgstr "Abrir por defeito num novo separador"
 
 msgid "Open new tab as"
 msgstr "Abrir novo separador como"
@@ -428,6 +458,9 @@ msgstr "Publicar a Tradução"
 
 msgid "Quick Options"
 msgstr "Opções Rápidas"
+
+msgid "QuickView"
+msgstr "Vista rápida"
 
 msgid "Quickview"
 msgstr "Visualização Rápida"
@@ -521,6 +554,12 @@ msgstr "Seleccionar Tudo"
 
 msgid "Select default folder for new tabs."
 msgstr "Seleccione a pasta por defeito para novos separadores"
+
+msgid "Select first item automatically"
+msgstr "Seleccionar o primeiro item automaticamente"
+
+msgid "Select previous folder"
+msgstr "Seleccionar pasta anterior"
 
 msgid "Selected"
 msgstr "Seleccionados"
