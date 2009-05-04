@@ -444,7 +444,7 @@ procedure TCECustomFileView.DoPaintHeaderBkGnd(ACanvas: TCanvas; ARect: TRect; v
     Handled: Boolean);
 begin
   inherited;
-  SpDrawXPHeader(ACanvas, ARect, false, false, false, SkinManager.GetSkinType);
+  SpDrawXPHeader(ACanvas, ARect, false, false, SkinManager.GetSkinType);
   Handled:= true;
 end;
 
@@ -1396,12 +1396,9 @@ end;
 procedure TCEViewColumn.PaintBkGnd(Column: TEasyColumn;
   ACanvas: TCanvas; HeaderType: TEasyHeaderType;
   RectArray: TEasyRectArrayObject);
-var
-  isFirst: Boolean;
 begin
   inherited;
-  isFirst:= false; // not used by SpTBX ???
-  SpDrawXPHeader(ACanvas, RectArray.BoundsRect, isFirst, Column.PaintMouseHovering, Column.Clicking, SkinManager.GetSkinType);
+  SpDrawXPHeader(ACanvas, RectArray.BoundsRect, Column.PaintMouseHovering, Column.Clicking, SkinManager.GetSkinType);
 end;
 
 end.

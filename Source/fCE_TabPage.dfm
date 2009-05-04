@@ -4,4 +4,5 @@ object CECustomTabPage: TCECustomTabPage
   Width = 584
   Height = 424
   TabOrder = 0
+  TabStop = True
 end

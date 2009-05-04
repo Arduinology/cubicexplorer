@@ -173,6 +173,7 @@ type
     fReplaceAll: Boolean;
     procedure ActiveFileChange;
     procedure DoHighlighterClick(Sender: TObject);
+    function GetPageActionList: TActionList; override;
     procedure ModifiedChange;
   public
     Highlighters: TStringList;
@@ -223,7 +224,7 @@ var
 implementation
 
 uses
-  dCE_Images;
+  dCE_Images, dCE_Actions;
   
 {$R *.dfm}
 
@@ -770,6 +771,14 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Get Page Action List
+-------------------------------------------------------------------------------}
+function TCETextEditorPage.GetPageActionList: TActionList;
+begin
+  Result:= ActionList;
+end;
+
 {*------------------------------------------------------------------------------
   Search button click
 -------------------------------------------------------------------------------}
@@ -957,6 +966,7 @@ end;
 procedure TCETextEditorPage.SelectPage;
 begin
   GlobalPathCtrl.ActivePage:= Self;
+  CEActions.PageActionList:= Self.ActionList;
   Editor.SetFocus;
   GlobalPathCtrl.GlobalPathCaption:= label_path.Caption;
 end;
@@ -997,6 +1007,8 @@ begin
     CETextEditorOptions.WordWrap:= Editor.WordWrap;
     if GlobalPathCtrl.ActivePage = Self then
     GlobalPathCtrl.ActivePage:= nil;
+    if CEActions.PageActionList = Self.ActionList then
+    CEActions.PageActionList:= nil;
   end
   else
   fClosing:= false;

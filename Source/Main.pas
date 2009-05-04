@@ -50,7 +50,7 @@ uses
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ShellAPI, Menus, ShlObj, XPMan, ActiveX,
-  ImgList, Registry, AppEvnts;
+  ImgList, Registry, AppEvnts, ActnList;
 
 type
   TMainForm = class(TTntForm, ICESettingsHandler)
@@ -214,6 +214,7 @@ type
     procedure SpTBXItem80Click(Sender: TObject);
     procedure SpTBXItem85Click(Sender: TObject);
     procedure test_act1Click(Sender: TObject);
+    procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
   private
     fFullscreen: Boolean;
     fActiveLanguage: WideString;
@@ -1294,6 +1295,58 @@ begin
     ShellEventList.UnlockList;
     ShellEventList.Release;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  On Shortcut
+-------------------------------------------------------------------------------}
+procedure TMainForm.FormShortCut(var Msg: TWMKey; var Handled: Boolean);
+
+  function DoExecuteAction(AShortcut: TShortcut; AActionList: TActionList): Boolean;
+  var
+    i,i2: Integer;
+    action: TAction;
+  begin
+    Result:= false;
+    if assigned(AActionList) then
+    begin
+      for i:= 0 to AActionList.ActionCount-1 do
+      begin
+        action:= TAction(AActionList.Actions[i]);
+        if action.ShortCut = AShortcut then
+        begin
+          if ExecuteShortcut(action) then
+          begin
+            Result:= true;
+            break;
+          end;
+        end
+        else
+        begin
+          for i2:= 0 to action.SecondaryShortCuts.Count - 1 do
+          begin
+            if TShortCut(action.SecondaryShortCuts.Objects[i2]) = AShortcut then
+            begin
+              if ExecuteShortcut(action) then
+              begin
+                Result:= true;
+                break;
+              end;
+            end;
+          end;
+        end;
+      end;
+    end;
+  end;
+
+var
+  AShortcut: TShortcut;
+begin
+  Handled:= true;
+  AShortcut:= Shortcut(Msg.CharCode, KeyDataToShiftState(Msg.KeyData));
+
+  if not DoExecuteAction(AShortcut, TCECustomTabPage(GlobalPathCtrl.ActivePage).PageActionList) then
+  DoExecuteAction(AShortcut, CEActions.ActionList);
 end;
 
 {##############################################################################}

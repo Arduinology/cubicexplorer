@@ -161,6 +161,7 @@ type
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   private
+    fPageActionList: TTntActionList;
     { Private declarations }
   protected
     procedure DoAssigneByClick(Sender: TObject);
@@ -168,6 +169,8 @@ type
   public
     procedure AssignCustomToolbarActions;
     procedure UpdateAll;
+    property PageActionList: TTntActionList read fPageActionList write
+        fPageActionList;
     { Public declarations }
   end;
 
@@ -228,6 +231,11 @@ procedure HandleInputMessage(var Msg : TMessage; var Handled: Boolean);
 procedure UpdateTabsCategory(ActionID: Integer; TargetAction: TTntAction);
 
 procedure ExecuteToolsCategory(ActionID: Integer);
+
+function ExecuteShortcut(Action: TAction): Boolean;
+
+function FindActionByShortcut(AActionList: TActionList; AShortcut: TShortcut;
+    AOffset: Integer = -1): TAction;
 
 var
   CEActions: TCEActions;
@@ -1283,6 +1291,58 @@ begin
     // Make CE Visible
     WM_MakeVisible: begin
       MainForm.MakeVisible;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Execute Shortcuts
+-------------------------------------------------------------------------------}
+function ExecuteShortcut(Action: TAction): Boolean;
+begin
+  Result:= false;
+  if assigned(Action) then
+  begin
+    case Action.Tag of
+      // File Search tab
+      651: begin
+        if not (GlobalPathCtrl.ActivePage is TCETextEditorPage) then
+        Result:= Action.Execute;
+      end
+    else
+      Result:= Action.Execute;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Find Action by shortcut
+-------------------------------------------------------------------------------}
+function FindActionByShortcut(AActionList: TActionList; AShortcut: TShortcut;
+    AOffset: Integer = -1): TAction;
+var
+  i,i2: Integer;
+  act: TAction;
+begin
+  Result:= nil;
+  for i:= 0 to AActionList.ActionCount-1 do
+  begin
+    act:= TAction(AActionList.Actions[i]);
+    if act.ShortCut = AShortcut then
+    begin
+      Result:= act;
+      break;
+    end
+    else
+    begin
+      for i2:= 0 to act.SecondaryShortCuts.Count - 1 do
+      begin
+        if TShortCut(act.SecondaryShortCuts.Objects[I]) = AShortcut then
+        begin
+          Result:= act;
+          break;
+        end;
+      end;
     end;
   end;
 end;

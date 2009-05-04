@@ -30,7 +30,7 @@ uses
   SpTBXTabs,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ShlObj, Contnrs;
+  Dialogs, ShlObj, Contnrs, ActnList;
 
 type
   TCECustomTabPageClass = class of TCECustomTabPage;
@@ -41,9 +41,11 @@ type
     fImages: TImageList;
     fLayout: String;
     fTabCaption: WideString;
+    procedure SetPageActionList(const Value: TActionList);
     procedure SetTabCaption(const Value: WideString);
   protected
     fTabItem: TSpTBXTabItem;
+    function GetPageActionList: TActionList; virtual;
     procedure GlobalActivePageChange(OldPage, NewPage: TComponent); virtual;
         stdcall;
     procedure GlobalContentChange(Sender: TObject); virtual; stdcall;
@@ -67,6 +69,8 @@ type
     property ImageIndex: Integer read fImageIndex write fImageIndex;
     property Images: TImageList read fImages write fImages;
     property Layout: String read fLayout write fLayout;
+    property PageActionList: TActionList read GetPageActionList write
+        SetPageActionList;
     property TabCaption: WideString read fTabCaption write SetTabCaption;
     property TabItem: TSpTBXTabItem read fTabItem;
   end;
@@ -124,6 +128,15 @@ end;
 destructor TCECustomTabPage.Destroy;
 begin
   inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Get Page Action List
+-------------------------------------------------------------------------------}
+function TCECustomTabPage.GetPageActionList: TActionList;
+begin
+  Result:= nil;
+  // Override from descendant
 end;
 
 {*------------------------------------------------------------------------------
@@ -208,6 +221,11 @@ end;
 procedure TCECustomTabPage.SetActive(const Value: Boolean);
 begin
   fActive:= Value;
+end;
+
+procedure TCECustomTabPage.SetPageActionList(const Value: TActionList);
+begin
+
 end;
 
 {*------------------------------------------------------------------------------

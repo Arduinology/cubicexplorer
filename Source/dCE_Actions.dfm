@@ -320,6 +320,7 @@ object CEActions: TCEActions
       Category = 'Navigation'
       Caption = 'File Search'
       ImageIndex = 22
+      ShortCut = 16454
       OnExecute = ActionExecute
     end
     object act_tools_mapdrive: TTntAction
