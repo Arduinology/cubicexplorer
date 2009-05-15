@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  fCE_OptionsDialog, fCE_OptionsCustomPage, CE_SettingsIntf, fCE_FolderPanel,
+  fCE_OptionsDialog, fCE_OptionsCustomPage, fCE_FolderPanel,
   CE_LanguageEngine,
   // Tnt
   TntStdCtrls,
@@ -38,14 +38,12 @@ type
     check_autocollapse: TTntCheckBox;
     check_autoexpand: TTntCheckBox;
     check_newtabdefault: TTntCheckBox;
-    procedure HandleChange(Sender: TObject);
   private
     { Private declarations }
   public
     constructor Create(AOwner: TComponent); override;
     procedure ApplySettings; override;
-    procedure LoadFromStorage(Storage: ICESettingsStorage); override; stdcall;
-    procedure SaveToStorage(Storage: ICESettingsStorage); override; stdcall;
+    procedure RefreshSettings; override;
     { Public declarations }
   end;
 
@@ -74,41 +72,17 @@ end;
 procedure TCE_OptionsPage_Display_FolderTree.ApplySettings;
 begin
   // Toggles
-  CEFolderPanel.FolderTree.AutoExpand:= check_autoexpand.Checked;
-  CEFolderPanel.FolderTree.AutoCollapse:= check_autocollapse.Checked;
-  CEFolderPanel.NewTabByDefault:= check_newtabdefault.Checked;
+  CEFolderPanel.Settings.AutoExpand:= check_autoexpand.Checked;
+  CEFolderPanel.Settings.AutoCollapse:= check_autocollapse.Checked;
+  CEFolderPanel.Settings.OpenInNewTab:= check_newtabdefault.Checked;
 end;
 
-{-------------------------------------------------------------------------------
-  Handle changes
--------------------------------------------------------------------------------}
-procedure TCE_OptionsPage_Display_FolderTree.HandleChange(Sender: TObject);
-begin
-  inherited;
-end;
-
-{-------------------------------------------------------------------------------
-  Load From Storage
--------------------------------------------------------------------------------}
-procedure TCE_OptionsPage_Display_FolderTree.LoadFromStorage(Storage:
-    ICESettingsStorage);
+procedure TCE_OptionsPage_Display_FolderTree.RefreshSettings;
 begin
   // Toggles
-  check_autoexpand.Checked:= Storage.ReadBoolean('/FolderPanel/AutoExpand', CEFolderPanel.FolderTree.AutoExpand);
-  check_autocollapse.Checked:= Storage.ReadBoolean('/FolderPanel/AutoCollapse', CEFolderPanel.FolderTree.AutoCollapse);
-  check_newtabdefault.Checked:= Storage.ReadBoolean('/FolderPanel/OpenInNewTab', CEFolderPanel.NewTabByDefault);
-end;
-
-{-------------------------------------------------------------------------------
-  Save To Storage
--------------------------------------------------------------------------------}
-procedure TCE_OptionsPage_Display_FolderTree.SaveToStorage(Storage:
-    ICESettingsStorage);
-begin
-  // Toggles
-  Storage.WriteBoolean('/FolderPanel/AutoExpand', check_autoexpand.Checked);
-  Storage.WriteBoolean('/FolderPanel/AutoCollapse', check_autocollapse.Checked);
-  Storage.WriteBoolean('/FolderPanel/OpenInNewTab', check_newtabdefault.Checked);
+  check_autoexpand.Checked:= CEFolderPanel.Settings.AutoExpand;
+  check_autocollapse.Checked:= CEFolderPanel.Settings.AutoCollapse;
+  check_newtabdefault.Checked:= CEFolderPanel.Settings.OpenInNewTab;
 end;
 
 {##############################################################################}

@@ -26,7 +26,6 @@ interface
 uses
   // CE Units
   CE_Consts, CE_BaseFileView, CE_Toolbar, CE_VistaFuncs, CE_LanguageEngine,
-  CE_Settings, CE_SettingsIntf,
   // Jvcl
   JvBalloonHint, JvSimpleXML,
   // VSTools
@@ -116,10 +115,132 @@ type
         fOnViewStyleChange;
   end;
 
+  TCEColumnSettings = class(TPersistent)
+  private
+    function GetControlPanel: string;
+    function GetDefault: string;
+    function GetMyComputer: string;
+    function GetNetwork: string;
+    procedure SetControlPanel(const Value: string);
+    procedure SetDefault(const Value: string);
+    procedure SetMyComputer(const Value: string);
+    procedure SetNetwork(const Value: string);
+  public
+    DefaultColSettings: TCEColSettings;
+    MyComputerColSettings: TCEColSettings;
+    NetworkColSettings: TCEColSettings;
+    ControlPanelColSettings: TCEColSettings;
+  published
+    property ControlPanel: string read GetControlPanel write SetControlPanel;
+    property Default: string read GetDefault write SetDefault;
+    property MyComputer: string read GetMyComputer write SetMyComputer;
+    property Network: string read GetNetwork write SetNetwork;
+  end;
+
+type
+  TCEGroupBySettings = class(TPersistent)
+  private
+    function GetControlPanel: string;
+    function GetDefault: string;
+    function GetMyComputer: string;
+    function GetNetwork: string;
+    procedure SetControlPanel(const Value: string);
+    procedure SetDefault(const Value: string);
+    procedure SetMyComputer(const Value: string);
+    procedure SetNetwork(const Value: string);
+  public
+    DefaultGroupBySettings: TCEGroupBySetting;
+    MyComputerGroupBySettings: TCEGroupBySetting;
+    NetworkGroupBySettings: TCEGroupBySetting;
+    ControlPanelGroupBySettings: TCEGroupBySetting;
+    function GroupBySettingsToString(GroupBySetting: TCEGroupBySetting): string;
+    procedure StringToGroupBySettings(AString: String; var GroupBySetting:
+        TCEGroupBySetting);
+  published
+    property ControlPanel: string read GetControlPanel write SetControlPanel;
+    property Default: string read GetDefault write SetDefault;
+    property MyComputer: string read GetMyComputer write SetMyComputer;
+    property Network: string read GetNetwork write SetNetwork;
+  end;
+
+  TCEFilmstripSettings = class(TPersistent)
+  private
+    fThumbPos: TAlign;
+    fThumbSize: Integer;
+    fThumbStyle: TEasyListStyle;
+  published
+    property ThumbPos: TAlign read fThumbPos write fThumbPos;
+    property ThumbSize: Integer read fThumbSize write fThumbSize;
+    property ThumbStyle: TEasyListStyle read fThumbStyle write fThumbStyle;
+  end;
+
+function ColSettingsToString(ColSettings: TCEColSettings): string;
+
+procedure StringToColSettings(AString: String; var ColSettings: TCEColSettings);
+
 implementation
 
 uses
   CE_GlobalCtrl, CE_Utils, dCE_Actions;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Column Settings to string
+-------------------------------------------------------------------------------}
+function ColSettingsToString(ColSettings: TCEColSettings): string;
+var
+  i: Integer;
+  col: TCEColSetting;
+begin
+  Result:= '';
+  for i:= 0 to Length(ColSettings) - 1 do
+  begin
+    col:= ColSettings[i];
+    if i > 0 then
+    Result:= Result + '|';
+    Result:= Result + IntToStr(col.Index) + ','
+             + IntToStr(col.Position) + ','
+             + IntToStr(col.Width) + ','
+             + IntToStr(Ord(col.Sort));
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  String to Column Settings
+-------------------------------------------------------------------------------}
+procedure StringToColSettings(AString: String; var ColSettings: TCEColSettings);
+var
+  i: Integer;
+  colListSet, colList: TStrings;
+begin
+  colListSet:= TStringList.Create;
+  colList:= TStringList.Create;
+  try
+    colListSet.Delimiter:= '|';
+    colList.Delimiter:= ',';
+
+    colListSet.DelimitedText:= AString;
+    SetLength(ColSettings, colListSet.Count);
+
+    for i:= 0 to colListSet.Count - 1 do
+    begin
+      colList.DelimitedText:= colListSet.Strings[i];
+      if colList.Count >= 3 then
+      begin
+        ColSettings[i].Index:= StrToInt(colList.Strings[0]);
+        ColSettings[i].Position:= StrToInt(colList.Strings[1]);
+        ColSettings[i].Width:= StrToInt(colList.Strings[2]);
+        if colList.Count = 4 then
+        ColSettings[i].Sort:= TEasySortDirection(StrToInt(colList.Strings[3]));
+      end;
+    end;
+
+  finally
+    colListSet.Free;
+    colList.Free;
+  end;    
+end;
 
 {##############################################################################}
 
@@ -771,6 +892,140 @@ begin
       ChangeNotifier.UnRegisterKernelChangeNotify(Self);
     end;
   end;
+end;
+
+
+
+{-------------------------------------------------------------------------------
+  Get/Set Default
+-------------------------------------------------------------------------------}
+function TCEColumnSettings.GetDefault: string;
+begin
+  Result:= ColSettingsToString(DefaultColSettings);
+end;
+procedure TCEColumnSettings.SetDefault(const Value: string);
+begin
+  StringToColSettings(Value, DefaultColSettings);
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set MyComputer
+-------------------------------------------------------------------------------}
+function TCEColumnSettings.GetMyComputer: string;
+begin
+  Result:= ColSettingsToString(MyComputerColSettings);
+end;
+procedure TCEColumnSettings.SetMyComputer(const Value: string);
+begin
+  StringToColSettings(Value, MyComputerColSettings);
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set Network
+-------------------------------------------------------------------------------}
+function TCEColumnSettings.GetNetwork: string;
+begin
+  Result:= ColSettingsToString(NetworkColSettings);
+end;
+procedure TCEColumnSettings.SetNetwork(const Value: string);
+begin
+  StringToColSettings(Value, NetworkColSettings);
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set ControlPanel
+-------------------------------------------------------------------------------}
+function TCEColumnSettings.GetControlPanel: string;
+begin
+  Result:= ColSettingsToString(ControlPanelColSettings);
+end;
+procedure TCEColumnSettings.SetControlPanel(const Value: string);
+begin
+  StringToColSettings(Value, ControlPanelColSettings);
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Column Settings to string
+-------------------------------------------------------------------------------}
+function TCEGroupBySettings.GroupBySettingsToString(GroupBySetting:
+    TCEGroupBySetting): string;
+begin
+  Result:= IntToStr(GroupBySetting.Index) + ',' + BoolToStr(GroupBySetting.Enabled, true);
+end;
+
+{-------------------------------------------------------------------------------
+  String to Column Settings
+-------------------------------------------------------------------------------}
+procedure TCEGroupBySettings.StringToGroupBySettings(AString: String; var
+    GroupBySetting: TCEGroupBySetting);
+var
+  groupList: TStrings;
+begin
+  groupList:= TStringList.Create;
+  try
+    groupList.CommaText:= AString;
+    if groupList.Count > 1 then
+    begin
+      GroupBySetting.Index:= StrToIntDef(groupList.Strings[0], 0);
+      GroupBySetting.Enabled:= StrToBoolDef(groupList.Strings[1], false);
+    end;
+  finally
+    groupList.Free;
+  end;    
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set Default
+-------------------------------------------------------------------------------}
+function TCEGroupBySettings.GetDefault: string;
+begin
+  Result:= GroupBySettingsToString(DefaultGroupBySettings);
+end;
+
+procedure TCEGroupBySettings.SetDefault(const Value: string);
+begin
+  StringToGroupBySettings(Value, DefaultGroupBySettings);
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set MyComputer
+-------------------------------------------------------------------------------}
+function TCEGroupBySettings.GetMyComputer: string;
+begin
+  Result:= GroupBySettingsToString(MyComputerGroupBySettings);
+end;
+
+procedure TCEGroupBySettings.SetMyComputer(const Value: string);
+begin
+  StringToGroupBySettings(Value, MyComputerGroupBySettings);
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set Network
+-------------------------------------------------------------------------------}
+function TCEGroupBySettings.GetNetwork: string;
+begin
+  Result:= GroupBySettingsToString(NetworkGroupBySettings);
+end;
+
+procedure TCEGroupBySettings.SetNetwork(const Value: string);
+begin
+  StringToGroupBySettings(Value, NetworkGroupBySettings);
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set ControlPanel
+-------------------------------------------------------------------------------}
+function TCEGroupBySettings.GetControlPanel: string;
+begin
+  Result:= GroupBySettingsToString(ControlPanelGroupBySettings);
+end;
+
+procedure TCEGroupBySettings.SetControlPanel(const Value: string);
+begin
+  StringToGroupBySettings(Value, ControlPanelGroupBySettings);
 end;
 
 end.

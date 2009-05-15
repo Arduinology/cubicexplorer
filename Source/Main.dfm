@@ -285,6 +285,7 @@ object MainForm: TMainForm
       end
       object sessionsMenuItem: TSpTBXSubmenuItem
         Caption = 'Sessions'
+        Visible = False
         object SpTBXItem47: TSpTBXItem
           Action = CEActions.act_sessions_save
         end

@@ -26,7 +26,7 @@ interface
 uses
   // CE Units
   CE_GlobalCtrl, fCE_TabPage, CE_Utils, CE_VistaFuncs, CE_LanguageEngine,
-  CE_SettingsIntf, CE_Settings,
+  CE_AppSettings,
   // Toolbar2000
   TB2Dock, TB2Toolbar, TB2Item,
   // SpTBXLib
@@ -45,7 +45,7 @@ uses
   TntActnList, TntStdCtrls, TntSysUtils, TntDialogs, TntClasses,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  ExtCtrls, ActnList,  StdCtrls;
+  ExtCtrls, ActnList,  StdCtrls, fCE_FileView;
 
 type
   TCEActiveFileChangeEvent = procedure(Sender: TObject; FilePath: WideString) of object;
@@ -174,6 +174,7 @@ type
     procedure ActiveFileChange;
     procedure DoHighlighterClick(Sender: TObject);
     function GetPageActionList: TActionList; override;
+    function GetSettingsClass: TCECustomTabPageSettingsClass; override;
     procedure ModifiedChange;
   public
     Highlighters: TStringList;
@@ -200,17 +201,27 @@ type
         fOnModifiedChange;
   end;
 
-  TCETextEditorOptions = class(TInterfacedObject, ICESettingsHandler)
+  TCETextEditorOptions = class(TPersistent)
   private
     fWordWrap: Boolean;
-    procedure LoadFromStorage(Storage: ICESettingsStorage); stdcall;
-    procedure SaveToStorage(Storage: ICESettingsStorage); stdcall;
   public
     EditorOptions: TSynEditorOptionsContainer;
     constructor Create;
     destructor Destroy; override;
-    procedure AssignTo(EditPage: TCETextEditorPage);
+    procedure AssignSettingsTo(EditPage: TCETextEditorPage);
+  published
     property WordWrap: Boolean read fWordWrap write fWordWrap;
+  end;
+
+
+  TCETextEditorPageSettings = class(TCECustomTabPageSettings)
+  private
+    function GetPath: WideString;
+    procedure SetPath(const Value: WideString);
+  public
+    TextEditorPage: TCETextEditorPage;
+  published
+    property Path: WideString read GetPath write SetPath;
   end;
 
 
@@ -296,6 +307,7 @@ end;
 constructor TCETextEditorPage.Create(AOwner: TComponent);
 begin
   inherited;
+  TCETextEditorPageSettings(Settings).TextEditorPage:= Self;
   fClosing:= false;
   Layout:= 'TextEditor';
   Highlighters:= TStringList.Create;
@@ -306,7 +318,7 @@ begin
   Editor.OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
   self.Images:= CE_Images.SmallIcons;
   self.ImageIndex:= 21;
-  CETextEditorOptions.AssignTo(self);
+  CETextEditorOptions.AssignSettingsTo(self);
 
   CEGlobalTranslator.TranslateComponent(Self);
 end;
@@ -779,6 +791,14 @@ begin
   Result:= ActionList;
 end;
 
+{-------------------------------------------------------------------------------
+  Get Settings Class
+-------------------------------------------------------------------------------}
+function TCETextEditorPage.GetSettingsClass: TCECustomTabPageSettingsClass;
+begin
+  Result:= TCETextEditorPageSettings;
+end;
+
 {*------------------------------------------------------------------------------
   Search button click
 -------------------------------------------------------------------------------}
@@ -1023,7 +1043,6 @@ constructor TCETextEditorOptions.Create;
 begin
   inherited;
   EditorOptions:= TSynEditorOptionsContainer.Create(nil);
-  GlobalSettings.RegisterHandler(self);
 end;
 
 {*------------------------------------------------------------------------------
@@ -1031,7 +1050,6 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCETextEditorOptions.Destroy;
 begin
-  //GlobalSettings.UnRegisterHandler(Self);
   EditorOptions.Free;
   inherited;
 end;
@@ -1039,7 +1057,7 @@ end;
 {*------------------------------------------------------------------------------
   Assign options to TCETextEditorPage
 -------------------------------------------------------------------------------}
-procedure TCETextEditorOptions.AssignTo(EditPage: TCETextEditorPage);
+procedure TCETextEditorOptions.AssignSettingsTo(EditPage: TCETextEditorPage);
 begin
   if not assigned(EditPage) then
   Exit;
@@ -1048,37 +1066,27 @@ begin
   EditPage.Editor.WordWrap:= fWordWrap;
 end;
 
-{-------------------------------------------------------------------------------
-  Load From Storage
--------------------------------------------------------------------------------}
-procedure TCETextEditorOptions.LoadFromStorage(Storage: ICESettingsStorage);
-begin
-  Storage.OpenPath('TextEditor');
-  try
-    WordWrap:= Storage.ReadBoolean('WordWrap', true);
-  finally
-    Storage.ClosePath;
-  end;
-end;
+{##############################################################################}
 
 {-------------------------------------------------------------------------------
-  Save To Storage
+  Get/Set Path
 -------------------------------------------------------------------------------}
-procedure TCETextEditorOptions.SaveToStorage(Storage: ICESettingsStorage);
+function TCETextEditorPageSettings.GetPath: WideString;
 begin
-  Storage.OpenPath('TextEditor');
-  try
-    Storage.WriteBoolean('WordWrap', WordWrap);
-  finally
-    Storage.ClosePath;
-  end;
+  Result:= TextEditorPage.ActiveFile;
+end;
+procedure TCETextEditorPageSettings.SetPath(const Value: WideString);
+begin
+  if Value <> '' then
+  TextEditorPage.OpenDocument(Value);
 end;
 
 {##############################################################################}
 
 initialization
   CETextEditorOptions:= TCETextEditorOptions.Create;
-  TabPageClassList.RegisterClass('TextEditor', TCETextEditorPage);
+  GlobalAppSettings.AddItem('TextEditor', CETextEditorOptions, true);
+  TabPageClassList.RegisterClass('TextEditor', TCETextEditorPage, TCETextEditorPageSettings);
 
 finalization
   CETextEditorOptions:= nil;

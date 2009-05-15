@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  fCE_OptionsDialog, fCE_OptionsCustomPage, CE_SettingsIntf, CE_LanguageEngine,
+  fCE_OptionsDialog, fCE_OptionsCustomPage, CE_LanguageEngine,
   // SpTBX
   SpTBXSkins,
   // Tnt
@@ -39,14 +39,12 @@ type
     TntLabel1: TTntLabel;
     combo_theme: TComboBox;
     check_path_in_title: TTntCheckBox;
-    procedure HandleChange(Sender: TObject);
   private
     { Private declarations }
   public
     constructor Create(AOwner: TComponent); override;
     procedure ApplySettings; override;
-    procedure LoadFromStorage(Storage: ICESettingsStorage); override; stdcall;
-    procedure SaveToStorage(Storage: ICESettingsStorage); override; stdcall;
+    procedure RefreshSettings; override;
     { Public declarations }
   end;
 
@@ -86,40 +84,22 @@ end;
 procedure TCEOptionsPage_Display.ApplySettings;
 begin
   // theme
-  if SkinManager.CurrentSkinName <> combo_theme.Text then
-  SkinManager.SetSkin(combo_theme.Text);
-  MainForm.PathInTitle:= check_path_in_title.Checked;
+  if MainForm.Settings.Skin <> combo_theme.Text then
+  MainForm.Settings.Skin:= combo_theme.Text;
+  MainForm.Settings.PathInTitle:= check_path_in_title.Checked;
 end;
 
 {-------------------------------------------------------------------------------
-  Handle changes
+  Refresh Settings
 -------------------------------------------------------------------------------}
-procedure TCEOptionsPage_Display.HandleChange(Sender: TObject);
-begin
-  inherited;
-end;
-
-{-------------------------------------------------------------------------------
-  Load From Storage
--------------------------------------------------------------------------------}
-procedure TCEOptionsPage_Display.LoadFromStorage(Storage: ICESettingsStorage);
+procedure TCEOptionsPage_Display.RefreshSettings;
 var
   ws: WideString;
 begin
   // Skin
-  ws:= Storage.ReadString('/MainForm/Skin', SkinManager.CurrentSkinName);
+  ws:= MainForm.Settings.Skin;
   combo_theme.ItemIndex:= combo_theme.Items.IndexOf(ws);
-  check_path_in_title.Checked:= Storage.ReadBoolean('/MainForm/PathInTitle', MainForm.PathInTitle);
-end;
-
-{-------------------------------------------------------------------------------
-  Save To Storage
--------------------------------------------------------------------------------}
-procedure TCEOptionsPage_Display.SaveToStorage(Storage: ICESettingsStorage);
-begin
-  // Skin
-  Storage.WriteString('/MainForm/Skin', combo_theme.Items.Strings[combo_theme.ItemIndex]);
-  Storage.WriteBoolean('/MainForm/PathInTitle', check_path_in_title.Checked);
+  check_path_in_title.Checked:= MainForm.Settings.PathInTitle;
 end;
 
 {##############################################################################}

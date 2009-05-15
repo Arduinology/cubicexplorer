@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  fCE_OptionsDialog, fCE_OptionsCustomPage, CE_SettingsIntf, CE_LanguageEngine,
+  fCE_OptionsDialog, fCE_OptionsCustomPage, CE_LanguageEngine,
   // Tnt
   TntStdCtrls,
   // System Units
@@ -39,14 +39,12 @@ type
     check_autoselect: TTntCheckBox;
     check_autosize_liststyle: TTntCheckBox;
     check_sortfoldersfirst: TTntCheckBox;
-    procedure HandleChange(Sender: TObject);
   private
     { Private declarations }
   public
     constructor Create(AOwner: TComponent); override;
     procedure ApplySettings; override;
-    procedure LoadFromStorage(Storage: ICESettingsStorage); override; stdcall;
-    procedure SaveToStorage(Storage: ICESettingsStorage); override; stdcall;
+    procedure RefreshSettings; override;
     { Public declarations }
   end;
 
@@ -85,49 +83,15 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  HandleChange
+  Refresh Settings
 -------------------------------------------------------------------------------}
-procedure TCE_OptionsPage_Display_FileView.HandleChange(Sender: TObject);
+procedure TCE_OptionsPage_Display_FileView.RefreshSettings;
 begin
-  inherited;
-end;
-
-{-------------------------------------------------------------------------------
-  Load From Storage
--------------------------------------------------------------------------------}
-procedure TCE_OptionsPage_Display_FileView.LoadFromStorage(Storage:
-    ICESettingsStorage);
-begin
-  Storage.OpenPath('/FileView');
-  try
-    // Toggles
-    check_fullrowselect.Checked:= Storage.ReadBoolean('FullRowSelect', GlobalFileViewSettings.FullRowSelect);
-    check_selectprev.Checked:= Storage.ReadBoolean('SelectPreviousFolder', GlobalFileViewSettings.SelectPreviousFolder);
-    check_autoselect.Checked:= Storage.ReadBoolean('AutoSelectFirstItem', GlobalFileViewSettings.AutoSelectFirstItem);
-    check_autosize_liststyle.Checked:= Storage.ReadBoolean('AutosizeListViewMode', GlobalFileViewSettings.AutosizeListViewStyle);
-    check_sortfoldersfirst.Checked:= Storage.ReadBoolean('SortFolderFirstAlways', GlobalFileViewSettings.AutosizeListViewStyle);
-  finally
-    Storage.ClosePath;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  Save To Storage
--------------------------------------------------------------------------------}
-procedure TCE_OptionsPage_Display_FileView.SaveToStorage(Storage:
-    ICESettingsStorage);
-begin
-  Storage.OpenPath('/FileView');
-  try
-    // Toggles
-    Storage.ReadBoolean('FullRowSelect', check_fullrowselect.Checked);
-    Storage.ReadBoolean('SelectPreviousFolder', check_selectprev.Checked);
-    Storage.ReadBoolean('AutoSelectFirstItem', check_autoselect.Checked);
-    Storage.ReadBoolean('AutosizeListViewMode', check_autosize_liststyle.Checked);
-     Storage.ReadBoolean('SortFolderFirstAlways', check_sortfoldersfirst.Checked);
-  finally
-    Storage.ClosePath;
-  end;
+  check_fullrowselect.Checked:= GlobalFileViewSettings.FullRowSelect;
+  check_selectprev.Checked:= GlobalFileViewSettings.SelectPreviousFolder;
+  check_autoselect.Checked:= GlobalFileViewSettings.AutoSelectFirstItem;
+  check_autosize_liststyle.Checked:= GlobalFileViewSettings.AutosizeListViewStyle;
+  check_sortfoldersfirst.Checked:= GlobalFileViewSettings.SortFolderFirstAlways;
 end;
 
 {##############################################################################}

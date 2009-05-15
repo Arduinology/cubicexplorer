@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  fCE_TabPage, CE_Layout, CE_SettingsIntf, CE_Settings, CE_Utils,
+  fCE_TabPage, CE_Layout, CE_Utils, CE_AppSettings,
   // SpTBX
   SpTBXItem, SpTBXTabs, TB2Item, TB2Dock, SpTBXSkins,
   // VSTools
@@ -84,24 +84,41 @@ type
         fPreventLastTabClosing;
   end;
 
+
+  TCETabSettings = class(TPersistent)
+  private
+    fNewTabNamespace: TNamespace;
+    fNewTabPath: WideString;
+    fNewTabSelect: Boolean;
+    fNewTabType: Integer;
+    fOpenTabSelect: Boolean;
+    fReuseTabs: Boolean;
+    procedure SetNewTabPath(const Value: WideString);
+  public
+    destructor Destroy; override;
+    property NewTabNamespace: TNamespace read fNewTabNamespace write
+        fNewTabNamespace;
+  published
+    property NewTabPath: WideString read fNewTabPath write SetNewTabPath;
+    property NewTabSelect: Boolean read fNewTabSelect write fNewTabSelect;
+    property NewTabType: Integer read fNewTabType write fNewTabType;
+    property OpenTabSelect: Boolean read fOpenTabSelect write fOpenTabSelect;
+    property ReuseTabs: Boolean read fReuseTabs write fReuseTabs;
+  end;
+
   // Tab Set
-  TCESpTabSet = class(TSpTBXTabSet, IDropTarget, ICESettingsHandler)
+  TCESpTabSet = class(TSpTBXTabSet, IDropTarget)
   private
     fActivePopupTab: TCESpTabItem;
     fClosingTab: TCESpTabItem;
     fDropTab: TCESpTabItem;
     fDropTimer: TTimer;
     fLayoutController: TCELayoutController;
-    fNewTabPath: WideString;
-    fNewTabNamespace: TNamespace;
-    fNewTabSelect: Boolean;
-    fNewTabType: Integer;
-    fOpenTabSelect: Boolean;
     fReuseTabs: Boolean;
+    fSettings: TCETabSettings;
     fTabPageHost: TWinControl;
     fTabPopupMenu: TPopupMenu;
     function GetTabCount: Integer;
-    procedure SetNewTabPath(const Value: WideString);
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
     procedure CreateHandle; override;
@@ -125,8 +142,6 @@ type
     procedure HandleMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta:
         Integer; MousePos: TPoint; var Handled: Boolean); virtual;
     procedure HandleToolbarResize(Sender: TObject); virtual;
-    procedure LoadFromStorage(Storage: ICESettingsStorage); stdcall;
-    procedure SaveToStorage(Storage: ICESettingsStorage); stdcall;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -150,18 +165,14 @@ type
         fActivePopupTab;
     property LayoutController: TCELayoutController read fLayoutController write
         fLayoutController;
-    property NewTabPath: WideString read fNewTabPath write SetNewTabPath;
-    property NewTabNamespace: TNamespace read fNewTabNamespace write
-        fNewTabNamespace;
-    property NewTabSelect: Boolean read fNewTabSelect write fNewTabSelect;
-    property NewTabType: Integer read fNewTabType write fNewTabType;
-    property OpenTabSelect: Boolean read fOpenTabSelect write fOpenTabSelect;
     property TabCount: Integer read GetTabCount;
     property TabPageHost: TWinControl read fTabPageHost write fTabPageHost;
     property TabPopupMenu: TPopupMenu read fTabPopupMenu write fTabPopupMenu;
   published
     property ReuseTabs: Boolean read fReuseTabs write fReuseTabs;
+    property Settings: TCETabSettings read fSettings write fSettings;
   end;
+
 
 implementation
 
@@ -278,6 +289,7 @@ end;
 constructor TCESpTabSet.Create(AOwner: TComponent);
 begin
   inherited;
+  fSettings:= TCETabSettings.Create;
   Self.TabCloseButton:= tcbAll;
   Toolbar.OnMouseDown:= HandleMouseDown;
   Toolbar.OnMouseUp:= HandleMouseUp;
@@ -287,7 +299,7 @@ begin
   fDropTimer.Interval:= 1000;
   fDropTimer.Enabled:= false;
   fDropTimer.OnTimer:= HandleDropTimer;
-  GlobalSettings.RegisterHandler(Self);
+  GlobalAppSettings.AddItem('Tabs', Settings, true);
   Toolbar.OnResize:= HandleToolbarResize;
 end;
 
@@ -296,8 +308,7 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCESpTabSet.Destroy;
 begin
-  if assigned(fNewTabNamespace) then
-  FreeAndNil(fNewTabNamespace);
+  fSettings.Free;
   inherited;
 end;
 
@@ -872,40 +883,6 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Load from storage
--------------------------------------------------------------------------------}
-procedure TCESpTabSet.LoadFromStorage(Storage: ICESettingsStorage);
-begin
-  Storage.OpenPath('Tabs');
-  try
-    fNewTabType:= Storage.ReadInteger('NewTabType',1);
-    NewTabPath:= Storage.ReadString('NewTabPath','');
-    fNewTabSelect:= Storage.ReadBoolean('NewTabSelect',true);
-    fOpenTabSelect:= Storage.ReadBoolean('OpenTabSelect', false);
-    fReuseTabs:= Storage.ReadBoolean('ReuseTabs', false);
-  finally
-    Storage.ClosePath;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  Save to storage
--------------------------------------------------------------------------------}
-procedure TCESpTabSet.SaveToStorage(Storage: ICESettingsStorage);
-begin
-  Storage.OpenPath('Tabs');
-  try
-    Storage.WriteInteger('NewTabType',fNewTabType);
-    Storage.WriteString('NewTabPath',fNewTabPath);
-    Storage.WriteBoolean('NewTabSelect',fNewTabSelect);
-    Storage.WriteBoolean('OpenTabSelect', fOpenTabSelect);
-    Storage.WriteBoolean('ReuseTabs', fReuseTabs);
-  finally
-    Storage.ClosePath;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
   Select Next Tab
 -------------------------------------------------------------------------------}
 procedure TCESpTabSet.SelectNextTab(GoForward: Boolean = true);
@@ -943,34 +920,6 @@ begin
   i:= Items.IndexOf(ATab);
   if i <> -1 then
   ActiveTabIndex:= i;
-end;
-
-{-------------------------------------------------------------------------------
-  Set NewTabPath
--------------------------------------------------------------------------------}
-procedure TCESpTabSet.SetNewTabPath(const Value: WideString);
-var
-  ws: WideString;
-  pidl: PItemIDList;
-begin
-  fNewTabPath:= Value;
-  if assigned(fNewTabNamespace) then
-  FreeAndNil(fNewTabNamespace);
-
-  pidl:= nil;
-  if Length(fNewTabPath) > 5 then
-  begin
-    if LeftStr(fNewTabPath, 5) = 'PIDL:' then
-    begin
-      ws:= Copy(fNewTabPath, 6, Length(fNewTabPath)-5);
-      pidl:= LoadPIDLFromMime(ws);
-    end;
-  end;
-
-  if not assigned(pidl) then
-  pidl:= PathToPIDL(fNewTabPath);
-
-  fNewTabNamespace:= TNamespace.Create(pidl, nil);
 end;
 
 {-------------------------------------------------------------------------------
@@ -1221,6 +1170,47 @@ begin
     end;
     Result := True;
   end;
+end;
+
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Destroy TCETabSettings
+-------------------------------------------------------------------------------}
+destructor TCETabSettings.Destroy;
+begin
+  if assigned(fNewTabNamespace) then
+  FreeAndNil(fNewTabNamespace);
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Set NewTabPath
+-------------------------------------------------------------------------------}
+procedure TCETabSettings.SetNewTabPath(const Value: WideString);
+var
+  ws: WideString;
+  pidl: PItemIDList;
+begin
+  fNewTabPath:= Value;
+  if assigned(fNewTabNamespace) then
+  FreeAndNil(fNewTabNamespace);
+
+  pidl:= nil;
+  if Length(fNewTabPath) > 5 then
+  begin
+    if LeftStr(fNewTabPath, 5) = 'PIDL:' then
+    begin
+      ws:= Copy(fNewTabPath, 6, Length(fNewTabPath)-5);
+      pidl:= LoadPIDLFromMime(ws);
+    end;
+  end;
+
+  if not assigned(pidl) then
+  pidl:= PathToPIDL(fNewTabPath);
+
+  fNewTabNamespace:= TNamespace.Create(pidl, nil);
 end;
 
 end.

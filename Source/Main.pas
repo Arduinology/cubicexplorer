@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Frames   
-  fCE_ExtAppPage, fCE_FiltersPanel, fCE_BookmarkPropDlg, 
+  fCE_ExtAppPage, fCE_FiltersPanel, fCE_BookmarkPropDlg,
   fCE_DockHostForm, fCE_DockableForm, fCE_TabPage, fCE_FileView,
   fCE_FolderPanel, fCE_QuickViewPanel, fCE_BookmarkPanel, fCE_ToolbarCustomizer,
   fCE_PoEditor,
@@ -35,7 +35,8 @@ uses
   CE_Layout, CE_Utils, CE_GlobalCtrl, CE_AddressToolbar,
   CE_DriveBar, CE_BookmarkBar, CE_StatusBar, CE_VistaFuncs, CE_Breadcrumb,
   CE_ToolbarButtons, CE_TBActions, CE_LanguageCodes, CE_LanguageEngine,
-  CE_LanguageUtils, CE_SettingsIntf, CE_Settings, CE_Sessions, CE_SpTabBar,
+  CE_LanguageUtils, CE_Sessions, CE_SpTabBar,
+  CE_AppSettings,
   // Toolbar2000
   TB2Dock, TB2Item, TB2Toolbar, TB2ToolWindow, TB2ExtItems,
   // SpTBX
@@ -50,10 +51,12 @@ uses
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ShellAPI, Menus, ShlObj, XPMan, ActiveX,
-  ImgList, Registry, AppEvnts, ActnList;
+  ImgList, Registry, AppEvnts, ActnList, Math;
 
 type
-  TMainForm = class(TTntForm, ICESettingsHandler)
+  TMainFormSettings = class;
+
+  TMainForm = class(TTntForm)
     TopToolDock: TSpTBXDock;
     RightToolDock: TSpTBXDock;
     BottomToolDock: TSpTBXDock;
@@ -246,17 +249,17 @@ type
     BreadcrumbBar: TCEBreadcrumbBar;
     DriveToolbar: TCEDriveToolbar;
     BookmarkToolbar: TCEBookmarkToolbar;
-    SessionsToolbar: TCESessionsToolbar;
+    // TODO: Session
+    //SessionsToolbar: TCESessionsToolbar;
+    Settings: TMainFormSettings;
     StatusBar: TCEStatusBar;
     procedure BeginUIUpdate;
     procedure EndUIUpdate;
     procedure InitializeUI;
     procedure FinalizeUI;
-    procedure LoadFromStorage(Storage: ICESettingsStorage); stdcall;
     procedure MakeVisible;
     procedure MenuItemTranslateHandler(Obj:TObject; var IsIgnored: Boolean);
     procedure OpenSkin;
-    procedure SaveToStorage(Storage: ICESettingsStorage); stdcall;
     procedure Shutdown;
     procedure StartUp;
     procedure TranslateUI(Sender: TObject);
@@ -267,9 +270,57 @@ type
     property SingleInstance: Boolean read fSingleInstance write SetSingleInstance;
   end;
 
+  TMainFormSettings = class(TPersistent)
+  private
+    fHeight: Integer;
+    fLeft: Integer;
+    fShowCmd: Integer;
+    fTop: Integer;
+    fWidth: Integer;
+    function GetAlphaBlend: Integer;
+    function GetAlwaysOnTop: Boolean;
+    function GetLanguage: WideString;
+    function GetLastSession: WideString;
+    function GetPathInTitle: Boolean;
+    function GetShowHint: Boolean;
+    function GetSingleInstance: Boolean;
+    function GetSkin: string;
+    function GetStartupSession: WideString;
+    procedure SetAlphaBlend(const Value: Integer);
+    procedure SetAlwaysOnTop(const Value: Boolean);
+    procedure SetLanguage(const Value: WideString);
+    procedure SetLastSession(const Value: WideString);
+    procedure SetPathInTitle(const Value: Boolean);
+    procedure SetShowHint(const Value: Boolean);
+    procedure SetSingleInstance(const Value: Boolean);
+    procedure SetSkin(const Value: string);
+    procedure SetStartupSession(const Value: WideString);
+  public
+    Form: TMainForm;
+    constructor Create;
+    procedure UpdatePositionInfo;
+    procedure ApplyPositionInfo;
+  published
+    property AlphaBlend: Integer read GetAlphaBlend write SetAlphaBlend;
+    property AlwaysOnTop: Boolean read GetAlwaysOnTop write SetAlwaysOnTop;
+    property Left: Integer read fLeft write fLeft;
+    property Top: Integer read fTop write fTop;
+    property Width: Integer read fWidth write fWidth;
+    property Height: Integer read fHeight write fHeight;
+    property Language: WideString read GetLanguage write SetLanguage;
+    property LastSession: WideString read GetLastSession write SetLastSession;
+    property PathInTitle: Boolean read GetPathInTitle write SetPathInTitle;
+    property ShowCmd: Integer read fShowCmd write fShowCmd;
+    property ShowHint: Boolean read GetShowHint write SetShowHint;
+    property SingleInstance: Boolean read GetSingleInstance write SetSingleInstance;
+    property Skin: string read GetSkin write SetSkin;
+    property StartupSession: WideString read GetStartupSession write
+        SetStartupSession;
+  end;
+
 var
   MainForm: TMainForm;
-
+  benchStart, benchEnd: Int64;
 implementation
 
 uses
@@ -333,6 +384,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
+  benchStart:= GetTickCount;
   ChangeNotifier.RegisterShellChangeNotify(Self);
   fLanguageList:= TTntStringList.Create;
   fLanguageList.NameValueSeparator:= '=';
@@ -340,7 +392,9 @@ begin
   fUpdatingCount:= 0;
   fPathInTitle:= false;
   SetVistaFont(Self.Font);
-  GlobalSettings.RegisterHandler(Self);
+  Settings:= TMainFormSettings.Create;
+  Settings.Form:= Self;
+  GlobalAppSettings.AddItem('MainForm', Settings, true, true);
 end;
 
 {*------------------------------------------------------------------------------
@@ -353,6 +407,7 @@ begin
   CEActions.UpdateTimer.Enabled:= false;
   FinalizeUI;
   fLanguageList.Free;
+  Settings.Free;
 end;
 
 {*------------------------------------------------------------------------------
@@ -424,15 +479,16 @@ begin
   BookmarkToolbar.PopupMenu:= ToolbarPopupMenu;
   BookmarkToolbar.Tag:= 1;
   // Create SessionsBar
-  SessionsToolbar:= TCESessionsToolbar.Create(self);
-  SessionsToolbar.Name:= 'SessionsToolbar';
-  SessionsToolbar.Caption:= _('Sessions');
-  SessionsToolbar.Stretch:= true;
-  SessionsToolbar.ChevronMoveItems:= false;
-  SessionsToolbar.Visible:= false;
-  SessionsToolbar.CurrentDock:= TopToolDock;
-  SessionsToolbar.PopupMenu:= ToolbarPopupMenu;
-  SessionsToolbar.Tag:= 1;
+  // TODO: Session
+//  SessionsToolbar:= TCESessionsToolbar.Create(self);
+//  SessionsToolbar.Name:= 'SessionsToolbar';
+//  SessionsToolbar.Caption:= _('Sessions');
+//  SessionsToolbar.Stretch:= true;
+//  SessionsToolbar.ChevronMoveItems:= false;
+//  SessionsToolbar.Visible:= false;
+//  SessionsToolbar.CurrentDock:= TopToolDock;
+//  SessionsToolbar.PopupMenu:= ToolbarPopupMenu;
+//  SessionsToolbar.Tag:= 1;
   // Create BreadcrumbBar
   BreadcrumbBar:= TCEBreadcrumbBar.Create(self);
   BreadcrumbBar.Name:= 'BreadcrumbBar';
@@ -455,7 +511,8 @@ begin
   CELayoutItems.Add(AddressBarToolbar);
   CELayoutItems.Add(DriveToolbar);
   CELayoutItems.Add(BookmarkToolbar);
-  CELayoutItems.Add(SessionsToolbar);
+  // TODO: Session
+  //CELayoutItems.Add(SessionsToolbar);
   CELayoutItems.Add(EditToolbar);
   CELayoutItems.Add(BreadcrumbBar);
   CELayoutItems.Add(TabSet);
@@ -472,7 +529,8 @@ begin
   CELayoutItems.PopulateMenuItem(toolbarsMenuItem);
   CELayoutItems.PopulateMenuItem(ToolbarPopupMenu.Items);
 
-  sessionsMenuItem.Add(TCESessionsMenuItem.Create(self));
+  // TODO: Session
+//  sessionsMenuItem.Add(TCESessionsMenuItem.Create(self));
 
 
   // Add custom menu items
@@ -568,11 +626,11 @@ begin
   SkinGroupItem.Recreate;
 
   // Load Sessions
-  GlobalSessions.LoadFromFile(exePath + 'sessions.xml', '/');
+  //GlobalSessions.LoadFromFile(exePath + 'sessions.xml', '/');
 
   // Load Settings
-  GlobalSettings.LoadFromFile(exePath + 'settings.xml');
-  GlobalSettings.WriteGlobalSettings;
+  GlobalAppSettings.LoadFromFile(exePath + 'settings.xml');
+  Settings.ApplyPositionInfo;
 
   // Load Bookmarks
   CEBookmarkPanel.BookmarksPath:= ExePath + 'bookmarks.xml';
@@ -599,8 +657,8 @@ begin
 
   if not TabsOpened then
   begin
-    
-    GlobalSessions.LoadActiveSession;
+    // TODO: Session
+    //GlobalSessions.LoadActiveSession;
   end;
 
   // Atleast one tab has to be open
@@ -634,6 +692,8 @@ begin
     test_act1.Visible:= true;
   end;
   //test_act1.Visible:= true;
+
+  //Caption:= IntToStr(GetTickCount - benchStart) + 'ms.';
 end;
 
 {*------------------------------------------------------------------------------
@@ -653,11 +713,11 @@ end;
 -------------------------------------------------------------------------------}
 procedure TMainForm.Shutdown;
 begin
-  GlobalSessions.SaveToFile(exePath + 'sessions.xml');
-  
-  GlobalSettings.ReadGlobalSettings;
-  GlobalSettings.SaveToFile(exePath + 'settings.xml');
-  
+  // TODO: Session
+  //GlobalSessions.SaveToFile(exePath + 'sessions.xml');
+
+  Settings.UpdatePositionInfo;
+  GlobalAppSettings.SaveToFile(exePath + 'settings.xml');
 
   Layouts.SaveToolbarLayout;
   Layouts.SaveLayout(Layouts.CurrentLayout);
@@ -676,20 +736,22 @@ end;
   Get's called on MainForm CloseQuery.
 -------------------------------------------------------------------------------}
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-var
-  s: TCESession;
+// TODO: Session
+//var
+//  s: TCESession;
 begin
   CEActions.UpdateTimer.Enabled:= false;
 
   if GlobalPathCtrl.ActivePage is TCEFileViewPage then
   GlobalFileViewSettings.AssignColumnSettingsFrom(TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView);  
 
-  s:= GlobalSessions.GetActiveSession;
-  if assigned(s) then
-  begin
-    if s.AutoSave then
-    GlobalSessions.SaveToSession(s);
-  end;
+// TODO: Session
+//  s:= GlobalSessions.GetActiveSession;
+//  if assigned(s) then
+//  begin
+//    if s.AutoSave then
+//    GlobalSessions.SaveToSession(s);
+//  end;
 
   CanClose:= TabSet.CloseAllTabs;
 
@@ -1093,61 +1155,6 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Handle Load settings call
---------------------------------------------------------------------------------}
-procedure TMainForm.LoadFromStorage(Storage: ICESettingsStorage);
-var
-  Placement: TWindowPlacement;
-  r: TRect;
-  s: TCESession;
-begin
-  Storage.OpenPath('/MainForm');
-  try
-    // Position
-    r.Left:= Storage.ReadInteger('Left',50);
-    r.Top:= Storage.ReadInteger('Top',50);
-    r.Right:= r.Left + Storage.ReadInteger('Width',640);
-    r.Bottom:= r.Top + Storage.ReadInteger('Height',480);
-    Placement.Length := SizeOf(TWindowPlacement);
-    GetWindowPlacement(MainForm.Handle, @Placement);
-    Placement.rcNormalPosition:= r;
-    Placement.showCmd:= Storage.ReadInteger('ShowCmd', 1);
-    if Placement.showCmd = SW_SHOWMINIMIZED then
-    Placement.showCmd:= SW_SHOWNORMAL;
-    SetWindowPlacement(MainForm.Handle, @Placement);
-    // Alpha
-    AlphaBlendValue:= Storage.ReadInteger('AlphaBlend',255);
-    // Skin
-    SkinManager.SetSkin(Storage.ReadString('Skin','Default'));
-    // Language
-    ActiveLanguage:= Storage.ReadString('Language', '');
-    // Toggles
-    fSingleInstance:= Storage.ReadBoolean('SingleInstance', true);
-    ShowHint:= Storage.ReadBoolean('ShowHints', true);
-    PathInTitle:= Storage.ReadBoolean('PathInTitle', false);
-    if Storage.ReadBoolean('AlwaysOnTop', false) then
-    MainForm.FormStyle:= fsStayOnTop
-    else
-    MainForm.FormStyle:= fsNormal;
-    // Session to load
-    s:= GlobalSessions.FindSession(Storage.ReadString('StartupSession', ''));
-    if s = nil then
-    s:= GlobalSessions.FindSession(Storage.ReadString('LastSession', ''))
-    else
-    GlobalSessions.StartupSession:= s.SessionName;
-
-    if s = nil then
-    GlobalSessions.ActiveSession:= 'Default'
-    else
-    GlobalSessions.ActiveSession:= s.SessionName;
-
-  finally
-    Storage.ClosePath;
-  end;
-
-end;
-
-{-------------------------------------------------------------------------------
   Make MainForm visible
 -------------------------------------------------------------------------------}
 procedure TMainForm.MakeVisible;
@@ -1156,47 +1163,6 @@ begin
   Application.Restore
   else
   Application.BringToFront;
-end;
-
-{-------------------------------------------------------------------------------
-  Handle Save settings call
---------------------------------------------------------------------------------}
-procedure TMainForm.SaveToStorage(Storage: ICESettingsStorage);
-var
-  Placement: TWindowPlacement;
-  r: TRect;
-begin
-  Storage.OpenPath('/MainForm');
-  try
-    // Position
-    Placement.Length := SizeOf(TWindowPlacement);
-    GetWindowPlacement(MainForm.Handle, @Placement);
-    r:= Placement.rcNormalPosition;
-    Storage.WriteInteger('Left', r.Left);
-    Storage.WriteInteger('Top', r.Top);
-    Storage.WriteInteger('Width', r.Right - r.Left);
-    Storage.WriteInteger('Height', r.Bottom - r.Top);
-    Storage.WriteInteger('ShowCmd', Placement.showCmd);
-    // Alpha
-    Storage.WriteInteger('AlphaBlend', AlphaBlendValue);
-    // Skin
-    Storage.WriteString('Skin', SkinManager.CurrentSkinName);
-    // Language
-    Storage.WriteString('Language', ActiveLanguage);
-    // Toggles
-    Storage.WriteBoolean('SingleInstance', SingleInstance);
-    Storage.WriteBoolean('ShowHints', ShowHint);
-    Storage.WriteBoolean('PathInTitle', PathInTitle);
-    Storage.WriteBoolean('AlwaysOnTop', MainForm.FormStyle = fsStayOnTop);
-    // Session
-    if GlobalSessions.StartupSession <> '' then
-    Storage.WriteString('StartupSession', GlobalSessions.StartupSession)
-    else
-    Storage.DeletePath('StartupSession');
-    Storage.WriteString('LastSession', GlobalSessions.ActiveSession);
-  finally
-    Storage.ClosePath;
-  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1344,9 +1310,17 @@ var
 begin
   Handled:= true;
   AShortcut:= Shortcut(Msg.CharCode, KeyDataToShiftState(Msg.KeyData));
-
-  if not DoExecuteAction(AShortcut, TCECustomTabPage(GlobalPathCtrl.ActivePage).PageActionList) then
-  DoExecuteAction(AShortcut, CEActions.ActionList);
+  if assigned(GlobalPathCtrl.ActivePage) then
+  begin
+    if not DoExecuteAction(AShortcut, TCECustomTabPage(GlobalPathCtrl.ActivePage).PageActionList) then
+    if not DoExecuteAction(AShortcut, CEActions.HiddenActionList) then
+    DoExecuteAction(AShortcut, CEActions.ActionList);
+  end
+  else
+  begin
+    if not DoExecuteAction(AShortcut, CEActions.HiddenActionList) then
+    DoExecuteAction(AShortcut, CEActions.ActionList);
+  end;
 end;
 
 {##############################################################################}
@@ -1401,10 +1375,11 @@ end;
 
 procedure TMainForm.SpTBXItem85Click(Sender: TObject);
 begin
-  if TSpTBXItem(Sender).Tag = 1 then
-  begin
-    GlobalSessions.ActiveSession:= TSpTBXItem(Sender).Caption;
-  end;
+// TODO: Session
+//  if TSpTBXItem(Sender).Tag = 1 then
+//  begin
+//    GlobalSessions.ActiveSession:= TSpTBXItem(Sender).Caption;
+//  end;
 end;
 
 procedure TMainForm.test_act1Click(Sender: TObject);
@@ -1413,7 +1388,173 @@ begin
   Raise Exception.CreateFmt('Test exception', [name]);
 end;
 
-// <---- fix try end
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Create an instance of TMainFormSettings
+-------------------------------------------------------------------------------}
+constructor TMainFormSettings.Create;
+begin
+  inherited;
+  fLeft:= 50;
+  fTop:= 50;
+  fHeight:= 480;
+  fWidth:= 640;
+  fShowCmd:= 1;
+end;
+{-------------------------------------------------------------------------------
+  Get PositionInfo
+-------------------------------------------------------------------------------}
+procedure TMainFormSettings.UpdatePositionInfo;
+var
+  Placement: TWindowPlacement;
+  r: TRect;
+begin
+  Placement.Length := SizeOf(TWindowPlacement);
+  GetWindowPlacement(MainForm.Handle, @Placement);
+  r:= Placement.rcNormalPosition;
+  Left:= r.Left;
+  Top:= r.Top;
+  Width:= Max(r.Right - r.Left, 50);
+  Height:= Max(r.Bottom - r.Top, 50);
+  ShowCmd:= Placement.showCmd;
+end;
+
+{-------------------------------------------------------------------------------
+  SetP ositionInfo
+-------------------------------------------------------------------------------}
+procedure TMainFormSettings.ApplyPositionInfo;
+var
+  Placement: TWindowPlacement;
+  r: TRect;
+begin
+  r.Left:= Left;
+  r.Top:= Top;
+  r.Right:= Left + Max(Width, 50);
+  r.Bottom:= Top + Max(Height, 50);
+  Placement.Length := SizeOf(TWindowPlacement);
+  GetWindowPlacement(MainForm.Handle, @Placement);
+  Placement.rcNormalPosition:= r;
+  Placement.showCmd:= ShowCmd;
+  if Placement.showCmd = SW_SHOWMINIMIZED then
+  Placement.showCmd:= SW_SHOWNORMAL;
+  SetWindowPlacement(MainForm.Handle, @Placement);
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set AlphaBlend value
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetAlphaBlend: Integer;
+begin
+  Result:= MainForm.AlphaBlendValue;
+end;
+procedure TMainFormSettings.SetAlphaBlend(const Value: Integer);
+begin
+  MainForm.AlphaBlendValue:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set Language
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetLanguage: WideString;
+begin
+  Result:= MainForm.ActiveLanguage;
+end;
+procedure TMainFormSettings.SetLanguage(const Value: WideString);
+begin
+  MainForm.ActiveLanguage:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set Skin
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetSkin: string;
+begin
+  Result:= SkinManager.CurrentSkinName;
+end;
+procedure TMainFormSettings.SetSkin(const Value: string);
+begin
+  SkinManager.SetSkin(Value);
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set ShowHint
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetShowHint: Boolean;
+begin
+  Result:= MainForm.ShowHint;
+end;
+procedure TMainFormSettings.SetShowHint(const Value: Boolean);
+begin
+  MainForm.ShowHint:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set SingleInstance
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetSingleInstance: Boolean;
+begin
+  Result:= MainForm.SingleInstance;
+end;
+procedure TMainFormSettings.SetSingleInstance(const Value: Boolean);
+begin
+  MainForm.SingleInstance:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set PathInTitle
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetPathInTitle: Boolean;
+begin
+  Result:= MainForm.PathInTitle;
+end;
+procedure TMainFormSettings.SetPathInTitle(const Value: Boolean);
+begin
+  MainForm.PathInTitle:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set AlwaysOnTop
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetAlwaysOnTop: Boolean;
+begin
+  Result:= MainForm.FormStyle = fsStayOnTop;
+end;
+procedure TMainFormSettings.SetAlwaysOnTop(const Value: Boolean);
+begin
+  if Value then
+  MainForm.FormStyle:= fsStayOnTop
+  else
+  MainForm.FormStyle:= fsNormal;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set LastSession
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetLastSession: WideString;
+begin
+// TODO: Session
+//  Result:= GlobalSessions.ActiveSession;
+end;
+procedure TMainFormSettings.SetLastSession(const Value: WideString);
+begin
+// TODO: Session
+//  GlobalSessions.ActiveSession:= Value
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set StartupSession
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetStartupSession: WideString;
+begin
+// TODO: Session
+//  Result:= GlobalSessions.StartupSession;
+end;
+procedure TMainFormSettings.SetStartupSession(const Value: WideString);
+begin
+// TODO: Session
+//  GlobalSessions.StartupSession:= Value;
+end;
 
 
 {##############################################################################}

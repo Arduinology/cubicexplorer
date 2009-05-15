@@ -47,7 +47,7 @@ type
     ShowFoldersItem: Boolean;
   end;
 
-  TCEFilterPanel = class(TVirtualStringTree, IJvAppStorageHandler)
+  TCEFilterList = class(TVirtualStringTree, IJvAppStorageHandler)
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath:
         string);
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath:
@@ -99,9 +99,9 @@ type
 implementation
 
 {*------------------------------------------------------------------------------
-  Create an instance of TCEFilterPanel
+  Create an instance of TCEFilterList
 -------------------------------------------------------------------------------}
-constructor TCEFilterPanel.Create(AOwner: TComponent);
+constructor TCEFilterList.Create(AOwner: TComponent);
 begin
   inherited;
   Self.NodeDataSize:= SizeOf(AFilterItem);
@@ -118,9 +118,9 @@ begin
 end;
 
 {*------------------------------------------------------------------------------
-  Destroy an instance of TCEFilterPanel
+  Destroy an instance of TCEFilterList
 -------------------------------------------------------------------------------}
-destructor TCEFilterPanel.Destroy;
+destructor TCEFilterList.Destroy;
 begin
   ActiveFilters.Free;
   inherited;
@@ -129,7 +129,7 @@ end;
 {*------------------------------------------------------------------------------
   Clear Filters
 -------------------------------------------------------------------------------}
-procedure TCEFilterPanel.ClearFilters;
+procedure TCEFilterList.ClearFilters;
 begin
   ActiveFilters.Clear;
   ShowAllExtensions:= true;
@@ -139,7 +139,7 @@ end;
 {*------------------------------------------------------------------------------
   Find Node By Extension
 -------------------------------------------------------------------------------}
-function TCEFilterPanel.FindByExtension(ext: WideString): PVirtualNode;
+function TCEFilterList.FindByExtension(ext: WideString): PVirtualNode;
 var
   d: PFilterItem;
 begin
@@ -157,7 +157,7 @@ end;
 {*------------------------------------------------------------------------------
   Populate tree
 -------------------------------------------------------------------------------}
-procedure TCEFilterPanel.PopulateTree;
+procedure TCEFilterList.PopulateTree;
 var
   i: Integer;
   item: TEasyItem;
@@ -255,7 +255,7 @@ end;
 {*------------------------------------------------------------------------------
   Do filtering
 -------------------------------------------------------------------------------}
-procedure TCEFilterPanel.DoFiltering;
+procedure TCEFilterList.DoFiltering;
 var
   i: Integer;
   item: TEasyItem;
@@ -315,7 +315,7 @@ end;
 {*------------------------------------------------------------------------------
   De-filter items (show all)
 -------------------------------------------------------------------------------}
-procedure TCEFilterPanel.DeFilter;
+procedure TCEFilterList.DeFilter;
 var
   i: Integer;
 begin
@@ -339,7 +339,7 @@ end;
 {*------------------------------------------------------------------------------
   DoGetText
 -------------------------------------------------------------------------------}
-procedure TCEFilterPanel.DoGetText(Node: PVirtualNode; Column: TColumnIndex;
+procedure TCEFilterList.DoGetText(Node: PVirtualNode; Column: TColumnIndex;
     TextType: TVSTTextType; var Text: WideString);
 var
   data: PFilterItem;
@@ -360,7 +360,7 @@ end;
 {*------------------------------------------------------------------------------
   DoChecked
 -------------------------------------------------------------------------------}
-procedure TCEFilterPanel.DoChecked(Node: PVirtualNode);
+procedure TCEFilterList.DoChecked(Node: PVirtualNode);
 var
   n: PVirtualNode;
   data: PFilterItem;
@@ -401,7 +401,7 @@ end;
 {*------------------------------------------------------------------------------
   Do Compare
 -------------------------------------------------------------------------------}
-function TCEFilterPanel.DoCompare(Node1, Node2: PVirtualNode; Column:
+function TCEFilterList.DoCompare(Node1, Node2: PVirtualNode; Column:
     TColumnIndex): Integer;
 var
   data1, data2: PFilterItem;
@@ -427,7 +427,7 @@ end;
 {*------------------------------------------------------------------------------
   DoPaintText
 -------------------------------------------------------------------------------}
-procedure TCEFilterPanel.DoPaintText(Node: PVirtualNode; const Canvas: TCanvas;
+procedure TCEFilterList.DoPaintText(Node: PVirtualNode; const Canvas: TCanvas;
     Column: TColumnIndex; TextType: TVSTTextType);
 var
   data: PFilterItem;
@@ -482,7 +482,7 @@ end;
 {*------------------------------------------------------------------------------
   Handle Mouse Down
 -------------------------------------------------------------------------------}
-procedure TCEFilterPanel.HandleMouseDown(var Message: TWMMouse; const HitInfo:
+procedure TCEFilterList.HandleMouseDown(var Message: TWMMouse; const HitInfo:
     THitInfo);
 begin
   inherited;
@@ -504,7 +504,7 @@ end;
 {*------------------------------------------------------------------------------
   Set ExplorerEasyListview
 -------------------------------------------------------------------------------}
-procedure TCEFilterPanel.SetExplorerEasyListview(const Value:
+procedure TCEFilterList.SetExplorerEasyListview(const Value:
     TVirtualExplorerEasyListview);
 begin
   if fExplorerEasyListview <> Value then
@@ -529,7 +529,7 @@ end;
 {*------------------------------------------------------------------------------
   Set ShowAllExtension
 -------------------------------------------------------------------------------}
-procedure TCEFilterPanel.SetShowAllExtensions(const Value: Boolean);
+procedure TCEFilterList.SetShowAllExtensions(const Value: Boolean);
 begin
   if assigned(fShowAllNode) then
   begin
@@ -549,7 +549,7 @@ end;
 {*------------------------------------------------------------------------------
   Set Active
 -------------------------------------------------------------------------------}
-procedure TCEFilterPanel.SetActive(const Value: Boolean);
+procedure TCEFilterList.SetActive(const Value: Boolean);
 begin
   if fActive <> Value then
   begin
@@ -567,7 +567,7 @@ end;
 {*------------------------------------------------------------------------------
   Set ShowFilteringBackground
 -------------------------------------------------------------------------------}
-procedure TCEFilterPanel.SetShowFilteringBackground(const Value: Boolean);
+procedure TCEFilterList.SetShowFilteringBackground(const Value: Boolean);
 begin
   fShowFilteringBackground:= Value;
 
@@ -595,7 +595,7 @@ end;
 {*------------------------------------------------------------------------------
   Set SetShowFolders
 -------------------------------------------------------------------------------}
-procedure TCEFilterPanel.SetShowFolders(const Value: Boolean);
+procedure TCEFilterList.SetShowFolders(const Value: Boolean);
 begin
   if assigned(fShowFoldersNode) then
   begin
@@ -615,7 +615,7 @@ end;
 {*------------------------------------------------------------------------------
   Read properties from Storage
 -------------------------------------------------------------------------------}
-procedure TCEFilterPanel.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
+procedure TCEFilterList.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
     const BasePath: string);
 var
   OldPath: String;
@@ -637,7 +637,7 @@ end;
 {*------------------------------------------------------------------------------
   Write properties to Storage
 -------------------------------------------------------------------------------}
-procedure TCEFilterPanel.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
+procedure TCEFilterList.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
     const BasePath: string);
 var
   OldPath: String;

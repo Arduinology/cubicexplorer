@@ -26,7 +26,6 @@ interface
 uses
   // CE Units
   fCE_DockableForm, CE_QuickView, CE_GlobalCtrl, dCE_Images, CE_LanguageEngine,
-  CE_Settings,
   // VSTools
   MPCommonUtilities,
   // PNG Controls

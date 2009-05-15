@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  CE_FileSearch, CE_VistaFuncs, CE_SettingsIntf, CE_Settings,
+  CE_FileSearch, CE_VistaFuncs, CE_AppSettings, CE_FileView,
   // CE Frames
   fCE_TabPage, fCE_FileSearchDestDlg,
   // SpTBXLib
@@ -41,9 +41,12 @@ uses
   VirtualExplorerTree, MPShellUtilities,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Menus, StdCtrls, ShlObj, ExtCtrls, SpTBXItem;
+  Dialogs, Menus, StdCtrls, ShlObj, ExtCtrls, SpTBXItem, CE_BaseFileView,
+  fCE_TextEditor;
 
 type
+  TCEFileSearchSettings = class;
+
   TCEFileSearchPage = class(TCECustomTabPage)
     SearchPanel: TSpTBXPanel;
     label1: TSpTBXLabel;
@@ -71,6 +74,7 @@ type
     fShowItemContextMenu: Boolean;
     { Private declarations }
   protected
+    function GetSettingsClass: TCECustomTabPageSettingsClass; override;
     procedure GlobalPathChanged(Sender: TObject; NewPath: WideString); override;
         stdcall;
     procedure GlobalPIDLChanged(Sender: TObject; NewPIDL: PItemIDList); override;
@@ -83,8 +87,8 @@ type
     DestDlg: TCEDestDlg;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    procedure ColumnSizeChanged(Sender: TCustomEasyListview; Column: TEasyColumn);
     procedure ItemSelectionsChanged(Sender: TCustomEasyListview);
-    procedure LoadFromStorage(Storage: ICESettingsStorage); override; stdcall;
     procedure OnDirectoryChange(Sender: TObject; NewDirectory: WideString);
     procedure OnFileMatch(Sender: TObject; Directory: WideString; FileName:
         WideString);
@@ -94,15 +98,50 @@ type
         X, Y: Integer);
     procedure OnSearchBegin(Sender: TObject);
     procedure OnSearchFinished(Sender: TObject);
-    procedure SaveToStorage(Storage: ICESettingsStorage); override; stdcall;
     procedure SelectPage; override;
     procedure StartSearch;
     procedure UpdateCaption; override;
     { Public declarations }
+  published
+  end;
+
+  TCEFileSearchSettings = class(TPersistent)
+  private
+    fShowExtensions: Boolean;
+    fSubFolders: Boolean;
+    function GetColumns: string;
+    procedure SetColumns(const Value: string);
+  protected
+  public
+    ColumnSettings: TCEColSettings;
+    constructor Create;
+    procedure AssignColumnSettingsFrom(FileView: TCECustomFileView);
+    procedure AssignColumnSettingsTo(FileView: TCECustomFileView);
+    procedure AssignSettingsFrom(FileSearch: TCEFileSearchPage);
+    procedure AssignSettingsTo(FileSearch: TCEFileSearchPage);
+  published
+    property Columns: string read GetColumns write SetColumns;
+    property ShowExtensions: Boolean read fShowExtensions write fShowExtensions;
+    property SubFolders: Boolean read fSubFolders write fSubFolders;
+  end;
+
+type
+  TCEFileSearchPageSettings = class(TCECustomTabPageSettings)
+  private
+    function GetPath: WideString;
+    function GetSubFolders: Boolean;
+    procedure SetPath(const Value: WideString);
+    procedure SetSubFolders(const Value: Boolean);
+  public
+    FileSearchPage: TCEFileSearchPage;
+  published
+    property Path: WideString read GetPath write SetPath;
+    property SubFolders: Boolean read GetSubFolders write SetSubFolders;
   end;
 
 var
   CEFileSearch: TCEFileSearchPage;
+  CEFileSearchSettings: TCEFileSearchSettings;
 
 implementation
 
@@ -116,6 +155,7 @@ uses
 constructor TCEFileSearchPage.Create(AOwner: TComponent);
 begin
   inherited;
+  TCEFileSearchPageSettings(Settings).FileSearchPage:= Self;
   Layout:= 'FileView';
   Results:= TCEFileSearchView.Create(self);
   Results.Parent:= self;
@@ -129,11 +169,12 @@ begin
   Results.OnMouseDown:= OnMouseDown;
   Results.OnMouseUp:= OnMouseUp;
   Results.OnItemContextMenu:= OnItemContextMenu;
+  Results.OnColumnSizeChanged:= ColumnSizeChanged;
 
   DestDlg:= TCEDestDlg.Create(self);
   FolderTreePopup.PopupForm:= DestDlg;
 
-  GlobalSettings.WriteSettingTo(Self);
+  CEFileSearchSettings.AssignSettingsTo(Self);
 end;
 
 {*------------------------------------------------------------------------------
@@ -141,7 +182,7 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCEFileSearchPage.Destroy;
 begin
-  GlobalSettings.ReadSettingsFrom(Self);
+  CEFileSearchSettings.AssignSettingsFrom(Self);
   inherited;
 end;
 
@@ -205,6 +246,24 @@ end;
 procedure TCEFileSearchPage.but_stopClick(Sender: TObject);
 begin
   Results.FindFile.Abort;
+end;
+
+{*------------------------------------------------------------------------------
+  Save Column settings
+-------------------------------------------------------------------------------}
+procedure TCEFileSearchPage.ColumnSizeChanged(Sender: TCustomEasyListview;
+    Column: TEasyColumn);
+begin
+  if GlobalPathCtrl.ActivePage = Self then
+  CEFileSearchSettings.AssignColumnSettingsFrom(Results);
+end;
+
+{-------------------------------------------------------------------------------
+  Get Settings Class
+-------------------------------------------------------------------------------}
+function TCEFileSearchPage.GetSettingsClass: TCECustomTabPageSettingsClass;
+begin
+  Result:= TCEFileSearchPageSettings;
 end;
 
 {*------------------------------------------------------------------------------
@@ -324,6 +383,7 @@ end;
 procedure TCEFileSearchPage.SelectPage;
 begin
   GlobalPathCtrl.ActivePage:= Self;
+  CEFileSearchSettings.AssignColumnSettingsTo(Results);
 end;
 
 {*------------------------------------------------------------------------------
@@ -355,74 +415,6 @@ begin
     TabItem.ImageIndex:= 22;
   end;
   TabCaption:= 'File Search';
-end;
-
-{-------------------------------------------------------------------------------
-  Load From Storage
--------------------------------------------------------------------------------}
-procedure TCEFileSearchPage.LoadFromStorage(Storage: ICESettingsStorage);
-
-  procedure LoadColumns;
-  var
-    i,index: Integer;
-    col: TEasyColumn;
-    colListSet, colList: TStrings;
-    s: String;
-  begin
-    s:= Storage.ReadString('Columns','');
-    if s = '' then
-    Exit;
-    colListSet:= TStringList.Create;
-    colList:= TStringList.Create;
-    try
-      colListSet.Delimiter:= '|';
-      colList.Delimiter:= ',';
-      colListSet.DelimitedText:= s;
-      Results.Header.Columns.BeginUpdate(false);
-      try
-        for i:= 0 to Results.Header.Columns.Count - 1 do
-        begin
-          if Results.Header.Columns.Columns[i].Visible then
-          Results.Header.Columns.Columns[i].Visible:= false;
-        end;
-
-        for i:= 0 to colListSet.Count - 1 do
-        begin
-          colList.DelimitedText:= colListSet.Strings[i];
-          if colList.Count >= 3 then
-          begin
-            index:= StrToIntDef(colList.Strings[0], -1);
-            if (index > -1) and (index < Results.Header.Columns.Count) then
-            begin
-              col:= Results.Header.Columns.Columns[index];
-              col.Visible:= true;
-              col.Position:= StrToIntDef(colList.Strings[1],0);
-              col.Width:= StrToIntDef(colList.Strings[2],50);
-              if colList.Count = 4 then
-              col.SortDirection:= TEasySortDirection(StrToIntDef(colList.Strings[3],0));
-            end;
-          end;
-        end;
-      finally
-        Results.Header.Columns.EndUpdate(true);
-      end;
-    finally
-      colListSet.Free;
-      colList.Free;
-    end;
-  end;
-
-begin
-  Storage.OpenPath('/FileSearch');
-  try
-    // Columns
-    LoadColumns;
-    // Toggles
-    check_subdir.Checked:= Storage.ReadBoolean('SubFolders', true);
-    Results.ShowExtension:= Storage.ReadBoolean('ShowExtensions', true);
-  finally
-    Storage.ClosePath;
-  end;
 end;
 
 procedure TCEFileSearchPage.OnItemContextMenu(Sender: TCustomEasyListview;
@@ -466,16 +458,16 @@ begin
         if NS.FileSystem and not NS.Folder then
         begin
           if ssShift in Shift then
-          OpenFileInTab(NS.NameForParsing, not MainForm.TabSet.OpenTabSelect)
+          OpenFileInTab(NS.NameForParsing, not MainForm.TabSet.Settings.OpenTabSelect)
           else
-          OpenFileInTab(NS.NameForParsing, MainForm.TabSet.OpenTabSelect)
+          OpenFileInTab(NS.NameForParsing, MainForm.TabSet.Settings.OpenTabSelect)
         end
         else
         begin
           if ssShift in Shift then
-          OpenFolderInTab(Self, NS.AbsolutePIDL, not MainForm.TabSet.OpenTabSelect)
+          OpenFolderInTab(Self, NS.AbsolutePIDL, not MainForm.TabSet.Settings.OpenTabSelect)
           else
-          OpenFolderInTab(Self, NS.AbsolutePIDL, MainForm.TabSet.OpenTabSelect)
+          OpenFolderInTab(Self, NS.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect)
         end;
       end;
     end;
@@ -498,44 +490,6 @@ begin
   fDownShiftState:= [];
 end;
 
-{-------------------------------------------------------------------------------
-  Save to storage
--------------------------------------------------------------------------------}
-procedure TCEFileSearchPage.SaveToStorage(Storage: ICESettingsStorage);
-
-  procedure SaveColumns;
-  var
-    col: TEasyColumn;
-    s: String;
-  begin
-    s:= '';
-    col:= Results.Header.FirstVisibleColumn;
-    while assigned(col) do
-    begin
-      s:= s + IntToStr(col.Index) + ',' +
-              IntToStr(col.Position) + ',' +
-              IntToStr(col.Width) + ',' +
-              IntToStr(Ord(col.SortDirection));
-      col:= Results.Header.NextVisibleColumn(col);
-      if col <> nil then
-      s:= s + '|';
-    end;
-    Storage.WriteString('Columns', s);
-  end;
-
-begin
-  Storage.OpenPath('/FileSearch');
-  try
-    // Columns
-    SaveColumns;
-    // Toggles
-    Storage.WriteBoolean('SubFolders', check_subdir.Checked);
-    Storage.WriteBoolean('ShowExtensions', Results.ShowExtension);
-  finally
-    Storage.ClosePath;
-  end;
-end;
-
 {*------------------------------------------------------------------------------
   Update global content timer
 -------------------------------------------------------------------------------}
@@ -546,9 +500,160 @@ end;
 
 {##############################################################################}
 
+{-------------------------------------------------------------------------------
+  Create an instance of TCEFileSearchSettings
+-------------------------------------------------------------------------------}
+constructor TCEFileSearchSettings.Create;
+begin
+  inherited;
+  fShowExtensions:= true;
+  fSubFolders:= true;
+end;
+
+{-------------------------------------------------------------------------------
+  Assign ColumnSettings From
+-------------------------------------------------------------------------------}
+procedure TCEFileSearchSettings.AssignColumnSettingsFrom(FileView:
+    TCECustomFileView);
+var
+  col: TEasyColumn;
+  i,c: Integer;
+begin
+  if not assigned(FileView) then
+  Exit;
+
+  c:= 0;
+  for i:= 0 to FileView.Header.Columns.Count - 1 do
+  begin
+    if FileView.Header.Columns.Columns[i].Visible then
+    Inc(c,1);
+  end;
+
+  if Length(ColumnSettings) <> c then
+  SetLength(ColumnSettings, c);
+  
+  i:= 0;
+  col:= FileView.Header.FirstVisibleColumn;
+  while assigned(col) do
+  begin
+    ColumnSettings[i].Index:= col.Index;
+    ColumnSettings[i].Position:= col.Position;
+    ColumnSettings[i].Width:= col.Width;
+    ColumnSettings[i].Sort:= col.SortDirection;
+    col:= FileView.Header.NextVisibleColumn(col);
+    inc(i);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Assign ColumnSettings To
+-------------------------------------------------------------------------------}
+procedure TCEFileSearchSettings.AssignColumnSettingsTo(FileView:
+    TCECustomFileView);
+var
+  i: Integer;
+  col: TEasyColumn;
+begin
+  if not assigned(FileView) or (Length(ColumnSettings) = 0) then
+  Exit;
+
+  FileView.Header.Columns.BeginUpdate(false);
+  try
+    for i:= 0 to FileView.Header.Columns.Count - 1 do
+    begin
+      if FileView.Header.Columns.Columns[i].Visible then
+      FileView.Header.Columns.Columns[i].Visible:= false;
+    end;
+
+    for i:= 0 to Length(ColumnSettings) - 1 do
+    begin
+      if ColumnSettings[i].Index < FileView.Header.Columns.Count then
+      begin
+        col:= FileView.Header.Columns.Columns[ColumnSettings[i].Index];
+        col.Visible:= true;
+        col.Position:= ColumnSettings[i].Position;
+        col.Width:= ColumnSettings[i].Width;
+        col.SortDirection:= ColumnSettings[i].Sort;
+      end;
+    end;
+  finally
+    FileView.Header.Columns.EndUpdate(true);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Assign Settings From
+-------------------------------------------------------------------------------}
+procedure TCEFileSearchSettings.AssignSettingsFrom(FileSearch:
+    TCEFileSearchPage);
+begin
+  if not assigned(FileSearch) then
+  Exit;
+
+  fSubFolders:= FileSearch.check_subdir.Checked;
+  AssignColumnSettingsFrom(FileSearch.Results);
+end;
+
+{-------------------------------------------------------------------------------
+  Assign Settings To
+-------------------------------------------------------------------------------}
+procedure TCEFileSearchSettings.AssignSettingsTo(FileSearch: TCEFileSearchPage);
+begin
+  if not assigned(FileSearch) then
+  Exit;
+
+  FileSearch.check_subdir.Checked:= fSubFolders;
+  FileSearch.Results.ShowExtension:= fShowExtensions;
+  AssignColumnSettingsTo(FileSearch.Results);
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set Columns
+-------------------------------------------------------------------------------}
+function TCEFileSearchSettings.GetColumns: string;
+begin
+  Result:= ColSettingsToString(ColumnSettings);
+end;
+
+procedure TCEFileSearchSettings.SetColumns(const Value: string);
+begin
+  StringToColSettings(Value, ColumnSettings);
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Get/Set Path
+-------------------------------------------------------------------------------}
+function TCEFileSearchPageSettings.GetPath: WideString;
+begin
+  Result:= FileSearchPage.DestinationEdit.Text;
+end;
+procedure TCEFileSearchPageSettings.SetPath(const Value: WideString);
+begin
+  FileSearchPage.DestinationEdit.Text:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set SubFolder
+-------------------------------------------------------------------------------}
+function TCEFileSearchPageSettings.GetSubFolders: Boolean;
+begin
+  Result:= FileSearchPage.check_subdir.Checked;
+end;
+procedure TCEFileSearchPageSettings.SetSubFolders(const Value: Boolean);
+begin
+  FileSearchPage.check_subdir.Checked:= Value;
+end;
+
+{##############################################################################}
+
 initialization
-  TabPageClassList.RegisterClass('FileSearch', TCEFileSearchPage);
+  CEFileSearchSettings:= TCEFileSearchSettings.Create;
+  GlobalAppSettings.AddItem('FileSearch', CEFileSearchSettings, true);
+  TabPageClassList.RegisterClass('FileSearch', TCEFileSearchPage, TCEFileSearchPageSettings);
 
 finalization
-
+  FreeAndNil(CEFileSearchSettings);
+  
 end.

@@ -26,7 +26,7 @@ interface
 uses
   // CE Units
   fCE_DockableForm, CE_FilterPanel, CE_VistaFuncs, CE_GlobalCtrl,
-  fCE_FileView, dCE_Images, fCE_FileSearch, CE_SettingsIntf, CE_Settings,
+  fCE_FileView, dCE_Images, fCE_FileSearch, CE_AppSettings,
   // TB2k, TBX, SpTBX
   TB2Dock, SpTBXItem,
   // VSTools
@@ -40,7 +40,9 @@ uses
 type
   TControlHack = class(TControl);
 
-  TCE_FiltersPanel = class(TCECustomDockableForm, ICESettingsHandler)
+  TCEFiltersPanelSettings = class;
+
+  TCEFiltersPanel = class(TCECustomDockableForm)
     Images: TBitmap32List;
     FiltersPopupMenu: TSpTBXPopupMenu;
     check_resetfilters: TSpTBXItem;
@@ -49,7 +51,7 @@ type
     procedure check_resetfiltersClick(Sender: TObject);
     procedure FiltersPopupMenuPopup(Sender: TObject);
   private
-    fResetOnPathChange: Boolean;
+    fSettings: TCEFiltersPanelSettings;
   protected
     FilterBackgroundBitmap: TBitmap;
     procedure DrawFilterBitmap;
@@ -60,18 +62,29 @@ type
         stdcall;
     procedure GlobalPIDLChanged(Sender: TObject; NewPIDL: PItemIDList); override;
         stdcall;
-    procedure LoadFromStorage(Storage: ICESettingsStorage); stdcall;
-    procedure SaveToStorage(Storage: ICESettingsStorage); stdcall;
   public
-    Filters: TCEFilterPanel;
+    Filters: TCEFilterList;
     procedure DoFormHide; override;
     procedure DoFormShow; override;
-    property ResetOnPathChange: Boolean read fResetOnPathChange write
-        fResetOnPathChange;
+  published
+    property Settings: TCEFiltersPanelSettings read fSettings write fSettings;
+  end;
+
+  TCEFiltersPanelSettings = class(TPersistent)
+  private
+    fAutoResetFilters: Boolean;
+    function GetShowBkgrd: Boolean;
+    procedure SetShowBkgrd(const Value: Boolean);
+  public
+    FilterPanel: TCEFiltersPanel;
+  published
+    property AutoResetFilters: Boolean read fAutoResetFilters write
+        fAutoResetFilters;
+    property ShowBkgrd: Boolean read GetShowBkgrd write SetShowBkgrd;
   end;
 
 var
-  CEFiltersPanel: TCE_FiltersPanel;
+  CEFiltersPanel: TCEFiltersPanel;
 
 implementation
 
@@ -82,12 +95,14 @@ uses
 {*------------------------------------------------------------------------------
   Get's called on Create
 -------------------------------------------------------------------------------}
-procedure TCE_FiltersPanel.FormCreate(Sender: TObject);
+procedure TCEFiltersPanel.FormCreate(Sender: TObject);
 begin
   inherited;
+  fSettings:= TCEFiltersPanelSettings.Create;
+  fSettings.FilterPanel:= Self;
   FilterBackgroundBitmap:= TBitmap.Create;
   DrawFilterBitmap;
-  Filters:= TCEFilterPanel.Create(self);
+  Filters:= TCEFilterList.Create(self);
   Filters.Parent:= self;
   Filters.Align:= alClient;
   Filters.FilteringImage:= FilterBackgroundBitmap;
@@ -98,23 +113,24 @@ begin
   GlobalFocusCtrl.CtrlList.Add(Filters);
   TControlHack(Filters).OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
   GlobalPathCtrl.RegisterNotify(self);
-  GlobalSettings.RegisterHandler(Self);
-  fResetOnPathChange:= true;
+
+  GlobalAppSettings.AddItem('FilterPanel', fSettings, true);
 end;
 
 {*------------------------------------------------------------------------------
   Get's called on Destroy
 -------------------------------------------------------------------------------}
-procedure TCE_FiltersPanel.FormDestroy(Sender: TObject);
+procedure TCEFiltersPanel.FormDestroy(Sender: TObject);
 begin
   FilterBackgroundBitmap.Free;
+  fSettings.Free;
   inherited;
 end;
 
 {*------------------------------------------------------------------------------
   Draw filtering background image
 -------------------------------------------------------------------------------}
-procedure TCE_FiltersPanel.DrawFilterBitmap;
+procedure TCEFiltersPanel.DrawFilterBitmap;
 var
   b: TBitmap32;
 begin
@@ -134,19 +150,19 @@ end;
 {*------------------------------------------------------------------------------
   Get's called when Active page has changed
 -------------------------------------------------------------------------------}
-procedure TCE_FiltersPanel.GlobalActivePageChange(OldPage, NewPage: TComponent);
+procedure TCEFiltersPanel.GlobalActivePageChange(OldPage, NewPage: TComponent);
 begin
   if assigned(NewPage) then
   begin
     if NewPage is TCEFileViewPage then
     begin
-      if ResetOnPathChange then
+      if Settings.AutoResetFilters then
       Filters.ClearFilters;
       Filters.ExplorerEasyListview:= TCEFileViewPage(NewPage).FileView;
     end
     else if NewPage is TCEFileSearchPage then
     begin
-      if ResetOnPathChange then
+      if Settings.AutoResetFilters then
       Filters.ClearFilters;
       Filters.ExplorerEasyListview:= TCEFileSearchPage(NewPage).Results;
     end
@@ -166,7 +182,7 @@ end;
 {*------------------------------------------------------------------------------
   Get's called when global content has changed
 -------------------------------------------------------------------------------}
-procedure TCE_FiltersPanel.GlobalContentChange(Sender: TObject);
+procedure TCEFiltersPanel.GlobalContentChange(Sender: TObject);
 begin
   if Filters.Active then
   begin
@@ -178,7 +194,7 @@ end;
 {*------------------------------------------------------------------------------
   Get's called when form gets shown.
 -------------------------------------------------------------------------------}
-procedure TCE_FiltersPanel.DoFormShow;
+procedure TCEFiltersPanel.DoFormShow;
 begin
   inherited;
   Filters.Active:= true;
@@ -187,7 +203,7 @@ end;
 {*------------------------------------------------------------------------------
   Get's called when form gets hidden.
 -------------------------------------------------------------------------------}
-procedure TCE_FiltersPanel.DoFormHide;
+procedure TCEFiltersPanel.DoFormHide;
 begin
   inherited;
   // TODO: make filters deactivate when panel is hidden but not when auto hidden.
@@ -197,67 +213,51 @@ end;
 {*------------------------------------------------------------------------------
   Get's called when Global path has changed (String)
 -------------------------------------------------------------------------------}
-procedure TCE_FiltersPanel.GlobalPathChanged(Sender: TObject; NewPath:
+procedure TCEFiltersPanel.GlobalPathChanged(Sender: TObject; NewPath:
     WideString);
 begin
-  if ResetOnPathChange then
+  if Settings.AutoResetFilters then
   Filters.ClearFilters;
 end;
 
 {*------------------------------------------------------------------------------
   Get's called when Global path has changed (PIDL)
 -------------------------------------------------------------------------------}
-procedure TCE_FiltersPanel.GlobalPIDLChanged(Sender: TObject; NewPIDL:
+procedure TCEFiltersPanel.GlobalPIDLChanged(Sender: TObject; NewPIDL:
     PItemIDList);
 begin
-  if ResetOnPathChange then
+  if Settings.AutoResetFilters then
   Filters.ClearFilters;
-end;
-
-{-------------------------------------------------------------------------------
-  Load From storage
--------------------------------------------------------------------------------}
-procedure TCE_FiltersPanel.LoadFromStorage(Storage: ICESettingsStorage);
-begin
-  Storage.OpenPath('/FilterPanel');
-  try
-    // Toggles
-    Filters.ShowFilteringBackground:= Storage.ReadBoolean('ShowBkgrd', true);
-    ResetOnPathChange:= Storage.ReadBoolean('AutoResetFilters', true);
-  finally
-    Storage.ClosePath;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  Save to storage
--------------------------------------------------------------------------------}
-procedure TCE_FiltersPanel.SaveToStorage(Storage: ICESettingsStorage);
-begin
-  Storage.OpenPath('/FilterPanel');
-  try
-    // Toggles
-    Storage.WriteBoolean('ShowBkgrd', Filters.ShowFilteringBackground);
-    Storage.WriteBoolean('AutoResetFilters', ResetOnPathChange);
-  finally
-    Storage.ClosePath;
-  end;
 end;
 
 {-------------------------------------------------------------------------------
   On check_resetfilter click
 -------------------------------------------------------------------------------}
-procedure TCE_FiltersPanel.check_resetfiltersClick(Sender: TObject);
+procedure TCEFiltersPanel.check_resetfiltersClick(Sender: TObject);
 begin
-  ResetOnPathChange:= not ResetOnPathChange;
+  Settings.AutoResetFilters:= not Settings.AutoResetFilters;
 end;
 
 {-------------------------------------------------------------------------------
   On FiltersPopupMenu popup
 -------------------------------------------------------------------------------}
-procedure TCE_FiltersPanel.FiltersPopupMenuPopup(Sender: TObject);
+procedure TCEFiltersPanel.FiltersPopupMenuPopup(Sender: TObject);
 begin
-  check_resetfilters.Checked:= ResetOnPathChange;
+  check_resetfilters.Checked:= Settings.AutoResetFilters;
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Get/Set ShowBkgrd
+-------------------------------------------------------------------------------}
+function TCEFiltersPanelSettings.GetShowBkgrd: Boolean;
+begin
+  Result:= FilterPanel.Filters.ShowFilteringBackground;
+end;
+procedure TCEFiltersPanelSettings.SetShowBkgrd(const Value: Boolean);
+begin
+  FilterPanel.Filters.ShowFilteringBackground:= Value;
 end;
 
 end.

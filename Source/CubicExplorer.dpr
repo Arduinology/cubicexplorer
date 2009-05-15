@@ -74,7 +74,7 @@ uses
   CE_AddressToolbar in 'CE_AddressToolbar.pas',
   CE_FileSearch in 'CE_FileSearch.pas',
   fCE_ExtAppPage in 'fCE_ExtAppPage.pas' {CEExtAppTabPage: TFrame},
-  fCE_FiltersPanel in 'fCE_FiltersPanel.pas' {CE_FiltersPanel},
+  fCE_FiltersPanel in 'fCE_FiltersPanel.pas' {CEFiltersPanel},
   CE_FilterPanel in 'CE_FilterPanel.pas',
   fCE_BookmarkPropDlg in 'fCE_BookmarkPropDlg.pas' {BookmarkPropDlg},
   CE_FolderTree in 'CE_FolderTree.pas',
@@ -91,13 +91,10 @@ uses
   CE_LanguageUtils in 'CE_LanguageUtils.pas',
   CE_LanguageEngine in 'CE_LanguageEngine.pas',
   fCE_OptionsDialog in 'fCE_OptionsDialog.pas' {CEOptionsDialog},
-  CE_Settings in 'CE_Settings.pas',
-  CE_SettingsIntf in 'CE_SettingsIntf.pas',
-  CE_SettingsStorage in 'CE_SettingsStorage.pas',
   fCE_OptionsCustomPage in 'fCE_OptionsCustomPage.pas' {CEOptionsCustomPage: TFrame},
   fCE_OptionsPage_General in 'fCE_OptionsPage_General.pas' {CEOptionsPage_General: TFrame},
   fCE_OptionsPage_Tabs in 'fCE_OptionsPage_Tabs.pas' {CEOptionsPage_Tabs: TFrame},
-  CE_Sessions in 'CE_Sessions.pas',
+  CE_Sessions_ in 'CE_Sessions_.pas',
   fCE_SessionDlg in 'fCE_SessionDlg.pas' {CESessionEditDlg},
   fCE_OptionsPage_Display in 'fCE_OptionsPage_Display.pas' {CEOptionsPage_Display: TFrame},
   fCE_OptionsPage_Display_Bookmarks in 'fCE_OptionsPage_Display_Bookmarks.pas' {CE_OptionsPage_Display_Bookmarks: TFrame},
@@ -109,7 +106,10 @@ uses
   JvDockVSNetStyle in 'Components\jvcl\JvDockVSNetStyle.pas',
   JvDockControlForm in 'Components\jvcl\JvDockControlForm.pas',
   JvDockTree in 'Components\jvcl\JvDockTree.pas',
-  fCE_QuickViewTab in 'fCE_QuickViewTab.pas' {CEQuickViewPage: TFrame};
+  fCE_QuickViewTab in 'fCE_QuickViewTab.pas' {CEQuickViewPage: TFrame},
+  CE_AppSettings in 'CE_AppSettings.pas',
+  CE_Sessions in 'CE_Sessions.pas',
+  fCE_OptionsPage_Advanced in 'fCE_OptionsPage_Advanced.pas' {CEOptionsPage_Advanced: TFrame};
 
 {$R *.res}
 {$R 'CE_Resources.res'}
@@ -162,9 +162,6 @@ begin
   MainForm.InitializeUI;
   MainForm.BeginUIUpdate;
 
-  // Create Stack Panel
-  Application.CreateForm(TCEStackPanel, CEStackPanel);
-
   // Create Folder Panel
   CEFolderPanel:= TCEFolderPanel.Create(MainForm);
   CEFolderPanel.Name:= 'FolderPanel';
@@ -178,7 +175,7 @@ begin
   CEQuickViewPanel.Name:= 'QuickViewPanel';
 
   // Create Filters Panel
-  CEFiltersPanel:= TCE_FiltersPanel.Create(MainForm);
+  CEFiltersPanel:= TCEFiltersPanel.Create(MainForm);
   CEFiltersPanel.Name:= 'FiltersPanel';
 
   // Create DropStack Panel

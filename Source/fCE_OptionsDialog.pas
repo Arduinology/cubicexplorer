@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  fCE_OptionsCustomPage, CE_Settings, CE_LanguageEngine,
+  fCE_OptionsCustomPage, CE_LanguageEngine,
   // VirtualTree
   VirtualTrees,
   // Tnt Controls
@@ -87,8 +87,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure ApplyAll;
-    procedure LoadAll;
-    procedure SaveAll;
+    procedure RefreshAll;
     property ActivePage: TCEOptionsCustomPage read fActivePage write SetActivePage;
     property Modified: Boolean read fModified write SetModified;
   end;
@@ -139,7 +138,6 @@ procedure ShowOptionsDialog;
 var
   dlg: TCEOptionsDialog;
 begin
-  GlobalSettings.ReadGlobalSettings;
   dlg:= TCEOptionsDialog.Create(nil);
   dlg.Show;
 end;
@@ -158,7 +156,7 @@ begin
   PageTree.NodeDataSize:= SizeOf(APageData);
   PageList := TObjectList.Create(true);
   CreatePages;
-  LoadAll;
+  RefreshAll;
   Modified:= false;
   node:= FindPageNode('General');
   if assigned(node) then
@@ -184,7 +182,6 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEOptionsDialog.but_applyClick(Sender: TObject);
 begin
-  SaveAll;
   ApplyAll;
   Modified:= false;
 end;
@@ -202,7 +199,6 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEOptionsDialog.but_okClick(Sender: TObject);
 begin
-  SaveAll;
   ApplyAll;
   Modified:= false;
   Self.Close;
@@ -565,7 +561,7 @@ end;
 {-------------------------------------------------------------------------------
   Load All settings
 -------------------------------------------------------------------------------}
-procedure TCEOptionsDialog.LoadAll;
+procedure TCEOptionsDialog.RefreshAll;
 var
   i: Integer;
   page: TCEOptionsCustomPage;
@@ -573,22 +569,7 @@ begin
   for i:= 0 to PageList.Count - 1 do
   begin
     page:= TCEOptionsCustomPage(Pagelist.Items[i]);
-    page.LoadFromStorage(GlobalSettings.StorageIntf);
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  Save All settings
--------------------------------------------------------------------------------}
-procedure TCEOptionsDialog.SaveAll;
-var
-  i: Integer;
-  page: TCEOptionsCustomPage;
-begin
-  for i:= 0 to PageList.Count - 1 do
-  begin
-    page:= TCEOptionsCustomPage(Pagelist.Items[i]);
-    page.SaveToStorage(GlobalSettings.StorageIntf);
+    page.RefreshSettings;
   end;
 end;
 

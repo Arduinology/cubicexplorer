@@ -121,9 +121,9 @@ begin
       if assigned(NS) then
       begin
         if ssShift in Shift then
-        OpenFolderInTab(FolderTree, NS.AbsolutePIDL, not MainForm.TabSet.OpenTabSelect)
+        OpenFolderInTab(FolderTree, NS.AbsolutePIDL, not MainForm.TabSet.Settings.OpenTabSelect)
         else
-        OpenFolderInTab(FolderTree, NS.AbsolutePIDL, MainForm.TabSet.OpenTabSelect);
+        OpenFolderInTab(FolderTree, NS.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect);
       end;
     end;
   end;

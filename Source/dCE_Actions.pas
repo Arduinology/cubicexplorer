@@ -153,6 +153,8 @@ type
     act_gen_menu: TCEToolbarAction;
     act_navi_quickview: TTntAction;
     act_help_donate: TTntAction;
+    HiddenActionList: TTntActionList;
+    act_focus_addressbar: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -179,7 +181,7 @@ procedure ExecuteCEAction(ActionID: Integer);
 procedure UpdateCEAction(ActionID: Integer; TargetAction: TTntAction);
 
 // Action Executes
-procedure ExecuteGeneralCategory(ActionID: Integer);
+procedure ExecuteHiddenCategory(ActionID: Integer);
 procedure ExecuteEditCategory(ActionID: Integer);
 procedure ExecuteSessionsCategory(ActionID: Integer);
 procedure ExecuteTabsCategory(ActionID: Integer);
@@ -236,6 +238,9 @@ function ExecuteShortcut(Action: TAction): Boolean;
 
 function FindActionByShortcut(AActionList: TActionList; AShortcut: TShortcut;
     AOffset: Integer = -1): TAction;
+
+// Action Executes
+procedure ExecuteGeneralCategory(ActionID: Integer);
 
 var
   CEActions: TCEActions;
@@ -327,6 +332,7 @@ begin
     800..849: ExecuteBookmarksCategory(ActionID);
     850..899: ExecuteSessionsCategory(ActionID);
     900..999: ExecuteQuickOptionsCategory(ActionID);
+    1000..1100: ExecuteHiddenCategory(ActionID);
   end;
 end;
 
@@ -351,7 +357,6 @@ begin
 end;
 
 {##############################################################################}
-
 
 {*------------------------------------------------------------------------------
   File Category Execute
@@ -731,7 +736,7 @@ begin
              end;
            end;
 
-           editor:= TCETextEditorPage(MainForm.TabSet.AddTab(TCETextEditorPage, MainForm.TabSet.NewTabSelect).Page);
+           editor:= TCETextEditorPage(MainForm.TabSet.AddTab(TCETextEditorPage, MainForm.TabSet.Settings.NewTabSelect).Page);
            if (ws <> '') then
            begin
             ext:= WideUpperCase(WideExtractFileExt(ws));
@@ -749,7 +754,7 @@ begin
            GlobalFileViewSettings.AssignFromActivePage;
            if GlobalPathCtrl.ActivePage is TCEFileViewPage then
            ws:= TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.RootFolderNamespace.NameForParsing;
-           page:= TCECustomTabPage(MainForm.TabSet.AddTab(TCEFileSearchPage, MainForm.TabSet.NewTabSelect).Page);
+           page:= TCECustomTabPage(MainForm.TabSet.AddTab(TCEFileSearchPage, MainForm.TabSet.Settings.NewTabSelect).Page);
            if WideDirectoryExists(ws) then
            begin
              TCEFileSearchPage(page).DestinationEdit.Text:= ws;
@@ -781,7 +786,7 @@ begin
              end;
            end;
            
-           quickview:= TCEQuickViewPage(MainForm.TabSet.AddTab(TCEQuickViewPage, MainForm.TabSet.NewTabSelect).Page);
+           quickview:= TCEQuickViewPage(MainForm.TabSet.AddTab(TCEQuickViewPage, MainForm.TabSet.Settings.NewTabSelect).Page);
            if ws <> '' then
            quickview.OpenFile(ws);
          end;
@@ -856,7 +861,7 @@ begin
     662: MainForm.TabSet.CloseAllTabs(MainForm.TabSet.ActivePopupTab);
     663: begin
            GlobalFileViewSettings.AssignFromActivePage;
-           if MainForm.TabSet.NewTabType = 1 then // Clone active tab
+           if MainForm.TabSet.Settings.NewTabType = 1 then // Clone active tab
            begin
              if GlobalPathCtrl.ActivePage is TCEFileViewPage then
              begin
@@ -867,15 +872,15 @@ begin
              end
              else
              pidl:= nil;
-             OpenFolderInTab(nil, pidl, MainForm.TabSet.NewTabSelect, true, true);
+             OpenFolderInTab(nil, pidl, MainForm.TabSet.Settings.NewTabSelect, true, true);
            end
-           else if MainForm.TabSet.NewTabType = 3 then // Open custom path
+           else if MainForm.TabSet.Settings.NewTabType = 3 then // Open custom path
            begin
-             OpenFolderInTab(nil, MainForm.TabSet.NewTabNamespace.AbsolutePIDL, MainForm.TabSet.NewTabSelect, true, true);
+             OpenFolderInTab(nil, MainForm.TabSet.Settings.NewTabNamespace.AbsolutePIDL, MainForm.TabSet.Settings.NewTabSelect, true, true);
            end
            else // Open desktop
            begin
-             OpenFolderInTab(nil, nil, MainForm.TabSet.NewTabSelect, true, true);
+             OpenFolderInTab(nil, nil, MainForm.TabSet.Settings.NewTabSelect, true, true);
            end;
          end;
     664: begin
@@ -883,7 +888,7 @@ begin
            begin
              if MainForm.TabSet.ActivePopupTab.Page is TCEFileViewPage then
              OpenFolderInTab(MainForm.TabSet.ActivePopupTab,
-                             TCEFileViewPage(MainForm.TabSet.ActivePopupTab.Page).FileView.RootFolderNamespace.AbsolutePIDL, MainForm.TabSet.NewTabSelect, true, true);
+                             TCEFileViewPage(MainForm.TabSet.ActivePopupTab.Page).FileView.RootFolderNamespace.AbsolutePIDL, MainForm.TabSet.Settings.NewTabSelect, true, true);
            end;
          end;
     665: MainForm.TabSet.CloseTabsOnLeft(MainForm.TabSet.ActivePopupTab);
@@ -979,15 +984,16 @@ end;
 -------------------------------------------------------------------------------}
 procedure ExecuteSessionsCategory(ActionID: Integer);
 begin
-  case ActionID of
-    851: GlobalSessions.SaveToSession(GlobalSessions.ActiveSession);
-    852: NewSession;
-    853: EditSession(GlobalSessions.ActiveSession);
-    854: begin
-      if (MessageBox(0, 'Are you sure you want to delete active session?', 'Delete Session?', MB_ICONQUESTION or MB_YESNO) = idYes) then
-      GlobalSessions.DeleteSession(GlobalSessions.ActiveSession);
-    end;
-  end;
+// TODO: Session
+//  case ActionID of
+//    851: GlobalSessions.SaveToSession(GlobalSessions.ActiveSession);
+//    852: NewSession;
+//    853: EditSession(GlobalSessions.ActiveSession);
+//    854: begin
+//      if (MessageBox(0, 'Are you sure you want to delete active session?', 'Delete Session?', MB_ICONQUESTION or MB_YESNO) = idYes) then
+//      GlobalSessions.DeleteSession(GlobalSessions.ActiveSession);
+//    end;
+//  end;
 end;
 
 {*------------------------------------------------------------------------------
@@ -996,8 +1002,25 @@ end;
 procedure UpdateSessionsCategory(ActionID: Integer; TargetAction: TTntAction);
 begin
   TargetAction.Enabled:= true;
+// TODO: Session  
+//  case ActionID of
+//    854: TargetAction.Enabled:= not GlobalSessions.IsDefaultSession;
+//  end;
+end;
+
+{##############################################################################}
+
+{*------------------------------------------------------------------------------
+  Hidden Category Execute
+-------------------------------------------------------------------------------}
+procedure ExecuteHiddenCategory(ActionID: Integer);
+begin
   case ActionID of
-    854: TargetAction.Enabled:= not GlobalSessions.IsDefaultSession;
+    1001: if MainForm.AddressBarToolbar.Visible then
+          begin
+            MainForm.AddressBarToolbar.AddressBar.TextEditor.SetFocus;
+            MainForm.AddressBarToolbar.AddressBar.TextEditor.SelectAll;
+          end;
   end;
 end;
 
@@ -1300,19 +1323,10 @@ end;
 -------------------------------------------------------------------------------}
 function ExecuteShortcut(Action: TAction): Boolean;
 begin
-  Result:= false;
   if assigned(Action) then
-  begin
-    case Action.Tag of
-      // File Search tab
-      651: begin
-        if not (GlobalPathCtrl.ActivePage is TCETextEditorPage) then
-        Result:= Action.Execute;
-      end
-    else
-      Result:= Action.Execute;
-    end;
-  end;
+  Result:= Action.Execute
+  else
+  Result:= false;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1346,6 +1360,10 @@ begin
     end;
   end;
 end;
+
+{##############################################################################}
+
+
 
 {##############################################################################}
 

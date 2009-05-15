@@ -131,7 +131,8 @@ Unit Documents;
 
 // **** Quick Options (900) ***
 
-
+// **** Hidden Actions (1000) ****
+// 1001 = Focus Addressbar
 
 
 interface

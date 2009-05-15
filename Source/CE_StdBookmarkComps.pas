@@ -501,7 +501,7 @@ begin
     else if not SingleClickMode then
     begin
       if OpenBookmarkInNewTabByDefault then
-      OpenFolderInTab(nil, Namespace.AbsolutePIDL, MainForm.TabSet.OpenTabSelect)
+      OpenFolderInTab(nil, Namespace.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect)
       else
       GlobalPathCtrl.ChangeGlobalPathPIDL(Self, Namespace.AbsolutePIDL);
     end;
@@ -511,7 +511,7 @@ begin
     if SingleClickMode and Namespace.Folder and not IsSameText(Namespace.Extension,'.zip') then
     begin
       if OpenBookmarkInNewTabByDefault then
-      OpenFolderInTab(nil, Namespace.AbsolutePIDL, MainForm.TabSet.OpenTabSelect)
+      OpenFolderInTab(nil, Namespace.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect)
       else
       GlobalPathCtrl.ChangeGlobalPathPIDL(Self, Namespace.AbsolutePIDL);
     end
@@ -521,21 +521,21 @@ begin
     if OpenBookmarkInNewTabByDefault then
     GlobalPathCtrl.ChangeGlobalPathPIDL(Self, Namespace.AbsolutePIDL)
     else
-    OpenFolderInTab(nil, Namespace.AbsolutePIDL, MainForm.TabSet.OpenTabSelect);
+    OpenFolderInTab(nil, Namespace.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect);
   end
   else if (Shift = [ssMiddle]) then
   begin
     if Namespace.Folder and not IsSameText(Namespace.Extension,'.zip') then
-    OpenFolderInTab(nil, Namespace.AbsolutePIDL, MainForm.TabSet.OpenTabSelect)
+    OpenFolderInTab(nil, Namespace.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect)
     else
-    OpenFileInTab(Namespace.NameForParsing, MainForm.TabSet.OpenTabSelect);
+    OpenFileInTab(Namespace.NameForParsing, MainForm.TabSet.Settings.OpenTabSelect);
   end
   else if (Shift = [ssShift,ssMiddle]) or (Shift = [ssShift,ssAlt,ssLeft]) then
   begin
-    if Namespace.Folder and not IsSameText(Namespace.Extension,'.zip') then 
-    OpenFolderInTab(nil, Namespace.AbsolutePIDL, not MainForm.TabSet.OpenTabSelect)
+    if Namespace.Folder and not IsSameText(Namespace.Extension,'.zip') then
+    OpenFolderInTab(nil, Namespace.AbsolutePIDL, not MainForm.TabSet.Settings.OpenTabSelect)
     else
-    OpenFileInTab(Namespace.NameForParsing, not MainForm.TabSet.OpenTabSelect);
+    OpenFileInTab(Namespace.NameForParsing, not MainForm.TabSet.Settings.OpenTabSelect);
   end;
 end;
 

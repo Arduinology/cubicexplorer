@@ -26,7 +26,7 @@ interface
 uses
   // CE Units
   fCE_DockableForm, CE_DropStack, CE_GlobalCtrl, dCE_Images, CE_VistaFuncs,
-  CE_SettingsIntf, CE_Settings,
+  CE_AppSettings,
   // SpTBX
   TB2Dock, SpTBXItem, 
   // VSTools
@@ -38,7 +38,9 @@ uses
 type
   TControlHack = class(TControl);
 
-  TCEStackPanel = class(TCECustomDockableForm, ICESettingsHandler)
+  TCEStackPanelSettings = class;
+
+  TCEStackPanel = class(TCECustomDockableForm)
     DropStackPopup: TSpTBXPopupMenu;
     but_clearlist: TSpTBXItem;
     SpTBXSubmenuItem1: TSpTBXSubmenuItem;
@@ -55,11 +57,21 @@ type
     procedure DropStackPopupPopup(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
+    fSettings: TCEStackPanelSettings;
     { Private declarations }
   public
     DropStack: TCEDropStack;
-    procedure LoadFromStorage(Storage: ICESettingsStorage); stdcall;
-    procedure SaveToStorage(Storage: ICESettingsStorage); stdcall;
+    property Settings: TCEStackPanelSettings read fSettings write fSettings;
+  end;
+
+  TCEStackPanelSettings = class(TPersistent)
+  private
+    function GetViewStyle: TEasyListStyle;
+    procedure SetViewStyle(const Value: TEasyListStyle);
+  public
+    StackPanel: TCEStackPanel;
+  published
+    property ViewStyle: TEasyListStyle read GetViewStyle write SetViewStyle;
   end;
 
 var
@@ -75,6 +87,8 @@ implementation
 procedure TCEStackPanel.FormCreate(Sender: TObject);
 begin
   inherited;
+  fSettings:= TCEStackPanelSettings.Create;
+  fSettings.StackPanel:= Self;
   DropStack:= TCEDropStack.Create(self);
   DropStack.Parent:= Self;
   DropStack.Align:= alClient;
@@ -89,7 +103,8 @@ begin
   Caption:= 'Drop Stack';
   GlobalFocusCtrl.CtrlList.Add(DropStack);
   TControlHack(DropStack).OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
-  GlobalSettings.RegisterHandler(self);
+
+  GlobalAppSettings.AddItem('StackPanel', fSettings, true);
 end;
 
 {-------------------------------------------------------------------------------
@@ -97,7 +112,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEStackPanel.FormDestroy(Sender: TObject);
 begin
-  GlobalSettings.UnRegisterHandler(Self);
+  fSettings.Free;
   inherited;
 end;
 
@@ -139,30 +154,18 @@ begin
   DropStack.Items.Clear;
 end;
 
-{-------------------------------------------------------------------------------
-  Load Settings
--------------------------------------------------------------------------------}
-procedure TCEStackPanel.LoadFromStorage(Storage: ICESettingsStorage);
-begin
-  Storage.OpenPath('StackPanel');
-  try
-    DropStack.View:= TEasyListStyle(Storage.ReadInteger('ViewStyle', 2));
-  finally
-    Storage.ClosePath;
-  end;
-end;
+{##############################################################################}
 
 {-------------------------------------------------------------------------------
-  Save Settings
+  Get/Set ViewStyle
 -------------------------------------------------------------------------------}
-procedure TCEStackPanel.SaveToStorage(Storage: ICESettingsStorage);
+function TCEStackPanelSettings.GetViewStyle: TEasyListStyle;
 begin
-  Storage.OpenPath('StackPanel');
-  try
-    Storage.WriteInteger('ViewStyle', Ord(DropStack.View));
-  finally
-    Storage.ClosePath;
-  end;
+  Result:= StackPanel.DropStack.View;
+end;
+procedure TCEStackPanelSettings.SetViewStyle(const Value: TEasyListStyle);
+begin
+  StackPanel.DropStack.View:= Value;
 end;
 
 end.

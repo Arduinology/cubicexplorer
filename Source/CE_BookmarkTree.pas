@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  CE_Bookmarks, CE_VistaFuncs, CE_SettingsIntf, CE_SpTabBar, CE_Utils,
+  CE_Bookmarks, CE_VistaFuncs, CE_SpTabBar, CE_Utils,
   // JVCL
   JvSimpleXml, JvAppStorage,
   // VSTools

@@ -110,8 +110,8 @@ begin
   inherited;
   if assigned(Namespace) then
   begin
-    if CEFolderPanel.NewTabByDefault then
-    OpenFolderInTab(self, Namespace.AbsolutePIDL, MainForm.TabSet.OpenTabSelect)
+    if CEFolderPanel.Settings.OpenInNewTab then
+    OpenFolderInTab(self, Namespace.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect)
     else
     GlobalPathCtrl.ChangeGlobalPathPIDL(self.Owner,Namespace.AbsolutePIDL);
   end;
@@ -216,7 +216,7 @@ begin
     begin
       shitem:= TCEShellToolbarItem(Item);
       if assigned(shitem.Namespace) then
-      OpenFolderInTab(self,shitem.Namespace.AbsolutePIDL, MainForm.TabSet.OpenTabSelect);
+      OpenFolderInTab(self,shitem.Namespace.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect);
     end;
   end
   else if Button = mbRight then

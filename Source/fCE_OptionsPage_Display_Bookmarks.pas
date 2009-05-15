@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  fCE_OptionsDialog, fCE_OptionsCustomPage, CE_SettingsIntf, fCE_BookmarkPanel,
+  fCE_OptionsDialog, fCE_OptionsCustomPage, fCE_BookmarkPanel,
   CE_LanguageEngine, CE_StdBookmarkComps,
   // Tnt
   TntStdCtrls,
@@ -39,14 +39,13 @@ type
     check_autocollapse: TTntCheckBox;
     check_singleclick: TTntCheckBox;
     check_newtabdefault: TTntCheckBox;
-    procedure HandleChange(Sender: TObject);
   private
     { Private declarations }
+  protected
   public
     constructor Create(AOwner: TComponent); override;
     procedure ApplySettings; override;
-    procedure LoadFromStorage(Storage: ICESettingsStorage); override; stdcall;
-    procedure SaveToStorage(Storage: ICESettingsStorage); override; stdcall;
+    procedure RefreshSettings; override;
     { Public declarations }
   end;
 
@@ -75,49 +74,22 @@ end;
 procedure TCE_OptionsPage_Display_Bookmarks.ApplySettings;
 begin
   // Toggles
-  CEBookmarkPanel.BookmarkTree.AutoExpand:= check_autoexpand.Checked;
-  CEBookmarkPanel.BookmarkTree.AutoCollapse:= check_autocollapse.Checked;
-  CEBookmarkPanel.BookmarkTree.SingleClickMode:= check_singleclick.Checked;
-  OpenBookmarkInNewTabByDefault:= check_newtabdefault.Checked;
+  CEBookmarkPanel.Settings.AutoExpand:= check_autoexpand.Checked;
+  CEBookmarkPanel.Settings.AutoCollapse:= check_autocollapse.Checked;
+  CEBookmarkPanel.Settings.SingleClickMode:= check_singleclick.Checked;
+  CEBookmarkPanel.Settings.OpenInNewTab:= check_newtabdefault.Checked;
 end;
 
 {-------------------------------------------------------------------------------
-  Handle changes
+  Refresh Settings
 -------------------------------------------------------------------------------}
-procedure TCE_OptionsPage_Display_Bookmarks.HandleChange(Sender: TObject);
-begin
-  inherited;
-end;
-
-{-------------------------------------------------------------------------------
-  Load From Storage
--------------------------------------------------------------------------------}
-procedure TCE_OptionsPage_Display_Bookmarks.LoadFromStorage(Storage:
-    ICESettingsStorage);
-begin
-  Storage.OpenPath('/BookmarksPanel');
-  try
-    // Toggles
-    check_autoexpand.Checked:= Storage.ReadBoolean('AutoExpand', CEBookmarkPanel.BookmarkTree.AutoExpand);
-    check_autocollapse.Checked:= Storage.ReadBoolean('AutoCollapse', CEBookmarkPanel.BookmarkTree.AutoCollapse);
-    check_singleclick.Checked:= Storage.ReadBoolean('SingleClickMode', CEBookmarkPanel.BookmarkTree.SingleClickMode);
-    check_newtabdefault.Checked:= Storage.ReadBoolean('OpenInNewTab', OpenBookmarkInNewTabByDefault);
-  finally
-    Storage.ClosePath;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  Save To Storage
--------------------------------------------------------------------------------}
-procedure TCE_OptionsPage_Display_Bookmarks.SaveToStorage(Storage:
-    ICESettingsStorage);
+procedure TCE_OptionsPage_Display_Bookmarks.RefreshSettings;
 begin
   // Toggles
-  Storage.WriteBoolean('/BookmarksPanel/AutoExpand', check_autoexpand.Checked);
-  Storage.WriteBoolean('/BookmarksPanel/AutoCollapse', check_autocollapse.Checked);
-  Storage.WriteBoolean('/BookmarksPanel/SingleClickMode', check_singleclick.Checked);
-  Storage.WriteBoolean('/BookmarksPanel/OpenInNewTab', check_newtabdefault.Checked);
+  check_autoexpand.Checked:= CEBookmarkPanel.Settings.AutoExpand;
+  check_autocollapse.Checked:= CEBookmarkPanel.Settings.AutoCollapse;
+  check_singleclick.Checked:= CEBookmarkPanel.Settings.SingleClickMode;
+  check_newtabdefault.Checked:= CEBookmarkPanel.Settings.OpenInNewTab;
 end;
 
 {##############################################################################}

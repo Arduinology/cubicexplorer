@@ -25,14 +25,14 @@ interface
 
 uses
   // CE Units
-  CE_SettingsIntf,
+
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, 
   Dialogs;
 
 type
   TCEOptionsCustomPageClass = class of TCEOptionsCustomPage;
-  TCEOptionsCustomPage = class(TFrame, ICESettingsHandler)
+  TCEOptionsCustomPage = class(TFrame)
     procedure HandleChange(Sender: TObject);
   private
     fOptionsDialog: TForm;
@@ -43,8 +43,7 @@ type
     fPageTitle: WideString;
   public
     procedure ApplySettings; virtual;
-    procedure LoadFromStorage(Storage: ICESettingsStorage); virtual; stdcall;
-    procedure SaveToStorage(Storage: ICESettingsStorage); virtual; stdcall;
+    procedure RefreshSettings; virtual;
     procedure SetModified;
     property ImageIndex: Integer read fImageIndex write fImageIndex;
     property OptionsDialog: TForm read fOptionsDialog write fOptionsDialog;
@@ -77,17 +76,9 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Load From Storage
+  Refresh Settings
 -------------------------------------------------------------------------------}
-procedure TCEOptionsCustomPage.LoadFromStorage(Storage: ICESettingsStorage);
-begin
-  // Override from descendant
-end;
-
-{-------------------------------------------------------------------------------
-  Save To Storage
--------------------------------------------------------------------------------}
-procedure TCEOptionsCustomPage.SaveToStorage(Storage: ICESettingsStorage);
+procedure TCEOptionsCustomPage.RefreshSettings;
 begin
   // Override from descendant
 end;

@@ -1,4 +1,4 @@
-inherited CE_FiltersPanel: TCE_FiltersPanel
+inherited CEFiltersPanel: TCEFiltersPanel
   Caption = 'Filters'
   OnCreate = FormCreate
   OnDestroy = FormDestroy

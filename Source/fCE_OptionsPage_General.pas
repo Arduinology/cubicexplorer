@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  fCE_OptionsDialog, fCE_OptionsCustomPage, CE_SettingsIntf, CE_LanguageEngine,
+  fCE_OptionsDialog, fCE_OptionsCustomPage, CE_LanguageEngine,
   // Tnt
   TntStdCtrls,
   // System Units
@@ -35,14 +35,12 @@ uses
 type
   TCEOptionsPage_General = class(TCEOptionsCustomPage)
     check_singleinstance: TTntCheckBox;
-    procedure HandleChange(Sender: TObject);
   private
     { Private declarations }
   public
     constructor Create(AOwner: TComponent); override;
     procedure ApplySettings; override;
-    procedure LoadFromStorage(Storage: ICESettingsStorage); override; stdcall;
-    procedure SaveToStorage(Storage: ICESettingsStorage); override; stdcall;
+    procedure RefreshSettings; override;
     { Public declarations }
   end;
 
@@ -66,37 +64,19 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  HandleChange
--------------------------------------------------------------------------------}
-procedure TCEOptionsPage_General.HandleChange(Sender: TObject);
-begin
-  inherited;
-end;
-
-{-------------------------------------------------------------------------------
   Apply Settings
 -------------------------------------------------------------------------------}
 procedure TCEOptionsPage_General.ApplySettings;
 begin
-  MainForm.SingleInstance:= check_singleinstance.Checked;
+  MainForm.Settings.SingleInstance:= check_singleinstance.Checked;
 end;
 
 {-------------------------------------------------------------------------------
-  Load From Storage
+  Refresh Settings
 -------------------------------------------------------------------------------}
-procedure TCEOptionsPage_General.LoadFromStorage(Storage: ICESettingsStorage);
+procedure TCEOptionsPage_General.RefreshSettings;
 begin
-  // Toggles
-  check_singleinstance.Checked:= Storage.ReadBoolean('/MainForm/SingleInstance', MainForm.SingleInstance);
-end;
-
-{-------------------------------------------------------------------------------
-  Save To Storage
--------------------------------------------------------------------------------}
-procedure TCEOptionsPage_General.SaveToStorage(Storage: ICESettingsStorage);
-begin
-  // Toggles
-  Storage.WriteBoolean('/MainForm/SingleInstance', check_singleinstance.Checked);
+  check_singleinstance.Checked:= MainForm.Settings.SingleInstance;
 end;
 
 {##############################################################################}

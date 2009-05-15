@@ -29,10 +29,11 @@ uses
   CE_CommonObjects,
   // Tnt
   TntStdCtrls, TntFileCtrl,
+  // VSTools
+  MPShellUtilities,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, StdCtrls, CE_SettingsIntf, MPShellUtilities, ShlObj,
-  StrUtils;
+  Dialogs, ExtCtrls, StdCtrls, ShlObj, StrUtils;
 
 type
   TCEOptionsPage_Tabs = class(TCEOptionsCustomPage)
@@ -47,7 +48,6 @@ type
     check_reusetabs_switch: TTntCheckBox;
     procedure radio_newtab_1Click(Sender: TObject);
     procedure but_newtabClick(Sender: TObject);
-    procedure HandleChange(Sender: TObject);
   private
     fNewTabNamespace: TNamespace;
     { Private declarations }
@@ -55,8 +55,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure ApplySettings; override;
-    procedure LoadFromStorage(Storage: ICESettingsStorage); override; stdcall;
-    procedure SaveToStorage(Storage: ICESettingsStorage); override; stdcall;
+    procedure RefreshSettings; override;
     { Public declarations }
   end;
 
@@ -98,11 +97,11 @@ var
   pidl: PItemIDList;
 begin
   if radio_newtab_2.Checked then
-  MainForm.TabSet.NewTabType:= 2
+  MainForm.TabSet.Settings.NewTabType:= 2
   else if radio_newtab_3.Checked then
-  MainForm.TabSet.NewTabType:= 3
+  MainForm.TabSet.Settings.NewTabType:= 3
   else
-  MainForm.TabSet.NewTabType:= 1;
+  MainForm.TabSet.Settings.NewTabType:= 1;
 
   if assigned(fNewTabNamespace) then
   begin
@@ -120,11 +119,11 @@ begin
   else
   new_path:= '';
   
-  MainForm.TabSet.NewTabPath:= new_path;
+  MainForm.TabSet.Settings.NewTabPath:= new_path;
 
-  MainForm.TabSet.NewTabSelect:= check_newtab_switch.Checked;
-  MainForm.TabSet.OpenTabSelect:= check_opentab_switch.Checked;
-  MainForm.TabSet.ReuseTabs:= check_reusetabs_switch.Checked;
+  MainForm.TabSet.Settings.NewTabSelect:= check_newtab_switch.Checked;
+  MainForm.TabSet.Settings.OpenTabSelect:= check_opentab_switch.Checked;
+  MainForm.TabSet.Settings.ReuseTabs:= check_reusetabs_switch.Checked;
 end;
 
 {-------------------------------------------------------------------------------
@@ -155,24 +154,16 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Handle Change
+  Refresh Settings
 -------------------------------------------------------------------------------}
-procedure TCEOptionsPage_Tabs.HandleChange(Sender: TObject);
-begin
-  inherited;
-end;
-
-{-------------------------------------------------------------------------------
-  Load From Storage
--------------------------------------------------------------------------------}
-procedure TCEOptionsPage_Tabs.LoadFromStorage(Storage: ICESettingsStorage);
+procedure TCEOptionsPage_Tabs.RefreshSettings;
 var
   ws: WideString;
   pidl: PItemIDList;
   i: Integer;
 begin
   // New tab type
-  i:= Storage.ReadInteger('/Tabs/NewTabType', 1);
+  i:= MainForm.TabSet.Settings.NewTabType;
   case i of
     2: radio_newtab_2.Checked:= true;
     3: radio_newtab_3.Checked:= true;
@@ -180,7 +171,7 @@ begin
     radio_newtab_1.Checked:= true;
   end;
   // New tab custom path
-  ws:= Storage.ReadString('/Tabs/NewTabPath', '');
+  ws:= MainForm.TabSet.Settings.NewTabPath;
   if assigned(fNewTabNamespace) then
   FreeAndNil(fNewTabNamespace);
 
@@ -199,53 +190,11 @@ begin
   edit_newtab.Text:= fNewTabNamespace.NameAddressbar;
 
   // Switch to new tab
-  check_newtab_switch.Checked:= Storage.ReadBoolean('/Tabs/NewTabSelect', true);
+  check_newtab_switch.Checked:= MainForm.TabSet.Settings.NewTabSelect;
   // Switch to opened tab
-  check_opentab_switch.Checked:= Storage.ReadBoolean('/Tabs/OpenTabSelect', false);
+  check_opentab_switch.Checked:= MainForm.TabSet.Settings.OpenTabSelect;
   // Switch to reuse tab
-  check_reusetabs_switch.Checked:= Storage.ReadBoolean('/Tabs/ReuseTabs', false);
-end;
-
-{-------------------------------------------------------------------------------
-  Save To Storage
--------------------------------------------------------------------------------}
-procedure TCEOptionsPage_Tabs.SaveToStorage(Storage: ICESettingsStorage);
-var
-  i: Integer;
-  new_path: WideString;
-  pidl: PItemIDList;
-begin
-  // New tab type
-  if radio_newtab_2.Checked then
-  i:= 2
-  else if radio_newtab_3.Checked then
-  i:= 3
-  else
-  i:= 1;
-  Storage.WriteInteger('/Tabs/NewTabType', i);
-  // New tab custom path
-  if assigned(fNewTabNamespace) then
-  begin
-    if CE_SpecialNamespaces.GetSpecialID(fNewTabNamespace.AbsolutePIDL) > -1 then
-    pidl:= nil
-    else
-    pidl:= PathToPIDL(fNewTabNamespace.NameForParsing);
-
-    if not assigned(pidl) then
-    new_path:= 'PIDL:' + SavePIDLToMime(fNewTabNamespace.AbsolutePIDL)
-    else
-    new_path:= fNewTabNamespace.NameForParsing;
-    PIDLMgr.FreePIDL(pidl);
-  end
-  else
-  new_path:= '';
-  Storage.WriteString('/Tabs/NewTabPath', new_path);
-  // Switch to new tab
-  Storage.WriteBoolean('/Tabs/NewTabSelect', check_newtab_switch.Checked);
-  // Switch to open tab
-  Storage.WriteBoolean('/Tabs/OpenTabSelect', check_opentab_switch.Checked);
-  // Switch to reuse tab
-  Storage.WriteBoolean('/Tabs/ReuseTabs', check_reusetabs_switch.Checked);
+  check_reusetabs_switch.Checked:= MainForm.TabSet.Settings.ReuseTabs;
 end;
 
 {##############################################################################}

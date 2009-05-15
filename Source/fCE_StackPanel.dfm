@@ -9,11 +9,11 @@ inherited CEStackPanel: TCEStackPanel
   TextHeight = 13
   inherited TopDock: TSpTBXDock
     Width = 422
-    ExplicitWidth = 425
+    ExplicitWidth = 422
   end
   inherited BottomDock: TSpTBXDock
     Width = 422
-    ExplicitWidth = 425
+    ExplicitWidth = 422
   end
   object DropStackPopup: TSpTBXPopupMenu
     OnPopup = DropStackPopupPopup

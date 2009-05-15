@@ -629,4 +629,15 @@ object CEActions: TCEActions
       Action = act_edit_properties
     end
   end
+  object HiddenActionList: TTntActionList
+    Left = 216
+    Top = 128
+    object act_focus_addressbar: TTntAction
+      Tag = 1001
+      Category = 'Focus'
+      Caption = 'Focus Addressbar'
+      ShortCut = 32836
+      OnExecute = ActionExecute
+    end
+  end
 end

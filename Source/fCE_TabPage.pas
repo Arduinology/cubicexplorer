@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  CE_GlobalCtrl, CE_VistaFuncs, CE_SettingsIntf,
+  CE_GlobalCtrl, CE_VistaFuncs,
   // SpTBX
   SpTBXTabs,
   // System Units
@@ -33,19 +33,23 @@ uses
   Dialogs, ShlObj, Contnrs, ActnList;
 
 type
+  TCECustomTabPageSettings = class(TPersistent);
+  TCECustomTabPageSettingsClass = class of TCECustomTabPageSettings;
+
   TCECustomTabPageClass = class of TCECustomTabPage;
-  TCECustomTabPage = class(TFrame, ICEPathChangeHandler, ICESettingsHandler)
+  TCECustomTabPage = class(TFrame, ICEPathChangeHandler)
   private
     fActive: Boolean;
     fImageIndex: Integer;
     fImages: TImageList;
     fLayout: String;
+    fSettings: TCECustomTabPageSettings;
     fTabCaption: WideString;
-    procedure SetPageActionList(const Value: TActionList);
     procedure SetTabCaption(const Value: WideString);
   protected
     fTabItem: TSpTBXTabItem;
     function GetPageActionList: TActionList; virtual;
+    function GetSettingsClass: TCECustomTabPageSettingsClass; virtual;
     procedure GlobalActivePageChange(OldPage, NewPage: TComponent); virtual;
         stdcall;
     procedure GlobalContentChange(Sender: TObject); virtual; stdcall;
@@ -60,8 +64,6 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure HidePage; virtual;
-    procedure LoadFromStorage(Storage: ICESettingsStorage); virtual; stdcall;
-    procedure SaveToStorage(Storage: ICESettingsStorage); virtual; stdcall;
     procedure SelectPage; virtual;
     function TabClosing: Boolean; virtual;
     procedure UpdateCaption; virtual;
@@ -69,30 +71,35 @@ type
     property ImageIndex: Integer read fImageIndex write fImageIndex;
     property Images: TImageList read fImages write fImages;
     property Layout: String read fLayout write fLayout;
-    property PageActionList: TActionList read GetPageActionList write
-        SetPageActionList;
+    property PageActionList: TActionList read GetPageActionList;
     property TabCaption: WideString read fTabCaption write SetTabCaption;
     property TabItem: TSpTBXTabItem read fTabItem;
+  published
+    property Settings: TCECustomTabPageSettings read fSettings write fSettings;
   end;
 
-  TCEClassList = class(TObject)
+  TCETabClassList = class(TObject)
+  private
   protected
     ClassList: TClassList;
     NameList: TStrings;
+    SettingsList: TClassList;
   public
     constructor Create;
     destructor Destroy; override;
     procedure Clear;
     function GetClass(AName: String): TCECustomTabPageClass;
     function GetName(AClass: TCECustomTabPageClass): string;
-    procedure RegisterClass(AName: String; AClass: TCECustomTabPageClass);
+    function GetSettings(AName: String): TCECustomTabPageSettingsClass;
+    procedure RegisterClass(AName: String; AClass: TCECustomTabPageClass;
+        ASettings: TCECustomTabPageSettingsClass);
     procedure UnRegisterClass(AClass: TCECustomTabPageClass);
   end;
 
-function TabPageClassList: TCEClassList;
+function TabPageClassList: TCETabClassList;
 
 var
-  fTabPageClassList: TCEClassList;
+  fTabPageClassList: TCETabClassList;
 
 implementation
 
@@ -101,10 +108,10 @@ implementation
 {-------------------------------------------------------------------------------
   Get TabPageClassList
 -------------------------------------------------------------------------------}
-function TabPageClassList: TCEClassList;
+function TabPageClassList: TCETabClassList;
 begin
   if fTabPageClassList = nil then
-  fTabPageClassList:= TCEClassList.Create;
+  fTabPageClassList:= TCETabClassList.Create;
   Result:= fTabPageClassList;
 end;
 
@@ -117,6 +124,7 @@ constructor TCECustomTabPage.Create(AOwner: TComponent);
 begin
   inherited;
   SetVistaFont(Font);
+  fSettings:= GetSettingsClass.Create;
   fImageIndex:= -1;
   fActive:= false;
   Layout:= 'CustomPage';
@@ -127,6 +135,7 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCECustomTabPage.Destroy;
 begin
+  fSettings.Free;
   inherited;
 end;
 
@@ -136,6 +145,15 @@ end;
 function TCECustomTabPage.GetPageActionList: TActionList;
 begin
   Result:= nil;
+  // Override from descendant
+end;
+
+{-------------------------------------------------------------------------------
+  Get Settings Class
+-------------------------------------------------------------------------------}
+function TCECustomTabPage.GetSettingsClass: TCECustomTabPageSettingsClass;
+begin
+  Result:= TCECustomTabPageSettings;
   // Override from descendant
 end;
 
@@ -191,22 +209,6 @@ begin
   Visible:= false;
 end;
 
-{-------------------------------------------------------------------------------
-  Load From Storage
--------------------------------------------------------------------------------}
-procedure TCECustomTabPage.LoadFromStorage(Storage: ICESettingsStorage);
-begin
-  // Override from descendant
-end;
-
-{-------------------------------------------------------------------------------
-  Save to Storage
--------------------------------------------------------------------------------}
-procedure TCECustomTabPage.SaveToStorage(Storage: ICESettingsStorage);
-begin
-  // Override from descendant
-end;
-
 {*------------------------------------------------------------------------------
   Select page
 -------------------------------------------------------------------------------}
@@ -221,11 +223,6 @@ end;
 procedure TCECustomTabPage.SetActive(const Value: Boolean);
 begin
   fActive:= Value;
-end;
-
-procedure TCECustomTabPage.SetPageActionList(const Value: TActionList);
-begin
-
 end;
 
 {*------------------------------------------------------------------------------
@@ -257,21 +254,23 @@ end;
 {##############################################################################}
 
 {-------------------------------------------------------------------------------
-  Create an instance of TCEClassList
+  Create an instance of TCETabClassList
 -------------------------------------------------------------------------------}
-constructor TCEClassList.Create;
+constructor TCETabClassList.Create;
 begin
   inherited;
   ClassList:= TClassList.Create;
+  SettingsList:= TClassList.Create;
   NameList:= TStringList.Create;
 end;
 
 {-------------------------------------------------------------------------------
-  Destroy TCEClassList
+  Destroy TCETabClassList
 -------------------------------------------------------------------------------}
-destructor TCEClassList.Destroy;
+destructor TCETabClassList.Destroy;
 begin
   ClassList.Free;
+  SettingsList.Free;
   NameList.Free;
   inherited;
 end;
@@ -279,16 +278,17 @@ end;
 {-------------------------------------------------------------------------------
   Clear
 -------------------------------------------------------------------------------}
-procedure TCEClassList.Clear;
+procedure TCETabClassList.Clear;
 begin
   ClassList.Clear;
+  SettingsList.Clear;
   NameList.Clear;
 end;
 
 {-------------------------------------------------------------------------------
   Get Class
 -------------------------------------------------------------------------------}
-function TCEClassList.GetClass(AName: String): TCECustomTabPageClass;
+function TCETabClassList.GetClass(AName: String): TCECustomTabPageClass;
 var
   i: Integer;
 begin
@@ -302,7 +302,7 @@ end;
 {-------------------------------------------------------------------------------
   Get Name
 -------------------------------------------------------------------------------}
-function TCEClassList.GetName(AClass: TCECustomTabPageClass): string;
+function TCETabClassList.GetName(AClass: TCECustomTabPageClass): string;
 var
   i: Integer;
 begin
@@ -314,19 +314,34 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  RegisterClass
+  Get Settings
 -------------------------------------------------------------------------------}
-procedure TCEClassList.RegisterClass(AName: String; AClass:
-    TCECustomTabPageClass);
+function TCETabClassList.GetSettings(AName: String): TCECustomTabPageSettingsClass;
+var
+  i: Integer;
 begin
-  NameList.Add(AName);
-  ClassList.Add(AClass);
+  i:= NameList.IndexOf(AName);
+  if i > -1 then
+  Result:= TCECustomTabPageSettingsClass(SettingsList.Items[i])
+  else
+  Result:= nil;
 end;
 
 {-------------------------------------------------------------------------------
   RegisterClass
 -------------------------------------------------------------------------------}
-procedure TCEClassList.UnRegisterClass(AClass: TCECustomTabPageClass);
+procedure TCETabClassList.RegisterClass(AName: String; AClass:
+    TCECustomTabPageClass; ASettings: TCECustomTabPageSettingsClass);
+begin
+  NameList.Add(AName);
+  ClassList.Add(AClass);
+  SettingsList.Add(ASettings);
+end;
+
+{-------------------------------------------------------------------------------
+  RegisterClass
+-------------------------------------------------------------------------------}
+procedure TCETabClassList.UnRegisterClass(AClass: TCECustomTabPageClass);
 var
   i: Integer;
 begin
@@ -334,6 +349,7 @@ begin
   if i > -1 then
   begin
     ClassList.Delete(i);
+    SettingsList.Delete(i);
     NameList.Delete(i);
   end;
 end;
@@ -343,6 +359,7 @@ end;
 initialization
 
 finalization
+  if assigned(fTabPageClassList) then
   FreeAndNil(fTabPageClassList);
 
 end.

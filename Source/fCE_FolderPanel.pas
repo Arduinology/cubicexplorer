@@ -26,7 +26,7 @@ interface
 uses
   // CE Units
   fCE_DockableForm, CE_GlobalCtrl, dCE_Images, CE_VistaFuncs, CE_FolderTree,
-  CE_SettingsIntf, CE_Settings,
+  CE_AppSettings,
   // VSTools
   VirtualTrees, VirtualExplorerTree, MPCommonUtilities, MPShellUtilities,
   VirtualShellNotifier,
@@ -40,12 +40,14 @@ uses
 
 type
   TControlHack = class(TControl);
+
+  TCEFolderPanelSettings = class;
   
-  TCEFolderPanel = class(TCECustomDockableForm, ICESettingsHandler)
+  TCEFolderPanel = class(TCECustomDockableForm)
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
-    fNewTabByDefault: Boolean;
+    fSettings: TCEFolderPanelSettings;
   protected
     procedure FolderTreeSelectedChange(Node: PVirtualNode);
 
@@ -61,12 +63,25 @@ type
         stdcall;
   public
     FolderTree: TCEFolderTree;
-    procedure LoadFromStorage(Storage: ICESettingsStorage); stdcall;
     procedure OnEdited(Sender: TBaseVirtualTree; Node: PVirtualNode; Column:
         TColumnIndex);
-    procedure SaveToStorage(Storage: ICESettingsStorage); stdcall;
   published
-    property NewTabByDefault: Boolean read fNewTabByDefault write fNewTabByDefault;
+    property Settings: TCEFolderPanelSettings read fSettings write fSettings;
+  end;
+
+  TCEFolderPanelSettings = class(TPersistent)
+  private
+    fOpenInNewTab: Boolean;
+    function GetAutoCollapse: Boolean;
+    function GetAutoExpand: Boolean;
+    procedure SetAutoCollapse(const Value: Boolean);
+    procedure SetAutoExpand(const Value: Boolean);
+  public
+    FolderPanel: TCEFolderPanel;
+  published
+    property AutoCollapse: Boolean read GetAutoCollapse write SetAutoCollapse;
+    property AutoExpand: Boolean read GetAutoExpand write SetAutoExpand;
+    property OpenInNewTab: Boolean read fOpenInNewTab write fOpenInNewTab;
   end;
 
 var
@@ -85,6 +100,8 @@ uses
 procedure TCEFolderPanel.FormCreate(Sender: TObject);
 begin
   inherited;
+  fSettings:= TCEFolderPanelSettings.Create;
+  fSettings.FolderPanel:= self;
   FolderTree:= TCEFolderTree.Create(self);
   FolderTree.Parent:= Self;
   FolderTree.Align:= alClient;
@@ -110,9 +127,8 @@ begin
   ImageIndex:= 28;
   GlobalFocusCtrl.CtrlList.Add(FolderTree);
   TControlHack(FolderTree).OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
-  GlobalSettings.RegisterHandler(self);
 
-  fNewTabByDefault:= false;
+  GlobalAppSettings.AddItem('FolderPanel', Settings, true);
 end;
 
 {-------------------------------------------------------------------------------
@@ -120,7 +136,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFolderPanel.FormDestroy(Sender: TObject);
 begin
-  GlobalSettings.UnRegisterHandler(Self);
+  fSettings.Free;
   inherited;
 end;
 
@@ -133,8 +149,8 @@ var
 begin
   if FolderTree.ValidateNamespace(Node, NS) then
   begin
-    if NewTabByDefault then
-    OpenFolderInTab(FolderTree, NS.AbsolutePIDL, MainForm.TabSet.OpenTabSelect)
+    if Settings.OpenInNewTab then
+    OpenFolderInTab(FolderTree, NS.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect)
     else
     GlobalPathCtrl.ChangeGlobalPathPIDL(Self, NS.AbsolutePIDL);
   end;
@@ -187,17 +203,17 @@ begin
       begin
         if (Shift = [ssLeft, ssAlt]) then
         begin
-          if fNewTabByDefault then
+          if Settings.OpenInNewTab then
           GlobalPathCtrl.ChangeGlobalPathPIDL(Self, NS.AbsolutePIDL)
           else
-          OpenFolderInTab(FolderTree, NS.AbsolutePIDL, MainForm.TabSet.OpenTabSelect);
+          OpenFolderInTab(FolderTree, NS.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect);
         end
         else
         begin
           if ssShift in Shift then
-          OpenFolderInTab(FolderTree, NS.AbsolutePIDL, not MainForm.TabSet.OpenTabSelect)
+          OpenFolderInTab(FolderTree, NS.AbsolutePIDL, not MainForm.TabSet.Settings.OpenTabSelect)
           else
-          OpenFolderInTab(FolderTree, NS.AbsolutePIDL, MainForm.TabSet.OpenTabSelect);
+          OpenFolderInTab(FolderTree, NS.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect);
         end;
       end;
     end;
@@ -248,34 +264,30 @@ begin
   FolderTreeSelectedChange(Node);
 end;
 
+{##############################################################################}
+
 {-------------------------------------------------------------------------------
-  Load Settings
+  Get/Set AutoCollapse
 -------------------------------------------------------------------------------}
-procedure TCEFolderPanel.LoadFromStorage(Storage: ICESettingsStorage);
+function TCEFolderPanelSettings.GetAutoCollapse: Boolean;
 begin
-  Storage.OpenPath('FolderPanel');
-  try
-    FolderTree.AutoCollapse:= Storage.ReadBoolean('AutoCollapse', false);
-    FolderTree.AutoExpand:= Storage.ReadBoolean('AutoExpand', false);
-    NewTabByDefault:= Storage.ReadBoolean('OpenInNewTab', false);
-  finally
-    Storage.ClosePath;
-  end;
+  Result:= FolderPanel.FolderTree.AutoCollapse;
+end;
+procedure TCEFolderPanelSettings.SetAutoCollapse(const Value: Boolean);
+begin
+  FolderPanel.FolderTree.AutoCollapse:= Value;
 end;
 
 {-------------------------------------------------------------------------------
-  Save Settings
+  Get/Set AutoExpand
 -------------------------------------------------------------------------------}
-procedure TCEFolderPanel.SaveToStorage(Storage: ICESettingsStorage);
+function TCEFolderPanelSettings.GetAutoExpand: Boolean;
 begin
-  Storage.OpenPath('FolderPanel');
-  try
-    Storage.WriteBoolean('AutoCollapse', FolderTree.AutoCollapse);
-    Storage.WriteBoolean('AutoExpand', FolderTree.AutoExpand);
-    Storage.WriteBoolean('OpenInNewTab', NewTabByDefault);
-  finally
-    Storage.ClosePath;
-  end;
+  Result:= FolderPanel.FolderTree.AutoExpand;
+end;
+procedure TCEFolderPanelSettings.SetAutoExpand(const Value: Boolean);
+begin
+  FolderPanel.FolderTree.AutoExpand:= Value;
 end;
 
 end.

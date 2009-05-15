@@ -26,7 +26,7 @@ interface
 uses
   // CE Units
   fCE_DockableForm, CE_GlobalCtrl, CE_Bookmarks, CE_BookmarkTree, dCE_Images,
-  CE_SettingsIntf, CE_Settings, CEJvDockVSNetStyleTBX, CE_Layout,
+  CE_AppSettings, CEJvDockVSNetStyleTBX, CE_Layout,
   // JVCL
   JvDockVSNetStyle,
   // VSTools
@@ -43,7 +43,9 @@ uses
   Dialogs, ShlObj, ImgList, Contnrs, Menus;
 
 type
-  TCEBookmarkPanel = class(TCECustomDockableForm, ICESettingsHandler)
+  TCEBookmarkPanelSettings = class;
+  
+  TCEBookmarkPanel = class(TCECustomDockableForm)
     BookmarkPopupMenu: TSpTBXPopupMenu;
     but_addCat: TSpTBXItem;
     but_addBookmark: TSpTBXItem;
@@ -62,13 +64,12 @@ type
     procedure BookmarkPopupMenuPopup(Sender: TObject);
     procedure PopupMenuClick(Sender: TObject);
   private
+    fSettings: TCEBookmarkPanelSettings;
     { Private declarations }
   protected
-    procedure LoadFromStorage(Storage: ICESettingsStorage); stdcall;
     procedure DoMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState;
         X, Y: Integer);
     procedure RefreshBookmarks(OnlyIfLocal: Boolean = false);
-    procedure SaveToStorage(Storage: ICESettingsStorage); stdcall;
     procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
   public
     BookmarkMenuItems: TComponentList;
@@ -78,6 +79,28 @@ type
     procedure OnBookmarksChange(Sender: TObject);
     procedure OpenAll(Mode: Integer = 0);
     procedure SaveBookmarks;
+  published
+    property Settings: TCEBookmarkPanelSettings read fSettings write fSettings;
+  end;
+
+  TCEBookmarkPanelSettings = class(TPersistent)
+  private
+    function GetAutoCollapse: Boolean;
+    function GetAutoExpand: Boolean;
+    function GetOpenInNewTab: Boolean;
+    function GetSingleClickMode: Boolean;
+    procedure SetAutoCollapse(const Value: Boolean);
+    procedure SetAutoExpand(const Value: Boolean);
+    procedure SetOpenInNewTab(const Value: Boolean);
+    procedure SetSingleClickMode(const Value: Boolean);
+  public
+    BookmarkPanel: TCEBookmarkPanel;
+  published
+    property AutoCollapse: Boolean read GetAutoCollapse write SetAutoCollapse;
+    property AutoExpand: Boolean read GetAutoExpand write SetAutoExpand;
+    property OpenInNewTab: Boolean read GetOpenInNewTab write SetOpenInNewTab;
+    property SingleClickMode: Boolean read GetSingleClickMode write
+        SetSingleClickMode;
   end;
 
 var
@@ -97,6 +120,8 @@ uses
 procedure TCEBookmarkPanel.FormCreate(Sender: TObject);
 begin
   inherited;
+  fSettings:= TCEBookmarkPanelSettings.Create;
+  fSettings.BookmarkPanel:= Self;
   BookmarkMenuItems:= TComponentList.Create(false);
   TopDock.Name:= 'BookmarkPanel_TopDock';
   BottomDock.Name:= 'BookmarkPanel_BottomDock';
@@ -115,7 +140,7 @@ begin
   BookmarkTree.OnBookmarksChange:= OnBookmarksChange;
   //BookmarkTree.PopupMenu:= BookmarkPopupMenu;
   BookmarkTree.OnMouseUp:= DoMouseUp;
-  GlobalSettings.RegisterHandler(Self);
+  GlobalAppSettings.AddItem('BookmarksPanel', fSettings, true);
   ChangeNotifier.RegisterShellChangeNotify(Self);
 end;
 
@@ -127,6 +152,7 @@ begin
   ChangeNotifier.UnRegisterShellChangeNotify(Self);
   BookmarkMenuItems.Free;
   BookmarkTree.Free;
+  fSettings.Free;
   inherited;
 end;
 
@@ -313,23 +339,6 @@ begin
   end;
 end;
 
-{-------------------------------------------------------------------------------
-  Load From Storage
--------------------------------------------------------------------------------}
-procedure TCEBookmarkPanel.LoadFromStorage(Storage: ICESettingsStorage);
-begin
-  Storage.OpenPath('/BookmarksPanel');
-  try
-    // Toggles
-    BookmarkTree.SingleClickMode:= Storage.ReadBoolean('SingleClickMode',false);
-    BookmarkTree.AutoExpand:= Storage.ReadBoolean('AutoExpand',false);
-    BookmarkTree.AutoCollapse:= Storage.ReadBoolean('AutoCollapse',false);
-    OpenBookmarkInNewTabByDefault:= Storage.ReadBoolean('OpenInNewTab',false);
-  finally
-    Storage.ClosePath;
-  end;
-end;
-
 procedure TCEBookmarkPanel.DoMouseUp(Sender: TObject; Button: TMouseButton;
     Shift: TShiftState; X, Y: Integer);
 var
@@ -343,23 +352,6 @@ begin
     CEDockStyle.ChannelOption.MouseleaveHide:= false;
     BookmarkPopupMenu.Popup(p.X, p.Y);
     CEDockStyle.ChannelOption.MouseleaveHide:= b;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  Save to storage
--------------------------------------------------------------------------------}
-procedure TCEBookmarkPanel.SaveToStorage(Storage: ICESettingsStorage);
-begin
-  Storage.OpenPath('/BookmarksPanel');
-  try
-    // Toggles
-    Storage.WriteBoolean('SingleClickMode', BookmarkTree.SingleClickMode);
-    Storage.WriteBoolean('AutoExpand', BookmarkTree.AutoExpand);
-    Storage.WriteBoolean('AutoCollapse', BookmarkTree.AutoCollapse);
-    Storage.WriteBoolean('OpenInNewTab', OpenBookmarkInNewTabByDefault);
-  finally
-    Storage.ClosePath;
   end;
 end;
 
@@ -428,6 +420,56 @@ begin
     ShellEventList.UnlockList;
     ShellEventList.Release;
   end;
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Get/Set SingleClickMode
+-------------------------------------------------------------------------------}
+function TCEBookmarkPanelSettings.GetSingleClickMode: Boolean;
+begin
+  Result:= BookmarkPanel.BookmarkTree.SingleClickMode;
+end;
+procedure TCEBookmarkPanelSettings.SetSingleClickMode(const Value: Boolean);
+begin
+  BookmarkPanel.BookmarkTree.SingleClickMode:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set AutoExpand
+-------------------------------------------------------------------------------}
+function TCEBookmarkPanelSettings.GetAutoExpand: Boolean;
+begin
+  Result:= BookmarkPanel.BookmarkTree.AutoExpand;
+end;
+procedure TCEBookmarkPanelSettings.SetAutoExpand(const Value: Boolean);
+begin
+  BookmarkPanel.BookmarkTree.AutoExpand:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set AutoCollapse
+-------------------------------------------------------------------------------}
+function TCEBookmarkPanelSettings.GetAutoCollapse: Boolean;
+begin
+  Result:= BookmarkPanel.BookmarkTree.AutoCollapse;
+end;
+procedure TCEBookmarkPanelSettings.SetAutoCollapse(const Value: Boolean);
+begin
+  BookmarkPanel.BookmarkTree.AutoCollapse:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set OpenInNewTab
+-------------------------------------------------------------------------------}
+function TCEBookmarkPanelSettings.GetOpenInNewTab: Boolean;
+begin
+  Result:= OpenBookmarkInNewTabByDefault;
+end;
+procedure TCEBookmarkPanelSettings.SetOpenInNewTab(const Value: Boolean);
+begin
+  OpenBookmarkInNewTabByDefault:= Value;
 end;
 
 end.

@@ -26,7 +26,7 @@ interface
 uses
   // CE Units
   CE_Breadcrumb, fCE_FolderTreeForm, CE_VistaFuncs, CE_GlobalCtrl,
-  CE_SettingsIntf, CE_Settings, CE_Utils,
+  CE_AppSettings, CE_Utils,
   // Tnt Controls
   TntStdCtrls, TntSysUtils,
   // TB2K, TBX, SpTBX
@@ -94,8 +94,8 @@ type
 
   TCEAddressBar = class(TCustomPanel, ICEPathChangeHandler)
   private
-    fBreadcrumbNavigation: Boolean;
-    procedure SetBreadcrumbNavigation(const Value: Boolean);
+    fBreadcrumb: Boolean;
+    procedure SetBreadcrumb(const Value: Boolean);
     procedure SpThemeChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
     FolderForm: TCE_FolderTreeForm;
@@ -113,7 +113,7 @@ type
     Icon: TCE_AIcon;
     DropButton: TCE_AButton;
     BreadToggleButton: TCE_AButton;
-    Breadcrumb: TCEBreadcrumb;
+    Breadcrumbs: TCEBreadcrumb;
     FolderPopupMenu: TCE_AFormPopupMenu;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -125,21 +125,27 @@ type
     procedure OnPopup(Sender: TObject);
     procedure OnTextKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure Paint; override;
-    property BreadcrumbNavigation: Boolean read fBreadcrumbNavigation write
-        SetBreadcrumbNavigation;
+  published
+    property Breadcrumb: Boolean read fBreadcrumb write SetBreadcrumb;
   end;
 
-type
-  TCEAddressBarToolbar = class(TSpTBXToolWindow, ICESettingsHandler)
-  protected
-    procedure LoadFromStorage(Storage: ICESettingsStorage); stdcall;
-    procedure SaveToStorage(Storage: ICESettingsStorage); stdcall;
+  TCEAddressBarSettings = class(TPersistent)
+  private
+    function GetBreadcrumb: Boolean;
+    procedure SetBreadcrumb(const Value: Boolean);
   public
     AddressBar: TCEAddressBar;
-    constructor Create(AOwner: TComponent); override;
+  published
+    property Breadcrumb: Boolean read GetBreadcrumb write SetBreadcrumb;
   end;
 
-
+  TCEAddressBarToolbar = class(TSpTBXToolWindow)
+  protected
+  public
+    AddressBar: TCEAddressBar;
+    AddressBarSettings: TCEAddressBarSettings;
+    constructor Create(AOwner: TComponent); override;
+  end;
 
 implementation
 
@@ -363,7 +369,7 @@ begin
   Icon.Color:= clWindow;
   DropButton:= TCE_AButton.Create(nil);
   BreadToggleButton:= TCE_AButton.Create(nil);
-  Breadcrumb:= TCEBreadcrumb.Create(nil);
+  Breadcrumbs:= TCEBreadcrumb.Create(nil);
 
   FolderPopupMenu:= TCE_AFormPopupMenu.Create(nil);
   FolderPopupMenu.OnPopup:= OnPopup;
@@ -392,7 +398,7 @@ begin
   
   SkinManager.RemoveSkinNotification(Self);
   FolderPopupMenu.Free;
-  Breadcrumb.Free;
+  Breadcrumbs.Free;
   DropButton.Free;
   BreadToggleButton.Free;
   Icon.Free;
@@ -429,11 +435,11 @@ begin
   DropButton.Left:= BreadToggleButton.BoundsRect.Right;
   DropButton.OnClick:= OnDropClick;
 
-  Breadcrumb.Parent:= self;
-  Breadcrumb.Align:= alClient;
-  Breadcrumb.Visible:= false;
-  Breadcrumb.ShowBorder:= false;
-  Breadcrumb.SeparatorSize:= 1;
+  Breadcrumbs.Parent:= self;
+  Breadcrumbs.Align:= alClient;
+  Breadcrumbs.Visible:= false;
+  Breadcrumbs.ShowBorder:= false;
+  Breadcrumbs.SeparatorSize:= 1;
 end;
 
 {*------------------------------------------------------------------------------
@@ -575,7 +581,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEAddressBar.OnBreadToggleClick(Sender: TObject);
 begin
-  BreadcrumbNavigation:= not BreadcrumbNavigation;
+  Breadcrumb:= not Breadcrumb;
 end;
 
 {*------------------------------------------------------------------------------
@@ -630,14 +636,14 @@ begin
 end;
 
 {*------------------------------------------------------------------------------
-  Set BreadcrumbNavigation
+  Set Breadcrumb
 -------------------------------------------------------------------------------}
-procedure TCEAddressBar.SetBreadcrumbNavigation(const Value: Boolean);
+procedure TCEAddressBar.SetBreadcrumb(const Value: Boolean);
 begin
-  fBreadcrumbNavigation:= Value;
-  if fBreadcrumbNavigation then
+  fBreadcrumb:= Value;
+  if fBreadcrumb then
   begin
-    Breadcrumb.Visible:= true;
+    Breadcrumbs.Visible:= true;
     TextEditor.Visible:= false;
     Icon.Visible:= false;
     BreadToggleButton.Checked:= true;
@@ -646,7 +652,7 @@ begin
   begin
     TextEditor.Visible:= true;
     Icon.Visible:= true;
-    Breadcrumb.Visible:= false;
+    Breadcrumbs.Visible:= false;
     BreadToggleButton.Checked:= false;
   end;
 end;
@@ -680,37 +686,27 @@ begin
   AddressBar.Align:= alClient;
   AddressBar.BreadToggleButton.ImageList:= CE_Images.MiscImages;
   AddressBar.BreadToggleButton.ImageIndex:= 0;
-  self.MinClientHeight:= Max(AddressBar.Breadcrumb.Constraints.MinHeight,20);
+  self.MinClientHeight:= Max(AddressBar.Breadcrumbs.Constraints.MinHeight,20);
   self.ClientHeight:= 22;
-  GlobalSettings.RegisterHandler(Self);
+
+  AddressBarSettings:= TCEAddressBarSettings.Create;
+  AddressBarSettings.AddressBar:= AddressBar;
+
+  GlobalAppSettings.AddItem('AddressBar', AddressBarSettings, false);
 end;
 
-{-------------------------------------------------------------------------------
-  Load From Storage
--------------------------------------------------------------------------------}
-procedure TCEAddressBarToolbar.LoadFromStorage(Storage: ICESettingsStorage);
-begin
-  Storage.OpenPath('/AddressBar');
-  try
-    // Toggles
-    AddressBar.BreadcrumbNavigation:= Storage.ReadBoolean('Breadcrumb',false);
-  finally
-    Storage.ClosePath;
-  end;
-end;
+{##############################################################################}
 
 {-------------------------------------------------------------------------------
-  Save to storage
+  Get/Set Breadcrumb
 -------------------------------------------------------------------------------}
-procedure TCEAddressBarToolbar.SaveToStorage(Storage: ICESettingsStorage);
+function TCEAddressBarSettings.GetBreadcrumb: Boolean;
 begin
-  Storage.OpenPath('/AddressBar');
-  try
-    // Toggles
-    Storage.WriteBoolean('Breadcrumb',  AddressBar.BreadcrumbNavigation);
-  finally
-    Storage.ClosePath;
-  end;
+  Result:= AddressBar.Breadcrumb;
+end;
+procedure TCEAddressBarSettings.SetBreadcrumb(const Value: Boolean);
+begin
+  AddressBar.Breadcrumb:= Value;
 end;
 
 
