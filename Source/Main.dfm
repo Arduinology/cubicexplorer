@@ -37,12 +37,12 @@ object MainForm: TMainForm
       DockPos = 0
       DragHandleStyle = dhNone
       Images = CE_Images.SmallIcons
-      MenuBar = True
       ShrinkMode = tbsmWrap
       Stretch = True
       TabOrder = 0
       Caption = 'Main Menu'
       Customizable = False
+      MenuBar = True
       object fileMenuItem: TSpTBXSubmenuItem
         Caption = 'File'
         DisplayMode = nbdmTextOnly

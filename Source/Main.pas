@@ -661,6 +661,9 @@ begin
     //GlobalSessions.LoadActiveSession;
   end;
 
+  // TODO: Do proper fix. This is a cheap fix for a bug in SpTabSet.
+  TabSet.Width:= TabSet.Width+1;
+
   // Atleast one tab has to be open
   if TabSet.TabCount = 0 then
   begin
@@ -675,8 +678,6 @@ begin
   CEActions.UpdateTimer.Enabled:= true;
 
   fIsReady:= true;
-
-
 
  //test_act1Click(self);
 
@@ -1308,19 +1309,15 @@ procedure TMainForm.FormShortCut(var Msg: TWMKey; var Handled: Boolean);
 var
   AShortcut: TShortcut;
 begin
-  Handled:= true;
+  Handled:= false;
   AShortcut:= Shortcut(Msg.CharCode, KeyDataToShiftState(Msg.KeyData));
+
   if assigned(GlobalPathCtrl.ActivePage) then
-  begin
-    if not DoExecuteAction(AShortcut, TCECustomTabPage(GlobalPathCtrl.ActivePage).PageActionList) then
-    if not DoExecuteAction(AShortcut, CEActions.HiddenActionList) then
-    DoExecuteAction(AShortcut, CEActions.ActionList);
-  end
-  else
-  begin
-    if not DoExecuteAction(AShortcut, CEActions.HiddenActionList) then
-    DoExecuteAction(AShortcut, CEActions.ActionList);
-  end;
+  Handled:= DoExecuteAction(AShortcut, TCECustomTabPage(GlobalPathCtrl.ActivePage).PageActionList);
+  if not Handled then
+  Handled:= DoExecuteAction(AShortcut, CEActions.HiddenActionList);
+  if not Handled then
+  Handled:= DoExecuteAction(AShortcut, CEActions.ActionList);
 end;
 
 {##############################################################################}

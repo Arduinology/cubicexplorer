@@ -9,7 +9,17 @@ uses
   Classes, SysUtils, StrUtils;
 
 type
+  TSessionTabsList = class(TCECustomSettingStorage)
+  
+  end;
+
   TSessionItem = class(TObject)
+  private
+    fSessionName: WideString;
+    fTabs: TSessionTabsList;
+  published
+    property SessionName: WideString read fSessionName write fSessionName;
+    property Tabs: TSessionTabsList read fTabs write fTabs;
   end;
 
   TCESessionList = class(TCECustomSettingStorage)

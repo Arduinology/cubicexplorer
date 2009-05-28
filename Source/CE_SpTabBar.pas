@@ -84,6 +84,7 @@ type
         fPreventLastTabClosing;
   end;
 
+  TCESpTabSet = class;
 
   TCETabSettings = class(TPersistent)
   private
@@ -93,8 +94,17 @@ type
     fNewTabType: Integer;
     fOpenTabSelect: Boolean;
     fReuseTabs: Boolean;
+    function GetAutoFit: Boolean;
+    function GetAutoFitMaxSize: Integer;
+    function GetCloseButton: TSpTBXTabCloseButton;
+    function GetMaxTabSize: Integer;
     procedure SetNewTabPath(const Value: WideString);
+    procedure SetAutoFit(const Value: Boolean);
+    procedure SetAutoFitMaxSize(const Value: Integer);
+    procedure SetCloseButton(const Value: TSpTBXTabCloseButton);
+    procedure SetMaxTabSize(const Value: Integer);
   public
+    TabSet: TCESpTabSet;
     destructor Destroy; override;
     property NewTabNamespace: TNamespace read fNewTabNamespace write
         fNewTabNamespace;
@@ -104,6 +114,11 @@ type
     property NewTabType: Integer read fNewTabType write fNewTabType;
     property OpenTabSelect: Boolean read fOpenTabSelect write fOpenTabSelect;
     property ReuseTabs: Boolean read fReuseTabs write fReuseTabs;
+    property AutoFit: Boolean read GetAutoFit write SetAutoFit;
+    property AutoFitMaxSize: Integer read GetAutoFitMaxSize write SetAutoFitMaxSize;
+    property CloseButton: TSpTBXTabCloseButton read GetCloseButton write
+        SetCloseButton;
+    property MaxTabSize: Integer read GetMaxTabSize write SetMaxTabSize;
   end;
 
   // Tab Set
@@ -290,6 +305,7 @@ constructor TCESpTabSet.Create(AOwner: TComponent);
 begin
   inherited;
   fSettings:= TCETabSettings.Create;
+  fSettings.TabSet:= Self;
   Self.TabCloseButton:= tcbAll;
   Toolbar.OnMouseDown:= HandleMouseDown;
   Toolbar.OnMouseUp:= HandleMouseUp;
@@ -317,7 +333,7 @@ end;
 -------------------------------------------------------------------------------}
 function TCESpTabSet.GetToolbarClass: TSpTBXToolbarClass;
 begin
-  Result := TCESpTabToolbar;
+  Result:= TCESpTabToolbar;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1211,6 +1227,67 @@ begin
   pidl:= PathToPIDL(fNewTabPath);
 
   fNewTabNamespace:= TNamespace.Create(pidl, nil);
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set AutoFit
+-------------------------------------------------------------------------------}
+function TCETabSettings.GetAutoFit: Boolean;
+begin
+  Result:= TabSet.TabAutoFit;
+end;
+procedure TCETabSettings.SetAutoFit(const Value: Boolean);
+var
+  i: Integer;
+begin
+  if TabSet.TabAutoFit <> Value then
+  begin
+    TabSet.TabAutoFit:= Value;
+    if not TabSet.TabAutoFit then
+    begin
+      for i:= 0 to TabSet.Items.Count - 1 do
+      begin
+        if TabSet.Items.Items[i] is TSpTBXTabItem then
+        TSpTBXTabItem(TabSet.Items.Items[i]).CustomWidth:= -1;
+      end;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set AutoFitMaxSize
+-------------------------------------------------------------------------------}
+function TCETabSettings.GetAutoFitMaxSize: Integer;
+begin
+  Result:= TabSet.TabAutofitMaxSize;
+end;
+procedure TCETabSettings.SetAutoFitMaxSize(const Value: Integer);
+begin
+  TabSet.TabAutofitMaxSize:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set MaxTabSize
+-------------------------------------------------------------------------------}
+function TCETabSettings.GetMaxTabSize: Integer;
+begin
+  Result:= TabSet.TabMaxSize;
+end;
+procedure TCETabSettings.SetMaxTabSize(const Value: Integer);
+begin
+  TabSet.TabMaxSize:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set CloseButton
+-------------------------------------------------------------------------------}
+function TCETabSettings.GetCloseButton: TSpTBXTabCloseButton;
+begin
+  Result:= TabSet.TabCloseButton;
+end;
+procedure TCETabSettings.SetCloseButton(const Value: TSpTBXTabCloseButton);
+begin
+  TabSet.TabCloseButton:= Value;
 end;
 
 end.
