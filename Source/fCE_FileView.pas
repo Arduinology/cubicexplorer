@@ -250,8 +250,6 @@ begin
   SetDesktopIconFonts(FileView.Font);
   
   GlobalFileViewSettings.AssignSettingsTo(Self);
-  if Self.FileView.View = elsFilmStrip then  // TODO: work around bug in TEasyScrollbarManager.ValidateOffsets. Remove onces fixed
-  Self.FileView.CellSizes.List.Width:= Self.FileView.CellSizes.FilmStrip.Width; // TODO: work around bug in TEasyScrollbarManager.ValidateOffsets. Remove onces fixed
 end;
 
 {*------------------------------------------------------------------------------
@@ -1239,6 +1237,6 @@ initialization
   TabPageClassList.RegisterClass('FileView', TCEFileViewPage, TCEFileViewPageSettings);
 
 finalization
-  GlobalFileViewSettings:= nil;
+  FreeAndNil(GlobalFileViewSettings);
 
 end.

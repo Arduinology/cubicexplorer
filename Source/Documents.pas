@@ -133,6 +133,8 @@ Unit Documents;
 
 // **** Hidden Actions (1000) ****
 // 1001 = Focus Addressbar
+// 1002 = Switch to Next Tab
+// 1003 = Switch to Prev Tab
 
 
 interface

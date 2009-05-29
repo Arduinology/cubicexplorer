@@ -18,7 +18,6 @@ object MainForm: TMainForm
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  OnKeyUp = FormKeyUp
   OnShortCut = FormShortCut
   OnShow = FormShow
   PixelsPerInch = 96

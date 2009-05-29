@@ -207,7 +207,6 @@ type
     procedure TransparencyClick(Sender: TObject);
     procedure TransparencyPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormShow(Sender: TObject);
     procedure LanguageMenuItemPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure SpTBXItem45Click(Sender: TObject);
@@ -821,35 +820,6 @@ begin
   begin
     Self.BorderStyle:= bsSingle;
     Self.WindowState:= fOldWindowState;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Form KeyUp
--------------------------------------------------------------------------------}
-procedure TMainForm.FormKeyUp(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if (Key = VK_TAB) then
-  begin
-    if Shift = [ssCtrl] then
-    TabSet.SelectNextTab(true)
-    else if Shift = [ssCtrl,ssShift] then
-    TabSet.SelectNextTab(false);
-  end
-//  else if Shift = [ssAlt] then
-//  begin
-//    if Key = Ord('D') then
-//    begin
-//      if AddressBarToolbar.Visible then
-//      AddressBarToolbar.AddressBar.SetFocus;
-//    end
-//  end
-  else if Key = VK_F6 then
-  begin
-    if AddressBarToolbar.Visible then
-      if AddressBarToolbar.AddressBar.TextEditor.Visible then
-      AddressBarToolbar.AddressBar.TextEditor.SetFocus;
   end;
 end;
 

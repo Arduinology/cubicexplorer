@@ -270,6 +270,10 @@ begin
   fSelectPreviousFolder:= true;
   fAutoSelectFirstItem:= true;
   fAutosizeListViewStyle:= true;
+  // Default CellSizes
+  Self.CellSizes.SmallIcon.Height:= SmallShellIconSize + 1;
+  Self.CellSizes.List.Height:= SmallShellIconSize + 1;
+  Self.CellSizes.Report.Height:= SmallShellIconSize + 1;
 end;
 
 {*------------------------------------------------------------------------------

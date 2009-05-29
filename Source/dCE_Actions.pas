@@ -155,6 +155,8 @@ type
     act_help_donate: TTntAction;
     HiddenActionList: TTntActionList;
     act_focus_addressbar: TTntAction;
+    act_tabs_next: TTntAction;
+    act_tabs_prev: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -1021,6 +1023,8 @@ begin
             MainForm.AddressBarToolbar.AddressBar.TextEditor.SetFocus;
             MainForm.AddressBarToolbar.AddressBar.TextEditor.SelectAll;
           end;
+    1002: MainForm.TabSet.SelectNextTab(true);
+    1003: MainForm.TabSet.SelectNextTab(false);
   end;
 end;
 

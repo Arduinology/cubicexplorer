@@ -1089,6 +1089,6 @@ initialization
   TabPageClassList.RegisterClass('TextEditor', TCETextEditorPage, TCETextEditorPageSettings);
 
 finalization
-  CETextEditorOptions:= nil;
+  FreeAndNil(CETextEditorOptions);
 
 end.

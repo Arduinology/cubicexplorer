@@ -143,8 +143,9 @@ type
   protected
   public
     AddressBar: TCEAddressBar;
-    AddressBarSettings: TCEAddressBarSettings;
+    Settings: TCEAddressBarSettings;
     constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
   end;
 
 implementation
@@ -689,10 +690,19 @@ begin
   self.MinClientHeight:= Max(AddressBar.Breadcrumbs.Constraints.MinHeight,20);
   self.ClientHeight:= 22;
 
-  AddressBarSettings:= TCEAddressBarSettings.Create;
-  AddressBarSettings.AddressBar:= AddressBar;
+  Settings:= TCEAddressBarSettings.Create;
+  Settings.AddressBar:= AddressBar;
 
-  GlobalAppSettings.AddItem('AddressBar', AddressBarSettings, false);
+  GlobalAppSettings.AddItem('AddressBar', Settings, false);
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy TCEAddressBarToolbar
+-------------------------------------------------------------------------------}
+destructor TCEAddressBarToolbar.Destroy;
+begin
+  Settings.Free;
+  inherited;
 end;
 
 {##############################################################################}

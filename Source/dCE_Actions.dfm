@@ -312,7 +312,7 @@ object CEActions: TCEActions
       Category = 'Navigation'
       Caption = 'Text Editor'
       ImageIndex = 21
-      ShortCut = 115
+      ShortCut = 118
       OnExecute = ActionExecute
     end
     object act_navi_filesearch: TTntAction
@@ -637,6 +637,27 @@ object CEActions: TCEActions
       Category = 'Focus'
       Caption = 'Focus Addressbar'
       ShortCut = 32836
+      SecondaryShortCuts.Strings = (
+        'F4'
+        'F6')
+      OnExecute = ActionExecute
+    end
+    object act_tabs_next: TTntAction
+      Tag = 1002
+      Category = 'Tabs'
+      Caption = 'Switch to Next Tab'
+      ShortCut = 16393
+      SecondaryShortCuts.Strings = (
+        'Ctrl+PgUp')
+      OnExecute = ActionExecute
+    end
+    object act_tabs_prev: TTntAction
+      Tag = 1003
+      Category = 'Tabs'
+      Caption = 'Swith to Previous Tab'
+      ShortCut = 24585
+      SecondaryShortCuts.Strings = (
+        'Ctrl+PgDn')
       OnExecute = ActionExecute
     end
   end
