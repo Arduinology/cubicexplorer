@@ -284,22 +284,26 @@ object MainForm: TMainForm
       end
       object sessionsMenuItem: TSpTBXSubmenuItem
         Caption = 'Sessions'
-        Visible = False
-        object SpTBXItem47: TSpTBXItem
+        object SpTBXItem95: TSpTBXItem
           Action = CEActions.act_sessions_save
         end
-        object SpTBXItem85: TSpTBXItem
-          Action = CEActions.act_sessions_saveas
+        object SpTBXItem94: TSpTBXItem
+          Action = CEActions.act_sessions_manage
         end
-        object SpTBXItem88: TSpTBXItem
-          Action = CEActions.act_sessions_delete
+        object SpTBXSeparatorItem26: TSpTBXSeparatorItem
         end
-        object SpTBXSeparatorItem23: TSpTBXSeparatorItem
+        object sessionHistoryMenuItem: TSpTBXSubmenuItem
+          Caption = 'History'
+          object SpTBXItem85: TSpTBXItem
+            Action = CEActions.act_sessions_addhistoryitem
+          end
+          object SpTBXItem47: TSpTBXItem
+            Action = CEActions.act_sessions_clearhistory
+          end
+          object SpTBXSeparatorItem22: TSpTBXSeparatorItem
+          end
         end
-        object SpTBXItem87: TSpTBXItem
-          Action = CEActions.act_sessions_properties
-        end
-        object SpTBXSeparatorItem22: TSpTBXSeparatorItem
+        object SpTBXSeparatorItem27: TSpTBXSeparatorItem
         end
       end
       object toolsMenuItem: TSpTBXSubmenuItem
@@ -376,6 +380,16 @@ object MainForm: TMainForm
         Caption = 'Test1'
         Visible = False
         OnClick = test_act1Click
+      end
+      object SpTBXSeparatorItem25: TSpTBXSeparatorItem
+      end
+      object SpTBXItem92: TSpTBXItem
+        Caption = 'Load'
+        OnClick = SpTBXItem92Click
+      end
+      object SpTBXItem93: TSpTBXItem
+        Caption = 'Save'
+        OnClick = SpTBXItem93Click
       end
     end
     object ViewToolbar: TSpTBXToolbar

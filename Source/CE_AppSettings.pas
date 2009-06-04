@@ -53,16 +53,16 @@ type
     procedure Clear;
     procedure Delete(Index: Integer);
     function FindItem(AName: String): TCEAppSettingItem;
-    function LoadFromFile(AFilePath: WideString): Boolean;
+    function LoadFromFile(AFilePath: WideString): Boolean; virtual;
     procedure LoadObjectProperties(AObject: TObject; ANode: TDOMNode; ARecursive:
         Boolean = true; AExcludeProperties: TStrings = nil; AIncludeProperties:
         TStrings = nil);
     procedure LoadProperties;
-    procedure SaveObjectProperties(AObject: TObject; AParentNode: TDOMElement;
+    procedure SaveObjectProperties(AObject: TObject; AParentNode: TDOMNode;
         ARecursive: Boolean = true; ASaveDefaultValues: Boolean = false;
         AExcludeProperties: TStrings = nil; AIncludeProperties: TStrings = nil);
     procedure SaveProperties;
-    procedure SaveToFile(AFilePath: WideString);
+    procedure SaveToFile(AFilePath: WideString); virtual;
     property Count: Integer read GetCount;
     property Items[Index: Integer]: TCEAppSettingItem read GetItems; default;
     property SaveDefaultsAlways: Boolean read fSaveDefaultsAlways write
@@ -339,9 +339,8 @@ end;
   Save Object Properties
 -------------------------------------------------------------------------------}
 procedure TCEAppSettings.SaveObjectProperties(AObject: TObject; AParentNode:
-    TDOMElement; ARecursive: Boolean = true; ASaveDefaultValues: Boolean =
-    false; AExcludeProperties: TStrings = nil; AIncludeProperties: TStrings =
-    nil);
+    TDOMNode; ARecursive: Boolean = true; ASaveDefaultValues: Boolean = false;
+    AExcludeProperties: TStrings = nil; AIncludeProperties: TStrings = nil);
 var
   index: Integer;
   Data: PTypeData;

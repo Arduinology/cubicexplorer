@@ -171,12 +171,6 @@ type
     SpTBXItem82: TSpTBXItem;
     SpTBXItem84: TSpTBXItem;
     sessionsMenuItem: TSpTBXSubmenuItem;
-    SpTBXItem47: TSpTBXItem;
-    SpTBXItem85: TSpTBXItem;
-    SpTBXSeparatorItem22: TSpTBXSeparatorItem;
-    SpTBXItem87: TSpTBXItem;
-    SpTBXItem88: TSpTBXItem;
-    SpTBXSeparatorItem23: TSpTBXSeparatorItem;
     SpTBXItem51: TSpTBXItem;
     SpTBXSeparatorItem15: TSpTBXSeparatorItem;
     SpTBXSeparatorItem18: TSpTBXSeparatorItem;
@@ -201,6 +195,17 @@ type
     SpTBXItem90: TSpTBXItem;
     ApplicationEvents: TApplicationEvents;
     SpTBXItem91: TSpTBXItem;
+    SpTBXItem92: TSpTBXItem;
+    SpTBXSeparatorItem25: TSpTBXSeparatorItem;
+    SpTBXItem93: TSpTBXItem;
+    SpTBXItem94: TSpTBXItem;
+    SpTBXItem95: TSpTBXItem;
+    SpTBXSeparatorItem26: TSpTBXSeparatorItem;
+    sessionHistoryMenuItem: TSpTBXSubmenuItem;
+    SpTBXSeparatorItem27: TSpTBXSeparatorItem;
+    SpTBXItem47: TSpTBXItem;
+    SpTBXItem85: TSpTBXItem;
+    SpTBXSeparatorItem22: TSpTBXSeparatorItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -214,9 +219,10 @@ type
     procedure StartUpTimerTimer(Sender: TObject);
     procedure SpTBXItem75Click(Sender: TObject);
     procedure SpTBXItem80Click(Sender: TObject);
-    procedure SpTBXItem85Click(Sender: TObject);
     procedure test_act1Click(Sender: TObject);
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
+    procedure SpTBXItem92Click(Sender: TObject);
+    procedure SpTBXItem93Click(Sender: TObject);
   private
     fFullscreen: Boolean;
     fActiveLanguage: WideString;
@@ -248,8 +254,7 @@ type
     BreadcrumbBar: TCEBreadcrumbBar;
     DriveToolbar: TCEDriveToolbar;
     BookmarkToolbar: TCEBookmarkToolbar;
-    // TODO: Session
-    //SessionsToolbar: TCESessionsToolbar;
+    SessionsToolbar: TCESessionsToolbar;
     Settings: TMainFormSettings;
     StatusBar: TCEStatusBar;
     procedure BeginUIUpdate;
@@ -269,31 +274,32 @@ type
     property SingleInstance: Boolean read fSingleInstance write SetSingleInstance;
   end;
 
+  TCEStartupType = (stNormal, stSession, stLastSession);
+
   TMainFormSettings = class(TPersistent)
   private
     fHeight: Integer;
     fLeft: Integer;
     fShowCmd: Integer;
+    fStartupType: TCEStartupType;
     fTop: Integer;
     fWidth: Integer;
     function GetAlphaBlend: Integer;
     function GetAlwaysOnTop: Boolean;
     function GetLanguage: WideString;
-    function GetLastSession: WideString;
     function GetPathInTitle: Boolean;
     function GetShowHint: Boolean;
     function GetSingleInstance: Boolean;
     function GetSkin: string;
-    function GetStartupSession: WideString;
+    function GetAutoLoadSession: WideString;
     procedure SetAlphaBlend(const Value: Integer);
     procedure SetAlwaysOnTop(const Value: Boolean);
     procedure SetLanguage(const Value: WideString);
-    procedure SetLastSession(const Value: WideString);
     procedure SetPathInTitle(const Value: Boolean);
     procedure SetShowHint(const Value: Boolean);
     procedure SetSingleInstance(const Value: Boolean);
     procedure SetSkin(const Value: string);
-    procedure SetStartupSession(const Value: WideString);
+    procedure SetAutoLoadSession(const Value: WideString);
   public
     Form: TMainForm;
     constructor Create;
@@ -307,14 +313,14 @@ type
     property Width: Integer read fWidth write fWidth;
     property Height: Integer read fHeight write fHeight;
     property Language: WideString read GetLanguage write SetLanguage;
-    property LastSession: WideString read GetLastSession write SetLastSession;
     property PathInTitle: Boolean read GetPathInTitle write SetPathInTitle;
     property ShowCmd: Integer read fShowCmd write fShowCmd;
     property ShowHint: Boolean read GetShowHint write SetShowHint;
     property SingleInstance: Boolean read GetSingleInstance write SetSingleInstance;
     property Skin: string read GetSkin write SetSkin;
-    property StartupSession: WideString read GetStartupSession write
-        SetStartupSession;
+    property AutoLoadSession: WideString read GetAutoLoadSession write
+        SetAutoLoadSession;
+    property StartupType: TCEStartupType read fStartupType write fStartupType;
   end;
 
 var
@@ -439,6 +445,7 @@ begin
   TabSet.Align:= alTop;
   TabSet.Toolbar.Name:= 'TabBar';
   TabSet.Toolbar.Caption:= _('Tabs');
+  TabSet.Toolbar.ShrinkMode:= tbsmWrap;
   TabSet.TabDragReorder:= true;
   TabSet.TabPageHost:= DockHostForm.PageHostPanel;
   TabSet.LayoutController:= Layouts;
@@ -478,16 +485,15 @@ begin
   BookmarkToolbar.PopupMenu:= ToolbarPopupMenu;
   BookmarkToolbar.Tag:= 1;
   // Create SessionsBar
-  // TODO: Session
-//  SessionsToolbar:= TCESessionsToolbar.Create(self);
-//  SessionsToolbar.Name:= 'SessionsToolbar';
-//  SessionsToolbar.Caption:= _('Sessions');
-//  SessionsToolbar.Stretch:= true;
-//  SessionsToolbar.ChevronMoveItems:= false;
-//  SessionsToolbar.Visible:= false;
-//  SessionsToolbar.CurrentDock:= TopToolDock;
-//  SessionsToolbar.PopupMenu:= ToolbarPopupMenu;
-//  SessionsToolbar.Tag:= 1;
+  SessionsToolbar:= TCESessionsToolbar.Create(self);
+  SessionsToolbar.Name:= 'SessionsToolbar';
+  SessionsToolbar.Caption:= _('Sessions');
+  SessionsToolbar.Stretch:= true;
+  SessionsToolbar.ChevronMoveItems:= false;
+  SessionsToolbar.Visible:= false;
+  SessionsToolbar.CurrentDock:= TopToolDock;
+  SessionsToolbar.PopupMenu:= ToolbarPopupMenu;
+  SessionsToolbar.Tag:= 1;
   // Create BreadcrumbBar
   BreadcrumbBar:= TCEBreadcrumbBar.Create(self);
   BreadcrumbBar.Name:= 'BreadcrumbBar';
@@ -510,8 +516,7 @@ begin
   CELayoutItems.Add(AddressBarToolbar);
   CELayoutItems.Add(DriveToolbar);
   CELayoutItems.Add(BookmarkToolbar);
-  // TODO: Session
-  //CELayoutItems.Add(SessionsToolbar);
+  CELayoutItems.Add(SessionsToolbar);
   CELayoutItems.Add(EditToolbar);
   CELayoutItems.Add(BreadcrumbBar);
   CELayoutItems.Add(TabSet);
@@ -528,9 +533,8 @@ begin
   CELayoutItems.PopulateMenuItem(toolbarsMenuItem);
   CELayoutItems.PopulateMenuItem(ToolbarPopupMenu.Items);
 
-  // TODO: Session
-//  sessionsMenuItem.Add(TCESessionsMenuItem.Create(self));
-
+  sessionsMenuItem.Add(TCESessionsMenuItem.Create(self));
+  sessionHistoryMenuItem.Add(TCESessionHistoryMenuItem.Create(self));
 
   // Add custom menu items
   MainToolbar.BeginUpdate;
@@ -620,13 +624,14 @@ var
   TabsOpened: Boolean;
   ws: WideString;
 begin
+
   // Load skins
   GetSkinsFromFolder(ExePath + 'Skins\');
   SkinGroupItem.Recreate;
 
   // Load Sessions
-  //GlobalSessions.LoadFromFile(exePath + 'sessions.xml', '/');
-
+  GlobalSessions.LoadFromFile(exePath + 'sessions.xml');
+  SessionsToolbar.Recreate;
   // Load Settings
   GlobalAppSettings.LoadFromFile(exePath + 'settings.xml');
   Settings.ApplyPositionInfo;
@@ -656,12 +661,12 @@ begin
 
   if not TabsOpened then
   begin
-    // TODO: Session
-    //GlobalSessions.LoadActiveSession;
+    case Settings.StartupType of
+      stNormal: CEActions.act_tabs_addtab.Execute;
+      stSession: GlobalSessions.LoadAutoSession;
+      stLastSession: GlobalSessions.LoadLatestHistorySession;
+    end;
   end;
-
-  // TODO: Do proper fix. This is a cheap fix for a bug in SpTabSet.
-  TabSet.Width:= TabSet.Width+1;
 
   // Atleast one tab has to be open
   if TabSet.TabCount = 0 then
@@ -713,8 +718,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TMainForm.Shutdown;
 begin
-  // TODO: Session
-  //GlobalSessions.SaveToFile(exePath + 'sessions.xml');
+  GlobalSessions.SaveToFile(exePath + 'sessions.xml');
 
   Settings.UpdatePositionInfo;
   GlobalAppSettings.SaveToFile(exePath + 'settings.xml');
@@ -736,22 +740,18 @@ end;
   Get's called on MainForm CloseQuery.
 -------------------------------------------------------------------------------}
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-// TODO: Session
-//var
-//  s: TCESession;
 begin
   CEActions.UpdateTimer.Enabled:= false;
 
   if GlobalPathCtrl.ActivePage is TCEFileViewPage then
   GlobalFileViewSettings.AssignColumnSettingsFrom(TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView);  
 
-// TODO: Session
-//  s:= GlobalSessions.GetActiveSession;
-//  if assigned(s) then
-//  begin
-//    if s.AutoSave then
-//    GlobalSessions.SaveToSession(s);
-//  end;
+  if assigned(GlobalSessions.ActiveSession) then
+  begin
+    if GlobalSessions.ActiveSession.AutoSave then
+    GlobalSessions.SaveActiveSession;
+  end;
+  GlobalSessions.AddHistorySession;
 
   CanClose:= TabSet.CloseAllTabs;
 
@@ -1340,13 +1340,18 @@ begin
   page.UpdateCaption;
 end;
 
-procedure TMainForm.SpTBXItem85Click(Sender: TObject);
+procedure TMainForm.SpTBXItem92Click(Sender: TObject);
 begin
-// TODO: Session
-//  if TSpTBXItem(Sender).Tag = 1 then
-//  begin
-//    GlobalSessions.ActiveSession:= TSpTBXItem(Sender).Caption;
-//  end;
+  GlobalSessions.Sessions.LoadSession(TCESessionItem(GlobalSessions.Sessions.Items.Items[0]));
+end;
+
+procedure TMainForm.SpTBXItem93Click(Sender: TObject);
+var
+  session: TCESessionItem;
+begin
+  //GlobalSessions.Sessions.SaveSession(TCESessionItem(GlobalSessions.Sessions.Items.Items[0]));
+  session:= GlobalSessions.Sessions.AddSession;
+  GlobalSessions.Sessions.SaveSession(session);
 end;
 
 procedure TMainForm.test_act1Click(Sender: TObject);
@@ -1368,6 +1373,7 @@ begin
   fHeight:= 480;
   fWidth:= 640;
   fShowCmd:= 1;
+  fStartupType:= stNormal;
 end;
 {-------------------------------------------------------------------------------
   Get PositionInfo
@@ -1496,31 +1502,18 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Get/Set LastSession
--------------------------------------------------------------------------------}
-function TMainFormSettings.GetLastSession: WideString;
-begin
-// TODO: Session
-//  Result:= GlobalSessions.ActiveSession;
-end;
-procedure TMainFormSettings.SetLastSession(const Value: WideString);
-begin
-// TODO: Session
-//  GlobalSessions.ActiveSession:= Value
-end;
-
-{-------------------------------------------------------------------------------
   Get/Set StartupSession
 -------------------------------------------------------------------------------}
-function TMainFormSettings.GetStartupSession: WideString;
+function TMainFormSettings.GetAutoLoadSession: WideString;
 begin
-// TODO: Session
-//  Result:= GlobalSessions.StartupSession;
+  if assigned(GlobalSessions.AutoLoadSession) then
+  Result:= GlobalSessions.AutoLoadSession.Name
+  else
+  Result:= '';
 end;
-procedure TMainFormSettings.SetStartupSession(const Value: WideString);
+procedure TMainFormSettings.SetAutoLoadSession(const Value: WideString);
 begin
-// TODO: Session
-//  GlobalSessions.StartupSession:= Value;
+  GlobalSessions.AutoLoadSession:= GlobalSessions.Sessions.FindSession(Value);
 end;
 
 
@@ -1529,10 +1522,10 @@ end;
 {$IFDEF madExcept}
 procedure LayoutExceptHandler(const exceptIntf : IMEException; var handled : boolean);
 begin
-  exceptIntf.BugReportHeader['user name']:= '';          // save privacy
-  exceptIntf.BugReportHeader['registered owner']:= '';   // save privacy
-  exceptIntf.BugReportHeader['computer name']:= '';      // save privacy
-  exceptIntf.BugReportHeader['system up time']:= '';      // save privacy
+  exceptIntf.BugReportHeader['user name']:= '';          // for privacy
+  exceptIntf.BugReportHeader['registered owner']:= '';   // for privacy
+  exceptIntf.BugReportHeader['computer name']:= '';      // for privacy
+  exceptIntf.BugReportHeader['system up time']:= '';     // for privacy
   exceptIntf.BugReportHeader['compiled with']:= '';
 end;
 

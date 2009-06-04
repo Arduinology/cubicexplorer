@@ -94,8 +94,6 @@ uses
   fCE_OptionsCustomPage in 'fCE_OptionsCustomPage.pas' {CEOptionsCustomPage: TFrame},
   fCE_OptionsPage_General in 'fCE_OptionsPage_General.pas' {CEOptionsPage_General: TFrame},
   fCE_OptionsPage_Tabs in 'fCE_OptionsPage_Tabs.pas' {CEOptionsPage_Tabs: TFrame},
-  CE_Sessions_ in 'CE_Sessions_.pas',
-  fCE_SessionDlg in 'fCE_SessionDlg.pas' {CESessionEditDlg},
   fCE_OptionsPage_Display in 'fCE_OptionsPage_Display.pas' {CEOptionsPage_Display: TFrame},
   fCE_OptionsPage_Display_Bookmarks in 'fCE_OptionsPage_Display_Bookmarks.pas' {CE_OptionsPage_Display_Bookmarks: TFrame},
   fCE_OptionsPage_Display_FolderTree in 'fCE_OptionsPage_Display_FolderTree.pas' {CE_OptionsPage_Display_FolderTree: TFrame},
@@ -109,7 +107,9 @@ uses
   fCE_QuickViewTab in 'fCE_QuickViewTab.pas' {CEQuickViewPage: TFrame},
   CE_AppSettings in 'CE_AppSettings.pas',
   CE_Sessions in 'CE_Sessions.pas',
-  fCE_OptionsPage_Advanced in 'fCE_OptionsPage_Advanced.pas' {CEOptionsPage_Advanced: TFrame};
+  fCE_OptionsPage_Advanced in 'fCE_OptionsPage_Advanced.pas' {CEOptionsPage_Advanced: TFrame},
+  fCE_SaveSessionDlg in 'fCE_SaveSessionDlg.pas' {CESaveSessionDlg},
+  fCE_SessionManager in 'fCE_SessionManager.pas' {CESessionManager};
 
 {$R *.res}
 {$R 'CE_Resources.res'}

@@ -125,9 +125,9 @@ Unit Documents;
 
 // **** Sessions (850) ****
 // 851 = Save Session
-// 852 = Save Session As...
-// 853 = Session properties
-// 854 = Delete Session
+// 852 = Session Manager
+// 853 = Add History Point
+// 854 = Clear History
 
 // **** Quick Options (900) ***
 

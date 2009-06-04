@@ -30,11 +30,18 @@ uses
   TntStdCtrls,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls;
+  Dialogs, StdCtrls, SpTBXControls, SpTBXItem;
 
 type
   TCEOptionsPage_General = class(TCEOptionsCustomPage)
     check_singleinstance: TTntCheckBox;
+    radio_default: TTntRadioButton;
+    group_startup: TTntGroupBox;
+    radio_lasttime: TTntRadioButton;
+    radio_session: TTntRadioButton;
+    combo_sessions: TTntComboBox;
+    procedure HandleChange(Sender: TObject);
+    procedure radioClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -49,7 +56,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Main;
+  Main, CE_Sessions;
 
 {-------------------------------------------------------------------------------
   Create an instance of TCEOptionsPage_General
@@ -69,14 +76,55 @@ end;
 procedure TCEOptionsPage_General.ApplySettings;
 begin
   MainForm.Settings.SingleInstance:= check_singleinstance.Checked;
+
+  if radio_lasttime.Checked then
+  MainForm.Settings.StartupType:= stLastSession
+  else if radio_session.Checked then
+  MainForm.Settings.StartupType:= stSession
+  else
+  MainForm.Settings.StartupType:= stNormal;
+
+  if combo_sessions.ItemIndex > -1 then
+  MainForm.Settings.AutoLoadSession:= combo_sessions.Items.Strings[combo_sessions.ItemIndex];
+end;
+
+{-------------------------------------------------------------------------------
+  On HandleChange
+-------------------------------------------------------------------------------}
+procedure TCEOptionsPage_General.HandleChange(Sender: TObject);
+begin
+  inherited;
 end;
 
 {-------------------------------------------------------------------------------
   Refresh Settings
 -------------------------------------------------------------------------------}
 procedure TCEOptionsPage_General.RefreshSettings;
+var
+  i: Integer;
 begin
+  combo_sessions.Clear;
+  for i:= 0 to GlobalSessions.Sessions.Items.Count - 1 do
+  begin
+    combo_sessions.Items.Add(GlobalSessions.Sessions.GetSession(i).Name);
+  end;
+  
   check_singleinstance.Checked:= MainForm.Settings.SingleInstance;
+  case MainForm.Settings.StartupType of
+    stNormal: radio_default.Checked:= true;
+    stLastSession: radio_lasttime.Checked:= true;
+    stSession: radio_session.Checked:= true;
+  end;
+  combo_sessions.ItemIndex:= combo_sessions.Items.IndexOf(MainForm.Settings.AutoLoadSession);
+end;
+
+{-------------------------------------------------------------------------------
+  On Radio Click
+-------------------------------------------------------------------------------}
+procedure TCEOptionsPage_General.radioClick(Sender: TObject);
+begin
+  HandleChange(Sender);
+  combo_sessions.Enabled:= radio_session.Checked;
 end;
 
 {##############################################################################}

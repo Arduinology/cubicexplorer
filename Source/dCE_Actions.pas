@@ -132,9 +132,7 @@ type
     act_view_loadskin: TTntAction;
     act_tools_showoptions: TTntAction;
     act_sessions_save: TTntAction;
-    act_sessions_saveas: TTntAction;
-    act_sessions_properties: TTntAction;
-    act_sessions_delete: TTntAction;
+    act_sessions_manage: TTntAction;
     act_view_dropstack: TTntAction;
     MenuItem_ArragneBy: TTntMenuItem;
     act_view_arrangeby: TCEToolbarAction;
@@ -157,6 +155,8 @@ type
     act_focus_addressbar: TTntAction;
     act_tabs_next: TTntAction;
     act_tabs_prev: TTntAction;
+    act_sessions_addhistoryitem: TTntAction;
+    act_sessions_clearhistory: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -256,7 +256,7 @@ uses
   fCE_TextEditor, fCE_FileView, CE_FileView, CE_QuickView,
   CE_Bookmarks, CE_BookmarkTree, fCE_AboutBox, fCE_FileSearch,
   CE_ToolbarButtons, fCE_ToolbarCustomizer, fCE_TabPage, fCE_FiltersPanel,
-  fCE_PoEditor, fCE_OptionsDialog, CE_Sessions, fCE_SessionDlg, fCE_StackPanel,
+  fCE_PoEditor, fCE_OptionsDialog, CE_Sessions, fCE_StackPanel,
   CE_BaseFileView, fCE_QuickViewTab;
 
 {##############################################################################}
@@ -986,16 +986,12 @@ end;
 -------------------------------------------------------------------------------}
 procedure ExecuteSessionsCategory(ActionID: Integer);
 begin
-// TODO: Session
-//  case ActionID of
-//    851: GlobalSessions.SaveToSession(GlobalSessions.ActiveSession);
-//    852: NewSession;
-//    853: EditSession(GlobalSessions.ActiveSession);
-//    854: begin
-//      if (MessageBox(0, 'Are you sure you want to delete active session?', 'Delete Session?', MB_ICONQUESTION or MB_YESNO) = idYes) then
-//      GlobalSessions.DeleteSession(GlobalSessions.ActiveSession);
-//    end;
-//  end;
+  case ActionID of
+    851: GlobalSessions.SaveSessionDlg;
+    852: GlobalSessions.ShowSessionManager;
+    853: GlobalSessions.AddHistorySession;
+    854: GlobalSessions.ClearHistory;
+  end;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1004,10 +1000,6 @@ end;
 procedure UpdateSessionsCategory(ActionID: Integer; TargetAction: TTntAction);
 begin
   TargetAction.Enabled:= true;
-// TODO: Session  
-//  case ActionID of
-//    854: TargetAction.Enabled:= not GlobalSessions.IsDefaultSession;
-//  end;
 end;
 
 {##############################################################################}

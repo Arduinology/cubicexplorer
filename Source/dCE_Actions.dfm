@@ -433,29 +433,15 @@ object CEActions: TCEActions
     object act_sessions_save: TTntAction
       Tag = 851
       Category = 'Sessions'
-      Caption = 'Save'
+      Caption = 'Save...'
       Hint = 'Save active session.'
       OnExecute = ActionExecute
     end
-    object act_sessions_saveas: TTntAction
+    object act_sessions_manage: TTntAction
       Tag = 852
       Category = 'Sessions'
-      Caption = 'Save As...'
-      Hint = 'Save active session with new name.'
-      OnExecute = ActionExecute
-    end
-    object act_sessions_properties: TTntAction
-      Tag = 853
-      Category = 'Sessions'
-      Caption = 'Properties...'
-      Hint = 'Edit session properties.'
-      OnExecute = ActionExecute
-    end
-    object act_sessions_delete: TTntAction
-      Tag = 854
-      Category = 'Sessions'
-      Caption = 'Delete'
-      Hint = 'Delete active session.'
+      Caption = 'Manage...'
+      Hint = 'Show Session Manager'
       OnExecute = ActionExecute
     end
     object act_view_arrangeby: TCEToolbarAction
@@ -540,6 +526,20 @@ object CEActions: TCEActions
       Caption = 'QuickView'
       ImageIndex = 20
       ShortCut = 119
+      OnExecute = ActionExecute
+    end
+    object act_sessions_addhistoryitem: TTntAction
+      Tag = 853
+      Category = 'Sessions'
+      Caption = 'Add History Item'
+      Hint = 'Show Session Manager'
+      OnExecute = ActionExecute
+    end
+    object act_sessions_clearhistory: TTntAction
+      Tag = 854
+      Category = 'Sessions'
+      Caption = 'Clear History'
+      Hint = 'Show Session Manager'
       OnExecute = ActionExecute
     end
   end
