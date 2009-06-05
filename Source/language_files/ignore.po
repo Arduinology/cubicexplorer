@@ -665,3 +665,53 @@ msgstr ""
 #: dCE_Actions.dfm:19
 msgid "Ctrl+F4"
 msgstr ""
+
+#. CEActions..HiddenActionList..act_focus_addressbar....SecondaryShortCuts.Strings
+#: dCE_Actions.dfm:641 
+msgid "F4"
+msgstr ""
+
+#. CEActions..HiddenActionList..act_focus_addressbar....SecondaryShortCuts.Strings
+#: dCE_Actions.dfm:642 
+msgid "F6"
+msgstr ""
+
+#. CEActions..HiddenActionList..act_tabs_prev....SecondaryShortCuts.Strings
+#: dCE_Actions.dfm:660 
+msgid "Ctrl+PgDn"
+msgstr ""
+
+#. CEActions..HiddenActionList..act_tabs_next....SecondaryShortCuts.Strings
+#: dCE_Actions.dfm:651 
+msgid "Ctrl+PgUp"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3267
+msgid "PngImage36"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3291 
+msgid "PngImage37"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3322 
+msgid "PngImage38"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3380 
+msgid "PngImage39"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3435 
+msgid "PngImage40"
+msgstr ""
