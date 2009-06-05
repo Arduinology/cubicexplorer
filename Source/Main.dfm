@@ -506,6 +506,8 @@ object MainForm: TMainForm
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitLeft = 8
+    ExplicitTop = 58
   end
   object ToolbarPopupMenu: TSpTBXPopupMenu
     Left = 16

@@ -164,7 +164,7 @@ implementation
 
 uses
   fCE_TabPage, WideSupport, XMLWrite, Main, CE_SpTabBar, fCE_SaveSessionDlg,
-  fCE_SessionManager, CE_LanguageEngine;
+  fCE_SessionManager, CE_LanguageEngine, dCE_Images;
 
 {-------------------------------------------------------------------------------
   CompareSessionTime
@@ -783,6 +783,8 @@ begin
     item:= TSpTBXItem.Create(self);
     item.Caption:= session.Name;
     item.Tag:= i;
+    item.Images:= CE_Images.MiscImages;
+    item.ImageIndex:= 1;
     item.OnClick:= OnSessionClick;
     if not GlobalSessions.ActiveSessionIsHistory then
     item.Checked:= GlobalSessions.ActiveSession = session;
@@ -849,6 +851,8 @@ begin
     item:= TSpTBXItem.Create(self);
     item.Caption:= 'Session at ' + session.TimeStr;
     item.Tag:= i;
+    item.Images:= CE_Images.MiscImages;
+    item.ImageIndex:= 1;
     item.OnClick:= OnSessionClick;
     if GlobalSessions.ActiveSessionIsHistory then
     item.Checked:= GlobalSessions.ActiveSession = session;

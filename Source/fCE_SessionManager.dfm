@@ -1,9 +1,10 @@
 object CESessionManager: TCESessionManager
   Left = 0
   Top = 0
+  BorderStyle = bsDialog
   Caption = 'Manage Sessions'
-  ClientHeight = 291
-  ClientWidth = 395
+  ClientHeight = 293
+  ClientWidth = 375
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,29 +17,29 @@ object CESessionManager: TCESessionManager
   PixelsPerInch = 96
   TextHeight = 13
   object Panel2: TPanel
-    Left = 192
+    Left = 156
     Top = 0
-    Width = 203
-    Height = 256
+    Width = 219
+    Height = 258
     Align = alRight
     BevelEdges = [beLeft]
     BevelKind = bkTile
     BevelOuter = bvNone
     TabOrder = 2
     DesignSize = (
-      201
-      256)
+      217
+      258)
     object TntLabel1: TTntLabel
-      Left = 4
+      Left = 14
       Top = 8
       Width = 27
       Height = 13
       Anchors = [akTop, akRight]
       Caption = 'Name'
-      ExplicitLeft = 6
+      ExplicitLeft = 10
     end
     object check_autosave: TTntCheckBox
-      Left = 4
+      Left = 14
       Top = 168
       Width = 189
       Height = 17
@@ -48,10 +49,10 @@ object CESessionManager: TCESessionManager
       State = cbChecked
       TabOrder = 0
       OnClick = check_autosaveClick
-      ExplicitLeft = 6
+      ExplicitLeft = 10
     end
     object check_onstartup: TTntCheckBox
-      Left = 4
+      Left = 14
       Top = 191
       Width = 189
       Height = 17
@@ -59,27 +60,27 @@ object CESessionManager: TCESessionManager
       Caption = 'Load this session on startup.'
       TabOrder = 1
       OnClick = check_onstartupClick
-      ExplicitLeft = 6
+      ExplicitLeft = 10
     end
     object edit_name: TTntEdit
-      Left = 4
+      Left = 14
       Top = 23
       Width = 189
       Height = 21
       Anchors = [akTop, akRight]
       TabOrder = 2
       OnChange = edit_nameChange
-      ExplicitLeft = 6
+      ExplicitLeft = 10
     end
     object TntGroupBox1: TTntGroupBox
-      Left = 4
+      Left = 14
       Top = 54
       Width = 189
       Height = 102
       Anchors = [akTop, akRight]
       Caption = 'Save/Load Settings'
       TabOrder = 3
-      ExplicitLeft = 6
+      ExplicitLeft = 10
       DesignSize = (
         189
         102)
@@ -92,7 +93,6 @@ object CESessionManager: TCESessionManager
         Caption = 'Bookmarks'
         Enabled = False
         TabOrder = 0
-        ExplicitWidth = 155
       end
       object check_tabs: TTntCheckBox
         Left = 16
@@ -105,7 +105,6 @@ object CESessionManager: TCESessionManager
         Enabled = False
         State = cbChecked
         TabOrder = 1
-        ExplicitWidth = 155
       end
       object check_layout: TTntCheckBox
         Left = 16
@@ -116,12 +115,11 @@ object CESessionManager: TCESessionManager
         Caption = 'Layout'
         Enabled = False
         TabOrder = 2
-        ExplicitWidth = 155
       end
     end
     object but_delete: TTntButton
-      Left = 6
-      Top = 225
+      Left = 67
+      Top = 219
       Width = 82
       Height = 25
       Caption = 'Delete'
@@ -131,20 +129,21 @@ object CESessionManager: TCESessionManager
   end
   object Panel1: TPanel
     Left = 0
-    Top = 256
-    Width = 395
+    Top = 258
+    Width = 375
     Height = 35
     Align = alBottom
     BevelEdges = [beTop]
     BevelKind = bkTile
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitTop = 248
+    ExplicitTop = 256
+    ExplicitWidth = 395
     DesignSize = (
-      395
+      375
       33)
     object TntButton1: TTntButton
-      Left = 307
+      Left = 287
       Top = 4
       Width = 82
       Height = 25
@@ -152,13 +151,14 @@ object CESessionManager: TCESessionManager
       Caption = 'Close'
       ModalResult = 1
       TabOrder = 0
+      ExplicitLeft = 307
     end
   end
   object SessionList: TVirtualStringTree
     Left = 0
     Top = 0
-    Width = 192
-    Height = 256
+    Width = 156
+    Height = 258
     Align = alClient
     BorderStyle = bsNone
     Header.AutoSizeIndex = 0
@@ -178,6 +178,8 @@ object CESessionManager: TCESessionManager
     OnPaintText = SessionListPaintText
     OnKeyDown = SessionListKeyDown
     OnNewText = SessionListNewText
+    ExplicitWidth = 192
+    ExplicitHeight = 256
     Columns = <>
   end
 end
