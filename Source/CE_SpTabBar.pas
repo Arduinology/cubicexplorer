@@ -956,7 +956,7 @@ constructor TCESpTabToolbar.Create(AOwner: TComponent);
 begin
   inherited;
   fPreventLastTabClosing:= false;
-  Self.ShrinkMode:= tbsmChevron;
+  Self.ShrinkMode:= tbsmWrap;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1083,6 +1083,8 @@ var
   T: TSpTBXSkinType;
   PrevDelta, NextDelta: Integer;
 begin
+  inherited;
+  
   T := SpTBXSkinType(SkinType);
   if PaintOnNCArea and Assigned(FOwnerTabControl) then
   begin

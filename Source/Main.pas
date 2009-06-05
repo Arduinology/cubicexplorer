@@ -195,9 +195,6 @@ type
     SpTBXItem90: TSpTBXItem;
     ApplicationEvents: TApplicationEvents;
     SpTBXItem91: TSpTBXItem;
-    SpTBXItem92: TSpTBXItem;
-    SpTBXSeparatorItem25: TSpTBXSeparatorItem;
-    SpTBXItem93: TSpTBXItem;
     SpTBXItem94: TSpTBXItem;
     SpTBXItem95: TSpTBXItem;
     SpTBXSeparatorItem26: TSpTBXSeparatorItem;
@@ -221,8 +218,6 @@ type
     procedure SpTBXItem80Click(Sender: TObject);
     procedure test_act1Click(Sender: TObject);
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
-    procedure SpTBXItem92Click(Sender: TObject);
-    procedure SpTBXItem93Click(Sender: TObject);
   private
     fFullscreen: Boolean;
     fActiveLanguage: WideString;
@@ -443,9 +438,8 @@ begin
   TabSet:= TCESpTabSet.Create(nil);
   TabSet.Parent:= MainPanel;
   TabSet.Align:= alTop;
-  TabSet.Toolbar.Name:= 'TabBar';
+  TabSet.Name:= 'TabBar';
   TabSet.Toolbar.Caption:= _('Tabs');
-  TabSet.Toolbar.ShrinkMode:= tbsmWrap;
   TabSet.TabDragReorder:= true;
   TabSet.TabPageHost:= DockHostForm.PageHostPanel;
   TabSet.LayoutController:= Layouts;
@@ -505,6 +499,7 @@ begin
   BreadcrumbBar.Tag:= 1;
   // Create Status bar
   StatusBar:= TCEStatusBar.Create(Self);
+  StatusBar.Name:= 'StatusBar';
   StatusBar.Parent:= Self;
   StatusBar.Initialize;
   StatusBar.PopupMenu:= MainMenuPopupMenu;
@@ -520,6 +515,7 @@ begin
   CELayoutItems.Add(EditToolbar);
   CELayoutItems.Add(BreadcrumbBar);
   CELayoutItems.Add(TabSet);
+  CELayoutItems.Add(StatusBar);
   // Add Toolbar Docks
   CEToolbarDocks.Add(LeftToolDock);
   CEToolbarDocks.Add(TopToolDock);
@@ -647,6 +643,8 @@ begin
   Layouts.LoadFromFile(ExePath + 'layout.xml');
   Layouts.LoadToolbarLayout;
 
+
+
   TabsOpened:= false;
   if WideParamCount > 0 then
   begin
@@ -675,6 +673,7 @@ begin
   end;
 
 
+
   if Application.MainForm.AlphaBlendValue < 255 then
   Application.MainForm.AlphaBlend:= true;
 
@@ -684,8 +683,6 @@ begin
   fIsReady:= true;
 
  //test_act1Click(self);
-
-
 
   // Testing stuff!!!
   if DebugHook <> 0 then
@@ -835,6 +832,13 @@ begin
   DockHostForm.DockServer.TopDockPanel.DockManager.ResetBounds(true);
   DockHostForm.DockServer.BottomDockPanel.DockManager.ResetBounds(true);
   DockHostForm.DockServer.RightDockPanel.DockManager.ResetBounds(true);
+
+  // TODO: SpTabSet is visible even when hidden bug. Make proper fix.
+  if not TabSet.Visible then
+  begin
+    TabSet.Visible:= true;
+    TabSet.Visible:= false;
+  end;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1338,20 +1342,6 @@ begin
   page.ExtApp.AppWndStyle:= WS_CHILD;
   page.ExtApp.Run;
   page.UpdateCaption;
-end;
-
-procedure TMainForm.SpTBXItem92Click(Sender: TObject);
-begin
-  GlobalSessions.Sessions.LoadSession(TCESessionItem(GlobalSessions.Sessions.Items.Items[0]));
-end;
-
-procedure TMainForm.SpTBXItem93Click(Sender: TObject);
-var
-  session: TCESessionItem;
-begin
-  //GlobalSessions.Sessions.SaveSession(TCESessionItem(GlobalSessions.Sessions.Items.Items[0]));
-  session:= GlobalSessions.Sessions.AddSession;
-  GlobalSessions.Sessions.SaveSession(session);
 end;
 
 procedure TMainForm.test_act1Click(Sender: TObject);

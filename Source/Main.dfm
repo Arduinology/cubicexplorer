@@ -381,16 +381,6 @@ object MainForm: TMainForm
         Visible = False
         OnClick = test_act1Click
       end
-      object SpTBXSeparatorItem25: TSpTBXSeparatorItem
-      end
-      object SpTBXItem92: TSpTBXItem
-        Caption = 'Load'
-        OnClick = SpTBXItem92Click
-      end
-      object SpTBXItem93: TSpTBXItem
-        Caption = 'Save'
-        OnClick = SpTBXItem93Click
-      end
     end
     object ViewToolbar: TSpTBXToolbar
       Left = 270

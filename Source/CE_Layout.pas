@@ -97,7 +97,8 @@ var
 implementation
 
 uses
-  fCE_DockHostForm, fCE_ToolbarCustomizer, Main, fCE_DockableForm, CE_SpTabBar;
+  fCE_DockHostForm, fCE_ToolbarCustomizer, Main, fCE_DockableForm, CE_SpTabBar,
+  CE_StatusBar;
 
 {*------------------------------------------------------------------------------
   Create an instance of TCELayoutController
@@ -303,6 +304,7 @@ var
   s: String;
   dockablewindow: TTBCustomDockableWindow;
   tabset: TCESpTabSet;
+  statusbar: TCEStatusBar;
 begin
   if not assigned(AppStorage) then
   Exit;
@@ -347,6 +349,16 @@ begin
         finally
           AppStorage.Path:= RootPath;
         end;
+      end
+      else if CELayoutItems.Items[i] is TCEStatusBar then
+      begin
+        statusbar:= TCEStatusBar(CELayoutItems.Items[i]);
+        AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, statusbar.Name]);
+        try
+          statusbar.Visible:= AppStorage.ReadBoolean('Visible', statusbar.Visible);
+        finally
+          AppStorage.Path:= RootPath;
+        end;
       end;
     end;
   finally
@@ -365,6 +377,7 @@ var
   i: Integer;
   dockablewindow: TTBCustomDockableWindow;
   tabset: TCESpTabSet;
+  statusbar: TCEStatusBar;
 begin
   if not assigned(AppStorage) then
   Exit;
@@ -399,6 +412,16 @@ begin
         AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, tabset.Name]);
         try
           AppStorage.WriteBoolean('Visible', tabset.Visible);
+        finally
+          AppStorage.Path:= RootPath;
+        end;
+      end
+      else if CELayoutItems.Items[i] is TCEStatusBar then
+      begin
+        statusbar:= TCEStatusBar(CELayoutItems.Items[i]);
+        AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, statusbar.Name]);
+        try
+          AppStorage.WriteBoolean('Visible', statusbar.Visible);
         finally
           AppStorage.Path:= RootPath;
         end;
