@@ -29,15 +29,16 @@ object CESessionManager: TCESessionManager
       201
       256)
     object TntLabel1: TTntLabel
-      Left = 6
+      Left = 4
       Top = 8
       Width = 27
       Height = 13
       Anchors = [akTop, akRight]
       Caption = 'Name'
+      ExplicitLeft = 6
     end
     object check_autosave: TTntCheckBox
-      Left = 6
+      Left = 4
       Top = 168
       Width = 189
       Height = 17
@@ -47,9 +48,10 @@ object CESessionManager: TCESessionManager
       State = cbChecked
       TabOrder = 0
       OnClick = check_autosaveClick
+      ExplicitLeft = 6
     end
     object check_onstartup: TTntCheckBox
-      Left = 6
+      Left = 4
       Top = 191
       Width = 189
       Height = 17
@@ -57,24 +59,27 @@ object CESessionManager: TCESessionManager
       Caption = 'Load this session on startup.'
       TabOrder = 1
       OnClick = check_onstartupClick
+      ExplicitLeft = 6
     end
     object edit_name: TTntEdit
-      Left = 6
+      Left = 4
       Top = 23
       Width = 189
       Height = 21
       Anchors = [akTop, akRight]
       TabOrder = 2
       OnChange = edit_nameChange
+      ExplicitLeft = 6
     end
     object TntGroupBox1: TTntGroupBox
-      Left = 6
+      Left = 4
       Top = 54
       Width = 189
       Height = 102
       Anchors = [akTop, akRight]
       Caption = 'Save/Load Settings'
       TabOrder = 3
+      ExplicitLeft = 6
       DesignSize = (
         189
         102)

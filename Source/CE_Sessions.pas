@@ -510,12 +510,11 @@ end;
 -------------------------------------------------------------------------------}
 function TCESessionList.GetNewestSession: TCESessionItem;
 var
-  i, index: Integer;
+  i: Integer;
   d: TDateTime;
 begin
   Result:= nil;
   d:= 0;
-  index:= -1;
   for i:= 0 to Items.Count - 1 do
   begin
     if (TCESessionItem(Items.Items[i]).Time > d) or (i = 0) then

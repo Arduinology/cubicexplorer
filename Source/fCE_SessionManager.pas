@@ -217,8 +217,6 @@ end;
   On AutoLoad Click
 -------------------------------------------------------------------------------}
 procedure TCESessionManager.check_onstartupClick(Sender: TObject);
-var
-  session: TCESessionItem;
 begin
   if SessionPropertiesEnabled then
   begin

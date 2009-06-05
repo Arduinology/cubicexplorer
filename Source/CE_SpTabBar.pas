@@ -129,7 +129,6 @@ type
     fDropTab: TCESpTabItem;
     fDropTimer: TTimer;
     fLayoutController: TCELayoutController;
-    fReuseTabs: Boolean;
     fSettings: TCETabSettings;
     fTabPageHost: TWinControl;
     fTabPopupMenu: TPopupMenu;
@@ -184,7 +183,6 @@ type
     property TabPageHost: TWinControl read fTabPageHost write fTabPageHost;
     property TabPopupMenu: TPopupMenu read fTabPopupMenu write fTabPopupMenu;
   published
-    property ReuseTabs: Boolean read fReuseTabs write fReuseTabs;
     property Settings: TCETabSettings read fSettings write fSettings;
   end;
 

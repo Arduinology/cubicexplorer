@@ -1097,7 +1097,7 @@ var
 begin
   item:= nil;
   GlobalFileViewSettings.AssignFromActivePage;
-  if MainForm.TabSet.ReuseTabs and not ForceNewTab then
+  if MainForm.TabSet.Settings.ReuseTabs and not ForceNewTab then
   begin
     for i:= 0 to MainForm.TabSet.Items.Count -1 do
     begin
