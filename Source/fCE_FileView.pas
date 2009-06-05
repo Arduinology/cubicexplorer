@@ -142,6 +142,7 @@ type
     fSelectPreviousFolder: Boolean;
     fAutoSelectFirstItem: Boolean;
     fAutosizeListViewStyle: Boolean;
+    fBrowseZipFolders: Boolean;
     fColumns: TCEColumnSettings;
     fFilmstrip: TCEFilmstripSettings;
     fGroupBy: TCEGroupBySettings;
@@ -155,6 +156,7 @@ type
     procedure SetSelectPreviousFolder(const Value: Boolean);
     procedure SetAutoSelectFirstItem(const Value: Boolean);
     procedure SetAutosizeListViewStyle(const Value: Boolean);
+    procedure SetBrowseZipFolders(const Value: Boolean);
     procedure SetShowExtensions(const Value: Boolean);
     procedure SetShowHeaderAlways(const Value: Boolean);
     procedure SetSmoothScroll(const Value: Boolean);
@@ -179,6 +181,8 @@ type
         SetAutoSelectFirstItem;
     property AutosizeListViewStyle: Boolean read fAutosizeListViewStyle write
         SetAutosizeListViewStyle;
+    property BrowseZipFolders: Boolean read fBrowseZipFolders write
+        SetBrowseZipFolders;
     property Columns: TCEColumnSettings read fColumns write fColumns;
     property Filmstrip: TCEFilmstripSettings read fFilmstrip write fFilmstrip;
     property FullRowSelect: Boolean read fFullRowSelect write SetFullRowSelect;
@@ -834,6 +838,8 @@ end;
   Assign options to FileView.
 -------------------------------------------------------------------------------}
 procedure TCEFileViewSettings.AssignSettingsTo(FileViewPage: TCEFileViewPage);
+var
+  options: TVirtualEasyListviewOptions;
 begin
   if not assigned(FileViewPage) then
   Exit;
@@ -843,6 +849,7 @@ begin
     FileViewPage.ViewStyle:= ViewStyle;
     FileViewPage.ThumbViewStyle:= Filmstrip.ThumbStyle;
     FileViewPage.ThumbPosition:= Filmstrip.ThumbPos;
+    // Toggles
     FileViewPage.FileView.SmoothScroll:= fSmoothScroll;
     if fHiddenFiles then
     FileViewPage.FileView.FileObjects:= [foFolders,foNonFolders,foHidden] //,foShareable,foNetworkPrinters]
@@ -857,6 +864,11 @@ begin
     FileViewPage.FileView.AutoSelectFirstItem:= AutoSelectFirstItem;
     FileViewPage.FileView.AutosizeListViewStyle:= AutosizeListViewStyle;
     FileViewPage.FileView.SortFolderFirstAlways:= SortFolderFirstAlways;
+    // Options
+    options:= FileViewPage.FileView.Options;
+    if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
+    FileViewPage.FileView.Options:= options;
+
     AssignColumnSettingsTo(FileViewPage.FileView);
   finally
     fUpdating:= false;
@@ -955,6 +967,7 @@ var
   i: Integer;
   FileViewPage: TCEFileViewPage;
   doRebuild: Boolean;
+  options: TVirtualEasyListviewOptions;
 begin
   for i:= 0 to NotifyList.Count - 1 do
   begin
@@ -978,7 +991,11 @@ begin
       FileViewPage.FileView.SortFolderFirstAlways:= SortFolderFirstAlways;
       doRebuild:=  FileViewPage.FileView.ShowExtension <> fShowExtensions;
       FileViewPage.FileView.ShowExtension:= fShowExtensions;
-      
+      // Options
+      options:= FileViewPage.FileView.Options;
+      if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
+      FileViewPage.FileView.Options:= options;
+
       if doRebuild then FileViewPage.FileView.Rebuild;
       FileViewPage.FileView.EndUpdate(FileViewPage.Visible);
     end
@@ -1127,6 +1144,15 @@ end;
 procedure TCEFileViewSettings.SetAutosizeListViewStyle(const Value: Boolean);
 begin
   fAutosizeListViewStyle:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Browse Zip Folders
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetBrowseZipFolders(const Value: Boolean);
+begin
+  fBrowseZipFolders:= Value;
   SendChanges;
 end;
 

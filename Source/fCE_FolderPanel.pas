@@ -74,13 +74,17 @@ type
     fOpenInNewTab: Boolean;
     function GetAutoCollapse: Boolean;
     function GetAutoExpand: Boolean;
+    function GetBrowseZipFolders: Boolean;
     procedure SetAutoCollapse(const Value: Boolean);
     procedure SetAutoExpand(const Value: Boolean);
+    procedure SetBrowseZipFolders(const Value: Boolean);
   public
     FolderPanel: TCEFolderPanel;
   published
     property AutoCollapse: Boolean read GetAutoCollapse write SetAutoCollapse;
     property AutoExpand: Boolean read GetAutoExpand write SetAutoExpand;
+    property BrowseZipFolders: Boolean read GetBrowseZipFolders write
+        SetBrowseZipFolders;
     property OpenInNewTab: Boolean read fOpenInNewTab write fOpenInNewTab;
   end;
 
@@ -288,6 +292,18 @@ end;
 procedure TCEFolderPanelSettings.SetAutoExpand(const Value: Boolean);
 begin
   FolderPanel.FolderTree.AutoExpand:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set BrowseZipFolders
+-------------------------------------------------------------------------------}
+function TCEFolderPanelSettings.GetBrowseZipFolders: Boolean;
+begin
+  Result:= FolderPanel.FolderTree.BrowseZipFolders;
+end;
+procedure TCEFolderPanelSettings.SetBrowseZipFolders(const Value: Boolean);
+begin
+  FolderPanel.FolderTree.BrowseZipFolders:= Value;
 end;
 
 end.

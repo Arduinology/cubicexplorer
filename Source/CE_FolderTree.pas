@@ -45,9 +45,11 @@ type
   private
     fAutoCollapse: Boolean;
     fAutoExpand: Boolean;
+    fBrowseZipFolders: Boolean;
     fHiddenFiles: Boolean;
     fOnSelectedChange: TCEFolderTreeSelectedChangeEvent;
     fSelectionTimer: TTimer;
+    procedure SetBrowseZipFolders(const Value: Boolean);
     procedure SetHiddenFiles(const Value: Boolean);
   protected
     function DoCreateEditor(Node: PVirtualNode; Column: TColumnIndex): IVTEditLink;
@@ -72,6 +74,8 @@ type
     procedure SelectedFilesDelete; override;
     property AutoCollapse: Boolean read fAutoCollapse write fAutoCollapse;
     property AutoExpand: Boolean read fAutoExpand write fAutoExpand;
+    property BrowseZipFolders: Boolean read fBrowseZipFolders write
+        SetBrowseZipFolders;
     property HiddenFiles: Boolean read fHiddenFiles write SetHiddenFiles;
   published
     property OnSelectedChange: TCEFolderTreeSelectedChangeEvent read
@@ -102,7 +106,7 @@ begin
   Self.TreeOptions.MiscOptions:= [toAcceptOLEDrop,toEditable,toFullRepaintOnResize,toInitOnSave,toToggleOnDblClick];
   Self.TreeOptions.PaintOptions:= [toShowButtons,toShowTreeLines,toUseBlendedImages,toGhostedIfUnfocused];
   Self.TreeOptions.VETImageOptions:= [toImages,toMarkCutAndCopy];
-  Self.TreeOptions.VETMiscOptions:= [toBrowseExecuteFolder, toRemoveContextMenuShortCut,toBrowseExecuteFolderShortcut,toChangeNotifierThread,toTrackChangesInMappedDrives,toExecuteOnDblClk, toNoRebuildIconListOnAssocChange];
+  Self.TreeOptions.VETMiscOptions:= [toBrowseExecuteFolder, toBrowseExecuteZipFolder, toRemoveContextMenuShortCut,toBrowseExecuteFolderShortcut,toChangeNotifierThread,toTrackChangesInMappedDrives,toExecuteOnDblClk, toNoRebuildIconListOnAssocChange];
   Self.TreeOptions.VETShellOptions:= [toRightAlignSizeColumn,toContextMenus,toDragDrop];
   Self.VETColors.FileTextColor:= clWindowText;
   Self.VETColors.FolderTextColor:= clWindowText;
@@ -558,15 +562,29 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Set BrowseZipFolders
+-------------------------------------------------------------------------------}
+procedure TCEFolderTree.SetBrowseZipFolders(const Value: Boolean);
+var
+  obj: TFileObjects;
+begin
+  fBrowseZipFolders:= Value;
+  obj:= FileObjects;
+  if fBrowseZipFolders then Include(obj, foNonFolders) else Exclude(obj, foNonFolders);
+  FileObjects:= obj;
+end;
+
+{-------------------------------------------------------------------------------
   Set Hidden Files
 -------------------------------------------------------------------------------}
 procedure TCEFolderTree.SetHiddenFiles(const Value: Boolean);
+var
+  obj: TFileObjects;
 begin
   fHiddenFiles:= Value;
-  if fHiddenFiles then
-  FileObjects:= [foFolders,foHidden]
-  else
-  FileObjects:= [foFolders];
+  obj:= FileObjects;
+  if fHiddenFiles then Include(obj, foHidden) else Exclude(obj, foHidden);
+  FileObjects:= obj;
 end;
 
 {*------------------------------------------------------------------------------
