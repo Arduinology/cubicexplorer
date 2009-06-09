@@ -241,6 +241,8 @@ type
     procedure WMDeviceChange(var Message: TMessage); message WM_DEVICECHANGE;
     procedure WMPowerBroadcast(var Message: TMessage); message WM_POWERBROADCAST;
     procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
+    procedure WMSyscommand(var Message: TWmSysCommand); message WM_SYSCOMMAND;
+    procedure CreateParams(var Params: TCreateParams); override;
   public
     DockHostForm: TCEDockHostForm;
     Layouts: TCELayoutController;
@@ -384,6 +386,12 @@ end;
 -------------------------------------------------------------------------------}
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
+  ShowWindow(Application.Handle, SW_HIDE);
+  SetWindowLong(Application.Handle, GWL_EXSTYLE,
+    GetWindowLong(Application.Handle, GWL_EXSTYLE) and not WS_EX_APPWINDOW
+    or WS_EX_TOOLWINDOW);
+  ShowWindow(Application.Handle, SW_SHOW);
+
   benchStart:= GetTickCount;
   ChangeNotifier.RegisterShellChangeNotify(Self);
   fLanguageList:= TTntStringList.Create;
@@ -395,6 +403,16 @@ begin
   Settings:= TMainFormSettings.Create;
   Settings.Form:= Self;
   GlobalAppSettings.AddItem('MainForm', Settings, true, true);
+end;
+
+{-------------------------------------------------------------------------------
+  Create Params
+-------------------------------------------------------------------------------}
+procedure TMainForm.CreateParams(var Params: TCreateParams);
+begin
+  inherited CreateParams(Params);
+  Params.ExStyle := Params.ExStyle and not WS_EX_TOOLWINDOW or
+    WS_EX_APPWINDOW;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1235,6 +1253,27 @@ begin
   finally
     ShellEventList.UnlockList;
     ShellEventList.Release;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle WM_SysCommand (fix Vista issues)
+-------------------------------------------------------------------------------}
+procedure TMainForm.WMSyscommand(var Message: TWmSysCommand);
+begin
+  case (Message.CmdType and $FFF0) of
+    SC_MINIMIZE:
+    begin
+      ShowWindow(Handle, SW_MINIMIZE);
+      Message.Result := 0;
+    end;
+    SC_RESTORE:
+    begin
+      ShowWindow(Handle, SW_RESTORE);
+      Message.Result := 0;
+    end;
+  else
+    inherited;  
   end;
 end;
 

@@ -57,6 +57,9 @@ function ShowNewTranslationDlg(LocalePath: WideString; var Language:
 
 implementation
 
+uses
+  Main;
+
 {$R *.dfm}
 
 {*------------------------------------------------------------------------------
@@ -70,6 +73,7 @@ begin
   dlg1:= TCENewTranslationDlg.Create(nil);
   try
     dlg1.LocalePath:= LocalePath;
+    dlg1.PopupParent:= MainForm;
     Result:= dlg1.ShowModal = mrOK;
     if Result then
     begin

@@ -769,6 +769,7 @@ begin
   end;
 
   ColumnSettings.OnVETUpdate:= TCEFileViewHack(FileView).ColumnSettingCallback;
+  ColumnSettings.PopupParent:= MainForm;
   if ColumnSettings.ShowModal = mrOk then
   begin
     TCEFileViewHack(FileView).UpdateColumnsFromDialog(ColumnNames);

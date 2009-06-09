@@ -293,6 +293,7 @@ var
 begin
   dlg:= TCESaveSessionDlg.Create(nil);
   try
+    dlg.PopupParent:= MainForm;
     if dlg.ShowModal = mrOK then
     begin
       session:= Sessions.FindSession(dlg.SessionCombo.Text);
@@ -379,6 +380,7 @@ var
 begin
   manager:= TCESessionManager.Create(nil);
   try
+    manager.PopupParent:= MainForm;
     manager.ShowModal;
   finally
     manager.Free;
