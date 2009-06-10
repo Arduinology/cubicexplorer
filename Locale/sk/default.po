@@ -1,0 +1,715 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"CE-POT-Version: 1131\n"
+"CE-Language: Slovak\n"
+"Last-Translator: Sepp Winkler <sepp.winkler@gmail.com>\n"
+
+msgid "About CubicExplorer"
+msgstr "O programe CubicExplorer"
+
+msgid "About..."
+msgstr "O..."
+
+msgid "Actions"
+msgstr "Úkony"
+
+msgid "Add Bookmark"
+msgstr "Pridať záložku"
+
+msgid "Add Category"
+msgstr "Pridať kategóriu"
+
+msgid "Add Tab"
+msgstr "Pridať kartu"
+
+msgid "Address Bar"
+msgstr "Panel adresy"
+
+msgid "Always On Top"
+msgstr "Vždy navrchu"
+
+msgid "Always Show Sort Columns"
+msgstr "Vždy ukázať stĺpce triedenia"
+
+msgid "Always sort folders first."
+msgstr "Zložky vždy prvé"
+
+msgid "And Launch Files"
+msgstr "Pridať spustiteľné súbory"
+
+msgid "Application Revision:"
+msgstr "Vydanie:"
+
+msgid "Apply"
+msgstr "Použiť"
+
+msgid "Apply changes."
+msgstr "Použiť zmeny."
+
+msgid "Arrange By"
+msgstr "Usporiadať podľa"
+
+msgid "Attributes"
+msgstr "Atribúty"
+
+msgid "Auto"
+msgstr "Automaticky"
+
+msgid "Auto collapse tree"
+msgstr "Automaticky zbaliť strom"
+
+msgid "Auto expand tree"
+msgstr "Automaticky rozbaliť strom"
+
+msgid "Auto size cells in list view style."
+msgstr "Automatická veľkosť buniek zoznamu"
+
+msgid "Automatic"
+msgstr "Automaticky"
+
+msgid "Back"
+msgstr "Späť"
+
+msgid "Backward"
+msgstr "Naspäť"
+
+msgid "Bookmarks"
+msgstr "Záložky"
+
+msgid "Bookmarks Panel Settings"
+msgstr "Nastavenia panela záložiek"
+
+msgid "Bottom"
+msgstr "Dole"
+
+msgid "Breadcrumb Navigation"
+msgstr "Segmentová navigácia"
+
+msgid "Browse..."
+msgstr "Prechádzať..."
+
+msgid "Bytes"
+msgstr "Bytov"
+
+msgid "Cancel"
+msgstr "Zrušiť"
+
+msgid "Case sensitivity"
+msgstr "Rozlišovanie malých/veľkých"
+
+msgid "Clear List"
+msgstr "Vyčistiť zoznam"
+
+msgid "Clear filters on folder change"
+msgstr "Vyčistiť filtre pri zmene zložky"
+
+msgid "Close"
+msgstr "Zatvoriť"
+
+msgid "Close Other Tabs"
+msgstr "Zatvoriť ostatné karty"
+
+msgid "Close Tab"
+msgstr "Zatvoriť kartu"
+
+msgid "Close Tabs on Left"
+msgstr "Zatvoriť karty vľavo"
+
+msgid "Close Tabs on Right"
+msgstr "Zatvoriť karty vpravo"
+
+msgid "Copy"
+msgstr "Kopírovať"
+
+msgid "Copy Path"
+msgstr "Kopírovať cestu"
+
+msgid "Copy of active tab"
+msgstr "Kópia aktívnej karty"
+
+msgid "Create"
+msgstr "Vytvoriť"
+
+msgid "Create New Translation"
+msgstr "Vytvoriť nový preklad"
+
+msgid "Create new translation."
+msgstr "Vytvoriť nový preklad."
+
+msgid "CubicExplore Home Page"
+msgstr "Domovská stránka CubicExplorer"
+
+msgid "CubicExplorer Options"
+msgstr "Možnosti CubicExplorer"
+
+msgid "Custom..."
+msgstr "Vlastná..."
+
+msgid "Customize"
+msgstr "Prispôsobiť"
+
+msgid "Customizer..."
+msgstr "Prispôsobenia..."
+
+msgid "Cut"
+msgstr "Vystrihnúť"
+
+msgid "Date Accessed"
+msgstr "Dátum prístupu"
+
+msgid "Date Created"
+msgstr "Dátum vytvorenia"
+
+msgid "Date Modified"
+msgstr "Dátum zmeny"
+
+msgid "Default"
+msgstr "Predvolené"
+
+msgid "Delete"
+msgstr "Odstrániť"
+
+msgid "Delete active session."
+msgstr "Odstrániť aktívnu reláciu."
+
+msgid "Desktop"
+msgstr "Plocha"
+
+msgid "Details"
+msgstr "Podrobnosti"
+
+msgid "Direction"
+msgstr "Smer"
+
+msgid "Disconnect Network Drive..."
+msgstr "Odpojiť sieťový disk..."
+
+msgid "Display"
+msgstr "Zobrazenie"
+
+msgid "Display Settings"
+msgstr "Nastavenia zobrazenia"
+
+msgid "Drives"
+msgstr "Disky"
+
+msgid "Drop Stack"
+msgstr "Odkladací box"
+
+msgid "Duplicate"
+msgstr "Duplikovať"
+
+msgid "Duplicate Tab"
+msgstr "Duplikovať kartu"
+
+msgid "Edit"
+msgstr "Upraviť"
+
+msgid "Edit Session"
+msgstr "Upraviť reláciu"
+
+msgid "Edit session properties."
+msgstr "Upraviť vlastnosti relácie."
+
+msgid "Editor Options..."
+msgstr "Editor možností..."
+
+msgid "Empty Recycle Bin"
+msgstr "Vyprázdniť kôš"
+
+msgid "English (default)"
+msgstr "Anglicky (predvolené)"
+
+msgid "Exit"
+msgstr "Ukončiť"
+
+msgid "File"
+msgstr "Súbor"
+
+msgid "File Search"
+msgstr "Hľadať súbor"
+
+msgid "Fileview"
+msgstr "Zoznam súborov"
+
+msgid "Fileview Settings"
+msgstr "Nastavenia zoznamu súborov"
+
+msgid "Filmstrip"
+msgstr "Filmový pás"
+
+msgid "Filters"
+msgstr "Filtre"
+
+msgid "Find Next"
+msgstr "Nájsť ďalší"
+
+msgid "Find Previous"
+msgstr "Nájsť predchádzajúci"
+
+msgid "Folder Path"
+msgstr "Cesta zložky"
+
+msgid "Folder Up"
+msgstr "Úroveň vyššie"
+
+msgid "Folders"
+msgstr "Zložky"
+
+msgid "Folders Panel Settings"
+msgstr "Nastavenia panelu zložiek"
+
+msgid "Format"
+msgstr "Formát"
+
+msgid "Forward"
+msgstr "Dopredu"
+
+msgid "Fullscreen"
+msgstr "Celá obrazovka"
+
+msgid "General"
+msgstr "Všeobecné"
+
+msgid "General Settings"
+msgstr "Všeobecné nastavenia"
+
+msgid "Group By"
+msgstr "Zoskupiť podľa"
+
+msgid "Help"
+msgstr "Pomocník"
+
+msgid "Hex"
+msgstr "Hexadecimálne"
+
+msgid "Highlight row completely"
+msgstr "Zvýrazniť celý riadok"
+
+msgid "Highlighter"
+msgstr "Zvýrazňovač"
+
+msgid "Image"
+msgstr "Obrázok"
+
+msgid "Insert"
+msgstr "Vložiť"
+
+msgid "Invert Selection"
+msgstr "Opačný výber"
+
+msgid "KB"
+msgstr "KB"
+
+msgid "Language"
+msgstr "Jazyk"
+
+msgid "Language Editor"
+msgstr "Editor prekladu"
+
+msgid "Large Icons"
+msgstr "Veľké ikony"
+
+msgid "Launch Files Only"
+msgstr "Len spustiteľné súbory"
+
+msgid "Layouts"
+msgstr "Rozloženia"
+
+msgid "Left"
+msgstr "Vľavo"
+
+msgid "List"
+msgstr "Zoznam"
+
+msgid "Load Skin..."
+msgstr "Načítať tému..."
+
+msgid "Load skin from file"
+msgstr "Načítať tému zo súboru"
+
+msgid "Load this session on startup."
+msgstr "Načítať túto reláciu pri spustení."
+
+msgid "Loading..."
+msgstr "Načítavanie..."
+
+msgid "MB"
+msgstr "MB"
+
+msgid "Main Menu"
+msgstr "Hlavné menu"
+
+msgid "Map Network Drive..."
+msgstr "Pripojiť sieťový disk..."
+
+msgid "Menu"
+msgstr "Menu"
+
+msgid "Modified"
+msgstr "Zmenený"
+
+msgid "More..."
+msgstr "Viac..."
+
+msgid "Name"
+msgstr "Názov"
+
+msgid "Name Only"
+msgstr "Len názov"
+
+msgid "Navigation"
+msgstr "Navigácia"
+
+msgid "New"
+msgstr "Nový"
+
+msgid "New Folder"
+msgstr "Nová zložka"
+
+msgid "New Session"
+msgstr "Nová relácia"
+
+msgid "No Extension"
+msgstr "Bez prípony"
+
+msgid "No file loaded."
+msgstr "Súbor nebol načítaný."
+
+msgid "None"
+msgstr "Nič"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open All in Tabs"
+msgstr "Otvoriť všetko na kartách"
+
+msgid "Open Command Prompt"
+msgstr "Otvoriť príkazový riadok"
+
+msgid "Open in new tab by default"
+msgstr "Predvolene otvoriť na novej karte"
+
+msgid "Open new tab as"
+msgstr "Otvoriť novú kartu ako"
+
+msgid "Open..."
+msgstr "Otvoriť..."
+
+msgid "Options"
+msgstr "Možnosti"
+
+msgid "Options..."
+msgstr "Možnosti..."
+
+msgid "Original"
+msgstr "Pôvodné"
+
+msgid "Override"
+msgstr "Vyradiť"
+
+msgid "Panels"
+msgstr "Panely"
+
+msgid "Paste"
+msgstr "Prilepiť"
+
+msgid "Paste Shortcut"
+msgstr "Prilepiť zástupcu"
+
+msgid "Path"
+msgstr "Cesta"
+
+msgid "Pause"
+msgstr "Pozastaviť"
+
+msgid "Properties"
+msgstr "Vlastnosti"
+
+msgid "Properties..."
+msgstr "Vlastnosti..."
+
+msgid "Publish Translation"
+msgstr "Zverejniť preklad"
+
+msgid "QuickView"
+msgstr "Rýchly náhľad"
+
+msgid "Quickview"
+msgstr "Rýchly náhľad"
+
+msgid "Redo"
+msgstr "Opkovať"
+
+msgid "Refresh"
+msgstr "Obnoviť"
+
+msgid "Regular expression"
+msgstr "Regulárny výraz"
+
+msgid "Relative"
+msgstr "Relatívne"
+
+msgid "Reload"
+msgstr "Znova načítať"
+
+msgid "Rename"
+msgstr "Premenovať"
+
+msgid "Replace"
+msgstr "Nahradiť"
+
+msgid "Replace All"
+msgstr "Nahradiť všetko"
+
+msgid "Reuse already open tabs"
+msgstr "Znova použiť otvorené karty"
+
+msgid "Right"
+msgstr "Vpravo"
+
+msgid "Save"
+msgstr "Uložiť"
+
+msgid "Save As..."
+msgstr "Uložiť ako..."
+
+msgid "Save active session with new name."
+msgstr "Uložiť aktívnu reláciu s novým menom."
+
+msgid "Save active session."
+msgstr "Uložiť aktívnu reláciu."
+
+msgid "Save changes before closing?"
+msgstr "Uložiť zmeny pred ukončením?"
+
+msgid "Save changes."
+msgstr "Uložiť zmeny."
+
+msgid "Save changes?"
+msgstr "Uložiť zmeny?"
+
+msgid "Save settings automatically."
+msgstr "Uložiť zmeny automaticky."
+
+msgid "Save/Load Settings"
+msgstr "Uložiť/načítať nastavenia"
+
+msgid "Scroll Left"
+msgstr "Posunúť vľavo"
+
+msgid "Scroll Right"
+msgstr "Posunúť vpravo"
+
+msgid "Search"
+msgstr "Hľadať"
+
+msgid "Search File Mask"
+msgstr "Maska hľadania"
+
+msgid "Search Word or Phrase in File Name"
+msgstr "Hľadať slovo alebo frázu v názve súboru"
+
+msgid "Search and Replace"
+msgstr "Hľadť a nahradiť"
+
+msgid "Search from cursor"
+msgstr "Hľadať od kurzora"
+
+msgid "Search in Directory"
+msgstr "Hľadať v zložke"
+
+msgid "Select All"
+msgstr "Vybrať všetko"
+
+msgid "Select default folder for new tabs."
+msgstr "Vybrať predvolenú zložku pre nové karty."
+
+msgid "Select first item automatically"
+msgstr "Vybrať automaticky prvú položku"
+
+msgid "Select previous folder"
+msgstr "vybrať predchádzajúcu zložku"
+
+msgid "Selected"
+msgstr "Vybraných"
+
+msgid "Selected text only"
+msgstr "Vybrať len text"
+
+msgid "Separator"
+msgstr "Oddeľovač"
+
+msgid "Session Name"
+msgstr "Názov relácie"
+
+msgid "Sessions"
+msgstr "Relácie"
+
+msgid "Short Folder Path"
+msgstr "Krátka cesta zložky"
+
+msgid "Short Name Only"
+msgstr "Krátky názov súboru"
+
+msgid "Short Path"
+msgstr "Krátka cesta"
+
+msgid "Show All Files"
+msgstr "Zobraziť všetky súbory"
+
+msgid "Show Extensions"
+msgstr "Zobraziť prípony"
+
+msgid "Show Folders"
+msgstr "Zobraziť zložky"
+
+msgid "Show Hidden Files"
+msgstr "Zobraziť skryté súbory"
+
+msgid "Show Hints"
+msgstr "Zobraziť tipy"
+
+msgid "Show Path in Title bar"
+msgstr "Zobraziť cestu v hlavičke okna"
+
+msgid "Show Statusbar"
+msgstr "Zobraziť stavový riadok"
+
+msgid "Show Toolbar"
+msgstr "Zobraziť panel nástrojov"
+
+msgid "Show in Groups"
+msgstr "Zobraziť zoskupené"
+
+msgid "Single Instance Only"
+msgstr "Len jedna inštancia"
+
+msgid "Single click mode"
+msgstr "Režim jedného kliknutia"
+
+msgid "Size"
+msgstr "Veľkosť"
+
+msgid "Small Icons"
+msgstr "Malé ikony"
+
+msgid "Stack"
+msgstr "Box"
+
+msgid "Start"
+msgstr "Štart"
+
+msgid "Status Bar"
+msgstr "Stavový riadok"
+
+msgid "Stop"
+msgstr "Stop"
+
+msgid "Subdirectories"
+msgstr "Podzložky"
+
+msgid "Support Forum"
+msgstr "Fórum podpory"
+
+msgid "Switch to a new tab immediately"
+msgstr "Ihneď prepnúť do novej karty"
+
+msgid "Tabs"
+msgstr "Karty"
+
+msgid "Tabs Settings"
+msgstr "Nastavenia kariet"
+
+msgid "Target"
+msgstr "Cieľ"
+
+msgid "Text"
+msgstr "Text"
+
+msgid "Text Editor"
+msgstr "Textový editor"
+
+msgid "Theme"
+msgstr "Téma"
+
+msgid "Thumbnails"
+msgstr "Miniatúry"
+
+msgid "Thumbs Position"
+msgstr "Umiestnenie miniatúr"
+
+msgid "Thumbs View Style"
+msgstr "Štýl zobrazenia miniatúr"
+
+msgid "Tiles"
+msgstr "Dlaždice"
+
+msgid "Toolbars"
+msgstr "Panely nástrojov"
+
+msgid "Tools"
+msgstr "Nástroje"
+
+msgid "Top"
+msgstr "Hore"
+
+msgid "Total Size"
+msgstr "Celková veľkosť"
+
+msgid "Translate CubicExplorer"
+msgstr "Preložiť CubicExplorer"
+
+msgid "Translation"
+msgstr "Preklad"
+
+msgid "Translation Revision:"
+msgstr "Revízia prekladu:"
+
+msgid "Translation Version"
+msgstr "Verzia prekladu"
+
+msgid "Translator's Email"
+msgstr "E-mail prekladateľa"
+
+msgid "Translator's Name"
+msgstr "Meno prekladateľa"
+
+msgid "Transparency"
+msgstr "Priehľadnosť"
+
+msgid "Type"
+msgstr "Typ"
+
+msgid "Undo"
+msgstr "Späť"
+
+msgid "Untitled"
+msgstr "Neoznačené"
+
+msgid "Version:"
+msgstr "Verzia:"
+
+msgid "View"
+msgstr "Zobraziť"
+
+msgid "View Style"
+msgstr "Štýl zobrazenia"
+
+msgid "When I open folder/file in a new tab, switch to it immediately "
+msgstr "Pri otvorení súboru/zložky na novej karte prepnúť okamžite"
+
+msgid "Whole words only"
+msgstr "Len celé slová"
+
+msgid "Word List"
+msgstr "Zoznam slov"
+
+msgid "Word Wrap"
+msgstr "Zalamovanie slov"
+
