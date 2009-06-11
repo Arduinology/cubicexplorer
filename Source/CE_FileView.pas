@@ -68,6 +68,7 @@ type
     fTranslateHeader: Boolean;
     fUseKernelNotification: Boolean;
     fCellWidth: Integer;
+    fColumnIndex: Integer;
     procedure SetAutosizeListViewStyle(const Value: Boolean);
     procedure SetUseKernelNotification(const Value: Boolean);
   protected
@@ -86,6 +87,7 @@ type
         Integer; ChangeType: TVSHChangeType);
     procedure SetNotifyFolder(Namespace: TNamespace);
     procedure SetView(Value: TEasyListStyle); override;
+    property ColumnIndex: Integer read fColumnIndex write fColumnIndex;
   public
     fChangeHistory: Boolean;
     History: TVirtualShellHistory;
@@ -564,7 +566,7 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  DoCustomColumnAdd
+  Do CustomColumnAdd
 -------------------------------------------------------------------------------}
 procedure TCEFileView.DoCustomColumnAdd;
 var

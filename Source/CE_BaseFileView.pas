@@ -64,6 +64,7 @@ type
 
   TCECustomFileView = class(TVirtualExplorerEasyListview, IShellBrowser, IOleWindow)
   private
+    fExtColumnIndex: Integer;
     FContextMenuItem: TEasyItem;
     TmpScrollStep,TmpScrollSize, TmpScrollCountSize: Integer;
     ScrollDown: Boolean;
@@ -90,6 +91,11 @@ type
     procedure DoColumnSizeChanging(Column: TEasyColumn; Size, NewSize: Integer; var
         Allow: Boolean); override;
     procedure DoColumnVisibilityChanged(Column: TEasyColumn); override;
+    procedure DoCustomColumnAdd; override;
+    procedure DoCustomColumnGetCaption(Column: TExplorerColumn; Item:
+        TExplorerItem; var Caption: WideString); override;
+    function DoItemCompare(Column: TEasyColumn; Group: TEasyGroup; Item1:
+        TEasyItem; Item2: TEasyItem): Integer; override;
     procedure DoItemContextMenu(HitInfo: TEasyHitInfoItem; WindowPoint: TPoint; var
         Menu: TPopupMenu; var Handled: Boolean); override;
     procedure DoItemCreateEditor(Item: TEasyItem; var Editor: IEasyCellEditor);
@@ -141,6 +147,7 @@ type
     function TranslateAcceleratorSB(Msg: PMsg; ID: Word): HResult; stdcall;
     procedure WMMenuSelect(var Msg: TWMMenuSelect); message WM_MENUSELECT;
     procedure WMSize(var Msg: TWMSize); override;
+    property ExtColumnIndex: Integer read fExtColumnIndex write fExtColumnIndex;
   public
     BalloonHint: TJvBalloonHint;
     constructor Create(AOwner: TComponent); override;
@@ -1324,6 +1331,46 @@ function TCECustomFileView.ContextSensitiveHelp(fEnterMode: BOOL): HResult;
 begin
   Result:= E_NOTIMPL;
 end;
+
+{-------------------------------------------------------------------------------
+  Do CustomColumnAdd
+-------------------------------------------------------------------------------}
+procedure TCECustomFileView.DoCustomColumnAdd;
+var
+  col: TEasyColumn;
+begin
+  if Self.RootFolderNamespace.FileSystem then
+  begin
+    col:= AddColumnProc;
+    col.Width:= 100;
+    col.Caption:= 'Extension';
+    col.Visible:= False;
+    ExtColumnIndex:= col.Index;
+  end
+  else
+  ExtColumnIndex:= -1;
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Do CustomColumnGetCaption
+-------------------------------------------------------------------------------}
+procedure TCECustomFileView.DoCustomColumnGetCaption(Column: TExplorerColumn;
+    Item: TExplorerItem; var Caption: WideString);
+begin
+  if Column.Index = ExtColumnIndex then
+  begin
+    if (not Item.Namespace.Folder) then
+    Caption:= Item.Namespace.Extension
+    else if WideSameText(Item.Namespace.Extension, '.ZIP') then
+    Caption:= Item.Namespace.Extension;
+  end
+  else
+  begin
+    inherited DoCustomColumnGetCaption(Column, Item, Caption);
+  end;
+end;
+
 {*------------------------------------------------------------------------------
   END of IShellBrowser implementation
 -------------------------------------------------------------------------------}
@@ -1332,6 +1379,83 @@ end;
 procedure TCECustomFileView.DoItemEditEnd(Item: TEasyItem);
 begin
   inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Do ItemCompare
+-------------------------------------------------------------------------------}
+function TCECustomFileView.DoItemCompare(Column: TEasyColumn; Group:
+    TEasyGroup; Item1: TEasyItem; Item2: TEasyItem): Integer;
+var
+  ColIndex: Integer;
+  DoDefault, IsFolder1, IsFolder2: Boolean;
+  NS1, NS2: TNamespace;
+begin
+  ColIndex:= 0;
+
+  DoDefault:= True;
+  if Assigned(OnItemCompare) then
+  Result:= OnItemCompare(Self, Column, Group, Item1, Item2, DoDefault)
+  else
+  Result:= 0;
+
+  if DoDefault then
+  begin
+    if Assigned(Column) then
+    ColIndex:= Column.Index;
+
+    NS1:= TExplorerItem(Item1).Namespace;
+    NS2:= TExplorerItem(Item2).Namespace;
+    if SortFolderFirstAlways then
+    begin
+      IsFolder1:= NS1.Folder and not TExplorerItem(Item1).Namespace.Browsable;
+      IsFolder2:= NS2.Folder and not TExplorerItem(Item2).Namespace.Browsable;
+
+      if IsFolder1 xor IsFolder2 then
+      begin
+        if IsFolder1 then
+        Result:= -1
+        else
+        Result:= 1;
+      end
+      else
+      begin
+        if IsFolder1 and IsFolder2 then
+        begin
+          Result:= NS2.ComparePIDL(NS1.RelativePIDL, False, ColIndex)
+        end
+        else
+        begin
+          if (ColIndex = 2) and IsWinVista then
+          Result:= WideCompareText(WideString(NS1.DetailsOf(2)), WideString( NS2.DetailsOf(2)))
+          else if (ColIndex = ExtColumnIndex) then
+          Result:= WideStrComp(PWidechar(Item1.Captions[ColIndex]), PWideChar(Item2.Captions[ColIndex]))
+          else
+          Result:= NS2.ComparePIDL(NS1.RelativePIDL, False, ColIndex);
+        end;
+        // Secondary level of sorting is on the Name
+        if (Result = 0) and (ColIndex > 0) then
+        Result:= NS2.ComparePIDL(NS1.RelativePIDL, False, 0);
+
+        if (ColIndex > -1) and (Column.SortDirection = esdDescending) then
+        Result:= -Result
+      end
+    end
+    else
+    begin
+      if (ColIndex = ExtColumnIndex) then
+      Result:= WideStrComp(PWidechar(Item1.Captions[ColIndex]), PWideChar(Item2.Captions[ColIndex]))
+      else
+      Result:= NS2.ComparePIDL(NS1.RelativePIDL, False, ColIndex);
+
+      // Secondary level of sorting is on the Name
+      if (Result = 0) and (ColIndex > 0) then
+      Result:= NS2.ComparePIDL(NS1.RelativePIDL, False, 0);
+
+      if (ColIndex > -1) and (Column.SortDirection = esdDescending) then
+      Result:= -Result
+    end
+  end;
 end;
 
 procedure TCECustomFileView.DoScroll(DeltaX, DeltaY: Integer);

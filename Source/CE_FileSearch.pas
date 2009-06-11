@@ -48,8 +48,6 @@ type
     procedure DoColumnClick(Button: TCommonMouseButton; ShiftState: TShiftState;
         const Column: TEasyColumn); override;
     procedure DoCustomColumnAdd; override;
-    procedure DoCustomColumnCompare(Column: TExplorerColumn; Group: TEasyGroup;
-        Item1, Item2: TExplorerItem; var CompareResult: Integer); override;
     procedure DoCustomColumnGetCaption(Column: TExplorerColumn; Item:
         TExplorerItem; var Caption: WideString); override;
     function DoItemCompare(Column: TEasyColumn; Group: TEasyGroup; Item1:
@@ -112,17 +110,7 @@ begin
   Column.Alignment := taLeftJustify;
   Column.Visible := True;
   fPathIndex:= Column.Index;
-end;
-
-{*------------------------------------------------------------------------------
-  Compare custom column
--------------------------------------------------------------------------------}
-procedure TCEFileSearchView.DoCustomColumnCompare(Column: TExplorerColumn;
-    Group: TEasyGroup; Item1, Item2: TExplorerItem; var CompareResult: Integer);
-begin
-  CompareResult:= WideCompareText(Item1.Captions[Column.Index], Item2.Captions[Column.Index]);
-  if Column.SortDirection = esdDescending then
-  CompareResult := -CompareResult;
+  inherited;
 end;
 
 {*------------------------------------------------------------------------------
@@ -133,10 +121,12 @@ procedure TCEFileSearchView.DoCustomColumnGetCaption(Column: TExplorerColumn;
 var
   NS: TNamespace;
 begin
-  //Caption := IntToStr( Integer(Item))
+  inherited;
   if Column.Index = fPathIndex then
+  begin
     if Self.ValidateNamespace(Item, NS) then
     Caption := WideExtractFilePath(NS.NameParseAddress);
+  end;
 end;
 
 {*------------------------------------------------------------------------------
@@ -145,29 +135,40 @@ end;
 function TCEFileSearchView.DoItemCompare(Column: TEasyColumn; Group:
     TEasyGroup; Item1: TEasyItem; Item2: TEasyItem): Integer;
 var
-  ColumnIndex: Integer;
-  b: Boolean;
+  ColIndex: Integer;
+  NS1, NS2: TNamespace;
 begin
-  ColumnIndex := -1;
-  if Assigned(Column) and TExplorerColumn(Column).IsCustom then
-    DoCustomColumnCompare(TExplorerColumn( Column), Group, TExplorerItem( Item1), TExplorerItem( Item2), Result)
+  ColIndex:= 0;
+
+  Result := 0;
+  if Assigned(Column) then
+  ColIndex:= Column.Index
   else
-  if Assigned(OnItemCompare) then
-    Result:= OnItemCompare(Self, Column, Group, Item1, Item2, b)
-  else begin
-    if Assigned(Column) then
-      ColumnIndex := Column.Index;
-    if assigned(TExplorerItem(Item2).Namespace) and assigned(TExplorerItem(Item1).Namespace) then
-    begin
-      Result := TExplorerItem(Item2).Namespace.ComparePIDL(TExplorerItem(Item1).Namespace.RelativePIDL, False, ColumnIndex);
-      if (Result = 0) and (ColumnIndex > 0) then
-        Result := TExplorerItem(Item2).Namespace.ComparePIDL(TExplorerItem(Item1).Namespace.RelativePIDL, False, 0);
-      if (ColumnIndex > -1) and (Column.SortDirection = esdDescending) then
-        Result := -Result
-    end
-    else
-    Result:= 0;
+  ColIndex:= 0;
+
+  if ColIndex = 3 then
+  begin
+    Result:= CompareFileTime(TExplorerItem(Item1).Namespace.LastWriteTimeRaw, TExplorerItem(Item2).Namespace.LastWriteTimeRaw);
   end
+  else
+  if ColIndex = 1 then
+  begin
+    if TExplorerItem(Item1).Namespace.SizeOfFileInt64 > TExplorerItem(Item2).Namespace.SizeOfFileInt64 then
+      Result:= 1
+    else
+    if TExplorerItem(Item1).Namespace.SizeOfFileInt64 < TExplorerItem(Item2).Namespace.SizeOfFileInt64 then
+      Result:= -1
+  end
+  else
+  begin
+    Result:= WideStrComp(PWidechar(Item1.Captions[ColIndex]), PWideChar(Item2.Captions[ColIndex]));
+  end;
+
+  if (ColIndex > 0) and (Result = 0) then
+  Result:= WideStrComp(PWidechar(Item1.Captions[0]), PWideChar(Item2.Captions[0]));
+
+  if Column.SortDirection = esdDescending then
+  Result:= -Result;
 end;
 
 {*------------------------------------------------------------------------------
