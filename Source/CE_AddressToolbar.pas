@@ -94,6 +94,7 @@ type
 
   TCEAddressBar = class(TCustomPanel, ICEPathChangeHandler)
   private
+    fAutoSwitchToBreadcrumb: Boolean;
     fBreadcrumb: Boolean;
     procedure SetBreadcrumb(const Value: Boolean);
     procedure SpThemeChange(var Message: TMessage); message WM_SPSKINCHANGE;
@@ -123,8 +124,11 @@ type
     procedure OnDropClick(Sender: TObject);
     procedure OnGetFormClass(Sender: TObject; var AFormClass: TCustomFormClass);
     procedure OnPopup(Sender: TObject);
+    procedure OnTextEditorExit(ASender: TObject);
     procedure OnTextKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure Paint; override;
+    property AutoSwitchToBreadcrumb: Boolean read fAutoSwitchToBreadcrumb write
+        fAutoSwitchToBreadcrumb;
   published
     property Breadcrumb: Boolean read fBreadcrumb write SetBreadcrumb;
   end;
@@ -418,6 +422,7 @@ begin
   TextEditor.BorderStyle:= bsNone;
   TextEditor.OnValueChange:= DoValueChanged;
   TextEditor.OnKeyDown:= OnTextKeyDown;
+  TextEditor.OnExit:= OnTextEditorExit;
 
   Icon.Parent:= self;
   Icon.Align:= alLeft;
@@ -524,6 +529,7 @@ begin
     TextEditor.SetSelStart(Length(TextEditor.Text));
     Icon.IconIndex:= RootNamespace.GetIconIndex(false, icSmall);
     GlobalPathCtrl.ChangeGlobalPathPIDL(Self, RootNamespace.AbsolutePIDL);
+    OnTextEditorExit(Sender);
   end;
 end;
 
@@ -622,6 +628,18 @@ begin
   AFormClass:= nil;
 end;
 
+{-------------------------------------------------------------------------------
+  On TextEditor Exit
+-------------------------------------------------------------------------------}
+procedure TCEAddressBar.OnTextEditorExit(ASender: TObject);
+begin
+  if AutoSwitchToBreadcrumb then
+  begin
+    Breadcrumb:= true;
+    AutoSwitchToBreadcrumb:= false;
+  end;
+end;
+
 {*------------------------------------------------------------------------------
   On TextEditor Key Down
 -------------------------------------------------------------------------------}
@@ -633,6 +651,7 @@ begin
     if assigned(RootNamespace) then
     TextEditor.Text:= RootNamespace.NameParseAddress;
     TextEditor.SetSelStart(Length(TextEditor.Text));
+    OnTextEditorExit(Sender);
   end;
 end;
 

@@ -1013,7 +1013,10 @@ begin
     1001: if MainForm.AddressBarToolbar.Visible then
           begin
             if MainForm.AddressBarToolbar.AddressBar.Breadcrumb then
-            MainForm.AddressBarToolbar.AddressBar.Breadcrumb:= false;
+            begin
+              MainForm.AddressBarToolbar.AddressBar.AutoSwitchToBreadcrumb:= true;
+              MainForm.AddressBarToolbar.AddressBar.Breadcrumb:= false;
+            end;
             MainForm.AddressBarToolbar.AddressBar.TextEditor.SetFocus;
             MainForm.AddressBarToolbar.AddressBar.TextEditor.SelectAll;
           end;

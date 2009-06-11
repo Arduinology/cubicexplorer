@@ -31,7 +31,7 @@ type
     property SaveDefaults: Boolean read fSaveDefaults write fSaveDefaults;
   end;
 
-  TCEAppSettings = class(TObject)
+  TCEAppSettings = class(TPersistent)
   private
     fSaveDefaultsAlways: Boolean;
     fSaveDefaultsNever: Boolean;

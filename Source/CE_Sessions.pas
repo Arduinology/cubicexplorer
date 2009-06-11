@@ -92,6 +92,7 @@ type
     fActiveSession: TCESessionItem;
     fActiveSessionIsHistory: Boolean;
     fAutoLoadSession: TCESessionItem;
+    fAutoSaveHistory: Boolean;
     fHistoryCount: Integer;
     fSessionHistory: TCESessionList;
     fSessions: TCESessionList;
@@ -115,11 +116,12 @@ type
     property ActiveSessionIsHistory: Boolean read fActiveSessionIsHistory;
     property AutoLoadSession: TCESessionItem read fAutoLoadSession write
         fAutoLoadSession;
-    property HistoryCount: Integer read fHistoryCount write SetHistoryCount;
     property SessionHistory: TCESessionList read fSessionHistory write
         fSessionHistory;
     property Sessions: TCESessionList read fSessions write fSessions;
   published
+    property AutoSaveHistory: Boolean read fAutoSaveHistory write fAutoSaveHistory;
+    property HistoryCount: Integer read fHistoryCount write SetHistoryCount;
   end;
 
   TDOMElementHack = class(TDOMElement);
@@ -197,6 +199,7 @@ begin
   AddItem('SessionHistory', fSessionHistory);
   fSessionHistory.AStorage:= Self;
 
+  fAutoSaveHistory:= true;
   fHistoryCount:= 10;
   fActiveSessionIsHistory:= false;
   fActiveSession:= nil;
@@ -955,6 +958,7 @@ end;
 
 initialization
   GlobalSessions:= TCESessions.Create;
+  GlobalAppSettings.AddItem('Sessions', GlobalSessions);
 
 finalization
   FreeAndNil(GlobalSessions);

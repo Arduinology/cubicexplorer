@@ -766,6 +766,8 @@ begin
     if GlobalSessions.ActiveSession.AutoSave then
     GlobalSessions.SaveActiveSession;
   end;
+  
+  if GlobalSessions.AutoSaveHistory then
   GlobalSessions.AddHistorySession;
 
   CanClose:= TabSet.CloseAllTabs;
