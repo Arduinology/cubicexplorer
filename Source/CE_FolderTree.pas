@@ -29,19 +29,13 @@ uses
   // VSTools, VT
   VirtualTrees, VirtualExplorerTree, MPShellUtilities, VirtualShellNotifier,
   MPCommonObjects, MPThreadManager,
-  // JVCL
-  JvSimpleXml, JvAppStorage,  
   // System Units
   Classes, Windows, Messages, SysUtils, Graphics, Forms, Controls, ExtCtrls;
 
 type
   TCEFolderTreeSelectedChangeEvent = procedure(Node: PVirtualNode) of object;
 
-  TCEFolderTree = class(TVirtualExplorerTreeview, IJvAppStorageHandler)
-    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath:
-        string);
-    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath:
-        string);
+  TCEFolderTree = class(TVirtualExplorerTreeview)
   private
     fAutoCollapse: Boolean;
     fAutoExpand: Boolean;
@@ -219,8 +213,8 @@ begin
   begin
     if ShellEvent.ShellNotifyEvent = vsneAssoccChanged then
     begin
-      //RebuildTree;
-      //Refresh;
+//      RebuildTree;
+//      Refresh;
       ShellEvent.Handled:= true;
     end;
   end;
@@ -364,29 +358,6 @@ begin
   //Self.EndEditNode;
 end;
 
-{*------------------------------------------------------------------------------
-  Read properties from Storage
--------------------------------------------------------------------------------}
-procedure TCEFolderTree.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
-    const BasePath: string);
-var
-  OldPath: String;
-begin
-  if not assigned(AppStorage) then
-  Exit;
-  OldPath:= AppStorage.Path;
-  try
-    AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, BasePath, 'FolderTree']);
-    with AppStorage do
-    begin
-      fAutoExpand:= ReadBoolean('AutoExpand',false);
-      fAutoCollapse:= ReadBoolean('AutoCollapse',false);
-    end;
-  finally
-    AppStorage.Path:= OldPath;
-  end;
-end;
-
 {-------------------------------------------------------------------------------
   Refresh
 -------------------------------------------------------------------------------}
@@ -411,6 +382,10 @@ var
   CheckSupport: Boolean;
   ResultIsParent: Boolean;
 begin
+  // TODO: Not sure why this was overrided.
+  inherited;
+  Exit;
+  
   if ValidateNamespace(Node, NS) then
   begin
     // First see if the namespace is valid
@@ -585,30 +560,6 @@ begin
   obj:= FileObjects;
   if fHiddenFiles then Include(obj, foHidden) else Exclude(obj, foHidden);
   FileObjects:= obj;
-end;
-
-{*------------------------------------------------------------------------------
-  Write properties to Storage
--------------------------------------------------------------------------------}
-procedure TCEFolderTree.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
-    const BasePath: string);
-var
-  OldPath: String;
-begin
-  if not assigned(AppStorage) then
-  Exit;
-  OldPath:= AppStorage.Path;
-  try
-    AppStorage.DeleteSubTree(BasePath + '\FolderTree');
-    AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, BasePath, 'FolderTree']);
-    with AppStorage do
-    begin
-      WriteBoolean('AutoExpand',fAutoExpand);
-      WriteBoolean('AutoCollapse',fAutoCollapse);
-    end;
-  finally
-    AppStorage.Path:= OldPath;
-  end;
 end;
 
 {##############################################################################}

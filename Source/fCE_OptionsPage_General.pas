@@ -102,6 +102,7 @@ end;
 procedure TCEOptionsPage_General.RefreshSettings;
 var
   i: Integer;
+  ws: WideString;
 begin
   combo_sessions.Clear;
   for i:= 0 to GlobalSessions.Sessions.Items.Count - 1 do
@@ -115,7 +116,10 @@ begin
     stLastSession: radio_lasttime.Checked:= true;
     stSession: radio_session.Checked:= true;
   end;
-  combo_sessions.ItemIndex:= combo_sessions.Items.IndexOf(MainForm.Settings.AutoLoadSession);
+
+  ws:= MainForm.Settings.AutoLoadSession;
+  if ws <> '' then
+  combo_sessions.ItemIndex:= combo_sessions.Items.IndexOf(ws);
 end;
 
 {-------------------------------------------------------------------------------

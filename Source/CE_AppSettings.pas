@@ -518,7 +518,12 @@ procedure TCEAppSettings.SaveToFile(AFilePath: WideString);
 var
   FileStream: TStream;
 begin
-  FileStream:= TWideFileStream.Create(AFilePath, fmCreate);
+  try
+    FileStream:= TWideFileStream.Create(AFilePath, fmCreate);
+  except
+    Exit;
+  end;
+
   try
     SaveProperties;
     WriteXML(XML.DocumentElement, FileStream);
