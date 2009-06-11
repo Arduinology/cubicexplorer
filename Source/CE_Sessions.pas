@@ -788,8 +788,8 @@ begin
     item:= TSpTBXItem.Create(self);
     item.Caption:= session.Name;
     item.Tag:= i;
-    item.Images:= CE_Images.MiscImages;
-    item.ImageIndex:= 1;
+    item.Images:= CE_Images.SmallIcons;
+    item.ImageIndex:= 41;
     item.OnClick:= OnSessionClick;
     if not GlobalSessions.ActiveSessionIsHistory then
     item.Checked:= GlobalSessions.ActiveSession = session;

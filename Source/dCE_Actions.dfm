@@ -515,7 +515,7 @@ object CEActions: TCEActions
       OnExecute = ActionExecute
     end
     object act_gen_menu: TCEToolbarAction
-      Tag = 103
+      Tag = -1
       Category = 'General'
       Caption = 'Menu'
       OnExecute = ActionExecute
@@ -540,6 +540,20 @@ object CEActions: TCEActions
       Category = 'Sessions'
       Caption = 'Clear History'
       Hint = 'Show Session Manager'
+      OnExecute = ActionExecute
+    end
+    object act_bookmarks_menu: TCEToolbarAction
+      Tag = -1
+      Category = 'Bookmarks'
+      Caption = 'Bookmarks'
+      ImageIndex = 18
+      OnExecute = ActionExecute
+    end
+    object act_sessions_menu: TCEToolbarAction
+      Tag = -1
+      Category = 'Sessions'
+      Caption = 'Sessions'
+      ImageIndex = 41
       OnExecute = ActionExecute
     end
   end

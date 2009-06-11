@@ -148,6 +148,7 @@ procedure PopulateBookmarkItem(RootItem: TTBCustomItem; BookmarkTree:
       sep:= TSpTBXSeparatorItem.Create(RootItem);
       SubItem.Add(sep);
       openAll:= TCEOpenAllBookmarksItem.Create(RootItem);
+      openAll.CustomHeight:= 24;
       SubItem.Add(openAll);
     end
   end;
@@ -166,6 +167,7 @@ begin
     sep:= TSpTBXSeparatorItem.Create(RootItem);
     RootItem.Add(sep);
     openAll:= TCEOpenAllBookmarksItem.Create(RootItem);
+    openAll.CustomHeight:= 24;
     RootItem.Add(openAll);
   end
 end;
@@ -316,6 +318,7 @@ begin
   // "And Launch Files" item
   item:= TSpTBXItem.Create(self);
   item.Caption:= _('And Launch Files');
+  item.CustomHeight:= 24;
   item.Tag:= 1;
   item.OnClick:= OnSubMenuClick;
   self.Add(item);
@@ -323,6 +326,7 @@ begin
   // "Launch Files Only" item
   item:= TSpTBXItem.Create(self);
   item.Caption:= _('Launch Files Only');
+  item.CustomHeight:= 24;
   item.Tag:= 2;
   item.OnClick:= OnSubMenuClick;
   self.Add(item);

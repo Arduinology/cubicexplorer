@@ -136,7 +136,6 @@ function TCEFileSearchView.DoItemCompare(Column: TEasyColumn; Group:
     TEasyGroup; Item1: TEasyItem; Item2: TEasyItem): Integer;
 var
   ColIndex: Integer;
-  NS1, NS2: TNamespace;
 begin
   ColIndex:= 0;
 

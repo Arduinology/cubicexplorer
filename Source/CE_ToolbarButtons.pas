@@ -112,10 +112,25 @@ type
     constructor Create(AOwner: TComponent); override;
   end;
 
+type
+  TCEBookmarksButton = class(TCEToolbarSubmenuItem)
+  protected
+  public
+    constructor Create(AOwner: TComponent); override;
+  end;
+
+type
+  TCESessionsButton = class(TCEToolbarSubmenuItem)
+  protected
+  public
+    constructor Create(AOwner: TComponent); override;
+  end;
+
 implementation
 
 uses
-  CE_FileView, fCE_FileView, CE_BaseFileView, dCE_Actions, dCE_Images, Main;
+  CE_FileView, fCE_FileView, CE_BaseFileView, dCE_Actions, dCE_Images, Main,
+  CE_Sessions;
 
 {##############################################################################}
 
@@ -697,6 +712,47 @@ begin
   Self.DropdownCombo:= false;
   Self.Options:= [tboDropdownArrow];
   Self.LinkSubitems:= MainForm.MainToolbar.Items;
+end;
+
+{##############################################################################}
+
+{*------------------------------------------------------------------------------
+  Create an instance of TCEBookmarksButton
+-------------------------------------------------------------------------------}
+constructor TCEBookmarksButton.Create(AOwner: TComponent);
+begin
+  inherited;
+  Self.DropdownCombo:= false;
+  Self.Options:= [tboDropdownArrow];
+  Self.LinkSubitems:= MainForm.bookmarkMenuItem;
+end;
+
+{##############################################################################}
+
+{*------------------------------------------------------------------------------
+  Create an instance of TCESessionsButton
+-------------------------------------------------------------------------------}
+constructor TCESessionsButton.Create(AOwner: TComponent);
+var
+  item: TSpTBXItem;
+begin
+  inherited;
+  Self.DropdownCombo:= false;
+  Self.Options:= [tboDropdownArrow];
+  // sessions group
+  Add(TCESessionsMenuItem.Create(self));
+  // separator item
+  Add(TSpTBXSeparatorItem.Create(self));
+  // save item
+  item:= TSpTBXItem.Create(self);
+  item.CustomHeight:= 24;
+  item.Action:= CEActions.act_sessions_save;
+  Add(item);
+  // manage item
+  item:= TSpTBXItem.Create(self);
+  item.CustomHeight:= 24;
+  item.Action:= CEActions.act_sessions_manage;
+  Add(item);
 end;
 
 

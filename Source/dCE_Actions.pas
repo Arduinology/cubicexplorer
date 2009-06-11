@@ -157,6 +157,8 @@ type
     act_tabs_prev: TTntAction;
     act_sessions_addhistoryitem: TTntAction;
     act_sessions_clearhistory: TTntAction;
+    act_bookmarks_menu: TCEToolbarAction;
+    act_sessions_menu: TCEToolbarAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -291,6 +293,8 @@ begin
   act_view_viewstyle.ItemClass:= TCEViewStyleButton;
   act_view_groupby.ItemClass:= TCEGroupByButton;
   act_gen_menu.ItemClass:= TCEMainMenuButton;
+  act_bookmarks_menu.ItemClass:= TCEBookmarksButton;
+  act_sessions_menu.ItemClass:= TCESessionsButton;
 end;
 
 {##############################################################################}
@@ -367,9 +371,6 @@ procedure ExecuteGeneralCategory(ActionID: Integer);
 begin
   case ActionID of
     100: Application.MainForm.Close; // Exit
-    //101: MainForm.SingleInstance:= not MainForm.SingleInstance;
-    // TODO: fix this
-    //102: CESettings.MainFormSettings.RememberTabs:= not CESettings.MainFormSettings.RememberTabs;
   end;
 end;
 
@@ -379,11 +380,6 @@ end;
 procedure UpdateGeneralCategory(ActionID: Integer; TargetAction: TTntAction);
 begin
   TargetAction.Enabled:= true;
-//  case ActionID of
-//    //101: TargetAction.Checked:= MainForm.SingleInstance;
-//    // TODO: fix this
-//    //102: TargetAction.Checked:= CESettings.MainFormSettings.RememberTabs;
-//  end;
 end;
 
 {##############################################################################}
