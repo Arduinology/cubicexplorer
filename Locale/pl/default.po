@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.9.1113\n"
+"Project-Id-Version: 0.90.0.1113\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1113\n"
+"CE-POT-Version: 1131\n"
 "CE-Language: Polish\n"
 "Last-Translator: Kani <kani_blog2@yahoo.pl>\n"
 
@@ -12,7 +12,7 @@ msgid "About CubicExplorer"
 msgstr "O CubicExplorer"
 
 msgid "About..."
-msgstr "O programie"
+msgstr "O programie..."
 
 msgid "Actions"
 msgstr "Działania"
@@ -60,10 +60,10 @@ msgid "Auto"
 msgstr "Automatycznie"
 
 msgid "Auto collapse tree"
-msgstr "Automatycznie rozwiń drzewo"
+msgstr "Automatycznie zwiń drzewo"
 
 msgid "Auto expand tree"
-msgstr "Automatycznie zwijaj drzewo"
+msgstr "Automatycznie rozwiń drzewo"
 
 msgid "Auto size cells in list view style."
 msgstr "Automatycznie dostosuj rozmiar kolumn w widoku listy"
@@ -99,7 +99,7 @@ msgid "Cancel"
 msgstr "Anuluj"
 
 msgid "Case sensitivity"
-msgstr "Czułość "case""
+msgstr "Uwzględnij wielkość liter"
 
 msgid "Clear List"
 msgstr "Wyczyść listę"
@@ -123,13 +123,13 @@ msgid "Close Tabs on Right"
 msgstr "Zamknij karty z prawej"
 
 msgid "Copy"
-msgstr "Skopiuj"
+msgstr "Kopiuj"
 
 msgid "Copy Path"
 msgstr "Skopiuj ścieżkę"
 
 msgid "Copy of active tab"
-msgstr "Kopię aktywnej karty"
+msgstr "Kopia aktywnej karty"
 
 msgid "Create"
 msgstr "Stwórz"
@@ -144,13 +144,13 @@ msgid "Ctrl+F4"
 msgstr "Ctrl+F4"
 
 msgid "CubicExplore Home Page"
-msgstr "Strona domowa"
+msgstr "Strona domowa CubicExplorer"
 
 msgid "CubicExplorer Options"
 msgstr "Opcje CubicExplorer"
 
 msgid "Custom..."
-msgstr "Dostosuj..."
+msgstr "Dostosowany..."
 
 msgid "Customize"
 msgstr "Dostosuj"
@@ -162,13 +162,13 @@ msgid "Cut"
 msgstr "Wytnij"
 
 msgid "Date Accessed"
-msgstr "Daty dostępu"
+msgstr "Data dostępu"
 
 msgid "Date Created"
-msgstr "Daty utworzenia"
+msgstr "Data utworzenia"
 
 msgid "Date Modified"
-msgstr "Daty zmodyfikowania"
+msgstr "Data modyfikacji"
 
 msgid "Default"
 msgstr "Domyślna"
@@ -219,10 +219,10 @@ msgid "Edit session properties."
 msgstr "Edycja właściwości sesji"
 
 msgid "Editor Options..."
-msgstr "Edytor opcji"
+msgstr "Opcje Edytora"
 
 msgid "Empty Recycle Bin"
-msgstr "Opróznij kosz"
+msgstr "Opróżnij kosz"
 
 msgid "English (default)"
 msgstr "Angielski (domyślny)"
@@ -243,7 +243,7 @@ msgid "Fileview Settings"
 msgstr "Ustawienia widoku pliku"
 
 msgid "Filmstrip"
-msgstr "Przeźrocze"
+msgstr "Przezrocze"
 
 msgid "Filters"
 msgstr "Filtry"
@@ -294,7 +294,7 @@ msgid "Highlight row completely"
 msgstr "Podkreślaj cały rząd "
 
 msgid "Highlighter"
-msgstr "Kolorowanie"
+msgstr "Podświetlanie"
 
 msgid "Image"
 msgstr "Obraz"
@@ -321,10 +321,10 @@ msgid "Launch Files Only"
 msgstr "Uruchom tylko pliki"
 
 msgid "Layouts"
-msgstr "Wygląd"
+msgstr "Wyglądy"
 
 msgid "Left"
-msgstr "Lewo"
+msgstr "Lewy"
 
 msgid "List"
 msgstr "Lista"
@@ -381,7 +381,7 @@ msgid "No Extension"
 msgstr "Bez rozszerzenia"
 
 msgid "No file loaded."
-msgstr "Nie załadowano pliku"
+msgstr "Nie załadowano pliku."
 
 msgid "None"
 msgstr "Brak"
@@ -393,7 +393,7 @@ msgid "Open All in Tabs"
 msgstr "Wszystkie otwórz w kartach"
 
 msgid "Open Command Prompt"
-msgstr "Otwórz wiersz polecenia"
+msgstr "Otwórz wiersz poleceń"
 
 msgid "Open in new tab by default"
 msgstr "Domyślnie otwórz w nowej karcie"
@@ -447,7 +447,7 @@ msgid "Quickview"
 msgstr "Szybki podgląd"
 
 msgid "Redo"
-msgstr "Gotowy"
+msgstr "Ponów"
 
 msgid "Refresh"
 msgstr "Odśwież"
@@ -474,7 +474,7 @@ msgid "Reuse already open tabs"
 msgstr "Wykorzystaj już otwarte karty"
 
 msgid "Right"
-msgstr "Dokładnie"
+msgstr "Prawy"
 
 msgid "Save"
 msgstr "Zapisz"
@@ -501,13 +501,13 @@ msgid "Save settings automatically."
 msgstr "Automatycznie zapisz zmiany."
 
 msgid "Save/Load Settings"
-msgstr "Ustawienia ładowania/zapisu"
+msgstr "Zapisz / Wczytaj Ustawienia"
 
 msgid "Scroll Left"
-msgstr "Przewijaj w lewo"
+msgstr "Przewiń w lewo"
 
 msgid "Scroll Right"
-msgstr "Przewijaj w prawo"
+msgstr "Przewiń w prawo"
 
 msgid "Search"
 msgstr "Znajdź"
@@ -528,7 +528,7 @@ msgid "Search in Directory"
 msgstr "Szukaj w katalogu"
 
 msgid "Select All"
-msgstr "Wybierz wszystko"
+msgstr "Zaznacz wszystko"
 
 msgid "Select default folder for new tabs."
 msgstr "Wybierz domyślny folder dla nowych kart."
@@ -543,7 +543,7 @@ msgid "Selected"
 msgstr "Wybrane"
 
 msgid "Selected text only"
-msgstr "Wybieraj tylko tekst"
+msgstr "Tylko wybrany tekst"
 
 msgid "Separator"
 msgstr "Separator"
@@ -579,10 +579,10 @@ msgid "Show Hints"
 msgstr "Pokaż wskazówki"
 
 msgid "Show Path in Title bar"
-msgstr "Pokaż ścieżkę w pasku tytułowym"
+msgstr "Pokaż ścieżkę w pasku tytułu"
 
 msgid "Show Statusbar"
-msgstr "Pokaż pasek statusu"
+msgstr "Pokaż pasek stanu"
 
 msgid "Show Toolbar"
 msgstr "Pokaż pasek narzędzi"
@@ -591,7 +591,7 @@ msgid "Show in Groups"
 msgstr "Pokaż grupy"
 
 msgid "Single Instance Only"
-msgstr "Tylko jeden przykład"
+msgstr "Tylko jedna kopia"
 
 msgid "Single click mode"
 msgstr "Tryb pojedynczego kliknięcia"
@@ -609,7 +609,7 @@ msgid "Start"
 msgstr "Start"
 
 msgid "Status Bar"
-msgstr "Pasek statusu"
+msgstr "Pasek stanu"
 
 msgid "Stop"
 msgstr "Zatrzymaj"
@@ -651,7 +651,7 @@ msgid "Thumbs View Style"
 msgstr "Styl widoku miniatur"
 
 msgid "Tiles"
-msgstr "Kafle"
+msgstr "Kafelki"
 
 msgid "Toolbars"
 msgstr "Pasek narzędzi"
@@ -672,7 +672,7 @@ msgid "Translation"
 msgstr "Tłumaczenie"
 
 msgid "Translation Revision:"
-msgstr "Przetłumaczonych:"
+msgstr "Poprawka tłumaczenia"
 
 msgid "Translation Version"
 msgstr "Wersja tłumaczenia"
@@ -684,7 +684,7 @@ msgid "Translator's Name"
 msgstr "Przetłumaczył:"
 
 msgid "Transparency"
-msgstr "Przeźroczystość"
+msgstr "Przezroczystość"
 
 msgid "Type"
 msgstr "Typ"
@@ -702,7 +702,7 @@ msgid "View"
 msgstr "Widok"
 
 msgid "View Style"
-msgstr "Styl widoku"
+msgstr "Widoki"
 
 msgid "When I open folder/file in a new tab, switch to it immediately "
 msgstr "Po otwarciu folderu/pliku w nowej karcie od razu przejdź do niej "

@@ -137,8 +137,6 @@ function TCEFileSearchView.DoItemCompare(Column: TEasyColumn; Group:
 var
   ColIndex: Integer;
 begin
-  ColIndex:= 0;
-
   Result := 0;
   if Assigned(Column) then
   ColIndex:= Column.Index

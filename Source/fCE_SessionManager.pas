@@ -40,7 +40,6 @@ type
     edit_name: TTntEdit;
     TntLabel1: TTntLabel;
     check_autosave: TTntCheckBox;
-    check_onstartup: TTntCheckBox;
     TntGroupBox1: TTntGroupBox;
     check_bookmarks: TTntCheckBox;
     check_tabs: TTntCheckBox;
@@ -49,7 +48,6 @@ type
     but_delete: TTntButton;
     procedure but_deleteClick(Sender: TObject);
     procedure check_autosaveClick(Sender: TObject);
-    procedure check_onstartupClick(Sender: TObject);
     procedure edit_nameChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure SessionListFocusChanged(Sender: TBaseVirtualTree; Node: PVirtualNode;
@@ -105,7 +103,6 @@ begin
     session:= GlobalSessions.Sessions.GetSession(Node.Index);
     edit_name.Text:= session.Name;
     check_autosave.Checked:= session.AutoSave;
-    check_onstartup.Checked:= session = GlobalSessions.AutoLoadSession;
     // TODO: Session SaveLoadItems
 //    check_tabs.Checked:= sliTabs in session.SaveLoadItems;
 //    check_bookmarks.Checked:= sliBookmarks in session.SaveLoadItems;
@@ -169,7 +166,6 @@ begin
   //check_bookmarks.Enabled:= SessionPropertiesEnabled;
   //check_layout.Enabled:= SessionPropertiesEnabled;
   check_autosave.Enabled:= SessionPropertiesEnabled;
-  check_onstartup.Enabled:= SessionPropertiesEnabled;
   but_delete.Enabled:= SessionPropertiesEnabled;
   if not SessionPropertiesEnabled then
   begin
@@ -178,7 +174,6 @@ begin
     check_bookmarks.Checked:= false;
     check_layout.Checked:= false;
     check_autosave.Checked:= false;
-    check_onstartup.Checked:= false;
   end;
 end;
 
@@ -187,7 +182,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCESessionManager.but_deleteClick(Sender: TObject);
 begin
-  if (MessageDlg('Are you sure you want to delete this session?', mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
+  if (MessageDlg(_('Are you sure you want to delete this session?'), mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
   begin
     SessionList.BeginUpdate;
     try
@@ -213,17 +208,6 @@ begin
   end;
 end;
 
-{-------------------------------------------------------------------------------
-  On AutoLoad Click
--------------------------------------------------------------------------------}
-procedure TCESessionManager.check_onstartupClick(Sender: TObject);
-begin
-  if SessionPropertiesEnabled then
-  begin
-    GlobalSessions.AutoLoadSession:= GlobalSessions.Sessions.GetSession(SessionList.FocusedNode.Index);
-    SessionList.Repaint;
-  end;
-end;
 
 {-------------------------------------------------------------------------------
   On SessionList Key Down

@@ -30,7 +30,7 @@ object CESessionManager: TCESessionManager
       217
       258)
     object TntLabel1: TTntLabel
-      Left = 14
+      Left = 12
       Top = 8
       Width = 27
       Height = 13
@@ -39,7 +39,7 @@ object CESessionManager: TCESessionManager
       ExplicitLeft = 10
     end
     object check_autosave: TTntCheckBox
-      Left = 14
+      Left = 12
       Top = 168
       Width = 189
       Height = 17
@@ -49,38 +49,24 @@ object CESessionManager: TCESessionManager
       State = cbChecked
       TabOrder = 0
       OnClick = check_autosaveClick
-      ExplicitLeft = 10
-    end
-    object check_onstartup: TTntCheckBox
-      Left = 14
-      Top = 191
-      Width = 189
-      Height = 17
-      Anchors = [akTop, akRight]
-      Caption = 'Load this session on startup.'
-      TabOrder = 1
-      OnClick = check_onstartupClick
-      ExplicitLeft = 10
     end
     object edit_name: TTntEdit
-      Left = 14
+      Left = 12
       Top = 23
       Width = 189
       Height = 21
       Anchors = [akTop, akRight]
-      TabOrder = 2
+      TabOrder = 1
       OnChange = edit_nameChange
-      ExplicitLeft = 10
     end
     object TntGroupBox1: TTntGroupBox
-      Left = 14
+      Left = 12
       Top = 54
       Width = 189
       Height = 102
       Anchors = [akTop, akRight]
       Caption = 'Save/Load Settings'
-      TabOrder = 3
-      ExplicitLeft = 10
+      TabOrder = 2
       DesignSize = (
         189
         102)
@@ -123,7 +109,7 @@ object CESessionManager: TCESessionManager
       Width = 82
       Height = 25
       Caption = 'Delete'
-      TabOrder = 4
+      TabOrder = 3
       OnClick = but_deleteClick
     end
   end
@@ -137,8 +123,6 @@ object CESessionManager: TCESessionManager
     BevelKind = bkTile
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitTop = 256
-    ExplicitWidth = 395
     DesignSize = (
       375
       33)
@@ -151,7 +135,6 @@ object CESessionManager: TCESessionManager
       Caption = 'Close'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 307
     end
   end
   object SessionList: TVirtualStringTree
@@ -178,8 +161,6 @@ object CESessionManager: TCESessionManager
     OnPaintText = SessionListPaintText
     OnKeyDown = SessionListKeyDown
     OnNewText = SessionListNewText
-    ExplicitWidth = 192
-    ExplicitHeight = 256
     Columns = <>
   end
 end
