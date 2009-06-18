@@ -35,7 +35,8 @@ uses
   GR32_Image, GR32,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ShlObj, Menus, TB2Item;
+  Dialogs, ShlObj, Menus, TB2Item, SpTBXEditors, TB2Toolbar, StdCtrls,
+  TntStdCtrls, ExtCtrls;
 
 type
   TControlHack = class(TControl);
@@ -46,10 +47,21 @@ type
     Images: TBitmap32List;
     FiltersPopupMenu: TSpTBXPopupMenu;
     check_resetfilters: TSpTBXItem;
+    SpTBXToolbar1: TSpTBXToolbar;
+    combo_filterpattern: TSpTBXComboBox;
+    TBControlItem1: TTBControlItem;
+    check_wildcards: TSpTBXItem;
+    FilterTimer: TTimer;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure check_resetfiltersClick(Sender: TObject);
     procedure FiltersPopupMenuPopup(Sender: TObject);
+    procedure check_wildcardsClick(Sender: TObject);
+    procedure combo_filterpatternSelect(Sender: TObject);
+    procedure combo_filterpatternKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FilterTimerTimer(Sender: TObject);
+    procedure combo_filterpatternChange(Sender: TObject);
   private
     fSettings: TCEFiltersPanelSettings;
   protected
@@ -231,6 +243,46 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  On check_wildcards click
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.check_wildcardsClick(Sender: TObject);
+begin
+  inherited;
+  Filters.UseWildcards:= check_wildcards.Checked;
+end;
+
+{-------------------------------------------------------------------------------
+  On combo_filterpattern Change
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.combo_filterpatternChange(Sender: TObject);
+begin
+  inherited;
+  FilterTimer.Enabled:= true;
+end;
+
+{-------------------------------------------------------------------------------
+  On combo_filterpattern KeyDown
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.combo_filterpatternKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  case Key of
+    VK_RETURN: begin
+      combo_filterpattern.Items.Insert(0, combo_filterpattern.Text);
+      combo_filterpattern.ItemIndex:= 0;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On combo_filterpattern Select
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.combo_filterpatternSelect(Sender: TObject);
+begin
+  Filters.PatternText:= combo_filterpattern.Text;
+end;
+
+{-------------------------------------------------------------------------------
   On check_resetfilter click
 -------------------------------------------------------------------------------}
 procedure TCEFiltersPanel.check_resetfiltersClick(Sender: TObject);
@@ -244,6 +296,15 @@ end;
 procedure TCEFiltersPanel.FiltersPopupMenuPopup(Sender: TObject);
 begin
   check_resetfilters.Checked:= Settings.AutoResetFilters;
+end;
+
+{-------------------------------------------------------------------------------
+  On Filter Timer
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.FilterTimerTimer(Sender: TObject);
+begin
+  FilterTimer.Enabled:= false;
+  Filters.PatternText:= combo_filterpattern.Text;
 end;
 
 {##############################################################################}

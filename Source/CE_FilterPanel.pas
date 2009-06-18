@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  CE_LanguageEngine,
+  CE_LanguageEngine, CE_Utils,
   // Tnt Controls
   TntClasses, TntSysUtils,
   // VT
@@ -56,16 +56,20 @@ type
     fActive: Boolean;
     fFilteringImage: TBitmap;
     fExplorerEasyListview: TVirtualExplorerEasyListview;
+    fPatternText: WideString;
     fShowAllExtensions: Boolean;
     fShowFolders: Boolean;
     fShowAllNode: PVirtualNode;
     fShowFilteringBackground: Boolean;
     fShowFoldersNode: PVirtualNode;
+    fUseWildcards: Boolean;
     procedure SetActive(const Value: Boolean);
     procedure SetExplorerEasyListview(const Value: TVirtualExplorerEasyListview);
+    procedure SetPatternText(const Value: WideString);
     procedure SetShowAllExtensions(const Value: Boolean);
     procedure SetShowFilteringBackground(const Value: Boolean);
     procedure SetShowFolders(const Value: Boolean);
+    procedure SetUseWildcards(const Value: Boolean);
   protected
     procedure DoChecked(Node: PVirtualNode); override;
     function DoCompare(Node1, Node2: PVirtualNode; Column: TColumnIndex): Integer;
@@ -89,11 +93,13 @@ type
     property FilteringImage: TBitmap read fFilteringImage write fFilteringImage;
     property ExplorerEasyListview: TVirtualExplorerEasyListview read
         fExplorerEasyListview write SetExplorerEasyListview;
+    property PatternText: WideString read fPatternText write SetPatternText;
     property ShowAllExtensions: Boolean read fShowAllExtensions write
         SetShowAllExtensions;
     property ShowFilteringBackground: Boolean read fShowFilteringBackground write
         SetShowFilteringBackground;
     property ShowFolders: Boolean read fShowFolders write SetShowFolders;
+    property UseWildcards: Boolean read fUseWildcards write SetUseWildcards;
   end;
 
 implementation
@@ -115,6 +121,8 @@ begin
   fShowFolders:= true;
   fShowFilteringBackground:= true;
   fActive:= false;
+  fPatternText:= '';
+  fUseWildcards:= false;
 end;
 
 {*------------------------------------------------------------------------------
@@ -261,22 +269,28 @@ var
   item: TEasyItem;
   NS: TNamespace;
   NoFiltering: Boolean;
+  pattern: WideString;
 begin
   if not assigned(fExplorerEasyListview) then
   Exit;
+
+  if UseWildcards then
+  pattern:= PatternText
+  else
+  pattern:= '*' + PatternText + '*';
 
   NoFiltering:= true;
   fExplorerEasyListview.BeginUpdate;
   try
     for i:= 0 to fExplorerEasyListview.ItemCount - 1 do
     begin
+      NS:= nil;
       item:= fExplorerEasyListview.Items.Items[i];
       if (ActiveFilters.Count = 0) or fShowAllExtensions then
       begin
         if not fShowFolders then
         begin
-          fExplorerEasyListview.ValidateNamespace(item, NS);
-          if assigned(NS) then
+          if fExplorerEasyListview.ValidateNamespace(item, NS) then
           begin
             if NS.Folder and (WideCompareText(NS.Extension,'.zip') <> 0) then
             item.Visible:= false
@@ -289,8 +303,7 @@ begin
       end
       else
       begin
-        fExplorerEasyListview.ValidateNamespace(item, NS);
-        if assigned(NS) then
+        if fExplorerEasyListview.ValidateNamespace(item, NS) then
         begin
           if NS.Folder and (WideCompareText(NS.Extension,'.zip') <> 0) then
           item.Visible:= fShowFolders
@@ -299,6 +312,14 @@ begin
           else
           item.Visible:= ActiveFilters.IndexOf(NS.Extension) > -1;
         end;
+      end;
+
+      if item.Visible and (PatternText <> '') then
+      begin
+        if not assigned(NS) then
+        fExplorerEasyListview.ValidateNamespace(item, NS);
+
+        item.Visible:= WideStringMatch(NS.NameNormal, pattern)
       end;
 
       if NoFiltering then
@@ -632,6 +653,27 @@ begin
   finally
     AppStorage.Path:= OldPath;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set Pattern Text
+-------------------------------------------------------------------------------}
+procedure TCEFilterList.SetPatternText(const Value: WideString);
+begin
+  if Value <> fPatternText then
+  begin
+    fPatternText:= Value;
+    DoFiltering;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Use Wildcards
+-------------------------------------------------------------------------------}
+procedure TCEFilterList.SetUseWildcards(const Value: Boolean);
+begin
+  fUseWildcards:= Value;
+  DoFiltering;
 end;
 
 {*------------------------------------------------------------------------------

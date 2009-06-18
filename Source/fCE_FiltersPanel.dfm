@@ -2,10 +2,47 @@ inherited CEFiltersPanel: TCEFiltersPanel
   Caption = 'Filters'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  ExplicitWidth = 433
+  ExplicitHeight = 322
   PixelsPerInch = 96
   TextHeight = 13
   inherited TopDock: TSpTBXDock
+    Height = 25
     ExplicitWidth = 425
+    ExplicitHeight = 25
+    object SpTBXToolbar1: TSpTBXToolbar
+      Left = 0
+      Top = 0
+      BorderStyle = bsNone
+      DockMode = dmCannotFloatOrChangeDocks
+      DockPos = 0
+      DragHandleStyle = dhNone
+      FullSize = True
+      TabOrder = 0
+      Caption = 'SpTBXToolbar1'
+      object TBControlItem1: TTBControlItem
+        Control = combo_filterpattern
+      end
+      object check_wildcards: TSpTBXItem
+        Caption = 'Strict'
+        Hint = 'Use strict filtering'
+        AutoCheck = True
+        OnClick = check_wildcardsClick
+      end
+      object combo_filterpattern: TSpTBXComboBox
+        Left = 0
+        Top = 0
+        Width = 125
+        Height = 21
+        DropDownCount = 12
+        ItemHeight = 13
+        TabOrder = 0
+        OnChange = combo_filterpatternChange
+        OnKeyDown = combo_filterpatternKeyDown
+        OnSelect = combo_filterpatternSelect
+        HotTrack = False
+      end
+    end
   end
   inherited BottomDock: TSpTBXDock
     ExplicitWidth = 425
@@ -542,5 +579,12 @@ inherited CEFiltersPanel: TCEFiltersPanel
       Caption = 'Clear filters on folder change'
       OnClick = check_resetfiltersClick
     end
+  end
+  object FilterTimer: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = FilterTimerTimer
+    Left = 84
+    Top = 56
   end
 end

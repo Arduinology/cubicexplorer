@@ -31,7 +31,7 @@ uses
   // VSTools
   MPCommonUtilities, MPCommonObjects, MPShellUtilities,
   // System Units
-  SysUtils, Classes, Windows, StrUtils, ShlObj, ShellAPI, Forms, Controls, Registry;
+  SysUtils, Classes, Windows, StrUtils, ShlObj, ShellAPI, Forms, Controls, Registry, WideStrUtils;
 
 type
   TWinVersion = (wvUnknown, wvWin95, wvWin98, wvWin98SE, wvWinNT, wvWinME, wvWin2000, wvWinXP, wvWin2003, wvWinVista);
@@ -66,6 +66,9 @@ type
 function GetLargeShellIconSize: Integer;
 
 function GetSmallShellIconSize: Integer;
+
+function WideStringMatch(ASource: WideString; APattern: WideString;
+    ACaseSensitive: Boolean = false): Boolean;
 
 var
   ExePath: WideString;
@@ -650,6 +653,50 @@ begin
   finally
     reg.Free;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Wide String Match
+-------------------------------------------------------------------------------}
+function WideStringMatch(ASource: WideString; APattern: WideString;
+    ACaseSensitive: Boolean = false): Boolean;
+
+  function DoMatch(source, pattern: PWideChar): Boolean;
+  begin
+    if 0 = WStrComp(pattern,'*') then
+      Result:= True
+    else if (source^ = Chr(0)) and (pattern^ <> Chr(0)) then
+      Result:= False
+    else if source^ = Chr(0) then
+      Result:= True
+    else begin
+      case pattern^ of
+      '*': if DoMatch(source,@pattern[1]) then
+             Result:= True
+           else
+             Result:= DoMatch(@source[1],pattern);
+      '?': Result:= DoMatch(@source[1],@pattern[1]);
+      else
+        if ACaseSensitive then
+        begin
+          if source^ = pattern^ then
+          Result:= DoMatch(@source[1],@pattern[1])
+          else
+          Result:= False;
+        end
+        else
+        begin
+          if CompareStringW(LOCALE_USER_DEFAULT, NORM_IGNORECASE, source, 1, pattern, 1) = 2 then
+          Result:= DoMatch(@source[1],@pattern[1])
+          else
+          Result:= False;
+        end;
+      end;
+    end;
+  end;
+
+begin
+  Result:= DoMatch(PWideChar(ASource), PWideChar(APattern));
 end;
 
 initialization
