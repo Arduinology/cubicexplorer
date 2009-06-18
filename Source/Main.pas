@@ -275,6 +275,7 @@ type
 
   TMainFormSettings = class(TPersistent)
   private
+    fExitOnLastTabClose: Boolean;
     fHeight: Integer;
     fLeft: Integer;
     fShowCmd: Integer;
@@ -317,6 +318,8 @@ type
     property Skin: string read GetSkin write SetSkin;
     property AutoLoadSession: WideString read GetAutoLoadSession write
         SetAutoLoadSession;
+    property ExitOnLastTabClose: Boolean read fExitOnLastTabClose write
+        fExitOnLastTabClose;
     property StartupType: TCEStartupType read fStartupType write fStartupType;
   end;
 
@@ -1405,6 +1408,7 @@ begin
   fWidth:= 640;
   fShowCmd:= 1;
   fStartupType:= stNormal;
+  fExitOnLastTabClose:= false;
 end;
 {-------------------------------------------------------------------------------
   Get PositionInfo

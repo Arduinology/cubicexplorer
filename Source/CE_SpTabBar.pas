@@ -289,6 +289,9 @@ begin
   begin
     if T.GetTabsCount(true) = 0 then
     begin
+      if MainForm.Settings.ExitOnLastTabClose then
+      PostMessage(MainForm.Handle, WM_Close, 0, 0)
+      else
       CEActions.act_tabs_addtab.Execute;
     end;
   end;

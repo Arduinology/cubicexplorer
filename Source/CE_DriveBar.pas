@@ -196,7 +196,7 @@ end;
 function TCEDriveToolbar.CanItemClick(Item: TTBCustomItem; Button:
     TMouseButton; Shift: TShiftState; X, Y: Integer): Boolean;
 begin
-  if (Button = mbMiddle) or (Shift = [ssCtrl,ssLeft]) or (Button = mbRight) then
+  if (Button = mbMiddle) or (Shift = [ssAlt,ssLeft]) or (Button = mbRight) then
   Result:= false
   else
   Result:= true;
@@ -210,7 +210,7 @@ procedure TCEDriveToolbar.DoItemClick(Item: TTBCustomItem; Button:
 var
   shitem: TCEShellToolbarItem;
 begin
-  if (Button = mbMiddle) or (Shift = [ssCtrl,ssLeft]) then
+  if (Button = mbMiddle) or (Shift = [ssAlt,ssLeft]) then
   begin
     if Item is TCEShellToolbarItem then
     begin
