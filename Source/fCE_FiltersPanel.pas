@@ -36,7 +36,7 @@ uses
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ShlObj, Menus, TB2Item, SpTBXEditors, TB2Toolbar, StdCtrls,
-  TntStdCtrls, ExtCtrls;
+  TntStdCtrls, ExtCtrls, SpTBXSkins;
 
 type
   TControlHack = class(TControl);
@@ -47,11 +47,13 @@ type
     Images: TBitmap32List;
     FiltersPopupMenu: TSpTBXPopupMenu;
     check_resetfilters: TSpTBXItem;
-    SpTBXToolbar1: TSpTBXToolbar;
+    PatternToolbar: TSpTBXToolbar;
     combo_filterpattern: TSpTBXComboBox;
-    TBControlItem1: TTBControlItem;
+    combo_controlitem: TTBControlItem;
     check_wildcards: TSpTBXItem;
     FilterTimer: TTimer;
+    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    but_clear_filterhistory: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure check_resetfiltersClick(Sender: TObject);
@@ -62,6 +64,10 @@ type
       Shift: TShiftState);
     procedure FilterTimerTimer(Sender: TObject);
     procedure combo_filterpatternChange(Sender: TObject);
+    procedure check_wildcardsDrawItem(Sender: TObject; ACanvas: TCanvas;
+      ARect: TRect; ItemInfo: TSpTBXMenuItemInfo;
+      const PaintStage: TSpTBXPaintStage; var PaintDefault: Boolean);
+    procedure but_clear_filterhistoryClick(Sender: TObject);
   private
     fSettings: TCEFiltersPanelSettings;
   protected
@@ -85,14 +91,24 @@ type
   TCEFiltersPanelSettings = class(TPersistent)
   private
     fAutoResetFilters: Boolean;
+    fSaveFilterHistory: Boolean;
+    function GetFilterHistory: WideString;
     function GetShowBkgrd: Boolean;
+    function GetStrictFilter: Boolean;
+    procedure SetFilterHistory(const Value: WideString);
+    procedure SetSaveFilterHistory(const Value: Boolean);
     procedure SetShowBkgrd(const Value: Boolean);
+    procedure SetStrictFilter(const Value: Boolean);
   public
     FilterPanel: TCEFiltersPanel;
   published
     property AutoResetFilters: Boolean read fAutoResetFilters write
         fAutoResetFilters;
+    property FilterHistory: WideString read GetFilterHistory write SetFilterHistory;
+    property SaveFilterHistory: Boolean read fSaveFilterHistory write
+        SetSaveFilterHistory;
     property ShowBkgrd: Boolean read GetShowBkgrd write SetShowBkgrd;
+    property StrictFilter: Boolean read GetStrictFilter write SetStrictFilter;
   end;
 
 var
@@ -127,6 +143,11 @@ begin
   GlobalPathCtrl.RegisterNotify(self);
 
   GlobalAppSettings.AddItem('FilterPanel', fSettings, true);
+  combo_filterpattern.Items.Delimiter:= ',';
+  Settings.StrictFilter:= false;
+  Settings.SaveFilterHistory:= true;
+  Settings.ShowBkgrd:= true;
+  Settings.AutoResetFilters:= true;
 end;
 
 {*------------------------------------------------------------------------------
@@ -210,6 +231,7 @@ procedure TCEFiltersPanel.DoFormShow;
 begin
   inherited;
   Filters.Active:= true;
+  check_wildcards.Checked:= Filters.UseWildcards;
 end;
 
 {*------------------------------------------------------------------------------
@@ -243,12 +265,29 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  On but_clear_filterhistory Click
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.but_clear_filterhistoryClick(Sender: TObject);
+begin
+  combo_filterpattern.Clear;
+end;
+
+{-------------------------------------------------------------------------------
   On check_wildcards click
 -------------------------------------------------------------------------------}
 procedure TCEFiltersPanel.check_wildcardsClick(Sender: TObject);
 begin
-  inherited;
-  Filters.UseWildcards:= check_wildcards.Checked;
+  Filters.UseWildcards:= not Filters.UseWildcards;
+end;
+
+{-------------------------------------------------------------------------------
+  On check_wildcards DrawItem
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.check_wildcardsDrawItem(Sender: TObject;
+  ACanvas: TCanvas; ARect: TRect; ItemInfo: TSpTBXMenuItemInfo;
+  const PaintStage: TSpTBXPaintStage; var PaintDefault: Boolean);
+begin
+  check_wildcards.Checked:= Filters.UseWildcards;
 end;
 
 {-------------------------------------------------------------------------------
@@ -268,8 +307,13 @@ procedure TCEFiltersPanel.combo_filterpatternKeyDown(Sender: TObject;
 begin
   case Key of
     VK_RETURN: begin
-      combo_filterpattern.Items.Insert(0, combo_filterpattern.Text);
-      combo_filterpattern.ItemIndex:= 0;
+      if Settings.SaveFilterHistory then
+      begin
+        combo_filterpattern.Items.Insert(0, combo_filterpattern.Text);
+        combo_filterpattern.ItemIndex:= 0;
+        while combo_filterpattern.Items.Count > 100 do
+        combo_filterpattern.Items.Delete(combo_filterpattern.Items.Count-1);
+      end;
     end;
   end;
 end;
@@ -307,6 +351,7 @@ begin
   Filters.PatternText:= combo_filterpattern.Text;
 end;
 
+
 {##############################################################################}
 
 {-------------------------------------------------------------------------------
@@ -319,6 +364,38 @@ end;
 procedure TCEFiltersPanelSettings.SetShowBkgrd(const Value: Boolean);
 begin
   FilterPanel.Filters.ShowFilteringBackground:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set FilterHistory
+-------------------------------------------------------------------------------}
+function TCEFiltersPanelSettings.GetFilterHistory: WideString;
+begin
+  Result:= FilterPanel.combo_filterpattern.Items.DelimitedText;
+end;
+procedure TCEFiltersPanelSettings.SetFilterHistory(const Value: WideString);
+begin
+  FilterPanel.combo_filterpattern.Items.DelimitedText:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Set SaveFilterHistory
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanelSettings.SetSaveFilterHistory(const Value: Boolean);
+begin
+  fSaveFilterHistory:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set StrictFilter
+-------------------------------------------------------------------------------}
+function TCEFiltersPanelSettings.GetStrictFilter: Boolean;
+begin
+  Result:= FilterPanel.Filters.UseWildcards;
+end;
+procedure TCEFiltersPanelSettings.SetStrictFilter(const Value: Boolean);
+begin
+  FilterPanel.Filters.UseWildcards:= Value;
 end;
 
 end.

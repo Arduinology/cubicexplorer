@@ -7,10 +7,10 @@ inherited CEFiltersPanel: TCEFiltersPanel
   PixelsPerInch = 96
   TextHeight = 13
   inherited TopDock: TSpTBXDock
-    Height = 25
+    Height = 26
     ExplicitWidth = 425
-    ExplicitHeight = 25
-    object SpTBXToolbar1: TSpTBXToolbar
+    ExplicitHeight = 26
+    object PatternToolbar: TSpTBXToolbar
       Left = 0
       Top = 0
       BorderStyle = bsNone
@@ -19,15 +19,17 @@ inherited CEFiltersPanel: TCEFiltersPanel
       DragHandleStyle = dhNone
       FullSize = True
       TabOrder = 0
-      Caption = 'SpTBXToolbar1'
-      object TBControlItem1: TTBControlItem
+      Caption = 'PatternToolbar'
+      object combo_controlitem: TTBControlItem
         Control = combo_filterpattern
       end
       object check_wildcards: TSpTBXItem
         Caption = 'Strict'
-        Hint = 'Use strict filtering'
-        AutoCheck = True
+        Hint = 'Use strict filtering (wildcards are ? and *)'
+        ImageIndex = 1
+        Images = CE_Images.MiscImages
         OnClick = check_wildcardsClick
+        OnDrawItem = check_wildcardsDrawItem
       end
       object combo_filterpattern: TSpTBXComboBox
         Left = 0
@@ -578,6 +580,12 @@ inherited CEFiltersPanel: TCEFiltersPanel
     object check_resetfilters: TSpTBXItem
       Caption = 'Clear filters on folder change'
       OnClick = check_resetfiltersClick
+    end
+    object SpTBXSeparatorItem1: TSpTBXSeparatorItem
+    end
+    object but_clear_filterhistory: TSpTBXItem
+      Caption = 'Clear filter history'
+      OnClick = but_clear_filterhistoryClick
     end
   end
   object FilterTimer: TTimer
