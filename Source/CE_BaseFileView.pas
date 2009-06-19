@@ -104,7 +104,6 @@ type
         Boolean); override;
     procedure DoItemEdited(Item: TEasyItem; var NewValue: Variant; var Accept:
         Boolean); override;
-    procedure DoItemEditEnd(Item: TEasyItem); override;
     procedure DoItemGetCaption(Item: TEasyItem; Column: Integer; var ACaption:
         WideString); override;
     procedure DoItemGetEditCaption(Item: TEasyItem; Column: TEasyColumn; var
@@ -1091,34 +1090,29 @@ begin
   begin
     NS:= TExplorerItem(Item).Namespace;
 
-    if NS.Folder and not NS.Browsable then
-    NS.SetNameOf(Caption)
-    else
+    if NS.CanRename and Assigned(NS.ParentShellFolder) then
     begin
-      if NS.CanRename and Assigned(NS.ParentShellFolder) then
-      begin
-        OldCursor := Screen.Cursor;
-        Screen.Cursor := crHourglass;
-        try
-        { The shell frees the PIDL so we need a copy }
-          P:= PIDLMgr.CopyPIDL(NS.RelativePIDL);
-          NewPIDL:= nil;
+      OldCursor := Screen.Cursor;
+      Screen.Cursor := crHourglass;
+      try
+      { The shell frees the PIDL so we need a copy }
+        P:= PIDLMgr.CopyPIDL(NS.RelativePIDL);
+        NewPIDL:= nil;
 
-          ParentWnd:= 0;
-          if MP_UseModalDialogs then
-          ParentWnd:= GetActiveWindow;
+        ParentWnd:= 0;
+        if MP_UseModalDialogs then
+        ParentWnd:= GetActiveWindow;
 
-          if Succeeded(NS.ParentShellFolder.SetNameOf(ParentWnd, P, PWideChar(Caption), ALL_FOLDERS, NewPIDL)) then
+        if Succeeded(NS.ParentShellFolder.SetNameOf(ParentWnd, P, PWideChar(Caption), ALL_FOLDERS, NewPIDL)) then
+        begin
+          if Assigned(NewPIDL) then
           begin
-            if Assigned(NewPIDL) then
-            begin
-              TNamespaceHack(NS).ReplacePIDL(NewPIDL, NS.Parent);
-            end
+            TNamespaceHack(NS).ReplacePIDL(NewPIDL, NS.Parent);
           end
-        finally
-          Screen.Cursor := OldCursor
         end
-      end;
+      finally
+        Screen.Cursor := OldCursor
+      end
     end;
 
     TExplorerItem(Item).Namespace.InvalidateCache;
@@ -1369,16 +1363,6 @@ begin
   begin
     inherited DoCustomColumnGetCaption(Column, Item, Caption);
   end;
-end;
-
-{*------------------------------------------------------------------------------
-  END of IShellBrowser implementation
--------------------------------------------------------------------------------}
-
-
-procedure TCECustomFileView.DoItemEditEnd(Item: TEasyItem);
-begin
-  inherited;
 end;
 
 {-------------------------------------------------------------------------------
