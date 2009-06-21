@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2009-06-05 10:58\n"
-"PO-Revision-Date: 2009-06-05 10:58\n"
+"POT-Creation-Date: 2009-06-19 16:01\n"
+"PO-Revision-Date: 2009-06-19 16:01\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,14 +28,14 @@ msgstr ""
 #. CEActions..ActionList..act_tabs_closeonright..Category
 #: dCE_Actions.dfm:509
 #. CEActions..HiddenActionList..act_tabs_next..Category
-#: dCE_Actions.dfm:647
+#: dCE_Actions.dfm:661
 #. CEActions..HiddenActionList..act_tabs_prev..Category
-#: dCE_Actions.dfm:656
+#: dCE_Actions.dfm:670
 #. CESessionManager..Panel2..TntGroupBox1..check_tabs..Caption
-#: fCE_SessionManager.dfm:103
+#: fCE_SessionManager.dfm:89
 #: fCE_OptionsPage_Tabs.pas:75
 #. Create TabSet
-#: Main.pas:442
+#: Main.pas:463
 msgid "Tabs"
 msgstr ""
 
@@ -113,7 +113,7 @@ msgstr ""
 #. CEActions..ActionList..act_view_arrangeby..Category
 #: dCE_Actions.dfm:449
 #. CEActions..BackgroundCMItems_up..View1..Caption
-#: dCE_Actions.dfm:564
+#: dCE_Actions.dfm:578
 #. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem4..Caption
 #: fCE_TextEditor.dfm:95
 #. CETextEditorPage..ActionList..text_view_toolbar..Category
@@ -217,13 +217,17 @@ msgstr ""
 
 #. CEActions..ActionList..act_view_bookmark..Caption
 #: dCE_Actions.dfm:85
+#. CEActions..ActionList..act_bookmarks_menu..Category
+#: dCE_Actions.dfm:547
+#. CEActions..ActionList..act_bookmarks_menu..Caption
+#: dCE_Actions.dfm:548
 #. CESessionManager..Panel2..TntGroupBox1..check_bookmarks..Caption
-#: fCE_SessionManager.dfm:93
+#: fCE_SessionManager.dfm:79
 #. MainForm..TopToolDock..MainToolbar..bookmarkMenuItem..Caption
 #: Main.dfm:283
 #: fCE_OptionsPage_Display_Bookmarks.pas:65
 #. Create BookmarkBar
-#: Main.pas:474
+#: Main.pas:495
 msgid "Bookmarks"
 msgstr ""
 
@@ -311,7 +315,7 @@ msgstr ""
 #. CEActions..ActionList..act_view_groupby..Caption
 #: dCE_Actions.dfm:162
 #. CEActions..BackgroundCMItems_up..MenuItem_GroupBy..Caption
-#: dCE_Actions.dfm:601
+#: dCE_Actions.dfm:615
 msgid "Group By"
 msgstr ""
 
@@ -466,7 +470,7 @@ msgstr ""
 #. CEBookmarkPanel..BookmarkPopupMenu..but_delete..Caption
 #: fCE_BookmarkPanel.dfm:49
 #. CESessionManager..Panel2..but_delete..Caption
-#: fCE_SessionManager.dfm:125
+#: fCE_SessionManager.dfm:111
 #. CETextEditorPage..ActionList..text_edit_delete..Caption
 #: fCE_TextEditor.dfm:391
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem2..SpTBXItem11..Caption
@@ -645,7 +649,7 @@ msgstr ""
 
 #. CEActions..ActionList..act_edit_newfolder..Caption
 #: dCE_Actions.dfm:374
-#: CE_FileView.pas:550
+#: CE_FileView.pas:552
 msgid "New Folder"
 msgstr ""
 
@@ -697,10 +701,14 @@ msgstr ""
 #: dCE_Actions.dfm:533
 #. CEActions..ActionList..act_sessions_clearhistory..Category
 #: dCE_Actions.dfm:540
+#. CEActions..ActionList..act_sessions_menu..Category
+#: dCE_Actions.dfm:554
+#. CEActions..ActionList..act_sessions_menu..Caption
+#: dCE_Actions.dfm:555
 #. MainForm..TopToolDock..MainToolbar..sessionsMenuItem..Caption
 #: Main.dfm:286
 #. Create SessionsBar
-#: Main.pas:484
+#: Main.pas:505
 msgid "Sessions"
 msgstr ""
 
@@ -731,7 +739,7 @@ msgstr ""
 #. CEActions..ActionList..act_view_arrangeby..Caption
 #: dCE_Actions.dfm:450
 #. CEActions..BackgroundCMItems_up..MenuItem_ArragneBy..Caption
-#: dCE_Actions.dfm:598
+#: dCE_Actions.dfm:612
 msgid "Arrange By"
 msgstr ""
 
@@ -802,64 +810,64 @@ msgid "Clear History"
 msgstr ""
 
 #. CEActions..BackgroundCMItems_up..N1..Caption
-#: dCE_Actions.dfm:595
+#: dCE_Actions.dfm:609
 #. CEActions..BackgroundCMItems_up..N2..Caption
-#: dCE_Actions.dfm:607
+#: dCE_Actions.dfm:621
 #. CEActions..BackgroundCMItems_up..N4..Caption
-#: dCE_Actions.dfm:619
+#: dCE_Actions.dfm:633
 #. CEActions..BackgroundCMItems_down..N3..Caption
-#: dCE_Actions.dfm:626
+#: dCE_Actions.dfm:640
 msgid "-"
 msgstr ""
 
 #. CEActions..HiddenActionList..act_focus_addressbar..Category
-#: dCE_Actions.dfm:637
+#: dCE_Actions.dfm:651
 msgid "Focus"
 msgstr ""
 
 #. CEActions..HiddenActionList..act_focus_addressbar..Caption
-#: dCE_Actions.dfm:638
+#: dCE_Actions.dfm:652
 msgid "Focus Addressbar"
 msgstr ""
 
 #. CEActions..HiddenActionList..act_focus_addressbar....SecondaryShortCuts.Strings
-#: dCE_Actions.dfm:641
+#: dCE_Actions.dfm:655
 msgid "F4"
 msgstr ""
 
 #. CEActions..HiddenActionList..act_focus_addressbar....SecondaryShortCuts.Strings
-#: dCE_Actions.dfm:642
+#: dCE_Actions.dfm:656
 msgid "F6"
 msgstr ""
 
 #. CEActions..HiddenActionList..act_tabs_next..Caption
-#: dCE_Actions.dfm:648
+#: dCE_Actions.dfm:662
 msgid "Switch to Next Tab"
 msgstr ""
 
 #. CEActions..HiddenActionList..act_tabs_next....SecondaryShortCuts.Strings
-#: dCE_Actions.dfm:651
+#: dCE_Actions.dfm:665
 msgid "Ctrl+PgUp"
 msgstr ""
 
 #. CEActions..HiddenActionList..act_tabs_prev..Caption
-#: dCE_Actions.dfm:657
+#: dCE_Actions.dfm:671
 msgid "Swith to Previous Tab"
 msgstr ""
 
 #. CEActions..HiddenActionList..act_tabs_prev....SecondaryShortCuts.Strings
-#: dCE_Actions.dfm:660
+#: dCE_Actions.dfm:674
 msgid "Ctrl+PgDn"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:156
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:3561
+#: dCE_Images.dfm:3602
 #. CE_Images..BookmarkImages......Name
-#: dCE_Images.dfm:6586
+#: dCE_Images.dfm:6658
 #. CE_Images..MiscImages......Name
-#: dCE_Images.dfm:6967
+#: dCE_Images.dfm:7039
 #. CEOptionsDialog..SmallImageList......Name
 #: fCE_OptionsDialog.dfm:274
 #. CEOptionsDialog..LargeImageList......Name
@@ -872,11 +880,11 @@ msgstr ""
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:264
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:3664
+#: dCE_Images.dfm:3705
 #. CE_Images..BookmarkImages......Name
-#: dCE_Images.dfm:6703
+#: dCE_Images.dfm:6775
 #. CE_Images..MiscImages......Name
-#: dCE_Images.dfm:6998
+#: dCE_Images.dfm:7062
 #. CEOptionsDialog..SmallImageList......Name
 #: fCE_OptionsDialog.dfm:381
 msgid "PngImage1"
@@ -885,9 +893,9 @@ msgstr ""
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:388
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:3770
+#: dCE_Images.dfm:3811
 #. CE_Images..BookmarkImages......Name
-#: dCE_Images.dfm:6819
+#: dCE_Images.dfm:6891
 #. CEOptionsDialog..SmallImageList......Name
 #: fCE_OptionsDialog.dfm:164
 #. CEOptionsDialog..LargeImageList......Name
@@ -900,9 +908,9 @@ msgstr ""
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:525
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:3878
+#: dCE_Images.dfm:3919
 #. CE_Images..BookmarkImages......Name
-#: dCE_Images.dfm:6927
+#: dCE_Images.dfm:6999
 #. CEOptionsDialog..SmallImageList......Name
 #: fCE_OptionsDialog.dfm:499
 #. CEOptionsDialog..LargeImageList......Name
@@ -913,9 +921,9 @@ msgstr ""
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:654
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:3990
+#: dCE_Images.dfm:4031
 #. CE_Images..BookmarkImages......Name
-#: dCE_Images.dfm:6950
+#: dCE_Images.dfm:7022
 #. CEOptionsDialog..SmallImageList......Name
 #: fCE_OptionsDialog.dfm:525
 msgid "PngImage4"
@@ -924,7 +932,7 @@ msgstr ""
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:771
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:4097
+#: dCE_Images.dfm:4138
 #. CEOptionsDialog..SmallImageList......Name
 #: fCE_OptionsDialog.dfm:557
 msgid "PngImage5"
@@ -933,246 +941,253 @@ msgstr ""
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:887
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:4204
+#: dCE_Images.dfm:4245
 msgid "PngImage6"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:1022
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:4435
+#: dCE_Images.dfm:4476
 msgid "PngImage7"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:1152
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:4320
+#: dCE_Images.dfm:4361
 msgid "PngImage8"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:1175
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:4454
+#: dCE_Images.dfm:4495
 msgid "PngImage9"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:1204
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:4476
+#: dCE_Images.dfm:4517
 msgid "PngImage10"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:1323
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:4590
+#: dCE_Images.dfm:4631
 msgid "PngImage13"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:1433
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:4701
+#: dCE_Images.dfm:4742
 msgid "PngImage16"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:1542
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:4812
+#: dCE_Images.dfm:4853
 msgid "PngImage14"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:1655
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:4924
+#: dCE_Images.dfm:4965
 msgid "PngImage15"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:1771
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:5036
+#: dCE_Images.dfm:5077
 msgid "PngImage11"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:1901
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:5150
+#: dCE_Images.dfm:5191
 msgid "PngImage17"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:2021
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:5261
+#: dCE_Images.dfm:5302
 msgid "PngImage12"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:2077
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:5379
+#: dCE_Images.dfm:5420
 msgid "PngImage18"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:2212
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:5495
+#: dCE_Images.dfm:5536
 msgid "PngImage19"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:2326
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:5603
+#: dCE_Images.dfm:5644
 msgid "PngImage20"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:2429
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:5707
+#: dCE_Images.dfm:5748
 msgid "PngImage21"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:2559
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:5814
+#: dCE_Images.dfm:5855
 msgid "PngImage22"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:2614
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:5852
+#: dCE_Images.dfm:5893
 msgid "PngImage23"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:2670
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:5891
+#: dCE_Images.dfm:5932
 msgid "PngImage24"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:2712
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:5919
+#: dCE_Images.dfm:5960
 msgid "PngImage25"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:2744
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:5943
+#: dCE_Images.dfm:5984
 msgid "PngImage26"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:2769
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:5962
+#: dCE_Images.dfm:6003
 msgid "PngImage27"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:2808
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:5988
+#: dCE_Images.dfm:6029
 msgid "PngImage28"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:2947
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:6091
+#: dCE_Images.dfm:6132
 msgid "PngImage29"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:3004
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:6125
+#: dCE_Images.dfm:6166
 msgid "PngImage30"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:3115
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:6237
+#: dCE_Images.dfm:6278
 msgid "PngImage31"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:3144
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:6261
+#: dCE_Images.dfm:6302
 msgid "PngImage32"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:3173
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:6283
+#: dCE_Images.dfm:6324
 msgid "PngImage33"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:3204
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:6308
+#: dCE_Images.dfm:6349
 msgid "PngImage34"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:3234
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:6330
+#: dCE_Images.dfm:6371
 msgid "PngImage35"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:3267
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:6356
+#: dCE_Images.dfm:6397
 msgid "PngImage36"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:3291
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:6376
+#: dCE_Images.dfm:6417
 msgid "PngImage37"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:3322
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:6401
+#: dCE_Images.dfm:6442
 msgid "PngImage38"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:3380
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:6429
+#: dCE_Images.dfm:6470
 msgid "PngImage39"
 msgstr ""
 
 #. CE_Images..MediumIcons......Name
 #: dCE_Images.dfm:3435
 #. CE_Images..SmallIcons......Name
-#: dCE_Images.dfm:6462
+#: dCE_Images.dfm:6503
 msgid "PngImage40"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:3476
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:6534
+msgid "PngImage41"
 msgstr ""
 
 #. CEAboutBox..Caption
@@ -1211,7 +1226,7 @@ msgstr ""
 #. CESessionManager..Font.Name
 #: fCE_SessionManager.dfm:12
 #. CESessionManager..SessionList..Header.Font.Name
-#: fCE_SessionManager.dfm:168
+#: fCE_SessionManager.dfm:151
 #. CETextEditor..FindPanel..SpTBXLabel1..LinkFont.Name
 #: fCE_TextEditor_1.dfm:218
 #. CETextEditor..FindPanel..SpTBXLabel2..LinkFont.Name
@@ -1283,7 +1298,7 @@ msgstr ""
 #. CEAboutBox..Panel1..but_close..Caption
 #: fCE_AboutBox.dfm:1024
 #. CESessionManager..Panel1..TntButton1..Caption
-#: fCE_SessionManager.dfm:151
+#: fCE_SessionManager.dfm:135
 #. CETextEditorPage..ActionList..text_file_close..Caption
 #: fCE_TextEditor.dfm:356
 #. CETextEditor..TopDock..MainToolbar..SpTBXSubmenuItem1..SpTBXItem5..Caption
@@ -1321,21 +1336,21 @@ msgstr ""
 
 #. CEBookmarkPanel..BookmarkPopupMenu..but_openAll..Caption
 #: fCE_BookmarkPanel.dfm:63
-#: CE_BookmarkBar.pas:314
+#: CE_BookmarkBar.pas:316
 msgid "Open All in Tabs"
 msgstr ""
 
 #. CEBookmarkPanel..BookmarkPopupMenu..but_openAll..SpTBXItem1..Caption
 #: fCE_BookmarkPanel.dfm:68
 #. "And Launch Files" item
-#: CE_BookmarkBar.pas:318
+#: CE_BookmarkBar.pas:320
 msgid "And Launch Files"
 msgstr ""
 
 #. CEBookmarkPanel..BookmarkPopupMenu..but_openAll..SpTBXItem2..Caption
 #: fCE_BookmarkPanel.dfm:73
 #. "Launch Files Only" item
-#: CE_BookmarkBar.pas:325
+#: CE_BookmarkBar.pas:328
 msgid "Launch Files Only"
 msgstr ""
 
@@ -1480,14 +1495,35 @@ msgstr ""
 msgid "Thumbs View Style"
 msgstr ""
 
+#. CEFiltersPanel..TopDock..PatternToolbar..Caption
+#: fCE_FiltersPanel.dfm:22
+msgid "PatternToolbar"
+msgstr ""
+
+#. CEFiltersPanel..TopDock..PatternToolbar..check_wildcards..Caption
+#: fCE_FiltersPanel.dfm:27
+msgid "Strict"
+msgstr ""
+
+#. CEFiltersPanel..TopDock..PatternToolbar..check_wildcards..Hint
+#: fCE_FiltersPanel.dfm:28
+msgid "Use strict filtering (wildcards are ? and "
+"*)"
+msgstr ""
+
 #. CEFiltersPanel..Images......Bitmap.ResamplerClassName
-#: fCE_FiltersPanel.dfm:18
+#: fCE_FiltersPanel.dfm:57
 msgid "TNearestResampler"
 msgstr ""
 
 #. CEFiltersPanel..FiltersPopupMenu..check_resetfilters..Caption
-#: fCE_FiltersPanel.dfm:542
+#: fCE_FiltersPanel.dfm:581
 msgid "Clear filters on folder change"
+msgstr ""
+
+#. CEFiltersPanel..FiltersPopupMenu..but_clear_filterhistory..Caption
+#: fCE_FiltersPanel.dfm:587
+msgid "Clear filter history"
 msgstr ""
 
 #. CE_FolderTreeForm..Caption
@@ -1787,18 +1823,13 @@ msgstr ""
 msgid "Save settings automatically."
 msgstr ""
 
-#. CESessionManager..Panel2..check_onstartup..Caption
-#: fCE_SessionManager.dfm:60
-msgid "Load this session on startup."
-msgstr ""
-
 #. CESessionManager..Panel2..TntGroupBox1..Caption
-#: fCE_SessionManager.dfm:81
+#: fCE_SessionManager.dfm:68
 msgid "Save/Load Settings"
 msgstr ""
 
 #. CESessionManager..Panel2..TntGroupBox1..check_layout..Caption
-#: fCE_SessionManager.dfm:115
+#: fCE_SessionManager.dfm:101
 msgid "Layout"
 msgstr ""
 
@@ -2194,15 +2225,15 @@ msgstr ""
 msgid "Copy In test"
 msgstr ""
 
-#: CE_FilterPanel.pas:349
+#: CE_FilterPanel.pas:370
 msgid "Show All Files"
 msgstr ""
 
-#: CE_FilterPanel.pas:351
+#: CE_FilterPanel.pas:372
 msgid "Show Folders"
 msgstr ""
 
-#: CE_FilterPanel.pas:354
+#: CE_FilterPanel.pas:375
 msgid "No Extension"
 msgstr ""
 
@@ -2218,7 +2249,7 @@ msgstr ""
 msgid "Loading..."
 msgstr ""
 
-#: CE_Sessions.pas:239
+#: CE_Sessions.pas:242
 msgid "Are you sure you want to clear session "
 "history?"
 msgstr ""
@@ -2249,39 +2280,39 @@ msgstr ""
 msgid "Total Size"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:288
+#: CE_ToolbarButtons.pas:303
 msgid "Folder Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:294
+#: CE_ToolbarButtons.pas:309
 msgid "Name Only"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:303
+#: CE_ToolbarButtons.pas:318
 msgid "Short Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:309
+#: CE_ToolbarButtons.pas:324
 msgid "Short Folder Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:315
+#: CE_ToolbarButtons.pas:330
 msgid "Short Name Only"
 msgstr ""
 
 #. More... item
-#: CE_ToolbarButtons.pas:496
+#: CE_ToolbarButtons.pas:511
 #. More... item
-#: CE_ToolbarButtons.pas:648
-#: dCE_Actions.pas:1421
-#: dCE_Actions.pas:1460
+#: CE_ToolbarButtons.pas:663
+#: dCE_Actions.pas:1420
+#: dCE_Actions.pas:1459
 msgid "More..."
 msgstr ""
 
 #. Grouped toggle item
-#: CE_ToolbarButtons.pas:622
+#: CE_ToolbarButtons.pas:637
 #. Sho in Groups
-#: dCE_Actions.pas:1430
+#: dCE_Actions.pas:1429
 msgid "Show in Groups"
 msgstr ""
 
@@ -2345,6 +2376,11 @@ msgstr ""
 msgid "Do you want to override existing session?"
 msgstr ""
 
+#: fCE_SessionManager.pas:185
+msgid "Are you sure you want to delete this "
+"session?"
+msgstr ""
+
 #: fCE_TextEditor.pas:774
 msgid "Override"
 msgstr ""
@@ -2359,22 +2395,22 @@ msgid "Separator"
 msgstr ""
 
 #. Create FolderCombo Toolbar
-#: Main.pas:455
+#: Main.pas:476
 msgid "Address Bar"
 msgstr ""
 
 #. Create DriveToolbar
-#: Main.pas:463
+#: Main.pas:484
 msgid "Drives"
 msgstr ""
 
 #. Create BreadcrumbBar
-#: Main.pas:494
+#: Main.pas:515
 msgid "Breadcrumb Navigation"
 msgstr ""
 
 #. Add default menu items
-#: Main.pas:865
+#: Main.pas:888
 msgid "English (default)"
 msgstr ""
 
