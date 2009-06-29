@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  CE_Layout,
+  CE_Layout, CE_DualView, CE_AppSettings,
   // JVCL
   JvDockControlForm,
   // Toolbar2000
@@ -40,16 +40,12 @@ type
   TControlAccess = class(TControl);
   TCEDockHostForm = class(TForm)
     CenterPanel: TPanel;
-    PageHostPanel: TPanel;
-    TopPageToolDock: TSpTBXDock;
-    BottomPageToolDock: TSpTBXDock;
-    LeftPageToolDock: TSpTBXDock;
-    RightPageToolDock: TSpTBXDock;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
-    { Private declarations }
   public
+    DualViewSettings: TCEDualViewSettings;
+    DualViewHost: TCEDualViewHost;
     DockServer: TJvDockServer;
   end;
 
@@ -62,7 +58,17 @@ implementation
 -------------------------------------------------------------------------------}
 procedure TCEDockHostForm.FormCreate(Sender: TObject);
 begin
-  DockServer:= TJvDockServer.Create(Self);
+  DualViewHost:= TCEDualViewHost.Create(nil);
+  DualViewHost.Parent:= CenterPanel;
+  DualViewHost.Align:= alClient;
+  DualViewHost.DualViewEnabled:= false;
+  DualViewHost.HorizontalPanes:= false;
+
+  DualViewSettings:= TCEDualViewSettings.Create;
+  DualViewSettings.DualViewHost:= DualViewHost;
+  GlobalAppSettings.AddItem('DualView', DualViewSettings);
+
+  DockServer:= TJvDockServer.Create(self);
   DockServer.DockStyle:= CEDockStyle;
   DockServer.TopDockPanel.Parent:= CenterPanel;
   DockServer.TopSplitter.Parent:= CenterPanel;
@@ -89,6 +95,8 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEDockHostForm.FormDestroy(Sender: TObject);
 begin
+  DualViewSettings.Free;
+  DualViewHost.Free;
   DockServer.Free;
 end;
 

@@ -109,7 +109,8 @@ uses
   CE_Sessions in 'CE_Sessions.pas',
   fCE_OptionsPage_Advanced in 'fCE_OptionsPage_Advanced.pas' {CEOptionsPage_Advanced: TFrame},
   fCE_SaveSessionDlg in 'fCE_SaveSessionDlg.pas' {CESaveSessionDlg},
-  fCE_SessionManager in 'fCE_SessionManager.pas' {CESessionManager};
+  fCE_SessionManager in 'fCE_SessionManager.pas' {CESessionManager},
+  CE_DualView in 'CE_DualView.pas';
 
 {$R *.res}
 {$R 'CE_Resources.res'}

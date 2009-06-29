@@ -20,46 +20,5 @@ object CEDockHostForm: TCEDockHostForm
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitWidth = 434
-    object PageHostPanel: TPanel
-      Left = 0
-      Top = 0
-      Width = 433
-      Height = 320
-      Align = alClient
-      BevelOuter = bvNone
-      TabOrder = 0
-      ExplicitWidth = 434
-      object TopPageToolDock: TSpTBXDock
-        Left = 0
-        Top = 0
-        Width = 433
-        Height = 9
-        ExplicitWidth = 434
-      end
-      object BottomPageToolDock: TSpTBXDock
-        Left = 0
-        Top = 311
-        Width = 433
-        Height = 9
-        Position = dpBottom
-        ExplicitWidth = 434
-      end
-      object LeftPageToolDock: TSpTBXDock
-        Left = 0
-        Top = 9
-        Width = 9
-        Height = 302
-        Position = dpLeft
-      end
-      object RightPageToolDock: TSpTBXDock
-        Left = 424
-        Top = 9
-        Width = 9
-        Height = 302
-        Position = dpRight
-        ExplicitLeft = 425
-      end
-    end
   end
 end

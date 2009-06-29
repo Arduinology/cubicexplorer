@@ -348,10 +348,10 @@ begin
   Self.BottomToolDock.BeginUpdate;
   Self.LeftToolDock.BeginUpdate;
   Self.MainToolbar.BeginUpdate;
-  DockHostForm.TopPageToolDock.BeginUpdate;
-  DockHostForm.BottomPageToolDock.BeginUpdate;
-  DockHostForm.LeftPageToolDock.BeginUpdate;
-  DockHostForm.RightPageToolDock.BeginUpdate;
+  DockHostForm.DualViewHost.TopPageToolDock.BeginUpdate;
+  DockHostForm.DualViewHost.BottomPageToolDock.BeginUpdate;
+  DockHostForm.DualViewHost.LeftPageToolDock.BeginUpdate;
+  DockHostForm.DualViewHost.RightPageToolDock.BeginUpdate;
 end;
 
 {*------------------------------------------------------------------------------
@@ -375,10 +375,10 @@ begin
   Self.BottomToolDock.EndUpdate;
   Self.LeftToolDock.EndUpdate;
   Self.MainToolbar.EndUpdate;
-  DockHostForm.TopPageToolDock.EndUpdate;
-  DockHostForm.BottomPageToolDock.EndUpdate;
-  DockHostForm.LeftPageToolDock.EndUpdate;
-  DockHostForm.RightPageToolDock.EndUpdate;
+  DockHostForm.DualViewHost.TopPageToolDock.EndUpdate;
+  DockHostForm.DualViewHost.BottomPageToolDock.EndUpdate;
+  DockHostForm.DualViewHost.LeftPageToolDock.EndUpdate;
+  DockHostForm.DualViewHost.RightPageToolDock.EndUpdate;
   LockWindowUpdate(0);
   SendMessage(MainForm.DockHostForm.Handle, WM_SETREDRAW, 1,0);
   RedrawWindow(MainForm.Handle, nil, 0, RDW_ERASE or RDW_FRAME or RDW_INVALIDATE or RDW_ALLCHILDREN);
@@ -462,7 +462,7 @@ begin
   TabSet.Name:= 'TabBar';
   TabSet.Toolbar.Caption:= _('Tabs');
   TabSet.TabDragReorder:= true;
-  TabSet.TabPageHost:= DockHostForm.PageHostPanel;
+  TabSet.TabPageHost:= DockHostForm.DualViewHost.MainPane;
   TabSet.LayoutController:= Layouts;
   TabSet.Toolbar.Customizable:= true;
   TabSet.Images:= CE_Images.SmallIcons;
@@ -476,7 +476,7 @@ begin
   AddressBarToolbar.Caption:= _('Address Bar');
   AddressBarToolbar.DockableTo:= [TB2Dock.dpTop, TB2Dock.dpBottom];
   AddressBarToolbar.Visible:= false;
-  AddressBarToolbar.CurrentDock:= DockHostForm.TopPageToolDock;
+  AddressBarToolbar.CurrentDock:= DockHostForm.DualViewHost.TopPageToolDock;
   AddressBarToolbar.Tag:= 1;
   // Create DriveToolbar
   DriveToolbar:= TCEDriveToolbar.Create(self);
@@ -516,7 +516,7 @@ begin
   BreadcrumbBar.Stretch:= true;
   BreadcrumbBar.Visible:= false;
   BreadcrumbBar.DockableTo:= [TB2Dock.dpTop, TB2Dock.dpBottom];
-  BreadcrumbBar.CurrentDock:= DockHostForm.TopPageToolDock;
+  BreadcrumbBar.CurrentDock:= DockHostForm.DualViewHost.TopPageToolDock;
   BreadcrumbBar.Tag:= 1;
   // Create Status bar
   StatusBar:= TCEStatusBar.Create(Self);
@@ -542,10 +542,10 @@ begin
   CEToolbarDocks.Add(TopToolDock);
   CEToolbarDocks.Add(RightToolDock);
   CEToolbarDocks.Add(BottomToolDock);
-  CEToolbarDocks.Add(DockHostForm.LeftPageToolDock);
-  CEToolbarDocks.Add(DockHostForm.TopPageToolDock);
-  CEToolbarDocks.Add(DockHostForm.RightPageToolDock);
-  CEToolbarDocks.Add(DockHostForm.BottomPageToolDock);
+  CEToolbarDocks.Add(DockHostForm.DualViewHost.LeftPageToolDock);
+  CEToolbarDocks.Add(DockHostForm.DualViewHost.TopPageToolDock);
+  CEToolbarDocks.Add(DockHostForm.DualViewHost.RightPageToolDock);
+  CEToolbarDocks.Add(DockHostForm.DualViewHost.BottomPageToolDock);
   // Populate menu items
   CELayoutItems.PopulateMenuItem(toolbarsMenuItem);
   CELayoutItems.PopulateMenuItem(ToolbarPopupMenu.Items);
