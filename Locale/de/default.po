@@ -270,7 +270,7 @@ msgid "General Settings"
 msgstr "Allgemeine Einstellungen"
 
 msgid "Group By"
-msgstr "Grappieren nach"
+msgstr "Gruppieren nach"
 
 msgid "Help"
 msgstr "Hilfe"
