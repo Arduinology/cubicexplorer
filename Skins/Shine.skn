@@ -1,5 +1,5 @@
 [Skin]
-Name=Shine 1.0
+Name=Shine 1.2
 ColorBtnFace=clBtnFace
 OfficeStatusBar=0
 OfficeIcons=0
@@ -38,7 +38,7 @@ Normal.Body=5, clWhite, $00C5C5C5, $00B9B9B9, $00D7D7D7
 Normal.Borders=0, clWhite, $00C5C5C5, $00B9B9B9, $00D7D7D7
 
 [Separator]
-Normal.Body=1, $00B2B2B2
+Normal.Body=1, $008D8D8D, $00DFDFDF
 Normal.Borders=0
 
 [Splitter]
@@ -94,6 +94,8 @@ CheckedAndHotTrack.Body=5, clWhite, $00B0B0B0, $009E9E9E, $00C8C8C8
 CheckedAndHotTrack.Borders=0, $00B0B0B0, $00B0B0B0
 
 [MenuItem]
+HotTrack.Body=0
+HotTrack.Borders=2, $00BEBEBE, $00E2E2E2, $00E8E8E8, clSilver
 Pushed.Body=0, clBtnFace
 Pushed.Borders=0, clBtnShadow, clBtnShadow
 Checked.Body=0, $00D8D4D4
