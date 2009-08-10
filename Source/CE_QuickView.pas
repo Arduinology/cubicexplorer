@@ -83,6 +83,8 @@ type
   private
     fActiveViewers: TObjectList;
     fMuted: Boolean;
+    fRememberPanelLayout: Boolean;
+    fRememberToolbarLayout: Boolean;
     fVolume: Integer;
     function GetImageExts: string;
     function GetMemoExts: string;
@@ -110,13 +112,17 @@ type
     property ImageExts: string read GetImageExts write SetImageExts;
     property MemoExts: string read GetMemoExts write SetMemoExts;
     property Muted: Boolean read fMuted write SetMuted;
+    property RememberPanelLayout: Boolean read fRememberPanelLayout write
+        fRememberPanelLayout;
+    property RememberToolbarLayout: Boolean read fRememberToolbarLayout write
+        fRememberToolbarLayout;
     property VideoExts: string read GetVideoExts write SetVideoExts;
     property Volume: Integer read fVolume write SetVolume;
   end;
 
 const
   DefaultMemoExts = 'txt'#13'ini'#13'bat'#13'html'#13'htm'#13'pas'#13'css'#13'xml'#13'log'#13'for'#13'php'#13'py';
-  DefaultVideoExts = 'avi'#13'wmv'#13'mp4'#13'mpg'#13'mpeg'#13'ogg'#13'ogm'#13'mkv'#13'dvr-ms'#13'mp3'#13'vob'#13'wav';
+  DefaultVideoExts = 'avi'#13'wmv'#13'mp4'#13'mpg'#13'mpeg'#13'ogg'#13'ogm'#13'mkv'#13'dvr-ms'#13'mp3'#13'vob'#13'wav'#13'flv';
 
 var
   QuickViewSettings: TCEQuickViewSettings;

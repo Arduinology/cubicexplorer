@@ -212,12 +212,12 @@ procedure OpenFileInTab(FilePath: WideString; SelectTab: Boolean = true;
     ActivateApp: Boolean = false);
 
 procedure OpenFolderInTab(Sender: TObject; PIDL: PItemIDList; SelectTab:
-    Boolean = true; ActivateApp: Boolean = false; ForceNewTab: Boolean =
-    false); overload;
+    Boolean = true; ActivateApp: Boolean = false; ForceNewTab: Boolean = false;
+    PaneNumber: Integer = 0); overload;
 
 procedure OpenFolderInTab(Sender: TObject; FilePath: WideString; SelectTab:
-    Boolean = true; ActivateApp: Boolean = false; ForceNewTab: Boolean =
-    false); overload;
+    Boolean = true; ActivateApp: Boolean = false; ForceNewTab: Boolean = false;
+    PaneNumber: Integer = 0); overload;
 
 function IsSingleInstance: Boolean;
 
@@ -1081,19 +1081,21 @@ end;
   Open Folder in a new tab
 -------------------------------------------------------------------------------}
 procedure OpenFolderInTab(Sender: TObject; FilePath: WideString; SelectTab:
-    Boolean = true; ActivateApp: Boolean = false; ForceNewTab: Boolean = false);
+    Boolean = true; ActivateApp: Boolean = false; ForceNewTab: Boolean = false;
+    PaneNumber: Integer = 0);
 var
   PIDL: PItemIDList;
 begin
   PIDL:= PathToPIDL(FilePath);
-  OpenFolderInTab(Sender, PIDL, SelectTab, ActivateApp, ForceNewTab);
+  OpenFolderInTab(Sender, PIDL, SelectTab, ActivateApp, ForceNewTab, PaneNumber);
 end;
 
 {*------------------------------------------------------------------------------
   Open Folder in a new tab
 -------------------------------------------------------------------------------}
 procedure OpenFolderInTab(Sender: TObject; PIDL: PItemIDList; SelectTab:
-    Boolean = true; ActivateApp: Boolean = false; ForceNewTab: Boolean = false);
+    Boolean = true; ActivateApp: Boolean = false; ForceNewTab: Boolean = false;
+    PaneNumber: Integer = 0);
 var
   page: TCEFileViewPage;
   item: TCESpTabItem;
@@ -1113,6 +1115,7 @@ begin
           page:= TCEFileViewPage(item.Page);
           if ILIsEqual(PIDL, page.FileView.RootFolderNamespace.AbsolutePIDL) then
           begin
+//            MainForm.TabSet.SetPaneForTab(item, PaneNumber);
             MainForm.TabSet.SelectTab(item);
             if ActivateApp then
             MainForm.MakeVisible;
@@ -1129,7 +1132,7 @@ begin
 
   if not assigned(item) then
   begin
-    item:= MainForm.TabSet.AddTab(TCEFileViewPage, false, false);
+    item:= MainForm.TabSet.AddTab(TCEFileViewPage, false, false);//, PaneNumber);
     if assigned(item) then
     begin
       page:= TCEFileViewPage(item.Page);

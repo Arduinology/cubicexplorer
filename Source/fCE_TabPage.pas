@@ -33,7 +33,21 @@ uses
   Dialogs, ShlObj, Contnrs, ActnList;
 
 type
-  TCECustomTabPageSettings = class(TPersistent);
+  TCECustomTabPageSettings = class(TPersistent)
+  private
+    fRememberPanelLayout: Boolean;
+    fRememberToolbarLayout: Boolean;
+  protected
+    function GetRememberPanelLayout: Boolean; virtual;
+    function GetRememberToolbarLayout: Boolean; virtual;
+  public
+    property RememberPanelLayout: Boolean read GetRememberPanelLayout write
+        fRememberPanelLayout;
+    property RememberToolbarLayout: Boolean read GetRememberToolbarLayout write
+        fRememberToolbarLayout;
+  published
+  end;
+
   TCECustomTabPageSettingsClass = class of TCECustomTabPageSettings;
 
   TCECustomTabPageClass = class of TCECustomTabPage;
@@ -352,6 +366,22 @@ begin
     SettingsList.Delete(i);
     NameList.Delete(i);
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Get RememberPanelLayout
+-------------------------------------------------------------------------------}
+function TCECustomTabPageSettings.GetRememberPanelLayout: Boolean;
+begin
+  Result:= fRememberPanelLayout;
+end;
+
+{-------------------------------------------------------------------------------
+  Get RememberToolbarLayout
+-------------------------------------------------------------------------------}
+function TCECustomTabPageSettings.GetRememberToolbarLayout: Boolean;
+begin
+  Result:= fRememberToolbarLayout;
 end;
 
 {##############################################################################}

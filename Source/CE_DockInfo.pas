@@ -594,7 +594,7 @@ procedure TCEDockInfoTree.WriteInfoToAppStorage;
 begin
   AppStorage.BeginUpdate;
   try
-    AppStorage.DeleteSubTree(AppStoragePath);
+    AppStorage.DeleteSubTree(AppStorage.ConcatPaths([AppStoragePath, 'Forms']));
     try
       FCEDockInfoStyle := isWriteInfo;
       MiddleScanTree(TopTreeZone);

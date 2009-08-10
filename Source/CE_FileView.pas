@@ -87,6 +87,8 @@ type
         Integer; ChangeType: TVSHChangeType);
     procedure SetNotifyFolder(Namespace: TNamespace);
     procedure SetView(Value: TEasyListStyle); override;
+    procedure WMKillFocus(var Message: TWMKillFocus); message WM_KillFocus;
+    procedure WMSetFocus(var Msg: TWMSetFocus); message WM_SETFOCUS;
     property ColumnIndex: Integer read fColumnIndex write fColumnIndex;
   public
     fChangeHistory: Boolean;
@@ -898,6 +900,24 @@ begin
       ChangeNotifier.UnRegisterKernelChangeNotify(Self);
     end;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  WM_KillFocus
+-------------------------------------------------------------------------------}
+procedure TCEFileView.WMKillFocus(var Message: TWMKillFocus);
+begin
+  inherited;
+  //Self.ShowInactive:= true;
+end;
+
+{-------------------------------------------------------------------------------
+  WM_SetFocus
+-------------------------------------------------------------------------------}
+procedure TCEFileView.WMSetFocus(var Msg: TWMSetFocus);
+begin
+  inherited;
+  //Self.ShowInactive:= false;
 end;
 
 

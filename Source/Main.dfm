@@ -22,6 +22,36 @@ object MainForm: TMainForm
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object BottomToolDock: TSpTBXDock
+    Left = 0
+    Top = 432
+    Width = 628
+    Height = 9
+    Position = dpBottom
+  end
+  object LeftToolDock: TSpTBXDock
+    Left = 0
+    Top = 57
+    Width = 9
+    Height = 375
+    Position = dpLeft
+  end
+  object MainPanel: TPanel
+    Left = 9
+    Top = 57
+    Width = 610
+    Height = 375
+    Align = alClient
+    BevelOuter = bvNone
+    TabOrder = 2
+  end
+  object RightToolDock: TSpTBXDock
+    Left = 619
+    Top = 57
+    Width = 9
+    Height = 375
+    Position = dpRight
+  end
   object TopToolDock: TSpTBXDock
     Left = 0
     Top = 0
@@ -381,6 +411,24 @@ object MainForm: TMainForm
         Visible = False
         OnClick = test_act1Click
       end
+      object SpTBXSeparatorItem23: TSpTBXSeparatorItem
+      end
+      object SpTBXItem87: TSpTBXItem
+        Caption = 'test1'
+        OnClick = SpTBXItem87Click
+      end
+      object SpTBXItem88: TSpTBXItem
+        Caption = 'test2'
+        OnClick = SpTBXItem88Click
+      end
+      object SpTBXItem92: TSpTBXItem
+        Caption = 'test3'
+        OnClick = SpTBXItem92Click
+      end
+      object SpTBXItem93: TSpTBXItem
+        Caption = 'test4'
+        OnClick = SpTBXItem93Click
+      end
     end
     object ViewToolbar: TSpTBXToolbar
       Left = 270
@@ -476,36 +524,6 @@ object MainForm: TMainForm
         Action = CEActions.act_edit_delete
       end
     end
-  end
-  object RightToolDock: TSpTBXDock
-    Left = 619
-    Top = 57
-    Width = 9
-    Height = 375
-    Position = dpRight
-  end
-  object BottomToolDock: TSpTBXDock
-    Left = 0
-    Top = 432
-    Width = 628
-    Height = 9
-    Position = dpBottom
-  end
-  object LeftToolDock: TSpTBXDock
-    Left = 0
-    Top = 57
-    Width = 9
-    Height = 375
-    Position = dpLeft
-  end
-  object MainPanel: TPanel
-    Left = 9
-    Top = 57
-    Width = 610
-    Height = 375
-    Align = alClient
-    BevelOuter = bvNone
-    TabOrder = 0
   end
   object ToolbarPopupMenu: TSpTBXPopupMenu
     Left = 16

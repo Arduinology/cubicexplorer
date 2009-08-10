@@ -146,6 +146,8 @@ type
     fColumns: TCEColumnSettings;
     fFilmstrip: TCEFilmstripSettings;
     fGroupBy: TCEGroupBySettings;
+    fRememberPanelLayout: Boolean;
+    fRememberToolbarLayout: Boolean;
     fShowExtensions: Boolean;
     fShowHeaderAlways: Boolean;
     fSortFolderFirstAlways: Boolean;
@@ -188,6 +190,10 @@ type
     property FullRowSelect: Boolean read fFullRowSelect write SetFullRowSelect;
     property GroupBy: TCEGroupBySettings read fGroupBy write fGroupBy;
     property HiddenFiles: Boolean read fHiddenFiles write SetHiddenFiles;
+    property RememberPanelLayout: Boolean read fRememberPanelLayout write
+        fRememberPanelLayout;
+    property RememberToolbarLayout: Boolean read fRememberToolbarLayout write
+        fRememberToolbarLayout;
     property ShowExtensions: Boolean read fShowExtensions write SetShowExtensions;
     property ShowHeaderAlways: Boolean read fShowHeaderAlways write
         SetShowHeaderAlways;
@@ -205,7 +211,7 @@ implementation
 {$R *.dfm}
 
 uses
-  dCE_Actions, Main, CE_VistaFuncs, fCE_FolderPanel, CE_CommonObjects;
+  dCE_Actions, Main, CE_VistaFuncs, fCE_FolderPanel, CE_CommonObjects, CE_SpTabBar;
 
 {*------------------------------------------------------------------------------
   Get's called when TCEFileViewPage is created.
@@ -214,6 +220,8 @@ constructor TCEFileViewPage.Create(AOwner: TComponent);
 begin
   inherited;
   TCEFileViewPageSettings(Settings).FileViewPage:= Self;
+  Settings.RememberPanelLayout:= false;
+  Settings.RememberToolbarLayout:= false;
   ThumbViewSize:= 100;
   fThumbPosition:= alBottom;
   fThumbViewStyle:= elsFilmStrip;
@@ -466,8 +474,10 @@ end;
 procedure TCEFileViewPage.UpdateCaption;
 begin
   TabCaption:= FileView.RootFolderNamespace.NameNormal;
-  TabItem.Images:= SmallSysImages;
-  TabItem.ImageIndex:= FileView.RootFolderNamespace.GetIconIndex(false, icSmall);
+//  TCESpTabItem(TabItem).NormalImages:= SmallSysImages;
+//  TCESpTabItem(TabItem).NormalImageIndex:= FileView.RootFolderNamespace.GetIconIndex(false, icSmall);
+  TCESpTabItem(TabItem).Images:= SmallSysImages;
+  TCESpTabItem(TabItem).ImageIndex:= FileView.RootFolderNamespace.GetIconIndex(false, icSmall);
   TabItem.Hint:= UTF8Encode(FileView.RootFolderNamespace.NameParseAddress);
   if GlobalPathCtrl.ActivePage = Self then
   GlobalPathCtrl.GlobalPathCaption:= FileView.RootFolderNamespace.NameParseAddress;

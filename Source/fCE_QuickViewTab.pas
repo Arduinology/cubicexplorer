@@ -49,6 +49,16 @@ type
     property ActiveFile: WideString read fActiveFile write fActiveFile;
   end;
 
+type
+  TCEQuickViewPageSettings = class(TCECustomTabPageSettings)
+  private
+  protected
+    function GetRememberPanelLayout: Boolean; override;
+    function GetRememberToolbarLayout: Boolean; override;
+  public
+  published
+  end;
+
 implementation
 
 {$R *.dfm}
@@ -63,6 +73,8 @@ begin
   Viewer.Parent:= Self;
   Viewer.Align:= alClient;
   Layout:= 'QuickView';
+  Settings.RememberPanelLayout:= QuickViewSettings.RememberPanelLayout;
+  Settings.RememberToolbarLayout:= QuickViewSettings.RememberToolbarLayout;
 end;
 
 {-------------------------------------------------------------------------------
@@ -132,6 +144,22 @@ begin
 
   if GlobalPathCtrl.ActivePage = Self then
   GlobalPathCtrl.GlobalPathCaption:= ActiveFile;
+end;
+
+{-------------------------------------------------------------------------------
+  Get RememberPanelLayout
+-------------------------------------------------------------------------------}
+function TCEQuickViewPageSettings.GetRememberPanelLayout: Boolean;
+begin
+  Result:= QuickViewSettings.RememberPanelLayout;
+end;
+
+{-------------------------------------------------------------------------------
+  Get RememberToolbarLayout
+-------------------------------------------------------------------------------}
+function TCEQuickViewPageSettings.GetRememberToolbarLayout: Boolean;
+begin
+  Result:= QuickViewSettings.RememberToolbarLayout;
 end;
 
 end.

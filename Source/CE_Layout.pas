@@ -29,7 +29,7 @@ uses
   // Toolbar200
   TB2Toolbar, TB2Dock, TB2ToolWindow,
   // SpTBX
-  SpTBXItem,
+  SpTBXItem, SpTBXTabs,
   // TNT
   TntSysUtils, TntClasses,
   // JVCL
@@ -61,15 +61,20 @@ type
     fCurrentLayout: String;
     fFilePath: WideString;
     procedure InitSelf;
+  protected
+    CurrentFormLayout: string;
+    CurrentToolbarLayout: string;
   public
     Layouts: TStrings;
     AppStorage: TJvAppXMLFileStorage;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure LoadFromFile(AFilePath: WideString);
-    procedure LoadLayout(LayoutName: String);
+    procedure LoadLayout(LayoutName: String; LoadToolbarLayout: Boolean = false;
+        LoadFormLayout: Boolean = true);
     procedure LoadToolbarLayout;
-    procedure SaveLayout(LayoutName: String);
+    procedure SaveLayout(LayoutName: String; SaveToolbarsLayout: Boolean = false;
+        SaveFormsLayout: Boolean = true);
     procedure SaveToFile(AFilePath: WideString = '');
     procedure SaveToolbarLayout;
     property AutoSave: Boolean read fAutoSave write fAutoSave;
@@ -89,7 +94,12 @@ type
   procedure CE_DoFloatForm(DockForm: TControl);
   procedure CE_DoFloatAllForm;
 
+procedure BeginToolbarCustomize;
+
+procedure EndToolbarCustomize;
+
 var
+  DefaultLayoutName: String = 'Default';
   CELayoutItems: TCELayoutItems;
   CEToolbarDocks: TCEToolbarDocks;
   CEDockStyle: TJvDockVSNetStyleTBX;
@@ -129,7 +139,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCELayoutController.InitSelf;
 var
-  node: TJvSimpleXmlElem;
+  node, chNode, chNode2: TJvSimpleXmlElem;
   i: Integer;
 begin
   Layouts.BeginUpdate;
@@ -142,7 +152,20 @@ begin
       begin
         Layouts.Add(node.Items.Item[i].Name);
       end;
+
+      // Make sure older layout files work
+      if Layouts.IndexOf(DefaultLayoutName) = -1 then
+      begin
+        chNode:= node.Items.ItemNamed['FileView'];
+        if assigned(chNode) then
+        begin
+          chNode2:= node.Items.Add(DefaultLayoutName);
+          chNode2.Assign(chNode);
+          chNode2.Name:= DefaultLayoutName;
+        end;
+      end;
     end;
+
   finally
     Layouts.EndUpdate;
   end;
@@ -202,15 +225,35 @@ end;
 {*------------------------------------------------------------------------------
   Load layout
 -------------------------------------------------------------------------------}
-procedure TCELayoutController.LoadLayout(LayoutName: String);
+procedure TCELayoutController.LoadLayout(LayoutName: String; LoadToolbarLayout:
+    Boolean = false; LoadFormLayout: Boolean = true);
+var
+  s: String;
 begin
   if Layouts.IndexOf(LayoutName) <> -1 then
   begin
     fCurrentLayout:= LayoutName;
     MainForm.BeginUIUpdate;
     try
-      LoadToolbars(AppStorage, LayoutName);
-      LoadDockedForms(AppStorage, LayoutName);
+      if LoadFormLayout then
+      s:= LayoutName
+      else
+      s:= DefaultLayoutName;
+      if s <> CurrentFormLayout then
+      begin
+        LoadDockedForms(AppStorage, s);
+        CurrentFormLayout:= s;
+      end;
+
+      if LoadToolbarLayout then
+      s:= LayoutName
+      else
+      s:= DefaultLayoutName;
+      if s <> CurrentToolbarLayout then
+      begin
+        LoadToolbars(AppStorage, s);
+        CurrentToolbarLayout:= s;
+      end;
     finally
       MainForm.EndUIUpdate;
     end;
@@ -220,10 +263,23 @@ end;
 {*------------------------------------------------------------------------------
   Save Layout
 -------------------------------------------------------------------------------}
-procedure TCELayoutController.SaveLayout(LayoutName: String);
+procedure TCELayoutController.SaveLayout(LayoutName: String;
+    SaveToolbarsLayout: Boolean = false; SaveFormsLayout: Boolean = true);
+var
+  s: String;
 begin
-  SaveDockedForms(AppStorage, LayoutName);
-  SaveToolbars(AppStorage, LayoutName);
+  if SaveFormsLayout then
+  s:= LayoutName
+  else
+  s:= DefaultLayoutName;
+  SaveDockedForms(AppStorage, s);
+
+  if SaveToolbarsLayout then
+  s:= LayoutName
+  else
+  s:= DefaultLayoutName;
+  SaveToolbars(AppStorage, s);
+
   InitSelf;
   if fAutoSave then
   SaveToFile;
@@ -701,6 +757,54 @@ begin
     TempList.Free;
   end;
   FreeAllDockableForm;
+end;
+
+{-------------------------------------------------------------------------------
+  Begin Toolbar Customize
+-------------------------------------------------------------------------------}
+procedure BeginToolbarCustomize;
+var
+  i: Integer;
+  toolbar: TSpTBXToolbar;
+begin
+  for i:= 0 to CELayoutItems.Count-1 do
+  begin
+    if CELayoutItems.Items[i] is TSpTBXTabSet then
+    toolbar:= TSpTBXTabSet(CELayoutItems.Items[i]).Toolbar
+    else if CELayoutItems.Items[i] is TSpTBXToolbar then
+    toolbar:= TSpTBXToolbar(CELayoutItems.Items[i])
+    else
+    toolbar:= nil;
+
+    if assigned(toolbar) then
+    begin
+      toolbar.BeginCustomize;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  End Toolbar Customize
+-------------------------------------------------------------------------------}
+procedure EndToolbarCustomize;
+var
+  i: Integer;
+  toolbar: TSpTBXToolbar;
+begin
+  for i:= 0 to CELayoutItems.Count-1 do
+  begin
+    if CELayoutItems.Items[i] is TSpTBXTabSet then
+    toolbar:= TSpTBXTabSet(CELayoutItems.Items[i]).Toolbar
+    else if CELayoutItems.Items[i] is TSpTBXToolbar then
+    toolbar:= TSpTBXToolbar(CELayoutItems.Items[i])
+    else
+    toolbar:= nil;
+
+    if assigned(toolbar) then
+    begin
+      toolbar.EndCustomize;
+    end;
+  end;
 end;
 
 {##############################################################################}

@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  CE_Layout, CE_DualView, CE_AppSettings,
+  CE_Layout, CE_DualView, CE_AppSettings, dCE_Images,
   // JVCL
   JvDockControlForm,
   // Toolbar2000
@@ -63,10 +63,11 @@ begin
   DualViewHost.Align:= alClient;
   DualViewHost.DualViewEnabled:= false;
   DualViewHost.HorizontalPanes:= false;
+  DualViewHost.Toolbar.Images:= CE_Images.SmallIcons;
 
   DualViewSettings:= TCEDualViewSettings.Create;
   DualViewSettings.DualViewHost:= DualViewHost;
-  GlobalAppSettings.AddItem('DualView', DualViewSettings);
+  //GlobalAppSettings.AddItem('DualView', DualViewSettings);
 
   DockServer:= TJvDockServer.Create(self);
   DockServer.DockStyle:= CEDockStyle;

@@ -107,6 +107,8 @@ type
 
   TCEFileSearchSettings = class(TPersistent)
   private
+    fRememberPanelLayout: Boolean;
+    fRememberToolbarLayout: Boolean;
     fShowExtensions: Boolean;
     fSubFolders: Boolean;
     function GetColumns: string;
@@ -121,6 +123,10 @@ type
     procedure AssignSettingsTo(FileSearch: TCEFileSearchPage);
   published
     property Columns: string read GetColumns write SetColumns;
+    property RememberPanelLayout: Boolean read fRememberPanelLayout write
+        fRememberPanelLayout;
+    property RememberToolbarLayout: Boolean read fRememberToolbarLayout write
+        fRememberToolbarLayout;
     property ShowExtensions: Boolean read fShowExtensions write fShowExtensions;
     property SubFolders: Boolean read fSubFolders write fSubFolders;
   end;
@@ -132,6 +138,9 @@ type
     function GetSubFolders: Boolean;
     procedure SetPath(const Value: WideString);
     procedure SetSubFolders(const Value: Boolean);
+  protected
+    function GetRememberPanelLayout: Boolean; override;
+    function GetRememberToolbarLayout: Boolean; override;
   public
     FileSearchPage: TCEFileSearchPage;
   published
@@ -629,6 +638,23 @@ function TCEFileSearchPageSettings.GetPath: WideString;
 begin
   Result:= FileSearchPage.DestinationEdit.Text;
 end;
+
+{-------------------------------------------------------------------------------
+  Get RememberPanelLayout
+-------------------------------------------------------------------------------}
+function TCEFileSearchPageSettings.GetRememberPanelLayout: Boolean;
+begin
+  Result:= CEFileSearchSettings.RememberPanelLayout;
+end;
+
+{-------------------------------------------------------------------------------
+  Get RememberToolbarLayout
+-------------------------------------------------------------------------------}
+function TCEFileSearchPageSettings.GetRememberToolbarLayout: Boolean;
+begin
+  Result:= CEFileSearchSettings.RememberToolbarLayout;
+end;
+
 procedure TCEFileSearchPageSettings.SetPath(const Value: WideString);
 begin
   FileSearchPage.DestinationEdit.Text:= Value;

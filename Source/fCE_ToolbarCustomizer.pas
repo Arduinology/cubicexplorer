@@ -100,7 +100,7 @@ var
 implementation
 
 uses
-  Main;
+  Main, CE_Layout;
 
 {$R *.dfm}
 
@@ -122,7 +122,7 @@ begin
   CEToolbarCustomizer.ParentComponent:= ParentComponent;
   CEToolbarCustomizer.SetupForm;
   CEToolbarCustomizer.Show;
-  SpCustomizeAllToolbars(ParentComponent, false);
+  BeginToolbarCustomize;
   MainForm.TabSet.Toolbar.BeginCustomize;
 end;
 
@@ -231,6 +231,8 @@ begin
   end;
 end;
 
+{##############################################################################}
+
 {*------------------------------------------------------------------------------
   On Form Create
 -------------------------------------------------------------------------------}
@@ -259,7 +261,7 @@ begin
   Action:= caFree;
   CEToolbarCustomizer:= nil;
   MainForm.TabSet.Toolbar.EndCustomize;
-  SpCustomizeAllToolbars(ParentComponent, true);
+  EndToolbarCustomize;
 end;
 
 {*------------------------------------------------------------------------------

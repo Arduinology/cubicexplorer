@@ -19,13 +19,11 @@ type
     fLineDC: HDC;
     fLineVisible: Boolean;
     fOnSplitChange: TDualViewSplitChange;
-    fOnSplitChanged: TNotifyEvent;
     fPrevBrush: HBrush;
     fSplit: Integer;
     fSplitterSize: Integer;
     procedure AllocateLineDC;
     procedure DrawLine;
-    procedure Paint; override;
     procedure ReleaseLineDC;
     procedure SetHorizontal(const Value: Boolean);
     procedure SetSplitterSize(const Value: Integer);
@@ -36,6 +34,7 @@ type
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
         override;
+    procedure Paint; override;
     procedure SplitChange(NewRect: TRect);
     procedure SpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
@@ -51,6 +50,8 @@ type
   TDualViewPane = class(TWinControl)
   private
     procedure WMEraseBkgnd(var Message: TWmEraseBkgnd); message WM_ERASEBKGND;
+  protected
+  public
   end;
   
   TCEDualViewHost = class(TPanel)
@@ -97,21 +98,27 @@ type
 
   TCEDualViewSettings = class(TPersistent)
   private
-    fCenterToolbar: Boolean;
-    fEnabled: Boolean;
-    fHorizontal: Boolean;
+    function GetCenterToolbar: Boolean;
+    function GetEnabled: Boolean;
+    function GetHorizontal: Boolean;
+    function GetDividerPos: Single;
     procedure SetCenterToolbar(const Value: Boolean);
     procedure SetEnabled(const Value: Boolean);
     procedure SetHorizontal(const Value: Boolean);
+    procedure SetDividerPos(const Value: Single);
   public
     DualViewHost: TCEDualViewHost;
   published
-    property CenterToolbar: Boolean read fCenterToolbar write SetCenterToolbar;
-    property Enabled: Boolean read fEnabled write SetEnabled;
-    property Horizontal: Boolean read fHorizontal write SetHorizontal;
+    property CenterToolbar: Boolean read GetCenterToolbar write SetCenterToolbar;
+    property Enabled: Boolean read GetEnabled write SetEnabled;
+    property Horizontal: Boolean read GetHorizontal write SetHorizontal;
+    property DividerPos: Single read GetDividerPos write SetDividerPos;
   end;
 
 implementation
+
+uses
+  Main, CE_SpTabBar, dCE_Actions;
 
 {-------------------------------------------------------------------------------
   Create an instance of TCEDualViewHost
@@ -310,85 +317,6 @@ begin
 
   SendMessage(Handle, WM_SETREDRAW, 1,0);
   RedrawWindow(Handle, nil, 0, RDW_ERASE or RDW_FRAME or RDW_INVALIDATE or RDW_ALLCHILDREN);
-
-  exit;
-
-//  if DualViewEnabled then
-//  begin
-//    if not DualPane.Visible then
-//    begin
-//      DualPane.Visible:= true;
-//      ToolbarDock.Visible:= true;
-//      TLSplitter.Visible:= true;
-//      BRSplitter.Visible:= true;
-//    end;
-//
-//    if (DividePos < 0) and (DividePos > 1) then
-//    DividePos:= 0.5;
-//
-//    if HorizontalPanes then
-//    begin
-//      if DualPane.Align <> alBottom then
-//      begin
-//        TLSplitter.Align:= alBottom;
-//        Toolbar.Visible:= false;
-//        Toolbar.CurrentDock:= nil;
-//        ToolbarDock.Position:= dpBottom;
-//        Toolbar.CurrentDock:= ToolbarDock;
-//        Toolbar.Visible:= true;
-//        BRSplitter.Align:= alBottom;
-//        DualPane.Align:= alBottom;
-//      end;
-//      splitterSize:= TLSplitter.Height;
-//      splitterSize:= splitterSize + ToolbarDock.Height;
-//      splitterSize:= splitterSize + BRSplitter.Height;
-//      dualSize:= Self.ClientHeight - splitterSize;
-//      DualPane.Height:= dualSize - Round(dualSize * DividePos);
-//      TLSplitter.Top:= MainPane.BoundsRect.Bottom;
-//      TLSplitter.Cursor:= crVSplit;
-//      ToolbarDock.Top:= TLSplitter.BoundsRect.Bottom;
-//      BRSplitter.Top:= ToolbarDock.BoundsRect.Bottom;
-//      BRSplitter.Cursor:= crVSplit;
-//      DualPane.Top:= BRSplitter.BoundsRect.Bottom;
-//    end
-//    else
-//    begin
-//      if DualPane.Align <> alRight then
-//      begin
-//        TLSplitter.Align:= alRight;
-//        Toolbar.Visible:= false;
-//        Toolbar.CurrentDock:= nil;
-//        ToolbarDock.Position:= dpRight;
-//        Toolbar.CurrentDock:= ToolbarDock;
-//        Toolbar.Visible:= true;
-//        BRSplitter.Align:= alRight;
-//        DualPane.Align:= alRight;
-//      end;
-//      splitterSize:= TLSplitter.Width;
-//      splitterSize:= splitterSize + ToolbarDock.Width;
-//      splitterSize:= splitterSize + BRSplitter.Width;
-//      dualSize:= Self.ClientWidth - splitterSize;
-//      DualPane.Width:= dualSize - Round(dualSize * DividePos);
-//      TLSplitter.Top:= MainPane.BoundsRect.Right;
-//      TLSplitter.Cursor:= crHSplit;
-//      ToolbarDock.Top:= TLSplitter.BoundsRect.Right;
-//      BRSplitter.Top:= ToolbarDock.BoundsRect.Right;
-//      BRSplitter.Cursor:= crHSplit;
-//      DualPane.Top:= BRSplitter.BoundsRect.Right;
-//    end;
-//  end
-//  else
-//  begin
-//    if DualPane.Visible then
-//    begin
-//      DualPane.Visible:= false;
-//      ToolbarDock.Visible:= false;
-//      TLSplitter.Visible:= false;
-//      BRSplitter.Visible:= false;
-//    end;
-//  end;
-//  SendMessage(Handle, WM_SETREDRAW, 1,0);
-//  RedrawWindow(Handle, nil, 0, RDW_ERASE or RDW_FRAME or RDW_INVALIDATE or RDW_ALLCHILDREN);
 end;
 
 {-------------------------------------------------------------------------------
@@ -399,7 +327,6 @@ var
   s: Single;
   centerSize: Integer;
 begin
-  s:= 0;
   if HorizontalPanes then
   begin
     centerSize:= TLSplitter.SplitterSize;
@@ -425,9 +352,6 @@ begin
   DividePos:= s;
 end;
 
-{-------------------------------------------------------------------------------
-  On Resize
--------------------------------------------------------------------------------}
 procedure TCEDualViewHost.Resize;
 begin
   inherited;
@@ -478,7 +402,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEDualViewHost.WMEraseBkgnd(var Message: TWMEraseBkgnd);
 begin
-  Message.Result:= 1;
+  Message.Result:= 0;
 end;
 
 {##############################################################################}
@@ -554,8 +478,6 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEDualViewSplitter.MouseDown(Button: TMouseButton; Shift: TShiftState;
     X, Y: Integer);
-var
-  I: Integer;
 begin
   inherited;
   if Button = mbLeft then
@@ -572,7 +494,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEDualViewSplitter.MouseMove(Shift: TShiftState; X, Y: Integer);
 var
-  NewSize, Split: Integer;
+  Split: Integer;
 begin
   inherited;
   if Horizontal then
@@ -675,7 +597,58 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEDualViewSplitter.WMEraseBkgnd(var Message: TWMEraseBkgnd);
 begin
-  Message.Result:= 1;
+  Message.Result:= 0;
+end;
+
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Get/Set Enabled
+-------------------------------------------------------------------------------}
+function TCEDualViewSettings.GetEnabled: Boolean;
+begin
+  Result:= DualViewHost.DualViewEnabled;
+end;
+procedure TCEDualViewSettings.SetEnabled(const Value: Boolean);
+begin
+  DualViewHost.DualViewEnabled:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set Horizontal
+-------------------------------------------------------------------------------}
+function TCEDualViewSettings.GetHorizontal: Boolean;
+begin
+  Result:= DualViewHost.HorizontalPanes;
+end;
+procedure TCEDualViewSettings.SetHorizontal(const Value: Boolean);
+begin
+  DualViewHost.HorizontalPanes:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set CenterToolbar
+-------------------------------------------------------------------------------}
+function TCEDualViewSettings.GetCenterToolbar: Boolean;
+begin
+  Result:= DualViewHost.CenterToolbar;
+end;
+procedure TCEDualViewSettings.SetCenterToolbar(const Value: Boolean);
+begin
+  DualViewHost.CenterToolbar:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set DividerPos
+-------------------------------------------------------------------------------}
+function TCEDualViewSettings.GetDividerPos: Single;
+begin
+  Result:= DualViewHost.DividePos;
+end;
+procedure TCEDualViewSettings.SetDividerPos(const Value: Single);
+begin
+  DualViewHost.DividePos:= Value;
 end;
 
 {##############################################################################}
@@ -685,36 +658,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TDualViewPane.WMEraseBkgnd(var Message: TWMEraseBkgnd);
 begin
-  Message.Result:= 1;
-end;
-
-{##############################################################################}
-
-{-------------------------------------------------------------------------------
-  Set Enabled
--------------------------------------------------------------------------------}
-procedure TCEDualViewSettings.SetEnabled(const Value: Boolean);
-begin
-  fEnabled:= Value;
-  DualViewHost.DualViewEnabled:= Enabled;
-end;
-
-{-------------------------------------------------------------------------------
-  Set Horizontal
--------------------------------------------------------------------------------}
-procedure TCEDualViewSettings.SetHorizontal(const Value: Boolean);
-begin
-  fHorizontal:= Value;
-  DualViewHost.HorizontalPanes:= Horizontal;
-end;
-
-{-------------------------------------------------------------------------------
-  Set CenterToolbar
--------------------------------------------------------------------------------}
-procedure TCEDualViewSettings.SetCenterToolbar(const Value: Boolean);
-begin
-  fCenterToolbar:= Value;
-  DualViewHost.CenterToolbar:= CenterToolbar;
+  Message.Result:= 0;
 end;
 
 end.

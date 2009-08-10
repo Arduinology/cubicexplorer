@@ -203,6 +203,8 @@ type
 
   TCETextEditorOptions = class(TPersistent)
   private
+    fRememberPanelLayout: Boolean;
+    fRememberToolbarLayout: Boolean;
     fWordWrap: Boolean;
   public
     EditorOptions: TSynEditorOptionsContainer;
@@ -210,6 +212,10 @@ type
     destructor Destroy; override;
     procedure AssignSettingsTo(EditPage: TCETextEditorPage);
   published
+    property RememberPanelLayout: Boolean read fRememberPanelLayout write
+        fRememberPanelLayout;
+    property RememberToolbarLayout: Boolean read fRememberToolbarLayout write
+        fRememberToolbarLayout;
     property WordWrap: Boolean read fWordWrap write fWordWrap;
   end;
 
@@ -218,6 +224,9 @@ type
   private
     function GetPath: WideString;
     procedure SetPath(const Value: WideString);
+  protected
+    function GetRememberPanelLayout: Boolean; override;
+    function GetRememberToolbarLayout: Boolean; override;
   public
     TextEditorPage: TCETextEditorPage;
   published
@@ -310,6 +319,7 @@ begin
   TCETextEditorPageSettings(Settings).TextEditorPage:= Self;
   fClosing:= false;
   Layout:= 'TextEditor';
+  Settings.RememberPanelLayout:= true;
   Highlighters:= TStringList.Create;
   Highlighters.Sorted:= true;
 
@@ -1075,6 +1085,23 @@ function TCETextEditorPageSettings.GetPath: WideString;
 begin
   Result:= TextEditorPage.ActiveFile;
 end;
+
+{-------------------------------------------------------------------------------
+  Get RememberPanelLayout
+-------------------------------------------------------------------------------}
+function TCETextEditorPageSettings.GetRememberPanelLayout: Boolean;
+begin
+  Result:= CETextEditorOptions.RememberPanelLayout;
+end;
+
+{-------------------------------------------------------------------------------
+  Get RememberToolbarLayout
+-------------------------------------------------------------------------------}
+function TCETextEditorPageSettings.GetRememberToolbarLayout: Boolean;
+begin
+  Result:= CETextEditorOptions.RememberToolbarLayout;
+end;
+
 procedure TCETextEditorPageSettings.SetPath(const Value: WideString);
 begin
   if Value <> '' then

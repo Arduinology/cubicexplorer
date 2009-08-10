@@ -203,6 +203,11 @@ type
     SpTBXItem47: TSpTBXItem;
     SpTBXItem85: TSpTBXItem;
     SpTBXSeparatorItem22: TSpTBXSeparatorItem;
+    SpTBXItem87: TSpTBXItem;
+    SpTBXItem88: TSpTBXItem;
+    SpTBXSeparatorItem23: TSpTBXSeparatorItem;
+    SpTBXItem92: TSpTBXItem;
+    SpTBXItem93: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -218,6 +223,10 @@ type
     procedure SpTBXItem80Click(Sender: TObject);
     procedure test_act1Click(Sender: TObject);
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
+    procedure SpTBXItem87Click(Sender: TObject);
+    procedure SpTBXItem88Click(Sender: TObject);
+    procedure SpTBXItem92Click(Sender: TObject);
+    procedure SpTBXItem93Click(Sender: TObject);
   private
     fFullscreen: Boolean;
     fActiveLanguage: WideString;
@@ -468,6 +477,10 @@ begin
   TabSet.Images:= CE_Images.SmallIcons;
   TabSet.TabPopupMenu:= TabPopupMenu;
   GlobalFocusCtrl.CtrlList.Add(TabSet.Toolbar);
+    // Add panes
+  //Tabset.Panes.Add(DockHostForm.DualViewHost.MainPane);
+  //Tabset.Panes.Add(DockHostForm.DualViewHost.DualPane);
+
   //TCESpTabToolbar(TabSet.Toolbar).OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
 
   // Create FolderCombo Toolbar
@@ -537,6 +550,7 @@ begin
   CELayoutItems.Add(BreadcrumbBar);
   CELayoutItems.Add(TabSet);
   CELayoutItems.Add(StatusBar);
+  //CELayoutItems.Add(DockHostForm.DualViewHost.Toolbar);
   // Add Toolbar Docks
   CEToolbarDocks.Add(LeftToolDock);
   CEToolbarDocks.Add(TopToolDock);
@@ -704,6 +718,7 @@ begin
   fIsReady:= true;
 
  //test_act1Click(self);
+ //Layouts.AutoSave:= true;
 
   // Testing stuff!!!
   if DebugHook <> 0 then
@@ -742,7 +757,6 @@ begin
   GlobalAppSettings.SaveToFile(exePath + 'settings.xml');
 
   Layouts.SaveToolbarLayout;
-  Layouts.SaveLayout(Layouts.CurrentLayout);
   Layouts.SaveToFile(ExePath + 'layout.xml');
 end;
 
@@ -772,6 +786,11 @@ begin
   
   if GlobalSessions.AutoSaveHistory then
   GlobalSessions.AddHistorySession;
+
+  if GlobalPathCtrl.ActivePage is TCECustomTabPage then
+  Layouts.SaveLayout(Layouts.CurrentLayout,
+                     TCECustomTabPage(GlobalPathCtrl.ActivePage).Settings.RememberToolbarLayout,
+                     TCECustomTabPage(GlobalPathCtrl.ActivePage).Settings.RememberPanelLayout);
 
   CanClose:= TabSet.CloseAllTabs;
 
@@ -1386,6 +1405,30 @@ begin
   page.ExtApp.AppWndStyle:= WS_CHILD;
   page.ExtApp.Run;
   page.UpdateCaption;
+end;
+
+procedure TMainForm.SpTBXItem87Click(Sender: TObject);
+var
+  page: TCEFileViewPage;
+  item: TCESpTabItem;
+begin
+  SaveToolbars(Layouts.AppStorage, 'Default');
+  Layouts.SaveToFile;
+end;
+
+procedure TMainForm.SpTBXItem88Click(Sender: TObject);
+begin
+  SaveToolbars(Layouts.AppStorage, 'FileView');
+end;
+
+procedure TMainForm.SpTBXItem92Click(Sender: TObject);
+begin
+  LoadToolbars(Layouts.AppStorage, 'Default');
+end;
+
+procedure TMainForm.SpTBXItem93Click(Sender: TObject);
+begin
+  //LoadToolbars(Layouts.AppStorage, 'FileView');
 end;
 
 procedure TMainForm.test_act1Click(Sender: TObject);

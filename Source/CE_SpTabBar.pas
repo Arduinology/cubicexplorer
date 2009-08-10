@@ -135,6 +135,10 @@ type
     function GetTabCount: Integer;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
+    fActiveTab: TCESpTabItem;
+    // Tabs
+    function CanActiveTabChange(const TabIndex, NewTabIndex: Integer): Boolean;
+        override;
     procedure CreateHandle; override;
     procedure DestroyHandle; override;
     procedure DoActiveTabChange(const ItemIndex: Integer); override;
@@ -168,10 +172,10 @@ type
     function CloseTabsOnLeft(ATab: TCESpTabItem; Force: Boolean = false): Boolean;
     function CloseTabsOnRight(ATab: TCESpTabItem; Force: Boolean = false): Boolean;
     function GetActiveTab: TCESpTabItem;
-    function GetFirstTab: TSpTBXTabItem;
-    function GetLastTab: TSpTBXTabItem;
-    function GetNextTab(From: TSpTBXTabItem): TSpTBXTabItem;
-    function GetPrevTab(From: TSpTBXTabItem): TSpTBXTabItem;
+    function GetFirstTab: TCESpTabItem;
+    function GetLastTab: TCESpTabItem;
+    function GetNextTab(From: TSpTBXTabItem): TCESpTabItem;
+    function GetPrevTab(From: TSpTBXTabItem): TCESpTabItem;
     function GetTabAt(X, Y: Integer): TCESpTabItem;
     procedure SelectNextTab(GoForward: Boolean = true);
     procedure SelectTab(ATab: TSpTBXTabItem);
@@ -183,6 +187,7 @@ type
     property TabPageHost: TWinControl read fTabPageHost write fTabPageHost;
     property TabPopupMenu: TPopupMenu read fTabPopupMenu write fTabPopupMenu;
   published
+    property ActiveTab: TCESpTabItem read fActiveTab;
     property Settings: TCETabSettings read fSettings write fSettings;
   end;
 
@@ -368,6 +373,15 @@ begin
     Result.Checked:= true;
     DoActiveTabChange(Items.IndexOf(Result));
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Can Active Tab Change
+-------------------------------------------------------------------------------}
+function TCESpTabSet.CanActiveTabChange(const TabIndex, NewTabIndex: Integer):
+    Boolean;
+begin
+  Result:= inherited CanActiveTabChange(TabIndex, NewTabIndex);
 end;
 
 {-------------------------------------------------------------------------------
@@ -568,13 +582,22 @@ begin
     begin
       if CompareText(tab.Page.Layout, LayoutController.CurrentLayout) <> 0 then
       begin
-        if LayoutController.CurrentLayout <> '' then
-        LayoutController.SaveLayout(LayoutController.CurrentLayout);
-        LayoutController.LoadLayout(tab.page.Layout);
+        // Save old layout
+        if assigned(ActiveTab) then
+        begin
+          if assigned(ActiveTab.Page) then
+          begin
+            if ActiveTab.Page.Layout <> tab.Page.Layout then
+            LayoutController.SaveLayout(ActiveTab.Page.Layout, ActiveTab.Page.Settings.RememberToolbarLayout, ActiveTab.Page.Settings.RememberPanelLayout);
+          end;
+        end;
+        // Load new layout
+        LayoutController.LoadLayout(tab.page.Layout, tab.Page.Settings.RememberToolbarLayout, tab.Page.Settings.RememberPanelLayout);
         LayoutController.CurrentLayout:= tab.page.Layout;
       end;
       tab.Page.SelectPage;
     end;
+    fActiveTab:= tab;
   end;
 
   // Hide everything else
@@ -676,16 +699,16 @@ end;
 {-------------------------------------------------------------------------------
   Get First tab
 -------------------------------------------------------------------------------}
-function TCESpTabSet.GetFirstTab: TSpTBXTabItem;
+function TCESpTabSet.GetFirstTab: TCESpTabItem;
 var
   i: Integer;
 begin
   Result:= nil;
   for i:= 0 to Items.Count - 1 do
   begin
-    if Items.Items[i] is TSpTBXTabItem then
+    if Items.Items[i] is TCESpTabItem then
     begin
-      Result:= TSpTBXTabItem(Items.Items[i]);
+      Result:= TCESpTabItem(Items.Items[i]);
       break;
     end;
   end;
@@ -694,16 +717,16 @@ end;
 {-------------------------------------------------------------------------------
   Get Last tab
 -------------------------------------------------------------------------------}
-function TCESpTabSet.GetLastTab: TSpTBXTabItem;
+function TCESpTabSet.GetLastTab: TCESpTabItem;
 var
   i: Integer;
 begin
   Result:= nil;
   for i:= Items.Count - 1 downto 0 do
   begin
-    if Items.Items[i] is TSpTBXTabItem then
+    if Items.Items[i] is TCESpTabItem then
     begin
-      Result:= TSpTBXTabItem(Items.Items[i]);
+      Result:= TCESpTabItem(Items.Items[i]);
       break;
     end;
   end;
@@ -712,7 +735,7 @@ end;
 {-------------------------------------------------------------------------------
   Get next tab
 -------------------------------------------------------------------------------}
-function TCESpTabSet.GetNextTab(From: TSpTBXTabItem): TSpTBXTabItem;
+function TCESpTabSet.GetNextTab(From: TSpTBXTabItem): TCESpTabItem;
 var
   i: Integer;
 begin
@@ -720,9 +743,9 @@ begin
   i:= Items.IndexOf(From) + 1;
   while i < Items.Count do
   begin
-    if Items.Items[i] is TSpTBXTabItem then
+    if Items.Items[i] is TCESpTabItem then
     begin
-      Result:= TSpTBXTabItem(Items.Items[i]);
+      Result:= TCESpTabItem(Items.Items[i]);
       break;
     end;
     i:= i + 1;
@@ -732,7 +755,7 @@ end;
 {-------------------------------------------------------------------------------
   Get previous tab
 -------------------------------------------------------------------------------}
-function TCESpTabSet.GetPrevTab(From: TSpTBXTabItem): TSpTBXTabItem;
+function TCESpTabSet.GetPrevTab(From: TSpTBXTabItem): TCESpTabItem;
 var
   i: Integer;
 begin
@@ -740,9 +763,9 @@ begin
   i:= Items.IndexOf(From) - 1;
   while i > -1 do
   begin
-    if Items.Items[i] is TSpTBXTabItem then
+    if Items.Items[i] is TCESpTabItem then
     begin
-      Result:= TSpTBXTabItem(Items.Items[i]);
+      Result:= TCESpTabItem(Items.Items[i]);
       break;
     end;
     i:= i - 1;
