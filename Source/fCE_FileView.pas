@@ -151,6 +151,9 @@ type
     fShowExtensions: Boolean;
     fShowHeaderAlways: Boolean;
     fSortFolderFirstAlways: Boolean;
+    fThreadedDetails: Boolean;
+    fThreadedEnumeration: Boolean;
+    fThreadedImages: Boolean;
     fUpdating: Boolean;
     NotifyList: TComponentList;
     procedure SetFullRowSelect(const Value: Boolean);
@@ -163,13 +166,17 @@ type
     procedure SetShowHeaderAlways(const Value: Boolean);
     procedure SetSmoothScroll(const Value: Boolean);
     procedure SetSortFolderFirstAlways(const Value: Boolean);
+    procedure SetThreadedDetails(const Value: Boolean);
+    procedure SetThreadedEnumeration(const Value: Boolean);
+    procedure SetThreadedImages(const Value: Boolean);
   protected
     fViewStyle: TEasyListStyle;
   public
     fSmoothScroll: Boolean;
     constructor Create;
     destructor Destroy; override;
-    procedure AssignSettingsTo(FileViewPage: TCEFileViewPage);
+    procedure AssignSettingsTo(FileViewPage: TCEFileViewPage; AssignColumnSettings:
+        Boolean = true);
     procedure AssignSettingsFrom(FileViewPage: TCEFileViewPage);
     procedure AssignFromActivePage;
     procedure RegisterNotify(FileViewPage: TComponent);
@@ -200,6 +207,11 @@ type
     property SmoothScroll: Boolean read fSmoothScroll write SetSmoothScroll;
     property SortFolderFirstAlways: Boolean read fSortFolderFirstAlways write
         SetSortFolderFirstAlways;
+    property ThreadedDetails: Boolean read fThreadedDetails write
+        SetThreadedDetails;
+    property ThreadedEnumeration: Boolean read fThreadedEnumeration write
+        SetThreadedEnumeration;
+    property ThreadedImages: Boolean read fThreadedImages write SetThreadedImages;
     property ViewStyle: TEasyListStyle read fViewStyle write fViewStyle;
   end;
 
@@ -848,13 +860,15 @@ end;
 {*------------------------------------------------------------------------------
   Assign options to FileView.
 -------------------------------------------------------------------------------}
-procedure TCEFileViewSettings.AssignSettingsTo(FileViewPage: TCEFileViewPage);
+procedure TCEFileViewSettings.AssignSettingsTo(FileViewPage: TCEFileViewPage;
+    AssignColumnSettings: Boolean = true);
 var
   options: TVirtualEasyListviewOptions;
 begin
   if not assigned(FileViewPage) then
   Exit;
   fUpdating:= true;
+  FileViewPage.FileView.BeginUpdate;
   try
     FileViewPage.ThumbViewSize:= Filmstrip.ThumbSize;
     FileViewPage.ViewStyle:= ViewStyle;
@@ -878,10 +892,15 @@ begin
     // Options
     options:= FileViewPage.FileView.Options;
     if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
+    if fThreadedImages then Include(options, eloThreadedImages) else Exclude(options, eloThreadedImages);
+    if fThreadedEnumeration then Include(options, eloThreadedEnumeration) else Exclude(options, eloThreadedEnumeration);
+    if fThreadedDetails then Include(options, eloThreadedDetails) else Exclude(options, eloThreadedDetails);
     FileViewPage.FileView.Options:= options;
-
+    
+    if AssignColumnSettings then
     AssignColumnSettingsTo(FileViewPage.FileView);
   finally
+    FileViewPage.FileView.EndUpdate(FileViewPage.Visible);
     fUpdating:= false;
   end;
 end;
@@ -985,30 +1004,10 @@ begin
     if NotifyList.Items[i] is TCEFileViewPage then
     begin
       FileViewPage:= TCEFileViewPage(NotifyList.Items[i]);
-      FileViewPage.FileView.BeginUpdate;
-      FileViewPage.FileView.SmoothScroll:= fSmoothScroll;
-      if fHiddenFiles then
-      FileViewPage.FileView.FileObjects:= [foFolders,foNonFolders,foHidden] //,foShareable,foNetworkPrinters]
-      else
-      FileViewPage.FileView.FileObjects:= [foFolders,foNonFolders]; //,foShareable,foNetworkPrinters]
-      // Toggles
-      FileViewPage.FileView.Header.ShowInAllViews:= fShowHeaderAlways;
-      if fShowHeaderAlways then
-      FileViewPage.FileView.Header.Visible:= true;
-      FileViewPage.FileView.Selection.FullRowSelect:= fFullRowSelect;
-      FileViewPage.FileView.SelectPreviousFolder:= SelectPreviousFolder;
-      FileViewPage.FileView.AutoSelectFirstItem:= AutoSelectFirstItem;
-      FileViewPage.FileView.AutosizeListViewStyle:= AutosizeListViewStyle;
-      FileViewPage.FileView.SortFolderFirstAlways:= SortFolderFirstAlways;
-      doRebuild:=  FileViewPage.FileView.ShowExtension <> fShowExtensions;
-      FileViewPage.FileView.ShowExtension:= fShowExtensions;
-      // Options
-      options:= FileViewPage.FileView.Options;
-      if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
-      FileViewPage.FileView.Options:= options;
-
-      if doRebuild then FileViewPage.FileView.Rebuild;
-      FileViewPage.FileView.EndUpdate(FileViewPage.Visible);
+      doRebuild:= FileViewPage.FileView.ShowExtension <> ShowExtensions;
+      AssignSettingsTo(FileViewPage, false);
+      if doRebuild then
+      FileViewPage.FileView.Rebuild;
     end
     else if NotifyList.Items[i] is TVirtualExplorerTree then
     begin
@@ -1046,9 +1045,11 @@ procedure TCEFileViewSettings.SetShowExtensions(const Value: Boolean);
 begin
   fShowExtensions:= Value;
   SendChanges;
-  
+
   if GlobalPathCtrl.ActivePage is TCEFileViewPage then
-  TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.Refresh;
+  begin
+    TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.Refresh;
+  end
 end;
 
 {*------------------------------------------------------------------------------
@@ -1173,6 +1174,33 @@ end;
 procedure TCEFileViewSettings.SetSortFolderFirstAlways(const Value: Boolean);
 begin
   fSortFolderFirstAlways:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set ThreadedDetails
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetThreadedDetails(const Value: Boolean);
+begin
+  fThreadedDetails:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set ThreadedEnumeration
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetThreadedEnumeration(const Value: Boolean);
+begin
+  fThreadedEnumeration:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set ThreadedImages
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetThreadedImages(const Value: Boolean);
+begin
+  fThreadedImages:= Value;
   SendChanges;
 end;
 
