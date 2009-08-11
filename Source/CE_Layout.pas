@@ -41,18 +41,29 @@ uses
   Classes, Contnrs, Windows, SysUtils, Forms, TB2Item, Messages, Controls;
 
 type
+  TCEToolbarDockType = (tdtBoth, tdtInner, tdtOuter);
 
   TCELayoutItems = class(TComponentList)
   public
     procedure PopulateMenuItem(RootItem: TTBCustomItem);
   end;
 
-  TCEToolbarDocks = class(TComponentList)
+  TCEToolbarDocks = class(TObject)
   protected
   public
+    OuterDocks: TComponentList;
+    InnerDocks: TComponentList;
+    constructor Create; overload;
+    destructor Destroy; override;
+    function Add(ADock: TTBDock; InnerDock: Boolean = true): Integer;
     procedure BeginUpdate;
     procedure EndUpdate;
-    function FindDockNamed(AName: String): TTBDock;
+    function FindDockNamed(AName: String): TTBDock; overload;
+    function FindDockNamed(AName: String; out IsInner: Boolean): TTBDock; overload;
+    function FindInnerDockNamed(AName: String): TTBDock;
+    function FindOuterDockNamed(AName: String): TTBDock;
+    function IsInnerDock(ADock: TTBDock): Boolean;
+    function IsOuterDock(ADock: TTBDock): Boolean;
   end;
 
   TCELayoutController = class(TComponent)
@@ -63,18 +74,20 @@ type
     procedure InitSelf;
   protected
     CurrentFormLayout: string;
-    CurrentToolbarLayout: string;
+    CurrentInnerToolbarLayout: string;
+    CurrentOuterToolbarLayout: string;
   public
     Layouts: TStrings;
     AppStorage: TJvAppXMLFileStorage;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure LoadFromFile(AFilePath: WideString);
-    procedure LoadLayout(LayoutName: String; LoadToolbarLayout: Boolean = false;
-        LoadFormLayout: Boolean = true);
+    procedure LoadLayout(LayoutName: String; LoadInnerToolbarLayout,
+        LoadOuterToolbarLayout, LoadFormLayout: Boolean);
     procedure LoadToolbarLayout;
-    procedure SaveLayout(LayoutName: String; SaveToolbarsLayout: Boolean = false;
-        SaveFormsLayout: Boolean = true);
+    procedure SaveCurrentLayout;
+    procedure SaveLayout(LayoutName: String; SaveInnerToolbarLayout,
+        SaveOuterToolbarLayout, SaveFormsLayout: Boolean);
     procedure SaveToFile(AFilePath: WideString = '');
     procedure SaveToolbarLayout;
     property AutoSave: Boolean read fAutoSave write fAutoSave;
@@ -83,8 +96,10 @@ type
   end;
 
 
-  procedure LoadToolbars(AppStorage: TJvCustomAppStorage; AppStoragePath: String = '');
-  procedure SaveToolbars(AppStorage: TJvCustomAppStorage; AppStoragePath: String = '');
+  procedure LoadToolbars(AppStorage: TJvCustomAppStorage; AppStoragePath: String
+      = ''; DockType: TCEToolbarDockType = tdtBoth);
+  procedure SaveToolbars(AppStorage: TJvCustomAppStorage; AppStoragePath: String
+      = ''; DockType: TCEToolbarDockType = tdtBoth);
   procedure LoadDockedForms(AppStorage: TJvCustomAppStorage; AppStoragePath:
       String = ''; HandleMainForm: Boolean = false);
   procedure SaveDockedForms(AppStorage: TJvCustomAppStorage; AppStoragePath:
@@ -225,8 +240,8 @@ end;
 {*------------------------------------------------------------------------------
   Load layout
 -------------------------------------------------------------------------------}
-procedure TCELayoutController.LoadLayout(LayoutName: String; LoadToolbarLayout:
-    Boolean = false; LoadFormLayout: Boolean = true);
+procedure TCELayoutController.LoadLayout(LayoutName: String;
+    LoadInnerToolbarLayout, LoadOuterToolbarLayout, LoadFormLayout: Boolean);
 var
   s: String;
 begin
@@ -235,6 +250,7 @@ begin
     fCurrentLayout:= LayoutName;
     MainForm.BeginUIUpdate;
     try
+      // Load Form Layout
       if LoadFormLayout then
       s:= LayoutName
       else
@@ -245,14 +261,41 @@ begin
         CurrentFormLayout:= s;
       end;
 
-      if LoadToolbarLayout then
-      s:= LayoutName
-      else
-      s:= DefaultLayoutName;
-      if s <> CurrentToolbarLayout then
+      // Load Toolbar Layout
+      if LoadInnerToolbarLayout and LoadOuterToolbarLayout then
       begin
-        LoadToolbars(AppStorage, s);
-        CurrentToolbarLayout:= s;
+        LoadToolbars(AppStorage, LayoutName, tdtBoth);
+        CurrentInnerToolbarLayout:= LayoutName;
+        CurrentOuterToolbarLayout:= LayoutName;
+      end
+      else if (not LoadInnerToolbarLayout) and (not LoadOuterToolbarLayout) then
+      begin
+        LoadToolbars(AppStorage, DefaultLayoutName, tdtBoth);
+        CurrentInnerToolbarLayout:= DefaultLayoutName;
+        CurrentOuterToolbarLayout:= DefaultLayoutName;
+      end
+      else
+      begin
+        // Inner Toolbar Layout
+        if LoadInnerToolbarLayout then
+        s:= LayoutName
+        else
+        s:= DefaultLayoutName;
+        if s <> CurrentInnerToolbarLayout then
+        begin
+          LoadToolbars(AppStorage, s, tdtInner);
+          CurrentInnerToolbarLayout:= s;
+        end;
+        // Outer Toolbar Layout
+        if LoadOuterToolbarLayout then
+        s:= LayoutName
+        else
+        s:= DefaultLayoutName;
+        if s <> CurrentOuterToolbarLayout then
+        begin
+          LoadToolbars(AppStorage, s, tdtOuter);
+          CurrentOuterToolbarLayout:= s;
+        end;
       end;
     finally
       MainForm.EndUIUpdate;
@@ -264,7 +307,7 @@ end;
   Save Layout
 -------------------------------------------------------------------------------}
 procedure TCELayoutController.SaveLayout(LayoutName: String;
-    SaveToolbarsLayout: Boolean = false; SaveFormsLayout: Boolean = true);
+    SaveInnerToolbarLayout, SaveOuterToolbarLayout, SaveFormsLayout: Boolean);
 var
   s: String;
 begin
@@ -274,11 +317,28 @@ begin
   s:= DefaultLayoutName;
   SaveDockedForms(AppStorage, s);
 
-  if SaveToolbarsLayout then
-  s:= LayoutName
+  if SaveInnerToolbarLayout and SaveOuterToolbarLayout then
+  begin
+    SaveToolbars(AppStorage, LayoutName, tdtBoth);
+  end
+  else if (not SaveInnerToolbarLayout) and (not SaveOuterToolbarLayout) then
+  begin
+    SaveToolbars(AppStorage, DefaultLayoutName, tdtBoth);
+  end
   else
-  s:= DefaultLayoutName;
-  SaveToolbars(AppStorage, s);
+  begin
+    if SaveInnerToolbarLayout then
+    s:= LayoutName
+    else
+    s:= DefaultLayoutName;
+    SaveToolbars(AppStorage, s, tdtInner);
+
+    if SaveOuterToolbarLayout then
+    s:= LayoutName
+    else
+    s:= DefaultLayoutName;
+    SaveToolbars(AppStorage, s, tdtOuter);
+  end;
 
   InitSelf;
   if fAutoSave then
@@ -293,6 +353,23 @@ begin
   LoadToolbarItemLayout(AppStorage);
 end;
 
+{-------------------------------------------------------------------------------
+  Save Current Layout
+-------------------------------------------------------------------------------}
+procedure TCELayoutController.SaveCurrentLayout;
+begin
+  SaveDockedForms(AppStorage, CurrentFormLayout);
+  if CurrentInnerToolbarLayout <> CurrentOuterToolbarLayout then
+  begin
+    SaveToolbars(AppStorage, CurrentInnerToolbarLayout, tdtInner);
+    SaveToolbars(AppStorage, CurrentOuterToolbarLayout, tdtOuter);
+  end
+  else
+  begin
+    SaveToolbars(AppStorage, CurrentInnerToolbarLayout, tdtBoth);
+  end;
+end;
+
 {*------------------------------------------------------------------------------
   Saves Toolbars items
 -------------------------------------------------------------------------------}
@@ -303,6 +380,38 @@ end;
 
 {##############################################################################}
 
+{-------------------------------------------------------------------------------
+  Create an instance of TCEToolbarDocks
+-------------------------------------------------------------------------------}
+constructor TCEToolbarDocks.Create;
+begin
+  inherited Create;
+  InnerDocks:= TComponentList.Create(false);
+  OuterDocks:= TComponentList.Create(false);
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy TCEToolbarDocks
+-------------------------------------------------------------------------------}
+destructor TCEToolbarDocks.Destroy;
+begin
+  InnerDocks.Free;
+  OuterDocks.Free;
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Add
+-------------------------------------------------------------------------------}
+function TCEToolbarDocks.Add(ADock: TTBDock; InnerDock: Boolean = true):
+    Integer;
+begin
+  if InnerDock then
+  InnerDocks.Add(ADock)
+  else
+  OuterDocks.Add(ADock);
+end;
+
 {*------------------------------------------------------------------------------
   Begin Update
 -------------------------------------------------------------------------------}
@@ -310,9 +419,13 @@ procedure TCEToolbarDocks.BeginUpdate;
 var
   i: Integer;
 begin
-  for i:= 0 to Count-1 do
+  for i:= 0 to InnerDocks.Count-1 do
   begin
-    TTBDock(Self.Items[i]).BeginUpdate;
+    TTBDock(InnerDocks.Items[i]).BeginUpdate;
+  end;
+  for i:= 0 to OuterDocks.Count-1 do
+  begin
+    TTBDock(OuterDocks.Items[i]).BeginUpdate;
   end;
 end;
 
@@ -323,9 +436,13 @@ procedure TCEToolbarDocks.EndUpdate;
 var
   i: Integer;
 begin
-  for i:= 0 to Count-1 do
+  for i:= 0 to InnerDocks.Count-1 do
   begin
-    TTBDock(Self.Items[i]).EndUpdate;
+    TTBDock(InnerDocks.Items[i]).EndUpdate;
+  end;
+  for i:= 0 to OuterDocks.Count-1 do
+  begin
+    TTBDock(OuterDocks.Items[i]).EndUpdate;
   end;
 end;
 
@@ -337,14 +454,107 @@ var
   i: Integer;
 begin
   Result:= nil;
-  for i:= 0 to self.Count - 1 do
+  // Outer Docks
+  for i:= 0 to OuterDocks.Count - 1 do
   begin
-    if CompareText(AName, self.GetItems(i).Name) = 0 then
+    if CompareText(AName, OuterDocks.Items[i].Name) = 0 then
     begin
-      Result:= TTBDock(Self.GetItems(i));
+      Result:= TTBDock(OuterDocks.Items[i]);
       Break;
     end;
   end;
+  // Inner Docks
+  for i:= 0 to InnerDocks.Count - 1 do
+  begin
+    if CompareText(AName, InnerDocks.Items[i].Name) = 0 then
+    begin
+      Result:= TTBDock(InnerDocks.Items[i]);
+      Break;
+    end;
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Find Dock by it's name
+-------------------------------------------------------------------------------}
+function TCEToolbarDocks.FindDockNamed(AName: String; out IsInner: Boolean):
+    TTBDock;
+var
+  i: Integer;
+begin
+  Result:= nil;
+  IsInner:= false;
+  // Outer Docks
+  for i:= 0 to OuterDocks.Count - 1 do
+  begin
+    if CompareText(AName, OuterDocks.Items[i].Name) = 0 then
+    begin
+      Result:= TTBDock(OuterDocks.Items[i]);
+      Break;
+    end;
+  end;
+  // Inner Docks
+  for i:= 0 to InnerDocks.Count - 1 do
+  begin
+    if CompareText(AName, InnerDocks.Items[i].Name) = 0 then
+    begin
+      Result:= TTBDock(InnerDocks.Items[i]);
+      IsInner:= true;
+      Break;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Find Inner Dock Named
+-------------------------------------------------------------------------------}
+function TCEToolbarDocks.FindInnerDockNamed(AName: String): TTBDock;
+var
+  i: Integer;
+begin
+  Result:= nil;
+  for i:= 0 to InnerDocks.Count - 1 do
+  begin
+    if CompareText(AName, InnerDocks.Items[i].Name) = 0 then
+    begin
+      Result:= TTBDock(InnerDocks.Items[i]);
+      Break;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Find Outer Dock Named
+-------------------------------------------------------------------------------}
+function TCEToolbarDocks.FindOuterDockNamed(AName: String): TTBDock;
+var
+  i: Integer;
+begin
+  Result:= nil;
+  for i:= 0 to OuterDocks.Count - 1 do
+  begin
+    if CompareText(AName, OuterDocks.Items[i].Name) = 0 then
+    begin
+      Result:= TTBDock(OuterDocks.Items[i]);
+      Break;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Is Inner Dock
+-------------------------------------------------------------------------------}
+function TCEToolbarDocks.IsInnerDock(ADock: TTBDock): Boolean;
+begin
+  Result:= InnerDocks.IndexOf(ADock) > -1;
+end;
+
+{-------------------------------------------------------------------------------
+  Is Outer Dock
+-------------------------------------------------------------------------------}
+function TCEToolbarDocks.IsOuterDock(ADock: TTBDock): Boolean;
+begin
+  Result:= OuterDocks.IndexOf(ADock) > -1;
 end;
 
 {##############################################################################}
@@ -352,15 +562,18 @@ end;
 {*------------------------------------------------------------------------------
   Load toolbars from AppStorage.
 -------------------------------------------------------------------------------}
-procedure LoadToolbars(AppStorage: TJvCustomAppStorage; AppStoragePath: String = '');
+procedure LoadToolbars(AppStorage: TJvCustomAppStorage; AppStoragePath: String
+    = ''; DockType: TCEToolbarDockType = tdtBoth);
 var
   OldPath: String;
   RootPath: String;
   i: Integer;
   s: String;
   dockablewindow: TTBCustomDockableWindow;
+  dock: TTBDock;
   tabset: TCESpTabSet;
   statusbar: TCEStatusBar;
+  isInnerDock: Boolean;
 begin
   if not assigned(AppStorage) then
   Exit;
@@ -381,10 +594,18 @@ begin
           s:= AppStorage.ReadString('Dock', 'TopToolDock');
           if s <> '' then
           begin
-            dockablewindow.CurrentDock:= CEToolbarDocks.FindDockNamed(s);
-            dockablewindow.DockPos:= AppStorage.ReadInteger('DockPos', dockablewindow.DockPos);
-            dockablewindow.DockRow:= AppStorage.ReadInteger('DockRow', dockablewindow.DockRow);
-            dockablewindow.Visible:= AppStorage.ReadBoolean('Visible', dockablewindow.Visible);
+            case DockType of
+              tdtBoth: dock:= CEToolbarDocks.FindDockNamed(s);
+              tdtInner: dock:= CEToolbarDocks.FindInnerDockNamed(s);
+              tdtOuter: dock:= CEToolbarDocks.FindOuterDockNamed(s);
+            end;
+            if assigned(dock) then
+            begin
+              dockablewindow.CurrentDock:= dock;
+              dockablewindow.DockPos:= AppStorage.ReadInteger('DockPos', dockablewindow.DockPos);
+              dockablewindow.DockRow:= AppStorage.ReadInteger('DockRow', dockablewindow.DockRow);
+              dockablewindow.Visible:= AppStorage.ReadBoolean('Visible', dockablewindow.Visible);
+            end;
           end
           else
           begin
@@ -396,7 +617,7 @@ begin
           AppStorage.Path:= RootPath;
         end;
       end
-      else if CELayoutItems.Items[i] is TCESpTabSet then
+      else if (CELayoutItems.Items[i] is TCESpTabSet) and (DockType <> tdtInner) then
       begin
         tabset:= TCESpTabSet(CELayoutItems.Items[i]);
         AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, tabset.Name]);
@@ -406,7 +627,7 @@ begin
           AppStorage.Path:= RootPath;
         end;
       end
-      else if CELayoutItems.Items[i] is TCEStatusBar then
+      else if (CELayoutItems.Items[i] is TCEStatusBar) and (DockType <> tdtInner) then
       begin
         statusbar:= TCEStatusBar(CELayoutItems.Items[i]);
         AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, statusbar.Name]);
@@ -426,7 +647,8 @@ end;
 {*------------------------------------------------------------------------------
   Save toolbars from CELayoutItems to AppStorage.
 -------------------------------------------------------------------------------}
-procedure SaveToolbars(AppStorage: TJvCustomAppStorage; AppStoragePath: String = '');
+procedure SaveToolbars(AppStorage: TJvCustomAppStorage; AppStoragePath: String
+    = ''; DockType: TCEToolbarDockType = tdtBoth);
 var
   OldPath: String;
   RootPath: String;
@@ -448,21 +670,25 @@ begin
       if CELayoutItems.Items[i] is TTBCustomDockableWindow then
       begin
         dockablewindow:= TTBCustomDockableWindow(CELayoutItems.Items[i]);
+        if (DockType = tdtBoth) or
+           ((DockType = tdtInner) and CEToolbarDocks.IsInnerDock(dockablewindow.CurrentDock)) or
+           ((DockType = tdtOuter) and CEToolbarDocks.IsOuterDock(dockablewindow.CurrentDock)) then
+        begin
+          AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, dockablewindow.Name]);
 
-        AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, dockablewindow.Name]);
-        // Write toolbar properties
-        AppStorage.WriteInteger('DockPos', dockablewindow.DockPos);
-        AppStorage.WriteInteger('DockRow', dockablewindow.DockRow);
-        if not dockablewindow.Floating then
-        AppStorage.WriteString('Dock', dockablewindow.CurrentDock.Name)
-        else
-        AppStorage.WriteString('Dock', '');
+          // Write toolbar properties
+          AppStorage.WriteInteger('DockPos', dockablewindow.DockPos);
+          AppStorage.WriteInteger('DockRow', dockablewindow.DockRow);
+          if not dockablewindow.Floating then
+          AppStorage.WriteString('Dock', dockablewindow.CurrentDock.Name)
+          else
+          AppStorage.WriteString('Dock', '');
+          AppStorage.WriteBoolean('Visible', dockablewindow.Visible);
 
-        AppStorage.WriteBoolean('Visible', dockablewindow.Visible);
-
-        AppStorage.Path:= RootPath;
+          AppStorage.Path:= RootPath;
+        end;
       end
-      else if CELayoutItems.Items[i] is TCESpTabSet then
+      else if (CELayoutItems.Items[i] is TCESpTabSet) and (DockType <> tdtInner) then
       begin
         tabset:= TCESpTabSet(CELayoutItems.Items[i]);
         AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, tabset.Name]);
@@ -472,7 +698,7 @@ begin
           AppStorage.Path:= RootPath;
         end;
       end
-      else if CELayoutItems.Items[i] is TCEStatusBar then
+      else if (CELayoutItems.Items[i] is TCEStatusBar) and (DockType <> tdtInner) then
       begin
         statusbar:= TCEStatusBar(CELayoutItems.Items[i]);
         AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, statusbar.Name]);
@@ -840,7 +1066,7 @@ end;
 
 initialization
   CELayoutItems:= TCELayoutItems.Create(false);
-  CEToolbarDocks:= TCEToolbarDocks.Create(false);
+  CEToolbarDocks:= TCEToolbarDocks.Create;
   CEDockStyle:= TJvDockVSNetStyleTBX.Create(nil);
 
 finalization

@@ -84,7 +84,8 @@ type
     fActiveViewers: TObjectList;
     fMuted: Boolean;
     fRememberPanelLayout: Boolean;
-    fRememberToolbarLayout: Boolean;
+    fRememberInnerToolbarLayout: Boolean;
+    fRememberOuterToolbarLayout: Boolean;
     fVolume: Integer;
     function GetImageExts: string;
     function GetMemoExts: string;
@@ -114,8 +115,10 @@ type
     property Muted: Boolean read fMuted write SetMuted;
     property RememberPanelLayout: Boolean read fRememberPanelLayout write
         fRememberPanelLayout;
-    property RememberToolbarLayout: Boolean read fRememberToolbarLayout write
-        fRememberToolbarLayout;
+    property RememberInnerToolbarLayout: Boolean read fRememberInnerToolbarLayout
+        write fRememberInnerToolbarLayout;
+    property RememberOuterToolbarLayout: Boolean read fRememberOuterToolbarLayout
+        write fRememberOuterToolbarLayout;
     property VideoExts: string read GetVideoExts write SetVideoExts;
     property Volume: Integer read fVolume write SetVolume;
   end;

@@ -54,7 +54,8 @@ type
   private
   protected
     function GetRememberPanelLayout: Boolean; override;
-    function GetRememberToolbarLayout: Boolean; override;
+    function GetRememberInnerToolbarLayout: Boolean; override;
+    function GetRememberOuterToolbarLayout: Boolean; override;
   public
   published
   end;
@@ -73,8 +74,6 @@ begin
   Viewer.Parent:= Self;
   Viewer.Align:= alClient;
   Layout:= 'QuickView';
-  Settings.RememberPanelLayout:= QuickViewSettings.RememberPanelLayout;
-  Settings.RememberToolbarLayout:= QuickViewSettings.RememberToolbarLayout;
 end;
 
 {-------------------------------------------------------------------------------
@@ -155,11 +154,19 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Get RememberToolbarLayout
+  Get RememberInnerToolbarLayout
 -------------------------------------------------------------------------------}
-function TCEQuickViewPageSettings.GetRememberToolbarLayout: Boolean;
+function TCEQuickViewPageSettings.GetRememberInnerToolbarLayout: Boolean;
 begin
-  Result:= QuickViewSettings.RememberToolbarLayout;
+  Result:= QuickViewSettings.RememberInnerToolbarLayout;
+end;
+
+{-------------------------------------------------------------------------------
+  Get RememberOuterToolbarLayout
+-------------------------------------------------------------------------------}
+function TCEQuickViewPageSettings.GetRememberOuterToolbarLayout: Boolean;
+begin
+  Result:= QuickViewSettings.RememberOuterToolbarLayout;
 end;
 
 end.

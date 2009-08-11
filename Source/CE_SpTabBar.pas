@@ -588,11 +588,17 @@ begin
           if assigned(ActiveTab.Page) then
           begin
             if ActiveTab.Page.Layout <> tab.Page.Layout then
-            LayoutController.SaveLayout(ActiveTab.Page.Layout, ActiveTab.Page.Settings.RememberToolbarLayout, ActiveTab.Page.Settings.RememberPanelLayout);
+            LayoutController.SaveLayout(ActiveTab.Page.Layout,
+                                        ActiveTab.Page.Settings.RememberInnerToolbarLayout,
+                                        ActiveTab.Page.Settings.RememberOuterToolbarLayout,
+                                        ActiveTab.Page.Settings.RememberPanelLayout);
           end;
         end;
         // Load new layout
-        LayoutController.LoadLayout(tab.page.Layout, tab.Page.Settings.RememberToolbarLayout, tab.Page.Settings.RememberPanelLayout);
+        LayoutController.LoadLayout(tab.page.Layout,
+                                    tab.Page.Settings.RememberInnerToolbarLayout,
+                                    tab.Page.Settings.RememberOuterToolbarLayout,
+                                    tab.Page.Settings.RememberPanelLayout);
         LayoutController.CurrentLayout:= tab.page.Layout;
       end;
       tab.Page.SelectPage;

@@ -36,15 +36,19 @@ type
   TCECustomTabPageSettings = class(TPersistent)
   private
     fRememberPanelLayout: Boolean;
-    fRememberToolbarLayout: Boolean;
+    fRememberInnerToolbarLayout: Boolean;
+    fRememberOuterToolbarLayout: Boolean;
   protected
     function GetRememberPanelLayout: Boolean; virtual;
-    function GetRememberToolbarLayout: Boolean; virtual;
+    function GetRememberInnerToolbarLayout: Boolean; virtual;
+    function GetRememberOuterToolbarLayout: Boolean; virtual;
   public
     property RememberPanelLayout: Boolean read GetRememberPanelLayout write
         fRememberPanelLayout;
-    property RememberToolbarLayout: Boolean read GetRememberToolbarLayout write
-        fRememberToolbarLayout;
+    property RememberInnerToolbarLayout: Boolean read GetRememberInnerToolbarLayout
+        write fRememberInnerToolbarLayout;
+    property RememberOuterToolbarLayout: Boolean read GetRememberOuterToolbarLayout
+        write fRememberOuterToolbarLayout;
   published
   end;
 
@@ -377,11 +381,19 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Get RememberToolbarLayout
+  Get RememberInnerToolbarLayout
 -------------------------------------------------------------------------------}
-function TCECustomTabPageSettings.GetRememberToolbarLayout: Boolean;
+function TCECustomTabPageSettings.GetRememberInnerToolbarLayout: Boolean;
 begin
-  Result:= fRememberToolbarLayout;
+  Result:= fRememberInnerToolbarLayout;
+end;
+
+{-------------------------------------------------------------------------------
+  Get RememberOuterToolbarLayout
+-------------------------------------------------------------------------------}
+function TCECustomTabPageSettings.GetRememberOuterToolbarLayout: Boolean;
+begin
+  Result:= fRememberOuterToolbarLayout;
 end;
 
 {##############################################################################}

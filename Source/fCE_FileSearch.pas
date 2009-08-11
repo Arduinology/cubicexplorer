@@ -108,7 +108,8 @@ type
   TCEFileSearchSettings = class(TPersistent)
   private
     fRememberPanelLayout: Boolean;
-    fRememberToolbarLayout: Boolean;
+    fRememberInnerToolbarLayout: Boolean;
+    fRememberOuterToolbarLayout: Boolean;
     fShowExtensions: Boolean;
     fSubFolders: Boolean;
     function GetColumns: string;
@@ -125,8 +126,10 @@ type
     property Columns: string read GetColumns write SetColumns;
     property RememberPanelLayout: Boolean read fRememberPanelLayout write
         fRememberPanelLayout;
-    property RememberToolbarLayout: Boolean read fRememberToolbarLayout write
-        fRememberToolbarLayout;
+    property RememberInnerToolbarLayout: Boolean read fRememberInnerToolbarLayout write
+        fRememberInnerToolbarLayout;
+    property RememberOuterToolbarLayout: Boolean read fRememberOuterToolbarLayout write
+        fRememberOuterToolbarLayout;
     property ShowExtensions: Boolean read fShowExtensions write fShowExtensions;
     property SubFolders: Boolean read fSubFolders write fSubFolders;
   end;
@@ -140,7 +143,8 @@ type
     procedure SetSubFolders(const Value: Boolean);
   protected
     function GetRememberPanelLayout: Boolean; override;
-    function GetRememberToolbarLayout: Boolean; override;
+    function GetRememberInnerToolbarLayout: Boolean; override;
+    function GetRememberOuterToolbarLayout: Boolean; override;
   public
     FileSearchPage: TCEFileSearchPage;
   published
@@ -648,13 +652,24 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Get RememberToolbarLayout
+  Get RememberInnerToolbarLayout
 -------------------------------------------------------------------------------}
-function TCEFileSearchPageSettings.GetRememberToolbarLayout: Boolean;
+function TCEFileSearchPageSettings.GetRememberInnerToolbarLayout: Boolean;
 begin
-  Result:= CEFileSearchSettings.RememberToolbarLayout;
+  Result:= CEFileSearchSettings.RememberInnerToolbarLayout;
 end;
 
+{-------------------------------------------------------------------------------
+  Get RememberOuterToolbarLayout
+-------------------------------------------------------------------------------}
+function TCEFileSearchPageSettings.GetRememberOuterToolbarLayout: Boolean;
+begin
+  Result:= CEFileSearchSettings.RememberOuterToolbarLayout;
+end;
+
+{-------------------------------------------------------------------------------
+  Set Path
+-------------------------------------------------------------------------------}
 procedure TCEFileSearchPageSettings.SetPath(const Value: WideString);
 begin
   FileSearchPage.DestinationEdit.Text:= Value;

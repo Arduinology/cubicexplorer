@@ -128,6 +128,10 @@ type
     function GetViewStyle: TEasyListStyle;
     procedure SetPath(const Value: WideString);
     procedure SetViewStyle(const Value: TEasyListStyle);
+  protected
+    function GetRememberInnerToolbarLayout: Boolean; override;
+    function GetRememberOuterToolbarLayout: Boolean; override;
+    function GetRememberPanelLayout: Boolean; override;
   public
     FileViewPage: TCEFileViewPage;
   published
@@ -147,7 +151,8 @@ type
     fFilmstrip: TCEFilmstripSettings;
     fGroupBy: TCEGroupBySettings;
     fRememberPanelLayout: Boolean;
-    fRememberToolbarLayout: Boolean;
+    fRememberInnerToolbarLayout: Boolean;
+    fRememberOuterToolbarLayout: Boolean;
     fShowExtensions: Boolean;
     fShowHeaderAlways: Boolean;
     fSortFolderFirstAlways: Boolean;
@@ -199,8 +204,10 @@ type
     property HiddenFiles: Boolean read fHiddenFiles write SetHiddenFiles;
     property RememberPanelLayout: Boolean read fRememberPanelLayout write
         fRememberPanelLayout;
-    property RememberToolbarLayout: Boolean read fRememberToolbarLayout write
-        fRememberToolbarLayout;
+    property RememberInnerToolbarLayout: Boolean read fRememberInnerToolbarLayout
+        write fRememberInnerToolbarLayout;
+    property RememberOuterToolbarLayout: Boolean read fRememberOuterToolbarLayout
+        write fRememberOuterToolbarLayout;
     property ShowExtensions: Boolean read fShowExtensions write SetShowExtensions;
     property ShowHeaderAlways: Boolean read fShowHeaderAlways write
         SetShowHeaderAlways;
@@ -232,8 +239,6 @@ constructor TCEFileViewPage.Create(AOwner: TComponent);
 begin
   inherited;
   TCEFileViewPageSettings(Settings).FileViewPage:= Self;
-  Settings.RememberPanelLayout:= false;
-  Settings.RememberToolbarLayout:= false;
   ThumbViewSize:= 100;
   fThumbPosition:= alBottom;
   fThumbViewStyle:= elsFilmStrip;
@@ -1231,6 +1236,34 @@ begin
     Result:= 'pidl://' + SavePIDLToMime(FileViewPage.FileView.RootFolderNamespace.AbsolutePIDL);
   end;
 end;
+
+{-------------------------------------------------------------------------------
+  Get RememberInnerToolbarLayout
+-------------------------------------------------------------------------------}
+function TCEFileViewPageSettings.GetRememberInnerToolbarLayout: Boolean;
+begin
+  Result:= GlobalFileViewSettings.RememberInnerToolbarLayout;
+end;
+
+{-------------------------------------------------------------------------------
+  Get RememberOuterToolbarLayout
+-------------------------------------------------------------------------------}
+function TCEFileViewPageSettings.GetRememberOuterToolbarLayout: Boolean;
+begin
+  Result:= GlobalFileViewSettings.RememberOuterToolbarLayout;
+end;
+
+{-------------------------------------------------------------------------------
+  Get RememberPanelLayout
+-------------------------------------------------------------------------------}
+function TCEFileViewPageSettings.GetRememberPanelLayout: Boolean;
+begin
+  Result:= GlobalFileViewSettings.RememberPanelLayout;
+end;
+
+{-------------------------------------------------------------------------------
+  Set Path
+-------------------------------------------------------------------------------}
 procedure TCEFileViewPageSettings.SetPath(const Value: WideString);
 var
   format, fPath: WideString;

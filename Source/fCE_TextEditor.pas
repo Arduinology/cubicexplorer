@@ -204,7 +204,8 @@ type
   TCETextEditorOptions = class(TPersistent)
   private
     fRememberPanelLayout: Boolean;
-    fRememberToolbarLayout: Boolean;
+    fRememberInnerToolbarLayout: Boolean;
+    fRememberOuterToolbarLayout: Boolean;
     fWordWrap: Boolean;
   public
     EditorOptions: TSynEditorOptionsContainer;
@@ -214,8 +215,10 @@ type
   published
     property RememberPanelLayout: Boolean read fRememberPanelLayout write
         fRememberPanelLayout;
-    property RememberToolbarLayout: Boolean read fRememberToolbarLayout write
-        fRememberToolbarLayout;
+    property RememberInnerToolbarLayout: Boolean read fRememberInnerToolbarLayout
+        write fRememberInnerToolbarLayout;
+    property RememberOuterToolbarLayout: Boolean read fRememberOuterToolbarLayout
+        write fRememberOuterToolbarLayout;
     property WordWrap: Boolean read fWordWrap write fWordWrap;
   end;
 
@@ -226,7 +229,8 @@ type
     procedure SetPath(const Value: WideString);
   protected
     function GetRememberPanelLayout: Boolean; override;
-    function GetRememberToolbarLayout: Boolean; override;
+    function GetRememberInnerToolbarLayout: Boolean; override;
+    function GetRememberOuterToolbarLayout: Boolean; override;
   public
     TextEditorPage: TCETextEditorPage;
   published
@@ -319,7 +323,6 @@ begin
   TCETextEditorPageSettings(Settings).TextEditorPage:= Self;
   fClosing:= false;
   Layout:= 'TextEditor';
-  Settings.RememberPanelLayout:= true;
   Highlighters:= TStringList.Create;
   Highlighters.Sorted:= true;
 
@@ -1095,11 +1098,19 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Get RememberToolbarLayout
+  Get RememberInnerToolbarLayout
 -------------------------------------------------------------------------------}
-function TCETextEditorPageSettings.GetRememberToolbarLayout: Boolean;
+function TCETextEditorPageSettings.GetRememberInnerToolbarLayout: Boolean;
 begin
-  Result:= CETextEditorOptions.RememberToolbarLayout;
+  Result:= CETextEditorOptions.RememberInnerToolbarLayout;
+end;
+
+{-------------------------------------------------------------------------------
+  Get RememberOuterToolbarLayout
+-------------------------------------------------------------------------------}
+function TCETextEditorPageSettings.GetRememberOuterToolbarLayout: Boolean;
+begin
+  Result:= CETextEditorOptions.RememberOuterToolbarLayout;
 end;
 
 procedure TCETextEditorPageSettings.SetPath(const Value: WideString);

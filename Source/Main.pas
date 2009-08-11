@@ -552,10 +552,10 @@ begin
   CELayoutItems.Add(StatusBar);
   //CELayoutItems.Add(DockHostForm.DualViewHost.Toolbar);
   // Add Toolbar Docks
-  CEToolbarDocks.Add(LeftToolDock);
-  CEToolbarDocks.Add(TopToolDock);
-  CEToolbarDocks.Add(RightToolDock);
-  CEToolbarDocks.Add(BottomToolDock);
+  CEToolbarDocks.Add(LeftToolDock, false);
+  CEToolbarDocks.Add(TopToolDock, false);
+  CEToolbarDocks.Add(RightToolDock, false);
+  CEToolbarDocks.Add(BottomToolDock, false);
   CEToolbarDocks.Add(DockHostForm.DualViewHost.LeftPageToolDock);
   CEToolbarDocks.Add(DockHostForm.DualViewHost.TopPageToolDock);
   CEToolbarDocks.Add(DockHostForm.DualViewHost.RightPageToolDock);
@@ -789,7 +789,8 @@ begin
 
   if GlobalPathCtrl.ActivePage is TCECustomTabPage then
   Layouts.SaveLayout(Layouts.CurrentLayout,
-                     TCECustomTabPage(GlobalPathCtrl.ActivePage).Settings.RememberToolbarLayout,
+                     TCECustomTabPage(GlobalPathCtrl.ActivePage).Settings.RememberInnerToolbarLayout,
+                     TCECustomTabPage(GlobalPathCtrl.ActivePage).Settings.RememberOuterToolbarLayout,
                      TCECustomTabPage(GlobalPathCtrl.ActivePage).Settings.RememberPanelLayout);
 
   CanClose:= TabSet.CloseAllTabs;
@@ -1123,7 +1124,7 @@ begin
   case Message.WParam of
     PBT_APMSUSPEND: begin
       Layouts.SaveToolbarLayout;
-      Layouts.SaveLayout(Layouts.CurrentLayout);
+      Layouts.SaveCurrentLayout;
       Layouts.SaveToFile(ExePath + 'layout.xml');
     end;
   end;
