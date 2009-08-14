@@ -531,6 +531,8 @@ begin
 
   fVideoExts:= TStringList.Create;
   fVideoExts.Text:= DefaultVideoExts;
+
+  fRememberInnerToolbarLayout:= true;
 end;
 
 {-------------------------------------------------------------------------------

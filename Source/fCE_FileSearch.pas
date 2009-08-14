@@ -494,7 +494,7 @@ begin
       Results.ValidateNamespace(Item,NS);
       if assigned(NS) then
       begin
-        NS.ShowPropertySheet;
+        NS.ShowPropertySheet(MainForm);
       end;
     end;
     fShowItemContextMenu:= false;
@@ -521,6 +521,7 @@ begin
   inherited;
   fShowExtensions:= true;
   fSubFolders:= true;
+  fRememberInnerToolbarLayout:= true;
 end;
 
 {-------------------------------------------------------------------------------

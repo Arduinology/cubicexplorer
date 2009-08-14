@@ -175,6 +175,9 @@ type
 
 implementation
 
+uses
+  Main;
+
 {*------------------------------------------------------------------------------
   Get's called on set focus
 -------------------------------------------------------------------------------}
@@ -846,7 +849,7 @@ begin
   if (CharCode = VK_RETURN) and (Selection.Count > 1) then
   begin
     Self.ValidateNamespace(Self.Selection.First, NS);
-    NS.ExecuteContextMenuVerb('open', NamespaceToRelativePIDLArray(Self.SelectedToNamespaceArray));
+    NS.ExecuteContextMenuVerb(MainForm, 'open', NamespaceToRelativePIDLArray(Self.SelectedToNamespaceArray));
     DoDefault:= false;
   end;
 

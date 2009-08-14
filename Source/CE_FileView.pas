@@ -814,7 +814,7 @@ begin
     begin
       SetLength(NSA, 1);
       NSA[0] := RootFolderNamespace;
-      RootFolderNamespace.Paste(NSA, True);
+      RootFolderNamespace.Paste(Self, NSA, True);
     end;
   finally
     Cursor:= crDefault;

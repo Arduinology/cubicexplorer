@@ -1056,6 +1056,7 @@ constructor TCETextEditorOptions.Create;
 begin
   inherited;
   EditorOptions:= TSynEditorOptionsContainer.Create(nil);
+  fRememberInnerToolbarLayout:= true;
 end;
 
 {*------------------------------------------------------------------------------

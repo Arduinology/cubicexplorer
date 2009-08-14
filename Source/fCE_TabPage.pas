@@ -61,6 +61,7 @@ type
     fImageIndex: Integer;
     fImages: TImageList;
     fLayout: String;
+    fPaneNumber: Integer;
     fSettings: TCECustomTabPageSettings;
     fTabCaption: WideString;
     procedure SetTabCaption(const Value: WideString);
@@ -90,6 +91,7 @@ type
     property Images: TImageList read fImages write fImages;
     property Layout: String read fLayout write fLayout;
     property PageActionList: TActionList read GetPageActionList;
+    property PaneNumber: Integer read fPaneNumber write fPaneNumber;
     property TabCaption: WideString read fTabCaption write SetTabCaption;
     property TabItem: TSpTBXTabItem read fTabItem;
   published

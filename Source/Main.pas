@@ -203,11 +203,6 @@ type
     SpTBXItem47: TSpTBXItem;
     SpTBXItem85: TSpTBXItem;
     SpTBXSeparatorItem22: TSpTBXSeparatorItem;
-    SpTBXItem87: TSpTBXItem;
-    SpTBXItem88: TSpTBXItem;
-    SpTBXSeparatorItem23: TSpTBXSeparatorItem;
-    SpTBXItem92: TSpTBXItem;
-    SpTBXItem93: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -223,10 +218,6 @@ type
     procedure SpTBXItem80Click(Sender: TObject);
     procedure test_act1Click(Sender: TObject);
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
-    procedure SpTBXItem87Click(Sender: TObject);
-    procedure SpTBXItem88Click(Sender: TObject);
-    procedure SpTBXItem92Click(Sender: TObject);
-    procedure SpTBXItem93Click(Sender: TObject);
   private
     fFullscreen: Boolean;
     fActiveLanguage: WideString;
@@ -338,7 +329,7 @@ var
 implementation
 
 uses
-  madExcept, CE_QuickView, Clipbrd;
+  madExcept, CE_QuickView, Clipbrd, CE_PaneHost;
 
 {$R *.dfm}
 
@@ -357,10 +348,6 @@ begin
   Self.BottomToolDock.BeginUpdate;
   Self.LeftToolDock.BeginUpdate;
   Self.MainToolbar.BeginUpdate;
-  DockHostForm.DualViewHost.TopPageToolDock.BeginUpdate;
-  DockHostForm.DualViewHost.BottomPageToolDock.BeginUpdate;
-  DockHostForm.DualViewHost.LeftPageToolDock.BeginUpdate;
-  DockHostForm.DualViewHost.RightPageToolDock.BeginUpdate;
 end;
 
 {*------------------------------------------------------------------------------
@@ -384,10 +371,6 @@ begin
   Self.BottomToolDock.EndUpdate;
   Self.LeftToolDock.EndUpdate;
   Self.MainToolbar.EndUpdate;
-  DockHostForm.DualViewHost.TopPageToolDock.EndUpdate;
-  DockHostForm.DualViewHost.BottomPageToolDock.EndUpdate;
-  DockHostForm.DualViewHost.LeftPageToolDock.EndUpdate;
-  DockHostForm.DualViewHost.RightPageToolDock.EndUpdate;
   LockWindowUpdate(0);
   SendMessage(MainForm.DockHostForm.Handle, WM_SETREDRAW, 1,0);
   RedrawWindow(MainForm.Handle, nil, 0, RDW_ERASE or RDW_FRAME or RDW_INVALIDATE or RDW_ALLCHILDREN);
@@ -471,12 +454,13 @@ begin
   TabSet.Name:= 'TabBar';
   TabSet.Toolbar.Caption:= _('Tabs');
   TabSet.TabDragReorder:= true;
-  TabSet.TabPageHost:= DockHostForm.DualViewHost.MainPane;
+  TabSet.TabPageHost:= DockHostForm.PaneGroupHost.GetPane;
   TabSet.LayoutController:= Layouts;
   TabSet.Toolbar.Customizable:= true;
   TabSet.Images:= CE_Images.SmallIcons;
   TabSet.TabPopupMenu:= TabPopupMenu;
   GlobalFocusCtrl.CtrlList.Add(TabSet.Toolbar);
+
     // Add panes
   //Tabset.Panes.Add(DockHostForm.DualViewHost.MainPane);
   //Tabset.Panes.Add(DockHostForm.DualViewHost.DualPane);
@@ -489,7 +473,7 @@ begin
   AddressBarToolbar.Caption:= _('Address Bar');
   AddressBarToolbar.DockableTo:= [TB2Dock.dpTop, TB2Dock.dpBottom];
   AddressBarToolbar.Visible:= false;
-  AddressBarToolbar.CurrentDock:= DockHostForm.DualViewHost.TopPageToolDock;
+  AddressBarToolbar.CurrentDock:= TopToolDock;
   AddressBarToolbar.Tag:= 1;
   // Create DriveToolbar
   DriveToolbar:= TCEDriveToolbar.Create(self);
@@ -529,7 +513,7 @@ begin
   BreadcrumbBar.Stretch:= true;
   BreadcrumbBar.Visible:= false;
   BreadcrumbBar.DockableTo:= [TB2Dock.dpTop, TB2Dock.dpBottom];
-  BreadcrumbBar.CurrentDock:= DockHostForm.DualViewHost.TopPageToolDock;
+  BreadcrumbBar.CurrentDock:= TopToolDock;
   BreadcrumbBar.Tag:= 1;
   // Create Status bar
   StatusBar:= TCEStatusBar.Create(Self);
@@ -556,10 +540,10 @@ begin
   CEToolbarDocks.Add(TopToolDock, false);
   CEToolbarDocks.Add(RightToolDock, false);
   CEToolbarDocks.Add(BottomToolDock, false);
-  CEToolbarDocks.Add(DockHostForm.DualViewHost.LeftPageToolDock);
-  CEToolbarDocks.Add(DockHostForm.DualViewHost.TopPageToolDock);
-  CEToolbarDocks.Add(DockHostForm.DualViewHost.RightPageToolDock);
-  CEToolbarDocks.Add(DockHostForm.DualViewHost.BottomPageToolDock);
+  CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.LeftGroupToolDock);
+  CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.TopGroupToolDock);
+  CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.RightGroupToolDock);
+  CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.BottomGroupToolDock);
   // Populate menu items
   CELayoutItems.PopulateMenuItem(toolbarsMenuItem);
   CELayoutItems.PopulateMenuItem(ToolbarPopupMenu.Items);
@@ -788,10 +772,7 @@ begin
   GlobalSessions.AddHistorySession;
 
   if GlobalPathCtrl.ActivePage is TCECustomTabPage then
-  Layouts.SaveLayout(Layouts.CurrentLayout,
-                     TCECustomTabPage(GlobalPathCtrl.ActivePage).Settings.RememberInnerToolbarLayout,
-                     TCECustomTabPage(GlobalPathCtrl.ActivePage).Settings.RememberOuterToolbarLayout,
-                     TCECustomTabPage(GlobalPathCtrl.ActivePage).Settings.RememberPanelLayout);
+  Layouts.SaveCurrentLayout;
 
   CanClose:= TabSet.CloseAllTabs;
 
@@ -1406,30 +1387,6 @@ begin
   page.ExtApp.AppWndStyle:= WS_CHILD;
   page.ExtApp.Run;
   page.UpdateCaption;
-end;
-
-procedure TMainForm.SpTBXItem87Click(Sender: TObject);
-var
-  page: TCEFileViewPage;
-  item: TCESpTabItem;
-begin
-  SaveToolbars(Layouts.AppStorage, 'Default');
-  Layouts.SaveToFile;
-end;
-
-procedure TMainForm.SpTBXItem88Click(Sender: TObject);
-begin
-  SaveToolbars(Layouts.AppStorage, 'FileView');
-end;
-
-procedure TMainForm.SpTBXItem92Click(Sender: TObject);
-begin
-  LoadToolbars(Layouts.AppStorage, 'Default');
-end;
-
-procedure TMainForm.SpTBXItem93Click(Sender: TObject);
-begin
-  //LoadToolbars(Layouts.AppStorage, 'FileView');
 end;
 
 procedure TMainForm.test_act1Click(Sender: TObject);

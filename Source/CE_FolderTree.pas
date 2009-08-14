@@ -65,7 +65,8 @@ type
     constructor Create(AOwner: TComponent); override;
     function PasteShortcutFromClipboard: Boolean;
     function Refresh: Boolean;
-    procedure SelectedFilesDelete; override;
+    procedure SelectedFilesDelete(ShiftKeyState: TExecuteVerbShift = evsCurrent);
+        override;
     property AutoCollapse: Boolean read fAutoCollapse write fAutoCollapse;
     property AutoExpand: Boolean read fAutoExpand write fAutoExpand;
     property BrowseZipFolders: Boolean read fBrowseZipFolders write
@@ -337,7 +338,7 @@ begin
           if ValidateNamespace(GetFirstSelected, NS) then
           begin
             NSA[0] := NS;
-            NS.Paste(NSA, true);
+            NS.Paste(Self, NSA, true);
             Result := True
           end
         end
@@ -500,7 +501,8 @@ begin
   end
 end;
 
-procedure TCEFolderTree.SelectedFilesDelete;
+procedure TCEFolderTree.SelectedFilesDelete(ShiftKeyState: TExecuteVerbShift =
+    evsCurrent);
 var
   Node: PVirtualNode;
   NS: TNamespace;
@@ -514,7 +516,7 @@ begin
       begin
         if ValidateNamespace(Node, NS) then
         begin
-          if NS.Delete(SelectedToNamespaceArray) then
+          if NS.Delete(Self, SelectedToNamespaceArray, ShiftKeyState) then
           begin
             ReReadAndRefreshNode(node, false);
             DoSelectedChange(GetFirstSelected);

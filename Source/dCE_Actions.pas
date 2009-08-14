@@ -436,9 +436,9 @@ begin
       206: fileview.Selection.Invert;
       207: begin
              if fileview.ValidateNamespace(fileview.Selection.First, NS) then
-             NS.ShowPropertySheetMulti(fileview.SelectedToNamespaceArray, false)
+             NS.ShowPropertySheetMulti(MainForm, fileview.SelectedToNamespaceArray, false)
              else
-             fileview.RootFolderNamespace.ShowPropertySheet;
+             fileview.RootFolderNamespace.ShowPropertySheet(MainForm);
            end;
       211: begin
              if fileview.Selection.Count > 1 then
@@ -547,7 +547,7 @@ begin
               end;
     370: MainForm.Fullscreen:= not MainForm.Fullscreen;
     371: MainForm.OpenSkin;
-    380: MainForm.DockHostForm.DualViewSettings.Enabled:= not MainForm.DockHostForm.DualViewSettings.Enabled;
+    //380: MainForm.DockHostForm.DualViewSettings.Enabled:= not MainForm.DockHostForm.DualViewSettings.Enabled;
   end;
 end;
 
@@ -586,7 +586,7 @@ begin
               end;
     370: TargetAction.Checked:= MainForm.Fullscreen;
     372..374: TargetAction.Enabled:= GlobalPathCtrl.ActivePage is TCEFileViewPage;
-    380: TargetAction.Checked:= MainForm.DockHostForm.DualViewSettings.Enabled;
+    //380: TargetAction.Checked:= MainForm.DockHostForm.DualViewSettings.Enabled;
   end;
 end;
 

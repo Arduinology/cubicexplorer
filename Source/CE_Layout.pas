@@ -153,6 +153,23 @@ end;
   Initialize layouts.
 -------------------------------------------------------------------------------}
 procedure TCELayoutController.InitSelf;
+
+  procedure CloneNode(FromNode, ToNode: TJvSimpleXmlElem);
+  var
+    i, i2: Integer;
+    chFromNode, chToNode: TJvSimpleXmlElem;
+  begin
+    for i:= 0 to FromNode.Items.Count - 1 do
+    begin
+      chFromNode:= FromNode.Items.Item[i];
+      chToNode:= ToNode.Items.Add(chFromNode.Name);
+      chToNode.Value:= chFromNode.Value;
+      for i2:= 0 to chFromNode.Properties.Count - 1 do
+      chToNode.Properties.Add(chFromNode.Properties[I].Name, chFromNode.Properties[I].Value);
+      CloneNode(chFromNode, chToNode);
+    end;
+  end;
+
 var
   node, chNode, chNode2: TJvSimpleXmlElem;
   i: Integer;
@@ -175,8 +192,8 @@ begin
         if assigned(chNode) then
         begin
           chNode2:= node.Items.Add(DefaultLayoutName);
-          chNode2.Assign(chNode);
           chNode2.Name:= DefaultLayoutName;
+          CloneNode(chNode, chNode2);
         end;
       end;
     end;
@@ -407,9 +424,9 @@ function TCEToolbarDocks.Add(ADock: TTBDock; InnerDock: Boolean = true):
     Integer;
 begin
   if InnerDock then
-  InnerDocks.Add(ADock)
+  Result:= InnerDocks.Add(ADock)
   else
-  OuterDocks.Add(ADock);
+  Result:= OuterDocks.Add(ADock);
 end;
 
 {*------------------------------------------------------------------------------
@@ -573,7 +590,6 @@ var
   dock: TTBDock;
   tabset: TCESpTabSet;
   statusbar: TCEStatusBar;
-  isInnerDock: Boolean;
 begin
   if not assigned(AppStorage) then
   Exit;
@@ -594,6 +610,7 @@ begin
           s:= AppStorage.ReadString('Dock', 'TopToolDock');
           if s <> '' then
           begin
+            dock:= nil;
             case DockType of
               tdtBoth: dock:= CEToolbarDocks.FindDockNamed(s);
               tdtInner: dock:= CEToolbarDocks.FindInnerDockNamed(s);

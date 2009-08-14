@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  CE_Layout, CE_DualView, CE_AppSettings, dCE_Images,
+  CE_Layout, CE_DualView, CE_AppSettings, dCE_Images, CE_PaneHost,
   // JVCL
   JvDockControlForm,
   // Toolbar2000
@@ -44,8 +44,7 @@ type
     procedure FormDestroy(Sender: TObject);
   private
   public
-    DualViewSettings: TCEDualViewSettings;
-    DualViewHost: TCEDualViewHost;
+    PaneGroupHost: TCEPaneGroupHost;
     DockServer: TJvDockServer;
   end;
 
@@ -58,16 +57,8 @@ implementation
 -------------------------------------------------------------------------------}
 procedure TCEDockHostForm.FormCreate(Sender: TObject);
 begin
-  DualViewHost:= TCEDualViewHost.Create(nil);
-  DualViewHost.Parent:= CenterPanel;
-  DualViewHost.Align:= alClient;
-  DualViewHost.DualViewEnabled:= false;
-  DualViewHost.HorizontalPanes:= false;
-  DualViewHost.Toolbar.Images:= CE_Images.SmallIcons;
-
-  DualViewSettings:= TCEDualViewSettings.Create;
-  DualViewSettings.DualViewHost:= DualViewHost;
-  //GlobalAppSettings.AddItem('DualView', DualViewSettings);
+  PaneGroupHost:= TCEPaneGroupHost.Create;
+  PaneGroupHost.Parent:= CenterPanel;
 
   DockServer:= TJvDockServer.Create(self);
   DockServer.DockStyle:= CEDockStyle;
@@ -96,9 +87,8 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEDockHostForm.FormDestroy(Sender: TObject);
 begin
-  DualViewSettings.Free;
-  DualViewHost.Free;
   DockServer.Free;
+  PaneGroupHost.Free;
 end;
 
 end.
