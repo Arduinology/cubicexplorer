@@ -38,6 +38,7 @@ uses
   Classes, Windows, Messages, SysUtils, Graphics, Forms;
 
 type
+  TCustomVirtualExplorerEasyListviewHack = class(TCustomVirtualExplorerEasyListview);
 
   PFilterItem = ^AFilterItem;
   AFilterItem = record
@@ -55,7 +56,7 @@ type
   private
     fActive: Boolean;
     fFilteringImage: TBitmap;
-    fExplorerEasyListview: TVirtualExplorerEasyListview;
+    fExplorerEasyListview: TCustomVirtualExplorerEasyListview;
     fPatternText: WideString;
     fShowAllExtensions: Boolean;
     fShowFolders: Boolean;
@@ -64,7 +65,8 @@ type
     fShowFoldersNode: PVirtualNode;
     fUseWildcards: Boolean;
     procedure SetActive(const Value: Boolean);
-    procedure SetExplorerEasyListview(const Value: TVirtualExplorerEasyListview);
+    procedure SetExplorerEasyListview(const Value:
+        TCustomVirtualExplorerEasyListview);
     procedure SetPatternText(const Value: WideString);
     procedure SetShowAllExtensions(const Value: Boolean);
     procedure SetShowFilteringBackground(const Value: Boolean);
@@ -78,7 +80,7 @@ type
         TVSTTextType; var Text: WideString); override;
     procedure DoPaintText(Node: PVirtualNode; const Canvas: TCanvas; Column:
         TColumnIndex; TextType: TVSTTextType); override;
-    procedure HandleMouseDown(var Message: TWMMouse; const HitInfo: THitInfo);
+    procedure HandleMouseDown(var Message: TWMMouse; var HitInfo: THitInfo);
         override;
   public
     ActiveFilters: TTntStrings;
@@ -91,7 +93,7 @@ type
     procedure PopulateTree;
     property Active: Boolean read fActive write SetActive;
     property FilteringImage: TBitmap read fFilteringImage write fFilteringImage;
-    property ExplorerEasyListview: TVirtualExplorerEasyListview read
+    property ExplorerEasyListview: TCustomVirtualExplorerEasyListview read
         fExplorerEasyListview write SetExplorerEasyListview;
     property PatternText: WideString read fPatternText write SetPatternText;
     property ShowAllExtensions: Boolean read fShowAllExtensions write
@@ -114,7 +116,7 @@ begin
   ActiveFilters:= TTntStringList.Create;
 
   Self.BorderStyle:= bsNone;
-  Self.CheckImageKind:= ckSystem;
+  Self.CheckImageKind:= ckSystemDefault;
   Self.TreeOptions.PaintOptions:= [toHideFocusRect,toHideSelection,toShowButtons,toShowDropmark,toThemeAware,toAlwaysHideSelection]; //toShowHorzGridLines];
   Self.TreeOptions.MiscOptions:= [toCheckSupport,toFullRepaintOnResize,toInitOnSave,toToggleOnDblClick];
   fShowAllExtensions:= true;
@@ -204,9 +206,9 @@ begin
       data.count:= 0;
     end;
 
-    for i:= 0 to fExplorerEasyListview.ItemCount - 1 do
+    for i:= 0 to TCustomVirtualExplorerEasyListviewHack(fExplorerEasyListview).ItemCount - 1 do
     begin
-      item:= fExplorerEasyListview.Items.Items[i];
+      item:= TCustomVirtualExplorerEasyListviewHack(fExplorerEasyListview).Items.Items[i];
       fExplorerEasyListview.ValidateNamespace(item, NS);
       if assigned(NS) then
       begin
@@ -270,6 +272,7 @@ var
   NS: TNamespace;
   NoFiltering: Boolean;
   pattern: WideString;
+  view: TCustomVirtualExplorerEasyListviewHack;
 begin
   if not assigned(fExplorerEasyListview) then
   Exit;
@@ -280,17 +283,18 @@ begin
   pattern:= '*' + PatternText + '*';
 
   NoFiltering:= true;
-  fExplorerEasyListview.BeginUpdate;
+  view:= TCustomVirtualExplorerEasyListviewHack(fExplorerEasyListview);
+  view.BeginUpdate;
   try
-    for i:= 0 to fExplorerEasyListview.ItemCount - 1 do
+    for i:= 0 to view.ItemCount - 1 do
     begin
       NS:= nil;
-      item:= fExplorerEasyListview.Items.Items[i];
+      item:= view.Items.Items[i];
       if (ActiveFilters.Count = 0) or fShowAllExtensions then
       begin
         if not fShowFolders then
         begin
-          if fExplorerEasyListview.ValidateNamespace(item, NS) then
+          if view.ValidateNamespace(item, NS) then
           begin
             if NS.Folder and (WideCompareText(NS.Extension,'.zip') <> 0) then
             item.Visible:= false
@@ -303,7 +307,7 @@ begin
       end
       else
       begin
-        if fExplorerEasyListview.ValidateNamespace(item, NS) then
+        if view.ValidateNamespace(item, NS) then
         begin
           if NS.Folder and (WideCompareText(NS.Extension,'.zip') <> 0) then
           item.Visible:= fShowFolders
@@ -317,7 +321,7 @@ begin
       if item.Visible and (PatternText <> '') then
       begin
         if not assigned(NS) then
-        fExplorerEasyListview.ValidateNamespace(item, NS);
+        view.ValidateNamespace(item, NS);
 
         item.Visible:= WideStringMatch(NS.NameNormal, pattern)
       end;
@@ -327,9 +331,9 @@ begin
     end;
   finally
     if fShowFilteringBackground then
-    fExplorerEasyListview.BackGround.Enabled:= not NoFiltering;
+    view.BackGround.Enabled:= not NoFiltering;
     
-    fExplorerEasyListview.EndUpdate;
+    view.EndUpdate;
   end;
 end;
 
@@ -339,21 +343,23 @@ end;
 procedure TCEFilterList.DeFilter;
 var
   i: Integer;
+  view: TCustomVirtualExplorerEasyListviewHack;
 begin
   if not assigned(fExplorerEasyListview) then
   Exit;
 
-  fExplorerEasyListview.BeginUpdate;
+  view:= TCustomVirtualExplorerEasyListviewHack(fExplorerEasyListview);
+  view.BeginUpdate;
   try
-    for i:= 0 to fExplorerEasyListview.ItemCount - 1 do
+    for i:= 0 to view.ItemCount - 1 do
     begin
-      fExplorerEasyListview.Items.Items[i].Visible:= true;
+      view.Items.Items[i].Visible:= true;
     end;
   finally
     if fShowFilteringBackground then
-    fExplorerEasyListview.BackGround.Enabled:= false;
+    view.BackGround.Enabled:= false;
     
-    fExplorerEasyListview.EndUpdate;
+    view.EndUpdate;
   end;
 end;
 
@@ -503,7 +509,7 @@ end;
 {*------------------------------------------------------------------------------
   Handle Mouse Down
 -------------------------------------------------------------------------------}
-procedure TCEFilterList.HandleMouseDown(var Message: TWMMouse; const HitInfo:
+procedure TCEFilterList.HandleMouseDown(var Message: TWMMouse; var HitInfo:
     THitInfo);
 begin
   inherited;
@@ -526,15 +532,15 @@ end;
   Set ExplorerEasyListview
 -------------------------------------------------------------------------------}
 procedure TCEFilterList.SetExplorerEasyListview(const Value:
-    TVirtualExplorerEasyListview);
+    TCustomVirtualExplorerEasyListview);
 begin
   if fExplorerEasyListview <> Value then
   begin
     fExplorerEasyListview:= Value;
     if assigned(fExplorerEasyListview) then
     begin
-      if fExplorerEasyListview.BackGround.Image.Empty and fShowFilteringBackground then
-      fExplorerEasyListview.BackGround.Image:= fFilteringImage;
+      if TCustomVirtualExplorerEasyListviewHack(fExplorerEasyListview).BackGround.Image.Empty and fShowFilteringBackground then
+      TCustomVirtualExplorerEasyListviewHack(fExplorerEasyListview).BackGround.Image:= fFilteringImage;
     end;
 
     if fActive then
@@ -596,13 +602,13 @@ begin
   begin
     if fShowFilteringBackground then
     begin
-      fExplorerEasyListview.BackGround.Enabled:= false;
-      fExplorerEasyListview.BackGround.Image:= fFilteringImage;
+      TCustomVirtualExplorerEasyListviewHack(fExplorerEasyListview).BackGround.Enabled:= false;
+      TCustomVirtualExplorerEasyListviewHack(fExplorerEasyListview).BackGround.Image:= fFilteringImage;
     end
     else
     begin
-      fExplorerEasyListview.BackGround.Enabled:= false;
-      fExplorerEasyListview.BackGround.Image.FreeImage;
+      TCustomVirtualExplorerEasyListviewHack(fExplorerEasyListview).BackGround.Enabled:= false;
+      TCustomVirtualExplorerEasyListviewHack(fExplorerEasyListview).BackGround.Image.FreeImage;
     end;
   end;
 

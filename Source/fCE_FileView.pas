@@ -1003,7 +1003,6 @@ var
   i: Integer;
   FileViewPage: TCEFileViewPage;
   doRebuild: Boolean;
-  options: TVirtualEasyListviewOptions;
 begin
   for i:= 0 to NotifyList.Count - 1 do
   begin

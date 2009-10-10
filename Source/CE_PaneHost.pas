@@ -26,11 +26,17 @@ interface
 uses
   // CE Units
   fCE_TabPage,
+  // SpTBX
+  SpTBXItem, TB2Dock,
   // System Units
-  Windows, Classes, Messages, SysUtils, Controls, ExtCtrls, Contnrs,
-  SpTBXItem, TB2Dock;
+  Windows, Classes, Messages, SysUtils, Controls, ExtCtrls, Contnrs;
 
 type
+  TCEPageAddedEvent = procedure(Sender: TObject; Page: TCECustomTabPage) of object;
+  TCEPageDeletingEvent = procedure(Sender: TObject; Page: TCECustomTabPage) of object;
+  TCEPagePaneChangedEvent = procedure(Sender: TObject; Page: TCECustomTabPage) of object;
+  TCEPageSelectedEvent = procedure(Sender: TObject; Page: TCECustomTabPage) of object;
+
   TCECustomPane = class(TCustomPanel)
   public
     constructor Create(AOwner: TComponent); override;
@@ -71,9 +77,21 @@ type
   TCEPaneGroupHost = class(TObject)
   private
     fActivePaneGroup: TCECustomPaneGroup;
+    fAddingPage: Boolean;
+    fOnPageAdded: TCEPageAddedEvent;
+    fOnPageDeleting: TCEPageDeletingEvent;
+    fOnPagePaneChanged: TCEPagePaneChangedEvent;
+    fOnPageSelected: TCEPageSelectedEvent;
     fPageList: TComponentList;
     fParent: TWinControl;
+    fSelectedPage: TCECustomTabPage;
     function GetActivePaneGroup: TCECustomPaneGroup;
+    procedure SetSelectedPage(const Value: TCECustomTabPage);
+  protected
+    procedure DoPageAdded(Page: TCECustomTabPage);
+    procedure DoPageDeleting(Page: TCECustomTabPage);
+    procedure DoPagePaneChanged(Page: TCECustomTabPage);
+    procedure DoPageSelected(Page: TCECustomTabPage);
   public
     constructor Create;
     destructor Destroy; override;
@@ -81,11 +99,22 @@ type
         -1): TCECustomTabPage;
     function ChangePane(Page: TCECustomTabPage; PaneNumber: Integer = -1): Integer;
     procedure ChangePaneGroup(NewPaneGroupClass: TCECustomPaneGroupClass);
+    function ClosePage(Page: TCECustomTabPage; Force: Boolean = false): Boolean;
     function GetPage(Index: Integer): TCECustomTabPage;
     function GetPane(PaneNumber: Integer = -1): TCECustomPane;
     property ActivePaneGroup: TCECustomPaneGroup read GetActivePaneGroup;
     property PageList: TComponentList read fPageList;
     property Parent: TWinControl read fParent write fParent;
+    property SelectedPage: TCECustomTabPage read fSelectedPage write
+        SetSelectedPage;
+  published
+    property OnPageAdded: TCEPageAddedEvent read fOnPageAdded write fOnPageAdded;
+    property OnPageDeleting: TCEPageDeletingEvent read fOnPageDeleting write
+        fOnPageDeleting;
+    property OnPagePaneChanged: TCEPagePaneChangedEvent read fOnPagePaneChanged
+        write fOnPagePaneChanged;
+    property OnPageSelected: TCEPageSelectedEvent read fOnPageSelected write
+        fOnPageSelected;
   end;
 
 implementation
@@ -116,7 +145,11 @@ end;
 function TCEPaneGroupHost.AddPage(TabPageClass: TCECustomTabPageClass;
     PaneNumber: Integer = -1): TCECustomTabPage;
 begin
+  fAddingPage:= true;
   Result:= TabPageClass.Create(nil);
+  ChangePane(Result, PaneNumber);
+  DoPageAdded(Result);
+  fAddingPage:= false;
 end;
 
 {-------------------------------------------------------------------------------
@@ -128,6 +161,8 @@ begin
   Page.Parent:= GetPane(PaneNumber);
   Page.PaneNumber:= ActivePaneGroup.Panes.IndexOf(Page.Parent);
   Result:= Page.PaneNumber;
+  if not fAddingPage then
+  DoPagePaneChanged(Page);
 end;
 
 {-------------------------------------------------------------------------------
@@ -165,6 +200,23 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Close Page (returns TRUE if successful)
+-------------------------------------------------------------------------------}
+function TCEPaneGroupHost.ClosePage(Page: TCECustomTabPage; Force: Boolean =
+    false): Boolean;
+begin
+  if Force then
+  Result:= true
+  else
+  Result:= Page.TabClosing;
+  if Result then
+  begin
+    DoPageDeleting(Page);
+    Page.Free;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   Get Active Pane Group
 -------------------------------------------------------------------------------}
 function TCEPaneGroupHost.GetActivePaneGroup: TCECustomPaneGroup;
@@ -188,6 +240,50 @@ end;
 function TCEPaneGroupHost.GetPane(PaneNumber: Integer = -1): TCECustomPane;
 begin
   Result:= ActivePaneGroup.GetPane(PaneNumber);
+end;
+
+{-------------------------------------------------------------------------------
+  Do Page Added
+-------------------------------------------------------------------------------}
+procedure TCEPaneGroupHost.DoPageAdded(Page: TCECustomTabPage);
+begin
+  if Assigned(fOnPageAdded) then fOnPageAdded(Self, Page);
+end;
+
+{-------------------------------------------------------------------------------
+  Do Page Deleting
+-------------------------------------------------------------------------------}
+procedure TCEPaneGroupHost.DoPageDeleting(Page: TCECustomTabPage);
+begin
+  if Assigned(fOnPageDeleting) then fOnPageDeleting(Self, Page);
+end;
+
+{-------------------------------------------------------------------------------
+  Do Page Pane Changed
+-------------------------------------------------------------------------------}
+procedure TCEPaneGroupHost.DoPagePaneChanged(Page: TCECustomTabPage);
+begin
+  if Assigned(fOnPagePaneChanged) then fOnPagePaneChanged(Self, Page);
+end;
+
+{-------------------------------------------------------------------------------
+  Do Page Selected
+-------------------------------------------------------------------------------}
+procedure TCEPaneGroupHost.DoPageSelected(Page: TCECustomTabPage);
+begin
+  if Assigned(fOnPageSelected) then fOnPageSelected(Self, Page);
+end;
+
+{-------------------------------------------------------------------------------
+  Set Selected Page
+-------------------------------------------------------------------------------}
+procedure TCEPaneGroupHost.SetSelectedPage(const Value: TCECustomTabPage);
+begin
+  if Value <> fSelectedPage then
+  begin
+    fSelectedPage:= Value;
+    DoPageSelected(fSelectedPage);
+  end;
 end;
 
 {##############################################################################}

@@ -55,7 +55,6 @@ uses
   CEJvDockVSNetStyleTBX in 'CEJvDockVSNetStyleTBX.pas',
   fCE_TextEditor in 'fCE_TextEditor.pas' {CETextEditorPage: TFrame},
   fCE_AboutBox in 'fCE_AboutBox.pas' {CEAboutBox},
-  fCE_FileSearch in 'fCE_FileSearch.pas' {CEFileSearchPage: TFrame},
   CE_DriveBar in 'CE_DriveBar.pas',
   CE_BookmarkBar in 'CE_BookmarkBar.pas',
   fCE_ToolbarCustomizer in 'fCE_ToolbarCustomizer.pas' {CEToolbarCustomizer},
@@ -72,7 +71,6 @@ uses
   fCE_FolderTreeForm in 'fCE_FolderTreeForm.pas' {CE_FolderTreeForm},
   CE_XMLStorage in 'CE_XMLStorage.pas',
   CE_AddressToolbar in 'CE_AddressToolbar.pas',
-  CE_FileSearch in 'CE_FileSearch.pas',
   fCE_ExtAppPage in 'fCE_ExtAppPage.pas' {CEExtAppTabPage: TFrame},
   fCE_FiltersPanel in 'fCE_FiltersPanel.pas' {CEFiltersPanel},
   CE_FilterPanel in 'CE_FilterPanel.pas',
@@ -111,7 +109,8 @@ uses
   fCE_SaveSessionDlg in 'fCE_SaveSessionDlg.pas' {CESaveSessionDlg},
   fCE_SessionManager in 'fCE_SessionManager.pas' {CESessionManager},
   CE_DualView in 'CE_DualView.pas',
-  CE_PaneHost in 'CE_PaneHost.pas';
+  CE_PaneHost in 'CE_PaneHost.pas',
+  fCE_SearchPage in 'fCE_SearchPage.pas' {CESearchPage: TFrame};
 
 {$R *.res}
 {$R 'CE_Resources.res'}

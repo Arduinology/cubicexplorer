@@ -278,6 +278,7 @@ begin
   Self.CellSizes.SmallIcon.Height:= SmallShellIconSize + 1;
   Self.CellSizes.List.Height:= SmallShellIconSize + 1;
   Self.CellSizes.Report.Height:= SmallShellIconSize + 1;
+  Self.Selection.FirstItemFocus:= false;
 end;
 
 {*------------------------------------------------------------------------------

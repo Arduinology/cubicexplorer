@@ -26,7 +26,7 @@ interface
 uses
   // CE Units
   fCE_DockableForm, CE_FilterPanel, CE_VistaFuncs, CE_GlobalCtrl,
-  fCE_FileView, dCE_Images, fCE_FileSearch, CE_AppSettings,
+  fCE_FileView, dCE_Images, CE_AppSettings, fCE_SearchPage,
   // TB2k, TBX, SpTBX
   TB2Dock, SpTBXItem,
   // VSTools
@@ -193,11 +193,11 @@ begin
       Filters.ClearFilters;
       Filters.ExplorerEasyListview:= TCEFileViewPage(NewPage).FileView;
     end
-    else if NewPage is TCEFileSearchPage then
+    else if NewPage is TCESearchPage then
     begin
       if Settings.AutoResetFilters then
       Filters.ClearFilters;
-      Filters.ExplorerEasyListview:= TCEFileSearchPage(NewPage).Results;
+      Filters.ExplorerEasyListview:= TCESearchPage(NewPage).ResultView;
     end
     else
     begin

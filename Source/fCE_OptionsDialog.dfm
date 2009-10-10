@@ -93,6 +93,7 @@ object CEOptionsDialog: TCEOptionsDialog
       OnChange = PageTreeChange
       OnGetNodeWidth = PageTreeGetNodeWidth
       OnMeasureItem = PageTreeMeasureItem
+      ExplicitLeft = -2
       Columns = <>
     end
   end
@@ -111,7 +112,7 @@ object CEOptionsDialog: TCEOptionsDialog
       35)
     object but_ok: TTntButton
       Left = 349
-      Top = 4
+      Top = 2
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
@@ -122,7 +123,7 @@ object CEOptionsDialog: TCEOptionsDialog
     end
     object but_cancel: TTntButton
       Left = 430
-      Top = 4
+      Top = 2
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
@@ -132,7 +133,7 @@ object CEOptionsDialog: TCEOptionsDialog
     end
     object but_apply: TTntButton
       Left = 511
-      Top = 4
+      Top = 2
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]

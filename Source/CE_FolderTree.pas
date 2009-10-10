@@ -56,7 +56,7 @@ type
     procedure DoShellNotify(ShellEvent: TVirtualShellEvent); override;
     procedure HandleMouseDblClick(var Message: TWMMouse; const HitInfo: THitInfo);
         override;
-    procedure HandleMouseDown(var Message: TWMMouse; const HitInfo: THitInfo);
+    procedure HandleMouseDown(var Message: TWMMouse; var HitInfo: THitInfo);
         override;
     procedure ReReadAndRefreshNode(Node: PVirtualNode; SortNode: Boolean); override;
     procedure SelectionTimer(Sender: TObject);
@@ -224,7 +224,7 @@ end;
 {*------------------------------------------------------------------------------
   Handle Mouse Down
 -------------------------------------------------------------------------------}
-procedure TCEFolderTree.HandleMouseDown(var Message: TWMMouse; const HitInfo:
+procedure TCEFolderTree.HandleMouseDown(var Message: TWMMouse; var HitInfo:
     THitInfo);
 var
   ShiftState: TShiftState;

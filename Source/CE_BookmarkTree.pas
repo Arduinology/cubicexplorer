@@ -67,7 +67,7 @@ type
         TColumnIndex; TextType: TVSTTextType); override;
     procedure HandleMouseDblClick(var Message: TWMMouse; const HitInfo: THitInfo);
         override;
-    procedure HandleMouseDown(var Message: TWMMouse; const HitInfo: THitInfo);
+    procedure HandleMouseDown(var Message: TWMMouse; var HitInfo: THitInfo);
         override;
     procedure HandleMouseUp(var Message: TWMMouse; const HitInfo: THitInfo);
         override;
@@ -466,12 +466,12 @@ end;
 {*------------------------------------------------------------------------------
   Handle Mouse Down.
 -------------------------------------------------------------------------------}
-procedure TCEBookmarkTree.HandleMouseDown(var Message: TWMMouse; const HitInfo:
+procedure TCEBookmarkTree.HandleMouseDown(var Message: TWMMouse; var HitInfo:
     THitInfo);
 begin
   if GetKeyState(VK_MENU) < 0 then
   Exit;
-  
+
   if (not assigned(HitInfo.HitNode)) or
      (hiOnItemButton in HitInfo.HitPositions) or
      (not fAutoExpand) then

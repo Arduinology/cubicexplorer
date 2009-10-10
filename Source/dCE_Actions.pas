@@ -257,10 +257,10 @@ implementation
 uses
   Main, fCE_FolderPanel, fCE_QuickViewPanel, fCE_BookmarkPanel,
   fCE_TextEditor, fCE_FileView, CE_FileView, CE_QuickView,
-  CE_Bookmarks, CE_BookmarkTree, fCE_AboutBox, fCE_FileSearch,
+  CE_Bookmarks, CE_BookmarkTree, fCE_AboutBox,
   CE_ToolbarButtons, fCE_ToolbarCustomizer, fCE_TabPage, fCE_FiltersPanel,
   fCE_PoEditor, fCE_OptionsDialog, CE_Sessions, fCE_StackPanel,
-  CE_BaseFileView, fCE_QuickViewTab;
+  CE_BaseFileView, fCE_QuickViewTab, fCE_SearchPage;
 
 {##############################################################################}
 
@@ -711,6 +711,7 @@ begin
          end;
     608: MainForm.TabSet.ScrollLeft;
     609: MainForm.TabSet.ScrollRight;
+    // Open Editor
     650: begin
            GlobalFileViewSettings.AssignFromActivePage;
            ws:= '';
@@ -725,10 +726,10 @@ begin
                end;
              end;
            end
-           else if (GlobalPathCtrl.ActivePage is TCEFileSearchPage) then
+           else if (GlobalPathCtrl.ActivePage is TCESearchPage) then
            begin
-             item:= TCEFileSearchPage(GlobalPathCtrl.ActivePage).Results.Selection.First;
-             if TCEFileSearchPage(GlobalPathCtrl.ActivePage).Results.ValidateNamespace(item, ns) then
+             item:= TCESearchPage(GlobalPathCtrl.ActivePage).ResultView.Selection.First;
+             if TCESearchPage(GlobalPathCtrl.ActivePage).ResultView.ValidateNamespace(item, ns) then
              begin
                if NS.FileSystem and not NS.Folder then
                begin
@@ -751,16 +752,18 @@ begin
             end;
            end;
          end;
+    // Open Search
     651: begin
            GlobalFileViewSettings.AssignFromActivePage;
            if GlobalPathCtrl.ActivePage is TCEFileViewPage then
            ws:= TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.RootFolderNamespace.NameForParsing;
-           page:= TCECustomTabPage(MainForm.TabSet.AddTab(TCEFileSearchPage, MainForm.TabSet.Settings.NewTabSelect).Page);
+           page:= TCECustomTabPage(MainForm.TabSet.AddTab(TCESearchPage, MainForm.TabSet.Settings.NewTabSelect).Page);
            if WideDirectoryExists(ws) then
            begin
-             TCEFileSearchPage(page).DestinationEdit.Text:= ws;
+             TCESearchPage(page).edit_location.Text:= ws;
            end;
          end;
+    // Open QuickView
     652: begin
            GlobalFileViewSettings.AssignFromActivePage;
            ws:= '';
@@ -775,10 +778,10 @@ begin
                end;
              end;
            end
-           else if (GlobalPathCtrl.ActivePage is TCEFileSearchPage) then
+           else if (GlobalPathCtrl.ActivePage is TCESearchPage) then
            begin
-             item:= TCEFileSearchPage(GlobalPathCtrl.ActivePage).Results.Selection.First;
-             if TCEFileSearchPage(GlobalPathCtrl.ActivePage).Results.ValidateNamespace(item, ns) then
+             item:= TCESearchPage(GlobalPathCtrl.ActivePage).ResultView.Selection.First;
+             if TCESearchPage(GlobalPathCtrl.ActivePage).ResultView.ValidateNamespace(item, ns) then
              begin
                if NS.FileSystem and not NS.Folder then
                begin
