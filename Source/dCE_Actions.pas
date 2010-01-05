@@ -541,7 +541,7 @@ begin
          MainForm.FormStyle:= fsNormal
          else
          MainForm.FormStyle:= fsStayOnTop;
-    351..357: if GlobalPathCtrl.ActivePage is TCEFileViewPage then
+    351..358: if GlobalPathCtrl.ActivePage is TCEFileViewPage then
               begin
                 TCEFileViewPage(GlobalPathCtrl.ActivePage).ViewStyle:= TEasyListStyle(Ord(ActionID - 351));
               end;
@@ -569,7 +569,7 @@ begin
     333: TargetAction.Checked:= GlobalFileViewSettings.ShowHeaderAlways;
     334: TargetAction.Checked:= GlobalFileViewSettings.ShowExtensions;
     335: TargetAction.Checked:= MainForm.FormStyle = fsStayOnTop;
-    351..357: if GlobalPathCtrl.ActivePage is TCEFileViewPage then
+    351..358: if GlobalPathCtrl.ActivePage is TCEFileViewPage then
               begin
                 if ActionID = (Ord(TCEFileViewPage(GlobalPathCtrl.ActivePage).ViewStyle) + 351) then
                 begin
@@ -1102,58 +1102,96 @@ procedure OpenFolderInTab(Sender: TObject; PIDL: PItemIDList; SelectTab:
 var
   page: TCEFileViewPage;
   item: TCESpTabItem;
+  eItem: TExplorerItem;
   i: Integer;
+  ns: TNamespace;
+  isFolder: Boolean;
+  browsePIDL: PItemIDList;
 begin
-  item:= nil;
-  GlobalFileViewSettings.AssignFromActivePage;
-  if MainForm.TabSet.Settings.ReuseTabs and not ForceNewTab then
+  ns:= TNamespace.Create(PIDL, nil);
+  ns.FreePIDLOnDestroy:= false;
+  isFolder:= ns.FileSystem and ns.Folder;
+
+  if not isFolder then
   begin
-    for i:= 0 to MainForm.TabSet.Items.Count -1 do
+    browsePIDL:= FindBrowseableRootPIDL(ns);
+  end
+  else
+  begin
+    browsePIDL:= PIDLMgr.CopyPIDL(PIDL);
+  end;
+
+  try
+    item:= nil;
+    GlobalFileViewSettings.AssignFromActivePage;
+    if MainForm.TabSet.Settings.ReuseTabs and not ForceNewTab then
     begin
-      if MainForm.TabSet.Items.Items[i] is TCESpTabItem then
+      for i:= 0 to MainForm.TabSet.Items.Count -1 do
       begin
-        item:= TCESpTabItem(MainForm.TabSet.Items.Items[i]);
-        if item.Page is TCEFileViewPage then
+        if MainForm.TabSet.Items.Items[i] is TCESpTabItem then
         begin
-          page:= TCEFileViewPage(item.Page);
-          if ILIsEqual(PIDL, page.FileView.RootFolderNamespace.AbsolutePIDL) then
+          item:= TCESpTabItem(MainForm.TabSet.Items.Items[i]);
+          if item.Page is TCEFileViewPage then
           begin
-//            MainForm.TabSet.SetPaneForTab(item, PaneNumber);
-            MainForm.TabSet.SelectTab(item);
-            if ActivateApp then
-            MainForm.MakeVisible;
-            break;
+            page:= TCEFileViewPage(item.Page);
+            if ILIsEqual(browsePIDL, page.FileView.RootFolderNamespace.AbsolutePIDL) then
+            begin
+              MainForm.TabSet.SelectTab(item);
+              if ActivateApp then
+              MainForm.MakeVisible;
+              break;
+            end
+            else
+            item:= nil;
           end
           else
           item:= nil;
-        end
-        else
-        item:= nil;
+        end;
       end;
     end;
-  end;
 
-  if not assigned(item) then
-  begin
-    item:= MainForm.TabSet.AddTab(TCEFileViewPage, false, false);//, PaneNumber);
-    if assigned(item) then
+    if not assigned(item) then
     begin
-      page:= TCEFileViewPage(item.Page);
-      page.FileView.fChangeHistory:= false;
-      page.FileView.Selection.ClearAll;
-      page.FileView.RootFolderCustomPIDL:= PIDL;
-      page.UpdateCaption;
-      if page.FileView.Selection.First <> nil then
-      page.FileView.Selection.First.MakeVisible(emvMiddle);
-      page.FileView.ClearHistory;
-      page.FileView.History.Add(TNamespace.Create(PIDLMgr.CopyPIDL(PIDL),nil),true);
-      page.FileView.fChangeHistory:= true;
-      page.Active:= true;
-      if SelectTab or (MainForm.TabSet.Toolbar.GetTabsCount(true) = 1) then
-      MainForm.TabSet.SelectTab(item);
-      if ActivateApp then
-      MainForm.MakeVisible;
+      item:= MainForm.TabSet.AddTab(TCEFileViewPage, false, false);
+      if assigned(item) then
+      begin
+        page:= TCEFileViewPage(item.Page);
+        page.FileView.fChangeHistory:= false;
+        page.FileView.Selection.ClearAll;
+        page.FileView.RootFolderCustomPIDL:= browsePIDL;
+        page.UpdateCaption;
+        if page.FileView.Selection.First <> nil then
+        page.FileView.Selection.First.MakeVisible(emvMiddle);
+        page.FileView.ClearHistory;
+        page.FileView.History.Add(TNamespace.Create(PIDLMgr.CopyPIDL(browsePIDL),nil),true);
+        page.FileView.fChangeHistory:= true;
+        page.Active:= true;
+        if SelectTab or (MainForm.TabSet.Toolbar.GetTabsCount(true) = 1) then
+        MainForm.TabSet.SelectTab(item);
+        if ActivateApp then
+        MainForm.MakeVisible;
+      end;
     end;
+
+    if not isFolder then
+    begin
+      if assigned(item) then
+      begin
+        page:= TCEFileViewPage(item.Page);
+        eItem:= page.FileView.FindItemByPIDL(PIDL);
+        if assigned(eItem) then
+        begin
+          page.FileView.Selection.ClearAll;
+          eItem.Selected:= true;
+          eItem.Focused:= true;
+          eItem.MakeVisible(emvMiddle);
+        end;
+      end;
+    end;
+
+  finally
+    ns.Free;
+    PIDLMgr.FreeAndNilPIDL(browsePIDL);
   end;
 end;
 

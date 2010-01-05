@@ -715,3 +715,39 @@ msgstr ""
 #: dCE_Images.dfm:3435 
 msgid "PngImage40"
 msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3435
+msgid "PngImage41"
+msgstr ""
+
+#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_size_attributes..TabItem
+#: fCE_SearchPage.dfm:132
+msgid "SpTBXTabItem3"
+msgstr ""
+
+#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_content..TabItem
+#: fCE_SearchPage.dfm:272
+msgid "SpTBXTabItem4"
+msgstr ""
+
+#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_date_time..TabControl_DateTime..sheet_created..TabItem
+#: fCE_SearchPage.dfm:567
+msgid "SpTBXTabItem5"
+msgstr ""
+
+#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_date_time..TabControl_DateTime..sheet_modified..TabItem
+#: fCE_SearchPage.dfm:409
+msgid "SpTBXTabItem6"
+msgstr ""
+
+#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_date_time..TabControl_DateTime..sheet_accessed..TabItem
+#: fCE_SearchPage.dfm:488
+msgid "SpTBXTabItem7"
+msgstr ""
+
+#. CESearchPage..SearchPanel..CriteriaTabControl..SpTBXTabSheet1..TabItem
+#: fCE_SearchPage.dfm:328
+msgid "SpTBXTabItem8"
+msgstr ""

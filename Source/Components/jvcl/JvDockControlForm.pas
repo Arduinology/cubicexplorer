@@ -1535,7 +1535,6 @@ begin
   BeginDockLoading;
   try
     JvDockInfoTree.DockInfoIni := MemFile;
-    JvGlobalDockIsLoading := True;
     JvDockInfoTree.ReadInfoFromIni;
   finally
     Form.Free;

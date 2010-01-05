@@ -269,7 +269,7 @@ begin
                   //eloThreadedEnumeration,          // Uses a thread to enumerate the items in a view before showing them
                   eloThreadedImages,               // Use a thread to retrieve the item's icons
                   //eloThreadedDetails,              // Use threaded detail extraction if the Column reports it is slow
-                  eloQueryInfoHints,               // Show the popup shell information tip when hovering over items
+                  //eloQueryInfoHints,               // Show the popup shell information tip when hovering over items
                   eloShellContextMenus,            // Show the shell context menus for the items
                   eloChangeNotifierThread,         // Control tracks changes in the shell
                   eloTrackChangesInMappedDrives,   // When the shell notifies the control of a change any mapped drives are included in the refresh

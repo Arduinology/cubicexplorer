@@ -177,7 +177,7 @@ object CEActions: TCEActions
       OnExecute = ActionExecute
     end
     object act_view_filmstrip: TTntAction
-      Tag = 357
+      Tag = 358
       Category = 'View'
       Caption = 'Filmstrip'
       ImageIndex = 17

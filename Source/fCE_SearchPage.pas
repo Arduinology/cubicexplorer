@@ -5,12 +5,12 @@ interface
 uses
   // CE Units
   CE_VistaFuncs, CE_AppSettings, dCE_Images, CE_GlobalCtrl, CE_BaseFileView,
-  CE_FileView,
+  CE_FileView, CE_LanguageEngine,
   // CE Frames
   fCE_TabPage, fCE_FileSearchDestDlg,
   // VSTools
   MPCommonObjects, EasyListview, VirtualExplorerEasyListview, VirtualTrees,
-  VirtualExplorerTree, MPShellUtilities,
+  VirtualExplorerTree, MPShellUtilities, MPCommonUtilities,
   // SpTBX
   SpTBXItem, SpTBXTabs, TB2Item, SpTBXSkins, SpTBXEditors, SpTBXControls,
   // FindFile
@@ -56,7 +56,7 @@ type
     check_content_wordwrap: TSpTBXCheckBox;
     check_content_case_sensitive: TSpTBXCheckBox;
     check_content_wholeword: TSpTBXCheckBox;
-    SpTBXTabSheet1: TSpTBXTabSheet;
+    sheet_filters: TSpTBXTabSheet;
     SpTBXLabel1: TSpTBXLabel;
     memo_filters_exclude: TTntMemo;
     memo_filters_include: TTntMemo;
@@ -115,9 +115,32 @@ type
     procedure check_content_wordwrapClick(Sender: TObject);
     procedure FolderTreePopupClosePopup(Sender: TObject; Selected: Boolean);
     procedure FolderTreePopupPopup(Sender: TObject);
+    procedure check_dateClick(Sender: TObject);
+    procedure check_size_Click(Sender: TObject);
+    procedure radio_nameClick(Sender: TObject);
+    procedure check_levelClick(Sender: TObject);
+    procedure ResultViewColumnCustomView(Sender: TCustomEasyListview;
+      Column: TEasyColumn; var View: TEasyViewColumnClass);
+    procedure ResultViewMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure ResultViewMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure ResultViewItemContextMenu(Sender: TCustomEasyListview;
+      HitInfo: TEasyHitInfoItem; WindowPoint: TPoint; var Menu: TPopupMenu;
+      var Handled: Boolean);
+    procedure ResultViewContextMenuShow(
+      Sender: TCustomVirtualExplorerEasyListview; Namespace: TNamespace;
+      Menu: HMENU; var Allow: Boolean);
+    procedure ResultViewContextMenuCmd(
+      Sender: TCustomVirtualExplorerEasyListview; Namespace: TNamespace;
+      Verb: WideString; MenuItemID: Integer; var Handled: Boolean);
   private
+    fCurrentSearchFolder: WideString;
+    fOpenFolderID: Integer;
+    fDownShiftState: TShiftState;
     fFileCount: Integer;
     fFolderCount: Integer;
+    fShowItemContextMenu: Boolean;
     fStartTime: Integer;
     function GetAttributeStatus(CB: TSpTBXCheckBox): TFileAttributeStatus;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
@@ -200,6 +223,9 @@ var
 
 implementation
 
+uses
+  Main, dCE_Actions;
+
 {$R *.dfm}
 
 {-------------------------------------------------------------------------------
@@ -225,12 +251,21 @@ begin
 
   SkinManager.AddSkinNotification(Self);
 
+  // Initialize
   CreatedBeforeDate.Date:= Date;
   CreatedBeforeTime.Time:= Now;
   CreatedAfterDate.Date:= Date;
   CreatedAfterTime.Time:= Now;
+
+  combo_extension.Items.Delimiter:= ',';
+  combo_extension.Items.DelimitedText:= 'All,txt,pdf,ini,zip,rar,jpg,gif,bmp,png,avi,mp3,mov,mp4,mkv,wmv,flv,exe';
+  combo_extension.ItemIndex:= 0;
+
+  CriteriaTabControl.ActiveTabIndex:= 0;
+    
   CEFileSearchSettings.AssignSettingsTo(Self);
   UpdateTheme;
+  CEGlobalTranslator.TranslateComponent(Self);
 end;
 
 {-------------------------------------------------------------------------------
@@ -269,6 +304,63 @@ begin
   memo_content.ScrollBars:= ssVertical
   else
   memo_content.ScrollBars:= ssBoth;
+end;
+
+{-------------------------------------------------------------------------------
+  check_dateClick
+-------------------------------------------------------------------------------}
+procedure TCESearchPage.check_dateClick(Sender: TObject);
+begin
+  if Sender = check_CreatedBeforeDate then
+  CreatedBeforeDate.Enabled:= TSpTBXCheckBox(Sender).Checked
+  else if Sender = check_CreatedBeforeTime then
+  CreatedBeforeTime.Enabled:= TSpTBXCheckBox(Sender).Checked
+  else if Sender = check_CreatedAfterDate then
+  CreatedAfterDate.Enabled:= TSpTBXCheckBox(Sender).Checked
+  else if Sender = check_CreatedAfterTime then
+  CreatedAfterTime.Enabled:= TSpTBXCheckBox(Sender).Checked
+  else if Sender = check_ModifiedBeforeDate then
+  ModifiedBeforeDate.Enabled:= TSpTBXCheckBox(Sender).Checked
+  else if Sender = check_ModifiedBeforeTime then
+  ModifiedBeforeTime.Enabled:= TSpTBXCheckBox(Sender).Checked
+  else if Sender = check_ModifiedAfterDate then
+  ModifiedAfterDate.Enabled:= TSpTBXCheckBox(Sender).Checked
+  else if Sender = check_ModifiedAfterTime then
+  ModifiedAfterTime.Enabled:= TSpTBXCheckBox(Sender).Checked
+  else if Sender = check_AccessedBeforeDate then
+  AccessedBeforeDate.Enabled:= TSpTBXCheckBox(Sender).Checked
+  else if Sender = check_AccessedBeforeTime then
+  AccessedBeforeTime.Enabled:= TSpTBXCheckBox(Sender).Checked
+  else if Sender = check_AccessedAfterDate then
+  AccessedAfterDate.Enabled:= TSpTBXCheckBox(Sender).Checked
+  else if Sender = check_AccessedAfterTime then
+  AccessedAfterTime.Enabled:= TSpTBXCheckBox(Sender).Checked
+end;
+
+{-------------------------------------------------------------------------------
+  check_levelClick
+-------------------------------------------------------------------------------}
+procedure TCESearchPage.check_levelClick(Sender: TObject);
+begin
+  spin_minlevel.Enabled:= check_minlevel.Checked;
+  spin_maxlevel.Enabled:= check_maxlevel.Checked;
+end;
+
+{-------------------------------------------------------------------------------
+  check_size_Click
+-------------------------------------------------------------------------------}
+procedure TCESearchPage.check_size_Click(Sender: TObject);
+begin
+  if Sender = check_size_atleast then
+  begin
+    spin_size_atleast.Enabled:= check_size_atleast.Checked;
+    combo_size_atleast.Enabled:= check_size_atleast.Checked;
+  end
+  else if Sender = check_size_atmost then
+  begin
+    spin_size_atmost.Enabled:= check_size_atmost.Checked;
+    combo_size_atmost.Enabled:= check_size_atmost.Checked;
+  end;
 end;
 
 {*------------------------------------------------------------------------------
@@ -367,7 +459,7 @@ end;
 procedure TCESearchPage.HandleFolderChange(Sender: TObject; const Folder:
     WideString; var IgnoreFolder: TFolderIgnore);
 begin
-  label_status.Caption:= 'Searching from: ' + Folder;
+  label_status.Caption:= _('Searching from') + ': ' + Folder;
   fFolderCount:= fFolderCount + 1;
 end;
 
@@ -389,6 +481,7 @@ begin
   fFolderCount:= 0;
   fFileCount:= 0;
   fStartTime:= GetTickCount;
+  fCurrentSearchFolder:= '';
 end;
 
 {-------------------------------------------------------------------------------
@@ -402,14 +495,150 @@ begin
   but_search_stop.Enabled:= false;
 
   if Find.Aborted then
-  ws:= 'Cancelled'
+  ws:= _('Cancelled')
   else
-  ws:= 'Finished';
+  ws:= _('Finished');
 
-  label_status.Caption:= ws + ' - ' + WideFormat('%d folder(s) searched and %d file(s) found in %.3f second(s)',
+  label_status.Caption:= ws + ' - ' + WideFormat(_('%d folder(s) searched and %d file(s) found in %.3f second(s)'),
                                              [fFolderCount, fFileCount, (GetTickCount - fStartTime) / 1000]);
 
   GlobalPathCtrl.ChangeGlobalContent(Self);
+end;
+
+{-------------------------------------------------------------------------------
+  radio_nameClick
+-------------------------------------------------------------------------------}
+procedure TCESearchPage.radio_nameClick(Sender: TObject);
+begin
+  edit_wordphrase.Enabled:= radio_name_word.Checked;
+  combo_extension.Enabled:= radio_name_word.Checked;
+  edit_filemask.Enabled:= radio_name_mask.Checked;
+end;
+
+{-------------------------------------------------------------------------------
+  On ResultView ColumnCustomView
+-------------------------------------------------------------------------------}
+procedure TCESearchPage.ResultViewColumnCustomView(Sender: TCustomEasyListview;
+  Column: TEasyColumn; var View: TEasyViewColumnClass);
+begin
+  View:= TCEViewColumn;
+end;
+
+{-------------------------------------------------------------------------------
+  On ResultView ContextMenuShow
+-------------------------------------------------------------------------------}
+procedure TCESearchPage.ResultViewContextMenuShow(
+  Sender: TCustomVirtualExplorerEasyListview; Namespace: TNamespace;
+  Menu: HMENU; var Allow: Boolean);
+begin
+  fOpenFolderID:= AddContextMenuItem(Menu, '-', 0);
+  fOpenFolderID:= AddContextMenuItem(Menu, _('Open Containing Folder'), 0);
+end;
+
+{-------------------------------------------------------------------------------
+  On ResultView ContextMenuCmd
+-------------------------------------------------------------------------------}
+procedure TCESearchPage.ResultViewContextMenuCmd(
+  Sender: TCustomVirtualExplorerEasyListview; Namespace: TNamespace;
+  Verb: WideString; MenuItemID: Integer; var Handled: Boolean);
+begin
+  if MenuItemID = fOpenFolderID then
+  begin
+    if assigned(Namespace) then
+    OpenFolderInTab(Self, Namespace.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect)
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On ResultView ItemContextMenu
+-------------------------------------------------------------------------------}
+procedure TCESearchPage.ResultViewItemContextMenu(Sender: TCustomEasyListview;
+  HitInfo: TEasyHitInfoItem; WindowPoint: TPoint; var Menu: TPopupMenu;
+  var Handled: Boolean);
+begin
+  if not Handled then
+  Handled:= not fShowItemContextMenu;
+end;
+
+{-------------------------------------------------------------------------------
+  On ResultView MouseDown
+-------------------------------------------------------------------------------}
+procedure TCESearchPage.ResultViewMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  fDownShiftState:= Shift;
+  fShowItemContextMenu:= not (Shift = [ssRight, ssAlt]);
+end;
+
+{-------------------------------------------------------------------------------
+  On ResultView MouseUp
+-------------------------------------------------------------------------------}
+procedure TCESearchPage.ResultViewMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var
+  NS: TNamespace;
+  item: TEasyItem;
+  WindowPt: TPoint;
+begin
+  if ([ssMiddle] = fDownShiftState) or ((ssLeft in fDownShiftState) and (ssAlt in Shift)) then
+  begin
+    WindowPt := ResultView.Scrollbars.MapWindowToView(Point(X,Y));
+    item:= ResultView.Groups.ItemByPoint(WindowPt);
+    if assigned(item) and not ResultView.EditManager.Editing then
+    begin
+      ResultView.EditManager.EndEdit;
+      ResultView.ValidateNamespace(Item,NS);
+      if assigned(NS) then
+      begin
+        if NS.FileSystem and not NS.Folder then
+        begin
+          if ssShift in Shift then
+          OpenFileInTab(NS.NameForParsing, not MainForm.TabSet.Settings.OpenTabSelect)
+          else
+          OpenFileInTab(NS.NameForParsing, MainForm.TabSet.Settings.OpenTabSelect)
+        end
+        else
+        begin
+          if ssShift in Shift then
+          OpenFolderInTab(Self, NS.AbsolutePIDL, not MainForm.TabSet.Settings.OpenTabSelect)
+          else
+          OpenFolderInTab(Self, NS.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect)
+        end;
+      end;
+    end;
+  end
+  else if (fDownShiftState = [ssMiddle, ssCtrl]) or (fDownShiftState = [ssLeft, ssAlt, ssCtrl]) then
+  begin
+    WindowPt := ResultView.Scrollbars.MapWindowToView(Point(X,Y));
+    item:= ResultView.Groups.ItemByPoint(WindowPt);
+    if assigned(item) and not ResultView.EditManager.Editing then
+    begin
+      ResultView.ValidateNamespace(Item,NS);
+      if assigned(NS) then
+      begin
+        if ssShift in Shift then
+        OpenFolderInTab(Self, NS.AbsolutePIDL, not MainForm.TabSet.Settings.OpenTabSelect)
+        else
+        OpenFolderInTab(Self, NS.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect);
+      end;
+    end;
+  end     
+  else if (ssRight in fDownShiftState) and (Shift = [ssAlt]) then
+  begin
+    WindowPt := ResultView.Scrollbars.MapWindowToView(Point(X,Y));
+    item:= ResultView.Groups.ItemByPoint(WindowPt);
+    if assigned(item) and not ResultView.EditManager.Editing then
+    begin
+      ResultView.ValidateNamespace(Item,NS);
+      if assigned(NS) then
+      begin
+        NS.ShowPropertySheet(MainForm);
+      end;
+    end;
+    fShowItemContextMenu:= false;
+  end;
+
+  fDownShiftState:= [];
 end;
 
 {*------------------------------------------------------------------------------
@@ -548,7 +777,7 @@ begin
     TabItem.Images:= CE_Images.SmallIcons;
     TabItem.ImageIndex:= 22;
   end;
-  TabCaption:= 'File Search';
+  TabCaption:= _('File Search');
 end;
 
 {-------------------------------------------------------------------------------

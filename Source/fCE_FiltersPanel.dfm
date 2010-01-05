@@ -19,7 +19,6 @@ inherited CEFiltersPanel: TCEFiltersPanel
       DragHandleStyle = dhNone
       FullSize = True
       TabOrder = 0
-      Caption = 'PatternToolbar'
       object combo_controlitem: TTBControlItem
         Control = combo_filterpattern
       end
