@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0\n"
+"Project-Id-Version: 1.1\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1131\n"
+"CE-POT-Version: 1186\n"
 "CE-Language: Russian\n"
 "Last-Translator: buddah <i-do@bk.ru>\n"
 
@@ -23,11 +23,20 @@ msgstr "+ закладку"
 msgid "Add Category"
 msgstr "+ категорию"
 
+msgid "Add History Item"
+msgstr "Добавить в историю"
+
 msgid "Add Tab"
 msgstr "+ таб"
 
 msgid "Address Bar"
 msgstr "Адресная панель"
+
+msgid "Advanced"
+msgstr "Дополнительно"
+
+msgid "Advanced Settings"
+msgstr "Расширенные настройки"
 
 msgid "Always On Top"
 msgstr "Всегда поверх всех окон"
@@ -49,6 +58,12 @@ msgstr "Применить"
 
 msgid "Apply changes."
 msgstr "Принять изменения."
+
+msgid "Are you sure you want to clear session history?"
+msgstr "Вы действительно хотите очистить историю сессий?"
+
+msgid "Are you sure you want to delete this session?"
+msgstr "Вы правда хотите удалить эту сессию?"
 
 msgid "Arrange By"
 msgstr "Сортировать по.."
@@ -101,8 +116,14 @@ msgstr "Отмена"
 msgid "Case sensitivity"
 msgstr "Чувствительность к регистру"
 
+msgid "Clear History"
+msgstr "Очистить историю"
+
 msgid "Clear List"
 msgstr "Очистить список"
+
+msgid "Clear filter history"
+msgstr "Очистить фильтр истории"
 
 msgid "Clear filters on folder change"
 msgstr "Очищать фильтр при смене папки"
@@ -121,6 +142,9 @@ msgstr "Закрыть таб слева"
 
 msgid "Close Tabs on Right"
 msgstr "Закрыть таб справа"
+
+msgid "Continue from last time"
+msgstr "Продолжить с прошлого раза"
 
 msgid "Copy"
 msgstr "Копировать"
@@ -194,6 +218,12 @@ msgstr "Показать"
 msgid "Display Settings"
 msgstr "Показать настройки"
 
+msgid "Do you want to override existing session?"
+msgstr "Хотите перезаписать текущую сессию?"
+
+msgid "Donate"
+msgstr "Пожертвования"
+
 msgid "Drives"
 msgstr "Диски"
 
@@ -251,6 +281,12 @@ msgstr "Искать вперед"
 msgid "Find Previous"
 msgstr "Искать назад"
 
+msgid "Focus"
+msgstr "Фокус"
+
+msgid "Focus Addressbar"
+msgstr "Перейти в адресбар"
+
 msgid "Folder Path"
 msgstr "Путь до папки"
 
@@ -293,6 +329,9 @@ msgstr "Подсветка столбцов"
 msgid "Highlighter"
 msgstr "Подсветка"
 
+msgid "History"
+msgstr "История"
+
 msgid "Image"
 msgstr "Картинка"
 
@@ -317,6 +356,9 @@ msgstr "Большие иконки"
 msgid "Launch Files Only"
 msgstr "Запускать только файлы"
 
+msgid "Layout"
+msgstr "Расположение"
+
 msgid "Layouts"
 msgstr "Расположение"
 
@@ -328,6 +370,9 @@ msgstr "Список"
 
 msgid "Load Skin..."
 msgstr "Шкурка.."
+
+msgid "Load session"
+msgstr "Загрузить сессию"
 
 msgid "Load skin from file"
 msgstr "Загрузить шкурку из файла"
@@ -343,6 +388,12 @@ msgstr "Мб"
 
 msgid "Main Menu"
 msgstr "Главное меню"
+
+msgid "Manage Sessions"
+msgstr "Упраление сессиями"
+
+msgid "Manage..."
+msgstr "Управление.."
 
 msgid "Map Network Drive..."
 msgstr "Подключить сетевой диск.."
@@ -386,11 +437,17 @@ msgstr "Нет"
 msgid "OK"
 msgstr "OK"
 
+msgid "On Startup"
+msgstr "При старте"
+
 msgid "Open All in Tabs"
 msgstr "Открыть все в табах"
 
 msgid "Open Command Prompt"
 msgstr "Открыть коммандную строку"
+
+msgid "Open default tab"
+msgstr "Открыть Таб по умолчанию"
 
 msgid "Open in new tab by default"
 msgstr "Открывать в новой вкладке по умолчанию"
@@ -425,8 +482,14 @@ msgstr "Вставить ссылку"
 msgid "Path"
 msgstr "Путь"
 
+msgid "PatternToolbar"
+msgstr "Шаблон панели"
+
 msgid "Pause"
 msgstr "Пауза"
+
+msgid "PngImage41"
+msgstr "PngImage41"
 
 msgid "Properties"
 msgstr "Свойства"
@@ -482,6 +545,9 @@ msgstr "Сохранить"
 msgid "Save As..."
 msgstr "Сохранить как.."
 
+msgid "Save Session"
+msgstr "Сохранить сессию"
+
 msgid "Save active session with new name."
 msgstr "Сохранить активную сессию с новым именем."
 
@@ -499,6 +565,9 @@ msgstr "Сохранить изменения?"
 
 msgid "Save settings automatically."
 msgstr "Сохранять автоматически."
+
+msgid "Save..."
+msgstr "Сохранить.."
 
 msgid "Save/Load Settings"
 msgstr "Сохранить/загрузить настройки."
@@ -581,6 +650,9 @@ msgstr "Показывать подсказки"
 msgid "Show Path in Title bar"
 msgstr "Показывать путь в заголовке"
 
+msgid "Show Session Manager"
+msgstr "Менеджер сессий"
+
 msgid "Show Statusbar"
 msgstr "Показывать статусбар"
 
@@ -614,14 +686,23 @@ msgstr "Статусбар"
 msgid "Stop"
 msgstr "Стоп"
 
+msgid "Strict"
+msgstr "Точный"
+
 msgid "Subdirectories"
 msgstr "Подпапки"
 
 msgid "Support Forum"
 msgstr "Форум поддержки"
 
+msgid "Switch to Next Tab"
+msgstr "Следующий Таб"
+
 msgid "Switch to a new tab immediately"
 msgstr "Переключиться на новый таб сразу."
+
+msgid "Swith to Previous Tab"
+msgstr "Предыдыдущий Таб"
 
 msgid "Tabs"
 msgstr "Табы"
@@ -694,6 +775,9 @@ msgstr "Отмена"
 
 msgid "Untitled"
 msgstr "Без имени"
+
+msgid "Use strict filtering (wildcards are ? and *)"
+msgstr "Использовать точный поиск (работают * и ?)"
 
 msgid "Version:"
 msgstr "Версия:"
