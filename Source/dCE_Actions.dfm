@@ -562,6 +562,12 @@ object CEActions: TCEActions
       ImageIndex = 41
       OnExecute = ActionExecute
     end
+    object act_view_infobar: TTntAction
+      Tag = 336
+      Category = 'View'
+      Caption = 'Info Bar'
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

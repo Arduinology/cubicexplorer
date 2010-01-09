@@ -160,6 +160,7 @@ type
     act_bookmarks_menu: TCEToolbarAction;
     act_sessions_menu: TCEToolbarAction;
     act_view_dualview: TTntAction;
+    act_view_infobar: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -541,6 +542,7 @@ begin
          MainForm.FormStyle:= fsNormal
          else
          MainForm.FormStyle:= fsStayOnTop;
+    336: GlobalFileViewSettings.ShowInfoBar:= not GlobalFileViewSettings.ShowInfoBar;
     351..358: if GlobalPathCtrl.ActivePage is TCEFileViewPage then
               begin
                 TCEFileViewPage(GlobalPathCtrl.ActivePage).ViewStyle:= TEasyListStyle(Ord(ActionID - 351));
@@ -569,6 +571,7 @@ begin
     333: TargetAction.Checked:= GlobalFileViewSettings.ShowHeaderAlways;
     334: TargetAction.Checked:= GlobalFileViewSettings.ShowExtensions;
     335: TargetAction.Checked:= MainForm.FormStyle = fsStayOnTop;
+    336: TargetAction.Checked:= GlobalFileViewSettings.ShowInfoBar;
     351..358: if GlobalPathCtrl.ActivePage is TCEFileViewPage then
               begin
                 if ActionID = (Ord(TCEFileViewPage(GlobalPathCtrl.ActivePage).ViewStyle) + 351) then

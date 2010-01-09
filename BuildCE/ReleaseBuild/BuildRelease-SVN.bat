@@ -11,3 +11,4 @@ ECHO.
 ECHO.
 ECHO === ALL DONE ===
 ECHO.
+pause

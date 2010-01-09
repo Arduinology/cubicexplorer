@@ -59,6 +59,7 @@ Unit Documents;
 // 333 = Show column header always
 // 334 = Show Extensions
 // 335 = Always On Top
+// 336 = InfoBar, toggle visibility
 // 351 = The Listview's Large Icon Mode
 // 352 = The Listview's Small Icon Mode
 // 353 = The Listview's List Mode

@@ -14,6 +14,7 @@ object MainForm: TMainForm
   OldCreateOrder = False
   Position = poDefault
   ShowHint = True
+  OnClick = FormCreate
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
@@ -31,32 +32,32 @@ object MainForm: TMainForm
   end
   object LeftToolDock: TSpTBXDock
     Left = 0
-    Top = 57
+    Top = 59
     Width = 9
-    Height = 375
+    Height = 373
     Position = dpLeft
   end
   object MainPanel: TPanel
     Left = 9
-    Top = 57
+    Top = 59
     Width = 610
-    Height = 375
+    Height = 373
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
   end
   object RightToolDock: TSpTBXDock
     Left = 619
-    Top = 57
+    Top = 59
     Width = 9
-    Height = 375
+    Height = 373
     Position = dpRight
   end
   object TopToolDock: TSpTBXDock
     Left = 0
     Top = 0
     Width = 628
-    Height = 57
+    Height = 59
     PopupMenu = ToolbarPopupMenu
     object MainToolbar: TSpTBXToolbar
       Left = 0
@@ -198,6 +199,9 @@ object MainForm: TMainForm
           object SpTBXItem51: TSpTBXItem
             Action = CEActions.act_view_dropstack
           end
+        end
+        object SpTBXItem87: TSpTBXItem
+          Action = CEActions.act_view_infobar
         end
         object SpTBXItem56: TSpTBXItem
           Action = CEActions.act_view_statusbar
@@ -414,7 +418,7 @@ object MainForm: TMainForm
     end
     object ViewToolbar: TSpTBXToolbar
       Left = 270
-      Top = 23
+      Top = 25
       ChevronMoveItems = False
       DockPos = 266
       DockRow = 1
@@ -447,7 +451,7 @@ object MainForm: TMainForm
     end
     object NavigationToolbar: TSpTBXToolbar
       Left = 0
-      Top = 23
+      Top = 25
       ChevronMoveItems = False
       DockPos = 0
       DockRow = 1
@@ -486,7 +490,7 @@ object MainForm: TMainForm
     end
     object EditToolbar: TSpTBXToolbar
       Left = 503
-      Top = 23
+      Top = 25
       DockPos = 503
       DockRow = 1
       Images = CE_Images.SmallIcons

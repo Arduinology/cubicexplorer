@@ -110,7 +110,8 @@ uses
   fCE_SessionManager in 'fCE_SessionManager.pas' {CESessionManager},
   CE_DualView in 'CE_DualView.pas',
   CE_PaneHost in 'CE_PaneHost.pas',
-  fCE_SearchPage in 'fCE_SearchPage.pas' {CESearchPage: TFrame};
+  fCE_SearchPage in 'fCE_SearchPage.pas' {CESearchPage: TFrame},
+  CE_InfoBar in 'CE_InfoBar.pas';
 
 {$R *.res}
 {$R 'CE_Resources.res'}

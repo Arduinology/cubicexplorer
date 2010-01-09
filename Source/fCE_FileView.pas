@@ -27,6 +27,7 @@ uses
   // CE Units
   fCE_TabPage, CE_FileView, CE_GlobalCtrl, CE_QuickView, CE_Utils,
   dCE_Images, CE_ContextMenu, CE_LanguageEngine, CE_AppSettings,
+  CE_InfoBar,
   // EasyListview
   EasyListview, 
   // VSTools
@@ -42,7 +43,7 @@ uses
   TntSysUtils,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ShlObj, Menus, JvAppStorage, Contnrs, StrUtils;
+  Dialogs, ShlObj, Menus, JvAppStorage, Contnrs, StrUtils, ExtCtrls;
 
 type
   TEasyEditManagerHack = class(TEasyEditManager);
@@ -72,10 +73,12 @@ type
   private
     fDownShiftState: TShiftState;
     fPathChanging: Boolean;
+    fShowInfoBar: Boolean;
     fShowItemContextMenu: Boolean;
     fThumbPosition: TAlign;
     fViewStyle: TEasyListStyle;
     fThumbViewStyle: TEasyListStyle;
+    procedure SetShowInfoBar(const Value: Boolean);
     procedure SetThumbPosition(const Value: TAlign);
     procedure SetViewStyle(const Value: TEasyListStyle);
     procedure SetThumbViewStyle(const Value: TEasyListStyle);
@@ -95,6 +98,8 @@ type
   public
     FileView: TCEFileView;
     ThumbViewSize: Integer;
+    InfoBar: TCEInfoBar;
+    InfoBarSplitter: TSplitter;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure ItemSelectionsChanged(Sender: TCustomEasyListview);
@@ -116,6 +121,7 @@ type
     procedure OnMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState;
         X, Y: Integer);
     procedure ShowHeaderSelector;
+    property ShowInfoBar: Boolean read fShowInfoBar write SetShowInfoBar;
     property ThumbPosition: TAlign read fThumbPosition write SetThumbPosition;
     property ViewStyle: TEasyListStyle read fViewStyle write SetViewStyle;
     property ThumbViewStyle: TEasyListStyle read fThumbViewStyle write
@@ -155,6 +161,7 @@ type
     fRememberOuterToolbarLayout: Boolean;
     fShowExtensions: Boolean;
     fShowHeaderAlways: Boolean;
+    fShowInfoBar: Boolean;
     fSortFolderFirstAlways: Boolean;
     fThreadedDetails: Boolean;
     fThreadedEnumeration: Boolean;
@@ -169,6 +176,7 @@ type
     procedure SetBrowseZipFolders(const Value: Boolean);
     procedure SetShowExtensions(const Value: Boolean);
     procedure SetShowHeaderAlways(const Value: Boolean);
+    procedure SetShowInfoBar(const Value: Boolean);
     procedure SetSmoothScroll(const Value: Boolean);
     procedure SetSortFolderFirstAlways(const Value: Boolean);
     procedure SetThreadedDetails(const Value: Boolean);
@@ -211,6 +219,7 @@ type
     property ShowExtensions: Boolean read fShowExtensions write SetShowExtensions;
     property ShowHeaderAlways: Boolean read fShowHeaderAlways write
         SetShowHeaderAlways;
+    property ShowInfoBar: Boolean read fShowInfoBar write SetShowInfoBar;
     property SmoothScroll: Boolean read fSmoothScroll write SetSmoothScroll;
     property SortFolderFirstAlways: Boolean read fSortFolderFirstAlways write
         SetSortFolderFirstAlways;
@@ -277,7 +286,22 @@ begin
   FileView.OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
   GlobalFileViewSettings.RegisterNotify(Self);
   SetDesktopIconFonts(FileView.Font);
-  
+
+  InfoBar:= TCEInfoBar.Create(nil);
+  InfoBar.Parent:= Self;
+  InfoBar.Align:= alBottom;
+  InfoBar.Height:= 40;
+  SetDesktopIconFonts(InfoBar.Canvas.Font);
+
+  InfoBarSplitter:= TSplitter.Create(nil);
+  InfoBarSplitter.Parent:= Self;
+  InfoBarSplitter.Align:= alBottom;
+  InfoBarSplitter.AutoSnap:= false;
+  InfoBarSplitter.MinSize:= 24;
+  InfoBarSplitter.Top:= InfoBar.BoundsRect.Top - InfoBarSplitter.Height;
+
+  ShowInfoBar:= true;
+
   GlobalFileViewSettings.AssignSettingsTo(Self);
 end;
 
@@ -291,6 +315,7 @@ begin
     GlobalPathCtrl.ActivePage:= nil;
   end;
   FileView.Free;
+  InfoBar.Free;
   inherited;
 end;
 
@@ -342,13 +367,24 @@ begin
   begin
     FileView.ValidateNamespace(Item, NS);
     if assigned(NS) then
-    GlobalPathCtrl.ChangeFocusedPath(Self, NS.NameForParsing);
+    begin
+      GlobalPathCtrl.ChangeFocusedPath(Self, NS.NameForParsing);
+      if ShowInfoBar then
+      InfoBar.LoadInfoFrom(NS.AbsolutePIDL);
+    end
+    else
+    begin
+      if ShowInfoBar then
+      InfoBar.Clear;
+    end;
     if assigned(fQuickView) then
     fQuickView.LoadFile(NS.NameForParsing);
   end
   else
   begin
     GlobalPathCtrl.ChangeFocusedPath(Self, '');
+    if ShowInfoBar then
+    InfoBar.Clear;
     if assigned(fQuickView) then
     fQuickView.CloseFile;
   end;
@@ -736,6 +772,9 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  On Item ContextMenu
+-------------------------------------------------------------------------------}
 procedure TCEFileViewPage.OnItemContextMenu(Sender: TCustomEasyListview;
     HitInfo: TEasyHitInfoItem; WindowPoint: TPoint; var Menu: TPopupMenu; var
     Handled: Boolean);
@@ -744,6 +783,44 @@ begin
   Handled:= not fShowItemContextMenu;
 end;
 
+{-------------------------------------------------------------------------------
+  Set Show InfoBar
+-------------------------------------------------------------------------------}
+procedure TCEFileViewPage.SetShowInfoBar(const Value: Boolean);
+var
+  NS: TNamespace;
+  Item: TEasyItem;
+begin
+
+  
+  if fShowInfoBar <> Value then
+  begin
+    fShowInfoBar:= Value;
+    if fShowInfoBar then
+    begin
+      InfoBar.Visible:= true;
+      InfoBar.Top:= Self.BoundsRect.Bottom;
+      InfoBarSplitter.Top:= InfoBar.Top - InfoBarSplitter.Height;
+
+      if FileView.Selection.Count > 1 then
+      Item:= FileView.Selection.FocusedItem
+      else
+      Item:= FileView.Selection.First;
+
+      if FileView.ValidateNamespace(Item, NS) then
+      InfoBar.LoadInfoFrom(NS.AbsolutePIDL);
+    end
+    else
+    begin
+      InfoBar.Visible:= false;
+      InfoBar.Clear;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Show Header Selector
+-------------------------------------------------------------------------------}
 procedure TCEFileViewPage.ShowHeaderSelector;
 
   function IsDuplicate(VST: TVirtualStringTree; Text: WideString): Boolean;
@@ -886,6 +963,7 @@ begin
     FileViewPage.FileView.FileObjects:= [foFolders,foNonFolders,foHidden] //,foShareable,foNetworkPrinters]
     else
     FileViewPage.FileView.FileObjects:= [foFolders,foNonFolders]; //,foShareable,foNetworkPrinters];
+    FileViewPage.InfoBar.CalculateHiddenItems:= fHiddenFiles;
     FileViewPage.FileView.Header.ShowInAllViews:= fShowHeaderAlways;
     if fShowHeaderAlways then
     FileViewPage.FileView.Header.Visible:= true;
@@ -895,6 +973,7 @@ begin
     FileViewPage.FileView.AutoSelectFirstItem:= AutoSelectFirstItem;
     FileViewPage.FileView.AutosizeListViewStyle:= AutosizeListViewStyle;
     FileViewPage.FileView.SortFolderFirstAlways:= SortFolderFirstAlways;
+    FileViewPage.ShowInfoBar:= ShowInfoBar;
     // Options
     options:= FileViewPage.FileView.Options;
     if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
@@ -1170,6 +1249,12 @@ end;
 procedure TCEFileViewSettings.SetBrowseZipFolders(const Value: Boolean);
 begin
   fBrowseZipFolders:= Value;
+  SendChanges;
+end;
+
+procedure TCEFileViewSettings.SetShowInfoBar(const Value: Boolean);
+begin
+  fShowInfoBar:= Value;
   SendChanges;
 end;
 
