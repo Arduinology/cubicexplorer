@@ -4,15 +4,21 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1186\n"
+"CE-POT-Version: 1214\n"
 "CE-Language: Spanish\n"
 "Last-Translator: Tito2000x <tito2000x@gmail.com>\n"
+
+msgid "%d folder(s) searched and %d file(s) found in %.3f second(s)"
+msgstr "%d carpeta(s) buscandas y %d archivo(s) encontrados en %.3f segundo(s)"
 
 msgid "About CubicExplorer"
 msgstr "Acerca de CubicExplorer"
 
 msgid "About..."
 msgstr "Acerca de..."
+
+msgid "Accessed"
+msgstr "Acceso"
 
 msgid "Actions"
 msgstr "Acciones"
@@ -38,6 +44,15 @@ msgstr "Avanzado"
 msgid "Advanced Settings"
 msgstr "Opciones Avanzadas"
 
+msgid "After Date:"
+msgstr "Después de la fecha:"
+
+msgid "After Time:"
+msgstr "Después del tiempo:"
+
+msgid "All"
+msgstr "Todo"
+
 msgid "Always On Top"
 msgstr "Siempre arriba"
 
@@ -51,7 +66,7 @@ msgid "And Launch Files"
 msgstr "Y Archivos abiertos"
 
 msgid "Application Revision:"
-msgstr "Revision del Programa:"
+msgstr "Revisión del Programa:"
 
 msgid "Apply"
 msgstr "Aplicar"
@@ -67,6 +82,12 @@ msgstr "¿estas seguro que quieres Eliminar esta Sesión?"
 
 msgid "Arrange By"
 msgstr "Organizar Iconos"
+
+msgid "At Least:"
+msgstr ""
+
+msgid "At Most:"
+msgstr ""
 
 msgid "Attributes"
 msgstr "Atributos"
@@ -92,6 +113,12 @@ msgstr "Atras"
 msgid "Backward"
 msgstr "Atrás"
 
+msgid "Before Date:"
+msgstr ""
+
+msgid "Before Time:"
+msgstr ""
+
 msgid "Bookmarks"
 msgstr "Marcadores"
 
@@ -113,6 +140,12 @@ msgstr "Bytes"
 msgid "Cancel"
 msgstr "Cancelar"
 
+msgid "Cancelled"
+msgstr "Cancelado"
+
+msgid "Case Sensitive"
+msgstr "Sensible a mayúsculas y minúsculas"
+
 msgid "Case sensitivity"
 msgstr "Sensitivo a mayúsculas y minúsculas"
 
@@ -121,6 +154,9 @@ msgstr "Limpiar Historial"
 
 msgid "Clear List"
 msgstr "Limpiar Lista"
+
+msgid "Clear Results"
+msgstr "Limpiar resultados"
 
 msgid "Clear filter history"
 msgstr "Limpiar Filtro del Historial"
@@ -143,6 +179,12 @@ msgstr "Cerrar pestañas a la izquierda"
 msgid "Close Tabs on Right"
 msgstr "Cerrar pestañas a la derecha"
 
+msgid "Compressed"
+msgstr "Comprimido"
+
+msgid "Content"
+msgstr ""
+
 msgid "Continue from last time"
 msgstr "Continuar desde la última vez"
 
@@ -164,8 +206,11 @@ msgstr "Crear Nueva Traducción"
 msgid "Create new translation."
 msgstr "Crear nueva traducción."
 
+msgid "Created"
+msgstr "Creado"
+
 msgid "CubicExplore Home Page"
-msgstr "Pagina Principal de CubicExplorer "
+msgstr "Página Principal de CubicExplorer "
 
 msgid "CubicExplorer Options"
 msgstr "Opciones de CubicExplorer"
@@ -181,6 +226,9 @@ msgstr "Personalizar..."
 
 msgid "Cut"
 msgstr "Cortar"
+
+msgid "Date && Time"
+msgstr "Fecha y hora"
 
 msgid "Date Accessed"
 msgstr "Fecha de Acceso"
@@ -230,6 +278,9 @@ msgstr "Unidades de disco"
 msgid "Drop Stack"
 msgstr "Caja de Arrastre"
 
+msgid "DualView"
+msgstr "Vista dua"
+
 msgid "Dublicate Tab"
 msgstr "Duplicar Pestaña"
 
@@ -257,11 +308,23 @@ msgstr "Vaciar Papelera de Reciclaje"
 msgid "English (default)"
 msgstr "Inglés (por defecto)"
 
+msgid "Enter each file mask on a separate line."
+msgstr ""
+
+msgid "Exclude File Masks:"
+msgstr ""
+
 msgid "Exit"
 msgstr "Salir"
 
 msgid "File"
 msgstr "Archivo"
+
+msgid "File Contains:"
+msgstr ""
+
+msgid "File Name Mask"
+msgstr ""
 
 msgid "File Search"
 msgstr "Buscar Archivo"
@@ -283,6 +346,9 @@ msgstr "Buscar Siguiente"
 
 msgid "Find Previous"
 msgstr "Buscar Previo"
+
+msgid "Finished"
+msgstr ""
 
 msgid "Focus"
 msgstr "Enfoque"
@@ -311,6 +377,9 @@ msgstr "Adelante"
 msgid "Fullscreen"
 msgstr "Pantalla completa"
 
+msgid "GB"
+msgstr ""
+
 msgid "General"
 msgstr "General"
 
@@ -326,6 +395,9 @@ msgstr "Ayuda"
 msgid "Hex"
 msgstr "Hex"
 
+msgid "Hidden"
+msgstr ""
+
 msgid "Highlight row completely"
 msgstr "Resaltar toda la linea"
 
@@ -338,11 +410,23 @@ msgstr "Historial"
 msgid "Image"
 msgstr "Imagen"
 
+msgid "Include File Masks:"
+msgstr ""
+
+msgid "Include Subfolders"
+msgstr "Incluir subcarpetas"
+
+msgid "Info Bar"
+msgstr ""
+
 msgid "Insert"
 msgstr "Insertar"
 
 msgid "Invert Selection"
 msgstr "Invertir Selección"
+
+msgid "Item(s)"
+msgstr ""
 
 msgid "KB"
 msgstr "KB"
@@ -386,6 +470,9 @@ msgstr "Cargar esta sesion al inciar."
 msgid "Loading..."
 msgstr "Cargando..."
 
+msgid "Location"
+msgstr "Ubicación"
+
 msgid "MB"
 msgstr "MB"
 
@@ -401,8 +488,14 @@ msgstr "Administrar"
 msgid "Map Network Drive..."
 msgstr "Conectar a unidad de Red..."
 
+msgid "Max Level:"
+msgstr "Nivel máximo:"
+
 msgid "Menu"
 msgstr "Menu"
+
+msgid "Min Level:"
+msgstr "Nivel mínimo:"
 
 msgid "Modified"
 msgstr "Modificado"
@@ -412,6 +505,9 @@ msgstr "Mas..."
 
 msgid "Name"
 msgstr "Nombre"
+
+msgid "Name && Location"
+msgstr "Nombre y ubicación"
 
 msgid "Name Only"
 msgstr "Solo Nombre"
@@ -448,6 +544,9 @@ msgstr "Abrir todo en Pestañas"
 
 msgid "Open Command Prompt"
 msgstr "Abrir linea de comandos"
+
+msgid "Open Containing Folder"
+msgstr ""
 
 msgid "Open default tab"
 msgstr "Abrir Pestaña por Defecto"
@@ -509,6 +608,9 @@ msgstr "Vista rápida"
 msgid "Quickview"
 msgstr "Vista Rápida"
 
+msgid "Read Only"
+msgstr "Solo lectura"
+
 msgid "Redo"
 msgstr "Rehacer"
 
@@ -543,10 +645,10 @@ msgid "Right"
 msgstr "Derecha"
 
 msgid "Save"
-msgstr "Salvar"
+msgstr "Guardar"
 
 msgid "Save As..."
-msgstr "Salvar Como..."
+msgstr "Guardar Como..."
 
 msgid "Save Session"
 msgstr "Guardar sesión"
@@ -561,7 +663,7 @@ msgid "Save changes before closing?"
 msgstr "¿Guardar cambios antes de cerrar?"
 
 msgid "Save changes."
-msgstr "Salvar cambios"
+msgstr "Guardar cambios"
 
 msgid "Save changes?"
 msgstr "¿Guardar los cambios?"
@@ -599,6 +701,9 @@ msgstr "Buscar desde el cursor"
 msgid "Search in Directory"
 msgstr "Buscar en la Carpeta"
 
+msgid "Searching from"
+msgstr ""
+
 msgid "Select All"
 msgstr "Seleccionar Todo"
 
@@ -627,7 +732,7 @@ msgid "Sessions"
 msgstr "Sesiones"
 
 msgid "Short Folder Path"
-msgstr "Ruta de la Carpeta corta"
+msgstr "Ruta corta de la Carpeta"
 
 msgid "Short Name Only"
 msgstr "Solo Nombre corto"
@@ -674,6 +779,9 @@ msgstr "Modo de un Click"
 msgid "Size"
 msgstr "Tamaño"
 
+msgid "Size && Attributes"
+msgstr "Tamaño y atributos"
+
 msgid "Small Icons"
 msgstr "Iconos Pequeños"
 
@@ -693,7 +801,7 @@ msgid "Strict"
 msgstr ""
 
 msgid "Subdirectories"
-msgstr "Sub-directorios"
+msgstr "Subdirectorios"
 
 msgid "Support Forum"
 msgstr "Foro de Soporte"
@@ -706,6 +814,9 @@ msgstr "Cambiar inmediatamente a la nueva pestaña"
 
 msgid "Swith to Previous Tab"
 msgstr "Cambiar a la Pestaña Anterior"
+
+msgid "System"
+msgstr "Sistema"
 
 msgid "Tabs"
 msgstr "Pestañas"
@@ -727,6 +838,9 @@ msgstr "Tema"
 
 msgid "Thumbnails"
 msgstr "Vistas en Miniatura"
+
+msgid "Thumbnails.album"
+msgstr ""
 
 msgid "Thumbs Position"
 msgstr "Posición de la Miniatura"
@@ -756,10 +870,10 @@ msgid "Translation"
 msgstr "Traducción"
 
 msgid "Translation Revision:"
-msgstr "Revision de la Traducción:"
+msgstr "Revisión de la Traducción:"
 
 msgid "Translation Version"
-msgstr "Version de la Traduccion"
+msgstr "Versión de la Traduccion"
 
 msgid "Translator's Email"
 msgstr "e-Mail del Traductor"
@@ -777,13 +891,13 @@ msgid "Undo"
 msgstr "Deshacer"
 
 msgid "Untitled"
-msgstr "Sin Titulo"
+msgstr "Sin Título"
 
 msgid "Use strict filtering (wildcards are ? and *)"
 msgstr ""
 
 msgid "Version:"
-msgstr "Version:"
+msgstr "Versión:"
 
 msgid "View"
 msgstr "Ver"
@@ -794,12 +908,21 @@ msgstr "Vistas"
 msgid "When I open folder/file in a new tab, switch to it immediately "
 msgstr "Al abrir la carpeta/archivo en una nueva pestaña, Cambiar inmediatamente a la pestaña"
 
+msgid "Whole Word"
+msgstr ""
+
 msgid "Whole words only"
-msgstr "Solo parabas Completas"
+msgstr "Solo palabas Completas"
 
 msgid "Word List"
 msgstr "Lista de Palabras"
 
 msgid "Word Wrap"
 msgstr "Ajustar línea de texto"
+
+msgid "Word or Phrase in File Name"
+msgstr "Palabras o frase en el nombre del archivo"
+
+msgid "testtest"
+msgstr ""
 
