@@ -36,7 +36,7 @@ uses
   // VT
   VirtualTrees,
   // SpTBX
-  SpTBXItem, SpTBXControls, SpTBXDkPanels,
+  SpTBXItem, SpTBXControls, SpTBXDkPanels, SpTBXSkins,
   // TB2K
   TB2Item,
   // Tnt Controls
@@ -91,6 +91,10 @@ type
         stdcall;
     procedure GlobalPIDLChanged(Sender: TObject; NewPIDL: PItemIDList); override;
         stdcall;
+    procedure InfoBarSplitterMouseUp(Sender: TObject; Button: TMouseButton; Shift:
+        TShiftState; X, Y: Integer);
+    procedure InfoBarSplitterMoving(Sender: TObject; var NewSize: Integer; var
+        Accept: Boolean);
     procedure OnItemContextMenu(Sender: TCustomEasyListview; HitInfo:
         TEasyHitInfoItem; WindowPoint: TPoint; var Menu: TPopupMenu; var Handled:
         Boolean);
@@ -99,7 +103,7 @@ type
     FileView: TCEFileView;
     ThumbViewSize: Integer;
     InfoBar: TCEInfoBar;
-    InfoBarSplitter: TSplitter;
+    InfoBarSplitter: TSpTBXSplitter;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure ItemSelectionsChanged(Sender: TCustomEasyListview);
@@ -156,6 +160,7 @@ type
     fColumns: TCEColumnSettings;
     fFilmstrip: TCEFilmstripSettings;
     fGroupBy: TCEGroupBySettings;
+    fInfoBarSize: Integer;
     fRememberPanelLayout: Boolean;
     fRememberInnerToolbarLayout: Boolean;
     fRememberOuterToolbarLayout: Boolean;
@@ -210,6 +215,7 @@ type
     property FullRowSelect: Boolean read fFullRowSelect write SetFullRowSelect;
     property GroupBy: TCEGroupBySettings read fGroupBy write fGroupBy;
     property HiddenFiles: Boolean read fHiddenFiles write SetHiddenFiles;
+    property InfoBarSize: Integer read fInfoBarSize write fInfoBarSize;
     property RememberPanelLayout: Boolean read fRememberPanelLayout write
         fRememberPanelLayout;
     property RememberInnerToolbarLayout: Boolean read fRememberInnerToolbarLayout
@@ -290,15 +296,18 @@ begin
   InfoBar:= TCEInfoBar.Create(nil);
   InfoBar.Parent:= Self;
   InfoBar.Align:= alBottom;
-  InfoBar.Height:= 40;
-  SetDesktopIconFonts(InfoBar.Canvas.Font);
+  InfoBar.Visible:= true;
+  InfoBar.RowHeight:= SpGetControlTextHeight(InfoBar, InfoBar.Font) + 6;
+  InfoBar.ZoomLevel:= GlobalFileViewSettings.InfoBarSize;
 
-  InfoBarSplitter:= TSplitter.Create(nil);
+  InfoBarSplitter:= TSpTBXSplitter.Create(nil);
   InfoBarSplitter.Parent:= Self;
   InfoBarSplitter.Align:= alBottom;
-  InfoBarSplitter.AutoSnap:= false;
-  InfoBarSplitter.MinSize:= 24;
+  InfoBarSplitter.GripSize:= 0;
+  InfoBarSplitter.MinSize:= InfoBar.RowHeight;
   InfoBarSplitter.Top:= InfoBar.BoundsRect.Top - InfoBarSplitter.Height;
+  InfoBarSplitter.OnMouseUp:= InfoBarSplitterMouseUp;
+  InfoBarSplitter.OnMoving:= InfoBarSplitterMoving;
 
   ShowInfoBar:= true;
 
@@ -316,6 +325,7 @@ begin
   end;
   FileView.Free;
   InfoBar.Free;
+  InfoBarSplitter.Free;
   inherited;
 end;
 
@@ -350,6 +360,25 @@ begin
   FileView.Selection.First.MakeVisible(emvMiddle);
 end;
 
+{-------------------------------------------------------------------------------
+  Get's called on InfoBarSplitter MouseUp
+-------------------------------------------------------------------------------}
+procedure TCEFileViewPage.InfoBarSplitterMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  InfoBar.RefreshThumbnail;
+  GlobalFileViewSettings.InfoBarSize:= InfoBar.ZoomLevel;
+end;
+
+{-------------------------------------------------------------------------------
+  Get's called on InfoBarSplitter Moving
+-------------------------------------------------------------------------------}
+procedure TCEFileViewPage.InfoBarSplitterMoving(Sender: TObject;
+  var NewSize: Integer; var Accept: Boolean);
+begin
+  Accept:= (NewSize mod InfoBar.RowHeight) = 0;
+end;
+
 {*------------------------------------------------------------------------------
   Get's called on when item selection has changed
 -------------------------------------------------------------------------------}
@@ -370,7 +399,7 @@ begin
     begin
       GlobalPathCtrl.ChangeFocusedPath(Self, NS.NameForParsing);
       if ShowInfoBar then
-      InfoBar.LoadInfoFrom(NS.AbsolutePIDL);
+      InfoBar.LoadFromPIDL(NS.AbsolutePIDL);
     end
     else
     begin
@@ -791,8 +820,6 @@ var
   NS: TNamespace;
   Item: TEasyItem;
 begin
-
-  
   if fShowInfoBar <> Value then
   begin
     fShowInfoBar:= Value;
@@ -801,6 +828,8 @@ begin
       InfoBar.Visible:= true;
       InfoBar.Top:= Self.BoundsRect.Bottom;
       InfoBarSplitter.Top:= InfoBar.Top - InfoBarSplitter.Height;
+      InfoBarSplitter.Visible:= true;
+      InfoBar.ZoomLevel:= GlobalFileViewSettings.InfoBarSize;
 
       if FileView.Selection.Count > 1 then
       Item:= FileView.Selection.FocusedItem
@@ -808,12 +837,13 @@ begin
       Item:= FileView.Selection.First;
 
       if FileView.ValidateNamespace(Item, NS) then
-      InfoBar.LoadInfoFrom(NS.AbsolutePIDL);
+      InfoBar.LoadFromPIDL(NS.AbsolutePIDL);
     end
     else
     begin
       InfoBar.Visible:= false;
       InfoBar.Clear;
+      InfoBarSplitter.Visible:= false;
     end;
   end;
 end;
@@ -909,6 +939,7 @@ begin
   Filmstrip.ThumbStyle:= elsFilmstrip;
   Filmstrip.ThumbSize:= 120;
   fRememberInnerToolbarLayout:= true;
+  fInfoBarSize:= 3;
 end;
 
 {*------------------------------------------------------------------------------
@@ -974,6 +1005,7 @@ begin
     FileViewPage.FileView.AutosizeListViewStyle:= AutosizeListViewStyle;
     FileViewPage.FileView.SortFolderFirstAlways:= SortFolderFirstAlways;
     FileViewPage.ShowInfoBar:= ShowInfoBar;
+    FileViewPage.InfoBar.ZoomLevel:= InfoBarSize;
     // Options
     options:= FileViewPage.FileView.Options;
     if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
@@ -996,7 +1028,10 @@ end;
 procedure TCEFileViewSettings.AssignFromActivePage;
 begin
   if GlobalPathCtrl.ActivePage is TCEFileViewPage then
-  AssignSettingsFrom(TCEFileViewPage(GlobalPathCtrl.ActivePage));
+  begin
+    AssignSettingsFrom(TCEFileViewPage(GlobalPathCtrl.ActivePage));
+    InfoBarSize:= TCEFileViewPage(GlobalPathCtrl.ActivePage).InfoBar.ZoomLevel;
+  end;
 end;
 
 {*------------------------------------------------------------------------------

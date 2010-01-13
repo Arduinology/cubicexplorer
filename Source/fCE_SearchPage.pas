@@ -107,9 +107,9 @@ type
     combo_extension: TSpTBXComboBox;
     radio_name_mask: TSpTBXRadioButton;
     panel_status: TSpTBXPanel;
-    label_status: TSpTBXLabel;
     FolderTreePopup: TSpTBXFormPopupMenu;
     edit_location: TSpTBXButtonEdit;
+    label_status: TTntLabel;
     procedure but_search_startClick(Sender: TObject);
     procedure but_search_stopClick(Sender: TObject);
     procedure check_content_wordwrapClick(Sender: TObject);

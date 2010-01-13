@@ -3,76 +3,26 @@ unit CE_InfoBar;
 interface
 
 uses
-  // CE Units
-  CE_LanguageEngine,
   // SpTBX
-  SpTBXSkins,
+  SpTBXSkins, SpTBXItem, SpTBXControls,
   // TNT
-  TntGraphics,
+  TntGraphics, TntClasses,
   // VSTools
   MPShellUtilities, MPShellTypes, MPCommonObjects,
   // System Units
   ExtCtrls, Classes, Controls, Windows, Graphics, Messages, Contnrs,
-  Forms, Math, SysUtils, ShlObj, ActiveX;
+  Forms, Math, SysUtils, ShlObj, ActiveX, UxTheme, Themes, GraphicEx;
 
 type
-  TCustomControlHack = class(TCustomControl);
-  
-  TCEInfoItem = class(TObject)
-  private    
-    fOwner: TCustomControl;
-    fTextHeight: Integer;
-    fTextWidth: Integer;
-    procedure SetText(const Value: WideString);
-  public
-    fText: WideString;
-    ItemRect: TRect;
-    constructor Create;
-    destructor Destroy; override;
-    property Owner: TCustomControl read fOwner write fOwner;
-    property Text: WideString read fText write SetText;
-    property TextHeight: Integer read fTextHeight;
-    property TextWidth: Integer read fTextWidth;
-  end;
+  TCEIconType = (itSmallIcon, itLargeIcon, itExtraLargeIcon, itJumboIcon);
 
-  TCEThumbImage = class;
-
-  TCEInfoBar = class(TCustomControl)
-  private
-    fCalculateHiddenItems: Boolean;
-    fThumbImageRect, fInfoItemsRect: TRect;
-    fRowHeight, fRowNum: Integer;
-    fColWidth, fColNum: Integer;
-    fCurrentNamespace: TNamespace;
-    fInfoList: TObjectList;
-    procedure SetCalculateHiddenItems(const Value: Boolean);
-    procedure WMEraseBkgnd(var Message: TWmEraseBkgnd); message WM_ERASEBKGND;
-  protected
-    fDefaultImage: TBitmap;
-    procedure CalcPositions; virtual;
-    procedure OnThumbImageChanged(Sender: TObject);
-  public
-    ThumbImage: TCEThumbImage;
-    constructor Create(AOwner: TComponent); override;
-    destructor Destroy; override;
-    function AddInfoItem(AText: WideString): Integer;
-    procedure Clear;
-    function LoadInfoFrom(APIDL: PItemIDList): Boolean;
-    procedure Paint; override;
-    procedure Resize; override;
-    property CalculateHiddenItems: Boolean read fCalculateHiddenItems write
-        SetCalculateHiddenItems;
-    property Canvas;
-    property Font;
-    property CurrentNamespace: TNamespace read fCurrentNamespace;
-    property InfoList: TObjectList read fInfoList;
-  end;
+  TCEInfoBar = class;
 
   TCEThumbLoadThread = class(TThread)
   protected
-    ThumbImage: TCEThumbImage;
-    procedure Execute; override;
+    InfoBar: TCEInfoBar;
     procedure SyncFinished; virtual;
+    procedure Execute; override;
   public
     PIDL: PItemIDList;
     Thumbnail: TBitmap;
@@ -80,47 +30,90 @@ type
     ThumbnailSize: TSize;
   end;
 
-  TThumbImageStatus = (tisDefault, tisLoading, tisThumbnail);
-
-  TCEThumbImage = class(TObject)
+  TCEInfoBar = class(TCustomControl)
   private
-    fOnChanged: TNotifyEvent;
-    fStatus: TThumbImageStatus;
+    fAutoRefreshThumbnail: Boolean;
+    fCalculateHiddenItems: Boolean;
+    fRowHeight: Integer;
+    fShowFolderItemCount: Boolean;
+    fZoomLevel: Integer;
+    procedure SetZoomLevel(const Value: Integer);
+    procedure WMEraseBkgnd(var Message: TWmEraseBkgnd);
   protected
+    fIcon: TBitmap;
+    fIconRect: TRect;
+    fIconType: TCEIconType;
+    fInfoList: TObjectList;
+    fInfoRect: TRect;
+    fLatestNS: TNamespace;
     fLatestThread: TCEThumbLoadThread;
     fThumbnail: TBitmap;
-    procedure DoChanged; virtual;
+    fThumbnailFound: Boolean;
+    procedure BuildInfoList; virtual;
+    function CanResize(var NewWidth, NewHeight: Integer): Boolean; override;
+    procedure CreateParams(var Params: TCreateParams); override;
+    procedure DrawIcon; virtual;
+    procedure RunThumbnailThread; virtual;
     procedure ThreadFinished(AThread: TCEThumbLoadThread); virtual;
   public
-    ThumbnailSize: TSize;
+    fResizedThumbnail: Boolean;
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+    function AddInfoItem(AText: WideString; APrefix: WideString): Integer; virtual;
+    procedure Clear;
+    procedure LoadFromPIDL(APIDL: PItemIDList); virtual;
+    procedure Paint; override;
+    procedure RefreshThumbnail;
+    procedure Resize; override;
+    property AutoRefreshThumbnail: Boolean read fAutoRefreshThumbnail write
+        fAutoRefreshThumbnail;
+    property CalculateHiddenItems: Boolean read fCalculateHiddenItems write
+        fCalculateHiddenItems;
+    property Font;
+    property RowHeight: Integer read fRowHeight write fRowHeight;
+    property ShowFolderItemCount: Boolean read fShowFolderItemCount write
+        fShowFolderItemCount;
+    property ZoomLevel: Integer read fZoomLevel write SetZoomLevel;
+  end;
+
+  TCustomControlHack = class(TCustomControl);
+
+  TCEInfoItem = class(TObject)
+  private    
+    fPrefix: WideString;
+  public
+    fText: WideString;
+    ItemRect: TRect;
     constructor Create;
     destructor Destroy; override;
-    procedure Clear;
-    procedure OpenFile(AFilePath: WideString; NoStatusChange: Boolean = false);
-    procedure OpenPIDL(APIDL: PItemIDList; NoStatusChange: Boolean = false);
-  published
-    property Status: TThumbImageStatus read fStatus;
-    property Thumbnail: TBitmap read fThumbnail;
-    property OnChanged: TNotifyEvent read fOnChanged write fOnChanged;
+    property Prefix: WideString read fPrefix write fPrefix;
+    property Text: WideString read fText write fText;
   end;
 
 
 
 implementation
 
-{##############################################################################}
-// TCEInfoBar
+uses
+  CE_VistaFuncs;
 
 {-------------------------------------------------------------------------------
   Create an instance of TCEInfoBar
 -------------------------------------------------------------------------------}
 constructor TCEInfoBar.Create(AOwner: TComponent);
+var
+  ACanvas: TControlCanvas;
 begin
   inherited;
+  SetDesktopIconFonts(Canvas.Font);
+  fZoomLevel:= 1;
+  fRowHeight:= 18;
+  Height:= fRowHeight * fZoomLevel;
+  fIcon:= TBitmap.Create;
+  fThumbnail:= TBitmap.Create;
   fInfoList:= TObjectList.Create(true);
-  ThumbImage:= TCEThumbImage.Create;
-  ThumbImage.OnChanged:= OnThumbImageChanged;
-  fDefaultImage:= TBitmap.Create;
+  fAutoRefreshThumbnail:= false;
+  fShowFolderItemCount:= true;
   fCalculateHiddenItems:= false;
 end;
 
@@ -129,108 +122,48 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCEInfoBar.Destroy;
 begin
-  Clear;
-  InfoList.Free;
-  ThumbImage.Free;
-  fDefaultImage.Free;
+  if assigned(fLatestNS) then
+  fLatestNS.Free;
+  fIcon.Free;
+  fThumbnail.Free;
+  fInfoList.Free;
   inherited;
 end;
 
 {-------------------------------------------------------------------------------
   Add new Info Item
 -------------------------------------------------------------------------------}
-function TCEInfoBar.AddInfoItem(AText: WideString): Integer;
+function TCEInfoBar.AddInfoItem(AText: WideString; APrefix: WideString):
+    Integer;
 var
   item: TCEInfoItem;
 begin
   item:= TCEInfoItem.Create;
-  item.Owner:= Self;
   item.Text:= AText;
-  Result:= InfoList.Add(item);
+  item.Prefix:= APrefix;
+  Result:= fInfoList.Add(item);
 end;
 
 {-------------------------------------------------------------------------------
-  Calculate draw positions
+  Build InfoList
 -------------------------------------------------------------------------------}
-procedure TCEInfoBar.CalcPositions;
-var
-  i: Integer;
-begin
-  fThumbImageRect:= Rect(4,4,Self.Height - 4, Self.Height - 4);
-  fInfoItemsRect:= Rect(fThumbImageRect.Right + 4, fThumbImageRect.Top,
-                        Self.Width - 4, Self.Height - 4);
-  
-  fRowHeight:= 0;
-  if InfoList.Count > 0 then
-  begin
-    // Calc row height and number of rows
-    for i:= 0 to InfoList.Count - 1 do
-    begin
-      if TCEInfoItem(InfoList.Items[i]).TextHeight > fRowHeight then
-      fRowHeight:= TCEInfoItem(InfoList.Items[i]).TextHeight;
-    end;
-    fRowHeight:= fRowHeight + 2;
-    fRowNum:= Trunc((fInfoItemsRect.Bottom - fInfoItemsRect.Top) / fRowHeight);
-
-    // Calc column width and number of cols
-    fColNum:= Ceil(InfoList.Count / fRowNum);
-    fColWidth:= Trunc((fInfoItemsRect.Right - fInfoItemsRect.Left) / fColNum);
-  end
-  else
-  begin
-    fRowNum:= 0;
-    fColNum:= 0;
-    fColWidth:= 0;
-  end;
-  ThumbImage.ThumbnailSize.cx:= fThumbImageRect.Right - fThumbImageRect.Left;
-  ThumbImage.ThumbnailSize.cy:= fThumbImageRect.Bottom - fThumbImageRect.Top;
-end;
-
-{-------------------------------------------------------------------------------
-  Clear All
--------------------------------------------------------------------------------}
-procedure TCEInfoBar.Clear;
-begin
-  ThumbImage.Clear;
-  InfoList.Clear;
-  FreeAndNil(fCurrentNamespace);
-end;
-
-{-------------------------------------------------------------------------------
-  Load Info from Namespace
--------------------------------------------------------------------------------}
-function TCEInfoBar.LoadInfoFrom(APIDL: PItemIDList): Boolean;
+procedure TCEInfoBar.BuildInfoList;
 var
   EnumList: IEnumIDList;
   NewItem: PItemIDList;
-  i: Integer;
   Dummy: Cardinal;
   Flags: Cardinal;
+  list: TTntStrings;
+  i: Integer;
 begin
-  Clear;
-
-  Result:= assigned(APIDL);
-  if Result then
-  begin
-    fCurrentNamespace:= TNamespace.Create(PIDLMgr.CopyPIDL(APIDL), nil);
-
-    // Thumbnail
-    fDefaultImage.SetSize(0,0);
-    LargeSysImages.GetBitmap(fCurrentNamespace.GetIconIndex(false, icLarge), fDefaultImage);
-    //if fCurrentNamespace.OffLine then
-    ThumbImage.OpenPIDL(APIDL);
-    // Name
-    AddInfoItem(fCurrentNamespace.NameNormal);
-
-    // Size
-    if fCurrentNamespace.FileSystem and not fCurrentNamespace.Folder then
-    begin
-      AddInfoItem(_('Size') + ': ' + fCurrentNamespace.SizeOfFileKB);
-      AddInfoItem(_('Type') + ': ' + fCurrentNamespace.FileType);
-      AddInfoItem(_('Modified') + ': ' + fCurrentNamespace.LastWriteTime);
-      AddInfoItem(_('Created') + ': ' + fCurrentNamespace.CreationTime);
-    end
-    else if fCurrentNamespace.Folder then
+  list:= TTntStringList.Create;
+  list.NameValueSeparator:= ':';
+  try
+    fInfoList.Clear;
+    // Add Name
+    AddInfoItem(fLatestNS.NameNormal, '');
+    // Add Folder Item Count
+    if fShowFolderItemCount and fLatestNS.Folder then
     begin
       i:= 0;
       if CalculateHiddenItems then
@@ -239,7 +172,7 @@ begin
       Flags:= SHCONTF_FOLDERS or SHCONTF_NONFOLDERS;
       
 
-      if fCurrentNamespace.ShellFolder.EnumObjects(0, Flags, EnumList) = S_OK then
+      if fLatestNS.ShellFolder.EnumObjects(0, Flags, EnumList) = S_OK then
       begin
         while EnumList.Next(1, NewItem, Dummy) = S_OK do
         begin
@@ -247,17 +180,134 @@ begin
           PIDLMgr.FreePIDL(NewItem);
         end;
       end;
-      AddInfoItem(IntToStr(i) + ' ' + _('Item(s)'));
+      AddInfoItem(IntToStr(i) + ' ' + 'Item(s)', '');
     end;
-    
-    CalcPositions;
-    Paint;
+    // Add Info Query items
+    list.Text:= fLatestNS.InfoTip;
+    for i:= list.Count - 1 downto 0 do
+    begin
+      if list.Names[i] = '' then
+      AddInfoItem('', list.Strings[i])
+      else
+      AddInfoItem(Trim(list.ValueFromIndex[i]), list.Names[i]);
+    end;
+  finally
+    list.Free;
   end;
 end;
 
-procedure TCEInfoBar.OnThumbImageChanged(Sender: TObject);
+{-------------------------------------------------------------------------------
+  Handle CanResize
+-------------------------------------------------------------------------------}
+function TCEInfoBar.CanResize(var NewWidth, NewHeight: Integer): Boolean;
 begin
+  Result:= (NewHeight mod fRowHeight) = 0;
+end;
+
+{-------------------------------------------------------------------------------
+  Clear
+-------------------------------------------------------------------------------}
+procedure TCEInfoBar.Clear;
+begin
+  if assigned(fLatestThread) then
+  begin
+    fLatestThread.Terminate;
+  end;
+  fIcon.SetSize(0,0);
+  fThumbnail.SetSize(0,0);
+  if assigned(fLatestNS) then
+  FreeAndNil(fLatestNS);
+  fThumbnailFound:= false;
+  fInfoList.Clear;
   Paint;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle CreateParams
+-------------------------------------------------------------------------------}
+procedure TCEInfoBar.CreateParams(var Params: TCreateParams);
+begin
+  inherited CreateParams(Params);
+  if not (csDesigning in ComponentState) then begin
+    with Params do
+      Style := Style or WS_CLIPCHILDREN;
+    with Params.WindowClass do
+      Style := Style and not (CS_HREDRAW or CS_VREDRAW);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Draw Icon
+-------------------------------------------------------------------------------}
+procedure TCEInfoBar.DrawIcon;
+var
+  bit: TBitmap;
+begin
+  if assigned(fLatestNS) then
+  begin
+    fIcon.SetSize(fIconRect.Right - fIconRect.Left, fIconRect.Bottom - fIconRect.Top);
+
+    // Clear background
+    fIcon.Canvas.Brush.Color:= clWindow;
+    fIcon.Canvas.FillRect(fIcon.Canvas.ClipRect);
+
+    // Draw icon
+    bit:= TBitmap.Create;
+    try
+      case fIconType of
+        itSmallIcon: SmallSysImages.GetBitmap(fLatestNS.GetIconIndex(false, icSmall), bit);
+        itLargeIcon: LargeSysImages.GetBitmap(fLatestNS.GetIconIndex(false, icLarge), bit);
+        itExtraLargeIcon: ExtraLargeSysImages.GetBitmap(fLatestNS.GetIconIndex(false, icLarge), bit);
+        itJumboIcon: JumboSysImages.GetBitmap(fLatestNS.GetIconIndex(false, icLarge), bit);
+      end;
+      Stretch(fIcon.Width, fIcon.Height, sfLanczos3, 0, bit, fIcon);
+    finally
+      bit.Free;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Load From PIDL
+-------------------------------------------------------------------------------}
+procedure TCEInfoBar.LoadFromPIDL(APIDL: PItemIDList);
+begin
+  if csDestroying in Self.ComponentState then
+  exit;
+
+  if assigned(fLatestNS) then
+  begin
+    if PIDLMgr.EqualPIDL(APIDL, fLatestNS.AbsolutePIDL) then
+    begin
+      BuildInfoList; // Refresh infolist
+      Paint;
+      Exit;
+    end;
+  end;
+
+  // Terminate previous thread if present
+  if assigned(fLatestThread) then
+  begin
+    fLatestThread.Terminate;
+  end;
+  
+  if assigned(APIDL) then
+  begin
+    // Create namespace
+    if assigned(fLatestNS) then
+    fLatestNS.Free;
+    fLatestNS:= TNamespace.Create(PIDLMgr.CopyPIDL(APIDL), nil);
+    fLatestNS.FreePIDLOnDestroy:= true;
+
+    // Build InfoList
+    BuildInfoList;
+    
+    // Draw normal Icon first
+    fThumbnailFound:= false;
+    Resize;
+    DrawIcon;
+    Paint;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -265,63 +315,140 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEInfoBar.Paint;
 var
-  i: Integer;
-  curRow, curCol: Integer;
+  Flags: Integer;
+  l,t,i, row, col_num, col: Integer;
+  r: TRect;
   item: TCEInfoItem;
+  ws: WideString;
+  size, prefix_size: TSize;
 begin
-  if csDestroying in  Self.ComponentState then
+  if csDestroying in Self.ComponentState then
   Exit;
-  
-  //inherited;
+
   Canvas.Lock;
   try
-    // Paint background
-    Canvas.Brush.Color:= clWhite;
-    Canvas.FillRect(Rect(0,0, Self.Width, Self.Height));
-
-    // No need to continue if there's no item loaded
-    if not assigned(fCurrentNamespace) then
-    Exit;
+    // Paint Background
+    Canvas.Brush.Color:= clWindow;
+    Canvas.FillRect(Canvas.ClipRect);
 
     // Paint Thumbnail
-    if ThumbImage.Status = tisThumbnail then
-    Canvas.StretchDraw(fThumbImageRect, ThumbImage.Thumbnail)
-    else
-    Canvas.StretchDraw(fThumbImageRect, fDefaultImage);
-//    LargeSysImages.Draw(Canvas, fThumbImageRect.Left, fThumbImageRect.Top,
-//                        CurrentNamespace.GetIconIndex(false, icLarge));
-    // Paint InfoList
-    if InfoList.Count > 0 then
+    if fThumbnailFound and (fZoomLevel > 1) then
     begin
-      // Paint Items
-      curRow:= 0;
-      curCol:= 0;
-      Canvas.Brush.Style:= bsClear;
-      for i:= 0 to InfoList.Count - 1 do
+      l:= Round(((fIconRect.Right - fIconRect.Left) - fThumbnail.Width) / 2) + fIconRect.Left;
+      t:= Round(((fIconRect.Bottom - fIconRect.Top) - fThumbnail.Height) / 2) + fIconRect.Top;
+      Canvas.Draw(l, t, fThumbnail);
+    end
+    else
+    Canvas.Draw(fIconRect.Left, fIconRect.Top, fIcon);
+
+    // Paint Info Items
+    if fInfoList.Count > 0 then
+    begin
+      r:= fInfoRect;
+      if fZoomLevel = 1 then // Single row
       begin
-        item:= TCEInfoItem(InfoList.Items[i]);
-        item.ItemRect.Left:= fInfoItemsRect.Left + (curCol * fColWidth);
-        item.ItemRect.Top:= fInfoItemsRect.Top + (curRow * fRowHeight);
-        item.ItemRect.Right:= item.ItemRect.Left + fColWidth - 2;
-        item.ItemRect.Bottom:= item.ItemRect.Top + fRowHeight;
+        // Name
+        Canvas.Font.Style:= [];
+        Canvas.Font.Color:= clWindowText;
+        item:= TCEInfoItem(fInfoList.Items[0]);
+        size:= WideCanvasTextExtent(Canvas, item.Text);
+        SpDrawXPText(Canvas, item.Text, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
 
-        SpDrawXPText(Canvas, item.Text, item.ItemRect, DT_END_ELLIPSIS);
+        r.Left:= r.Left + size.cx + 4;
 
-        if (curRow + 1) > (fRowNum-1) then
+        // Other infos
+        Canvas.Font.Color:= clGrayText;
+        ws:= '';
+        for i:= 1 to fInfoList.Count - 1 do
         begin
-          curRow:= 0;
-          curCol:= curCol + 1;
-        end
-        else
+          item:= TCEInfoItem(fInfoList.Items[i]);
+          if item.Text <> '' then
+          begin
+            ws:= ws + ' | ' + item.Text;
+          end
+          else if item.Prefix <> '' then
+          begin
+            ws:= ws + ' | ' + item.Prefix;
+          end;
+        end;
+        SpDrawXPText(Canvas, ws, r, DT_END_ELLIPSIS  or DT_SINGLELINE or DT_VCENTER);
+      end
+      else // Multiple rows
+      begin
+        // Name
+        r.Bottom:= r.Top + RowHeight-2;
+        Canvas.Font.Style:= [fsBold];
+        Canvas.Font.Color:= clWindowText;
+        item:= TCEInfoItem(fInfoList.Items[0]);
+        size:= WideCanvasTextExtent(Canvas, item.Text);
+        SpDrawXPText(Canvas, item.Text, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
+
+        Canvas.Font.Style:= [];
+        r.Left:= fInfoRect.Left;
+        r.Top:= r.Bottom;
+        r.Bottom:= r.Top + RowHeight - 3;
+        row:= 2;
+        col:= 1;
+        col_num:= Ceil((fInfoList.Count - 1) / (fZoomLevel - 1));
+        if col_num < 1 then
+        col_num:= 1;
+
+        for i:= 1 to fInfoList.Count - 1 do
         begin
-          curRow:= curRow + 1;
+          item:= TCEInfoItem(fInfoList.Items[i]);
+          if (item.Text <> '') or (item.Prefix <> '') then
+          begin
+            size:= WideCanvasTextExtent(Canvas, item.Text);
+            if item.Prefix <> '' then
+            begin
+              prefix_size:= WideCanvasTextExtent(Canvas, item.Prefix + ':');
+              prefix_size.cx:= prefix_size.cx + 2;
+            end
+            else
+            prefix_size.cx:= 0;
+            
+            if (((r.Right - r.Left) < (size.cx + prefix_size.cx)) and (row < ZoomLevel) and (col_num > 1))
+               or ((col > col_num) and (row <= ZoomLevel)) then
+            begin
+              row:= row + 1;
+              col:= 1;
+              r.Left:= fInfoRect.Left;
+              r.Top:= r.Bottom;
+              r.Bottom:= r.Top + RowHeight - 3;
+            end;
+
+            Canvas.Font.Color:= clGrayText;
+            if prefix_size.cx > 0 then
+            begin
+              if size.cx > 0 then
+              SpDrawXPText(Canvas, item.Prefix + ':', r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER)
+              else
+              SpDrawXPText(Canvas, item.Prefix, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
+              r.Left:= r.Left + prefix_size.cx;
+            end;
+            Canvas.Font.Color:= clWindowText;
+            if size.cx > 0 then
+            begin
+              SpDrawXPText(Canvas, item.Text, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
+            end;
+            r.Left:= r.Left + size.cx + 10;
+            col:= col + 1;
+          end;
         end;
       end;
     end;
-    
   finally
     Canvas.Unlock;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Refresh Thumbnail
+-------------------------------------------------------------------------------}
+procedure TCEInfoBar.RefreshThumbnail;
+begin
+  if fThumbnailFound and (ZoomLevel > 1) and fResizedThumbnail then
+  RunThumbnailThread;
 end;
 
 {-------------------------------------------------------------------------------
@@ -329,204 +456,144 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEInfoBar.Resize;
 var
-  ReloadThumbnail: Boolean;
-  oldSize: TSize;
+  old_level: Integer;
+  w, h: Integer;
+  bit: TBitmap;
+  ar: Single;
 begin
   inherited;
-  if csDestroying in  Self.ComponentState then
+  if csDestroying in Self.ComponentState then
   Exit;
-    
-  oldSize:= ThumbImage.ThumbnailSize;
-  CalcPositions;
 
-  ReloadThumbnail:= (oldSize.cx <> ThumbImage.ThumbnailSize.cx) or
-                    (oldSize.cy <> ThumbImage.ThumbnailSize.cy);
+  old_level:= fZoomLevel;
 
-  if assigned(fCurrentNamespace) and ReloadThumbnail then
+  // Calculate Zoom Level
+  if Height > fRowHeight then
+  fZoomLevel:= Height div fRowHeight
+  else
+  fZoomLevel:= 1;
+
+  // Calculate icon rect
+  if fZoomLevel = 1 then
   begin
-    if ThumbImage.Status = tisThumbnail then
-    ThumbImage.OpenPIDL(fCurrentNamespace.AbsolutePIDL, true);
+    fIconType:= itSmallIcon;
+    fIconRect:= Rect(3, 1, Height+1, Height-1);
+  end
+  else
+  begin
+    if ZoomLevel = 2 then
+    fIconType:= itLargeIcon
+    else
+    fIconType:= itExtraLargeIcon;
+    fIconRect:= Rect(3,3,Height-3,Height-3);
   end;
-end;
 
-{-------------------------------------------------------------------------------
-  Set CalculateHiddenItems
--------------------------------------------------------------------------------}
-procedure TCEInfoBar.SetCalculateHiddenItems(const Value: Boolean);
-var
-  pidl: PItemIDList;
-begin
-  if fCalculateHiddenItems <> Value then
+  // Calculate info rect
+  fInfoRect:= fIconRect;
+  fInfoRect.Left:= fIconRect.Right + 4;
+  fInfoRect.Right:= Width - 3;
+
+  // Resize thumbnail
+  if fThumbnailFound then
   begin
-    fCalculateHiddenItems:= Value;
-    if assigned(fCurrentNamespace) then
+    w:= fIconRect.Right - fIconRect.Left;
+    h:= fIconRect.Bottom - fIconRect.Top;
+    if fThumbnail.Width > fThumbnail.Height then
     begin
-      if fCurrentNamespace.FileSystem and fCurrentNamespace.Folder then
-      begin
-        pidl:= PIDLMgr.CopyPIDL(fCurrentNamespace.AbsolutePIDL);
-        try
-          LoadInfoFrom(pidl);
-        finally
-          PIDLMgr.FreePIDL(pidl);
-        end;
-      end;
+      ar:= fThumbnail.Height / fThumbnail.Width;
+      h:= Round(w * ar);
+    end
+    else
+    begin
+      ar:= fThumbnail.Width / fThumbnail.Height;
+      w:= Round(h * ar);
     end;
-  end;
-end;
+    
+    if (fThumbnail.Width <> w) or (fThumbnail.Height <> h) then
+    begin
 
-{-------------------------------------------------------------------------------
-  Handle WM_EraseBkgnd message
--------------------------------------------------------------------------------}
-procedure TCEInfoBar.WMEraseBkgnd(var Message: TWMEraseBkgnd);
-begin
-  Message.Result:= 0;
-end;
-
-{##############################################################################}
-// TCEInfoItem
-
-{-------------------------------------------------------------------------------
-  Create an instance of TCEInfoItem
--------------------------------------------------------------------------------}
-constructor TCEInfoItem.Create;
-begin
-  inherited;
-end;
-
-{-------------------------------------------------------------------------------
-  Destroy TCEInfoItem
--------------------------------------------------------------------------------}
-destructor TCEInfoItem.Destroy;
-begin
-  inherited;
-end;
-
-{-------------------------------------------------------------------------------
-  Set Text
--------------------------------------------------------------------------------}
-procedure TCEInfoItem.SetText(const Value: WideString);
-var
-  size: TSize;
-begin
-  // TODO: Is this really necessary?
-  if fText <> Value then
+      
+      bit:= TBitmap.Create;
+      try
+        Stretch(w, h, sfLanczos3, 0, fThumbnail, bit);
+        fThumbnail.Assign(bit);
+        fResizedThumbnail:= true;
+      finally
+        bit.Free;
+      end;
+      if AutoRefreshThumbnail then
+      RunThumbnailThread;
+    end;
+  end
+  else if (fZoomLevel > 1) then
   begin
-    fText:= Value;
-    size:= WideCanvasTextExtent(TCustomControlHack(Owner).Canvas, fText);
-    fTextWidth:= size.cx;
-    fTextHeight:= size.cy;
+    RunThumbnailThread;
   end;
-end;
 
-{##############################################################################}
-// TCEThumbImage
-
-{-------------------------------------------------------------------------------
-  Create an instance of TCEThumbImage
--------------------------------------------------------------------------------}
-constructor TCEThumbImage.Create;
-begin
-  inherited;
-  ThumbnailSize.cx:= 32;
-  ThumbnailSize.cy:= 32;
-  fThumbnail:= TBitmap.Create;
-  fStatus:= tisDefault;
-end;
-
-{-------------------------------------------------------------------------------
-  Destroy TCEThumbImage
--------------------------------------------------------------------------------}
-destructor TCEThumbImage.Destroy;
-begin
-  fThumbnail.Free;
-  inherited;
-end;
-
-{-------------------------------------------------------------------------------
-  Clear
--------------------------------------------------------------------------------}
-procedure TCEThumbImage.Clear;
-begin
-  if assigned(fLatestThread) then
+  // Draw Icon
+  if old_level <> fZoomLevel then
   begin
-    fLatestThread.Terminate;
-  end;
-  fStatus:= tisDefault;
-  DoChanged;
-end;
-
-{-------------------------------------------------------------------------------
-  Open File
--------------------------------------------------------------------------------}
-procedure TCEThumbImage.OpenFile(AFilePath: WideString; NoStatusChange: Boolean
-    = false);
-var
-  ns: TNamespace;
-begin
-  ns:= TNamespace.CreateFromFileName(AFilePath);
-  try
-    OpenPIDL(ns.AbsolutePIDL, NoStatusChange);
-  finally
-    ns.Free;
+    DrawIcon;
+    Paint;
   end;
 end;
 
 {-------------------------------------------------------------------------------
-  OpenPIDL
+  Run Thumbnail Thread
 -------------------------------------------------------------------------------}
-procedure TCEThumbImage.OpenPIDL(APIDL: PItemIDList; NoStatusChange: Boolean =
-    false);
+procedure TCEInfoBar.RunThumbnailThread;
 begin
-  // Terminate previous thread if present
-  if assigned(fLatestThread) then
+  if assigned(fLatestNS) then
   begin
-    fLatestThread.Terminate;
+    if CompareText(fLatestNS.Extension, '.ico') = 0 then
+    Exit;
+    
+    fLatestThread:= TCEThumbLoadThread.Create(true);
+    fLatestThread.FreeOnTerminate:= true;
+    fLatestThread.InfoBar:= Self;
+    fLatestThread.PIDL:= PIDLMgr.CopyPIDL(fLatestNS.AbsolutePIDL);
+    fLatestThread.ThumbnailSize.cx:= fIconRect.Right - fIconRect.Left;
+    fLatestThread.ThumbnailSize.cy:= fIconRect.Bottom - fIconRect.Top;
+    fLatestThread.Resume;
   end;
+end;
 
-  // Create thread
-  fLatestThread:= TCEThumbLoadThread.Create(true);
-  fLatestThread.FreeOnTerminate:= true;
-  fLatestThread.ThumbImage:= Self;
-  fLatestThread.PIDL:= PIDLMgr.CopyPIDL(APIDL);
-  fLatestThread.ThumbnailSize.cx:= ThumbnailSize.cx;
-  fLatestThread.ThumbnailSize.cy:= ThumbnailSize.cy;
-
-  // Change status
-  if not NoStatusChange then
-  fStatus:= tisLoading;
-  
-  DoChanged;
-
-  // Run thread
-  fLatestThread.Resume;
+{-------------------------------------------------------------------------------
+  Set Zoom Level
+-------------------------------------------------------------------------------}
+procedure TCEInfoBar.SetZoomLevel(const Value: Integer);
+begin
+  if Value > 0 then
+  begin
+    fZoomLevel:= Value;
+    Height:= fRowHeight * fZoomLevel;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
   Get's called when thread has finished
 -------------------------------------------------------------------------------}
-procedure TCEThumbImage.ThreadFinished(AThread: TCEThumbLoadThread);
+procedure TCEInfoBar.ThreadFinished(AThread: TCEThumbLoadThread);
 begin
   if AThread = fLatestThread then
   begin
-    if AThread.Terminated or not AThread.ThumbnailFound then
-    fStatus:= tisDefault
-    else
+    fThumbnailFound:= not AThread.Terminated and AThread.ThumbnailFound;
+    if fThumbnailFound then
     begin
       fThumbnail.Assign(AThread.Thumbnail);
-      fStatus:= tisThumbnail;
+      fResizedThumbnail:= false;
+      Paint;
     end;
-    DoChanged;
-
     fLatestThread:= nil;
   end;
 end;
 
 {-------------------------------------------------------------------------------
-  Do Changed event
+  Handle WM_EraseBkgnd message (Don't erase background)
 -------------------------------------------------------------------------------}
-procedure TCEThumbImage.DoChanged;
+procedure TCEInfoBar.WMEraseBkgnd(var Message: TWmEraseBkgnd);
 begin
-  if Assigned(fOnChanged) then fOnChanged(Self);
+  Message.Result:= 1;
 end;
 
 {##############################################################################}
@@ -540,7 +607,7 @@ var
   Bits: HBITMAP;
   ns: TNamespace;
 begin
-  CoInitialize(nil);
+  CoInitialize(nil); // <- needed for video thumbnails
   Thumbnail:= TBitmap.Create;
   Thumbnail.PixelFormat:= pf32bit;
   Thumbnail.Transparent:= true;
@@ -575,7 +642,26 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEThumbLoadThread.SyncFinished;
 begin
-  ThumbImage.ThreadFinished(Self);
+  InfoBar.ThreadFinished(Self);
+end;
+
+{##############################################################################}
+// TCEInfoItem
+
+{-------------------------------------------------------------------------------
+  Create an instance of TCEInfoItem
+-------------------------------------------------------------------------------}
+constructor TCEInfoItem.Create;
+begin
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy TCEInfoItem
+-------------------------------------------------------------------------------}
+destructor TCEInfoItem.Destroy;
+begin
+  inherited;
 end;
 
 end.

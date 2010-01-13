@@ -79,6 +79,7 @@ inherited CESearchPage: TCESearchPage
         Caption = 'Search'
         TabOrder = 0
         OnClick = but_search_startClick
+        Default = True
       end
       object but_search_stop: TSpTBXButton
         Left = 15
@@ -136,12 +137,12 @@ inherited CESearchPage: TCESearchPage
         Left = 0
         Top = 0
         Width = 433
-        Height = 162
+        Height = 160
         Caption = 'Date && Time'
         ImageIndex = -1
         DesignSize = (
           433
-          162)
+          160)
         TabItem = 'SpTBXTabItem2'
         object TabControl_DateTime: TSpTBXTabControl
           Left = 12
@@ -164,9 +165,9 @@ inherited CESearchPage: TCESearchPage
           end
           object sheet_accessed: TSpTBXTabSheet
             Left = 0
-            Top = 23
+            Top = 25
             Width = 409
-            Height = 119
+            Height = 117
             Caption = 'Accessed'
             ImageIndex = -1
             TabItem = 'SpTBXTabItem7'
@@ -251,9 +252,9 @@ inherited CESearchPage: TCESearchPage
           end
           object sheet_modified: TSpTBXTabSheet
             Left = 0
-            Top = 23
+            Top = 25
             Width = 409
-            Height = 119
+            Height = 117
             Caption = 'Modified'
             ImageIndex = -1
             TabItem = 'SpTBXTabItem6'
@@ -338,9 +339,9 @@ inherited CESearchPage: TCESearchPage
           end
           object sheet_created: TSpTBXTabSheet
             Left = 0
-            Top = 23
+            Top = 25
             Width = 409
-            Height = 119
+            Height = 117
             Caption = 'Created'
             ImageIndex = -1
             TabItem = 'SpTBXTabItem5'
@@ -429,12 +430,12 @@ inherited CESearchPage: TCESearchPage
         Left = 0
         Top = 0
         Width = 433
-        Height = 162
+        Height = 160
         Caption = 'Size && Attributes'
         ImageIndex = -1
         DesignSize = (
           433
-          162)
+          160)
         TabItem = 'SpTBXTabItem3'
         object group_size: TSpTBXGroupBox
           Left = 12
@@ -573,70 +574,16 @@ inherited CESearchPage: TCESearchPage
           end
         end
       end
-      object sheet_filters: TSpTBXTabSheet
-        Left = 0
-        Top = 0
-        Width = 433
-        Height = 162
-        Caption = 'Filters'
-        ImageIndex = -1
-        DesignSize = (
-          433
-          162)
-        TabItem = 'SpTBXTabItem8'
-        object SpTBXLabel1: TSpTBXLabel
-          Left = 12
-          Top = 9
-          Width = 98
-          Height = 19
-          Caption = 'Exclude File Masks:'
-        end
-        object memo_filters_exclude: TTntMemo
-          Left = 12
-          Top = 30
-          Width = 199
-          Height = 108
-          Anchors = [akLeft, akTop, akRight, akBottom]
-          ScrollBars = ssVertical
-          TabOrder = 1
-          WordWrap = False
-        end
-        object memo_filters_include: TTntMemo
-          Left = 217
-          Top = 30
-          Width = 204
-          Height = 108
-          Anchors = [akTop, akRight, akBottom]
-          ScrollBars = ssVertical
-          TabOrder = 2
-          WordWrap = False
-        end
-        object SpTBXLabel3: TSpTBXLabel
-          Left = 217
-          Top = 9
-          Width = 96
-          Height = 19
-          Caption = 'Include File Masks:'
-          Anchors = [akTop, akRight]
-        end
-        object SpTBXLabel5: TSpTBXLabel
-          Left = 12
-          Top = 138
-          Width = 195
-          Height = 19
-          Caption = 'Enter each file mask on a separate line.'
-        end
-      end
       object sheet_content: TSpTBXTabSheet
         Left = 0
         Top = 0
         Width = 433
-        Height = 162
+        Height = 160
         Caption = 'Content'
         ImageIndex = -1
         DesignSize = (
           433
-          162)
+          160)
         TabItem = 'SpTBXTabItem4'
         object SpTBXLabel4: TSpTBXLabel
           Left = 12
@@ -683,16 +630,70 @@ inherited CESearchPage: TCESearchPage
           TabOrder = 4
         end
       end
+      object sheet_filters: TSpTBXTabSheet
+        Left = 0
+        Top = 0
+        Width = 433
+        Height = 160
+        Caption = 'Filters'
+        ImageIndex = -1
+        DesignSize = (
+          433
+          160)
+        TabItem = 'SpTBXTabItem8'
+        object SpTBXLabel1: TSpTBXLabel
+          Left = 12
+          Top = 9
+          Width = 98
+          Height = 19
+          Caption = 'Exclude File Masks:'
+        end
+        object memo_filters_exclude: TTntMemo
+          Left = 12
+          Top = 30
+          Width = 199
+          Height = 108
+          Anchors = [akLeft, akTop, akRight, akBottom]
+          ScrollBars = ssVertical
+          TabOrder = 1
+          WordWrap = False
+        end
+        object memo_filters_include: TTntMemo
+          Left = 217
+          Top = 30
+          Width = 204
+          Height = 108
+          Anchors = [akTop, akRight, akBottom]
+          ScrollBars = ssVertical
+          TabOrder = 2
+          WordWrap = False
+        end
+        object SpTBXLabel3: TSpTBXLabel
+          Left = 217
+          Top = 9
+          Width = 96
+          Height = 19
+          Caption = 'Include File Masks:'
+          Anchors = [akTop, akRight]
+        end
+        object SpTBXLabel5: TSpTBXLabel
+          Left = 12
+          Top = 138
+          Width = 195
+          Height = 19
+          Caption = 'Enter each file mask on a separate line.'
+        end
+      end
       object sheet_name_location: TSpTBXTabSheet
         Left = 0
         Top = 0
         Width = 433
-        Height = 162
+        Height = 160
         Caption = 'Name && Location'
         ImageIndex = -1
         DesignSize = (
           433
-          162)
+          160)
         TabItem = 'SpTBXTabItem1'
         object edit_filemask: TSpTBXEdit
           Left = 242
@@ -832,16 +833,18 @@ inherited CESearchPage: TCESearchPage
     TabOrder = 2
     Borders = False
     TBXStyleBackground = True
-    object label_status: TSpTBXLabel
-      Left = 2
-      Top = 2
-      Width = 580
-      Height = 18
-      Caption = 'Search'
+    object label_status: TTntLabel
+      Left = 0
+      Top = 0
+      Width = 584
+      Height = 22
       Align = alClient
-      Wrapping = twPathEllipsis
-      SkinType = sknNone
-      ExplicitHeight = 19
+      AutoSize = False
+      Caption = 'Search'
+      Transparent = True
+      Layout = tlCenter
+      ExplicitWidth = 58
+      ExplicitHeight = 13
     end
   end
   object FolderTreePopup: TSpTBXFormPopupMenu
