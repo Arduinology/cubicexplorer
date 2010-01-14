@@ -245,7 +245,8 @@ implementation
 {$R *.dfm}
 
 uses
-  dCE_Actions, Main, CE_VistaFuncs, fCE_FolderPanel, CE_CommonObjects, CE_SpTabBar;
+  dCE_Actions, CE_VistaFuncs, fCE_FolderPanel, CE_CommonObjects, CE_SpTabBar,
+  GR32_Math, Math, Main;
 
 {*------------------------------------------------------------------------------
   Get's called when TCEFileViewPage is created.
@@ -298,7 +299,7 @@ begin
   InfoBar.Align:= alBottom;
   InfoBar.Visible:= true;
   InfoBar.RowHeight:= SpGetControlTextHeight(InfoBar, InfoBar.Font) + 6;
-  InfoBar.ZoomLevel:= GlobalFileViewSettings.InfoBarSize;
+  InfoBar.Height:= GlobalFileViewSettings.InfoBarSize;
 
   InfoBarSplitter:= TSpTBXSplitter.Create(nil);
   InfoBarSplitter.Parent:= Self;
@@ -367,7 +368,8 @@ procedure TCEFileViewPage.InfoBarSplitterMouseUp(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   InfoBar.RefreshThumbnail;
-  GlobalFileViewSettings.InfoBarSize:= InfoBar.ZoomLevel;
+  GlobalFileViewSettings.InfoBarSize:= InfoBar.Height;
+  InfoBar.Repaint;
 end;
 
 {-------------------------------------------------------------------------------
@@ -375,8 +377,19 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFileViewPage.InfoBarSplitterMoving(Sender: TObject;
   var NewSize: Integer; var Accept: Boolean);
+var
+  row_count: Integer;
+  i: Integer;
 begin
-  Accept:= (NewSize mod InfoBar.RowHeight) = 0;
+  Accept:= NewSize > InfoBar.RowHeight;
+//  if Accept then
+//  begin
+//    row_count:= Max(1, NewSize div InfoBar.RowHeight);
+//    i:= NewSize - ((InfoBar.RowHeight * row_count) + 6);
+//    Accept:= (i < 2) or (i > 2);
+//  end;
+
+  InfoBar.Paint;
 end;
 
 {*------------------------------------------------------------------------------
@@ -829,7 +842,7 @@ begin
       InfoBar.Top:= Self.BoundsRect.Bottom;
       InfoBarSplitter.Top:= InfoBar.Top - InfoBarSplitter.Height;
       InfoBarSplitter.Visible:= true;
-      InfoBar.ZoomLevel:= GlobalFileViewSettings.InfoBarSize;
+      InfoBar.Height:= GlobalFileViewSettings.InfoBarSize;
 
       if FileView.Selection.Count > 1 then
       Item:= FileView.Selection.FocusedItem
@@ -1005,7 +1018,7 @@ begin
     FileViewPage.FileView.AutosizeListViewStyle:= AutosizeListViewStyle;
     FileViewPage.FileView.SortFolderFirstAlways:= SortFolderFirstAlways;
     FileViewPage.ShowInfoBar:= ShowInfoBar;
-    FileViewPage.InfoBar.ZoomLevel:= InfoBarSize;
+    FileViewPage.InfoBar.Height:= InfoBarSize;
     // Options
     options:= FileViewPage.FileView.Options;
     if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
@@ -1030,7 +1043,7 @@ begin
   if GlobalPathCtrl.ActivePage is TCEFileViewPage then
   begin
     AssignSettingsFrom(TCEFileViewPage(GlobalPathCtrl.ActivePage));
-    InfoBarSize:= TCEFileViewPage(GlobalPathCtrl.ActivePage).InfoBar.ZoomLevel;
+    InfoBarSize:= TCEFileViewPage(GlobalPathCtrl.ActivePage).InfoBar.Height;
   end;
 end;
 

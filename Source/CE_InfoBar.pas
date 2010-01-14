@@ -36,23 +36,25 @@ type
     fCalculateHiddenItems: Boolean;
     fRowHeight: Integer;
     fShowFolderItemCount: Boolean;
-    fZoomLevel: Integer;
-    procedure SetZoomLevel(const Value: Integer);
     procedure WMEraseBkgnd(var Message: TWmEraseBkgnd);
   protected
-    fIcon: TBitmap;
+    fBuffer: TBitmap;
+    fIconHeight: Integer;
     fIconRect: TRect;
     fIconType: TCEIconType;
+    fIconWidth: Integer;
     fInfoList: TObjectList;
     fInfoRect: TRect;
     fLatestNS: TNamespace;
     fLatestThread: TCEThumbLoadThread;
-    fThumbnail: TBitmap;
+    fThumbHeight: Integer;
+    fThumbnailBuffer: TBitmap;
     fThumbnailFound: Boolean;
+    fThumbWidth: Integer;
     procedure BuildInfoList; virtual;
     function CanResize(var NewWidth, NewHeight: Integer): Boolean; override;
     procedure CreateParams(var Params: TCreateParams); override;
-    procedure DrawIcon; virtual;
+    procedure DrawBuffer; virtual;
     procedure RunThumbnailThread; virtual;
     procedure ThreadFinished(AThread: TCEThumbLoadThread); virtual;
   public
@@ -73,7 +75,6 @@ type
     property RowHeight: Integer read fRowHeight write fRowHeight;
     property ShowFolderItemCount: Boolean read fShowFolderItemCount write
         fShowFolderItemCount;
-    property ZoomLevel: Integer read fZoomLevel write SetZoomLevel;
   end;
 
   TCustomControlHack = class(TCustomControl);
@@ -106,15 +107,14 @@ var
 begin
   inherited;
   SetDesktopIconFonts(Canvas.Font);
-  fZoomLevel:= 1;
   fRowHeight:= 18;
-  Height:= fRowHeight * fZoomLevel;
-  fIcon:= TBitmap.Create;
-  fThumbnail:= TBitmap.Create;
+  fThumbnailBuffer:= TBitmap.Create;
+  fBuffer:= TBitmap.Create;
   fInfoList:= TObjectList.Create(true);
   fAutoRefreshThumbnail:= false;
   fShowFolderItemCount:= true;
   fCalculateHiddenItems:= false;
+  Resize;
 end;
 
 {-------------------------------------------------------------------------------
@@ -124,8 +124,8 @@ destructor TCEInfoBar.Destroy;
 begin
   if assigned(fLatestNS) then
   fLatestNS.Free;
-  fIcon.Free;
-  fThumbnail.Free;
+  fThumbnailBuffer.Free;
+  fBuffer.Free;
   fInfoList.Free;
   inherited;
 end;
@@ -200,8 +200,11 @@ end;
   Handle CanResize
 -------------------------------------------------------------------------------}
 function TCEInfoBar.CanResize(var NewWidth, NewHeight: Integer): Boolean;
+var
+  row_count: Integer;
+  s: Single;
 begin
-  Result:= (NewHeight mod fRowHeight) = 0;
+  Result:= NewHeight > fRowHeight;
 end;
 
 {-------------------------------------------------------------------------------
@@ -213,12 +216,12 @@ begin
   begin
     fLatestThread.Terminate;
   end;
-  fIcon.SetSize(0,0);
-  fThumbnail.SetSize(0,0);
+  fThumbnailBuffer.SetSize(0,0);
   if assigned(fLatestNS) then
   FreeAndNil(fLatestNS);
   fThumbnailFound:= false;
   fInfoList.Clear;
+  DrawBuffer;
   Paint;
 end;
 
@@ -237,33 +240,219 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Draw Icon
+  Draw Buffer
 -------------------------------------------------------------------------------}
-procedure TCEInfoBar.DrawIcon;
-var
-  bit: TBitmap;
-begin
-  if assigned(fLatestNS) then
+procedure TCEInfoBar.DrawBuffer;
+
+  procedure DrawIcon(ACanvas: TCanvas; ARect: TRect);
+  var
+    bit: TBitmap;
+    l,t,w,h: Integer;
   begin
-    fIcon.SetSize(fIconRect.Right - fIconRect.Left, fIconRect.Bottom - fIconRect.Top);
+    if assigned(fLatestNS) then
+    begin
+      bit:= TBitmap.Create;
+      try
+        // get system icon
+        case fIconType of
+          itSmallIcon: SmallSysImages.GetBitmap(fLatestNS.GetIconIndex(false, icSmall), bit);
+          itLargeIcon: LargeSysImages.GetBitmap(fLatestNS.GetIconIndex(false, icLarge), bit);
+          itExtraLargeIcon: ExtraLargeSysImages.GetBitmap(fLatestNS.GetIconIndex(false, icLarge), bit);
+          itJumboIcon: JumboSysImages.GetBitmap(fLatestNS.GetIconIndex(false, icLarge), bit);
+        end;
 
-    // Clear background
-    fIcon.Canvas.Brush.Color:= clWindow;
-    fIcon.Canvas.FillRect(fIcon.Canvas.ClipRect);
+        l:= ARect.Left;
+        t:= ARect.Top;
+        w:= ARect.Right - ARect.Left;
+        h:= ARect.Bottom - ARect.Top;
 
-    // Draw icon
-    bit:= TBitmap.Create;
-    try
-      case fIconType of
-        itSmallIcon: SmallSysImages.GetBitmap(fLatestNS.GetIconIndex(false, icSmall), bit);
-        itLargeIcon: LargeSysImages.GetBitmap(fLatestNS.GetIconIndex(false, icLarge), bit);
-        itExtraLargeIcon: ExtraLargeSysImages.GetBitmap(fLatestNS.GetIconIndex(false, icLarge), bit);
-        itJumboIcon: JumboSysImages.GetBitmap(fLatestNS.GetIconIndex(false, icLarge), bit);
+        SetStretchBltMode(ACanvas.Handle, HALFTONE);
+        SetBrushOrgEx(ACanvas.Handle, 0,0, nil);
+        StretchBlt(ACanvas.Handle, l,t,w,h, bit.Canvas.Handle, 0,0,bit.Width,bit.Height, SRCCOPY);
+      finally
+        bit.Free;
       end;
-      Stretch(fIcon.Width, fIcon.Height, sfLanczos3, 0, bit, fIcon);
-    finally
-      bit.Free;
     end;
+  end;
+
+  procedure DrawThumbnail(ACanvas: TCanvas; ARect: TRect);
+  var
+    ar: Single;
+    l,t,w,h: Integer;
+    bit: TBitmap;
+  begin
+    if (fThumbnailBuffer.Width = 0) or (fThumbnailBuffer.Height = 0) then
+    Exit;
+    // Resize thumbnail
+    fThumbWidth:= ARect.Right - ARect.Left;
+    fThumbHeight:= ARect.Bottom - ARect.Top;
+    if fThumbnailBuffer.Width > fThumbnailBuffer.Height then
+    begin
+      ar:= fThumbnailBuffer.Height / fThumbnailBuffer.Width;
+      fThumbHeight:= Round(fThumbWidth * ar);
+    end
+    else
+    begin
+      ar:= fThumbnailBuffer.Width / fThumbnailBuffer.Height;
+      fThumbWidth:= Round(fThumbHeight * ar);
+    end;
+    fResizedThumbnail:= (fThumbWidth <> fThumbnailBuffer.Width) or (fThumbHeight <> fThumbnailBuffer.Height);
+
+    w:= ARect.Right - ARect.Left;
+    h:= ARect.Bottom - ARect.Top;
+    l:= Round((w - fThumbWidth) / 2) + ARect.Left;
+    t:= Round((h - fThumbHeight) / 2) + ARect.Top;
+
+    SetStretchBltMode(ACanvas.Handle, HALFTONE);
+    SetBrushOrgEx(ACanvas.Handle, 0,0, nil);
+    StretchBlt(ACanvas.Handle, l,t,fThumbWidth,fThumbHeight, fThumbnailBuffer.Canvas.Handle, 0,0,fThumbnailBuffer.Width,fThumbnailBuffer.Height, SRCCOPY);
+  end;
+
+var
+  Flags: Integer;
+  l,t,i, row, col_num, row_num, col: Integer;
+  r: TRect;
+  item: TCEInfoItem;
+  ws: WideString;
+  size, prefix_size: TSize;
+begin
+  if csDestroying in Self.ComponentState then
+  Exit;
+
+  fBuffer.Canvas.Lock;
+  try
+    // Set buffer size
+    fBuffer.SetSize(Width,Height);
+
+    // Paint Background
+    fBuffer.Canvas.Brush.Color:= clWindow;
+    fBuffer.Canvas.FillRect(Rect(0,0, Width, Height));
+
+    r:= fInfoRect;
+
+    if fInfoList.Count > 0 then
+    begin
+      // Paint Thumbnail/Icon
+      if fThumbnailFound and (Height > 16) then
+      begin
+        DrawThumbnail(fBuffer.Canvas, fIconRect);
+      end
+      else
+      begin
+        DrawIcon(fBuffer.Canvas, fIconRect);
+      end;
+
+      // Single row
+      if Height < (RowHeight * 2) then 
+      begin
+        // Name
+        fBuffer.Canvas.Font.Style:= [];
+        fBuffer.Canvas.Font.Color:= clWindowText;
+        item:= TCEInfoItem(fInfoList.Items[0]);
+        size:= WideCanvasTextExtent(fBuffer.Canvas, item.Text);
+        SpDrawXPText(fBuffer.Canvas, item.Text, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
+
+        r.Left:= r.Left + size.cx + 4;
+
+        // Other infos
+        fBuffer.Canvas.Font.Color:= clGrayText;
+        ws:= '';
+        for i:= 1 to fInfoList.Count - 1 do
+        begin
+          item:= TCEInfoItem(fInfoList.Items[i]);
+          if item.Text <> '' then
+          begin
+            ws:= ws + ' | ' + item.Text;
+          end
+          else if item.Prefix <> '' then
+          begin
+            ws:= ws + ' | ' + item.Prefix;
+          end;
+        end;
+        SpDrawXPText(fBuffer.Canvas, ws, r, DT_END_ELLIPSIS  or DT_SINGLELINE or DT_VCENTER);
+      end
+      // Multiple rows
+      else 
+      begin
+        // Name
+        r.Bottom:= r.Top + RowHeight-2;
+        fBuffer.Canvas.Font.Style:= [fsBold];
+        fBuffer.Canvas.Font.Color:= clWindowText;
+        item:= TCEInfoItem(fInfoList.Items[0]);
+        size:= WideCanvasTextExtent(fBuffer.Canvas, item.Text);
+        SpDrawXPText(fBuffer.Canvas, item.Text, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
+
+        // Other Infos
+        fBuffer.Canvas.Font.Style:= [];
+        r.Left:= fInfoRect.Left;
+        r.Top:= r.Bottom;
+        r.Bottom:= r.Top + RowHeight - 3;
+        row:= 2;
+        row_num:= Max(1,Height div RowHeight);
+        col:= 1;
+        col_num:= Ceil((fInfoList.Count - 1) / row_num);
+        if col_num < 1 then
+        col_num:= 1;
+
+        for i:= 1 to fInfoList.Count - 1 do
+        begin
+          item:= TCEInfoItem(fInfoList.Items[i]);
+          if (item.Text <> '') or (item.Prefix <> '') then
+          begin
+            // get text sizes
+            size:= WideCanvasTextExtent(fBuffer.Canvas, item.Text);
+            if item.Prefix <> '' then
+            begin
+              prefix_size:= WideCanvasTextExtent(fBuffer.Canvas, item.Prefix + ':');
+              prefix_size.cx:= prefix_size.cx + 2;
+            end
+            else
+            prefix_size.cx:= 0;
+
+            // go to row
+            if (((r.Right - r.Left) < (size.cx + prefix_size.cx)) and (row < row_num) and (col_num > 1))
+               or ((col > col_num) and (row <= row_num)) then
+            begin
+              if ((fInfoRect.Bottom - fInfoRect.Top) + Max(prefix_size.cy, size.cy)) >= (((row+1) * RowHeight)) then
+              begin
+                row:= row + 1;
+                col:= 1;
+                r.Left:= fInfoRect.Left;
+                r.Top:= r.Bottom;
+                r.Bottom:= r.Top + RowHeight - 3;
+              end;
+            end;
+
+            // draw text
+            fBuffer.Canvas.Font.Color:= clGrayText;
+            if prefix_size.cx > 0 then
+            begin
+              if size.cx > 0 then
+              SpDrawXPText(fBuffer.Canvas, item.Prefix + ':', r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER)
+              else
+              SpDrawXPText(fBuffer.Canvas, item.Prefix, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
+              r.Left:= r.Left + prefix_size.cx;
+            end;
+            fBuffer.Canvas.Font.Color:= clWindowText;
+            if size.cx > 0 then
+            begin
+              SpDrawXPText(fBuffer.Canvas, item.Text, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
+            end;
+            r.Left:= r.Left + size.cx + 10;
+            col:= col + 1;
+          end;
+        end;
+      end;
+    end
+    else
+    begin
+      fBuffer.Canvas.Font.Color:= clGrayText;
+      r.Left:= 10;
+      r.Top:= 10;
+      SpDrawXPText(fBuffer.Canvas, 'No Selection', r, DT_END_ELLIPSIS);
+    end;
+  finally
+    fBuffer.Canvas.Unlock;
   end;
 end;
 
@@ -305,8 +494,10 @@ begin
     // Draw normal Icon first
     fThumbnailFound:= false;
     Resize;
-    DrawIcon;
-    Paint;
+    DrawBuffer;
+    Self.Repaint;
+
+    RunThumbnailThread;
   end;
 end;
 
@@ -314,140 +505,21 @@ end;
   Handle Paint
 -------------------------------------------------------------------------------}
 procedure TCEInfoBar.Paint;
-var
-  Flags: Integer;
-  l,t,i, row, col_num, col: Integer;
-  r: TRect;
-  item: TCEInfoItem;
-  ws: WideString;
-  size, prefix_size: TSize;
 begin
   if csDestroying in Self.ComponentState then
   Exit;
 
-  Canvas.Lock;
-  try
-    // Paint Background
-    Canvas.Brush.Color:= clWindow;
-    Canvas.FillRect(Canvas.ClipRect);
-
-    // Paint Thumbnail
-    if fThumbnailFound and (fZoomLevel > 1) then
-    begin
-      l:= Round(((fIconRect.Right - fIconRect.Left) - fThumbnail.Width) / 2) + fIconRect.Left;
-      t:= Round(((fIconRect.Bottom - fIconRect.Top) - fThumbnail.Height) / 2) + fIconRect.Top;
-      Canvas.Draw(l, t, fThumbnail);
-    end
-    else
-    Canvas.Draw(fIconRect.Left, fIconRect.Top, fIcon);
-
-    // Paint Info Items
-    if fInfoList.Count > 0 then
-    begin
-      r:= fInfoRect;
-      if fZoomLevel = 1 then // Single row
-      begin
-        // Name
-        Canvas.Font.Style:= [];
-        Canvas.Font.Color:= clWindowText;
-        item:= TCEInfoItem(fInfoList.Items[0]);
-        size:= WideCanvasTextExtent(Canvas, item.Text);
-        SpDrawXPText(Canvas, item.Text, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
-
-        r.Left:= r.Left + size.cx + 4;
-
-        // Other infos
-        Canvas.Font.Color:= clGrayText;
-        ws:= '';
-        for i:= 1 to fInfoList.Count - 1 do
-        begin
-          item:= TCEInfoItem(fInfoList.Items[i]);
-          if item.Text <> '' then
-          begin
-            ws:= ws + ' | ' + item.Text;
-          end
-          else if item.Prefix <> '' then
-          begin
-            ws:= ws + ' | ' + item.Prefix;
-          end;
-        end;
-        SpDrawXPText(Canvas, ws, r, DT_END_ELLIPSIS  or DT_SINGLELINE or DT_VCENTER);
-      end
-      else // Multiple rows
-      begin
-        // Name
-        r.Bottom:= r.Top + RowHeight-2;
-        Canvas.Font.Style:= [fsBold];
-        Canvas.Font.Color:= clWindowText;
-        item:= TCEInfoItem(fInfoList.Items[0]);
-        size:= WideCanvasTextExtent(Canvas, item.Text);
-        SpDrawXPText(Canvas, item.Text, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
-
-        Canvas.Font.Style:= [];
-        r.Left:= fInfoRect.Left;
-        r.Top:= r.Bottom;
-        r.Bottom:= r.Top + RowHeight - 3;
-        row:= 2;
-        col:= 1;
-        col_num:= Ceil((fInfoList.Count - 1) / (fZoomLevel - 1));
-        if col_num < 1 then
-        col_num:= 1;
-
-        for i:= 1 to fInfoList.Count - 1 do
-        begin
-          item:= TCEInfoItem(fInfoList.Items[i]);
-          if (item.Text <> '') or (item.Prefix <> '') then
-          begin
-            size:= WideCanvasTextExtent(Canvas, item.Text);
-            if item.Prefix <> '' then
-            begin
-              prefix_size:= WideCanvasTextExtent(Canvas, item.Prefix + ':');
-              prefix_size.cx:= prefix_size.cx + 2;
-            end
-            else
-            prefix_size.cx:= 0;
-            
-            if (((r.Right - r.Left) < (size.cx + prefix_size.cx)) and (row < ZoomLevel) and (col_num > 1))
-               or ((col > col_num) and (row <= ZoomLevel)) then
-            begin
-              row:= row + 1;
-              col:= 1;
-              r.Left:= fInfoRect.Left;
-              r.Top:= r.Bottom;
-              r.Bottom:= r.Top + RowHeight - 3;
-            end;
-
-            Canvas.Font.Color:= clGrayText;
-            if prefix_size.cx > 0 then
-            begin
-              if size.cx > 0 then
-              SpDrawXPText(Canvas, item.Prefix + ':', r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER)
-              else
-              SpDrawXPText(Canvas, item.Prefix, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
-              r.Left:= r.Left + prefix_size.cx;
-            end;
-            Canvas.Font.Color:= clWindowText;
-            if size.cx > 0 then
-            begin
-              SpDrawXPText(Canvas, item.Text, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
-            end;
-            r.Left:= r.Left + size.cx + 10;
-            col:= col + 1;
-          end;
-        end;
-      end;
-    end;
-  finally
-    Canvas.Unlock;
-  end;
+  BitBlt(Canvas.Handle, 0, 0, Width, Height, fBuffer.Canvas.Handle, 0, 0, SRCCOPY);
 end;
 
 {-------------------------------------------------------------------------------
   Refresh Thumbnail
 -------------------------------------------------------------------------------}
 procedure TCEInfoBar.RefreshThumbnail;
+var
+  ar: Single;
 begin
-  if fThumbnailFound and (ZoomLevel > 1) and fResizedThumbnail then
+  if (Height > 16) and ((fThumbHeight > fThumbnailBuffer.Height) or (fThumbWidth > fThumbnailBuffer.Width)) then
   RunThumbnailThread;
 end;
 
@@ -456,7 +528,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEInfoBar.Resize;
 var
-  old_level: Integer;
+  old_height: Integer;
   w, h: Integer;
   bit: TBitmap;
   ar: Single;
@@ -465,77 +537,34 @@ begin
   if csDestroying in Self.ComponentState then
   Exit;
 
-  old_level:= fZoomLevel;
-
-  // Calculate Zoom Level
-  if Height > fRowHeight then
-  fZoomLevel:= Height div fRowHeight
-  else
-  fZoomLevel:= 1;
-
   // Calculate icon rect
-  if fZoomLevel = 1 then
+  if Height < 22 then
   begin
     fIconType:= itSmallIcon;
-    fIconRect:= Rect(3, 1, Height+1, Height-1);
+    fIconRect:= Rect(3, 1, Height+1, Height+1);
   end
   else
   begin
-    if ZoomLevel = 2 then
+    if (Height > 22) and (Height < 39) then
     fIconType:= itLargeIcon
+    else if (Height > 38) and (Height < 55) then
+    fIconType:= itExtraLargeIcon
     else
-    fIconType:= itExtraLargeIcon;
-    fIconRect:= Rect(3,3,Height-3,Height-3);
+    fIconType:= itJumboIcon;
+    fIconRect:= Rect(3,3, Height-3,Height-3);
   end;
+  fIconWidth:= fIconRect.Right - fIconRect.Left;
+  fIconHeight:= fIconRect.Bottom - fIconRect.Top;
 
   // Calculate info rect
   fInfoRect:= fIconRect;
   fInfoRect.Left:= fIconRect.Right + 4;
   fInfoRect.Right:= Width - 3;
 
-  // Resize thumbnail
-  if fThumbnailFound then
-  begin
-    w:= fIconRect.Right - fIconRect.Left;
-    h:= fIconRect.Bottom - fIconRect.Top;
-    if fThumbnail.Width > fThumbnail.Height then
-    begin
-      ar:= fThumbnail.Height / fThumbnail.Width;
-      h:= Round(w * ar);
-    end
-    else
-    begin
-      ar:= fThumbnail.Width / fThumbnail.Height;
-      w:= Round(h * ar);
-    end;
-    
-    if (fThumbnail.Width <> w) or (fThumbnail.Height <> h) then
-    begin
+  DrawBuffer;
 
-      
-      bit:= TBitmap.Create;
-      try
-        Stretch(w, h, sfLanczos3, 0, fThumbnail, bit);
-        fThumbnail.Assign(bit);
-        fResizedThumbnail:= true;
-      finally
-        bit.Free;
-      end;
-      if AutoRefreshThumbnail then
-      RunThumbnailThread;
-    end;
-  end
-  else if (fZoomLevel > 1) then
-  begin
-    RunThumbnailThread;
-  end;
-
-  // Draw Icon
-  if old_level <> fZoomLevel then
-  begin
-    DrawIcon;
-    Paint;
-  end;
+//  if AutoRefreshThumbnail and fResizedThumbnail then
+//  RunThumbnailThread;
 end;
 
 {-------------------------------------------------------------------------------
@@ -559,18 +588,6 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Set Zoom Level
--------------------------------------------------------------------------------}
-procedure TCEInfoBar.SetZoomLevel(const Value: Integer);
-begin
-  if Value > 0 then
-  begin
-    fZoomLevel:= Value;
-    Height:= fRowHeight * fZoomLevel;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
   Get's called when thread has finished
 -------------------------------------------------------------------------------}
 procedure TCEInfoBar.ThreadFinished(AThread: TCEThumbLoadThread);
@@ -580,8 +597,11 @@ begin
     fThumbnailFound:= not AThread.Terminated and AThread.ThumbnailFound;
     if fThumbnailFound then
     begin
-      fThumbnail.Assign(AThread.Thumbnail);
-      fResizedThumbnail:= false;
+      fThumbnailBuffer.SetSize(AThread.Thumbnail.Width, AThread.Thumbnail.Height);
+      fThumbnailBuffer.Canvas.Brush.Color:= clWindow;
+      fThumbnailBuffer.Canvas.FillRect(Rect(0,0,fThumbnailBuffer.Width,fThumbnailBuffer.Height));
+      fThumbnailBuffer.Canvas.Draw(0,0,AThread.Thumbnail);
+      DrawBuffer;
       Paint;
     end;
     fLatestThread:= nil;
