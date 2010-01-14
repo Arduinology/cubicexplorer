@@ -11,10 +11,10 @@ uses
   MPShellUtilities, MPShellTypes, MPCommonObjects,
   // System Units
   ExtCtrls, Classes, Controls, Windows, Graphics, Messages, Contnrs,
-  Forms, Math, SysUtils, ShlObj, ActiveX, UxTheme, Themes, GraphicEx;
+  Forms, Math, SysUtils, ShlObj, ActiveX, UxTheme, Themes, GraphicEx, WSDLBind;
 
 type
-  TCEIconType = (itSmallIcon, itLargeIcon, itExtraLargeIcon, itJumboIcon);
+  TCEIconSize = (itSmallIcon, itLargeIcon, itExtraLargeIcon, itJumboIcon);
 
   TCEInfoBar = class;
 
@@ -36,12 +36,15 @@ type
     fCalculateHiddenItems: Boolean;
     fRowHeight: Integer;
     fShowFolderItemCount: Boolean;
+    fUseJumboIcons: Boolean;
     procedure WMEraseBkgnd(var Message: TWmEraseBkgnd);
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
     fBuffer: TBitmap;
+    fIconBorderSize: Integer;
     fIconHeight: Integer;
     fIconRect: TRect;
-    fIconType: TCEIconType;
+    fIconSize: TCEIconSize;
     fIconWidth: Integer;
     fInfoList: TObjectList;
     fInfoRect: TRect;
@@ -55,6 +58,9 @@ type
     function CanResize(var NewWidth, NewHeight: Integer): Boolean; override;
     procedure CreateParams(var Params: TCreateParams); override;
     procedure DrawBuffer; virtual;
+    procedure DrawIcon(ACanvas: TCanvas; ARect: TRect); virtual;
+    procedure DrawThumbnail(ACanvas: TCanvas; ARect: TRect); virtual;
+    procedure DrawInfoList(ACanvas: TCanvas; ARect: TRect); virtual;
     procedure RunThumbnailThread; virtual;
     procedure ThreadFinished(AThread: TCEThumbLoadThread); virtual;
   public
@@ -75,6 +81,7 @@ type
     property RowHeight: Integer read fRowHeight write fRowHeight;
     property ShowFolderItemCount: Boolean read fShowFolderItemCount write
         fShowFolderItemCount;
+    property UseJumboIcons: Boolean read fUseJumboIcons write fUseJumboIcons;
   end;
 
   TCustomControlHack = class(TCustomControl);
@@ -108,13 +115,16 @@ begin
   inherited;
   SetDesktopIconFonts(Canvas.Font);
   fRowHeight:= 18;
+  fIconBorderSize:= 6;
   fThumbnailBuffer:= TBitmap.Create;
   fBuffer:= TBitmap.Create;
   fInfoList:= TObjectList.Create(true);
   fAutoRefreshThumbnail:= false;
   fShowFolderItemCount:= true;
   fCalculateHiddenItems:= false;
+  fUseJumboIcons:= false;
   Resize;
+  SkinManager.AddSkinNotification(Self);
 end;
 
 {-------------------------------------------------------------------------------
@@ -122,6 +132,7 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCEInfoBar.Destroy;
 begin
+  SkinManager.RemoveSkinNotification(Self);
   if assigned(fLatestNS) then
   fLatestNS.Free;
   fThumbnailBuffer.Free;
@@ -243,71 +254,6 @@ end;
   Draw Buffer
 -------------------------------------------------------------------------------}
 procedure TCEInfoBar.DrawBuffer;
-
-  procedure DrawIcon(ACanvas: TCanvas; ARect: TRect);
-  var
-    bit: TBitmap;
-    l,t,w,h: Integer;
-  begin
-    if assigned(fLatestNS) then
-    begin
-      bit:= TBitmap.Create;
-      try
-        // get system icon
-        case fIconType of
-          itSmallIcon: SmallSysImages.GetBitmap(fLatestNS.GetIconIndex(false, icSmall), bit);
-          itLargeIcon: LargeSysImages.GetBitmap(fLatestNS.GetIconIndex(false, icLarge), bit);
-          itExtraLargeIcon: ExtraLargeSysImages.GetBitmap(fLatestNS.GetIconIndex(false, icLarge), bit);
-          itJumboIcon: JumboSysImages.GetBitmap(fLatestNS.GetIconIndex(false, icLarge), bit);
-        end;
-
-        l:= ARect.Left;
-        t:= ARect.Top;
-        w:= ARect.Right - ARect.Left;
-        h:= ARect.Bottom - ARect.Top;
-
-        SetStretchBltMode(ACanvas.Handle, HALFTONE);
-        SetBrushOrgEx(ACanvas.Handle, 0,0, nil);
-        StretchBlt(ACanvas.Handle, l,t,w,h, bit.Canvas.Handle, 0,0,bit.Width,bit.Height, SRCCOPY);
-      finally
-        bit.Free;
-      end;
-    end;
-  end;
-
-  procedure DrawThumbnail(ACanvas: TCanvas; ARect: TRect);
-  var
-    ar: Single;
-    l,t,w,h: Integer;
-    bit: TBitmap;
-  begin
-    if (fThumbnailBuffer.Width = 0) or (fThumbnailBuffer.Height = 0) then
-    Exit;
-    // Resize thumbnail
-    fThumbWidth:= ARect.Right - ARect.Left;
-    fThumbHeight:= ARect.Bottom - ARect.Top;
-    if fThumbnailBuffer.Width > fThumbnailBuffer.Height then
-    begin
-      ar:= fThumbnailBuffer.Height / fThumbnailBuffer.Width;
-      fThumbHeight:= Round(fThumbWidth * ar);
-    end
-    else
-    begin
-      ar:= fThumbnailBuffer.Width / fThumbnailBuffer.Height;
-      fThumbWidth:= Round(fThumbHeight * ar);
-    end;
-    fResizedThumbnail:= (fThumbWidth <> fThumbnailBuffer.Width) or (fThumbHeight <> fThumbnailBuffer.Height);
-
-    w:= ARect.Right - ARect.Left;
-    h:= ARect.Bottom - ARect.Top;
-    l:= Round((w - fThumbWidth) / 2) + ARect.Left;
-    t:= Round((h - fThumbHeight) / 2) + ARect.Top;
-
-    SetStretchBltMode(ACanvas.Handle, HALFTONE);
-    SetBrushOrgEx(ACanvas.Handle, 0,0, nil);
-    StretchBlt(ACanvas.Handle, l,t,fThumbWidth,fThumbHeight, fThumbnailBuffer.Canvas.Handle, 0,0,fThumbnailBuffer.Width,fThumbnailBuffer.Height, SRCCOPY);
-  end;
-
 var
   Flags: Integer;
   l,t,i, row, col_num, row_num, col: Integer;
@@ -315,6 +261,7 @@ var
   item: TCEInfoItem;
   ws: WideString;
   size, prefix_size: TSize;
+  op: TSpTBXSkinOptionCategory;
 begin
   if csDestroying in Self.ComponentState then
   Exit;
@@ -325,134 +272,257 @@ begin
     fBuffer.SetSize(Width,Height);
 
     // Paint Background
-    fBuffer.Canvas.Brush.Color:= clWindow;
-    fBuffer.Canvas.FillRect(Rect(0,0, Width, Height));
+    r:= Rect(0,0, Width, Height);
+    if CurrentSkin.SkinName = 'Eos' then
+    fBuffer.Canvas.Brush.Color:= SkinManager.CurrentSkin.Options(skncDock).Body.Color1
+    else
+    fBuffer.Canvas.Brush.Color:= SkinManager.CurrentSkin.ColorBtnFace;
+    fBuffer.Canvas.FillRect(r);
 
-    r:= fInfoRect;
+    //SpDrawXPMenuSeparator(fBuffer.Canvas, R, false, true);
 
+    // Paint Thumbnail and InfoList
     if fInfoList.Count > 0 then
     begin
-      // Paint Thumbnail/Icon
+      // Paint Thumbnail
       if fThumbnailFound and (Height > 16) then
       begin
         DrawThumbnail(fBuffer.Canvas, fIconRect);
       end
+      // Paint Icon
       else
       begin
         DrawIcon(fBuffer.Canvas, fIconRect);
       end;
 
-      // Single row
-      if Height < (RowHeight * 2) then 
-      begin
-        // Name
-        fBuffer.Canvas.Font.Style:= [];
-        fBuffer.Canvas.Font.Color:= clWindowText;
-        item:= TCEInfoItem(fInfoList.Items[0]);
-        size:= WideCanvasTextExtent(fBuffer.Canvas, item.Text);
-        SpDrawXPText(fBuffer.Canvas, item.Text, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
-
-        r.Left:= r.Left + size.cx + 4;
-
-        // Other infos
-        fBuffer.Canvas.Font.Color:= clGrayText;
-        ws:= '';
-        for i:= 1 to fInfoList.Count - 1 do
-        begin
-          item:= TCEInfoItem(fInfoList.Items[i]);
-          if item.Text <> '' then
-          begin
-            ws:= ws + ' | ' + item.Text;
-          end
-          else if item.Prefix <> '' then
-          begin
-            ws:= ws + ' | ' + item.Prefix;
-          end;
-        end;
-        SpDrawXPText(fBuffer.Canvas, ws, r, DT_END_ELLIPSIS  or DT_SINGLELINE or DT_VCENTER);
-      end
-      // Multiple rows
-      else 
-      begin
-        // Name
-        r.Bottom:= r.Top + RowHeight-2;
-        fBuffer.Canvas.Font.Style:= [fsBold];
-        fBuffer.Canvas.Font.Color:= clWindowText;
-        item:= TCEInfoItem(fInfoList.Items[0]);
-        size:= WideCanvasTextExtent(fBuffer.Canvas, item.Text);
-        SpDrawXPText(fBuffer.Canvas, item.Text, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
-
-        // Other Infos
-        fBuffer.Canvas.Font.Style:= [];
-        r.Left:= fInfoRect.Left;
-        r.Top:= r.Bottom;
-        r.Bottom:= r.Top + RowHeight - 3;
-        row:= 2;
-        row_num:= Max(1,Height div RowHeight);
-        col:= 1;
-        col_num:= Ceil((fInfoList.Count - 1) / row_num);
-        if col_num < 1 then
-        col_num:= 1;
-
-        for i:= 1 to fInfoList.Count - 1 do
-        begin
-          item:= TCEInfoItem(fInfoList.Items[i]);
-          if (item.Text <> '') or (item.Prefix <> '') then
-          begin
-            // get text sizes
-            size:= WideCanvasTextExtent(fBuffer.Canvas, item.Text);
-            if item.Prefix <> '' then
-            begin
-              prefix_size:= WideCanvasTextExtent(fBuffer.Canvas, item.Prefix + ':');
-              prefix_size.cx:= prefix_size.cx + 2;
-            end
-            else
-            prefix_size.cx:= 0;
-
-            // go to row
-            if (((r.Right - r.Left) < (size.cx + prefix_size.cx)) and (row < row_num) and (col_num > 1))
-               or ((col > col_num) and (row <= row_num)) then
-            begin
-              if ((fInfoRect.Bottom - fInfoRect.Top) + Max(prefix_size.cy, size.cy)) >= (((row+1) * RowHeight)) then
-              begin
-                row:= row + 1;
-                col:= 1;
-                r.Left:= fInfoRect.Left;
-                r.Top:= r.Bottom;
-                r.Bottom:= r.Top + RowHeight - 3;
-              end;
-            end;
-
-            // draw text
-            fBuffer.Canvas.Font.Color:= clGrayText;
-            if prefix_size.cx > 0 then
-            begin
-              if size.cx > 0 then
-              SpDrawXPText(fBuffer.Canvas, item.Prefix + ':', r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER)
-              else
-              SpDrawXPText(fBuffer.Canvas, item.Prefix, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
-              r.Left:= r.Left + prefix_size.cx;
-            end;
-            fBuffer.Canvas.Font.Color:= clWindowText;
-            if size.cx > 0 then
-            begin
-              SpDrawXPText(fBuffer.Canvas, item.Text, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
-            end;
-            r.Left:= r.Left + size.cx + 10;
-            col:= col + 1;
-          end;
-        end;
-      end;
-    end
-    else
-    begin
-      fBuffer.Canvas.Font.Color:= clGrayText;
-      r.Left:= 10;
-      r.Top:= 10;
-      SpDrawXPText(fBuffer.Canvas, 'No Selection', r, DT_END_ELLIPSIS);
+      // Paint InfoList
+      DrawInfoList(fBuffer.Canvas, fInfoRect);
     end;
   finally
     fBuffer.Canvas.Unlock;
+  end;             
+end;
+
+procedure TCEInfoBar.DrawIcon(ACanvas: TCanvas; ARect: TRect);
+var
+  bit, bit2: TBitmap;
+  l,t,w,h: Integer;
+  imgList: TImageList;
+begin
+  if assigned(fLatestNS) then
+  begin
+    bit:= TBitmap.Create;
+    bit2:= TBitmap.Create;
+    try
+      // get system icon list
+      case fIconSize of
+        itSmallIcon: imgList:= SmallSysImages;
+        itLargeIcon: imgList:= LargeSysImages;
+        itExtraLargeIcon: imgList:= ExtraLargeSysImages;
+        itJumboIcon: imgList:= JumboSysImages;
+      end;
+
+      // Paint background
+      bit.SetSize(imgList.Width, imgList.Height);
+      bit.Canvas.Brush.Color:= ACanvas.Brush.Color;
+      bit.Canvas.FillRect(Rect(0,0,bit.Width,bit.Height));
+      imgList.Draw(bit.Canvas, 0,0,fLatestNS.GetIconIndex(false, icLarge));
+
+      // Draw icon to buffer
+      l:= ARect.Left;
+      t:= ARect.Top;
+      w:= ARect.Right - ARect.Left;
+      h:= ARect.Bottom - ARect.Top;
+      Stretch(w,h, sfLanczos3, 0, bit, bit2);
+      BitBlt(ACanvas.Handle, l, t, w, h, bit2.Canvas.Handle, 0,0, SRCCOPY);
+    finally
+      bit.Free;
+      bit2.Free;
+    end;
+  end;
+end;
+
+procedure TCEInfoBar.DrawThumbnail(ACanvas: TCanvas; ARect: TRect);
+var
+  ar: Single;
+  l,t,w,h: Integer;
+  bit: TBitmap;
+begin
+  if (fThumbnailBuffer.Width = 0) or (fThumbnailBuffer.Height = 0) then
+  Exit;
+  // Resize thumbnail
+  fThumbWidth:= ARect.Right - ARect.Left;
+  fThumbHeight:= ARect.Bottom - ARect.Top;
+  if fThumbnailBuffer.Width > fThumbnailBuffer.Height then
+  begin
+    ar:= fThumbnailBuffer.Height / fThumbnailBuffer.Width;
+    fThumbHeight:= Round(fThumbWidth * ar);
+  end
+  else
+  begin
+    ar:= fThumbnailBuffer.Width / fThumbnailBuffer.Height;
+    fThumbWidth:= Round(fThumbHeight * ar);
+  end;
+  fResizedThumbnail:= (fThumbWidth <> fThumbnailBuffer.Width) or (fThumbHeight <> fThumbnailBuffer.Height);
+
+  // Calculate thumbnail position and size.
+  w:= fThumbWidth;
+  h:= fThumbHeight;
+  l:= Round((ARect.Right - ARect.Left - fThumbWidth) / 2) + ARect.Left;
+  t:= Round((ARect.Bottom - ARect.Top - fThumbHeight) / 2) + ARect.Top;
+
+  // Draw thumbnail to buffer using resample filter.
+  bit:= TBitmap.Create;
+  try
+    Stretch(w,h, sfLanczos3, 0, fThumbnailBuffer, bit);
+    BitBlt(ACanvas.Handle, l, t, w, h, bit.Canvas.Handle, 0,0, SRCCOPY);
+  finally
+    bit.Free;
+  end;
+end;
+
+procedure TCEInfoBar.DrawInfoList(ACanvas: TCanvas; ARect: TRect);
+var
+  ar: Single;
+  l,t,w,h: Integer;
+  r: TRect;
+  bit: TBitmap;
+  item: TCEInfoItem;
+  ws: WideString;
+  i: Integer;
+  row, row_num: Integer;
+  col, col_num: Integer;
+  prefix_size, size: TSize;
+  original_font_size, name_size: Integer;
+begin
+  // Draw InfoList
+  r:= ARect;
+  original_font_size:= ACanvas.Font.Size;
+  name_size:= original_font_size + 1;
+  if fInfoList.Count > 0 then
+  begin
+    // Single row
+    if Height < (RowHeight * 2) then 
+    begin
+      // Draw Name
+      ACanvas.Font.Style:= [];
+      ACanvas.Font.Size:= name_size;
+      ACanvas.Font.Color:= CurrentSkin.GetTextColor(skncToolbarItem, sknsNormal);
+      item:= TCEInfoItem(fInfoList.Items[0]);
+      size:= WideCanvasTextExtent(ACanvas, item.Text);
+      SpDrawXPText(ACanvas, item.Text, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
+
+      // Draw Other infos
+      ACanvas.Font.Size:= original_font_size;
+      ACanvas.Font.Color:= CurrentSkin.GetTextColor(skncToolbarItem, sknsDisabled);
+      r.Left:= r.Left + size.cx + 4;
+      ws:= '';
+      for i:= 1 to fInfoList.Count - 1 do
+      begin
+        item:= TCEInfoItem(fInfoList.Items[i]);
+        if item.Text <> '' then
+        begin
+          ws:= ws + ' | ' + item.Text;
+        end
+        else if item.Prefix <> '' then
+        begin
+          ws:= ws + ' | ' + item.Prefix;
+        end;
+      end;
+      SpDrawXPText(ACanvas, ws, r, DT_END_ELLIPSIS  or DT_SINGLELINE or DT_VCENTER);
+    end
+    // Multiple rows
+    else
+    begin
+      // Draw Name
+      ACanvas.Font.Style:= [fsBold];
+      ACanvas.Font.Color:= CurrentSkin.GetTextColor(skncToolbarItem, sknsNormal);
+      ACanvas.Font.Size:= name_size;
+      r.Bottom:= r.Top + RowHeight-2;
+      item:= TCEInfoItem(fInfoList.Items[0]);
+      size:= WideCanvasTextExtent(ACanvas, item.Text);
+      SpDrawXPText(ACanvas, item.Text, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
+
+      // Draw Other Infos
+      ACanvas.Font.Style:= [];
+      ACanvas.Font.Size:= original_font_size;
+      r.Left:= fInfoRect.Left;
+      r.Top:= r.Bottom;
+      r.Bottom:= r.Top + RowHeight - 3;
+      row:= 2;
+      row_num:= Max(1,Height div RowHeight);
+      col:= 1;
+      col_num:= Ceil((fInfoList.Count - 1) / row_num);
+      if col_num < 1 then
+      col_num:= 1;
+
+      for i:= 1 to fInfoList.Count - 1 do
+      begin
+        item:= TCEInfoItem(fInfoList.Items[i]);
+        if (item.Text <> '') or (item.Prefix <> '') then
+        begin
+          // get text sizes
+          size:= WideCanvasTextExtent(ACanvas, item.Text);
+          if item.Prefix <> '' then
+          begin
+            prefix_size:= WideCanvasTextExtent(ACanvas, item.Prefix + ':');
+            prefix_size.cx:= prefix_size.cx + 2;
+          end
+          else
+          prefix_size.cx:= 0;
+
+          // go to row
+          if (((r.Right - r.Left) < (size.cx + prefix_size.cx)) and (row < row_num) and (col_num > 1))
+             or ((col > col_num) and (row <= row_num)) then
+          begin
+            if ((fInfoRect.Bottom - fInfoRect.Top) + Max(prefix_size.cy, size.cy)) >= (((row+1) * RowHeight)) then
+            begin
+              row:= row + 1;
+              col:= 1;
+              r.Left:= fInfoRect.Left;
+              r.Top:= r.Bottom;
+              r.Bottom:= r.Top + RowHeight - 3;
+            end;
+          end;
+
+          // draw prefix
+          ACanvas.Font.Color:= CurrentSkin.GetTextColor(skncToolbarItem, sknsDisabled);
+          if prefix_size.cx > 0 then
+          begin
+            if size.cx > 0 then
+            SpDrawXPText(ACanvas, item.Prefix + ':', r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER)
+            else
+            SpDrawXPText(ACanvas, item.Prefix, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
+            r.Left:= r.Left + prefix_size.cx;
+          end;
+
+          // draw text
+          ACanvas.Font.Color:= CurrentSkin.GetTextColor(skncToolbarItem, sknsNormal);
+          if size.cx > 0 then
+          begin
+            SpDrawXPText(ACanvas, item.Text, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
+          end;
+          r.Left:= r.Left + size.cx + 10;
+          col:= col + 1;
+        end;
+      end;
+    end;
+  end
+  else
+  begin
+    // Draw "No Selection" notify.
+    ACanvas.Font.Color:= clGrayText;
+    if Height < (RowHeight + 10) then
+    begin
+      r.Left:= 10;
+      r.Top:= 3;
+    end
+    else
+    begin
+      r.Left:= 10;
+      r.Top:= 10;
+    end;
+    SpDrawXPText(ACanvas, 'No Selection', r, DT_END_ELLIPSIS);
   end;
 end;
 
@@ -537,34 +607,44 @@ begin
   if csDestroying in Self.ComponentState then
   Exit;
 
-  // Calculate icon rect
-  if Height < 22 then
+  h:= fIconBorderSize * 2;
+  // Get Icon Size
+  if (Height <= (h + 16)) then // Small Icon (16px).
+  fIconSize:= itSmallIcon
+  else if (Height > (h + 16)) and (Height <= (h + 32)) then // Large Icon (32px).
+  fIconSize:= itLargeIcon
+  else if (Height > (h + 32)) and (Height <= (h + 64)) then // Extra Large Icon (48px).
+  fIconSize:= itExtraLargeIcon
+  else // Jumbo size (256px). (Vista/win7 only)
   begin
-    fIconType:= itSmallIcon;
-    fIconRect:= Rect(3, 1, Height+1, Height+1);
+    if UseJumboIcons then
+    fIconSize:= itJumboIcon
+    else
+    fIconSize:= itExtraLargeIcon;
+  end;
+
+  
+  if (Height <= (h + 16)) then
+  begin
+    fIconHeight:= 16;
+    fIconWidth:= 16;
+    fIconRect.Left:= fIconBorderSize;
+    fIconRect.Top:= Round((Height - 16) / 2);
+    fIconRect.Right:= fIconRect.Left + 16;
+    fIconRect.Bottom:= fIconRect.Top + 16;
   end
   else
   begin
-    if (Height > 22) and (Height < 39) then
-    fIconType:= itLargeIcon
-    else if (Height > 38) and (Height < 55) then
-    fIconType:= itExtraLargeIcon
-    else
-    fIconType:= itJumboIcon;
-    fIconRect:= Rect(3,3, Height-3,Height-3);
+    fIconHeight:= Height - (fIconBorderSize * 2);
+    fIconWidth:= fIconHeight;
+    fIconRect:= Rect(fIconBorderSize,fIconBorderSize, fIconBorderSize + fIconWidth, fIconBorderSize + fIconHeight);
   end;
-  fIconWidth:= fIconRect.Right - fIconRect.Left;
-  fIconHeight:= fIconRect.Bottom - fIconRect.Top;
-
   // Calculate info rect
   fInfoRect:= fIconRect;
-  fInfoRect.Left:= fIconRect.Right + 4;
+  fInfoRect.Left:= fIconRect.Right + (fIconBorderSize*2);
   fInfoRect.Right:= Width - 3;
 
   DrawBuffer;
-
-//  if AutoRefreshThumbnail and fResizedThumbnail then
-//  RunThumbnailThread;
 end;
 
 {-------------------------------------------------------------------------------
@@ -614,6 +694,15 @@ end;
 procedure TCEInfoBar.WMEraseBkgnd(var Message: TWmEraseBkgnd);
 begin
   Message.Result:= 1;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle WM_SpSkinChange
+-------------------------------------------------------------------------------}
+procedure TCEInfoBar.WMSpSkinChange(var Message: TMessage);
+begin
+  DrawBuffer;
+  Paint;
 end;
 
 {##############################################################################}
