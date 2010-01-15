@@ -177,7 +177,7 @@ begin
     fInfoList.Clear;
     // Add Name
     if fSelectionCount > 1 then
-    AddInfoItem(fLatestNS.NameNormal, '(' + IntToStr(fSelectionCount) + ' ' + _('Selected'))
+    AddInfoItem(fLatestNS.NameNormal, '(' + IntToStr(fSelectionCount) + ' ' + _('Selected') + ')')
     else
     AddInfoItem(fLatestNS.NameNormal, '');
     // Add Folder Item Count
