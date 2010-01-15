@@ -54,6 +54,7 @@ type
     FilterTimer: TTimer;
     SpTBXSeparatorItem1: TSpTBXSeparatorItem;
     but_clear_filterhistory: TSpTBXItem;
+    but_clear: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure check_resetfiltersClick(Sender: TObject);
@@ -68,6 +69,8 @@ type
       ARect: TRect; ItemInfo: TSpTBXMenuItemInfo;
       const PaintStage: TSpTBXPaintStage; var PaintDefault: Boolean);
     procedure but_clear_filterhistoryClick(Sender: TObject);
+    procedure but_clearClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     fSettings: TCEFiltersPanelSettings;
   protected
@@ -158,6 +161,24 @@ begin
   FilterBackgroundBitmap.Free;
   fSettings.Free;
   inherited;
+end;
+
+procedure TCEFiltersPanel.FormResize(Sender: TObject);
+var
+  i: Integer;
+  view: TTBItemViewer;
+  w: Integer;
+begin
+  w:= 0;
+  for i:= 0 to PatternToolbar.View.ViewerCount - 1 do
+  begin
+    view:= PatternToolbar.View.Viewers[i];
+    if view.Item is TSpTBXItem then
+    begin
+      w:= w + (view.BoundsRect.Right - view.BoundsRect.Left);
+    end;
+  end;
+  combo_filterpattern.Width:= Self.ClientWidth - w - 4;
 end;
 
 {*------------------------------------------------------------------------------
@@ -262,6 +283,17 @@ procedure TCEFiltersPanel.GlobalPIDLChanged(Sender: TObject; NewPIDL:
 begin
   if Settings.AutoResetFilters then
   Filters.ClearFilters;
+end;
+
+{-------------------------------------------------------------------------------
+  On but_clear Click
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.but_clearClick(Sender: TObject);
+begin
+  Filters.ClearFilters;
+  Filters.DeFilter;
+  combo_filterpattern.Text:= '';
+  Filters.PopulateTree;
 end;
 
 {-------------------------------------------------------------------------------

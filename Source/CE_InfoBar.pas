@@ -50,6 +50,7 @@ type
     fInfoRect: TRect;
     fLatestNS: TNamespace;
     fLatestThread: TCEThumbLoadThread;
+    fSelectionCount: Integer;
     fThumbHeight: Integer;
     fThumbnailBuffer: TBitmap;
     fThumbnailFound: Boolean;
@@ -69,7 +70,8 @@ type
     destructor Destroy; override;
     function AddInfoItem(AText: WideString; APrefix: WideString): Integer; virtual;
     procedure Clear;
-    procedure LoadFromPIDL(APIDL: PItemIDList); virtual;
+    procedure LoadFromPIDL(APIDL: PItemIDList; ASelectionCount: Integer = 1);
+        virtual;
     procedure Paint; override;
     procedure RefreshThumbnail;
     procedure Resize; override;
@@ -172,6 +174,9 @@ begin
   try
     fInfoList.Clear;
     // Add Name
+    if fSelectionCount > 1 then
+    AddInfoItem(fLatestNS.NameNormal, '(' + IntToStr(fSelectionCount) + ' Selected)')
+    else
     AddInfoItem(fLatestNS.NameNormal, '');
     // Add Folder Item Count
     if fShowFolderItemCount and fLatestNS.Folder then
@@ -231,6 +236,7 @@ begin
   if assigned(fLatestNS) then
   FreeAndNil(fLatestNS);
   fThumbnailFound:= false;
+  fSelectionCount:= 0;
   fInfoList.Clear;
   DrawBuffer;
   Paint;
@@ -294,10 +300,10 @@ begin
       begin
         DrawIcon(fBuffer.Canvas, fIconRect);
       end;
-
-      // Paint InfoList
-      DrawInfoList(fBuffer.Canvas, fInfoRect);
     end;
+    
+    // Paint InfoList
+    DrawInfoList(fBuffer.Canvas, fInfoRect);
   finally
     fBuffer.Canvas.Unlock;
   end;             
@@ -415,7 +421,15 @@ begin
       // Draw Other infos
       ACanvas.Font.Size:= original_font_size;
       ACanvas.Font.Color:= CurrentSkin.GetTextColor(skncToolbarItem, sknsDisabled);
-      r.Left:= r.Left + size.cx + 4;
+      // selection count
+      if fSelectionCount > 1 then
+      begin
+        r.Left:= r.Left + size.cx + 3;
+        size:= WideCanvasTextExtent(ACanvas, item.Prefix);
+        SpDrawXPText(ACanvas, item.Prefix, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
+      end;
+      // infos
+      r.Left:= r.Left + size.cx + 3;
       ws:= '';
       for i:= 1 to fInfoList.Count - 1 do
       begin
@@ -440,8 +454,16 @@ begin
       ACanvas.Font.Size:= name_size;
       r.Bottom:= r.Top + RowHeight-2;
       item:= TCEInfoItem(fInfoList.Items[0]);
-      size:= WideCanvasTextExtent(ACanvas, item.Text);
       SpDrawXPText(ACanvas, item.Text, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
+
+      if item.Prefix <> '' then
+      begin
+        size:= WideCanvasTextExtent(ACanvas, item.Text);
+        ACanvas.Font.Style:= [];
+        ACanvas.Font.Color:= CurrentSkin.GetTextColor(skncToolbarItem, sknsDisabled);
+        r.Left:= r.Left + size.cx + 4;
+        SpDrawXPText(ACanvas, item.Prefix, r, DT_END_ELLIPSIS or DT_SINGLELINE or DT_VCENTER);
+      end;
 
       // Draw Other Infos
       ACanvas.Font.Style:= [];
@@ -511,7 +533,8 @@ begin
   else
   begin
     // Draw "No Selection" notify.
-    ACanvas.Font.Color:= clGrayText;
+    ACanvas.Font.Size:= name_size;
+    ACanvas.Font.Color:= CurrentSkin.GetTextColor(skncToolbarItem, sknsDisabled);
     if Height < (RowHeight + 10) then
     begin
       r.Left:= 10;
@@ -524,21 +547,26 @@ begin
     end;
     SpDrawXPText(ACanvas, 'No Selection', r, DT_END_ELLIPSIS);
   end;
+  
+  ACanvas.Font.Size:= original_font_size;
 end;
 
 {-------------------------------------------------------------------------------
   Load From PIDL
 -------------------------------------------------------------------------------}
-procedure TCEInfoBar.LoadFromPIDL(APIDL: PItemIDList);
+procedure TCEInfoBar.LoadFromPIDL(APIDL: PItemIDList; ASelectionCount: Integer
+    = 1);
 begin
   if csDestroying in Self.ComponentState then
   exit;
 
+  fSelectionCount:= ASelectionCount;
   if assigned(fLatestNS) then
   begin
     if PIDLMgr.EqualPIDL(APIDL, fLatestNS.AbsolutePIDL) then
     begin
       BuildInfoList; // Refresh infolist
+      DrawBuffer;
       Paint;
       Exit;
     end;
@@ -624,7 +652,7 @@ begin
   end;
 
   
-  if (Height <= (h + 16)) then
+  if fIconSize = itSmallIcon then
   begin
     fIconHeight:= 16;
     fIconWidth:= 16;
@@ -641,6 +669,9 @@ begin
   end;
   // Calculate info rect
   fInfoRect:= fIconRect;
+  if fIconSize = itSmallIcon then
+  finfoRect.Left:= fIconRect.Right + 4
+  else
   fInfoRect.Left:= fIconRect.Right + (fIconBorderSize*2);
   fInfoRect.Right:= Width - 3;
 

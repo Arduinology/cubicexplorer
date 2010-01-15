@@ -95,6 +95,9 @@ type
         TShiftState; X, Y: Integer);
     procedure InfoBarSplitterMoving(Sender: TObject; var NewSize: Integer; var
         Accept: Boolean);
+    procedure ItemSelectionChanged(Sender: TCustomEasyListview; Item: TEasyItem);
+        virtual;
+    procedure ItemSelectionsChanged(Sender: TCustomEasyListview);
     procedure OnItemContextMenu(Sender: TCustomEasyListview; HitInfo:
         TEasyHitInfoItem; WindowPoint: TPoint; var Menu: TPopupMenu; var Handled:
         Boolean);
@@ -106,7 +109,6 @@ type
     InfoBarSplitter: TSpTBXSplitter;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure ItemSelectionsChanged(Sender: TCustomEasyListview);
     procedure OnMouseDown(Sender: TObject; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer);
     procedure RootChanging(Sender: TCustomVirtualExplorerEasyListview; const
@@ -270,6 +272,7 @@ begin
   FileView.OnRootChanging:= RootChanging;
   FileView.OnRootChange:= RootChange;
   FileView.OnItemSelectionsChanged:= ItemSelectionsChanged;
+  FileView.OnItemSelectionChanged:= ItemSelectionChanged;
   FileView.OnColumnSizeChanged:= ColumnSizeChanged;
   FileView.OnContextMenu:= OnContextMenu;
   FileView.OnItemContextMenu:= OnItemContextMenu;
@@ -411,13 +414,6 @@ begin
     if assigned(NS) then
     begin
       GlobalPathCtrl.ChangeFocusedPath(Self, NS.NameForParsing);
-      if ShowInfoBar then
-      InfoBar.LoadFromPIDL(NS.AbsolutePIDL);
-    end
-    else
-    begin
-      if ShowInfoBar then
-      InfoBar.Clear;
     end;
     if assigned(fQuickView) then
     fQuickView.LoadFile(NS.NameForParsing);
@@ -425,8 +421,6 @@ begin
   else
   begin
     GlobalPathCtrl.ChangeFocusedPath(Self, '');
-    if ShowInfoBar then
-    InfoBar.Clear;
     if assigned(fQuickView) then
     fQuickView.CloseFile;
   end;
@@ -602,6 +596,48 @@ end;
 procedure TCEFileViewPage.HidePage;
 begin
   inherited;
+end;
+
+procedure TCEFileViewPage.ItemSelectionChanged(Sender: TCustomEasyListview;
+    Item: TEasyItem);
+var
+  ns: TNamespace;
+  lastItem, tmpItem: TEasyItem;
+begin
+  if not ShowInfoBar then
+  Exit;
+  
+  if FileView.Selection.Count = 0 then
+  begin
+    InfoBar.Clear;
+  end
+  else
+  begin
+    if item.Selected then
+    begin
+      if FileView.ValidateNamespace(item, ns) then
+      begin
+        Caption:= ns.NameNormal;
+        InfoBar.LoadFromPIDL(ns.AbsolutePIDL, FileView.Selection.Count);
+      end
+    end
+    else
+    begin
+      lastItem:= nil;
+      tmpItem:= FileView.Selection.First;
+      while assigned(tmpItem) do
+      begin
+        lastItem:= tmpItem;
+        tmpItem:= FileView.Selection.Next(tmpItem);
+      end;
+
+      if FileView.ValidateNamespace(lastItem, ns) then
+      begin
+        Caption:= ns.NameNormal;
+        InfoBar.LoadFromPIDL(ns.AbsolutePIDL, FileView.Selection.Count);
+      end;
+    end;
+  end;
 end;
 
 {*------------------------------------------------------------------------------

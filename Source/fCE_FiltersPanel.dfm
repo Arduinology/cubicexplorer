@@ -2,8 +2,9 @@ inherited CEFiltersPanel: TCEFiltersPanel
   Caption = 'Filters'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnResize = FormResize
   ExplicitWidth = 433
-  ExplicitHeight = 322
+  ExplicitHeight = 325
   PixelsPerInch = 96
   TextHeight = 13
   inherited TopDock: TSpTBXDock
@@ -18,6 +19,7 @@ inherited CEFiltersPanel: TCEFiltersPanel
       DockPos = 0
       DragHandleStyle = dhNone
       FullSize = True
+      ShrinkMode = tbsmNone
       TabOrder = 0
       object combo_controlitem: TTBControlItem
         Control = combo_filterpattern
@@ -30,10 +32,16 @@ inherited CEFiltersPanel: TCEFiltersPanel
         OnClick = check_wildcardsClick
         OnDrawItem = check_wildcardsDrawItem
       end
+      object but_clear: TSpTBXItem
+        Caption = 'Clear Filters'
+        ImageIndex = 4
+        Images = CE_Images.SmallIcons
+        OnClick = but_clearClick
+      end
       object combo_filterpattern: TSpTBXComboBox
         Left = 0
         Top = 0
-        Width = 125
+        Width = 150
         Height = 21
         DropDownCount = 12
         ItemHeight = 13
