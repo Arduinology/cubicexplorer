@@ -751,3 +751,13 @@ msgstr ""
 #: fCE_SearchPage.dfm:328
 msgid "SpTBXTabItem8"
 msgstr ""
+
+#. CESearchPage..ResultView..ThumbsManager.StorageFilename
+#: fCE_SearchPage.dfm:45
+msgid "Thumbnails.album"
+msgstr ""
+
+#. CESearchPage..panel_status..Caption
+#: fCE_SearchPage.dfm:831
+msgid "testtest"
+msgstr ""

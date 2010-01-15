@@ -300,9 +300,9 @@ begin
   InfoBar:= TCEInfoBar.Create(nil);
   InfoBar.Parent:= Self;
   InfoBar.Align:= alBottom;
-  InfoBar.Visible:= true;
+  InfoBar.Visible:= false;
   InfoBar.RowHeight:= SpGetControlTextHeight(InfoBar, InfoBar.Font) + 6;
-  InfoBar.Height:= GlobalFileViewSettings.InfoBarSize;
+  InfoBar.Height:= Max(GlobalFileViewSettings.InfoBarSize,InfoBar.RowHeight*3 + 6);
 
   InfoBarSplitter:= TSpTBXSplitter.Create(nil);
   InfoBarSplitter.Parent:= Self;
@@ -312,8 +312,9 @@ begin
   InfoBarSplitter.Top:= InfoBar.BoundsRect.Top - InfoBarSplitter.Height;
   InfoBarSplitter.OnMouseUp:= InfoBarSplitterMouseUp;
   InfoBarSplitter.OnMoving:= InfoBarSplitterMoving;
+  InfoBarSplitter.Visible:= false;
 
-  ShowInfoBar:= true;
+  ShowInfoBar:= false;
 
   GlobalFileViewSettings.AssignSettingsTo(Self);
 end;

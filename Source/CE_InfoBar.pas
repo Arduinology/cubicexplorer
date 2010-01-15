@@ -3,6 +3,8 @@ unit CE_InfoBar;
 interface
 
 uses
+  // CE Units
+  CE_LanguageEngine,
   // SpTBX
   SpTBXSkins, SpTBXItem, SpTBXControls,
   // TNT
@@ -11,7 +13,7 @@ uses
   MPShellUtilities, MPShellTypes, MPCommonObjects,
   // System Units
   ExtCtrls, Classes, Controls, Windows, Graphics, Messages, Contnrs,
-  Forms, Math, SysUtils, ShlObj, ActiveX, UxTheme, Themes, GraphicEx, WSDLBind;
+  Forms, Math, SysUtils, ShlObj, ActiveX, UxTheme, Themes, GraphicEx;
 
 type
   TCEIconSize = (itSmallIcon, itLargeIcon, itExtraLargeIcon, itJumboIcon);
@@ -175,7 +177,7 @@ begin
     fInfoList.Clear;
     // Add Name
     if fSelectionCount > 1 then
-    AddInfoItem(fLatestNS.NameNormal, '(' + IntToStr(fSelectionCount) + ' Selected)')
+    AddInfoItem(fLatestNS.NameNormal, '(' + IntToStr(fSelectionCount) + ' ' + _('Selected'))
     else
     AddInfoItem(fLatestNS.NameNormal, '');
     // Add Folder Item Count
@@ -196,7 +198,7 @@ begin
           PIDLMgr.FreePIDL(NewItem);
         end;
       end;
-      AddInfoItem(IntToStr(i) + ' ' + 'Item(s)', '');
+      AddInfoItem(IntToStr(i) + ' ' + _('Item(s)'), '');
     end;
     // Add Info Query items
     list.Text:= fLatestNS.InfoTip;
@@ -545,7 +547,7 @@ begin
       r.Left:= 10;
       r.Top:= 10;
     end;
-    SpDrawXPText(ACanvas, 'No Selection', r, DT_END_ELLIPSIS);
+    SpDrawXPText(ACanvas, _('No Selection'), r, DT_END_ELLIPSIS);
   end;
   
   ACanvas.Font.Size:= original_font_size;
