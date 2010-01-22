@@ -13,13 +13,15 @@ uses
   MPShellUtilities, MPShellTypes, MPCommonObjects,
   // System Units
   ExtCtrls, Classes, Controls, Windows, Graphics, Messages, Contnrs,
-  Forms, Math, SysUtils, ShlObj, ActiveX, UxTheme, Themes, GraphicEx;
+  Forms, Math, SysUtils, ShlObj, ActiveX, UxTheme, Themes, GraphicEx,
+  AsyncCalls;
 
 type
   TCEIconSize = (itSmallIcon, itLargeIcon, itExtraLargeIcon, itJumboIcon);
 
   TCEInfoBar = class;
 
+  // Thumbnail Thread
   TCEThumbLoadThread = class(TThread)
   protected
     InfoBar: TCEInfoBar;
@@ -32,6 +34,22 @@ type
     ThumbnailSize: TSize;
   end;
 
+  // InfoQuery Thread
+  TCEInfoLoadThread = class(TThread)
+  protected
+    InfoBar: TCEInfoBar;
+    procedure SyncFinished; virtual;
+    procedure Execute; override;
+  public
+    PIDL: PItemIDList;
+    Info: WideString;
+    InfoFound: Boolean;
+    CalculateHiddenItems: Boolean;
+    ShowFolderItemCount: Boolean;
+    ShowInfoTip: Boolean;
+  end;  
+
+  // InfoBar
   TCEInfoBar = class(TCustomControl)
   private
     fAutoRefreshThumbnail: Boolean;
@@ -48,16 +66,19 @@ type
     fIconRect: TRect;
     fIconSize: TCEIconSize;
     fIconWidth: Integer;
+    fInfoFound: Boolean;
     fInfoList: TObjectList;
     fInfoRect: TRect;
     fLatestNS: TNamespace;
-    fLatestThread: TCEThumbLoadThread;
+    fLatestThumbThread: TCEThumbLoadThread;
+    fLatestInfoThread: TCEInfoLoadThread;
+    fMyComputerPIDL: PItemIDList;
     fSelectionCount: Integer;
     fThumbHeight: Integer;
     fThumbnailBuffer: TBitmap;
     fThumbnailFound: Boolean;
     fThumbWidth: Integer;
-    procedure BuildInfoList; virtual;
+    procedure BuildInfoList(AInfo: WideString = ''); virtual;
     function CanResize(var NewWidth, NewHeight: Integer): Boolean; override;
     procedure CreateParams(var Params: TCreateParams); override;
     procedure DrawBuffer; virtual;
@@ -65,7 +86,9 @@ type
     procedure DrawThumbnail(ACanvas: TCanvas; ARect: TRect); virtual;
     procedure DrawInfoList(ACanvas: TCanvas; ARect: TRect); virtual;
     procedure RunThumbnailThread; virtual;
-    procedure ThreadFinished(AThread: TCEThumbLoadThread); virtual;
+    procedure RunInfoThread; virtual;
+    procedure ThumbThreadFinished(AThread: TCEThumbLoadThread); virtual;
+    procedure InfoThreadFinished(AThread: TCEInfoLoadThread); virtual;
   public
     fResizedThumbnail: Boolean;
     constructor Create(AOwner: TComponent); override;
@@ -102,8 +125,6 @@ type
     property Text: WideString read fText write fText;
   end;
 
-
-
 implementation
 
 uses
@@ -113,8 +134,6 @@ uses
   Create an instance of TCEInfoBar
 -------------------------------------------------------------------------------}
 constructor TCEInfoBar.Create(AOwner: TComponent);
-var
-  ACanvas: TControlCanvas;
 begin
   inherited;
   SetDesktopIconFonts(Canvas.Font);
@@ -129,6 +148,7 @@ begin
   fUseJumboIcons:= false;
   Resize;
   SkinManager.AddSkinNotification(Self);
+  SHGetSpecialFolderLocation(Application.MainFormHandle, CSIDL_DRIVES, fMyComputerPIDL); 
 end;
 
 {-------------------------------------------------------------------------------
@@ -142,6 +162,7 @@ begin
   fThumbnailBuffer.Free;
   fBuffer.Free;
   fInfoList.Free;
+  PIDLMgr.FreePIDL(fMyComputerPIDL);
   inherited;
 end;
 
@@ -162,15 +183,14 @@ end;
 {-------------------------------------------------------------------------------
   Build InfoList
 -------------------------------------------------------------------------------}
-procedure TCEInfoBar.BuildInfoList;
+procedure TCEInfoBar.BuildInfoList(AInfo: WideString = '');
 var
-  EnumList: IEnumIDList;
-  NewItem: PItemIDList;
-  Dummy: Cardinal;
-  Flags: Cardinal;
   list: TTntStrings;
-  i: Integer;
+  i,c: Integer;
 begin
+  if not assigned(fLatestNS) then
+  Exit;
+
   list:= TTntStringList.Create;
   list.NameValueSeparator:= ':';
   try
@@ -180,34 +200,26 @@ begin
     AddInfoItem(fLatestNS.NameNormal, '(' + IntToStr(fSelectionCount) + ' ' + _('Selected') + ')')
     else
     AddInfoItem(fLatestNS.NameNormal, '');
-    // Add Folder Item Count
-    if fShowFolderItemCount and fLatestNS.Folder then
-    begin
-      i:= 0;
-      if CalculateHiddenItems then
-      Flags:= SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_INCLUDEHIDDEN
-      else
-      Flags:= SHCONTF_FOLDERS or SHCONTF_NONFOLDERS;
-      
 
-      if fLatestNS.ShellFolder.EnumObjects(0, Flags, EnumList) = S_OK then
-      begin
-        while EnumList.Next(1, NewItem, Dummy) = S_OK do
-        begin
-          i:= i + 1;
-          PIDLMgr.FreePIDL(NewItem);
-        end;
-      end;
-      AddInfoItem(IntToStr(i) + ' ' + _('Item(s)'), '');
-    end;
-    // Add Info Query items
-    list.Text:= fLatestNS.InfoTip;
-    for i:= list.Count - 1 downto 0 do
+    // Add Info items
+    if AInfo <> '' then
     begin
-      if list.Names[i] = '' then
-      AddInfoItem('', list.Strings[i])
+      list.Text:= AInfo;
+      if (list.Count > 0) and fShowFolderItemCount and fLatestNS.Folder then
+      begin
+        AddInfoItem(list.ValueFromIndex[list.Count-1] + ' ' + _('Item(s)'), '');
+        c:= list.Count - 2;
+      end
       else
-      AddInfoItem(Trim(list.ValueFromIndex[i]), list.Names[i]);
+      c:= list.Count - 1;
+
+      for i:= c downto 0 do
+      begin
+        if list.Names[i] = '' then
+        AddInfoItem('', list.Strings[i])
+        else
+        AddInfoItem(Trim(list.ValueFromIndex[i]), list.Names[i]);
+      end;
     end;
   finally
     list.Free;
@@ -218,9 +230,6 @@ end;
   Handle CanResize
 -------------------------------------------------------------------------------}
 function TCEInfoBar.CanResize(var NewWidth, NewHeight: Integer): Boolean;
-var
-  row_count: Integer;
-  s: Single;
 begin
   Result:= NewHeight > fRowHeight;
 end;
@@ -230,9 +239,9 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEInfoBar.Clear;
 begin
-  if assigned(fLatestThread) then
+  if assigned(fLatestThumbThread) then
   begin
-    fLatestThread.Terminate;
+    fLatestThumbThread.Terminate;
   end;
   fThumbnailBuffer.SetSize(0,0);
   if assigned(fLatestNS) then
@@ -263,13 +272,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEInfoBar.DrawBuffer;
 var
-  Flags: Integer;
-  l,t,i, row, col_num, row_num, col: Integer;
   r: TRect;
-  item: TCEInfoItem;
-  ws: WideString;
-  size, prefix_size: TSize;
-  op: TSpTBXSkinOptionCategory;
 begin
   if csDestroying in Self.ComponentState then
   Exit;
@@ -391,10 +394,7 @@ end;
 
 procedure TCEInfoBar.DrawInfoList(ACanvas: TCanvas; ARect: TRect);
 var
-  ar: Single;
-  l,t,w,h: Integer;
   r: TRect;
-  bit: TBitmap;
   item: TCEInfoItem;
   ws: WideString;
   i: Integer;
@@ -574,11 +574,11 @@ begin
     end;
   end;
 
-  // Terminate previous thread if present
-  if assigned(fLatestThread) then
-  begin
-    fLatestThread.Terminate;
-  end;
+  // Terminate previous threads if present
+  if assigned(fLatestThumbThread) then
+  fLatestThumbThread.Terminate;
+  if assigned(fLatestInfoThread) then
+  fLatestInfoThread.Terminate;
   
   if assigned(APIDL) then
   begin
@@ -589,7 +589,9 @@ begin
     fLatestNS.FreePIDLOnDestroy:= true;
 
     // Build InfoList
+    fInfoFound:= false;
     BuildInfoList;
+    RunInfoThread;
     
     // Draw normal Icon first
     fThumbnailFound:= false;
@@ -616,8 +618,6 @@ end;
   Refresh Thumbnail
 -------------------------------------------------------------------------------}
 procedure TCEInfoBar.RefreshThumbnail;
-var
-  ar: Single;
 begin
   if (Height > 16) and ((fThumbHeight > fThumbnailBuffer.Height) or (fThumbWidth > fThumbnailBuffer.Width)) then
   RunThumbnailThread;
@@ -628,10 +628,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEInfoBar.Resize;
 var
-  old_height: Integer;
-  w, h: Integer;
-  bit: TBitmap;
-  ar: Single;
+  h: Integer;
 begin
   inherited;
   if csDestroying in Self.ComponentState then
@@ -690,22 +687,44 @@ begin
     if CompareText(fLatestNS.Extension, '.ico') = 0 then
     Exit;
     
-    fLatestThread:= TCEThumbLoadThread.Create(true);
-    fLatestThread.FreeOnTerminate:= true;
-    fLatestThread.InfoBar:= Self;
-    fLatestThread.PIDL:= PIDLMgr.CopyPIDL(fLatestNS.AbsolutePIDL);
-    fLatestThread.ThumbnailSize.cx:= fIconRect.Right - fIconRect.Left;
-    fLatestThread.ThumbnailSize.cy:= fIconRect.Bottom - fIconRect.Top;
-    fLatestThread.Resume;
+    fLatestThumbThread:= TCEThumbLoadThread.Create(true);
+    fLatestThumbThread.FreeOnTerminate:= true;
+    fLatestThumbThread.InfoBar:= Self;
+    fLatestThumbThread.PIDL:= PIDLMgr.CopyPIDL(fLatestNS.AbsolutePIDL);
+    fLatestThumbThread.ThumbnailSize.cx:= fIconRect.Right - fIconRect.Left;
+    fLatestThumbThread.ThumbnailSize.cy:= fIconRect.Bottom - fIconRect.Top;
+    fLatestThumbThread.Resume;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Run Info Thread
+-------------------------------------------------------------------------------}
+procedure TCEInfoBar.RunInfoThread;
+begin
+  if assigned(fLatestNS) then
+  begin
+    fLatestInfoThread:= TCEInfoLoadThread.Create(true);
+    fLatestInfoThread.FreeOnTerminate:= true;
+    fLatestInfoThread.InfoBar:= Self;
+    fLatestInfoThread.PIDL:= PIDLMgr.CopyPIDL(fLatestNS.AbsolutePIDL);
+    fLatestInfoThread.ShowFolderItemCount:= fShowFolderItemCount and fLatestNS.Folder;
+    fLatestInfoThread.CalculateHiddenItems:= CalculateHiddenItems;
+
+    fLatestInfoThread.ShowInfoTip:= (not (fLatestNS.Folder and fLatestNS.FileSystem)) or
+                                    fLatestNS.IsParentByNamespace(DesktopFolder, true) or
+                                    fLatestNS.IsParentByNamespace(DrivesFolder, true) or
+                                    fLatestNS.IsParentByNamespace(ControlPanelFolder, false);
+    fLatestInfoThread.Resume;
   end;
 end;
 
 {-------------------------------------------------------------------------------
   Get's called when thread has finished
 -------------------------------------------------------------------------------}
-procedure TCEInfoBar.ThreadFinished(AThread: TCEThumbLoadThread);
+procedure TCEInfoBar.ThumbThreadFinished(AThread: TCEThumbLoadThread);
 begin
-  if AThread = fLatestThread then
+  if AThread = fLatestThumbThread then
   begin
     fThumbnailFound:= not AThread.Terminated and AThread.ThumbnailFound;
     if fThumbnailFound then
@@ -717,7 +736,25 @@ begin
       DrawBuffer;
       Paint;
     end;
-    fLatestThread:= nil;
+    fLatestThumbThread:= nil;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Get's called when thread has finished
+-------------------------------------------------------------------------------}
+procedure TCEInfoBar.InfoThreadFinished(AThread: TCEInfoLoadThread);
+begin
+  if AThread = fLatestInfoThread then
+  begin
+    fInfoFound:= not AThread.Terminated and AThread.InfoFound;
+    if fInfoFound then
+    begin
+      BuildInfoList(AThread.Info);
+      DrawBuffer;
+      Paint;
+    end;
+    fLatestInfoThread:= nil;
   end;
 end;
 
@@ -776,6 +813,7 @@ begin
   finally
     Thumbnail.Free;
     ns.Free;
+    CoUninitialize;
   end;
 end;
 
@@ -784,7 +822,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEThumbLoadThread.SyncFinished;
 begin
-  InfoBar.ThreadFinished(Self);
+  InfoBar.ThumbThreadFinished(Self);
 end;
 
 {##############################################################################}
@@ -804,6 +842,71 @@ end;
 destructor TCEInfoItem.Destroy;
 begin
   inherited;
+end;
+
+{##############################################################################}
+// TCEInfoLoadThread
+
+{-------------------------------------------------------------------------------
+  Execute ThumbLoadThread
+-------------------------------------------------------------------------------}
+procedure TCEInfoLoadThread.Execute;
+var
+  ns: TNamespace;
+  i: Integer;
+  flags: Cardinal;
+  EnumList: IEnumIDList;
+  NewItem: PItemIDList;
+  Dummy: Cardinal;  
+begin
+  CoInitialize(nil);
+  ns:= TNamespace.Create(PIDL, nil);
+  ns.FreePIDLOnDestroy:= true;
+  try
+    // Extract Info
+    if ShowInfoTip then
+    Info:= ns.InfoTip;
+    
+    // Add Folder Item Count
+    if ShowFolderItemCount then
+    begin
+      i:= 0;
+      if CalculateHiddenItems then
+      Flags:= SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_INCLUDEHIDDEN
+      else
+      Flags:= SHCONTF_FOLDERS or SHCONTF_NONFOLDERS;
+
+
+      if ns.ShellFolder.EnumObjects(0, Flags, EnumList) = S_OK then
+      begin
+        while (EnumList.Next(1, NewItem, Dummy) = S_OK) and (not Self.Terminated) do
+        begin
+          i:= i + 1;
+          PIDLMgr.FreePIDL(NewItem);
+        end;
+      end;
+      if Info <> '' then
+      Info:= Info + #13#10 + _('Item(s)') + ':' + IntToStr(i)
+      else
+      Info:= _('Item(s)') + ':' + IntToStr(i);
+    end;
+
+    InfoFound:= Info <> '';
+
+    // Synchronize end results
+    Synchronize(SyncFinished);
+  finally
+    ns.Free;
+    CoUninitialize;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  SyncFinished
+-------------------------------------------------------------------------------}
+procedure TCEInfoLoadThread.SyncFinished;
+begin
+  InfoBar.InfoThreadFinished(Self);
 end;
 
 end.

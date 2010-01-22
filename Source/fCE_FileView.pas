@@ -203,6 +203,7 @@ type
     procedure AssignColumnSettingsTo(FileView: TVirtualExplorerEasyListview);
     procedure SendChanges;
     procedure AssignColumnSettingsFrom(FileView: TVirtualExplorerEasyListview);
+    procedure ClearFilters;
   published
     property SelectPreviousFolder: Boolean read fSelectPreviousFolder write
         SetSelectPreviousFolder;
@@ -381,18 +382,8 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFileViewPage.InfoBarSplitterMoving(Sender: TObject;
   var NewSize: Integer; var Accept: Boolean);
-var
-  row_count: Integer;
-  i: Integer;
 begin
   Accept:= NewSize > InfoBar.RowHeight;
-//  if Accept then
-//  begin
-//    row_count:= Max(1, NewSize div InfoBar.RowHeight);
-//    i:= NewSize - ((InfoBar.RowHeight * row_count) + 6);
-//    Accept:= (i < 2) or (i > 2);
-//  end;
-
   InfoBar.Paint;
 end;
 
@@ -403,6 +394,7 @@ procedure TCEFileViewPage.ItemSelectionsChanged(Sender: TCustomEasyListview);
 var
   NS: TNamespace;
   Item: TEasyItem;
+  lastItem, tmpItem: TEasyItem;
 begin
   if FileView.Selection.Count > 1 then
   Item:= FileView.Selection.FocusedItem
@@ -418,12 +410,35 @@ begin
     end;
     if assigned(fQuickView) then
     fQuickView.LoadFile(NS.NameForParsing);
+
+    // Change Info Bar
+    if ShowInfoBar then
+    begin
+      if FileView.Selection.Count = 1 then
+      begin
+        InfoBar.LoadFromPIDL(NS.AbsolutePIDL, FileView.Selection.Count);
+      end
+      else
+      begin
+        lastItem:= nil;
+        tmpItem:= FileView.Selection.First;
+        while assigned(tmpItem) do
+        begin
+          lastItem:= tmpItem;
+          tmpItem:= FileView.Selection.Next(tmpItem);
+        end;
+        FileView.ValidateNamespace(lastItem, NS);
+        InfoBar.LoadFromPIDL(NS.AbsolutePIDL, FileView.Selection.Count);
+      end;
+    end;
   end
   else
   begin
     GlobalPathCtrl.ChangeFocusedPath(Self, '');
     if assigned(fQuickView) then
     fQuickView.CloseFile;
+    if ShowInfoBar then
+    InfoBar.Clear;
   end;
 end;
 
@@ -601,44 +616,8 @@ end;
 
 procedure TCEFileViewPage.ItemSelectionChanged(Sender: TCustomEasyListview;
     Item: TEasyItem);
-var
-  ns: TNamespace;
-  lastItem, tmpItem: TEasyItem;
 begin
-  if not ShowInfoBar then
-  Exit;
-  
-  if FileView.Selection.Count = 0 then
-  begin
-    InfoBar.Clear;
-  end
-  else
-  begin
-    if item.Selected then
-    begin
-      if FileView.ValidateNamespace(item, ns) then
-      begin
-        Caption:= ns.NameNormal;
-        InfoBar.LoadFromPIDL(ns.AbsolutePIDL, FileView.Selection.Count);
-      end
-    end
-    else
-    begin
-      lastItem:= nil;
-      tmpItem:= FileView.Selection.First;
-      while assigned(tmpItem) do
-      begin
-        lastItem:= tmpItem;
-        tmpItem:= FileView.Selection.Next(tmpItem);
-      end;
-
-      if FileView.ValidateNamespace(lastItem, ns) then
-      begin
-        Caption:= ns.NameNormal;
-        InfoBar.LoadFromPIDL(ns.AbsolutePIDL, FileView.Selection.Count);
-      end;
-    end;
-  end;
+  //
 end;
 
 {*------------------------------------------------------------------------------
@@ -1184,7 +1163,7 @@ begin
       TVirtualExplorerTree(NotifyList.Items[i]).FileObjects:= [foFolders,foNonFolders,foHidden] //,foShareable,foNetworkPrinters]
       else
       TVirtualExplorerTree(NotifyList.Items[i]).FileObjects:= [foFolders,foNonFolders];
-    end;     
+    end;
   end;
   CEFolderPanel.FolderTree.HiddenFiles:= fHiddenFiles;
 end;
@@ -1299,6 +1278,33 @@ begin
 
   grouping.Index:= FileView.GroupingColumn;
   grouping.Enabled:= FileView.Grouped;
+end;
+
+{-------------------------------------------------------------------------------
+  Clear filters from all FileViews
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.ClearFilters;
+var
+  i,i2: Integer;
+  FileViewPage: TCEFileViewPage;
+begin
+  for i:= 0 to NotifyList.Count - 1 do
+  begin
+    if NotifyList.Items[i] is TCEFileViewPage then
+    begin
+      FileViewPage:= TCEFileViewPage(NotifyList.Items[i]);
+      FileViewPage.FileView.BeginUpdate;
+      try
+        for i2:= 0 to FileViewPage.FileView.ItemCount - 1 do
+        begin
+          FileViewPage.FileView.Items.Items[i2].Visible:= true;
+        end;
+        FileViewPage.FileView.BackGround.Enabled:= false;
+      finally
+        FileViewPage.FileView.EndUpdate;
+      end;
+    end;
+  end;
 end;
 
 {-------------------------------------------------------------------------------

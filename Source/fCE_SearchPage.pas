@@ -445,11 +445,13 @@ procedure TCESearchPage.HandleFileMatch(Sender: TObject; const FileInfo:
 var
   NS: TNamespace;
 begin
+  ResultView.BeginUpdate;
   try
     NS:= TNamespace.CreateFromFileName(FileInfo.Location + FileInfo.Name);
     ResultView.AddCustomItem(nil, NS, true);
     fFileCount:= fFileCount + 1;
-  except
+  finally
+    ResultView.EndUpdate(true);
   end;
 end;
 

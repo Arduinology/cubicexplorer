@@ -211,13 +211,23 @@ begin
     if NewPage is TCEFileViewPage then
     begin
       if Settings.AutoResetFilters then
-      Filters.ClearFilters;
+      begin
+        combo_filterpattern.Text:= '';
+        FilterTimer.Enabled:= false;
+        Filters.PatternText:= '';
+        Filters.ClearFilters;
+      end;
       Filters.ExplorerEasyListview:= TCEFileViewPage(NewPage).FileView;
     end
     else if NewPage is TCESearchPage then
     begin
       if Settings.AutoResetFilters then
-      Filters.ClearFilters;
+      begin
+        combo_filterpattern.Text:= '';
+        FilterTimer.Enabled:= false;
+        Filters.PatternText:= '';
+        Filters.ClearFilters;
+      end;
       Filters.ExplorerEasyListview:= TCESearchPage(NewPage).ResultView;
     end
     else
@@ -282,7 +292,12 @@ procedure TCEFiltersPanel.GlobalPIDLChanged(Sender: TObject; NewPIDL:
     PItemIDList);
 begin
   if Settings.AutoResetFilters then
-  Filters.ClearFilters;
+  begin
+    combo_filterpattern.Text:= '';
+    FilterTimer.Enabled:= false;
+    Filters.PatternText:= '';
+    Filters.ClearFilters;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -290,9 +305,11 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFiltersPanel.but_clearClick(Sender: TObject);
 begin
-  Filters.ClearFilters;
-  Filters.DeFilter;
   combo_filterpattern.Text:= '';
+  FilterTimer.Enabled:= false;
+  Filters.PatternText:= '';
+  Filters.ClearFilters;
+  GlobalFileViewSettings.ClearFilters;
   Filters.PopulateTree;
 end;
 
