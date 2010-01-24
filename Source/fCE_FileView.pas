@@ -449,7 +449,18 @@ procedure TCEFileViewPage.OnMouseDown(Sender: TObject; Button: TMouseButton;
     Shift: TShiftState; X, Y: Integer);
 begin
   fDownShiftState:= Shift;
-  fShowItemContextMenu:= not (Shift = [ssRight, ssAlt]);
+
+  fShowItemContextMenu:= true;
+
+  if Shift = [ssRight, ssAlt] then
+  fShowItemContextMenu:= false
+  else if FileView.UseMouseRocker then
+  begin
+    if (Button = mbLeft) and FileView.RightMouseButton_IsDown then
+    fShowItemContextMenu:= false
+    else if (Button = mbRight) and FileView.LeftMouseButton_IsDown then
+    fShowItemContextMenu:= false
+  end;
 end;
 
 {*------------------------------------------------------------------------------
@@ -808,25 +819,28 @@ var
   menu: TCEBackContextMenu;
   item: TEasyItem;
 begin
-  CEActions.UpdateAll;
-  menu:= TCEBackContextMenu.Create;
-  try
-    menu.UpperMenuItems:= CEActions.BackgroundCMItems_up;
-    menu.LowerMenuItems:= CEActions.BackgroundCMItems_down;
+  if fShowItemContextMenu then
+  begin
+    CEActions.UpdateAll;
+    menu:= TCEBackContextMenu.Create;
+    try
+      menu.UpperMenuItems:= CEActions.BackgroundCMItems_up;
+      menu.LowerMenuItems:= CEActions.BackgroundCMItems_down;
 
-    if menu.ShowMenu(MousePt, FileView.RootFolderNamespace, FileView) then
-    begin
-      item:= TCEFileViewHack(FileView).RereadAndRefresh(False);
-      if Assigned(item) then
+      if menu.ShowMenu(MousePt, FileView.RootFolderNamespace, FileView) then
       begin
-        FileView.Selection.SelectRange(item,item,false,true);
-        FileView.Selection.FocusedItem:= item;
-        item.Edit(nil);
+        item:= TCEFileViewHack(FileView).RereadAndRefresh(False);
+        if Assigned(item) then
+        begin
+          FileView.Selection.SelectRange(item,item,false,true);
+          FileView.Selection.FocusedItem:= item;
+          item.Edit(nil);
+        end;
       end;
+    finally
+      menu.Free;
+      Handled:= true;
     end;
-  finally
-    menu.Free;
-    Handled:= true;
   end;
 end;
 

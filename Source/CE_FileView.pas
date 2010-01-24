@@ -69,6 +69,11 @@ type
     fUseKernelNotification: Boolean;
     fCellWidth: Integer;
     fColumnIndex: Integer;
+    fRightMouseButton_IsDown: Boolean;
+    fLeftMouseButton_IsDown: Boolean;
+    fLeftMouseButton_RockerClicks: Integer;
+    fRightMouseButton_RockerClicks: Integer;
+    fUseMouseRocker: Boolean;
     procedure SetAutosizeListViewStyle(const Value: Boolean);
     procedure SetUseKernelNotification(const Value: Boolean);
   protected
@@ -83,6 +88,8 @@ type
         Allow: Boolean); override;
     procedure DoRootRebuild; override;
     procedure HandleDblClick(Button: TCommonMouseButton; Msg: TWMMouse); override;
+    procedure HandleMouseDown(Button: TCommonMouseButton; Msg: TWMMouse); override;
+    procedure HandleMouseUp(Button: TCommonMouseButton; Msg: TWMMouse); override;
     procedure HistoryChange(Sender: TBaseVirtualShellPersistent; ItemIndex:
         Integer; ChangeType: TVSHChangeType);
     procedure SetNotifyFolder(Namespace: TNamespace);
@@ -108,6 +115,13 @@ type
     property AutosizeListViewStyle: Boolean read fAutosizeListViewStyle write
         SetAutosizeListViewStyle;
     property TranslateHeader: Boolean read fTranslateHeader write fTranslateHeader;
+    property UseMouseRocker: Boolean read fUseMouseRocker write fUseMouseRocker;
+    property LeftMouseButton_IsDown: Boolean read fLeftMouseButton_IsDown;
+    property LeftMouseButton_RockerClicks: Integer read
+        fLeftMouseButton_RockerClicks;
+    property RightMouseButton_IsDown: Boolean read fRightMouseButton_IsDown;
+    property RightMouseButton_RockerClicks: Integer read
+        fRightMouseButton_RockerClicks;
   published
     property AutoSelectFirstItem: Boolean read fAutoSelectFirstItem write
         fAutoSelectFirstItem;
@@ -248,7 +262,7 @@ end;
 
 {##############################################################################}
 
-{*------------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
   Create an instance of TCEFileView
 -------------------------------------------------------------------------------}
 constructor TCEFileView.Create(AOwner: TComponent);
@@ -279,9 +293,11 @@ begin
   Self.CellSizes.List.Height:= SmallShellIconSize + 1;
   Self.CellSizes.Report.Height:= SmallShellIconSize + 1;
   Self.Selection.FirstItemFocus:= false;
+
+  UseMouseRocker:= true;
 end;
 
-{*------------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
   Destroy an instance of TCEFileView.
 -------------------------------------------------------------------------------}
 destructor TCEFileView.Destroy;
@@ -308,7 +324,7 @@ begin
   end;
 end;
 
-{*------------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
   Get's called on mouse dbl click.
 -------------------------------------------------------------------------------}
 procedure TCEFileView.HandleDblClick(Button: TCommonMouseButton; Msg: TWMMouse);
@@ -346,7 +362,7 @@ begin
   inherited;
 end;
 
-{*------------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
   Get's called when new file is created from ShellNewMenu.
 -------------------------------------------------------------------------------}
 procedure TCEFileView.OnCreateNewFile(Sender: TMenu; const NewMenuItem:
@@ -510,7 +526,7 @@ begin
   Allow:= false;
 end;
 
-{*------------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
   Set View Mode
 -------------------------------------------------------------------------------}
 procedure TCEFileView.SetView(Value: TEasyListStyle);
@@ -541,7 +557,7 @@ begin
   fOnViewStyleChange(self);
 end;
 
-{*------------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
   Create new folder
 -------------------------------------------------------------------------------}
 procedure TCEFileView.CreateNewFolder;
@@ -618,7 +634,7 @@ begin
   inherited;
 end;
 
-{*------------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
   Handle Key Action
 -------------------------------------------------------------------------------}
 procedure TCEFileView.DoKeyAction(var CharCode: Word; var Shift: TShiftState;
@@ -667,7 +683,7 @@ begin
   inherited DoKeyAction(CharCode, Shift, DoDefault);
 end;
 
-{*------------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
   Do Root Change
 -------------------------------------------------------------------------------}
 procedure TCEFileView.DoRootChange;
@@ -686,7 +702,7 @@ begin
   end;
 end;
 
-{*------------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
   Root changing
 -------------------------------------------------------------------------------}
 procedure TCEFileView.DoRootChanging(const NewRoot: TRootFolder; Namespace:
@@ -784,7 +800,56 @@ begin
   History.Next;
 end;
 
-{*------------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
+  Handle Mouse Down events.
+-------------------------------------------------------------------------------}
+procedure TCEFileView.HandleMouseDown(Button: TCommonMouseButton; Msg:
+    TWMMouse);
+begin
+  Inherited;
+  
+  if Button = cmbLeft then
+  fLeftMouseButton_IsDown:= true;
+  if Button = cmbRight then
+  fRightMouseButton_IsDown:= true;
+
+  // Mouse Rocker Navigation
+  if UseMouseRocker then
+  begin
+    if (Button = cmbLeft) and fRightMouseButton_IsDown then
+    begin
+      GoBackInHistory;
+      fLeftMouseButton_RockerClicks:= fLeftMouseButton_RockerClicks + 1;
+    end
+    else if (Button = cmbRight) and fLeftMouseButton_IsDown then
+    begin
+      GoForwardInHistory;
+      fRightMouseButton_RockerClicks:= fRightMouseButton_RockerClicks + 1;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle Mouse Up
+-------------------------------------------------------------------------------}
+procedure TCEFileView.HandleMouseUp(Button: TCommonMouseButton; Msg: TWMMouse);
+begin
+  Inherited;
+  if Button = cmbLeft then
+  begin
+    fLeftMouseButton_IsDown:= false;
+    if fLeftMouseButton_IsDown then
+    fLeftMouseButton_RockerClicks:= 0;
+  end
+  else if Button = cmbRight then
+  begin
+    fRightMouseButton_IsDown:= false;
+    if fRightMouseButton_IsDown then
+    fRightMouseButton_RockerClicks:= 0;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   On History change
 -------------------------------------------------------------------------------}
 procedure TCEFileView.HistoryChange(Sender: TBaseVirtualShellPersistent;
@@ -802,7 +867,7 @@ begin
   end;
 end;
 
-{*------------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
   Paste Shortcut From Clipboard
 -------------------------------------------------------------------------------}
 procedure TCEFileView.PasteShortcutFromClipboard;
@@ -851,7 +916,7 @@ begin
   end;
 end;
 
-{*------------------------------------------------------------------------------
+{-------------------------------------------------------------------------------
   Set Focus
 -------------------------------------------------------------------------------}
 procedure TCEFileView.SetFocus;
