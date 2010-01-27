@@ -145,7 +145,7 @@ begin
   fAutoRefreshThumbnail:= false;
   fShowFolderItemCount:= true;
   fCalculateHiddenItems:= false;
-  fUseJumboIcons:= false;
+  fUseJumboIcons:= true;
   Resize;
   SkinManager.AddSkinNotification(Self);
   SHGetSpecialFolderLocation(Application.MainFormHandle, CSIDL_DRIVES, fMyComputerPIDL); 

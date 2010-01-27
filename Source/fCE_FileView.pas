@@ -174,6 +174,7 @@ type
     fThreadedEnumeration: Boolean;
     fThreadedImages: Boolean;
     fUpdating: Boolean;
+    fUse_JumboIcons_in_InfoBar: Boolean;
     NotifyList: TComponentList;
     procedure SetFullRowSelect(const Value: Boolean);
     procedure SetHiddenFiles(const Value: Boolean);
@@ -189,6 +190,7 @@ type
     procedure SetThreadedDetails(const Value: Boolean);
     procedure SetThreadedEnumeration(const Value: Boolean);
     procedure SetThreadedImages(const Value: Boolean);
+    procedure SetUse_JumboIcons_in_InfoBar(const Value: Boolean);
   protected
     fViewStyle: TEasyListStyle;
   public
@@ -237,6 +239,8 @@ type
     property ThreadedEnumeration: Boolean read fThreadedEnumeration write
         SetThreadedEnumeration;
     property ThreadedImages: Boolean read fThreadedImages write SetThreadedImages;
+    property Use_JumboIcons_in_InfoBar: Boolean read fUse_JumboIcons_in_InfoBar
+        write SetUse_JumboIcons_in_InfoBar;
     property ViewStyle: TEasyListStyle read fViewStyle write fViewStyle;
   end;
 
@@ -1043,12 +1047,13 @@ begin
     FileViewPage.FileView.Header.Visible:= true;
     FileViewPage.FileView.Selection.FullRowSelect:= fFullRowSelect;
     FileViewPage.FileView.ShowExtension:= fShowExtensions;
-    FileViewPage.FileView.SelectPreviousFolder:= SelectPreviousFolder;
-    FileViewPage.FileView.AutoSelectFirstItem:= AutoSelectFirstItem;
-    FileViewPage.FileView.AutosizeListViewStyle:= AutosizeListViewStyle;
-    FileViewPage.FileView.SortFolderFirstAlways:= SortFolderFirstAlways;
-    FileViewPage.ShowInfoBar:= ShowInfoBar;
-    FileViewPage.InfoBar.Height:= InfoBarSize;
+    FileViewPage.FileView.SelectPreviousFolder:= fSelectPreviousFolder;
+    FileViewPage.FileView.AutoSelectFirstItem:= fAutoSelectFirstItem;
+    FileViewPage.FileView.AutosizeListViewStyle:= fAutosizeListViewStyle;
+    FileViewPage.FileView.SortFolderFirstAlways:= fSortFolderFirstAlways;
+    FileViewPage.ShowInfoBar:= fShowInfoBar;
+    FileViewPage.InfoBar.Height:= fInfoBarSize;
+    FileViewPage.InfoBar.UseJumboIcons:= fUse_JumboIcons_in_InfoBar;
     // Options
     options:= FileViewPage.FileView.Options;
     if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
@@ -1396,6 +1401,16 @@ end;
 procedure TCEFileViewSettings.SetThreadedImages(const Value: Boolean);
 begin
   fThreadedImages:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set Use_JumboIcons_in_InfoBar
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetUse_JumboIcons_in_InfoBar(const Value:
+    Boolean);
+begin
+  fUse_JumboIcons_in_InfoBar:= Value;
   SendChanges;
 end;
 
