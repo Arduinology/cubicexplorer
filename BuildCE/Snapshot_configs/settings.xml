@@ -1,88 +1,122 @@
-<?xml version="1.0"?>
-<Root>
+<CubicExplorer>
   <QuickView>
-    <Volume>200</Volume>
+    <ImageExts>bmp,ico,wmf,emf,jfif,jpg,jpe,jpeg,rle,dib,win,vst,vda,tga,icb,tiff,tif,fax,eps,pcx,pcc,scr,rpf,rla,sgi,rgba,rgb,bw,psd,pdd,ppm,pgm,pbm,cel,pic,pcd,cut,psp,png,gif</ImageExts>
+    <MemoExts>txt,ini,bat,html,htm,pas,css,xml,log,for,php,py</MemoExts>
     <Muted>False</Muted>
+    <RememberPanelLayout>False</RememberPanelLayout>
+    <RememberInnerToolbarLayout>True</RememberInnerToolbarLayout>
+    <RememberOuterToolbarLayout>False</RememberOuterToolbarLayout>
+    <VideoExts>avi,wmv,mp4,mpg,mpeg,ogg,ogm,mkv,dvr-ms,mp3,vob,wav,flv</VideoExts>
+    <Volume>200</Volume>
   </QuickView>
   <FileView>
-    <Filmstrip>
-      <ThumbPos>1</ThumbPos>
-      <ThumbStyle>6</ThumbStyle>
-      <ThumbSize>120</ThumbSize>
-    </Filmstrip>
-    <CellSizes/>
-    <Columns>
-      <Default>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0</Default>
-      <MyComputer>0,0,180,0|1,1,120,0|2,2,96,0|3,3,96,0</MyComputer>
-      <Network>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0</Network>
-      <ControlPanel>0,0,180,0|1,1,300,0</ControlPanel>
-    </Columns>
-    <GroupBy>
-      <ControlPanel Index="0" Enabled="False"/>
-      <Default Index="0" Enabled="False"/>
-      <MyComputer Index="0" Enabled="False"/>
-      <Network Index="0" Enabled="False"/>
-    </GroupBy>
-    <ViewStyle>0</ViewStyle>
-    <SmoothScroll>False</SmoothScroll>
-    <HiddenFiles>False</HiddenFiles>
-    <ShowHeaderAlways>False</ShowHeaderAlways>
-    <FullRowSelect>False</FullRowSelect>
-    <ShowExtensions>True</ShowExtensions>
     <SelectPreviousFolder>True</SelectPreviousFolder>
     <AutoSelectFirstItem>False</AutoSelectFirstItem>
     <AutosizeListViewStyle>True</AutosizeListViewStyle>
+    <BrowseZipFolders>False</BrowseZipFolders>
+    <Columns>
+      <ControlPanel>0,0,180,0|1,1,300,0</ControlPanel>
+      <Default>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0</Default>
+      <MyComputer>0,0,180,0|1,1,120,0|2,2,96,0|3,3,96,0</MyComputer>
+      <Network>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0</Network>
+    </Columns>
+    <Filmstrip>
+      <ThumbPos>1</ThumbPos>
+      <ThumbSize>120</ThumbSize>
+      <ThumbStyle>6</ThumbStyle>
+    </Filmstrip>
+    <FullRowSelect>False</FullRowSelect>
+    <GroupBy>
+      <ControlPanel>0,False</ControlPanel>
+      <Default>0,False</Default>
+      <MyComputer>0,False</MyComputer>
+      <Network>0,False</Network>
+    </GroupBy>
+    <HiddenFiles>False</HiddenFiles>
+    <InfoBarSize>3</InfoBarSize>
+    <RememberPanelLayout>False</RememberPanelLayout>
+    <RememberInnerToolbarLayout>True</RememberInnerToolbarLayout>
+    <RememberOuterToolbarLayout>False</RememberOuterToolbarLayout>
+    <ShowExtensions>True</ShowExtensions>
+    <ShowHeaderAlways>False</ShowHeaderAlways>
+    <ShowInfoBar>False</ShowInfoBar>
+    <SmoothScroll>False</SmoothScroll>
     <SortFolderFirstAlways>True</SortFolderFirstAlways>
+    <ThreadedDetails>False</ThreadedDetails>
+    <ThreadedEnumeration>False</ThreadedEnumeration>
+    <ThreadedImages>False</ThreadedImages>
+    <Use_JumboIcons_in_InfoBar>False</Use_JumboIcons_in_InfoBar>
+    <ViewStyle>0</ViewStyle>
   </FileView>
   <TextEditor>
+    <RememberPanelLayout>False</RememberPanelLayout>
+    <RememberInnerToolbarLayout>True</RememberInnerToolbarLayout>
+    <RememberOuterToolbarLayout>False</RememberOuterToolbarLayout>
     <WordWrap>True</WordWrap>
   </TextEditor>
-  <Tabs>
-    <NewTabType>1</NewTabType>
-    <NewTabPath>PIDL:FgAAABQAH1DgT9Ag6jppEKLYCAArMDCdAAA=</NewTabPath>
-    <NewTabSelect>True</NewTabSelect>
-    <OpenTabSelect>True</OpenTabSelect>
-    <ReuseTabs>False</ReuseTabs>
-  </Tabs>
-  <AddressBar>
-    <Breadcrumb>False</Breadcrumb>
-  </AddressBar>
+  <Sessions>
+    <AutoSaveHistory>True</AutoSaveHistory>
+    <HistoryCount>10</HistoryCount>
+  </Sessions>
+  <FileSearch>
+    <Columns>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0</Columns>
+    <RememberPanelLayout>False</RememberPanelLayout>
+    <RememberInnerToolbarLayout>True</RememberInnerToolbarLayout>
+    <RememberOuterToolbarLayout>False</RememberOuterToolbarLayout>
+    <ShowExtensions>True</ShowExtensions>
+    <SubFolders>True</SubFolders>
+  </FileSearch>
   <MainForm>
+    <AlphaBlend>255</AlphaBlend>
+    <AlwaysOnTop>False</AlwaysOnTop>
     <Left>38</Left>
     <Top>22</Top>
     <Width>640</Width>
     <Height>494</Height>
-    <ShowCmd>1</ShowCmd>
-    <AlphaBlend>255</AlphaBlend>
-    <Skin>Office 2003</Skin>
     <Language/>
-    <SingleInstance>True</SingleInstance>
-    <ShowHints>True</ShowHints>
     <PathInTitle>False</PathInTitle>
-    <AlwaysOnTop>False</AlwaysOnTop>
-    <LastSession>Default</LastSession>
+    <ShowCmd>1</ShowCmd>
+    <ShowHint>True</ShowHint>
+    <SingleInstance>True</SingleInstance>
+    <Skin>Office 2003</Skin>
+    <AutoLoadSession/>
+    <ExitOnLastTabClose>False</ExitOnLastTabClose>
+    <StartupType>0</StartupType>
   </MainForm>
-  <StackPanel>
-    <ViewStyle>2</ViewStyle>
-  </StackPanel>
+  <Tabs>
+    <NewTabPath>PIDL:FgAAABQAH1DgT9Ag6jppEKLYCAArMDCdAAA=</NewTabPath>
+    <NewTabSelect>True</NewTabSelect>
+    <NewTabType>1</NewTabType>
+    <OpenTabSelect>True</OpenTabSelect>
+    <ReuseTabs>False</ReuseTabs>
+    <AutoFit>False</AutoFit>
+    <AutoFitMaxSize>200</AutoFitMaxSize>
+    <CloseButton>2</CloseButton>
+    <MaxTabSize>-1</MaxTabSize>
+  </Tabs>
+  <AddressBar>
+    <Breadcrumb>False</Breadcrumb>
+  </AddressBar>
   <FolderPanel>
     <AutoCollapse>True</AutoCollapse>
     <AutoExpand>True</AutoExpand>
+    <BrowseZipFolders>False</BrowseZipFolders>
     <OpenInNewTab>False</OpenInNewTab>
   </FolderPanel>
   <BookmarksPanel>
-    <SingleClickMode>True</SingleClickMode>
-    <AutoExpand>True</AutoExpand>
     <AutoCollapse>True</AutoCollapse>
+    <AutoExpand>True</AutoExpand>
     <OpenInNewTab>False</OpenInNewTab>
+    <SingleClickMode>True</SingleClickMode>
   </BookmarksPanel>
   <FilterPanel>
-    <ShowBkgrd>True</ShowBkgrd>
     <AutoResetFilters>True</AutoResetFilters>
+    <FilterHistory/>
+    <SaveFilterHistory>True</SaveFilterHistory>
+    <ShowBkgrd>True</ShowBkgrd>
+    <StrictFilter>False</StrictFilter>
   </FilterPanel>
-  <FileSearch>
-    <Columns>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0</Columns>
-    <SubFolders>True</SubFolders>
-    <ShowExtensions>True</ShowExtensions>
-  </FileSearch>
-</Root>
+  <StackPanel>
+    <ViewStyle>2</ViewStyle>
+  </StackPanel>
+</CubicExplorer>

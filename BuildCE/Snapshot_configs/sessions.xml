@@ -1,2 +1,12 @@
-<?xml version="1.0"?>
-<Sessions></Sessions>
+<Sessions>
+  <SessionHistory>
+    <Session time="29/01/2010 21:50:13">
+      <Tabs active="0">
+        <FileView>
+          <Path>special://0</Path>
+          <ViewStyle>0</ViewStyle>
+        </FileView>
+      </Tabs>
+    </Session>
+  </SessionHistory>
+</Sessions>
