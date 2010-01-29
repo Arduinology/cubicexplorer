@@ -55,177 +55,21 @@ object CEPoEditor: TCEPoEditor
     Width = 419
     Height = 476
     Align = alClient
-    ActiveTabIndex = 0
-    ExplicitTop = 27
+    Visible = False
+    ActiveTabIndex = 1
     HiddenItems = <>
     object SpTBXTabItem2: TSpTBXTabItem
       Caption = 'Translation'
-      Checked = True
     end
     object SpTBXTabItem1: TSpTBXTabItem
       Caption = 'Word List'
-    end
-    object WordsSheet: TSpTBXTabSheet
-      Left = 0
-      Top = 23
-      Width = 419
-      Height = 453
-      Caption = 'Word List'
-      ImageIndex = -1
-      TabItem = 'SpTBXTabItem1'
-      object horz_splitter: TSpTBXSplitter
-        Left = 2
-        Top = 373
-        Width = 413
-        Height = 5
-        Cursor = crSizeNS
-        Align = alBottom
-        ResizeStyle = rsPattern
-      end
-      object Translation_panel: TPanel
-        Left = 2
-        Top = 378
-        Width = 413
-        Height = 71
-        Align = alBottom
-        BevelOuter = bvNone
-        TabOrder = 0
-        object vert_splitter: TSpTBXSplitter
-          Left = 201
-          Top = 0
-          Height = 71
-          Cursor = crSizeWE
-          ResizeStyle = rsPattern
-        end
-        object PoItemStrID_panel: TSpTBXPanel
-          Left = 0
-          Top = 0
-          Width = 201
-          Height = 71
-          Align = alLeft
-          TabOrder = 1
-          OnResize = PoItemStrMsg_panelResize
-          TBXStyleBackground = True
-          object TntLabel6: TTntLabel
-            Left = 6
-            Top = 6
-            Width = 36
-            Height = 13
-            Caption = 'Original'
-            Transparent = True
-          end
-          object PoItemStrID: TTntMemo
-            Left = 5
-            Top = 24
-            Width = 190
-            Height = 40
-            TabStop = False
-            BevelInner = bvNone
-            BevelKind = bkTile
-            BorderStyle = bsNone
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clGrayText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-            ReadOnly = True
-            ScrollBars = ssVertical
-            TabOrder = 0
-          end
-        end
-        object PoItemStrMsg_panel: TSpTBXPanel
-          Left = 206
-          Top = 0
-          Width = 207
-          Height = 71
-          Align = alClient
-          TabOrder = 0
-          OnResize = PoItemStrMsg_panelResize
-          TBXStyleBackground = True
-          object TntLabel5: TTntLabel
-            Left = 6
-            Top = 6
-            Width = 53
-            Height = 13
-            Caption = 'Translation'
-            Transparent = True
-          end
-          object PoItemStrMsg: TTntMemo
-            Left = 5
-            Top = 24
-            Width = 200
-            Height = 40
-            BevelInner = bvNone
-            BevelKind = bkTile
-            BorderStyle = bsNone
-            ScrollBars = ssVertical
-            TabOrder = 0
-            WantReturns = False
-            OnChange = PoItemStrMsgChange
-            OnKeyDown = PoItemStrMsgKeyDown
-          end
-        end
-      end
-      object PoList_panel: TSpTBXPanel
-        Left = 2
-        Top = 0
-        Width = 413
-        Height = 373
-        Align = alClient
-        TabOrder = 1
-        object PoList: TVirtualStringTree
-          Left = 2
-          Top = 2
-          Width = 409
-          Height = 369
-          Align = alClient
-          BevelInner = bvNone
-          BevelOuter = bvNone
-          BorderStyle = bsNone
-          Header.AutoSizeIndex = 1
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          Header.MainColumn = 1
-          Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
-          Header.SortColumn = 1
-          Header.Style = hsPlates
-          LineStyle = lsSolid
-          TabOrder = 0
-          TreeOptions.MiscOptions = [toEditable, toFullRepaintOnResize, toInitOnSave, toWheelPanning]
-          TreeOptions.PaintOptions = [toHideFocusRect, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages]
-          TreeOptions.SelectionOptions = [toFullRowSelect, toSimpleDrawSelection]
-          OnChange = PoListChange
-          OnCompareNodes = PoListCompareNodes
-          OnEdited = PoListEdited
-          OnGetText = PoListGetText
-          OnHeaderClick = PoListHeaderClick
-          OnKeyAction = PoListKeyAction
-          OnMouseDown = PoListMouseDown
-          OnMouseUp = PoListMouseUp
-          OnNewText = PoListNewText
-          Columns = <
-            item
-              Position = 0
-              Width = 200
-              WideText = 'Original'
-            end
-            item
-              Position = 1
-              Width = 209
-              WideText = 'Translation'
-            end>
-        end
-      end
+      Checked = True
     end
     object SettingsSheet: TSpTBXTabSheet
       Left = 0
-      Top = 23
+      Top = 25
       Width = 419
-      Height = 453
+      Height = 451
       Caption = 'Translation'
       ImageIndex = -1
       TabItem = 'SpTBXTabItem2'
@@ -358,6 +202,191 @@ object CEPoEditor: TCEPoEditor
         Enabled = False
         TabOrder = 1
       end
+    end
+    object WordsSheet: TSpTBXTabSheet
+      Left = 0
+      Top = 25
+      Width = 419
+      Height = 451
+      Caption = 'Word List'
+      ImageIndex = -1
+      TabItem = 'SpTBXTabItem1'
+      object horz_splitter: TSpTBXSplitter
+        Left = 2
+        Top = 371
+        Width = 413
+        Height = 5
+        Cursor = crSizeNS
+        Align = alBottom
+        ResizeStyle = rsPattern
+      end
+      object Translation_panel: TPanel
+        Left = 2
+        Top = 376
+        Width = 413
+        Height = 71
+        Align = alBottom
+        BevelOuter = bvNone
+        TabOrder = 0
+        object vert_splitter: TSpTBXSplitter
+          Left = 201
+          Top = 0
+          Height = 71
+          Cursor = crSizeWE
+          ResizeStyle = rsPattern
+        end
+        object PoItemStrID_panel: TSpTBXPanel
+          Left = 0
+          Top = 0
+          Width = 201
+          Height = 71
+          Align = alLeft
+          TabOrder = 1
+          OnResize = PoItemStrMsg_panelResize
+          TBXStyleBackground = True
+          object TntLabel6: TTntLabel
+            Left = 6
+            Top = 6
+            Width = 36
+            Height = 13
+            Caption = 'Original'
+            Transparent = True
+          end
+          object PoItemStrID: TTntMemo
+            Left = 5
+            Top = 24
+            Width = 190
+            Height = 40
+            TabStop = False
+            BevelInner = bvNone
+            BevelKind = bkTile
+            BorderStyle = bsNone
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clGrayText
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+            ReadOnly = True
+            ScrollBars = ssVertical
+            TabOrder = 0
+          end
+        end
+        object PoItemStrMsg_panel: TSpTBXPanel
+          Left = 206
+          Top = 0
+          Width = 207
+          Height = 71
+          Align = alClient
+          TabOrder = 0
+          OnResize = PoItemStrMsg_panelResize
+          TBXStyleBackground = True
+          object TntLabel5: TTntLabel
+            Left = 6
+            Top = 6
+            Width = 53
+            Height = 13
+            Caption = 'Translation'
+            Transparent = True
+          end
+          object PoItemStrMsg: TTntMemo
+            Left = 5
+            Top = 24
+            Width = 200
+            Height = 40
+            BevelInner = bvNone
+            BevelKind = bkTile
+            BorderStyle = bsNone
+            ScrollBars = ssVertical
+            TabOrder = 0
+            WantReturns = False
+            OnChange = PoItemStrMsgChange
+            OnKeyDown = PoItemStrMsgKeyDown
+          end
+        end
+      end
+      object PoList_panel: TSpTBXPanel
+        Left = 2
+        Top = 0
+        Width = 413
+        Height = 371
+        Align = alClient
+        TabOrder = 1
+        object PoList: TVirtualStringTree
+          Left = 2
+          Top = 2
+          Width = 409
+          Height = 367
+          Align = alClient
+          BevelInner = bvNone
+          BevelOuter = bvNone
+          BorderStyle = bsNone
+          Header.AutoSizeIndex = 1
+          Header.DefaultHeight = 17
+          Header.Font.Charset = DEFAULT_CHARSET
+          Header.Font.Color = clWindowText
+          Header.Font.Height = -11
+          Header.Font.Name = 'Tahoma'
+          Header.Font.Style = []
+          Header.MainColumn = 1
+          Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
+          Header.SortColumn = 1
+          Header.Style = hsPlates
+          LineStyle = lsSolid
+          TabOrder = 0
+          TreeOptions.MiscOptions = [toEditable, toFullRepaintOnResize, toInitOnSave, toWheelPanning]
+          TreeOptions.PaintOptions = [toHideFocusRect, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages]
+          TreeOptions.SelectionOptions = [toFullRowSelect, toSimpleDrawSelection]
+          OnChange = PoListChange
+          OnCompareNodes = PoListCompareNodes
+          OnEdited = PoListEdited
+          OnGetText = PoListGetText
+          OnHeaderClick = PoListHeaderClick
+          OnKeyAction = PoListKeyAction
+          OnMouseDown = PoListMouseDown
+          OnMouseUp = PoListMouseUp
+          OnNewText = PoListNewText
+          Columns = <
+            item
+              Position = 0
+              Width = 200
+              WideText = 'Original'
+            end
+            item
+              Position = 1
+              Width = 209
+              WideText = 'Translation'
+            end>
+        end
+      end
+    end
+  end
+  object panel_startup: TSpTBXPanel
+    Left = 0
+    Top = 25
+    Width = 419
+    Height = 476
+    Align = alClient
+    TabOrder = 2
+    Borders = False
+    TBXStyleBackground = True
+    ExplicitLeft = 2
+    ExplicitTop = 2
+    ExplicitWidth = 409
+    ExplicitHeight = 367
+    object label_startup: TSpTBXLabel
+      Left = 0
+      Top = 0
+      Width = 419
+      Height = 476
+      Caption = 'Select existing translation or create new.'
+      Align = alClient
+      AutoSize = False
+      Alignment = taCenter
+      ExplicitLeft = 159
+      ExplicitTop = 78
+      ExplicitWidth = 67
+      ExplicitHeight = 19
     end
   end
   object ActionList: TTntActionList

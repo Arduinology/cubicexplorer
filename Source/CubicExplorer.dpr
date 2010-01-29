@@ -32,6 +32,7 @@ uses
   Messages,
   Windows,
   TntSystem,
+  MPShellUtilities,
   Main in 'Main.pas' {MainForm},
   CE_DockInfo in 'CE_DockInfo.pas',
   CE_Utils in 'CE_Utils.pas',
@@ -111,7 +112,8 @@ uses
   CE_DualView in 'CE_DualView.pas',
   CE_PaneHost in 'CE_PaneHost.pas',
   fCE_SearchPage in 'fCE_SearchPage.pas' {CESearchPage: TFrame},
-  CE_InfoBar in 'CE_InfoBar.pas';
+  CE_InfoBar in 'CE_InfoBar.pas',
+  FindFileW in 'Components\FindFile\FindFileW.pas';
 
 {$R *.res}
 {$R 'CE_Resources.res'}

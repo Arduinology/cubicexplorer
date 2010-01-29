@@ -110,6 +110,7 @@ type
     FolderTreePopup: TSpTBXFormPopupMenu;
     edit_location: TSpTBXButtonEdit;
     label_status: TTntLabel;
+    timer_status: TTimer;
     procedure but_search_startClick(Sender: TObject);
     procedure but_search_stopClick(Sender: TObject);
     procedure check_content_wordwrapClick(Sender: TObject);
@@ -134,18 +135,21 @@ type
     procedure ResultViewContextMenuCmd(
       Sender: TCustomVirtualExplorerEasyListview; Namespace: TNamespace;
       Verb: WideString; MenuItemID: Integer; var Handled: Boolean);
+    procedure timer_statusTimer(Sender: TObject);
   private
-    fCurrentSearchFolder: WideString;
+    fStatus: WideString;
     fOpenFolderID: Integer;
     fDownShiftState: TShiftState;
     fFileCount: Integer;
     fFolderCount: Integer;
+    fLastStatusChange: Integer;
     fShowItemContextMenu: Boolean;
-    fStartTime: Integer;
+    fStartTime: Cardinal;
     function GetAttributeStatus(CB: TSpTBXCheckBox): TFileAttributeStatus;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     { Private declarations }
   protected
+    procedure ChangeStatus(ANewStatus: WideString);
     function GetSettingsClass: TCECustomTabPageSettingsClass; override;
     procedure GlobalPathChanged(Sender: TObject; NewPath: WideString); override;
         stdcall;
@@ -266,6 +270,8 @@ begin
   CEFileSearchSettings.AssignSettingsTo(Self);
   UpdateTheme;
   CEGlobalTranslator.TranslateComponent(Self);
+
+  fLastStatusChange:= 0;
 end;
 
 {-------------------------------------------------------------------------------
@@ -292,6 +298,16 @@ end;
 procedure TCESearchPage.but_search_stopClick(Sender: TObject);
 begin
   Find.Abort;
+end;
+
+{-------------------------------------------------------------------------------
+  Change Status
+-------------------------------------------------------------------------------}
+procedure TCESearchPage.ChangeStatus(ANewStatus: WideString);
+begin
+  fStatus:= ANewStatus;
+  if not timer_status.Enabled then
+  timer_status.Enabled:= true;
 end;
 
 {-------------------------------------------------------------------------------
@@ -451,7 +467,7 @@ begin
     ResultView.AddCustomItem(nil, NS, true);
     fFileCount:= fFileCount + 1;
   finally
-    ResultView.EndUpdate(true);
+    ResultView.EndUpdate(false);
   end;
 end;
 
@@ -461,7 +477,7 @@ end;
 procedure TCESearchPage.HandleFolderChange(Sender: TObject; const Folder:
     WideString; var IgnoreFolder: TFolderIgnore);
 begin
-  label_status.Caption:= _('Searching from') + ': ' + Folder;
+  ChangeStatus(_('Searching from') + ': ' + Folder);
   fFolderCount:= fFolderCount + 1;
 end;
 
@@ -483,7 +499,6 @@ begin
   fFolderCount:= 0;
   fFileCount:= 0;
   fStartTime:= GetTickCount;
-  fCurrentSearchFolder:= '';
 end;
 
 {-------------------------------------------------------------------------------
@@ -501,8 +516,8 @@ begin
   else
   ws:= _('Finished');
 
-  label_status.Caption:= ws + ' - ' + WideFormat(_('%d folder(s) searched and %d file(s) found in %.3f second(s)'),
-                                             [fFolderCount, fFileCount, (GetTickCount - fStartTime) / 1000]);
+  ChangeStatus(ws + ' - ' + WideFormat(_('%d folder(s) searched and %d file(s) found in %.3f second(s)'),
+                                             [fFolderCount, fFileCount, (GetTickCount - fStartTime) / 1000]));
 
   GlobalPathCtrl.ChangeGlobalContent(Self);
 end;
@@ -767,6 +782,16 @@ begin
   ResultView.Clear;
   // Execute Search
   Find.Execute;
+end;
+
+{-------------------------------------------------------------------------------
+  On timer_status Timer
+-------------------------------------------------------------------------------}
+procedure TCESearchPage.timer_statusTimer(Sender: TObject);
+begin
+  timer_status.Enabled:= false;
+  label_status.Caption:= fStatus;
+  fLastStatusChange:= GetTickCount;
 end;
 
 {*------------------------------------------------------------------------------

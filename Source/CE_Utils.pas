@@ -70,6 +70,8 @@ function GetSmallShellIconSize: Integer;
 function WideStringMatch(ASource: WideString; APattern: WideString;
     ACaseSensitive: Boolean = false): Boolean;
 
+function IsWindowsVista: Boolean;
+
 var
   ExePath: WideString;
   LargeShellIconSize, SmallShellIconSize: Integer;
@@ -78,6 +80,9 @@ var
 
 
 implementation
+
+var
+  fIsWindowsVista: Boolean;
 
 {*------------------------------------------------------------------------------
   Save PIDL to Mime encoded string
@@ -478,6 +483,9 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Get File Version Build
+-------------------------------------------------------------------------------}
 function GetFileVersionBuild(Path: WideString): Integer;
 var
   Size, FixInfoLen: DWORD;
@@ -699,11 +707,20 @@ begin
   Result:= DoMatch(PWideChar(ASource), PWideChar(APattern));
 end;
 
+{-------------------------------------------------------------------------------
+  Is Windows Vista And Up
+-------------------------------------------------------------------------------}
+function IsWindowsVista: Boolean;
+begin
+  Result:= fIsWindowsVista;
+end;
+
 initialization
   ExePath:= WideExtractFilePath(WideParamStr(0));
   LargeShellIconSize:= GetLargeShellIconSize;
   SmallShellIconSize:= GetSmallShellIconSize;
   CELoadShellProcs;
+  fIsWindowsVista:= GetWinVersion = wvWinVista;
 
 finalization
 

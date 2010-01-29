@@ -4,7 +4,7 @@ interface
 
 uses
   // CE Units
-  CE_LanguageEngine,
+  CE_LanguageEngine, CE_Utils,
   // SpTBX
   SpTBXSkins, SpTBXItem, SpTBXControls,
   // TNT
@@ -145,7 +145,7 @@ begin
   fAutoRefreshThumbnail:= false;
   fShowFolderItemCount:= true;
   fCalculateHiddenItems:= false;
-  fUseJumboIcons:= true;
+  fUseJumboIcons:= false;
   Resize;
   SkinManager.AddSkinNotification(Self);
   SHGetSpecialFolderLocation(Application.MainFormHandle, CSIDL_DRIVES, fMyComputerPIDL); 
@@ -644,7 +644,7 @@ begin
   fIconSize:= itExtraLargeIcon
   else // Jumbo size (256px). (Vista/win7 only)
   begin
-    if UseJumboIcons then
+    if UseJumboIcons and IsWindowsVista then
     fIconSize:= itJumboIcon
     else
     fIconSize:= itExtraLargeIcon;
@@ -730,7 +730,10 @@ begin
     if fThumbnailFound then
     begin
       fThumbnailBuffer.SetSize(AThread.Thumbnail.Width, AThread.Thumbnail.Height);
-      fThumbnailBuffer.Canvas.Brush.Color:= clWindow;
+      if CurrentSkin.SkinName = 'Eos' then
+      fThumbnailBuffer.Canvas.Brush.Color:= SkinManager.CurrentSkin.Options(skncDock).Body.Color1
+      else
+      fThumbnailBuffer.Canvas.Brush.Color:= SkinManager.CurrentSkin.ColorBtnFace;
       fThumbnailBuffer.Canvas.FillRect(Rect(0,0,fThumbnailBuffer.Width,fThumbnailBuffer.Height));
       fThumbnailBuffer.Canvas.Draw(0,0,AThread.Thumbnail);
       DrawBuffer;

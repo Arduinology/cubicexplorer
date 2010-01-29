@@ -95,9 +95,8 @@ type
         TShiftState; X, Y: Integer);
     procedure InfoBarSplitterMoving(Sender: TObject; var NewSize: Integer; var
         Accept: Boolean);
-    procedure ItemSelectionChanged(Sender: TCustomEasyListview; Item: TEasyItem);
-        virtual;
     procedure ItemSelectionsChanged(Sender: TCustomEasyListview);
+    procedure OnColumnSizeChanged(Sender: TCustomEasyListview; Column: TEasyColumn);
     procedure OnItemContextMenu(Sender: TCustomEasyListview; HitInfo:
         TEasyHitInfoItem; WindowPoint: TPoint; var Menu: TPopupMenu; var Handled:
         Boolean);
@@ -119,8 +118,6 @@ type
       Sender: TCustomVirtualExplorerEasyListview);
     procedure SelectPage; override;
     procedure UpdateCaption; override;
-    procedure ColumnSizeChanged(
-      Sender: TCustomEasyListview; Column: TEasyColumn);
     procedure HidePage; override;
     procedure OnContextMenu(Sender: TCustomEasyListview; MousePt: TPoint; var
         Handled: Boolean);
@@ -277,8 +274,7 @@ begin
   FileView.OnRootChanging:= RootChanging;
   FileView.OnRootChange:= RootChange;
   FileView.OnItemSelectionsChanged:= ItemSelectionsChanged;
-  FileView.OnItemSelectionChanged:= ItemSelectionChanged;
-  FileView.OnColumnSizeChanged:= ColumnSizeChanged;
+  FileView.OnColumnSizeChanged:= OnColumnSizeChanged;
   FileView.OnContextMenu:= OnContextMenu;
   FileView.OnItemContextMenu:= OnItemContextMenu;
   FileView.OnMouseDown:= OnMouseDown;
@@ -400,7 +396,7 @@ var
   Item: TEasyItem;
   lastItem, tmpItem: TEasyItem;
 begin
-  if FileView.Selection.Count > 1 then
+  if assigned(FileView.Selection.FocusedItem) and (FileView.Selection.Count > 0) then
   Item:= FileView.Selection.FocusedItem
   else
   Item:= FileView.Selection.First;
@@ -534,7 +530,7 @@ begin
     begin
       if not fPathChanging then
       GlobalPathCtrl.ChangeGlobalPathPIDL(Self, Namespace.AbsolutePIDL);
-      GlobalFileViewSettings.AssignColumnSettingsFrom(FileView);
+      //GlobalFileViewSettings.AssignColumnSettingsFrom(FileView);
     end;
   end;
   fPathChanging:= false;
@@ -606,8 +602,8 @@ end;
 {*------------------------------------------------------------------------------
   Save Column settings
 -------------------------------------------------------------------------------}
-procedure TCEFileViewPage.ColumnSizeChanged(
-  Sender: TCustomEasyListview; Column: TEasyColumn);
+procedure TCEFileViewPage.OnColumnSizeChanged(Sender: TCustomEasyListview;
+    Column: TEasyColumn);
 begin
   if GlobalPathCtrl.ActivePage = Self then
   GlobalFileViewSettings.AssignColumnSettingsFrom(FileView);
@@ -627,12 +623,6 @@ end;
 procedure TCEFileViewPage.HidePage;
 begin
   inherited;
-end;
-
-procedure TCEFileViewPage.ItemSelectionChanged(Sender: TCustomEasyListview;
-    Item: TEasyItem);
-begin
-  //
 end;
 
 {*------------------------------------------------------------------------------

@@ -91,6 +91,8 @@ type
     edit_translators_email: TTntEdit;
     edit_translation_version: TTntEdit;
     Bevel1: TBevel;
+    panel_startup: TSpTBXPanel;
+    label_startup: TSpTBXLabel;
     procedure act_applyExecute(Sender: TObject);
     procedure act_newExecute(Sender: TObject);
     procedure act_saveExecute(Sender: TObject);
@@ -110,8 +112,7 @@ type
         TColumnIndex);
     procedure PoListGetText(Sender: TBaseVirtualTree; Node: PVirtualNode; Column:
         TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
-    procedure PoListHeaderClick(Sender: TVTHeader; Column: TColumnIndex; Button:
-        TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure PoListHeaderClick(Sender: TVTHeader; HitInfo: TVTHeaderHitInfo);
     procedure PoListKeyAction(Sender: TBaseVirtualTree; var CharCode: Word; var
         Shift: TShiftState; var DoDefault: Boolean);
     procedure PoListMouseDown(Sender: TObject; Button: TMouseButton; Shift:
@@ -427,6 +428,8 @@ begin
   begin
     LoadFromFile(poFileList.ValueFromIndex[LanguagesCombo.ItemIndex]);
     fActiveLanguage:= poFileList.Names[LanguagesCombo.ItemIndex];
+    TabControl.Visible:= true;
+    panel_startup.Visible:= false;
   end;
 end;
 
@@ -496,6 +499,8 @@ begin
     edit_translators_email.OnChange:= edit_translators_Change;
     edit_translation_version.OnChange:= edit_translation_versionChange;
     LanguageList.OnChange:= LanguageListChange;
+    TabControl.Visible:= true;
+    panel_startup.Visible:= false;
   end;
 end;
 
@@ -666,17 +671,16 @@ end;
 {*------------------------------------------------------------------------------
   On PoList HeaderClick
 -------------------------------------------------------------------------------}
-procedure TCEPoEditor.PoListHeaderClick(Sender: TVTHeader; Column:
-    TColumnIndex; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+procedure TCEPoEditor.PoListHeaderClick(Sender: TVTHeader; HitInfo: TVTHeaderHitInfo);
 begin
-  if Button = mbLeft then
+  if HitInfo.Button = mbLeft then
   begin
     if Sender.SortColumn > NoColumn then
     Sender.Columns[Sender.SortColumn].Options:= Sender.Columns[Sender.SortColumn].Options + [coParentColor];
 
-    if (Sender.SortColumn = NoColumn) or (Sender.SortColumn <> Column) then
+    if (Sender.SortColumn = NoColumn) or (Sender.SortColumn <> HitInfo.Column) then
     begin
-      Sender.SortColumn:= Column;
+      Sender.SortColumn:= HitInfo.Column;
       Sender.SortDirection:= sdAscending;
     end
     else

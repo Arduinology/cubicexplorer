@@ -855,4 +855,11 @@ inherited CESearchPage: TCESearchPage
     Left = 460
     Top = 152
   end
+  object timer_status: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = timer_statusTimer
+    Left = 498
+    Top = 152
+  end
 end

@@ -7,7 +7,7 @@ inherited CETextEditorPage: TCETextEditorPage
     Left = 0
     Top = 0
     Width = 670
-    Height = 23
+    Height = 25
     object MainToolbar: TSpTBXToolbar
       Left = 0
       Top = 0
@@ -122,9 +122,9 @@ inherited CETextEditorPage: TCETextEditorPage
   end
   object Editor: TSynEdit
     Left = 0
-    Top = 23
+    Top = 25
     Width = 670
-    Height = 327
+    Height = 323
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -145,13 +145,15 @@ inherited CETextEditorPage: TCETextEditorPage
     WantTabs = True
     OnReplaceText = EditorReplaceText
     OnStatusChange = EditorStatusChange
+    ExplicitHeight = 325
   end
   object StatusBar: TSpTBXStatusBar
     Left = 0
-    Top = 350
+    Top = 348
     Width = 670
-    Height = 23
+    Height = 25
     SizeGrip = False
+    ExplicitTop = 350
     object SpTBXSeparatorItem7: TSpTBXSeparatorItem
     end
     object label_input: TSpTBXLabelItem

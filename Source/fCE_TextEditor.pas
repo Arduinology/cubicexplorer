@@ -441,7 +441,7 @@ begin
     end;
     open1.Free;
   end
-  else
+  else if WideFileExists(FilePath) then
   begin
     if CloseDocument then
     begin

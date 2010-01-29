@@ -328,6 +328,9 @@ end;
 -------------------------------------------------------------------------------}
 procedure ExecuteCEAction(ActionID: Integer);
 begin
+  if csDestroying in MainForm.ComponentState then
+  Exit;
+  
   case ActionID of
     100..199: ExecuteGeneralCategory(ActionID);
     200..299: ExecuteEditCategory(ActionID);
