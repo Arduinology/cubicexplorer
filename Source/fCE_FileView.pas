@@ -33,6 +33,7 @@ uses
   // VSTools
   VirtualExplorerEasyListview, MPCommonObjects, MPShellUtilities,
   VirtualExplorerTree, MPCommonUtilities, ColumnFormSpTBX,
+  VirtualShellNotifier,
   // VT
   VirtualTrees,
   // SpTBX
@@ -100,6 +101,8 @@ type
     procedure OnItemContextMenu(Sender: TCustomEasyListview; HitInfo:
         TEasyHitInfoItem; WindowPoint: TPoint; var Menu: TPopupMenu; var Handled:
         Boolean);
+    procedure OnShellNotify(Sender: TCustomVirtualExplorerEasyListview; ShellEvent:
+        TVirtualShellEvent);
     procedure SetActive(const Value: Boolean); override;
   public
     FileView: TCEFileView;
@@ -279,6 +282,7 @@ begin
   FileView.OnItemContextMenu:= OnItemContextMenu;
   FileView.OnMouseDown:= OnMouseDown;
   FileView.OnMouseUp:= OnMouseUp;
+  FileView.OnShellNotify:= OnShellNotify;
   FileView.FileObjects:= [foFolders,
                           foNonFolders];
   FileView.DragManager.MouseButton:= [cmbLeft,cmbRight];
@@ -416,7 +420,7 @@ begin
     begin
       if FileView.Selection.Count = 1 then
       begin
-        InfoBar.LoadFromPIDL(NS.AbsolutePIDL, FileView.Selection.Count);
+        InfoBar.LoadFromPIDL(NS.AbsolutePIDL, 1);
       end
       else
       begin
@@ -847,6 +851,21 @@ procedure TCEFileViewPage.OnItemContextMenu(Sender: TCustomEasyListview;
 begin
   if not Handled then
   Handled:= not fShowItemContextMenu;
+end;
+
+{-------------------------------------------------------------------------------
+  On Shell Notify
+-------------------------------------------------------------------------------}
+procedure TCEFileViewPage.OnShellNotify(Sender:
+    TCustomVirtualExplorerEasyListview; ShellEvent: TVirtualShellEvent);
+begin
+  if ShowInfoBar and assigned(InfoBar.LatestNS) then
+  begin
+    if ShellEvent.ShellNotifyEvent = vsneUpdateDir then // TODO: this should be optimized.
+    begin
+      ItemSelectionsChanged(FileView);
+    end;
+  end;
 end;
 
 {-------------------------------------------------------------------------------

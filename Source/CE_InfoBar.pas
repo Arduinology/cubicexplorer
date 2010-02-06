@@ -99,12 +99,14 @@ type
         virtual;
     procedure Paint; override;
     procedure RefreshThumbnail;
+    procedure Reload;
     procedure Resize; override;
     property AutoRefreshThumbnail: Boolean read fAutoRefreshThumbnail write
         fAutoRefreshThumbnail;
     property CalculateHiddenItems: Boolean read fCalculateHiddenItems write
         fCalculateHiddenItems;
     property Font;
+    property LatestNS: TNamespace read fLatestNS;
     property RowHeight: Integer read fRowHeight write fRowHeight;
     property ShowFolderItemCount: Boolean read fShowFolderItemCount write
         fShowFolderItemCount;
@@ -330,7 +332,8 @@ begin
         itSmallIcon: imgList:= SmallSysImages;
         itLargeIcon: imgList:= LargeSysImages;
         itExtraLargeIcon: imgList:= ExtraLargeSysImages;
-        itJumboIcon: imgList:= JumboSysImages;
+        else
+        imgList:= JumboSysImages;
       end;
 
       // Paint background
@@ -563,16 +566,17 @@ begin
   exit;
 
   fSelectionCount:= ASelectionCount;
-  if assigned(fLatestNS) then
-  begin
-    if PIDLMgr.EqualPIDL(APIDL, fLatestNS.AbsolutePIDL) then
-    begin
-      BuildInfoList; // Refresh infolist
-      DrawBuffer;
-      Paint;
-      Exit;
-    end;
-  end;
+  
+//  if assigned(fLatestNS) then
+//  begin
+//    if PIDLMgr.EqualPIDL(APIDL, fLatestNS.AbsolutePIDL) then
+//    begin
+//      BuildInfoList; // Refresh infolist
+//      DrawBuffer;
+//      Paint;
+//      Exit;
+//    end;
+//  end;
 
   // Terminate previous threads if present
   if assigned(fLatestThumbThread) then
@@ -596,7 +600,7 @@ begin
     // Draw normal Icon first
     fThumbnailFound:= false;
     Resize;
-    DrawBuffer;
+    //DrawBuffer;
     Self.Repaint;
 
     RunThumbnailThread;
@@ -758,6 +762,25 @@ begin
       Paint;
     end;
     fLatestInfoThread:= nil;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Reload Info
+-------------------------------------------------------------------------------}
+procedure TCEInfoBar.Reload;
+var
+  pidl: PItemIDList;
+begin
+  if assigned(fLatestNS) then
+  begin
+    pidl:= PIDLMgr.CopyPIDL(fLatestNS.AbsolutePIDL);
+    try
+      FreeAndNil(fLatestNS);
+      LoadFromPIDL(pidl, fSelectionCount);
+    finally
+      PIDLMgr.FreePIDL(pidl);
+    end;
   end;
 end;
 

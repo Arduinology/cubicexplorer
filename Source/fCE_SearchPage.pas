@@ -111,6 +111,7 @@ type
     edit_location: TSpTBXButtonEdit;
     label_status: TTntLabel;
     timer_status: TTimer;
+    check_attr_folder: TSpTBXCheckBox;
     procedure but_search_startClick(Sender: TObject);
     procedure but_search_stopClick(Sender: TObject);
     procedure check_content_wordwrapClick(Sender: TObject);
@@ -141,7 +142,6 @@ type
     fOpenFolderID: Integer;
     fDownShiftState: TShiftState;
     fFileCount: Integer;
-    fFolderCount: Integer;
     fLastStatusChange: Integer;
     fShowItemContextMenu: Boolean;
     fStartTime: Cardinal;
@@ -478,7 +478,6 @@ procedure TCESearchPage.HandleFolderChange(Sender: TObject; const Folder:
     WideString; var IgnoreFolder: TFolderIgnore);
 begin
   ChangeStatus(_('Searching from') + ': ' + Folder);
-  fFolderCount:= fFolderCount + 1;
 end;
 
 {-------------------------------------------------------------------------------
@@ -496,7 +495,6 @@ procedure TCESearchPage.HandleSearchBegin(Sender: TObject);
 begin
   but_search_start.Enabled:= false;
   but_search_stop.Enabled:= true;
-  fFolderCount:= 0;
   fFileCount:= 0;
   fStartTime:= GetTickCount;
 end;
@@ -516,8 +514,8 @@ begin
   else
   ws:= _('Finished');
 
-  ChangeStatus(ws + ' - ' + WideFormat(_('%d folder(s) searched and %d file(s) found in %.3f second(s)'),
-                                             [fFolderCount, fFileCount, (GetTickCount - fStartTime) / 1000]));
+  ChangeStatus(ws + ' - ' + WideFormat(_('%d folder(s) searched and %d item(s) found in %.3f second(s)'),
+                                             [Find.SearchedFolderCount, fFileCount, (GetTickCount - fStartTime) / 1000]));
 
   GlobalPathCtrl.ChangeGlobalContent(Self);
 end;
@@ -690,7 +688,7 @@ begin
   if radio_name_word.Checked then
   begin
     if combo_extension.ItemIndex = 0 then
-    ext:= '.*'
+    ext:= '*'
     else
     begin
       ext:= combo_extension.Text;
@@ -764,6 +762,7 @@ begin
   Find.Criteria.Attributes.Hidden:= GetAttributeStatus(check_attr_hidden);
   Find.Criteria.Attributes.System:= GetAttributeStatus(check_attr_system);
   Find.Criteria.Attributes.Compressed:= GetAttributeStatus(check_attr_compressed);
+  Find.Criteria.Attributes.Directory:= GetAttributeStatus(check_attr_folder);;
   // Content
   Find.Criteria.Content.Phrase := Self.memo_content.Text;
   Find.Criteria.Content.Options := [];

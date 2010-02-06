@@ -331,6 +331,7 @@ type
     fCurrentFindData: TWin32FindDataW;
     fCurrentFolder: WideString;
     fIgnoreCurrentFolder: TFolderIgnore;
+    fSearchedFolderCount: Integer;
     procedure SetCriteria(Value: TSearchCriteria);
     procedure InitializeSearch;
     procedure FinalizeSearch;
@@ -355,6 +356,7 @@ type
     property Busy: Boolean read fBusy;
     property Aborted: Boolean read fAborted;
     property CurrentLevel: Word read fCurrentLevel;
+    property SearchedFolderCount: Integer read fSearchedFolderCount;
   published
     property Criteria: TSearchCriteria read fCriteria write SetCriteria;
     property Threaded: Boolean read fThreaded write fThreaded default False;
@@ -1698,6 +1700,7 @@ procedure TFindFileW.InitializeSearch;
 begin
   fBusy := True;
   fAborted := False;
+  fSearchedFolderCount:= 0;
   ActiveCriteria := TSearchCriteria.Create;
   ActiveCriteria.Assign(fCriteria);
   SubfolderOffAttrs := ActiveCriteria.Attributes.OffAttributes and SubfolderOffAttrsMask;
@@ -1750,6 +1753,7 @@ begin
       // Searches in the current folder for all file masks
       if (IgnoreFolder in [fiNone, fiJustSubfolders]) and (CurrentLevel >= MinLevel) then
       begin
+        fSearchedFolderCount:= fSearchedFolderCount + 1;
         for I := 0 to FileMasks.Count - 1 do
         begin
           Handle := Windows.FindFirstFileW(PWideChar(Path + FileMasks[I]), FindData);

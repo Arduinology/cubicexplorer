@@ -102,19 +102,18 @@ inherited CESearchPage: TCESearchPage
       end
     end
     object CriteriaTabControl: TSpTBXTabControl
-      Left = 8
+      Left = 10
       Top = 6
       Width = 433
       Height = 185
       Anchors = [akLeft, akTop, akRight]
-      ActiveTabIndex = 0
+      ActiveTabIndex = 2
       TabAutofit = True
       TabBackgroundColor = clBtnFace
       TabPosition = ttpBottom
       HiddenItems = <>
       object SpTBXTabItem1: TSpTBXTabItem
         Caption = 'Name && Location'
-        Checked = True
         CustomWidth = 85
       end
       object SpTBXTabItem2: TSpTBXTabItem
@@ -123,6 +122,7 @@ inherited CESearchPage: TCESearchPage
       end
       object SpTBXTabItem3: TSpTBXTabItem
         Caption = 'Size && Attributes'
+        Checked = True
         CustomWidth = 85
       end
       object SpTBXTabItem4: TSpTBXTabItem
@@ -426,154 +426,6 @@ inherited CESearchPage: TCESearchPage
           end
         end
       end
-      object sheet_size_attributes: TSpTBXTabSheet
-        Left = 0
-        Top = 0
-        Width = 433
-        Height = 160
-        Caption = 'Size && Attributes'
-        ImageIndex = -1
-        DesignSize = (
-          433
-          160)
-        TabItem = 'SpTBXTabItem3'
-        object group_size: TSpTBXGroupBox
-          Left = 12
-          Top = 10
-          Width = 182
-          Height = 143
-          Caption = 'Size'
-          Anchors = [akLeft, akTop, akBottom]
-          TabOrder = 0
-          object spin_size_atleast: TSpTBXSpinEdit
-            Left = 12
-            Top = 45
-            Width = 93
-            Height = 21
-            Enabled = False
-            TabOrder = 0
-            SpinButton.Left = 75
-            SpinButton.Top = 0
-            SpinButton.Width = 14
-            SpinButton.Height = 17
-            SpinButton.Align = alRight
-            SpinButton.Enabled = False
-          end
-          object combo_size_atleast: TSpTBXComboBox
-            Left = 111
-            Top = 45
-            Width = 58
-            Height = 21
-            Enabled = False
-            ItemHeight = 13
-            ItemIndex = 1
-            TabOrder = 1
-            Text = 'KB'
-            Items.Strings = (
-              'Bytes'
-              'KB'
-              'MB'
-              'GB')
-          end
-          object check_size_atleast: TSpTBXCheckBox
-            Left = 12
-            Top = 21
-            Width = 68
-            Height = 21
-            Caption = 'At Least:'
-            TabOrder = 2
-            OnClick = check_size_Click
-          end
-          object spin_size_atmost: TSpTBXSpinEdit
-            Left = 12
-            Top = 103
-            Width = 93
-            Height = 21
-            Enabled = False
-            TabOrder = 3
-            SpinButton.Left = 75
-            SpinButton.Top = 0
-            SpinButton.Width = 14
-            SpinButton.Height = 17
-            SpinButton.Align = alRight
-            SpinButton.Enabled = False
-          end
-          object combo_size_atmost: TSpTBXComboBox
-            Left = 111
-            Top = 103
-            Width = 58
-            Height = 21
-            Enabled = False
-            ItemHeight = 13
-            ItemIndex = 1
-            TabOrder = 4
-            Text = 'KB'
-            Items.Strings = (
-              'Bytes'
-              'KB'
-              'MB'
-              'GB')
-          end
-          object check_size_atmost: TSpTBXCheckBox
-            Left = 12
-            Top = 79
-            Width = 65
-            Height = 21
-            Caption = 'At Most:'
-            TabOrder = 5
-            OnClick = check_size_Click
-          end
-        end
-        object group_attributes: TSpTBXGroupBox
-          Left = 206
-          Top = 10
-          Width = 215
-          Height = 143
-          Caption = 'Attributes'
-          Anchors = [akLeft, akTop, akRight, akBottom]
-          TabOrder = 1
-          object check_attr_readonly: TSpTBXCheckBox
-            Left = 12
-            Top = 20
-            Width = 74
-            Height = 21
-            Caption = 'Read Only'
-            TabOrder = 0
-            AllowGrayed = True
-            State = cbGrayed
-          end
-          object check_attr_hidden: TSpTBXCheckBox
-            Left = 12
-            Top = 47
-            Width = 57
-            Height = 21
-            Caption = 'Hidden'
-            TabOrder = 1
-            AllowGrayed = True
-            State = cbGrayed
-          end
-          object check_attr_compressed: TSpTBXCheckBox
-            Left = 12
-            Top = 101
-            Width = 83
-            Height = 21
-            Caption = 'Compressed'
-            TabOrder = 2
-            AllowGrayed = True
-            State = cbGrayed
-          end
-          object check_attr_system: TSpTBXCheckBox
-            Left = 12
-            Top = 74
-            Width = 59
-            Height = 21
-            Caption = 'System'
-            TabOrder = 3
-            AllowGrayed = True
-            State = cbGrayed
-          end
-        end
-      end
       object sheet_content: TSpTBXTabSheet
         Left = 0
         Top = 0
@@ -819,6 +671,164 @@ inherited CESearchPage: TCESearchPage
           EditButton.Height = 17
           EditButton.Align = alRight
           EditButton.DropDownMenu = FolderTreePopup
+        end
+      end
+      object sheet_size_attributes: TSpTBXTabSheet
+        Left = 0
+        Top = 0
+        Width = 433
+        Height = 160
+        Caption = 'Size && Attributes'
+        ImageIndex = -1
+        DesignSize = (
+          433
+          160)
+        TabItem = 'SpTBXTabItem3'
+        object group_size: TSpTBXGroupBox
+          Left = 12
+          Top = 10
+          Width = 182
+          Height = 143
+          Caption = 'Size'
+          Anchors = [akLeft, akTop, akBottom]
+          TabOrder = 0
+          object spin_size_atleast: TSpTBXSpinEdit
+            Left = 12
+            Top = 45
+            Width = 93
+            Height = 21
+            Enabled = False
+            TabOrder = 0
+            SpinButton.Left = 75
+            SpinButton.Top = 0
+            SpinButton.Width = 14
+            SpinButton.Height = 17
+            SpinButton.Align = alRight
+            SpinButton.Enabled = False
+          end
+          object combo_size_atleast: TSpTBXComboBox
+            Left = 111
+            Top = 45
+            Width = 58
+            Height = 21
+            Enabled = False
+            ItemHeight = 13
+            ItemIndex = 1
+            TabOrder = 1
+            Text = 'KB'
+            Items.Strings = (
+              'Bytes'
+              'KB'
+              'MB'
+              'GB')
+          end
+          object check_size_atleast: TSpTBXCheckBox
+            Left = 12
+            Top = 21
+            Width = 68
+            Height = 21
+            Caption = 'At Least:'
+            TabOrder = 2
+            OnClick = check_size_Click
+          end
+          object spin_size_atmost: TSpTBXSpinEdit
+            Left = 12
+            Top = 103
+            Width = 93
+            Height = 21
+            Enabled = False
+            TabOrder = 3
+            SpinButton.Left = 75
+            SpinButton.Top = 0
+            SpinButton.Width = 14
+            SpinButton.Height = 17
+            SpinButton.Align = alRight
+            SpinButton.Enabled = False
+          end
+          object combo_size_atmost: TSpTBXComboBox
+            Left = 111
+            Top = 103
+            Width = 58
+            Height = 21
+            Enabled = False
+            ItemHeight = 13
+            ItemIndex = 1
+            TabOrder = 4
+            Text = 'KB'
+            Items.Strings = (
+              'Bytes'
+              'KB'
+              'MB'
+              'GB')
+          end
+          object check_size_atmost: TSpTBXCheckBox
+            Left = 12
+            Top = 79
+            Width = 65
+            Height = 21
+            Caption = 'At Most:'
+            TabOrder = 5
+            OnClick = check_size_Click
+          end
+        end
+        object group_attributes: TSpTBXGroupBox
+          Left = 206
+          Top = 10
+          Width = 215
+          Height = 143
+          Caption = 'Attributes'
+          Anchors = [akLeft, akTop, akRight, akBottom]
+          TabOrder = 1
+          object check_attr_readonly: TSpTBXCheckBox
+            Left = 12
+            Top = 20
+            Width = 74
+            Height = 21
+            Caption = 'Read Only'
+            TabOrder = 0
+            AllowGrayed = True
+            State = cbGrayed
+          end
+          object check_attr_hidden: TSpTBXCheckBox
+            Left = 12
+            Top = 47
+            Width = 57
+            Height = 21
+            Caption = 'Hidden'
+            TabOrder = 1
+            AllowGrayed = True
+            State = cbGrayed
+          end
+          object check_attr_compressed: TSpTBXCheckBox
+            Left = 12
+            Top = 101
+            Width = 83
+            Height = 21
+            Caption = 'Compressed'
+            TabOrder = 2
+            AllowGrayed = True
+            State = cbGrayed
+          end
+          object check_attr_system: TSpTBXCheckBox
+            Left = 12
+            Top = 74
+            Width = 59
+            Height = 21
+            Caption = 'System'
+            TabOrder = 3
+            AllowGrayed = True
+            State = cbGrayed
+          end
+          object check_attr_folder: TSpTBXCheckBox
+            Left = 105
+            Top = 20
+            Width = 54
+            Height = 21
+            Caption = 'Folder'
+            TabOrder = 4
+            AllowGrayed = True
+            State = cbGrayed
+          end
         end
       end
     end

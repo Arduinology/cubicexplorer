@@ -97,7 +97,7 @@ begin
   DropStack.DragManager.MouseButton:= [cmbLeft,cmbRight];
   DropStack.PopupMenu:= DropStackPopup;
   DropStack.Selection.MouseButton:= [cmbLeft,cmbRight];
-
+  DropStack.ShowThemedBorder:= false;
   TopDock.Name:= 'StackPanel_TopDock';
   BottomDock.Name:= 'StackPanel_BottomDock';
   Caption:= 'Drop Stack';

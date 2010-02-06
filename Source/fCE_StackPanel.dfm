@@ -3,8 +3,8 @@ inherited CEStackPanel: TCEStackPanel
   ClientWidth = 422
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  ExplicitWidth = 430
-  ExplicitHeight = 322
+  ExplicitWidth = 438
+  ExplicitHeight = 330
   PixelsPerInch = 96
   TextHeight = 13
   inherited TopDock: TSpTBXDock
