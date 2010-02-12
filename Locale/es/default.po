@@ -4,12 +4,15 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1214\n"
+"CE-POT-Version: 1246\n"
 "CE-Language: Spanish\n"
 "Last-Translator: Tito2000x <tito2000x@gmail.com>\n"
 
 msgid "%d folder(s) searched and %d file(s) found in %.3f second(s)"
 msgstr "%d carpeta(s) buscandas y %d archivo(s) encontrados en %.3f segundo(s)"
+
+msgid "%d folder(s) searched and %d item(s) found in %.3f second(s)"
+msgstr "%d carpeta(s) encontradas y %d archivos(s) encontrados en %.3f segundo(s) "
 
 msgid "About CubicExplorer"
 msgstr "Acerca de CubicExplorer"
@@ -148,6 +151,9 @@ msgstr "Sensible a mayúsculas y minúsculas"
 
 msgid "Case sensitivity"
 msgstr "Sensitivo a mayúsculas y minúsculas"
+
+msgid "Clear Filters"
+msgstr "Quitar filtros"
 
 msgid "Clear History"
 msgstr "Limpiar Historial"
@@ -348,13 +354,16 @@ msgid "Find Previous"
 msgstr "Buscar Previo"
 
 msgid "Finished"
-msgstr ""
+msgstr "Terminado"
 
 msgid "Focus"
 msgstr "Enfoque"
 
 msgid "Focus Addressbar"
 msgstr "Enfocar Barra de Direcciones"
+
+msgid "Folder"
+msgstr "Carpeta"
 
 msgid "Folder Path"
 msgstr "Ruta de la Carpeta"
@@ -527,6 +536,9 @@ msgstr "Nueva Sesión"
 msgid "No Extension"
 msgstr "Sin Extensión"
 
+msgid "No Selection"
+msgstr "No selección"
+
 msgid "No file loaded."
 msgstr "No se ha Cargado el Archivo."
 
@@ -546,7 +558,7 @@ msgid "Open Command Prompt"
 msgstr "Abrir linea de comandos"
 
 msgid "Open Containing Folder"
-msgstr ""
+msgstr "Abrir carpeta contenedora"
 
 msgid "Open default tab"
 msgstr "Abrir Pestaña por Defecto"
@@ -702,13 +714,16 @@ msgid "Search in Directory"
 msgstr "Buscar en la Carpeta"
 
 msgid "Searching from"
-msgstr ""
+msgstr "Buscar desde"
 
 msgid "Select All"
 msgstr "Seleccionar Todo"
 
 msgid "Select default folder for new tabs."
 msgstr "Selecionar carpeta por defecto para la nueva pestaña"
+
+msgid "Select existing translation or create new."
+msgstr "Seleccionar traducción existente o crear nueva"
 
 msgid "Select first item automatically"
 msgstr "Seleccionar primer item automáticamente"
@@ -876,7 +891,7 @@ msgid "Translation Version"
 msgstr "Versión de la Traduccion"
 
 msgid "Translator's Email"
-msgstr "e-Mail del Traductor"
+msgstr "E-Mail del Traductor"
 
 msgid "Translator's Name"
 msgstr "Nombre del Traductor"
