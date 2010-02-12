@@ -113,7 +113,10 @@ uses
   CE_PaneHost in 'CE_PaneHost.pas',
   fCE_SearchPage in 'fCE_SearchPage.pas' {CESearchPage: TFrame},
   CE_InfoBar in 'CE_InfoBar.pas',
-  FindFileW in 'Components\FindFile\FindFileW.pas';
+  FindFileW in 'Components\FindFile\FindFileW.pas',
+  CE_ElevatedActions in 'CE_ElevatedActions.pas',
+  CE_FileUtils in 'CE_FileUtils.pas',
+  fCE_CreateSymlink in 'fCE_CreateSymlink.pas' {CreateSymlinkDlg};
 
 {$R *.res}
 {$R 'CE_Resources.res'}
@@ -125,6 +128,10 @@ var
   i: Integer;
   copyDataStruct : TCopyDataStruct;
 begin
+  // Handle elevated commands
+  if HandleElevatedCommands then
+  Exit;
+
   //////////////////////////////////////////////////////
   //***** Check if only Single instance is allowed *****
   h:= FindWindow('CubicExplorer_MsgInput','CE_MsgInput');

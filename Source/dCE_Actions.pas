@@ -161,6 +161,9 @@ type
     act_sessions_menu: TCEToolbarAction;
     act_view_dualview: TTntAction;
     act_view_infobar: TTntAction;
+    act_edit_create_symlink: TTntAction;
+    CreateSymbolicLink1: TTntMenuItem;
+    N5: TTntMenuItem;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -261,7 +264,7 @@ uses
   CE_Bookmarks, CE_BookmarkTree, fCE_AboutBox,
   CE_ToolbarButtons, fCE_ToolbarCustomizer, fCE_TabPage, fCE_FiltersPanel,
   fCE_PoEditor, fCE_OptionsDialog, CE_Sessions, fCE_StackPanel,
-  CE_BaseFileView, fCE_QuickViewTab, fCE_SearchPage;
+  CE_BaseFileView, fCE_QuickViewTab, fCE_SearchPage, fCE_CreateSymlink;
 
 {##############################################################################}
 
@@ -455,6 +458,10 @@ begin
       212: begin
              fileview.CreateNewFolder;
            end;
+      214: if assigned(fileview) then
+        begin
+          ShowCreateSymlinkDialog(fileview.RootFolderNamespace.NameForParsing, '');
+        end;           
     end;
   end;
 
@@ -488,7 +495,7 @@ begin
                else
                TargetAction.Enabled:= false
              end;
-           end;      
+           end;
     end;
   end
   else if assigned(fileview) then
@@ -516,6 +523,7 @@ begin
   begin
     case ActionID of
       205,206,207,210,211,212: TargetAction.Enabled:= true;
+      214: TargetAction.Enabled:= (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion > 4);
     end;
   end;
 end;

@@ -568,6 +568,12 @@ object CEActions: TCEActions
       Caption = 'Info Bar'
       OnExecute = ActionExecute
     end
+    object act_edit_create_symlink: TTntAction
+      Tag = 214
+      Category = 'Edit'
+      Caption = 'Create Symbolic Link'
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False
@@ -642,6 +648,12 @@ object CEActions: TCEActions
       Action = act_edit_copypath
     end
     object N4: TTntMenuItem
+      Caption = '-'
+    end
+    object CreateSymbolicLink1: TTntMenuItem
+      Action = act_edit_create_symlink
+    end
+    object N5: TTntMenuItem
       Caption = '-'
     end
   end

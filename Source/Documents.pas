@@ -45,6 +45,7 @@ Unit Documents;
 // 211 = Copy Path
 // 212 = New Folder
 // 213 = Paste to shortcut
+// 214 = Create Symbolic Link
 
 // **** View (300) ****
 // 300 = Statusbar, toggle visibility
