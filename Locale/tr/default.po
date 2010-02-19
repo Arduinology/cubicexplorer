@@ -4,15 +4,21 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1129\n"
+"CE-POT-Version: 1251\n"
 "CE-Language: Turkish\n"
 "Last-Translator: Kadir Yaylaci <yaylaci.kadir@gmail.com>\n"
+
+msgid "%d folder(s) searched and %d item(s) found in %.3f second(s)"
+msgstr "%d klasör(ler) arandı ve %d öğe %.3f saniyede bulundu."
 
 msgid "About CubicExplorer"
 msgstr "CubicExplorer"
 
 msgid "About..."
 msgstr "Hakkında"
+
+msgid "Accessed"
+msgstr "Çalıştırılma tarihi"
 
 msgid "Actions"
 msgstr "Hareketler"
@@ -23,11 +29,29 @@ msgstr "Sık kullanılan Ekle"
 msgid "Add Category"
 msgstr "Kategori Ekle"
 
+msgid "Add History Item"
+msgstr "Geçmiş Öğesi Ekle"
+
 msgid "Add Tab"
 msgstr "Sekme Ekle"
 
 msgid "Address Bar"
 msgstr "Adres Kutusu"
+
+msgid "Advanced"
+msgstr "Gelişmiş"
+
+msgid "Advanced Settings"
+msgstr "Gelişmiş Ayarlar"
+
+msgid "After Date:"
+msgstr "Şu Tarihten Sonra:"
+
+msgid "After Time:"
+msgstr "Şu Saatten Sonra:"
+
+msgid "All"
+msgstr "Hepsi"
 
 msgid "Always On Top"
 msgstr "Her Zaman Üstte"
@@ -50,8 +74,20 @@ msgstr "Uygula"
 msgid "Apply changes."
 msgstr "Değişiklikleri uygula"
 
+msgid "Are you sure you want to clear session history?"
+msgstr "Oturum geçmişini silmek istediğinize eminmisiniz?"
+
+msgid "Are you sure you want to delete this session?"
+msgstr "Bu oturumu silmek istediğinize eminmisiniz?"
+
 msgid "Arrange By"
 msgstr "Sırala"
+
+msgid "At Least:"
+msgstr "Şu Boyuttan Büyük:"
+
+msgid "At Most:"
+msgstr "Şu Boyuttan Küçük:"
 
 msgid "Attributes"
 msgstr "Nitelikler"
@@ -77,6 +113,12 @@ msgstr "Geri"
 msgid "Backward"
 msgstr "Geri"
 
+msgid "Before Date:"
+msgstr "Şu Tarihten Önce:"
+
+msgid "Before Time:"
+msgstr "Şu Saatten Önce:"
+
 msgid "Bookmarks"
 msgstr "Sık Kullanılanlar"
 
@@ -98,11 +140,29 @@ msgstr "Byte"
 msgid "Cancel"
 msgstr "İptal"
 
+msgid "Cancelled"
+msgstr "İptal Edildi"
+
+msgid "Case Sensitive"
+msgstr "Büyük/Küçük Harf Hassasiyeti"
+
 msgid "Case sensitivity"
 msgstr "Büyük/Küçük harf hassasiyeti"
 
+msgid "Clear Filters"
+msgstr "Filtreleri Temizle"
+
+msgid "Clear History"
+msgstr "Geçmişi Temizle"
+
 msgid "Clear List"
 msgstr "Listeyi Temizle"
+
+msgid "Clear Results"
+msgstr "Sonuçları Temizle"
+
+msgid "Clear filter history"
+msgstr "Filtre geçmişini temizle"
 
 msgid "Clear filters on folder change"
 msgstr "Klasör değiştiğinde filtreleri kaldır"
@@ -122,6 +182,15 @@ msgstr "Soldaki Sekmeleri Kapat"
 msgid "Close Tabs on Right"
 msgstr "Sağdaki Sekmeleri Kapat"
 
+msgid "Compressed"
+msgstr "Sıkıştırılmış"
+
+msgid "Content"
+msgstr "İçerik"
+
+msgid "Continue from last time"
+msgstr ""
+
 msgid "Copy"
 msgstr "Kopyala"
 
@@ -140,6 +209,9 @@ msgstr "Yeni Tercüme Yarat"
 msgid "Create new translation."
 msgstr "Yeni tercüme yarat"
 
+msgid "Created"
+msgstr "Oluşturulma zamanı"
+
 msgid "CubicExplore Home Page"
 msgstr "CubicExplore Ana Sayfa"
 
@@ -157,6 +229,9 @@ msgstr "Düzenleyici"
 
 msgid "Cut"
 msgstr "Kes"
+
+msgid "Date && Time"
+msgstr "Tarih && Saat"
 
 msgid "Date Accessed"
 msgstr "Erişildiği Tarih"
@@ -194,11 +269,20 @@ msgstr "Görüntü"
 msgid "Display Settings"
 msgstr "Görüntü Ayarları"
 
+msgid "Do you want to override existing session?"
+msgstr ""
+
+msgid "Donate"
+msgstr "Bağış Yap"
+
 msgid "Drives"
 msgstr "Sürücüler"
 
 msgid "Drop Stack"
 msgstr "Sürükleme Yığını"
+
+msgid "DualView"
+msgstr "Çift Görünüm"
 
 msgid "Dublicate Tab"
 msgstr "İkiz Sekme"
@@ -227,11 +311,23 @@ msgstr "Geri Dönüşüm Kutusunu Boşalt"
 msgid "English (default)"
 msgstr "İngilizce (varsayılan)"
 
+msgid "Enter each file mask on a separate line."
+msgstr ""
+
+msgid "Exclude File Masks:"
+msgstr ""
+
 msgid "Exit"
 msgstr "Çıkış"
 
 msgid "File"
 msgstr "Dosya"
+
+msgid "File Contains:"
+msgstr ""
+
+msgid "File Name Mask"
+msgstr ""
 
 msgid "File Search"
 msgstr "Dosya Arama"
@@ -254,6 +350,18 @@ msgstr "Sonrakini Bul"
 msgid "Find Previous"
 msgstr "Öncekini Bul"
 
+msgid "Finished"
+msgstr "Bitti"
+
+msgid "Focus"
+msgstr ""
+
+msgid "Focus Addressbar"
+msgstr ""
+
+msgid "Folder"
+msgstr "Klasör"
+
 msgid "Folder Path"
 msgstr "Klasör Yolu"
 
@@ -275,6 +383,9 @@ msgstr "İleri"
 msgid "Fullscreen"
 msgstr "Tam Ekran"
 
+msgid "GB"
+msgstr "GB"
+
 msgid "General"
 msgstr "Genel"
 
@@ -290,20 +401,38 @@ msgstr "Yardım"
 msgid "Hex"
 msgstr "Hex"
 
+msgid "Hidden"
+msgstr "Gizlenmiş"
+
 msgid "Highlight row completely"
 msgstr "Satırların tamamını vurgula"
 
 msgid "Highlighter"
 msgstr "Yazım Şekli"
 
+msgid "History"
+msgstr "Geçmiş"
+
 msgid "Image"
 msgstr "İmaj"
+
+msgid "Include File Masks:"
+msgstr ""
+
+msgid "Include Subfolders"
+msgstr "Altklasörleri Dahil Et"
+
+msgid "Info Bar"
+msgstr "Bilgi Çubuğu"
 
 msgid "Insert"
 msgstr "Araya Yazma"
 
 msgid "Invert Selection"
 msgstr "Seçimi Ters Çevir"
+
+msgid "Item(s)"
+msgstr "Öğe(ler)"
 
 msgid "KB"
 msgstr "KB"
@@ -320,6 +449,9 @@ msgstr "Büyük Simgeler"
 msgid "Launch Files Only"
 msgstr "Sadece Dosyaları Aç"
 
+msgid "Layout"
+msgstr ""
+
 msgid "Layouts"
 msgstr "Katmanlar"
 
@@ -332,6 +464,9 @@ msgstr "Liste"
 msgid "Load Skin..."
 msgstr "Arayüz Yükle"
 
+msgid "Load session"
+msgstr "Oturum yükle"
+
 msgid "Load skin from file"
 msgstr "Dosyadan arayüz yükle"
 
@@ -341,26 +476,44 @@ msgstr "Açılışta bu oturum yükle"
 msgid "Loading..."
 msgstr "Yükleniyor..."
 
+msgid "Location"
+msgstr "Adres"
+
 msgid "MB"
 msgstr "MB"
 
 msgid "Main Menu"
 msgstr "Ana Menü"
 
+msgid "Manage Sessions"
+msgstr "Oturumları Yönet"
+
+msgid "Manage..."
+msgstr "Yönet..."
+
 msgid "Map Network Drive..."
 msgstr "Ağ Sürücü Haritası"
+
+msgid "Max Level:"
+msgstr "En Yüksek Seviye"
 
 msgid "Menu"
 msgstr "Menü"
 
+msgid "Min Level:"
+msgstr "En Düşük Seviye"
+
 msgid "Modified"
-msgstr "Düzenlendi"
+msgstr "Düzenlenme zamanı"
 
 msgid "More..."
 msgstr "Daha Fazla..."
 
 msgid "Name"
 msgstr "İsim"
+
+msgid "Name && Location"
+msgstr "İsim && Adres"
 
 msgid "Name Only"
 msgstr "Sadece İsim"
@@ -380,6 +533,9 @@ msgstr "Yeni Oturum"
 msgid "No Extension"
 msgstr "Uzantı Yok"
 
+msgid "No Selection"
+msgstr "Seçim Yok"
+
 msgid "No file loaded."
 msgstr "Yüklenen dosya yok"
 
@@ -389,11 +545,20 @@ msgstr "Transparanlık Yok"
 msgid "OK"
 msgstr "Tamam"
 
+msgid "On Startup"
+msgstr "Açılışta"
+
 msgid "Open All in Tabs"
 msgstr "Tümünü Sekmelerde Aç"
 
 msgid "Open Command Prompt"
 msgstr "Komut İstemciyi Aç"
+
+msgid "Open Containing Folder"
+msgstr "İçeren Klasörü Aç"
+
+msgid "Open default tab"
+msgstr "Varsayılan sekmeyi aç"
 
 msgid "Open in new tab by default"
 msgstr "Varsayılan olarak yeni sekmede aç"
@@ -446,6 +611,9 @@ msgstr "Hızlı Görünüm"
 msgid "Quickview"
 msgstr "Hızlı Görünüm"
 
+msgid "Read Only"
+msgstr "Sadece Okunulabilir"
+
 msgid "Redo"
 msgstr "İleri al"
 
@@ -485,6 +653,9 @@ msgstr "Kaydet"
 msgid "Save As..."
 msgstr "Farklı Kaydet"
 
+msgid "Save Session"
+msgstr "Oturumu Kaydet"
+
 msgid "Save active session with new name."
 msgstr "Aktif oturumu yeni isimle kaydet"
 
@@ -502,6 +673,9 @@ msgstr "Değişiklikleri kaydetmek istiyormusunuz?"
 
 msgid "Save settings automatically."
 msgstr "Ayarları otomatik kaydet"
+
+msgid "Save..."
+msgstr "Kaydet..."
 
 msgid "Save/Load Settings"
 msgstr "Ayarları Kaydet/Yükle"
@@ -530,11 +704,17 @@ msgstr "İmleçten ara"
 msgid "Search in Directory"
 msgstr "Dizinde Ara"
 
+msgid "Searching from"
+msgstr "Buradan ara"
+
 msgid "Select All"
 msgstr "Hepsini Seç"
 
 msgid "Select default folder for new tabs."
 msgstr "Yeni sekme için varsayılan klasörü seçin"
+
+msgid "Select existing translation or create new."
+msgstr ""
 
 msgid "Select first item automatically"
 msgstr "Otomatikman ilk öğeyi aç"
@@ -584,6 +764,9 @@ msgstr "Yardımcı Metinleri Göster"
 msgid "Show Path in Title bar"
 msgstr "Başlık Çubuğunda Klasör Yolunu Göster"
 
+msgid "Show Session Manager"
+msgstr "Oturum Yöneticisini Göster"
+
 msgid "Show Statusbar"
 msgstr "Durum Çubuğunu Göster"
 
@@ -602,6 +785,9 @@ msgstr "Tek tık modu"
 msgid "Size"
 msgstr "Boyut"
 
+msgid "Size && Attributes"
+msgstr "Boyut && Nitelikler"
+
 msgid "Small Icons"
 msgstr "Küçük Simgeler"
 
@@ -617,14 +803,26 @@ msgstr "Durum Çubuğu"
 msgid "Stop"
 msgstr "Durdur"
 
+msgid "Strict"
+msgstr ""
+
 msgid "Subdirectories"
 msgstr "Altklasörler"
 
 msgid "Support Forum"
 msgstr "Destek Forumu"
 
+msgid "Switch to Next Tab"
+msgstr "Sonraki Sekmeye Geç"
+
 msgid "Switch to a new tab immediately"
 msgstr "Hemen yeni sekmeye geç"
+
+msgid "Swith to Previous Tab"
+msgstr "Önceki Sekmeye Geç"
+
+msgid "System"
+msgstr "Sistem"
 
 msgid "Tabs"
 msgstr "Sekmeler"
@@ -698,6 +896,9 @@ msgstr "Geri al"
 msgid "Untitled"
 msgstr "İsimsiz"
 
+msgid "Use strict filtering (wildcards are ? and *)"
+msgstr ""
+
 msgid "Version:"
 msgstr "Versiyon"
 
@@ -710,6 +911,9 @@ msgstr "Görünüm Stili"
 msgid "When I open folder/file in a new tab, switch to it immediately "
 msgstr "Yeni sekmede dosya/klasör açtığımda hemen o sekmeye geç"
 
+msgid "Whole Word"
+msgstr "Tam Kelime"
+
 msgid "Whole words only"
 msgstr "Sadece bütün kelimeler"
 
@@ -718,4 +922,7 @@ msgstr "Kelime Listesi"
 
 msgid "Word Wrap"
 msgstr "Sözcük Kaydır"
+
+msgid "Word or Phrase in File Name"
+msgstr ""
 
