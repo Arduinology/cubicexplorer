@@ -30,6 +30,7 @@ object CE_FolderTreeForm: TCE_FolderTreeForm
     FileSizeFormat = fsfExplorer
     FileSort = fsFileType
     Header.AutoSizeIndex = 0
+    Header.DefaultHeight = 17
     Header.Font.Charset = DEFAULT_CHARSET
     Header.Font.Color = clWindowText
     Header.Font.Height = -11
@@ -50,6 +51,8 @@ object CE_FolderTreeForm: TCE_FolderTreeForm
     TreeOptions.VETSyncOptions = [toCollapseTargetFirst, toExpandTarget, toSelectTarget]
     TreeOptions.VETMiscOptions = [toBrowseExecuteFolder, toBrowseExecuteFolderShortcut]
     TreeOptions.VETImageOptions = [toImages, toMarkCutAndCopy]
+    VETColors.CompressedTextColor = clWindowText
+    VETColors.EncryptedTextColor = clWindowText
     OnKeyAction = FolderTreeKeyAction
     OnMouseDown = FolderTreeMouseDown
     OnMouseUp = FolderTreeMouseUp

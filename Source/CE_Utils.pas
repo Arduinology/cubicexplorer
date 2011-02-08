@@ -62,6 +62,7 @@ type
   function IsUNC(Path: WideString): Boolean;
   function WideGetDriveType(lpRootPathName: WideString): Integer;
   function BrowseForFolderPIDL(aTitle: WideString): PItemIDList;
+  function GetIsWindows64: Boolean;
 
 function GetLargeShellIconSize: Integer;
 
@@ -71,6 +72,8 @@ function WideStringMatch(ASource: WideString; APattern: WideString;
     ACaseSensitive: Boolean = false): Boolean;
 
 function IsWindowsVista: Boolean;
+
+function IsWindows64: Boolean;
 
 var
   ExePath: WideString;
@@ -83,7 +86,8 @@ implementation
 
 var
   fIsWindowsVista: Boolean;
-
+  fIsWindows64: Boolean;
+  
 {*------------------------------------------------------------------------------
   Save PIDL to Mime encoded string
 -------------------------------------------------------------------------------}
@@ -715,12 +719,51 @@ begin
   Result:= fIsWindowsVista;
 end;
 
+{-------------------------------------------------------------------------------
+  Get Is Windows 64
+-------------------------------------------------------------------------------}
+function GetIsWindows64: Boolean;
+type
+  TIsWow64Process = function(AHandle:THandle; var AIsWow64: BOOL): BOOL; stdcall;
+var
+  fKernel32Handle: DWORD;
+  fIsWow64Process: TIsWow64Process;
+  fIsWow64       : BOOL;
+begin
+  Result:= False;
+
+  fKernel32Handle:= LoadLibrary('kernel32.dll');
+  if (fKernel32Handle = 0) then Exit;
+
+  try
+    @fIsWow64Process:= GetProcAddress(fKernel32Handle, 'IsWow64Process');
+    if not Assigned(fIsWow64Process) then Exit;
+
+    fIsWow64:= False;
+    if (fIsWow64Process(GetCurrentProcess, fIsWow64)) then
+    Result:= fIsWow64;
+  finally
+    FreeLibrary(fKernel32Handle);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Is Windows 64
+-------------------------------------------------------------------------------}
+function IsWindows64: Boolean;
+begin
+  Result:= fIsWindows64;
+end;
+
+{##############################################################################}
+
 initialization
   ExePath:= WideExtractFilePath(WideParamStr(0));
   LargeShellIconSize:= GetLargeShellIconSize;
   SmallShellIconSize:= GetSmallShellIconSize;
   CELoadShellProcs;
   fIsWindowsVista:= GetWinVersion = wvWinVista;
+  fIsWindows64:= GetIsWindows64;
 
 finalization
 

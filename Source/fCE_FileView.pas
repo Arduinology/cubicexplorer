@@ -296,6 +296,8 @@ begin
   FileView.PaintInfoGroup.BandThickness:= 2;
   FileView.PaintInfoGroup.BandColor:= clWindowText;
   FileView.PaintInfoGroup.BandColorFade:= clWindow;
+  FileView.CompressedFile.Hilight:= false;
+  FileView.EncryptedFile.Hilight:= false;
   FileView.GroupFont.Style:= [fsBold];
   GlobalFocusCtrl.CtrlList.Add(FileView);
   FileView.OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;

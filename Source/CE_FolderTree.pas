@@ -105,6 +105,8 @@ begin
   Self.TreeOptions.VETShellOptions:= [toRightAlignSizeColumn,toContextMenus,toDragDrop];
   Self.VETColors.FileTextColor:= clWindowText;
   Self.VETColors.FolderTextColor:= clWindowText;
+  Self.VETColors.CompressedTextColor:= clWindowText;
+  Self.VETColors.EncryptedTextColor:= clWindowText;
   HiddenFiles:= false;
 
   fSelectionTimer:= TTimer.Create(Self);

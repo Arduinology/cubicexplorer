@@ -116,7 +116,8 @@ uses
   FindFileW in 'Components\FindFile\FindFileW.pas',
   CE_ElevatedActions in 'CE_ElevatedActions.pas',
   CE_FileUtils in 'CE_FileUtils.pas',
-  fCE_CreateSymlink in 'fCE_CreateSymlink.pas' {CreateSymlinkDlg};
+  fCE_CreateSymlink in 'fCE_CreateSymlink.pas' {CreateSymlinkDlg},
+  SpTBXChromeSkin in 'Components\SpSkins\SpTBXChromeSkin.pas';
 
 {$R *.res}
 {$R 'CE_Resources.res'}

@@ -44,7 +44,7 @@ uses
   // VSTools
   VirtualShellNewMenu, EasyListview, VirtualExplorerEasyListview,
   MPCommonObjects, VirtualShellNotifier, VirtualResources, MPShellTypes,
-  VirtualTrees, MPShellUtilities,
+  VirtualTrees, MPShellUtilities, MPCommonUtilities,
   // Tnt Controls
   TntSystem, TntActnList, TntClasses, TntMenus, TntStdCtrls, TntSysUtils,
   TntDialogs, TntForms,
@@ -640,6 +640,7 @@ var
   TabsOpened: Boolean;
   ws: WideString;
 begin
+  //Wow64Enabled:= IsWindows64;
 
   // Load skins
   GetSkinsFromFolder(ExePath + 'Skins\');
@@ -662,8 +663,6 @@ begin
   Layouts.AutoSave:= false;
   Layouts.LoadFromFile(ExePath + 'layout.xml');
   Layouts.LoadToolbarLayout;
-
-
 
   TabsOpened:= false;
   if WideParamCount > 0 then
@@ -692,8 +691,6 @@ begin
     CEActions.act_tabs_addtab.Execute;
   end;
 
-
-
   if Application.MainForm.AlphaBlendValue < 255 then
   Application.MainForm.AlphaBlend:= true;
 
@@ -702,10 +699,12 @@ begin
 
   fIsReady:= true;
 
+
+  // Testing stuff!!!
+
  //test_act1Click(self);
  //Layouts.AutoSave:= true;
 
-  // Testing stuff!!!
   if DebugHook <> 0 then
   begin
     SpTBXSeparatorItem2.Visible:= true;

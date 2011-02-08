@@ -377,151 +377,157 @@ var
   NS: TNamespace;
   item: TEasyItem;
   tmpNS: TNamespace;
+  OldWow64: Pointer;
 begin
   NewFileTargetPath:= self.RootFolderNamespace.NameForParsing;
 
   if WideDirectoryExists(NewFileTargetPath) then
   begin
-    NewFileTargetPath := WideIncludeTrailingBackslash(NewFileTargetPath);
-    if FileName = '' then
-    begin
-      if NewMenuItem.NewShellKind <> nmk_Folder then
-        NewFileTargetPath := UniqueFileName(NewFileTargetPath + S_NEW + NewMenuItem.FileType + NewMenuItem.Extension)
-      else
-        NewFileTargetPath := UniqueDirName(NewFileTargetPath + S_NEW + NewMenuItem.FileType)
-    end else
-    begin
-      if NewMenuItem.NewShellKind <> nmk_Folder then
-        NewFileTargetPath := NewFileTargetPath + WideStripExt(FileName) + NewMenuItem.Extension
-      else
-        NewFileTargetPath := NewFileTargetPath + FileName
-    end;
+    //OldWow64 := Wow64RedirectDisable;
+    try
+      NewFileTargetPath := WideIncludeTrailingBackslash(NewFileTargetPath);
+      if FileName = '' then
+      begin
+        if NewMenuItem.NewShellKind <> nmk_Folder then
+          NewFileTargetPath := UniqueFileName(NewFileTargetPath + S_NEW + NewMenuItem.FileType + NewMenuItem.Extension)
+        else
+          NewFileTargetPath := UniqueDirName(NewFileTargetPath + S_NEW + NewMenuItem.FileType)
+      end else
+      begin
+        if NewMenuItem.NewShellKind <> nmk_Folder then
+          NewFileTargetPath := NewFileTargetPath + WideStripExt(FileName) + NewMenuItem.Extension
+        else
+          NewFileTargetPath := NewFileTargetPath + FileName
+      end;
 
-    Skip := False;
-    if ShellNewMenu.WarnOnOverwrite then
-    begin
-      if FileExists(NewFileTargetPath) then
-        Skip := WideMessageBox(Application.Handle, S_WARNING, S_OVERWRITE_EXISTING_FILE, MB_OKCANCEL or MB_ICONWARNING) = IDCANCEL
-    end;
-    if not Skip then
-    begin
-      case NewMenuItem.NewShellKind of
-        nmk_Null:
-          begin
-             Handle := FileCreate(NewFileTargetPath);
-             if Handle <> INVALID_HANDLE_VALUE then
-             begin
-               FileClose(Handle);
-             end;
-
-          end;
-        nmk_FileName:
-          begin
-            TemplateFound := False;
-            { This is where the template should be }
-            if Assigned(TemplatesFolder) then
+      Skip := False;
+      if ShellNewMenu.WarnOnOverwrite then
+      begin
+        if FileExists(NewFileTargetPath) then
+          Skip := WideMessageBox(Application.Handle, S_WARNING, S_OVERWRITE_EXISTING_FILE, MB_OKCANCEL or MB_ICONWARNING) = IDCANCEL
+      end;
+      if not Skip then
+      begin
+        case NewMenuItem.NewShellKind of
+          nmk_Null:
             begin
-              NewFileSourcePath := TemplatesFolder.NameParseAddress + '\' + NewMenuItem.NewShellKindStr;
-              TemplateFound := WideFileExists(NewFileSourcePath);
+               Handle := FileCreate(NewFileTargetPath);
+               if Handle <> INVALID_HANDLE_VALUE then
+               begin
+                 FileClose(Handle);
+               end;
+
             end;
-            
-            {Look from common templates folder}
-            if not TemplateFound then
+          nmk_FileName:
             begin
-              tmpNS:= CreateSpecialNamespace($002d);
-              if assigned(tmpNS) then
+              TemplateFound := False;
+              { This is where the template should be }
+              if Assigned(TemplatesFolder) then
               begin
-                NewFileSourcePath := tmpNS.NameParseAddress + '\' + NewMenuItem.NewShellKindStr;
+                NewFileSourcePath := TemplatesFolder.NameParseAddress + '\' + NewMenuItem.NewShellKindStr;
                 TemplateFound := WideFileExists(NewFileSourcePath);
-                tmpNS.Free;
+              end;
+
+              {Look from common templates folder}
+              if not TemplateFound then
+              begin
+                tmpNS:= CreateSpecialNamespace($002d);
+                if assigned(tmpNS) then
+                begin
+                  NewFileSourcePath := tmpNS.NameParseAddress + '\' + NewMenuItem.NewShellKindStr;
+                  TemplateFound := WideFileExists(NewFileSourcePath);
+                  tmpNS.Free;
+                end;
+              end;
+
+              {NEW: Some Programs like WinRAR store the templates elsewhere (like in their own programdirectory)}
+              {So check if NewShellKindStr points directly to a template and - if yes - use it ...}
+              if not TemplateFound then
+              begin
+                NewFileSourcePath := NewMenuItem.NewShellKindStr;
+                TemplateFound := FileExists(NewFileSourcePath);
+              end; 
+
+              { Microsoft can't seem to even get its applications to follow the rules   }
+              { Some Templates are in the old ShellNew folder in the Windows directory. }
+              if not TemplateFound then
+              begin
+                NewFileSourcePath := WindowsDirectory + '\ShellNew\' + NewMenuItem.NewShellKindStr;
+                TemplateFound := FileExists(NewFileSourcePath);
+              end;
+              if TemplateFound then
+              begin
+                WideCopyFile(NewFileSourcePath, NewFileTargetPath, True);
+                //SHChangeNotify(SHCNE_CREATE, SHCNF_PATH, PChar(NewFileTargetPath), nil);
               end;
             end;
-
-            {NEW: Some Programs like WinRAR store the templates elsewhere (like in their own programdirectory)}
-            {So check if NewShellKindStr points directly to a template and - if yes - use it ...}
-            if not TemplateFound then
+          nmk_Data:
             begin
-              NewFileSourcePath := NewMenuItem.NewShellKindStr;
-              TemplateFound := FileExists(NewFileSourcePath);
-            end; 
-
-            { Microsoft can't seem to even get its applications to follow the rules   }
-            { Some Templates are in the old ShellNew folder in the Windows directory. }
-            if not TemplateFound then
-            begin
-              NewFileSourcePath := WindowsDirectory + '\ShellNew\' + NewMenuItem.NewShellKindStr;
-              TemplateFound := FileExists(NewFileSourcePath);
+              Handle := FileCreate(NewFileTargetPath);
+              if Handle <> INVALID_HANDLE_VALUE then
+              try
+                FileWrite(Handle, NewMenuItem.Data^, NewMenuItem.DataSize)
+              finally
+                FileClose(Handle);
+                //SHChangeNotify(SHCNE_CREATE, SHCNF_PATH, PChar(NewFileTargetPath), nil);
+              end
             end;
-            if TemplateFound then
+          nmk_Command:
             begin
-              WideCopyFile(NewFileSourcePath, NewFileTargetPath, True);
-              //SHChangeNotify(SHCNE_CREATE, SHCNF_PATH, PChar(NewFileTargetPath), nil);
+              if NewMenuItem.IsBriefcase then
+              { The Briefcase is a special case that we need to be careful with     }
+              begin
+                { Strip the *.bfc extension from the file name }
+                NewFileTargetPath := WideStripExt(NewFileTargetPath);
+                { This is a bit of a hack.  The true Command string in Win2k looks  }
+                { like:                                                             }
+                {  %SystemRoot%\system32\rundll32.exe %SystemRoot%\system32\syncui.dll,Briefcase_Create %2!d! %1 }
+                { This is undocumented as the the parameters but in Win2k and XP if }
+                { You pass a path of the new Briefcase for %1 and then set %2 to a  }
+                { number > 0 then a Briefcase will be created in the passed folder. }
+                { In Win9x the param are reversed and the string is filled in:      }
+                { c:\Windows\System\rundll32.exe c:\Windows\System\\syncui.dll,Briefcase_Create %1!d! %2 }
+                { In this OS it is not necessary to change the %1 to 1? Oh well     }
+                { Undocumented Shell fun at its best.                               }
+                Path := SystemDirectory + S_RUNDLL32;
+                if not FileExists(Path) then
+                  Path := WindowsDirectory + S_RUNDLL32;
+                ASCIOpen := S_OPEN;
+                WideShellExecute(Application.Handle, ASCIOpen, Path,
+                  S_BRIEFCASE_HACK_STRING + NewFileTargetPath,'', SW_SHOW)
+              end else
+                { Being lazy here, this way I don't have to try to parse arguments  }
+                WinExec(PChar(NewMenuItem.NewShellKindStr), SW_SHOW);
             end;
-          end;
-        nmk_Data:
-          begin
-            Handle := FileCreate(NewFileTargetPath);
-            if Handle <> INVALID_HANDLE_VALUE then
-            try
-              FileWrite(Handle, NewMenuItem.Data^, NewMenuItem.DataSize)
-            finally
-              FileClose(Handle);
-              //SHChangeNotify(SHCNE_CREATE, SHCNF_PATH, PChar(NewFileTargetPath), nil);
-            end
-          end;
-        nmk_Command:
-          begin
-            if NewMenuItem.IsBriefcase then
-            { The Briefcase is a special case that we need to be careful with     }
+          nmk_Folder:
             begin
-              { Strip the *.bfc extension from the file name }
-              NewFileTargetPath := WideStripExt(NewFileTargetPath);
-              { This is a bit of a hack.  The true Command string in Win2k looks  }
-              { like:                                                             }
-              {  %SystemRoot%\system32\rundll32.exe %SystemRoot%\system32\syncui.dll,Briefcase_Create %2!d! %1 }
-              { This is undocumented as the the parameters but in Win2k and XP if }
-              { You pass a path of the new Briefcase for %1 and then set %2 to a  }
-              { number > 0 then a Briefcase will be created in the passed folder. }
-              { In Win9x the param are reversed and the string is filled in:      }
-              { c:\Windows\System\rundll32.exe c:\Windows\System\\syncui.dll,Briefcase_Create %1!d! %2 }
-              { In this OS it is not necessary to change the %1 to 1? Oh well     }
-              { Undocumented Shell fun at its best.                               }
-              Path := SystemDirectory + S_RUNDLL32;
-              if not FileExists(Path) then
-                Path := WindowsDirectory + S_RUNDLL32;
-              ASCIOpen := S_OPEN;
-              WideShellExecute(Application.Handle, ASCIOpen, Path,
-                S_BRIEFCASE_HACK_STRING + NewFileTargetPath,'', SW_SHOW)
-            end else
-              { Being lazy here, this way I don't have to try to parse arguments  }
-              WinExec(PChar(NewMenuItem.NewShellKindStr), SW_SHOW);
-          end;
-        nmk_Folder:
-          begin
-            WideCreateDir(NewFileTargetPath);
-          end;
-        nmk_Shortcut:
-          begin
-            NewFileTargetPath := ExtractFilePath(NewFileTargetPath);
-            NewFileTargetPath := 'rundll32.exe appwiz.cpl,NewLinkHere ' + NewFileTargetPath;
-            WinExec(PChar(String(NewFileTargetPath)), SW_SHOW);
-          end;
-      end;
+              WideCreateDir(NewFileTargetPath);
+            end;
+          nmk_Shortcut:
+            begin
+              NewFileTargetPath := ExtractFilePath(NewFileTargetPath);
+              NewFileTargetPath := 'rundll32.exe appwiz.cpl,NewLinkHere ' + NewFileTargetPath;
+              WinExec(PChar(String(NewFileTargetPath)), SW_SHOW);
+            end;
+        end;
 
-      if WideFileExists(NewFileTargetPath) or WideDirectoryExists(NewFileTargetPath) then
-      begin
-        if not Self.Focused then
-        Self.SetFocus;
-        
-        NS:= TNamespace.CreateFromFileName(NewFileTargetPath);
-        item:= self.AddCustomItem(nil,NS,true);
-        Self.Selection.SelectRange(item,item,false,true);
-        Self.Selection.FocusedItem:= item;
-        self.Refresh;
-        item.Edit;
-      end;
+        if WideFileExists(NewFileTargetPath) or WideDirectoryExists(NewFileTargetPath) then
+        begin
+          if not Self.Focused then
+          Self.SetFocus;
 
-    end
+          NS:= TNamespace.CreateFromFileName(NewFileTargetPath);
+          item:= self.AddCustomItem(nil,NS,true);
+          Self.Selection.SelectRange(item,item,false,true);
+          Self.Selection.FocusedItem:= item;
+          self.Refresh;
+          item.Edit;
+        end;
+
+      end;
+    finally
+      //Wow64RedirectRevert(OldWow64);
+    end;
   end;
   Allow:= false;
 end;
