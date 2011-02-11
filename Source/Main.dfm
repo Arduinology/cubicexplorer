@@ -422,6 +422,7 @@ object MainForm: TMainForm
       ChevronMoveItems = False
       DockPos = 266
       DockRow = 1
+      DragHandleStyle = dhNone
       Images = CE_Images.MediumIcons
       PopupMenu = ToolbarPopupMenu
       TabOrder = 1

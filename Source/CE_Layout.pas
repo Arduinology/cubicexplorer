@@ -613,9 +613,21 @@ begin
             dock:= nil;
             case DockType of
               tdtBoth: dock:= CEToolbarDocks.FindDockNamed(s);
-              tdtInner: dock:= CEToolbarDocks.FindInnerDockNamed(s);
+              tdtInner: begin
+                dock:= CEToolbarDocks.FindInnerDockNamed(s);
+                if not assigned(dock) then
+                begin
+                  dock:= CEToolbarDocks.FindDockNamed(s);
+                  if assigned(dock) then
+                  begin
+                    if dockablewindow.CurrentDock = dock then
+                    dock:= nil;
+                  end;
+                end;
+              end;
               tdtOuter: dock:= CEToolbarDocks.FindOuterDockNamed(s);
             end;
+
             if assigned(dock) then
             begin
               dockablewindow.CurrentDock:= dock;
@@ -687,10 +699,10 @@ begin
       if CELayoutItems.Items[i] is TTBCustomDockableWindow then
       begin
         dockablewindow:= TTBCustomDockableWindow(CELayoutItems.Items[i]);
-        if (DockType = tdtBoth) or
-           ((DockType = tdtInner) and CEToolbarDocks.IsInnerDock(dockablewindow.CurrentDock)) or
-           ((DockType = tdtOuter) and CEToolbarDocks.IsOuterDock(dockablewindow.CurrentDock)) then
-        begin
+//        if (DockType = tdtBoth) or
+//           ((DockType = tdtInner) and CEToolbarDocks.IsInnerDock(dockablewindow.CurrentDock)) or
+//           ((DockType = tdtOuter) and CEToolbarDocks.IsOuterDock(dockablewindow.CurrentDock)) then
+//        begin
           AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, dockablewindow.Name]);
 
           // Write toolbar properties
@@ -703,7 +715,7 @@ begin
           AppStorage.WriteBoolean('Visible', dockablewindow.Visible);
 
           AppStorage.Path:= RootPath;
-        end;
+//        end;
       end
       else if (CELayoutItems.Items[i] is TCESpTabSet) and (DockType <> tdtInner) then
       begin

@@ -68,10 +68,18 @@ type
     tab_hotkeys: TSpTBXTabItem;
     SpTBXTabSheet4: TSpTBXTabSheet;
     ThemeList: TSpTBXListBox;
-    SpTBXButton1: TSpTBXButton;
+    but_loadTheme: TSpTBXButton;
     ToolbarList: TSpTBXCheckListBox;
     group_displayMode: TSpTBXRadioGroup;
     check_largeIcons: TSpTBXCheckBox;
+    check_borders: TSpTBXCheckBox;
+    check_stretch: TSpTBXCheckBox;
+    check_dragHandle: TSpTBXCheckBox;
+    label_help: TSpTBXLabel;
+    label_themeName: TSpTBXLabel;
+    label_themeAuthor: TSpTBXLabel;
+    procedure ActionTreeCompareNodes(Sender: TBaseVirtualTree; Node1, Node2:
+        PVirtualNode; Column: TColumnIndex; var Result: Integer);
     procedure ActionTreeDragAllowed(Sender: TBaseVirtualTree; Node: PVirtualNode;
         Column: TColumnIndex; var Allowed: Boolean);
     procedure ActionTreeDragDrop(Sender: TBaseVirtualTree; Source: TObject;
@@ -89,7 +97,11 @@ type
         TCanvas; Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType);
     procedure ActionTreeStartDrag(Sender: TObject; var DragObject: TDragObject);
     procedure but_closeClick(Sender: TObject);
+    procedure but_loadThemeClick(Sender: TObject);
+    procedure check_bordersClick(Sender: TObject);
+    procedure check_dragHandleClick(Sender: TObject);
     procedure check_largeIconsClick(Sender: TObject);
+    procedure check_stretchClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -98,8 +110,13 @@ type
     procedure ThemeListClick(Sender: TObject);
     procedure ToolbarListClick(Sender: TObject);
   private
+    fselectedToolbar: TSpTBXToolbar;
     tmpItem: TSpTBXItem;
+    procedure SetselectedToolbar(const Value: TSpTBXToolbar);
 
+  protected
+    property selectedToolbar: TSpTBXToolbar read fselectedToolbar write
+        SetselectedToolbar;
   public
     ParentComponent: TComponent;
     function GetCategory(CatName: String): PVirtualNode;
@@ -281,6 +298,21 @@ begin
     Toolbar.Images:= CE_Images.MediumIcons
     else
     Toolbar.Images:= CE_Images.SmallIcons;
+
+    // Borders
+    if ToolbarNode.Properties.BoolValue('Borders', Toolbar.BorderStyle <> bsNone) then
+    Toolbar.BorderStyle:= bsSingle
+    else
+    Toolbar.BorderStyle:= bsNone;
+
+    // Stretch
+    Toolbar.Stretch:= ToolbarNode.Properties.BoolValue('Stretch', Toolbar.Stretch);
+
+    // Drag Handle
+    if ToolbarNode.Properties.BoolValue('DragHandle', Toolbar.DragHandleStyle <> dhNone) then
+    Toolbar.DragHandleStyle:= dhSingle
+    else
+    Toolbar.DragHandleStyle:= dhNone;
   finally
     toolbar.EndUpdate;
   end;
@@ -298,6 +330,9 @@ begin
   ToolbarNode.Properties.Clear;
   ToolbarNode.Properties.Add('DisplayMode', Ord(toolbar.DisplayMode));
   ToolbarNode.Properties.Add('LargeIcons', Toolbar.Images = CE_Images.MediumIcons);
+  ToolbarNode.Properties.Add('Borders', Toolbar.BorderStyle <> bsNone);
+  ToolbarNode.Properties.Add('Stretch', Toolbar.Stretch);
+  ToolbarNode.Properties.Add('DragHandle', Toolbar.DragHandleStyle <> dhNone);
 end;
 
 {##############################################################################}
@@ -321,6 +356,11 @@ begin
   i:= ThemeList.Items.IndexOf('Default');
   if i > -1 then ThemeList.Items.Move(i, 0);
   ThemeList.ItemIndex:= ThemeList.Items.IndexOf(SkinManager.CurrentSkinName);
+  label_themeName.Caption:= SkinManager.CurrentSkin.SkinName;
+  if SkinManager.CurrentSkin.SkinAuthor <> '' then
+  label_themeAuthor.Caption:= _('Author') + ': ' + SkinManager.CurrentSkin.SkinAuthor
+  else
+  label_themeAuthor.Caption:= '';
 
   // Populate Toolbar list
   for i:= 0 to CELayoutItems.Count - 1 do
@@ -338,6 +378,8 @@ begin
   group_displayMode.Items.Add(_('Icon only'));
   group_displayMode.Items.Add(_('Icon above text'));
   group_displayMode.Items.Add(_('Text only'));
+
+  but_loadTheme.Caption:= CEActions.act_view_loadskin.Caption;
 end;
 
 {*------------------------------------------------------------------------------
@@ -380,18 +422,22 @@ begin
     begin
       if CompareText(CatName, data.Name) = 0 then
       begin
-        Result:= Node;
-        Exit;
+        break;
       end;
     end;
     Node:= Node.NextSibling;
   end;
-  Node:= ActionTree.AddChild(nil);
-  data:= ActionTree.GetNodeData(Node);
-  data.IsCategory:= true;
-  data.IsSeparator:= false;
-  data.Name:= CatName;
-  data.IconIndex:= -1;
+
+  if not assigned(Node) then
+  begin
+    Node:= ActionTree.AddChild(nil);
+    data:= ActionTree.GetNodeData(Node);
+    data.IsCategory:= true;
+    data.IsSeparator:= false;
+    data.Name:= CatName;
+    data.IconIndex:= -1;
+  end;
+
   Result:= Node;
 end;
 
@@ -411,7 +457,7 @@ begin
   begin
     act:= TTntAction(CEActions.ActionList.Actions[i]);
     node:= GetCategory(act.Category);
-    chNode:= ActionTree.InsertNode(node, amAddChildLast);
+    chNode:= ActionTree.AddChild(node);
     data:= ActionTree.GetNodeData(chNode);
     data.ActionItem:= act;
     data.Name:= act.Caption;
@@ -428,13 +474,39 @@ begin
   data.IsCategory:= true;
   data.IsSeparator:= false;
   // Add Separator item
-  chNode:= ActionTree.InsertNode(node, amAddChildLast);
+  chNode:= ActionTree.AddChild(node);
   data:= ActionTree.GetNodeData(chNode);
   data.Name:= '---';
   data.IconIndex:= -1;
   data.IsCategory:= false;
   data.IsSeparator:= true;
+
+  // Sort actions
+  node:= ActionTree.GetFirst;
+  while node <> nil do
+  begin
+    data:= ActionTree.GetNodeData(Node);
+    if data.IsCategory then
+    begin
+      ActionTree.Sort(node, 0, sdAscending, false);
+    end;
+    node:= node.NextSibling;
+  end;
+  
   ActionTree.FullExpand;
+end;
+
+{-------------------------------------------------------------------------------
+  On ActionTree.CompareNodes
+-------------------------------------------------------------------------------}
+procedure TCEToolbarCustomizer.ActionTreeCompareNodes(Sender: TBaseVirtualTree;
+    Node1, Node2: PVirtualNode; Column: TColumnIndex; var Result: Integer);
+var
+  data1, data2: PCEActTreeData;
+begin
+  data1:= ActionTree.GetNodeData(Node1);
+  data2:= ActionTree.GetNodeData(Node2);
+  Result:= WideCompareText(data1.Name, data2.Name);
 end;
 
 {*------------------------------------------------------------------------------
@@ -583,6 +655,27 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  On but_loadTheme Click
+-------------------------------------------------------------------------------}
+procedure TCEToolbarCustomizer.but_loadThemeClick(Sender: TObject);
+var
+  i: Integer;
+begin
+  CEActions.act_view_loadskin.Execute;
+  // Populate Theme list
+  SkinManager.SkinsList.GetSkinNames(ThemeList.Items.AnsiStrings);
+  ThemeList.Sorted:= true;
+  i:= ThemeList.Items.IndexOf('Default');
+  if i > -1 then ThemeList.Items.Move(i, 0);
+  ThemeList.ItemIndex:= ThemeList.Items.IndexOf(SkinManager.CurrentSkinName);
+  label_themeName.Caption:= SkinManager.CurrentSkin.SkinName;
+  if SkinManager.CurrentSkin.SkinAuthor <> '' then
+  label_themeAuthor.Caption:= _('Author') + ': ' + SkinManager.CurrentSkin.SkinAuthor
+  else
+  label_themeAuthor.Caption:= '';
+end;
+
+{-------------------------------------------------------------------------------
   On TabControl.ActiveTabChange
 -------------------------------------------------------------------------------}
 procedure TCEToolbarCustomizer.TabControlActiveTabChange(Sender: TObject;
@@ -598,6 +691,11 @@ begin
     MainForm.TabSet.Toolbar.EndCustomize;
     EndToolbarCustomize;
   end;
+
+  if TabControl.ActiveTab = tab_buttons then
+  label_help.Caption:= _('Drag buttons to/from toolbars')
+  else
+  label_help.Caption:= '';
 end;
 
 {-------------------------------------------------------------------------------
@@ -606,50 +704,86 @@ end;
 procedure TCEToolbarCustomizer.ThemeListClick(Sender: TObject);
 begin
   if ThemeList.ItemIndex > -1 then
-  SkinManager.SetSkin(ThemeList.Items.Strings[ThemeList.ItemIndex]);
+  begin
+    SkinManager.SetSkin(ThemeList.Items.Strings[ThemeList.ItemIndex]);
+    label_themeName.Caption:= SkinManager.CurrentSkin.SkinName;
+    if SkinManager.CurrentSkin.SkinAuthor <> '' then
+    label_themeAuthor.Caption:= _('Author') + ': ' + SkinManager.CurrentSkin.SkinAuthor
+    else
+    label_themeAuthor.Caption:= '';
+  end
+  else
+  begin
+    label_themeName.Caption:= '';
+    label_themeAuthor.Caption:= '';
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set selectedToolbar
+-------------------------------------------------------------------------------}
+procedure TCEToolbarCustomizer.SetselectedToolbar(const Value: TSpTBXToolbar);
+begin
+  if Value <> fselectedToolbar then
+  begin
+    fselectedToolbar:= Value;
+    if assigned(fselectedToolbar) then
+    begin
+      // Display Mode
+      group_displayMode.ItemIndex:= Ord(selectedToolbar.DisplayMode);
+      group_displayMode.Enabled:= true;
+      // Large Icons
+      check_largeIcons.Checked:= selectedToolbar.Images = CE_Images.MediumIcons;
+      check_largeIcons.Enabled:= true;
+      // Borders
+      check_borders.Checked:= selectedToolbar.BorderStyle = bsSingle;
+      check_borders.Enabled:= true;
+      // Stretch
+      check_stretch.Checked:= selectedToolbar.Stretch;
+      check_stretch.Enabled:= true;
+      // Drag Handle
+      check_dragHandle.Checked:= selectedToolbar.DragHandleStyle <> dhNone;
+      check_dragHandle.Enabled:= true;
+    end
+    else
+    begin
+      group_displayMode.Enabled:= false;
+      check_largeIcons.Enabled:= false;
+      check_borders.Enabled:= false;
+      check_stretch.Enabled:= false;
+      check_dragHandle.Enabled:= false;
+    end;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
   On ToolbarList Click
 -------------------------------------------------------------------------------}
 procedure TCEToolbarCustomizer.ToolbarListClick(Sender: TObject);
-var
-  toolbar: TSpTBXToolbar;
 begin
   if ToolbarList.ItemIndex > -1 then
   begin
-    toolbar:= TSpTBXToolbar(ToolbarList.Items.Objects[ToolbarList.ItemIndex]);
-    toolbar.Visible:= ToolbarList.Checked[ToolbarList.ItemIndex];
-    group_displayMode.ItemIndex:= Ord(toolbar.DisplayMode);
-    group_displayMode.Enabled:= true;
-
-    check_largeIcons.Checked:= toolbar.Images = CE_Images.MediumIcons;
-    check_largeIcons.Enabled:= true;
+    selectedToolbar:= TSpTBXToolbar(ToolbarList.Items.Objects[ToolbarList.ItemIndex]);
+    selectedToolbar.Visible:= ToolbarList.Checked[ToolbarList.ItemIndex];
   end
   else
-  begin
-    group_displayMode.Enabled:= false;
-    check_largeIcons.Enabled:= false;
-  end;
+  selectedToolbar:= nil;
 end;
 
 {-------------------------------------------------------------------------------
   On group_displayMode.Click
 -------------------------------------------------------------------------------}
 procedure TCEToolbarCustomizer.group_displayModeClick(Sender: TObject);
-var
-  toolbar: TSpTBXToolbar;
 begin
-  if ToolbarList.ItemIndex > -1 then
+  if assigned(selectedToolbar) then
   begin
-    toolbar:= TSpTBXToolbar(ToolbarList.Items.Objects[ToolbarList.ItemIndex]);
     if group_displayMode.ItemIndex > -1 then
     begin
-      toolbar.BeginUpdate;
-      toolbar.DisplayMode:= TSpTBXToolbarDisplayMode(group_displayMode.ItemIndex);
-      if toolbar.DisplayMode = tbdmImageAboveCaption then
-      toolbar.Options:= [tboImageAboveCaption];
-      toolbar.EndUpdate;
+      selectedToolbar.BeginUpdate;
+      selectedToolbar.DisplayMode:= TSpTBXToolbarDisplayMode(group_displayMode.ItemIndex);
+      if selectedToolbar.DisplayMode = tbdmImageAboveCaption then
+      selectedToolbar.Options:= [tboImageAboveCaption];
+      selectedToolbar.EndUpdate;
     end;
   end;
 end;
@@ -658,16 +792,50 @@ end;
   On check_largeIcons.Click
 -------------------------------------------------------------------------------}
 procedure TCEToolbarCustomizer.check_largeIconsClick(Sender: TObject);
-var
-  toolbar: TSpTBXToolbar;
 begin
-  if ToolbarList.ItemIndex > -1 then
+  if assigned(selectedToolbar) then
   begin
-    toolbar:= TSpTBXToolbar(ToolbarList.Items.Objects[ToolbarList.ItemIndex]);
     if check_largeIcons.Checked then
-    toolbar.Images:= CE_Images.MediumIcons
+    selectedToolbar.Images:= CE_Images.MediumIcons
     else
-    toolbar.Images:= CE_Images.SmallIcons;
+    selectedToolbar.Images:= CE_Images.SmallIcons;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On check_borders.Click
+-------------------------------------------------------------------------------}
+procedure TCEToolbarCustomizer.check_bordersClick(Sender: TObject);
+begin
+  if assigned(selectedToolbar) then
+  begin
+    if check_borders.Checked then
+    selectedToolbar.BorderStyle:= bsSingle
+    else
+    selectedToolbar.BorderStyle:= bsNone;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On check_stretch.Click
+-------------------------------------------------------------------------------}
+procedure TCEToolbarCustomizer.check_stretchClick(Sender: TObject);
+begin
+  if assigned(selectedToolbar) then
+  selectedToolbar.Stretch:= check_stretch.Checked;
+end;
+
+{-------------------------------------------------------------------------------
+  On check_dragHandle.Click
+-------------------------------------------------------------------------------}
+procedure TCEToolbarCustomizer.check_dragHandleClick(Sender: TObject);
+begin
+  if assigned(selectedToolbar) then
+  begin
+    if check_dragHandle.Checked then
+    selectedToolbar.DragHandleStyle:= dhSingle
+    else
+    selectedToolbar.DragHandleStyle:= dhNone;
   end;
 end;
 

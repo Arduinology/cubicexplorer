@@ -38,6 +38,8 @@ type
   private
     fActiveFile: WideString;
     { Private declarations }
+  protected
+    function GetSettingsClass: TCECustomTabPageSettingsClass; override;
   public
     Viewer: TCEQuickView;
     constructor Create(AOwner: TComponent); override;
@@ -83,6 +85,14 @@ destructor TCEQuickViewPage.Destroy;
 begin
   Viewer.Free;
   inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Get Settings Class
+-------------------------------------------------------------------------------}
+function TCEQuickViewPage.GetSettingsClass: TCECustomTabPageSettingsClass;
+begin
+  Result:= TCEQuickViewPageSettings;
 end;
 
 {-------------------------------------------------------------------------------

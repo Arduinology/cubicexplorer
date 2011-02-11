@@ -25,7 +25,8 @@ implementation
 -------------------------------------------------------------------------------}
 procedure TSpTBXChromeSkin.FillOptions;
 begin
-  SkinName := 'Chrome';
+  SkinName:= 'Chrome';
+  SkinAuthor:= 'Marko Savolainen';
 
   //---- Single State ----//
   Options(skncDock, sknsNormal).Body.Fill(3, $fdf7f2, $f8eadf, $f8eadf, $f8eadf);

@@ -145,8 +145,8 @@ object CEActions: TCEActions
     object act_view_loadskin: TTntAction
       Tag = 371
       Category = 'View'
-      Caption = 'Load Skin...'
-      Hint = 'Load skin from file'
+      Caption = 'Load theme from file...'
+      Hint = 'Load theme from file'
       OnExecute = ActionExecute
     end
     object act_view_tiles: TTntAction

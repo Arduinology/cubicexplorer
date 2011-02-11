@@ -13,6 +13,7 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
   Font.Style = []
   FormStyle = fsStayOnTop
   OldCreateOrder = False
+  Position = poMainFormCenter
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -41,6 +42,20 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
       TabOrder = 0
       OnClick = but_closeClick
     end
+    object label_help: TSpTBXLabel
+      Left = 3
+      Top = 0
+      Width = 294
+      Height = 42
+      Align = alCustom
+      AutoSize = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsItalic]
+      ParentFont = False
+    end
   end
   object TabControl: TSpTBXTabControl
     Left = 0
@@ -48,13 +63,12 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
     Width = 390
     Height = 251
     Align = alClient
-    ActiveTabIndex = 0
+    ActiveTabIndex = 3
     TabBackgroundBorders = True
     OnActiveTabChange = TabControlActiveTabChange
     HiddenItems = <>
     object tab_toolbars: TSpTBXTabItem
       Caption = 'Toolbars'
-      Checked = True
     end
     object tab_buttons: TSpTBXTabItem
       Caption = 'Buttons'
@@ -64,6 +78,7 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
     end
     object tab_theme: TSpTBXTabItem
       Caption = 'Theme'
+      Checked = True
     end
     object SpTBXTabSheet4: TSpTBXTabSheet
       Left = 0
@@ -73,32 +88,6 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
       Caption = 'Hotkeys'
       ImageIndex = -1
       TabItem = 'tab_hotkeys'
-    end
-    object SpTBXTabSheet3: TSpTBXTabSheet
-      Left = 0
-      Top = 25
-      Width = 390
-      Height = 226
-      Caption = 'Theme'
-      ImageIndex = -1
-      TabItem = 'tab_theme'
-      object ThemeList: TSpTBXListBox
-        Left = 8
-        Top = 8
-        Width = 193
-        Height = 209
-        ItemHeight = 16
-        TabOrder = 0
-        OnClick = ThemeListClick
-      end
-      object SpTBXButton1: TSpTBXButton
-        Left = 207
-        Top = 188
-        Width = 90
-        Height = 29
-        Caption = 'Load Theme...'
-        TabOrder = 1
-      end
     end
     object SpTBXTabSheet2: TSpTBXTabSheet
       Left = 0
@@ -123,6 +112,7 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
         Header.Font.Height = -11
         Header.Font.Name = 'Tahoma'
         Header.Font.Style = []
+        Header.MaxHeight = 100
         Header.Options = [hoAutoResize, hoColumnResize, hoDrag]
         ParentShowHint = False
         ShowHint = False
@@ -130,6 +120,7 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
         TreeOptions.AutoOptions = [toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes]
         TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
         TreeOptions.PaintOptions = [toShowButtons, toShowRoot, toThemeAware, toUseBlendedImages]
+        OnCompareNodes = ActionTreeCompareNodes
         OnDragAllowed = ActionTreeDragAllowed
         OnDragOver = ActionTreeDragOver
         OnDragDrop = ActionTreeDragDrop
@@ -137,6 +128,9 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
         OnPaintText = ActionTreePaintText
         OnGetImageIndexEx = ActionTreeGetImageIndexEx
         OnStartDrag = ActionTreeStartDrag
+        ExplicitLeft = 0
+        ExplicitWidth = 390
+        ExplicitHeight = 42
         Columns = <
           item
             Position = 0
@@ -185,6 +179,89 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
         Enabled = False
         TabOrder = 2
         OnClick = check_largeIconsClick
+      end
+      object check_borders: TSpTBXCheckBox
+        Left = 195
+        Top = 132
+        Width = 61
+        Height = 21
+        Caption = 'Borders'
+        Enabled = False
+        TabOrder = 3
+        OnClick = check_bordersClick
+      end
+      object check_stretch: TSpTBXCheckBox
+        Left = 195
+        Top = 152
+        Width = 59
+        Height = 21
+        Caption = 'Stretch'
+        Enabled = False
+        TabOrder = 4
+        OnClick = check_stretchClick
+      end
+      object check_dragHandle: TSpTBXCheckBox
+        Left = 195
+        Top = 172
+        Width = 83
+        Height = 21
+        Caption = 'Drag Handle'
+        Enabled = False
+        TabOrder = 5
+        OnClick = check_dragHandleClick
+      end
+    end
+    object SpTBXTabSheet3: TSpTBXTabSheet
+      Left = 0
+      Top = 25
+      Width = 390
+      Height = 226
+      Caption = 'Theme'
+      ImageIndex = -1
+      DesignSize = (
+        390
+        226)
+      TabItem = 'tab_theme'
+      object ThemeList: TSpTBXListBox
+        Left = 8
+        Top = 8
+        Width = 193
+        Height = 209
+        ItemHeight = 16
+        TabOrder = 0
+        OnClick = ThemeListClick
+      end
+      object but_loadTheme: TSpTBXButton
+        Left = 207
+        Top = 188
+        Width = 175
+        Height = 29
+        Hint = 'Load theme from file'
+        Anchors = [akLeft, akTop, akRight]
+        TabOrder = 1
+        OnClick = but_loadThemeClick
+      end
+      object label_themeName: TSpTBXLabel
+        Left = 207
+        Top = 8
+        Width = 175
+        Height = 22
+        Anchors = [akLeft, akTop, akRight]
+        AutoSize = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object label_themeAuthor: TSpTBXLabel
+        Left = 207
+        Top = 32
+        Width = 175
+        Height = 29
+        AutoSize = False
+        Wrapping = twWrap
       end
     end
   end

@@ -276,6 +276,7 @@ begin
               item.Caption:= item.DriveLetter;
               item.Hint:= NS.NameInFolder;
               item.ImageIndex:= item.Namespace.GetIconIndex(false,icSmall);
+              item.Images:= SmallSysImages;
               item.DisplayMode:= nbdmImageAndText;
               Self.Items.Add(item);
             end
