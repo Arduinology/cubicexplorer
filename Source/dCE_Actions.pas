@@ -262,7 +262,7 @@ uses
   Main, fCE_FolderPanel, fCE_QuickViewPanel, fCE_BookmarkPanel,
   fCE_TextEditor, fCE_FileView, CE_FileView, CE_QuickView,
   CE_Bookmarks, CE_BookmarkTree, fCE_AboutBox,
-  CE_ToolbarButtons, fCE_ToolbarCustomizer, fCE_TabPage, fCE_FiltersPanel,
+  CE_ToolbarButtons, fCE_Customizer, fCE_TabPage, fCE_FiltersPanel,
   fCE_PoEditor, fCE_OptionsDialog, CE_Sessions, fCE_StackPanel,
   CE_BaseFileView, fCE_QuickViewTab, fCE_SearchPage, fCE_CreateSymlink;
 

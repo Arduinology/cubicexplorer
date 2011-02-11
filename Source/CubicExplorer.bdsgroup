@@ -8,7 +8,11 @@
 			<Option Name="GUID">{D2A67EB7-9BB5-44FB-9437-90D69074DA84}</Option>
 		</Option>
 	</PersonalityInfo>
-	<Default.Personality>  <Projects>
+	<Default.Personality>  
+    
+    
+    
+    <Projects>
       <Projects Name="CubicExplorer.exe">CubicExplorer.bdsproj</Projects>
       <Projects Name="Targets">CubicExplorer.exe</Projects>
     </Projects>

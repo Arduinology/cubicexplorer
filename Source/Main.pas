@@ -27,7 +27,7 @@ uses
   // CE Frames   
   fCE_ExtAppPage, fCE_FiltersPanel, fCE_BookmarkPropDlg,
   fCE_DockHostForm, fCE_DockableForm, fCE_TabPage, fCE_FileView,
-  fCE_FolderPanel, fCE_QuickViewPanel, fCE_BookmarkPanel, fCE_ToolbarCustomizer,
+  fCE_FolderPanel, fCE_QuickViewPanel, fCE_BookmarkPanel, fCE_Customizer,
   fCE_PoEditor,
   // CE Data Modules
   dCE_Actions, dCE_Images, dCE_Input,
@@ -327,6 +327,7 @@ type
 var
   MainForm: TMainForm;
   benchStart, benchEnd: Int64;
+  
 implementation
 
 uses
@@ -694,16 +695,15 @@ begin
   if Application.MainForm.AlphaBlendValue < 255 then
   Application.MainForm.AlphaBlend:= true;
 
+  fIsReady:= true;
+
   // Start Update timer
   CEActions.UpdateTimer.Enabled:= true;
 
-  fIsReady:= true;
+  
 
 
   // Testing stuff!!!
-
- //test_act1Click(self);
- //Layouts.AutoSave:= true;
 
   if DebugHook <> 0 then
   begin

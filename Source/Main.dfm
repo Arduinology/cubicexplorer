@@ -426,7 +426,6 @@ object MainForm: TMainForm
       PopupMenu = ToolbarPopupMenu
       TabOrder = 1
       Caption = 'View'
-      DisplayMode = tbdmImageOnly
       object SpTBXItem28: TSpTBXItem
         Action = CEActions.act_view_large
       end
@@ -489,9 +488,9 @@ object MainForm: TMainForm
       end
     end
     object EditToolbar: TSpTBXToolbar
-      Left = 503
+      Left = 511
       Top = 25
-      DockPos = 503
+      DockPos = 511
       DockRow = 1
       Images = CE_Images.SmallIcons
       PopupMenu = ToolbarPopupMenu

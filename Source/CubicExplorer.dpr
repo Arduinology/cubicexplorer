@@ -58,7 +58,7 @@ uses
   fCE_AboutBox in 'fCE_AboutBox.pas' {CEAboutBox},
   CE_DriveBar in 'CE_DriveBar.pas',
   CE_BookmarkBar in 'CE_BookmarkBar.pas',
-  fCE_ToolbarCustomizer in 'fCE_ToolbarCustomizer.pas' {CEToolbarCustomizer},
+  fCE_Customizer in 'fCE_Customizer.pas' {CEToolbarCustomizer},
   CE_Toolbar in 'CE_Toolbar.pas',
   CE_ToolbarButtons in 'CE_ToolbarButtons.pas',
   CE_StatusBar in 'CE_StatusBar.pas',

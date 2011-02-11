@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  CE_GlobalCtrl, dCE_Actions, CE_VistaFuncs,
+  CE_GlobalCtrl, dCE_Actions, CE_VistaFuncs, dCE_Images,
   // Toolbar2K
   TB2Item,
   // SpTBXLib

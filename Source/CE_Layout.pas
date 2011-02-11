@@ -122,7 +122,7 @@ var
 implementation
 
 uses
-  fCE_DockHostForm, fCE_ToolbarCustomizer, Main, fCE_DockableForm, CE_SpTabBar,
+  fCE_DockHostForm, fCE_Customizer, Main, fCE_DockableForm, CE_SpTabBar,
   CE_StatusBar;
 
 {*------------------------------------------------------------------------------
@@ -850,6 +850,7 @@ begin
         if toolbar.Customizable then
         begin
           elem:= rootElem.Items.Add(toolbar.Name);
+          SaveToolbarProperties(toolbar, elem);
           SaveToolbarItems(toolbar,elem);
         end;
       end
@@ -859,6 +860,7 @@ begin
         if toolbar.Customizable then
         begin
           elem:= rootElem.Items.Add(toolbar.Name);
+          SaveToolbarProperties(toolbar, elem);
           SaveToolbarItems(toolbar,elem);
         end;
       end;
@@ -890,6 +892,7 @@ begin
           elem:= rootElem.Items.ItemNamed[toolbar.Name];
           if assigned(elem) then
           begin
+            LoadToolbarProperties(toolbar, elem);
             LoadToolbarItems(toolbar,elem);
           end;
         end
@@ -899,6 +902,7 @@ begin
           elem:= rootElem.Items.ItemNamed[toolbar.Name];
           if assigned(elem) then
           begin
+            LoadToolbarProperties(toolbar, elem);
             LoadToolbarItems(toolbar,elem);
           end;
         end;     
