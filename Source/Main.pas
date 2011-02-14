@@ -204,6 +204,8 @@ type
     SpTBXItem85: TSpTBXItem;
     SpTBXSeparatorItem22: TSpTBXSeparatorItem;
     SpTBXItem87: TSpTBXItem;
+    SpTBXItem88: TSpTBXItem;
+    SpTBXSeparatorItem23: TSpTBXSeparatorItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

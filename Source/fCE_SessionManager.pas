@@ -24,46 +24,43 @@ unit fCE_SessionManager;
 interface
 
 uses
+  // CubicExplorer
+  CE_Sessions,
   // VirtualTrees
-  VirtualTrees, 
-  // TNT
-  TntExtCtrls,  TntStdCtrls, TntDialogs,
+  VirtualTrees,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls;
+  Dialogs, StdCtrls, ExtCtrls, SpTBXControls, SpTBXEditors, SpTBXItem,
+  SpTBXDkPanels, SpTBXTabs, TB2Item, TntStdCtrls;
 
 type
   TCESessionManager = class(TForm)
-    TntButton1: TTntButton;
-    Panel1: TPanel;
-    SessionList: TVirtualStringTree;
-    edit_name: TTntEdit;
-    TntLabel1: TTntLabel;
-    check_autosave: TTntCheckBox;
-    TntGroupBox1: TTntGroupBox;
-    check_bookmarks: TTntCheckBox;
-    check_tabs: TTntCheckBox;
-    check_layout: TTntCheckBox;
-    Panel2: TPanel;
-    but_delete: TTntButton;
+    SpTBXLabel1: TSpTBXLabel;
+    edit_name: TSpTBXEdit;
+    group_loadsave: TSpTBXGroupBox;
+    check_tabs: TSpTBXCheckBox;
+    check_bookmarks: TSpTBXCheckBox;
+    check_layout: TSpTBXCheckBox;
+    check_autosave: TSpTBXCheckBox;
+    but_delete: TSpTBXButton;
+    SpTBXPanel2: TSpTBXPanel;
+    SpTBXButton1: TSpTBXButton;
+    SpTBXTabControl1: TSpTBXTabControl;
+    SpTBXTabItem1: TSpTBXTabItem;
+    SpTBXTabSheet1: TSpTBXTabSheet;
+    list_sessions: TSpTBXListBox;
     procedure but_deleteClick(Sender: TObject);
     procedure check_autosaveClick(Sender: TObject);
     procedure edit_nameChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure SessionListFocusChanged(Sender: TBaseVirtualTree; Node: PVirtualNode;
-        Column: TColumnIndex);
-    procedure SessionListGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
-        Column: TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
-    procedure SessionListKeyDown(Sender: TObject; var Key: Word; Shift:
-        TShiftState);
-    procedure SessionListNewText(Sender: TBaseVirtualTree; Node: PVirtualNode;
-        Column: TColumnIndex; NewText: WideString);
-    procedure SessionListPaintText(Sender: TBaseVirtualTree; const TargetCanvas:
-        TCanvas; Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType);
+    procedure list_sessionsClick(Sender: TObject);
   private
     fSessionPropertiesEnabled: Boolean;
     procedure SetSessionPropertiesEnabled(const Value: Boolean);
     { Private declarations }
+  protected
+    fSelectedSession: TCESessionItem;
+    procedure PopulateSessionsList;
   public
     property SessionPropertiesEnabled: Boolean read fSessionPropertiesEnabled write
         SetSessionPropertiesEnabled;
@@ -76,7 +73,7 @@ var
 implementation
 
 uses
-  CE_Sessions, CE_LanguageEngine;
+  CE_LanguageEngine;
 
 {$R *.dfm}
 
@@ -84,74 +81,28 @@ uses
   On Form Create
 -------------------------------------------------------------------------------}
 procedure TCESessionManager.FormCreate(Sender: TObject);
-begin
-  SessionPropertiesEnabled:= false;
-  SessionList.RootNodeCount:= GlobalSessions.Sessions.Items.Count;
-end;
-
-{-------------------------------------------------------------------------------
-  On SessionList Focus Changed
--------------------------------------------------------------------------------}
-procedure TCESessionManager.SessionListFocusChanged(Sender: TBaseVirtualTree;
-    Node: PVirtualNode; Column: TColumnIndex);
 var
-  session: TCESessionItem;
+  i: Integer;
 begin
-  fSessionPropertiesEnabled:= false;
-  if assigned(Node) then
-  begin
-    session:= GlobalSessions.Sessions.GetSession(Node.Index);
-    edit_name.Text:= session.Name;
-    check_autosave.Checked:= session.AutoSave;
-    // TODO: Session SaveLoadItems
-//    check_tabs.Checked:= sliTabs in session.SaveLoadItems;
-//    check_bookmarks.Checked:= sliBookmarks in session.SaveLoadItems;
-//    check_layout.Checked:= sliLayout in session.SaveLoadItems;
-    SessionPropertiesEnabled:= true;
-  end
-  else
   SessionPropertiesEnabled:= false;
-end;
-
-{-------------------------------------------------------------------------------
-  On SessionList Get Text
--------------------------------------------------------------------------------}
-procedure TCESessionManager.SessionListGetText(Sender: TBaseVirtualTree; Node:
-    PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType; var CellText:
-    WideString);
-begin
-  CellText:= GlobalSessions.Sessions.GetSession(Node.Index).Name;
+  PopulateSessionsList;
+  list_sessions.ItemIndex:= GlobalSessions.ActiveSessionIndex;
+  list_sessionsClick(self);  
 end;
 
 {-------------------------------------------------------------------------------
   On Session Name Change
 -------------------------------------------------------------------------------}
 procedure TCESessionManager.edit_nameChange(Sender: TObject);
-var
-  session: TCESessionItem;
 begin
-  if SessionPropertiesEnabled then
+  if SessionPropertiesEnabled and assigned(fSelectedSession) then
   begin
-    session:= GlobalSessions.Sessions.GetSession(SessionList.FocusedNode.Index);
-    if session.Name <> edit_name.Text then
+    if fSelectedSession.Name <> edit_name.Text then
     begin
-      session.Name:= edit_name.Text;
-      SessionList.RepaintNode(SessionList.FocusedNode);
+      fSelectedSession.Name:= edit_name.Text;
+      list_sessions.Items.Strings[list_sessions.ItemIndex]:= fSelectedSession.Name;
     end;
   end;
-end;
-
-{-------------------------------------------------------------------------------
-  On SessionList New text
--------------------------------------------------------------------------------}
-procedure TCESessionManager.SessionListNewText(Sender: TBaseVirtualTree; Node:
-    PVirtualNode; Column: TColumnIndex; NewText: WideString);
-var
-  session: TCESessionItem;
-begin
-  session:= GlobalSessions.Sessions.GetSession(Node.Index);
-  session.Name:= NewText;
-  edit_name.Text:= session.Name;
 end;
 
 {-------------------------------------------------------------------------------
@@ -161,16 +112,18 @@ procedure TCESessionManager.SetSessionPropertiesEnabled(const Value: Boolean);
 begin
   fSessionPropertiesEnabled:= Value;
   edit_name.Enabled:= SessionPropertiesEnabled;
+
   // TODO: Session SaveLoadItems
   //check_tabs.Enabled:= SessionPropertiesEnabled;
   //check_bookmarks.Enabled:= SessionPropertiesEnabled;
   //check_layout.Enabled:= SessionPropertiesEnabled;
+
   check_autosave.Enabled:= SessionPropertiesEnabled;
   but_delete.Enabled:= SessionPropertiesEnabled;
   if not SessionPropertiesEnabled then
   begin
     edit_name.Text:= '';
-    //check_tabs.Checked:= false;
+    check_tabs.Checked:= false;
     check_bookmarks.Checked:= false;
     check_layout.Checked:= false;
     check_autosave.Checked:= false;
@@ -181,16 +134,21 @@ end;
   On Delete Click
 -------------------------------------------------------------------------------}
 procedure TCESessionManager.but_deleteClick(Sender: TObject);
+var
+  old_index: Integer;
 begin
   if (MessageDlg(_('Are you sure you want to delete this session?'), mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
   begin
-    SessionList.BeginUpdate;
-    try
-      GlobalSessions.Sessions.DeleteSession(SessionList.FocusedNode.Index);
-    finally
-      SessionList.RootNodeCount:= GlobalSessions.Sessions.Items.Count;
-      SessionList.EndUpdate;
-    end;
+    GlobalSessions.Sessions.DeleteSession(list_sessions.ItemIndex);
+    old_index:= list_sessions.ItemIndex;
+    list_sessions.Items.Delete(list_sessions.ItemIndex);
+    
+    if (old_index < list_sessions.Count) then
+    list_sessions.ItemIndex:= old_index
+    else if list_sessions.Count > 0 then
+    list_sessions.ItemIndex:= list_sessions.Count - 1;
+
+    list_sessionsClick(self);
   end;
 end;
 
@@ -198,44 +156,54 @@ end;
   On AutoSave Click
 -------------------------------------------------------------------------------}
 procedure TCESessionManager.check_autosaveClick(Sender: TObject);
-var
-  session: TCESessionItem;
 begin
-  if SessionPropertiesEnabled then
-  begin
-    session:= GlobalSessions.Sessions.GetSession(SessionList.FocusedNode.Index);
-    session.AutoSave:= check_autosave.Checked;
-  end;
-end;
-
-
-{-------------------------------------------------------------------------------
-  On SessionList Key Down
--------------------------------------------------------------------------------}
-procedure TCESessionManager.SessionListKeyDown(Sender: TObject; var Key: Word;
-    Shift: TShiftState);
-begin
-  if Key = VK_DELETE then
-  begin
-    if assigned(SessionList.FocusedNode) then
-    but_deleteClick(self);
-  end;
+  if SessionPropertiesEnabled and assigned(fSelectedSession) then
+  fSelectedSession.AutoSave:= check_autosave.Checked;
 end;
 
 {-------------------------------------------------------------------------------
-  On SessionList PaintText
+  On list_sessions Click
 -------------------------------------------------------------------------------}
-procedure TCESessionManager.SessionListPaintText(Sender: TBaseVirtualTree;
-    const TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
-    TextType: TVSTTextType);
+procedure TCESessionManager.list_sessionsClick(Sender: TObject);
 var
   session: TCESessionItem;
 begin
-  session:= GlobalSessions.Sessions.GetSession(Node.Index);
-  if session = GlobalSessions.AutoLoadSession then
-  TargetCanvas.Font.Style:= [fsBold]
+  fSessionPropertiesEnabled:= false;
+
+  if (list_sessions.ItemIndex > -1) and (list_sessions.ItemIndex < GlobalSessions.Sessions.Items.Count) then
+  fSelectedSession:= GlobalSessions.Sessions.GetSession(list_sessions.ItemIndex)
   else
-  TargetCanvas.Font.Style:= [];
+  fSelectedSession:= nil;  
+
+  if assigned(fSelectedSession) then
+  begin
+    edit_name.Text:= fSelectedSession.Name;
+    check_autosave.Checked:= fSelectedSession.AutoSave;
+    
+    // TODO: Session SaveLoadItems
+    check_tabs.Checked:= true; //sliTabs in fSelectedSession.SaveLoadItems;
+    //check_bookmarks.Checked:= sliBookmarks in fSelectedSession.SaveLoadItems;
+    //check_layout.Checked:= sliLayout in fSelectedSession.SaveLoadItems;
+
+    SessionPropertiesEnabled:= true;
+  end
+  else
+  SessionPropertiesEnabled:= false;
 end;
+
+{-------------------------------------------------------------------------------
+  Populate Sessions List
+-------------------------------------------------------------------------------}
+procedure TCESessionManager.PopulateSessionsList;
+var
+  i: Integer;
+begin
+  list_sessions.Clear;
+  for i:= 0 to GlobalSessions.Sessions.Items.Count - 1 do
+  begin
+    list_sessions.Items.Add(GlobalSessions.Sessions.GetSession(i).Name);
+  end;
+end;
+
 
 end.

@@ -334,6 +334,11 @@ object MainForm: TMainForm
           object SpTBXItem47: TSpTBXItem
             Action = CEActions.act_sessions_clearhistory
           end
+          object SpTBXSeparatorItem23: TSpTBXSeparatorItem
+          end
+          object SpTBXItem88: TSpTBXItem
+            Action = CEActions.act_sessions_enablehistory
+          end
           object SpTBXSeparatorItem22: TSpTBXSeparatorItem
           end
         end

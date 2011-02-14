@@ -199,7 +199,7 @@ begin
   AddItem('SessionHistory', fSessionHistory);
   fSessionHistory.AStorage:= Self;
 
-  fAutoSaveHistory:= true;
+  fAutoSaveHistory:= false;
   fHistoryCount:= 10;
   fActiveSessionIsHistory:= false;
   fActiveSession:= nil;

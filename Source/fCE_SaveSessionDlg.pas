@@ -75,6 +75,11 @@ begin
     session:= TCESessionItem(GlobalSessions.Sessions.Items.Items[i]);
     SessionCombo.Items.Add(session.Name);
   end;
+  if GlobalSessions.ActiveSessionIndex > -1 then
+  begin
+    SessionCombo.ItemIndex:= GlobalSessions.ActiveSessionIndex;
+    but_save.Enabled:= SessionCombo.Text <> '';
+  end;
 end;
 
 {-------------------------------------------------------------------------------

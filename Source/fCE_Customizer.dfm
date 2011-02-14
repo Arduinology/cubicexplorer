@@ -128,9 +128,6 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
         OnPaintText = ActionTreePaintText
         OnGetImageIndexEx = ActionTreeGetImageIndexEx
         OnStartDrag = ActionTreeStartDrag
-        ExplicitLeft = 0
-        ExplicitWidth = 390
-        ExplicitHeight = 42
         Columns = <
           item
             Position = 0

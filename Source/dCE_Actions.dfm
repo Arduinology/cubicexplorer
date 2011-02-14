@@ -574,6 +574,13 @@ object CEActions: TCEActions
       Caption = 'Create Symbolic Link'
       OnExecute = ActionExecute
     end
+    object act_sessions_enablehistory: TTntAction
+      Tag = 855
+      Category = 'Sessions'
+      Caption = 'Auto Save History'
+      Hint = 'Show Session Manager'
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

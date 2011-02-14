@@ -131,6 +131,7 @@ Unit Documents;
 // 852 = Session Manager
 // 853 = Add History Point
 // 854 = Clear History
+// 855 = Auto save history
 
 // **** Quick Options (900) ***
 

@@ -164,6 +164,7 @@ type
     act_edit_create_symlink: TTntAction;
     CreateSymbolicLink1: TTntMenuItem;
     N5: TTntMenuItem;
+    act_sessions_enablehistory: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -1007,6 +1008,7 @@ begin
     852: GlobalSessions.ShowSessionManager;
     853: GlobalSessions.AddHistorySession;
     854: GlobalSessions.ClearHistory;
+    855: GlobalSessions.AutoSaveHistory:= not GlobalSessions.AutoSaveHistory;
   end;
 end;
 
@@ -1016,6 +1018,8 @@ end;
 procedure UpdateSessionsCategory(ActionID: Integer; TargetAction: TTntAction);
 begin
   TargetAction.Enabled:= true;
+  if ActionID = 855 then
+  TargetAction.Checked:= GlobalSessions.AutoSaveHistory;
 end;
 
 {##############################################################################}
