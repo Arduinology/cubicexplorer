@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  CE_GlobalCtrl, dCE_Actions, CE_VistaFuncs, dCE_Images,
+  CE_GlobalCtrl, dCE_Actions, CE_VistaFuncs, dCE_Images, CE_Toolbar,
   // Toolbar2K
   TB2Item,
   // SpTBXLib
@@ -66,12 +66,13 @@ type
     property ShortName: Boolean read fShortName write fShortName;
   end;
 
-  TCEDriveToolbar = class(TSpTBXToolbar)
+  TCEDriveToolbar = class(TCEToolbar)
   protected
     function CanItemClick(Item: TTBCustomItem; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer): Boolean; override;
     procedure DoItemClick(Item: TTBCustomItem; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer); override;
+    procedure SetLargeImages(const Value: Boolean); override;
     procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
   public
     constructor Create(AOwner: TComponent); override;
@@ -276,6 +277,9 @@ begin
               item.Caption:= item.DriveLetter;
               item.Hint:= NS.NameInFolder;
               item.ImageIndex:= item.Namespace.GetIconIndex(false,icSmall);
+              if LargeImages then
+              item.Images:= LargeSysImages
+              else
               item.Images:= SmallSysImages;
               item.DisplayMode:= nbdmImageAndText;
               Self.Items.Add(item);
@@ -292,6 +296,28 @@ begin
   finally
     Self.Realign;
     Self.EndUpdate;
+  end;
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Set Large Images
+-------------------------------------------------------------------------------}
+procedure TCEDriveToolbar.SetLargeImages(const Value: Boolean);
+var
+  i: Integer;
+begin
+  Inherited;
+  for i:= 0 to Self.Items.Count - 1 do
+  begin
+    if Self.Items.Items[i] is TCEShellToolbarItem then
+    begin
+      if LargeImages then
+      TCEShellToolbarItem(Self.Items.Items[i]).Images:= LargeSysImages
+      else
+      TCEShellToolbarItem(Self.Items.Items[i]).Images:= SmallSysImages;
+    end;
   end;
 end;
 

@@ -48,8 +48,11 @@ type
 
   TCEToolbar = class(TSpTBXToolbar)
   private
+    fLargeImages: Boolean;
   protected
+    procedure SetLargeImages(const Value: Boolean); virtual;
   public
+    property LargeImages: Boolean read fLargeImages write SetLargeImages;
   end;
 
 implementation
@@ -90,6 +93,16 @@ begin
     else ItemStyle := ItemStyle - [tbisCombo];
     Change(True);
   end;
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Set Large Images
+-------------------------------------------------------------------------------}
+procedure TCEToolbar.SetLargeImages(const Value: Boolean);
+begin
+  fLargeImages:= Value;
 end;
 
 end.

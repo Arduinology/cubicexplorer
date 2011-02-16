@@ -540,14 +540,14 @@ begin
   CELayoutItems.Add(StatusBar);
   //CELayoutItems.Add(DockHostForm.DualViewHost.Toolbar);
   // Add Toolbar Docks
-  CEToolbarDocks.Add(LeftToolDock, false);
-  CEToolbarDocks.Add(TopToolDock, false);
-  CEToolbarDocks.Add(RightToolDock, false);
-  CEToolbarDocks.Add(BottomToolDock, false);
-  CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.LeftGroupToolDock);
-  CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.TopGroupToolDock);
-  CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.RightGroupToolDock);
-  CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.BottomGroupToolDock);
+  CEToolbarDocks.Add(LeftToolDock);
+  CEToolbarDocks.Add(TopToolDock);
+  CEToolbarDocks.Add(RightToolDock);
+  CEToolbarDocks.Add(BottomToolDock);
+  CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.LeftGroupToolDock, true);
+  CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.TopGroupToolDock, true);
+  CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.RightGroupToolDock, true);
+  CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.BottomGroupToolDock, true);
   // Populate menu items
   CELayoutItems.PopulateMenuItem(toolbarsMenuItem);
   CELayoutItems.PopulateMenuItem(ToolbarPopupMenu.Items);
@@ -665,7 +665,7 @@ begin
   // Load Layouts
   Layouts.AutoSave:= false;
   Layouts.LoadFromFile(ExePath + 'layout.xml');
-  Layouts.LoadToolbarLayout;
+  Layouts.LoadSettingsForToolbars;
 
   TabsOpened:= false;
   if WideParamCount > 0 then
@@ -742,7 +742,7 @@ begin
   Settings.UpdatePositionInfo;
   GlobalAppSettings.SaveToFile(exePath + 'settings.xml');
 
-  Layouts.SaveToolbarLayout;
+  Layouts.SaveSettingsForToolbars;
   Layouts.SaveToFile(ExePath + 'layout.xml');
 end;
 
@@ -1106,7 +1106,7 @@ procedure TMainForm.WMPowerBroadcast(var Message: TMessage);
 begin
   case Message.WParam of
     PBT_APMSUSPEND: begin
-      Layouts.SaveToolbarLayout;
+      Layouts.SaveSettingsForToolbars;
       Layouts.SaveCurrentLayout;
       Layouts.SaveToFile(ExePath + 'layout.xml');
     end;

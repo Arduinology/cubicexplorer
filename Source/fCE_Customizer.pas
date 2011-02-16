@@ -44,6 +44,7 @@ uses
   Dialogs, ImgList, ActiveX, StdCtrls, Math, TntStdCtrls, CheckLst, TntCheckLst;
 
 type
+  TTBCustomDockableWindowHack = class(TTBCustomDockableWindow);
 
   PCEActTreeData = ^TCEActTreeData;
   TCEActTreeData = record
@@ -110,12 +111,12 @@ type
     procedure ThemeListClick(Sender: TObject);
     procedure ToolbarListClick(Sender: TObject);
   private
-    fselectedToolbar: TSpTBXToolbar;
+    fselectedToolbar: TObject;
     tmpItem: TSpTBXItem;
-    procedure SetselectedToolbar(const Value: TSpTBXToolbar);
+    procedure SetselectedToolbar(const Value: TObject);
 
   protected
-    property selectedToolbar: TSpTBXToolbar read fselectedToolbar write
+    property selectedToolbar: TObject read fselectedToolbar write
         SetselectedToolbar;
   public
     ParentComponent: TComponent;
@@ -125,18 +126,6 @@ type
   end;
 
 procedure ShowCustomizer(ParentComponent: TComponent);
-
-procedure SaveToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
-    TJvSimpleXMLElem);
-
-procedure LoadToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
-    TJvSimpleXMLElem);
-
-procedure LoadToolbarProperties(Toolbar: TSpTBXToolbar; ToolbarNode:
-    TJvSimpleXMLElem);
-
-procedure SaveToolbarProperties(Toolbar: TSpTBXToolbar; ToolbarNode:
-    TJvSimpleXMLElem);
 
 var
   CEToolbarCustomizer: TCEToolbarCustomizer;
@@ -168,173 +157,6 @@ begin
   CEToolbarCustomizer.Show;
 end;
 
-{*------------------------------------------------------------------------------
-  Save toolbar items to XML node.
--------------------------------------------------------------------------------}
-procedure SaveToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
-    TJvSimpleXMLElem);
-var
-  i: Integer;
-  chNode: TJvSimpleXMLElem;
-  item: TTBCustomItem;
-begin
-  if not assigned(Toolbar) then
-  Exit;
-  if not assigned(ToolbarNode) then
-  Exit;
-  // Loop through toolbar items
-  for i:= 0 to Toolbar.Items.Count - 1 do
-  begin
-    item:= Toolbar.Items.Items[i];
-
-    // Normal Item
-    if item is TSpTBXItem then 
-    begin
-      chNode:= ToolbarNode.Items.Add('item');
-      if assigned(item.Action) then
-      chNode.Properties.Add('action', item.Action.Name)
-      else
-      chNode.Properties.Add('name', item.Name);
-    end
-    // Separator
-    else if (item.ClassType = TTBSeparatorItem) or (item.ClassType = TSpTBXSeparatorItem) then
-    begin
-      ToolbarNode.Items.Add('separator');
-    end
-    // Submenu
-    else if item.ClassType = TSpTBXSubmenuItem then
-    begin
-      chNode:= ToolbarNode.Items.Add('submenu');
-      chNode.Properties.Add('name', item.Name);
-    end;    
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Load toolbar items from XML node.
--------------------------------------------------------------------------------}
-procedure LoadToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
-    TJvSimpleXMLElem);
-var
-  i: Integer;
-  chNode: TJvSimpleXMLElem;
-  item: TTBCustomItem;
-  itemClass: TTBCustomItemClass;
-  act: TTntAction;
-begin
-  if not assigned(Toolbar) then
-  Exit;
-  if not assigned(ToolbarNode) then
-  Exit;
-  if not assigned(CEActions.ActionList) then
-  Exit;
-
-  if Toolbar.MenuBar or (toolbar.Tag = 1) then
-  Exit;
-
-  Toolbar.BeginUpdate;
-
-  Toolbar.Items.Clear;
-  try
-    for i:= 0 to ToolbarNode.Items.Count - 1 do
-    begin
-      chNode:= ToolbarNode.Items.Item[i];
-      // Normal Item
-      if SameText(chNode.Name, 'item') then
-      begin
-        act:= FindAction(CEActions.ActionList, chNode.Properties.Value('action'));
-        if act is TCEToolbarAction then
-        itemClass:= TCEToolbarAction(act).ItemClass
-        else
-        itemClass:= TSpTBXItem;
-
-        if assigned(itemClass) then
-        begin
-          item:= itemClass.Create(Toolbar);
-          item.Action:= act;
-          Toolbar.Items.Add(item);
-        end;
-      end
-      // Separator
-      else if SameText(chNode.Name, 'separator') then
-      begin
-        item:= TSpTBXSeparatorItem.Create(Toolbar);
-        Toolbar.Items.Add(item);
-      end
-      // Submenu item
-      else if SameText(chNode.Name, 'submenu') then
-      begin
-        item:= TSpTBXSubmenuItem.Create(Toolbar);
-        Toolbar.Items.Add(item);
-      end;
-    end;
-  finally
-    Toolbar.EndUpdate;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  Load toolbar properties from XML node.
--------------------------------------------------------------------------------}
-procedure LoadToolbarProperties(Toolbar: TSpTBXToolbar; ToolbarNode:
-    TJvSimpleXMLElem);
-var
-  i: Integer;
-begin
-  if not assigned(Toolbar) or not assigned(ToolbarNode) then
-  Exit;
-
-  toolbar.BeginUpdate;
-  try
-    // Display Mode
-    i:= ToolbarNode.Properties.IntValue('DisplayMode', -1);
-    if (i > -1) and (i < 4) then
-    Toolbar.DisplayMode:= TSpTBXToolbarDisplayMode(i);
-    if Toolbar.DisplayMode = tbdmImageAboveCaption then
-    Toolbar.Options:= [tboImageAboveCaption];
-
-    // Large Icons
-    if ToolbarNode.Properties.BoolValue('LargeIcons', Toolbar.Images = CE_Images.MediumIcons) then
-    Toolbar.Images:= CE_Images.MediumIcons
-    else
-    Toolbar.Images:= CE_Images.SmallIcons;
-
-    // Borders
-    if ToolbarNode.Properties.BoolValue('Borders', Toolbar.BorderStyle <> bsNone) then
-    Toolbar.BorderStyle:= bsSingle
-    else
-    Toolbar.BorderStyle:= bsNone;
-
-    // Stretch
-    Toolbar.Stretch:= ToolbarNode.Properties.BoolValue('Stretch', Toolbar.Stretch);
-
-    // Drag Handle
-    if ToolbarNode.Properties.BoolValue('DragHandle', Toolbar.DragHandleStyle <> dhNone) then
-    Toolbar.DragHandleStyle:= dhSingle
-    else
-    Toolbar.DragHandleStyle:= dhNone;
-  finally
-    toolbar.EndUpdate;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  Save toolbar properties to XML node.
--------------------------------------------------------------------------------}
-procedure SaveToolbarProperties(Toolbar: TSpTBXToolbar; ToolbarNode:
-    TJvSimpleXMLElem);
-begin
-  if not assigned(Toolbar) or not assigned(ToolbarNode) then
-  Exit;
-
-  ToolbarNode.Properties.Clear;
-  ToolbarNode.Properties.Add('DisplayMode', Ord(toolbar.DisplayMode));
-  ToolbarNode.Properties.Add('LargeIcons', Toolbar.Images = CE_Images.MediumIcons);
-  ToolbarNode.Properties.Add('Borders', Toolbar.BorderStyle <> bsNone);
-  ToolbarNode.Properties.Add('Stretch', Toolbar.Stretch);
-  ToolbarNode.Properties.Add('DragHandle', Toolbar.DragHandleStyle <> dhNone);
-end;
-
 {##############################################################################}
 
 {*------------------------------------------------------------------------------
@@ -343,7 +165,7 @@ end;
 procedure TCEToolbarCustomizer.FormCreate(Sender: TObject);
 var
   i, index: Integer;
-  toolbar: TSpTBXToolbar;
+  toolbar: TObject;
 begin
   SetVistaFont(Font);
   CEGlobalTranslator.TranslateComponent(Self);
@@ -367,9 +189,15 @@ begin
   begin
     if CELayoutItems.Items[i] is TSpTBXToolbar then
     begin
-      toolbar:= TSpTBXToolbar(CELayoutItems.Items[i]);
-      index:= ToolbarList.Items.AddObject(toolbar.Caption, toolbar);
-      ToolbarList.Checked[index]:= toolbar.Visible;
+      toolbar:= CELayoutItems.Items[i];
+      index:= ToolbarList.Items.AddObject(TSpTBXToolbar(toolbar).Caption, toolbar);
+      ToolbarList.Checked[index]:= TSpTBXToolbar(toolbar).Visible;
+    end
+    else if CELayoutItems.Items[i] is TSpTBXToolWindow then
+    begin
+      toolbar:= CELayoutItems.Items[i];
+      index:= ToolbarList.Items.AddObject(TSpTBXToolWindow(toolbar).Caption, toolbar);
+      ToolbarList.Checked[index]:= TSpTBXToolWindow(toolbar).Visible;
     end;
   end;
 
@@ -722,28 +550,48 @@ end;
 {-------------------------------------------------------------------------------
   Set selectedToolbar
 -------------------------------------------------------------------------------}
-procedure TCEToolbarCustomizer.SetselectedToolbar(const Value: TSpTBXToolbar);
+procedure TCEToolbarCustomizer.SetselectedToolbar(const Value: TObject);
 begin
   if Value <> fselectedToolbar then
   begin
-    fselectedToolbar:= Value;
-    if assigned(fselectedToolbar) then
+    fselectedToolbar:= nil;
+    if assigned(Value) then
     begin
-      // Display Mode
-      group_displayMode.ItemIndex:= Ord(selectedToolbar.DisplayMode);
-      group_displayMode.Enabled:= true;
-      // Large Icons
-      check_largeIcons.Checked:= selectedToolbar.Images = CE_Images.MediumIcons;
-      check_largeIcons.Enabled:= true;
-      // Borders
-      check_borders.Checked:= selectedToolbar.BorderStyle = bsSingle;
-      check_borders.Enabled:= true;
-      // Stretch
-      check_stretch.Checked:= selectedToolbar.Stretch;
-      check_stretch.Enabled:= true;
-      // Drag Handle
-      check_dragHandle.Checked:= selectedToolbar.DragHandleStyle <> dhNone;
-      check_dragHandle.Enabled:= true;
+      if Value is TSpTBXToolbar then
+      begin
+        // Display Mode
+        group_displayMode.ItemIndex:= Ord(TSpTBXToolbar(Value).DisplayMode);
+        group_displayMode.Enabled:= true;
+        // Large Icons
+        check_largeIcons.Checked:= TSpTBXToolbar(Value).Images = CE_Images.MediumIcons;
+        check_largeIcons.Enabled:= true;
+        // Borders
+        check_borders.Checked:= TSpTBXToolbar(Value).BorderStyle = bsSingle;
+        check_borders.Enabled:= true;
+        // Stretch
+        check_stretch.Checked:= TSpTBXToolbar(Value).Stretch;
+        check_stretch.Enabled:= true;
+        // Drag Handle
+        check_dragHandle.Checked:= TSpTBXToolbar(Value).DragHandleStyle <> dhNone;
+        check_dragHandle.Enabled:= true;
+      end
+      else if Value is TSpTBXToolWindow then
+      begin
+        // Display Mode
+        group_displayMode.Enabled:= false;
+        // Large Icons
+        check_largeIcons.Enabled:= false;
+        // Borders
+        check_borders.Checked:= TSpTBXToolWindow(Value).BorderStyle = bsSingle;
+        check_borders.Enabled:= true;
+        // Stretch
+        check_stretch.Checked:= TSpTBXToolWindow(Value).Stretch;
+        check_stretch.Enabled:= true;
+        // Drag Handle
+        check_dragHandle.Checked:= TSpTBXToolWindow(Value).DragHandleStyle <> dhNone;
+        check_dragHandle.Enabled:= true;
+      end;
+      fselectedToolbar:= Value;
     end
     else
     begin
@@ -763,8 +611,9 @@ procedure TCEToolbarCustomizer.ToolbarListClick(Sender: TObject);
 begin
   if ToolbarList.ItemIndex > -1 then
   begin
-    selectedToolbar:= TSpTBXToolbar(ToolbarList.Items.Objects[ToolbarList.ItemIndex]);
-    selectedToolbar.Visible:= ToolbarList.Checked[ToolbarList.ItemIndex];
+    selectedToolbar:= ToolbarList.Items.Objects[ToolbarList.ItemIndex];
+    if selectedToolbar is TTBCustomDockableWindow then
+    TTBCustomDockableWindowHack(selectedToolbar).Visible:= ToolbarList.Checked[ToolbarList.ItemIndex];
   end
   else
   selectedToolbar:= nil;
@@ -779,11 +628,14 @@ begin
   begin
     if group_displayMode.ItemIndex > -1 then
     begin
-      selectedToolbar.BeginUpdate;
-      selectedToolbar.DisplayMode:= TSpTBXToolbarDisplayMode(group_displayMode.ItemIndex);
-      if selectedToolbar.DisplayMode = tbdmImageAboveCaption then
-      selectedToolbar.Options:= [tboImageAboveCaption];
-      selectedToolbar.EndUpdate;
+      if selectedToolbar is TSpTBXToolbar then
+      begin
+        TSpTBXToolbar(selectedToolbar).BeginUpdate;
+        TSpTBXToolbar(selectedToolbar).DisplayMode:= TSpTBXToolbarDisplayMode(group_displayMode.ItemIndex);
+        if TSpTBXToolbar(selectedToolbar).DisplayMode = tbdmImageAboveCaption then
+        TSpTBXToolbar(selectedToolbar).Options:= [tboImageAboveCaption];
+        TSpTBXToolbar(selectedToolbar).EndUpdate;
+      end;
     end;
   end;
 end;
@@ -795,10 +647,16 @@ procedure TCEToolbarCustomizer.check_largeIconsClick(Sender: TObject);
 begin
   if assigned(selectedToolbar) then
   begin
-    if check_largeIcons.Checked then
-    selectedToolbar.Images:= CE_Images.MediumIcons
-    else
-    selectedToolbar.Images:= CE_Images.SmallIcons;
+    if selectedToolbar is TSpTBXToolbar then
+    begin
+      if check_largeIcons.Checked then
+      TSpTBXToolbar(selectedToolbar).Images:= CE_Images.MediumIcons
+      else
+      TSpTBXToolbar(selectedToolbar).Images:= CE_Images.SmallIcons;
+
+      if selectedToolbar is TCEToolbar then
+      TCEToolbar(selectedToolbar).LargeImages:= check_largeIcons.Checked;
+    end;
   end;
 end;
 
@@ -807,12 +665,12 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEToolbarCustomizer.check_bordersClick(Sender: TObject);
 begin
-  if assigned(selectedToolbar) then
+  if assigned(selectedToolbar) and (selectedToolbar is TTBCustomDockableWindow) then
   begin
     if check_borders.Checked then
-    selectedToolbar.BorderStyle:= bsSingle
+    TTBCustomDockableWindowHack(selectedToolbar).BorderStyle:= bsSingle
     else
-    selectedToolbar.BorderStyle:= bsNone;
+    TTBCustomDockableWindowHack(selectedToolbar).BorderStyle:= bsNone;
   end;
 end;
 
@@ -821,8 +679,10 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEToolbarCustomizer.check_stretchClick(Sender: TObject);
 begin
-  if assigned(selectedToolbar) then
-  selectedToolbar.Stretch:= check_stretch.Checked;
+  if assigned(selectedToolbar) and (selectedToolbar is TTBCustomDockableWindow) then
+  begin
+    TTBCustomDockableWindowHack(selectedToolbar).Stretch:= check_stretch.Checked;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -830,12 +690,12 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEToolbarCustomizer.check_dragHandleClick(Sender: TObject);
 begin
-  if assigned(selectedToolbar) then
+  if assigned(selectedToolbar) and (selectedToolbar is TTBCustomDockableWindow) then
   begin
     if check_dragHandle.Checked then
-    selectedToolbar.DragHandleStyle:= dhSingle
+    TTBCustomDockableWindowHack(selectedToolbar).DragHandleStyle:= dhSingle
     else
-    selectedToolbar.DragHandleStyle:= dhNone;
+    TTBCustomDockableWindowHack(selectedToolbar).DragHandleStyle:= dhNone;
   end;
 end;
 

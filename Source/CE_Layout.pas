@@ -25,13 +25,13 @@ interface
 
 uses
   // CE Units
-  CE_Utils, CE_DockInfo,
+  CE_Utils, CE_DockInfo, CE_Toolbar,
   // Toolbar200
   TB2Toolbar, TB2Dock, TB2ToolWindow,
   // SpTBX
   SpTBXItem, SpTBXTabs,
   // TNT
-  TntSysUtils, TntClasses,
+  TntSysUtils, TntClasses, TntActnList,
   // JVCL
   JvAppStorage, JvDockVSNetStyle, JvDockInfo, JvDockControlForm,
   JvDockSupportProc, JvDockGlobals, JvAppXMLStorage, JvSimpleXML,
@@ -41,6 +41,9 @@ uses
   Classes, Contnrs, Windows, SysUtils, Forms, TB2Item, Messages, Controls;
 
 type
+  TJvCustomAppXMLStorageHack = class(TJvCustomAppXMLStorage);
+  TTBCustomDockableWindowHack = class(TTBCustomDockableWindow);
+
   TCEToolbarDockType = (tdtBoth, tdtInner, tdtOuter);
 
   TCELayoutItems = class(TComponentList)
@@ -55,7 +58,7 @@ type
     InnerDocks: TComponentList;
     constructor Create; overload;
     destructor Destroy; override;
-    function Add(ADock: TTBDock; InnerDock: Boolean = true): Integer;
+    function Add(ADock: TTBDock; InnerDock: Boolean = false): Integer;
     procedure BeginUpdate;
     procedure EndUpdate;
     function FindDockNamed(AName: String): TTBDock; overload;
@@ -84,34 +87,50 @@ type
     procedure LoadFromFile(AFilePath: WideString);
     procedure LoadLayout(LayoutName: String; LoadInnerToolbarLayout,
         LoadOuterToolbarLayout, LoadFormLayout: Boolean);
-    procedure LoadToolbarLayout;
+    procedure LoadSettingsForToolbars;
     procedure SaveCurrentLayout;
     procedure SaveLayout(LayoutName: String; SaveInnerToolbarLayout,
         SaveOuterToolbarLayout, SaveFormsLayout: Boolean);
     procedure SaveToFile(AFilePath: WideString = '');
-    procedure SaveToolbarLayout;
+    procedure SaveSettingsForToolbars;
     property AutoSave: Boolean read fAutoSave write fAutoSave;
     property CurrentLayout: String read fCurrentLayout write fCurrentLayout;
     property FilePath: WideString read fFilePath write fFilePath;
   end;
 
 
-  procedure LoadToolbars(AppStorage: TJvCustomAppStorage; AppStoragePath: String
-      = ''; DockType: TCEToolbarDockType = tdtBoth);
-  procedure SaveToolbars(AppStorage: TJvCustomAppStorage; AppStoragePath: String
-      = ''; DockType: TCEToolbarDockType = tdtBoth);
+  procedure LoadPositionsForToolbars(AppStorage: TJvCustomAppStorage;
+      AppStoragePath: String = ''; DockType: TCEToolbarDockType = tdtBoth);
+  procedure SavePositionsForToolbars(AppStorage: TJvCustomAppStorage;
+      AppStoragePath: String = ''; DockType: TCEToolbarDockType = tdtBoth);
   procedure LoadDockedForms(AppStorage: TJvCustomAppStorage; AppStoragePath:
       String = ''; HandleMainForm: Boolean = false);
   procedure SaveDockedForms(AppStorage: TJvCustomAppStorage; AppStoragePath:
       String = '');
-  procedure SaveToolbarItemLayout(AppStorage: TJvAppXMLFileStorage);
-  procedure LoadToolbarItemLayout(AppStorage: TJvAppXMLFileStorage);
   procedure CE_DoFloatForm(DockForm: TControl);
   procedure CE_DoFloatAllForm;
 
 procedure BeginToolbarCustomize;
 
 procedure EndToolbarCustomize;
+
+procedure LoadSettingsForToolbars(AppStorage: TJvAppXMLFileStorage;
+    AppStoragePath: String = '');
+
+procedure SaveToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
+    TJvSimpleXMLElem);
+
+procedure LoadToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
+    TJvSimpleXMLElem);
+
+procedure LoadToolbarProperties(Toolbar: TTBCustomDockableWindow; ToolbarNode:
+    TJvSimpleXMLElem);
+
+procedure SaveToolbarProperties(Toolbar: TTBCustomDockableWindow; ToolbarNode:
+    TJvSimpleXMLElem);
+
+  procedure SaveSettingsForToolbars(AppStorage: TJvAppXMLFileStorage;
+      AppStoragePath: String = '');
 
 var
   DefaultLayoutName: String = 'Default';
@@ -123,7 +142,7 @@ implementation
 
 uses
   fCE_DockHostForm, fCE_Customizer, Main, fCE_DockableForm, CE_SpTabBar,
-  CE_StatusBar;
+  CE_StatusBar, dCE_Actions, CE_TBActions, dCE_Images;
 
 {*------------------------------------------------------------------------------
   Create an instance of TCELayoutController
@@ -281,18 +300,35 @@ begin
       // Load Toolbar Layout
       if LoadInnerToolbarLayout and LoadOuterToolbarLayout then
       begin
-        LoadToolbars(AppStorage, LayoutName, tdtBoth);
+        LoadPositionsForToolbars(AppStorage, LayoutName, tdtBoth);
         CurrentInnerToolbarLayout:= LayoutName;
         CurrentOuterToolbarLayout:= LayoutName;
       end
       else if (not LoadInnerToolbarLayout) and (not LoadOuterToolbarLayout) then
       begin
-        LoadToolbars(AppStorage, DefaultLayoutName, tdtBoth);
+        LoadPositionsForToolbars(AppStorage, DefaultLayoutName, tdtBoth);
         CurrentInnerToolbarLayout:= DefaultLayoutName;
         CurrentOuterToolbarLayout:= DefaultLayoutName;
       end
       else
       begin
+        // Outer Toolbar Layout
+        if LoadOuterToolbarLayout then
+        begin
+          s:= LayoutName;
+          if s <> CurrentOuterToolbarLayout then
+          begin
+            LoadPositionsForToolbars(AppStorage, s, tdtOuter);
+            CurrentOuterToolbarLayout:= s;
+          end;
+        end
+        else
+        begin
+          s:= DefaultLayoutName;
+          LoadPositionsForToolbars(AppStorage, s, tdtOuter);
+          CurrentOuterToolbarLayout:= s;
+        end;
+        
         // Inner Toolbar Layout
         if LoadInnerToolbarLayout then
         s:= LayoutName
@@ -300,18 +336,8 @@ begin
         s:= DefaultLayoutName;
         if s <> CurrentInnerToolbarLayout then
         begin
-          LoadToolbars(AppStorage, s, tdtInner);
+          LoadPositionsForToolbars(AppStorage, s, tdtInner);
           CurrentInnerToolbarLayout:= s;
-        end;
-        // Outer Toolbar Layout
-        if LoadOuterToolbarLayout then
-        s:= LayoutName
-        else
-        s:= DefaultLayoutName;
-        if s <> CurrentOuterToolbarLayout then
-        begin
-          LoadToolbars(AppStorage, s, tdtOuter);
-          CurrentOuterToolbarLayout:= s;
         end;
       end;
     finally
@@ -334,27 +360,27 @@ begin
   s:= DefaultLayoutName;
   SaveDockedForms(AppStorage, s);
 
-  if SaveInnerToolbarLayout and SaveOuterToolbarLayout then
+  if SaveInnerToolbarLayout and SaveOuterToolbarLayout then // Save both to Layout
   begin
-    SaveToolbars(AppStorage, LayoutName, tdtBoth);
+    SavePositionsForToolbars(AppStorage, LayoutName, tdtBoth);
   end
-  else if (not SaveInnerToolbarLayout) and (not SaveOuterToolbarLayout) then
+  else if (not SaveInnerToolbarLayout) and (not SaveOuterToolbarLayout) then // Save both to Default layout
   begin
-    SaveToolbars(AppStorage, DefaultLayoutName, tdtBoth);
+    SavePositionsForToolbars(AppStorage, DefaultLayoutName, tdtBoth);
   end
-  else
+  else if SaveInnerToolbarLayout then // Save both to Layout and Outer to Default layout
   begin
-    if SaveInnerToolbarLayout then
-    s:= LayoutName
-    else
-    s:= DefaultLayoutName;
-    SaveToolbars(AppStorage, s, tdtInner);
-
-    if SaveOuterToolbarLayout then
-    s:= LayoutName
-    else
-    s:= DefaultLayoutName;
-    SaveToolbars(AppStorage, s, tdtOuter);
+    // Both need's to be saved in case inner toolbar has moved to outer dock.
+    // Because saving is done by looping toolbars, changes would not be saved
+    // if the toolbar is on Outer dock.
+    // TODO: It would be better to loop Docks instead.
+    SavePositionsForToolbars(AppStorage, LayoutName, tdtBoth);
+    SavePositionsForToolbars(AppStorage, DefaultLayoutName, tdtOuter);
+  end
+  else // Save Outer to Layout and Inner to Default layout
+  begin
+    SavePositionsForToolbars(AppStorage, LayoutName, tdtOuter);
+    SavePositionsForToolbars(AppStorage, DefaultLayoutName, tdtInner);
   end;
 
   InitSelf;
@@ -365,9 +391,9 @@ end;
 {*------------------------------------------------------------------------------
   Load Toolbars Items
 -------------------------------------------------------------------------------}
-procedure TCELayoutController.LoadToolbarLayout;
+procedure TCELayoutController.LoadSettingsForToolbars;
 begin
-  LoadToolbarItemLayout(AppStorage);
+  CE_Layout.LoadSettingsForToolbars(AppStorage);
 end;
 
 {-------------------------------------------------------------------------------
@@ -378,21 +404,21 @@ begin
   SaveDockedForms(AppStorage, CurrentFormLayout);
   if CurrentInnerToolbarLayout <> CurrentOuterToolbarLayout then
   begin
-    SaveToolbars(AppStorage, CurrentInnerToolbarLayout, tdtInner);
-    SaveToolbars(AppStorage, CurrentOuterToolbarLayout, tdtOuter);
+    SavePositionsForToolbars(AppStorage, CurrentInnerToolbarLayout, tdtInner);
+    SavePositionsForToolbars(AppStorage, CurrentOuterToolbarLayout, tdtOuter);
   end
   else
   begin
-    SaveToolbars(AppStorage, CurrentInnerToolbarLayout, tdtBoth);
+    SavePositionsForToolbars(AppStorage, CurrentInnerToolbarLayout, tdtBoth);
   end;
 end;
 
 {*------------------------------------------------------------------------------
   Saves Toolbars items
 -------------------------------------------------------------------------------}
-procedure TCELayoutController.SaveToolbarLayout;
+procedure TCELayoutController.SaveSettingsForToolbars;
 begin
-  SaveToolbarItemLayout(AppStorage);
+  CE_Layout.SaveSettingsForToolbars(AppStorage);
 end;
 
 {##############################################################################}
@@ -420,7 +446,7 @@ end;
 {-------------------------------------------------------------------------------
   Add
 -------------------------------------------------------------------------------}
-function TCEToolbarDocks.Add(ADock: TTBDock; InnerDock: Boolean = true):
+function TCEToolbarDocks.Add(ADock: TTBDock; InnerDock: Boolean = false):
     Integer;
 begin
   if InnerDock then
@@ -577,14 +603,15 @@ end;
 {##############################################################################}
 
 {*------------------------------------------------------------------------------
-  Load toolbars from AppStorage.
+  Load toolbar positions from AppStorage.
 -------------------------------------------------------------------------------}
-procedure LoadToolbars(AppStorage: TJvCustomAppStorage; AppStoragePath: String
-    = ''; DockType: TCEToolbarDockType = tdtBoth);
+procedure LoadPositionsForToolbars(AppStorage: TJvCustomAppStorage;
+    AppStoragePath: String = ''; DockType: TCEToolbarDockType = tdtBoth);
 var
   OldPath: String;
   RootPath: String;
-  i: Integer;
+  i, i2: Integer;
+  b, loadPos: Boolean;
   s: String;
   dockablewindow: TTBCustomDockableWindow;
   dock: TTBDock;
@@ -600,52 +627,76 @@ begin
     CEToolbarDocks.BeginUpdate;
     for i:= 0 to CELayoutItems.Count - 1 do
     begin
+      // Toolbars
       if CELayoutItems.Items[i] is TTBCustomDockableWindow then
       begin
         dockablewindow:= TTBCustomDockableWindow(CELayoutItems.Items[i]);
         dockablewindow.BeginUpdate;
         AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, dockablewindow.Name]);
         try
-          // Read toolbar properties
+          loadPos:= false;
           s:= AppStorage.ReadString('Dock', 'TopToolDock');
-          if s <> '' then
+          dock:= CEToolbarDocks.FindDockNamed(s);
+          if assigned(dock) then // Docked
           begin
-            dock:= nil;
-            case DockType of
-              tdtBoth: dock:= CEToolbarDocks.FindDockNamed(s);
-              tdtInner: begin
-                dock:= CEToolbarDocks.FindInnerDockNamed(s);
-                if not assigned(dock) then
-                begin
-                  dock:= CEToolbarDocks.FindDockNamed(s);
-                  if assigned(dock) then
-                  begin
-                    if dockablewindow.CurrentDock = dock then
-                    dock:= nil;
-                  end;
-                end;
+            if DockType = tdtInner then
+            begin
+              if CEToolbarDocks.IsInnerDock(dock) then
+              begin
+                if dock <> dockablewindow.CurrentDock then
+                dockablewindow.CurrentDock:= dock;
+                loadPos:= true;
               end;
-              tdtOuter: dock:= CEToolbarDocks.FindOuterDockNamed(s);
+            end
+            else if DockType = tdtOuter then
+            begin
+              if CEToolbarDocks.IsOuterDock(dock) then
+              begin
+                if dock <> dockablewindow.CurrentDock then
+                dockablewindow.CurrentDock:= dock;
+                loadPos:= true;
+              end;           
+            end
+            else
+            begin
+              if dock <> dockablewindow.CurrentDock then
+              dockablewindow.CurrentDock:= dock;
+              loadPos:= true;
             end;
 
-            if assigned(dock) then
+            if loadPos then
             begin
-              dockablewindow.CurrentDock:= dock;
-              dockablewindow.DockPos:= AppStorage.ReadInteger('DockPos', dockablewindow.DockPos);
-              dockablewindow.DockRow:= AppStorage.ReadInteger('DockRow', dockablewindow.DockRow);
-              dockablewindow.Visible:= AppStorage.ReadBoolean('Visible', dockablewindow.Visible);
+              i2:= AppStorage.ReadInteger('DockPos', dockablewindow.DockPos);
+              if i2 <> dockablewindow.DockPos then
+              dockablewindow.DockPos:= i2;
+
+              i2:= AppStorage.ReadInteger('DockRow', dockablewindow.DockRow);
+              if i2 <> dockablewindow.DockRow then
+              dockablewindow.DockRow:= i2;
+
+              b:= AppStorage.ReadBoolean('Visible', dockablewindow.Visible);
+              if b <> dockablewindow.Visible then
+              dockablewindow.Visible:= b;
             end;
           end
-          else
+          else // Floating
           begin
-            dockablewindow.Visible:= AppStorage.ReadBoolean('Visible', dockablewindow.Visible);
+            if not dockablewindow.Floating then
             dockablewindow.Floating:= true;
+
+            dockablewindow.FloatingPosition:= Point(AppStorage.ReadInteger('DockPos', dockablewindow.FloatingPosition.X),
+                                                    AppStorage.ReadInteger('DockRow', dockablewindow.FloatingPosition.Y));
+
+            b:= AppStorage.ReadBoolean('Visible', dockablewindow.Visible);
+            if b <> dockablewindow.Visible then
+            dockablewindow.Visible:= b;
           end;
         finally
           dockablewindow.EndUpdate;
           AppStorage.Path:= RootPath;
         end;
       end
+      // TabSet
       else if (CELayoutItems.Items[i] is TCESpTabSet) and (DockType <> tdtInner) then
       begin
         tabset:= TCESpTabSet(CELayoutItems.Items[i]);
@@ -656,6 +707,7 @@ begin
           AppStorage.Path:= RootPath;
         end;
       end
+      // StatusBar
       else if (CELayoutItems.Items[i] is TCEStatusBar) and (DockType <> tdtInner) then
       begin
         statusbar:= TCEStatusBar(CELayoutItems.Items[i]);
@@ -674,10 +726,10 @@ begin
 end;
 
 {*------------------------------------------------------------------------------
-  Save toolbars from CELayoutItems to AppStorage.
+  Save toolbar positions from CELayoutItems to AppStorage.
 -------------------------------------------------------------------------------}
-procedure SaveToolbars(AppStorage: TJvCustomAppStorage; AppStoragePath: String
-    = ''; DockType: TCEToolbarDockType = tdtBoth);
+procedure SavePositionsForToolbars(AppStorage: TJvCustomAppStorage;
+    AppStoragePath: String = ''; DockType: TCEToolbarDockType = tdtBoth);
 var
   OldPath: String;
   RootPath: String;
@@ -699,23 +751,26 @@ begin
       if CELayoutItems.Items[i] is TTBCustomDockableWindow then
       begin
         dockablewindow:= TTBCustomDockableWindow(CELayoutItems.Items[i]);
-//        if (DockType = tdtBoth) or
-//           ((DockType = tdtInner) and CEToolbarDocks.IsInnerDock(dockablewindow.CurrentDock)) or
-//           ((DockType = tdtOuter) and CEToolbarDocks.IsOuterDock(dockablewindow.CurrentDock)) then
-//        begin
-          AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, dockablewindow.Name]);
 
-          // Write toolbar properties
-          AppStorage.WriteInteger('DockPos', dockablewindow.DockPos);
-          AppStorage.WriteInteger('DockRow', dockablewindow.DockRow);
-          if not dockablewindow.Floating then
-          AppStorage.WriteString('Dock', dockablewindow.CurrentDock.Name)
-          else
+        AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, dockablewindow.Name]);
+
+        if dockablewindow.Floating then
+        begin
+          AppStorage.WriteInteger('DockPos', dockablewindow.FloatingPosition.X);
+          AppStorage.WriteInteger('DockRow', dockablewindow.FloatingPosition.Y);
           AppStorage.WriteString('Dock', '');
           AppStorage.WriteBoolean('Visible', dockablewindow.Visible);
-
-          AppStorage.Path:= RootPath;
-//        end;
+        end
+        else if (DockType = tdtBoth) or
+           ((DockType = tdtOuter) and CEToolbarDocks.IsOuterDock(dockablewindow.CurrentDock)) or
+           ((DockType = tdtInner) and CEToolbarDocks.IsInnerDock(dockablewindow.CurrentDock)) then
+        begin
+          AppStorage.WriteInteger('DockPos', dockablewindow.DockPos);
+          AppStorage.WriteInteger('DockRow', dockablewindow.DockRow);
+          AppStorage.WriteString('Dock', dockablewindow.CurrentDock.Name);
+          AppStorage.WriteBoolean('Visible', dockablewindow.Visible);
+        end;
+        AppStorage.Path:= RootPath;
       end
       else if (CELayoutItems.Items[i] is TCESpTabSet) and (DockType <> tdtInner) then
       begin
@@ -836,92 +891,6 @@ begin
     end;
   finally
     AppStorage.EndUpdate;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Save Toolbar item layout
--------------------------------------------------------------------------------}
-procedure SaveToolbarItemLayout(AppStorage: TJvAppXMLFileStorage);
-var
-  i: Integer;
-  toolbar: TSpTBXToolbar;
-  elem,rootElem: TJvSimpleXMLElem;
-begin
-  AppStorage.BeginUpdate;
-  try
-    rootElem:= AppStorage.Xml.Root.Items.ItemNamed['ToolbarItems'];
-    if not assigned(rootElem) then
-    rootElem:= AppStorage.Xml.Root.Items.Add('ToolbarItems');
-    rootElem.Items.Clear;
-    for i:= 0 to CELayoutItems.Count - 1 do
-    begin
-      if CELayoutItems.Items[i] is TSpTBXToolbar then
-      begin
-        toolbar:= TSpTBXToolbar(CELayoutItems.Items[i]);
-        if toolbar.Customizable then
-        begin
-          elem:= rootElem.Items.Add(toolbar.Name);
-          SaveToolbarProperties(toolbar, elem);
-          SaveToolbarItems(toolbar,elem);
-        end;
-      end
-      else if CELayoutItems.Items[i] is TCESpTabSet then
-      begin
-        toolbar:= TCESpTabSet(CELayoutItems.Items[i]).Toolbar;
-        if toolbar.Customizable then
-        begin
-          elem:= rootElem.Items.Add(toolbar.Name);
-          SaveToolbarProperties(toolbar, elem);
-          SaveToolbarItems(toolbar,elem);
-        end;
-      end;
-    end;
-  finally
-    AppStorage.EndUpdate;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Load toolbar item layout
--------------------------------------------------------------------------------}
-procedure LoadToolbarItemLayout(AppStorage: TJvAppXMLFileStorage);
-var
-  i: Integer;
-  toolbar: TSpTBXToolbar;
-  elem,rootElem: TJvSimpleXMLElem;
-begin
-  CEToolbarDocks.BeginUpdate;
-  try
-    rootElem:= AppStorage.Xml.Root.Items.ItemNamed['ToolbarItems'];
-    if assigned(rootElem) then
-    begin
-      for i:= 0 to CELayoutItems.Count - 1 do
-      begin
-        if CELayoutItems.Items[i] is TSpTBXToolbar then
-        begin
-          toolbar:= TSpTBXToolbar(CELayoutItems.Items[i]);
-          elem:= rootElem.Items.ItemNamed[toolbar.Name];
-          if assigned(elem) then
-          begin
-            LoadToolbarProperties(toolbar, elem);
-            LoadToolbarItems(toolbar,elem);
-          end;
-        end
-        else if CELayoutItems.Items[i] is TCESpTabSet then
-        begin
-          toolbar:= TCESpTabSet(CELayoutItems.Items[i]).Toolbar;
-          elem:= rootElem.Items.ItemNamed[toolbar.Name];
-          if assigned(elem) then
-          begin
-            LoadToolbarProperties(toolbar, elem);
-            LoadToolbarItems(toolbar,elem);
-          end;
-        end;     
-      end;
-    end;
-  finally
-    CEToolbarDocks.EndUpdate;
   end;
 end;
 
@@ -1063,6 +1032,292 @@ begin
     begin
       toolbar.EndCustomize;
     end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Load Settings For Toolbars
+-------------------------------------------------------------------------------}
+procedure LoadSettingsForToolbars(AppStorage: TJvAppXMLFileStorage;
+    AppStoragePath: String = '');
+var
+  i: Integer;
+  toolbar: TTBCustomDockableWindow;
+  elem,rootElem: TJvSimpleXMLElem;
+  path: String;
+  RootPath: String;
+begin
+  CEToolbarDocks.BeginUpdate;
+  try
+    path:= AppStorage.ConcatPaths([AppStoragePath, 'Toolbars']);
+    rootElem:= TJvCustomAppXMLStorageHack(AppStorage).GetNodeFromPath(path);
+    if not assigned(rootElem) then // old version uses "ToolbarItems" name
+    rootElem:= AppStorage.Xml.Root.Items.ItemNamed['ToolbarItems'];
+
+
+    if assigned(rootElem) then
+    begin
+      for i:= 0 to CELayoutItems.Count - 1 do
+      begin
+        if CELayoutItems.Items[i] is TTBCustomDockableWindow then
+        begin
+          if CELayoutItems.Items[i] is TCESpTabSet then
+          toolbar:= TCESpTabSet(CELayoutItems.Items[i]).Toolbar
+          else
+          toolbar:= TTBCustomDockableWindow(CELayoutItems.Items[i]);
+
+          elem:= rootElem.Items.ItemNamed[toolbar.Name];
+          if assigned(elem) then
+          begin
+            LoadToolbarProperties(toolbar, elem);
+            if toolbar is TSpTBXToolbar then
+            begin
+              if TSpTBXToolbar(toolbar).Customizable then
+              LoadToolbarItems(TSpTBXToolbar(toolbar),elem);
+            end;
+          end;
+        end;
+      end;
+    end;
+  finally
+    CEToolbarDocks.EndUpdate;
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Save toolbar items to XML node.
+-------------------------------------------------------------------------------}
+procedure SaveToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
+    TJvSimpleXMLElem);
+var
+  i: Integer;
+  rootNode, chNode: TJvSimpleXMLElem;
+  item: TTBCustomItem;
+begin
+  if not assigned(Toolbar) then
+  Exit;
+  if not assigned(ToolbarNode) then
+  Exit;
+
+  rootNode:= ToolbarNode.Items.ItemNamed['Items'];
+  if not assigned(rootNode) then
+  rootNode:= ToolbarNode.Items.Add('Items')
+  else
+  rootNode.Clear;
+
+  // Loop through toolbar items
+  for i:= 0 to Toolbar.Items.Count - 1 do
+  begin
+    item:= Toolbar.Items.Items[i];
+
+    // Normal Item
+    if item is TSpTBXItem then 
+    begin
+      chNode:= rootNode.Items.Add('item');
+      if assigned(item.Action) then
+      chNode.Properties.Add('action', item.Action.Name)
+      else
+      chNode.Properties.Add('name', item.Name);
+    end
+    // Separator
+    else if (item.ClassType = TTBSeparatorItem) or (item.ClassType = TSpTBXSeparatorItem) then
+    begin
+      rootNode.Items.Add('separator');
+    end
+    // Submenu
+    else if item.ClassType = TSpTBXSubmenuItem then
+    begin
+      chNode:= rootNode.Items.Add('submenu');
+      chNode.Properties.Add('name', item.Name);
+    end;    
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Load toolbar items from XML node.
+-------------------------------------------------------------------------------}
+procedure LoadToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
+    TJvSimpleXMLElem);
+var
+  i: Integer;
+  chNode: TJvSimpleXMLElem;
+  item: TTBCustomItem;
+  itemClass: TTBCustomItemClass;
+  act: TTntAction;
+  rootNode: TJvSimpleXMLElem;
+begin
+  if not assigned(Toolbar) then
+  Exit;
+  if not assigned(ToolbarNode) then
+  Exit;
+  if not assigned(CEActions.ActionList) then
+  Exit;
+
+  if Toolbar.MenuBar or (toolbar.Tag = 1) then
+  Exit;
+
+  Toolbar.BeginUpdate;
+
+  Toolbar.Items.Clear;
+  try
+    rootNode:= ToolbarNode.Items.ItemNamed['Items'];
+    if not assigned(rootNode) then // old version doesn't use "Items" node.
+    rootNode:= ToolbarNode;
+
+    for i:= 0 to rootNode.Items.Count - 1 do
+    begin
+      chNode:= rootNode.Items.Item[i];
+      // Normal Item
+      if SameText(chNode.Name, 'item') then
+      begin
+        act:= FindAction(CEActions.ActionList, chNode.Properties.Value('action'));
+        if act is TCEToolbarAction then
+        itemClass:= TCEToolbarAction(act).ItemClass
+        else
+        itemClass:= TSpTBXItem;
+
+        if assigned(itemClass) then
+        begin
+          item:= itemClass.Create(Toolbar);
+          item.Action:= act;
+          Toolbar.Items.Add(item);
+        end;
+      end
+      // Separator
+      else if SameText(chNode.Name, 'separator') then
+      begin
+        item:= TSpTBXSeparatorItem.Create(Toolbar);
+        Toolbar.Items.Add(item);
+      end
+      // Submenu item
+      else if SameText(chNode.Name, 'submenu') then
+      begin
+        item:= TSpTBXSubmenuItem.Create(Toolbar);
+        Toolbar.Items.Add(item);
+      end;
+    end;
+  finally
+    Toolbar.EndUpdate;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Load toolbar properties from XML node.
+-------------------------------------------------------------------------------}
+procedure LoadToolbarProperties(Toolbar: TTBCustomDockableWindow; ToolbarNode:
+    TJvSimpleXMLElem);
+var
+  i: Integer;
+  s: String;
+begin
+  if not assigned(Toolbar) or not assigned(ToolbarNode) then
+  Exit;
+
+  toolbar.BeginUpdate;
+  try
+    if Toolbar is TSpTBXToolbar then
+    begin
+      // Display Mode
+      i:= ToolbarNode.Properties.IntValue('DisplayMode', -1);
+      if (i > -1) and (i < 4) then
+      TSpTBXToolbar(Toolbar).DisplayMode:= TSpTBXToolbarDisplayMode(i);
+      if TSpTBXToolbar(Toolbar).DisplayMode = tbdmImageAboveCaption then
+      TSpTBXToolbar(Toolbar).Options:= [tboImageAboveCaption];
+
+      // Large Icons
+      if ToolbarNode.Properties.BoolValue('LargeIcons', TSpTBXToolbar(Toolbar).Images = CE_Images.MediumIcons) then
+      TSpTBXToolbar(Toolbar).Images:= CE_Images.MediumIcons
+      else
+      TSpTBXToolbar(Toolbar).Images:= CE_Images.SmallIcons;
+
+      if Toolbar is TCEToolbar then
+      TCEToolbar(Toolbar).LargeImages:= TSpTBXToolbar(Toolbar).Images = CE_Images.MediumIcons;
+    end;
+
+    // Borders
+    if ToolbarNode.Properties.BoolValue('Borders', TTBCustomDockableWindowHack(Toolbar).BorderStyle <> bsNone) then
+    TTBCustomDockableWindowHack(Toolbar).BorderStyle:= bsSingle
+    else
+    TTBCustomDockableWindowHack(Toolbar).BorderStyle:= bsNone;
+
+    // Stretch
+    TTBCustomDockableWindowHack(Toolbar).Stretch:= ToolbarNode.Properties.BoolValue('Stretch', TTBCustomDockableWindowHack(Toolbar).Stretch);
+
+    // Drag Handle
+    if ToolbarNode.Properties.BoolValue('DragHandle', TTBCustomDockableWindowHack(Toolbar).DragHandleStyle <> dhNone) then
+    TTBCustomDockableWindowHack(Toolbar).DragHandleStyle:= dhSingle
+    else
+    TTBCustomDockableWindowHack(Toolbar).DragHandleStyle:= dhNone;
+  finally
+    toolbar.EndUpdate;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Save toolbar properties to XML node.
+-------------------------------------------------------------------------------}
+procedure SaveToolbarProperties(Toolbar: TTBCustomDockableWindow; ToolbarNode:
+    TJvSimpleXMLElem);
+begin
+  if not assigned(Toolbar) or not assigned(ToolbarNode) then
+  Exit;
+
+  ToolbarNode.Properties.Clear;
+  if Toolbar is TSpTBXToolbar then
+  begin
+    ToolbarNode.Properties.Add('DisplayMode', Ord(TSpTBXToolbar(toolbar).DisplayMode));
+    ToolbarNode.Properties.Add('LargeIcons', TSpTBXToolbar(toolbar).Images = CE_Images.MediumIcons);
+  end;
+  ToolbarNode.Properties.Add('Borders', TTBCustomDockableWindowHack(Toolbar).BorderStyle <> bsNone);
+  ToolbarNode.Properties.Add('Stretch', TTBCustomDockableWindowHack(Toolbar).Stretch);
+  ToolbarNode.Properties.Add('DragHandle', TTBCustomDockableWindowHack(Toolbar).DragHandleStyle <> dhNone);
+end;
+
+{*------------------------------------------------------------------------------
+  Save Settings For Toolbars 
+-------------------------------------------------------------------------------}
+procedure SaveSettingsForToolbars(AppStorage: TJvAppXMLFileStorage;
+    AppStoragePath: String = '');
+var
+  i: Integer;
+  toolbar: TTBCustomDockableWindow;
+  elem,rootElem: TJvSimpleXMLElem;
+  path: String;
+begin
+  AppStorage.BeginUpdate;
+  try
+    path:= AppStorage.ConcatPaths([AppStoragePath, 'Toolbars']);
+    rootElem:= TJvCustomAppXMLStorageHack(AppStorage).CreateAndSetNode(path);
+    
+    rootElem.Items.Clear;
+    for i:= 0 to CELayoutItems.Count - 1 do
+    begin
+      if CELayoutItems.Items[i] is TTBCustomDockableWindow then
+      begin
+        if CELayoutItems.Items[i] is TCESpTabSet then
+        toolbar:= TCESpTabSet(CELayoutItems.Items[i]).Toolbar
+        else
+        toolbar:= TTBCustomDockableWindow(CELayoutItems.Items[i]);
+
+        elem:= rootElem.Items.Add(toolbar.Name);
+        SaveToolbarProperties(toolbar, elem);
+        if (toolbar is TSpTBXToolbar) then
+        begin
+          if TSpTBXToolbar(toolbar).Customizable then
+          SaveToolbarItems(TSpTBXToolbar(toolbar),elem);
+        end;
+      end;
+    end;
+  finally
+    // Remove deprecated node
+    rootElem:= AppStorage.Xml.Root.Items.ItemNamed['ToolbarItems'];
+    if assigned(rootElem) then
+    begin
+      AppStorage.Xml.Root.Items.Remove(rootElem);
+      rootElem.Free;
+    end;
+    
+    AppStorage.EndUpdate;
   end;
 end;
 

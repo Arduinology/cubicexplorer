@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  CE_AppSettings,
+  CE_AppSettings, CE_Toolbar,
   // fcl-xml
   DOM,
   // SpTBX
@@ -147,7 +147,7 @@ type
     procedure Recreate; virtual;
   end;
 
-  TCESessionsToolbar = class(TSpTBXToolbar)
+  TCESessionsToolbar = class(TCEToolbar)
   private
   protected
     procedure OnSessionClick(Sender: TObject); virtual;

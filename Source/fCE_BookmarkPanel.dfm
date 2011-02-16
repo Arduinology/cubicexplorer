@@ -4,8 +4,8 @@ inherited CEBookmarkPanel: TCEBookmarkPanel
   ClientWidth = 429
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  ExplicitWidth = 437
-  ExplicitHeight = 323
+  ExplicitWidth = 445
+  ExplicitHeight = 331
   PixelsPerInch = 96
   TextHeight = 13
   inherited TopDock: TSpTBXDock

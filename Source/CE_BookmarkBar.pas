@@ -26,7 +26,7 @@ interface
 uses
   // CE Units
   CE_GlobalCtrl, dCE_Actions, fCE_BookmarkPanel, CE_Bookmarks,
-  CE_BookmarkTree, CE_LanguageEngine,
+  CE_BookmarkTree, CE_LanguageEngine, CE_Toolbar,
   // Toolbar2K
   TB2Item,
   // SpTBXLib
@@ -82,16 +82,18 @@ type
   end;
 
 
-  TCEBookmarkToolbar = class(TSpTBXToolbar)
+  TCEBookmarkToolbar = class(TCEToolbar)
   private
   protected
+    procedure SetLargeImages(const Value: Boolean); override;
   public
     constructor Create(AOwner: TComponent); override;
     procedure Populate;
   end;
 
 procedure PopulateBookmarkItem(RootItem: TTBCustomItem; BookmarkTree:
-    TCEBookmarkTree; OpenAllToRoot: Boolean = false);
+    TCEBookmarkTree; OpenAllToRoot: Boolean = false; LargeIcons: Boolean =
+    false);
 
 implementation
 
@@ -102,7 +104,8 @@ uses
   Populate BookmarkItem
 -------------------------------------------------------------------------------}
 procedure PopulateBookmarkItem(RootItem: TTBCustomItem; BookmarkTree:
-    TCEBookmarkTree; OpenAllToRoot: Boolean = false);
+    TCEBookmarkTree; OpenAllToRoot: Boolean = false; LargeIcons: Boolean =
+    false);
 
   procedure EnumNode(Node: PVirtualNode; SubItem: TTBCustomItem);
   var
@@ -133,7 +136,16 @@ procedure PopulateBookmarkItem(RootItem: TTBCustomItem; BookmarkTree:
 
       chItem.Caption:= data.BookComp.Title;
       chItem.DisplayMode:= nbdmImageAndText;
+      if LargeIcons then
+      begin
+        if data.BookComp.ImageList = SmallSysImages then
+        chItem.Images:= LargeSysImages
+        else
+        chItem.Images:= data.BookComp.ImageList;
+      end
+      else
       chItem.Images:= data.BookComp.ImageList;
+      
       chItem.ImageIndex:= data.BookComp.GetImageIndex;
 
       if chItem is TSpTBXSubmenuItem then
@@ -189,8 +201,16 @@ end;
 procedure TCEBookmarkToolbar.Populate;
 begin
   self.BeginUpdate;
-  PopulateBookmarkItem(Self.Items, CEBookmarkPanel.BookmarkTree);
+  PopulateBookmarkItem(Self.Items, CEBookmarkPanel.BookmarkTree, false);
   self.EndUpdate;
+end;
+
+{-------------------------------------------------------------------------------
+  Set Large Images
+-------------------------------------------------------------------------------}
+procedure TCEBookmarkToolbar.SetLargeImages(const Value: Boolean);
+begin
+  Inherited;
 end;
 
 {##############################################################################}
