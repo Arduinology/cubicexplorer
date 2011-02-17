@@ -63,12 +63,13 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
     Width = 390
     Height = 251
     Align = alClient
-    ActiveTabIndex = 3
+    ActiveTabIndex = 0
     TabBackgroundBorders = True
     OnActiveTabChange = TabControlActiveTabChange
     HiddenItems = <>
     object tab_toolbars: TSpTBXTabItem
       Caption = 'Toolbars'
+      Checked = True
     end
     object tab_buttons: TSpTBXTabItem
       Caption = 'Buttons'
@@ -78,16 +79,59 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
     end
     object tab_theme: TSpTBXTabItem
       Caption = 'Theme'
-      Checked = True
     end
-    object SpTBXTabSheet4: TSpTBXTabSheet
+    object SpTBXTabSheet3: TSpTBXTabSheet
       Left = 0
       Top = 25
       Width = 390
       Height = 226
-      Caption = 'Hotkeys'
+      Caption = 'Theme'
       ImageIndex = -1
-      TabItem = 'tab_hotkeys'
+      DesignSize = (
+        390
+        226)
+      TabItem = 'tab_theme'
+      object ThemeList: TSpTBXListBox
+        Left = 8
+        Top = 8
+        Width = 193
+        Height = 209
+        ItemHeight = 16
+        TabOrder = 0
+        OnClick = ThemeListClick
+      end
+      object but_loadTheme: TSpTBXButton
+        Left = 207
+        Top = 188
+        Width = 175
+        Height = 29
+        Hint = 'Load theme from file'
+        Anchors = [akLeft, akTop, akRight]
+        TabOrder = 1
+        OnClick = but_loadThemeClick
+      end
+      object label_themeName: TSpTBXLabel
+        Left = 207
+        Top = 8
+        Width = 175
+        Height = 22
+        Anchors = [akLeft, akTop, akRight]
+        AutoSize = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -15
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+      end
+      object label_themeAuthor: TSpTBXLabel
+        Left = 207
+        Top = 32
+        Width = 175
+        Height = 29
+        AutoSize = False
+        Wrapping = twWrap
+      end
     end
     object SpTBXTabSheet2: TSpTBXTabSheet
       Left = 0
@@ -134,6 +178,116 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
             Width = 384
             WideText = 'Name'
           end>
+      end
+    end
+    object SpTBXTabSheet4: TSpTBXTabSheet
+      Left = 0
+      Top = 25
+      Width = 390
+      Height = 226
+      Caption = 'Hotkeys'
+      ImageIndex = -1
+      TabItem = 'tab_hotkeys'
+      object SpTBXPanel2: TSpTBXPanel
+        Left = 8
+        Top = 8
+        Width = 221
+        Height = 209
+        Caption = 'SpTBXPanel2'
+        TabOrder = 0
+        object HotkeyList: TVirtualStringTree
+          Left = 2
+          Top = 2
+          Width = 217
+          Height = 205
+          Align = alClient
+          BorderStyle = bsNone
+          DragType = dtVCL
+          Header.AutoSizeIndex = 0
+          Header.DefaultHeight = 17
+          Header.Font.Charset = DEFAULT_CHARSET
+          Header.Font.Color = clWindowText
+          Header.Font.Height = -11
+          Header.Font.Name = 'Tahoma'
+          Header.Font.Style = []
+          Header.MaxHeight = 100
+          Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoShowHint]
+          ParentShowHint = False
+          ShowHint = False
+          TabOrder = 0
+          TreeOptions.AutoOptions = [toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes]
+          TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
+          TreeOptions.PaintOptions = [toShowButtons, toThemeAware, toUseBlendedImages]
+          TreeOptions.SelectionOptions = [toFullRowSelect]
+          OnCompareNodes = ActionTreeCompareNodes
+          OnFocusChanged = HotkeyListFocusChanged
+          OnGetText = HotkeyListGetText
+          OnPaintText = ActionTreePaintText
+          OnGetImageIndexEx = ActionTreeGetImageIndexEx
+          OnStartDrag = ActionTreeStartDrag
+          Columns = <
+            item
+              Position = 0
+              Width = 142
+              WideText = 'Name'
+            end
+            item
+              Alignment = taRightJustify
+              Position = 1
+              Width = 75
+              WideText = 'Shortcut'
+            end>
+        end
+      end
+      object list_actionhotkeys: TSpTBXListBox
+        Left = 240
+        Top = 28
+        Width = 137
+        Height = 89
+        ItemHeight = 16
+        TabOrder = 1
+        OnClick = list_actionhotkeysClick
+      end
+      object SpTBXLabel1: TSpTBXLabel
+        Left = 240
+        Top = 7
+        Width = 45
+        Height = 19
+        Caption = 'Hotkeys'
+      end
+      object edit_hotkey: TSpTBXEdit
+        Left = 241
+        Top = 132
+        Width = 137
+        Height = 21
+        TabOrder = 3
+      end
+      object SpTBXButton1: TSpTBXButton
+        Left = 241
+        Top = 159
+        Width = 66
+        Height = 25
+        Caption = 'Add'
+        Enabled = False
+        TabOrder = 4
+      end
+      object SpTBXButton2: TSpTBXButton
+        Left = 313
+        Top = 159
+        Width = 66
+        Height = 25
+        Caption = 'Change'
+        Enabled = False
+        TabOrder = 5
+      end
+      object SpTBXButton3: TSpTBXButton
+        Left = 240
+        Top = 190
+        Width = 137
+        Height = 25
+        Caption = 'Delete'
+        Enabled = False
+        TabOrder = 6
       end
     end
     object SpTBXTabSheet1: TSpTBXTabSheet
@@ -206,59 +360,6 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
         Enabled = False
         TabOrder = 5
         OnClick = check_dragHandleClick
-      end
-    end
-    object SpTBXTabSheet3: TSpTBXTabSheet
-      Left = 0
-      Top = 25
-      Width = 390
-      Height = 226
-      Caption = 'Theme'
-      ImageIndex = -1
-      DesignSize = (
-        390
-        226)
-      TabItem = 'tab_theme'
-      object ThemeList: TSpTBXListBox
-        Left = 8
-        Top = 8
-        Width = 193
-        Height = 209
-        ItemHeight = 16
-        TabOrder = 0
-        OnClick = ThemeListClick
-      end
-      object but_loadTheme: TSpTBXButton
-        Left = 207
-        Top = 188
-        Width = 175
-        Height = 29
-        Hint = 'Load theme from file'
-        Anchors = [akLeft, akTop, akRight]
-        TabOrder = 1
-        OnClick = but_loadThemeClick
-      end
-      object label_themeName: TSpTBXLabel
-        Left = 207
-        Top = 8
-        Width = 175
-        Height = 22
-        Anchors = [akLeft, akTop, akRight]
-        AutoSize = False
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -15
-        Font.Name = 'Tahoma'
-        Font.Style = []
-        ParentFont = False
-      end
-      object label_themeAuthor: TSpTBXLabel
-        Left = 207
-        Top = 32
-        Width = 175
-        Height = 29
-        AutoSize = False
-        Wrapping = twWrap
       end
     end
   end

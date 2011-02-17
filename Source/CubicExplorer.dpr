@@ -168,7 +168,7 @@ begin
 
   Application.Initialize;
   Application.Title := 'CubicExplorer';
-
+  Application.ShowMainForm:= false;
   // Create Main Form
   Application.CreateForm(TMainForm, MainForm);
   MainForm.InitializeUI;

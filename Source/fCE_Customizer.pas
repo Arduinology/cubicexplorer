@@ -32,7 +32,7 @@ uses
   // Toolbar2000
   TB2Dock, TB2Toolbar, TB2Item,
   // TNT Controls
-  TntActnList, TntForms,
+  TntActnList, TntForms, TntCheckLst, TntStdCtrls,
   // Png Controls
   PngImageList,
   // SpTBXLib
@@ -41,7 +41,7 @@ uses
   JvSimpleXml,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ImgList, ActiveX, StdCtrls, Math, TntStdCtrls, CheckLst, TntCheckLst;
+  Dialogs, ImgList, ActiveX, StdCtrls, Math, CheckLst, Menus;
 
 type
   TTBCustomDockableWindowHack = class(TTBCustomDockableWindow);
@@ -79,6 +79,14 @@ type
     label_help: TSpTBXLabel;
     label_themeName: TSpTBXLabel;
     label_themeAuthor: TSpTBXLabel;
+    SpTBXPanel2: TSpTBXPanel;
+    HotkeyList: TVirtualStringTree;
+    list_actionhotkeys: TSpTBXListBox;
+    SpTBXLabel1: TSpTBXLabel;
+    edit_hotkey: TSpTBXEdit;
+    SpTBXButton1: TSpTBXButton;
+    SpTBXButton2: TSpTBXButton;
+    SpTBXButton3: TSpTBXButton;
     procedure ActionTreeCompareNodes(Sender: TBaseVirtualTree; Node1, Node2:
         PVirtualNode; Column: TColumnIndex; var Result: Integer);
     procedure ActionTreeDragAllowed(Sender: TBaseVirtualTree; Node: PVirtualNode;
@@ -107,6 +115,11 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure group_displayModeClick(Sender: TObject);
+    procedure HotkeyListFocusChanged(Sender: TBaseVirtualTree; Node: PVirtualNode;
+        Column: TColumnIndex);
+    procedure HotkeyListGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
+        Column: TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
+    procedure list_actionhotkeysClick(Sender: TObject);
     procedure TabControlActiveTabChange(Sender: TObject; TabIndex: Integer);
     procedure ThemeListClick(Sender: TObject);
     procedure ToolbarListClick(Sender: TObject);
@@ -120,7 +133,7 @@ type
         SetselectedToolbar;
   public
     ParentComponent: TComponent;
-    function GetCategory(CatName: String): PVirtualNode;
+    function GetCategory(CatName: String; ATree: TVirtualStringTree): PVirtualNode;
     procedure SetupForm;
 
   end;
@@ -163,14 +176,129 @@ end;
   On Form Create
 -------------------------------------------------------------------------------}
 procedure TCEToolbarCustomizer.FormCreate(Sender: TObject);
-var
-  i, index: Integer;
-  toolbar: TObject;
 begin
   SetVistaFont(Font);
   CEGlobalTranslator.TranslateComponent(Self);
   ActionTree.NodeDataSize:= SizeOf(TCEActTreeData);
+  HotkeyList.NodeDataSize:= SizeOf(TCEActTreeData);
   tmpItem:= TSpTBXItem.Create(self);
+end;
+
+{*------------------------------------------------------------------------------
+  On Form Destroy
+-------------------------------------------------------------------------------}
+procedure TCEToolbarCustomizer.FormDestroy(Sender: TObject);
+begin
+  tmpItem.Free;
+end;
+
+{*------------------------------------------------------------------------------
+  On Form Closed
+-------------------------------------------------------------------------------}
+procedure TCEToolbarCustomizer.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  Action:= caFree;
+  CEToolbarCustomizer:= nil;
+  if MainForm.TabSet.Toolbar.IsCustomizing then
+  begin
+    MainForm.TabSet.Toolbar.EndCustomize;
+    EndToolbarCustomize;
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Find Category by it's name.
+-------------------------------------------------------------------------------}
+function TCEToolbarCustomizer.GetCategory(CatName: String; ATree:
+    TVirtualStringTree): PVirtualNode;
+var
+  data: PCEActTreeData;
+  Node: PVirtualNode;
+begin
+  //Result:= nil;
+  Node:= ATree.GetFirst;
+  while Node <> nil do
+  begin
+    data:= ATree.GetNodeData(Node);
+    if data.IsCategory then
+    begin
+      if CompareText(CatName, data.Name) = 0 then
+      begin
+        break;
+      end;
+    end;
+    Node:= Node.NextSibling;
+  end;
+
+  if not assigned(Node) then
+  begin
+    Node:= ATree.AddChild(nil);
+    data:= ATree.GetNodeData(Node);
+    data.IsCategory:= true;
+    data.IsSeparator:= false;
+    data.Name:= CatName;
+    data.IconIndex:= -1;
+  end;
+
+  Result:= Node;
+end;
+
+{*------------------------------------------------------------------------------
+  Setup Form
+-------------------------------------------------------------------------------}
+procedure TCEToolbarCustomizer.SetupForm;
+var
+  i, index: Integer;
+  toolbar: TObject;
+  act: TTntAction;
+  node, chNode: PVirtualNode;
+  data: PCEActTreeData;
+begin
+  // Populate ActionTree
+  ActionTree.Images:= CE_Images.SmallIcons;
+  ActionTree.Clear;
+  for i:= 0 to CEActions.ActionList.ActionCount - 1 do
+  begin
+    act:= TTntAction(CEActions.ActionList.Actions[i]);
+    node:= GetCategory(act.Category, ActionTree);
+    chNode:= ActionTree.AddChild(node);
+    data:= ActionTree.GetNodeData(chNode);
+    data.ActionItem:= act;
+    data.Name:= act.Caption;
+    data.IconIndex:= act.ImageIndex;
+    data.IsCategory:= false;
+    data.IsSeparator:= false;
+  end;
+  // Add Separator category to ActionList
+  node:= ActionTree.GetFirst;
+  node:= ActionTree.InsertNode(node, amInsertBefore);
+  data:= ActionTree.GetNodeData(Node);
+  data.Name:= UTF8Encode(_('Separator'));
+  data.IconIndex:= -1;
+  data.IsCategory:= true;
+  data.IsSeparator:= false;
+  // Add Separator item to ActionList
+  chNode:= ActionTree.AddChild(node);
+  data:= ActionTree.GetNodeData(chNode);
+  data.Name:= '---';
+  data.IconIndex:= -1;
+  data.IsCategory:= false;
+  data.IsSeparator:= true;
+
+  // Sort actions
+  node:= ActionTree.GetFirst;
+  while node <> nil do
+  begin
+    data:= ActionTree.GetNodeData(Node);
+    if data.IsCategory then
+    begin
+      ActionTree.Sort(node, 0, sdAscending, false);
+    end;
+    node:= node.NextSibling;
+  end;
+  
+  ActionTree.FullExpand;
 
   // Populate Theme list
   SkinManager.SkinsList.GetSkinNames(ThemeList.Items.AnsiStrings);
@@ -207,121 +335,26 @@ begin
   group_displayMode.Items.Add(_('Icon above text'));
   group_displayMode.Items.Add(_('Text only'));
 
+  // Get translated caption for Load Theme from file
   but_loadTheme.Caption:= CEActions.act_view_loadskin.Caption;
-end;
 
-{*------------------------------------------------------------------------------
-  On Form Destroy
--------------------------------------------------------------------------------}
-procedure TCEToolbarCustomizer.FormDestroy(Sender: TObject);
-begin
-  tmpItem.Free;
-end;
-
-{*------------------------------------------------------------------------------
-  On Form Closed
--------------------------------------------------------------------------------}
-procedure TCEToolbarCustomizer.FormClose(Sender: TObject;
-  var Action: TCloseAction);
-begin
-  Action:= caFree;
-  CEToolbarCustomizer:= nil;
-  if MainForm.TabSet.Toolbar.IsCustomizing then
-  begin
-    MainForm.TabSet.Toolbar.EndCustomize;
-    EndToolbarCustomize;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Find Category by it's name.
--------------------------------------------------------------------------------}
-function TCEToolbarCustomizer.GetCategory(CatName: String): PVirtualNode;
-var
-  data: PCEActTreeData;
-  Node: PVirtualNode;
-begin
-  //Result:= nil;
-  Node:= ActionTree.GetFirst;
-  while Node <> nil do
-  begin
-    data:= ActionTree.GetNodeData(Node);
-    if data.IsCategory then
-    begin
-      if CompareText(CatName, data.Name) = 0 then
-      begin
-        break;
-      end;
-    end;
-    Node:= Node.NextSibling;
-  end;
-
-  if not assigned(Node) then
-  begin
-    Node:= ActionTree.AddChild(nil);
-    data:= ActionTree.GetNodeData(Node);
-    data.IsCategory:= true;
-    data.IsSeparator:= false;
-    data.Name:= CatName;
-    data.IconIndex:= -1;
-  end;
-
-  Result:= Node;
-end;
-
-{*------------------------------------------------------------------------------
-  Setup Form
--------------------------------------------------------------------------------}
-procedure TCEToolbarCustomizer.SetupForm;
-var
-  i: Integer;
-  act: TTntAction;
-  node, chNode: PVirtualNode;
-  data: PCEActTreeData;
-begin
-  ActionTree.Images:= CE_Images.SmallIcons;
-  ActionTree.Clear;
+  // Populate HotkeyList
+  HotkeyList.Images:= CE_Images.SmallIcons;
+  HotkeyList.Clear;
   for i:= 0 to CEActions.ActionList.ActionCount - 1 do
   begin
     act:= TTntAction(CEActions.ActionList.Actions[i]);
-    node:= GetCategory(act.Category);
-    chNode:= ActionTree.AddChild(node);
-    data:= ActionTree.GetNodeData(chNode);
+    node:= GetCategory(act.Category, HotkeyList);
+    chNode:= HotkeyList.AddChild(node);
+    data:= HotkeyList.GetNodeData(chNode);
     data.ActionItem:= act;
     data.Name:= act.Caption;
     data.IconIndex:= act.ImageIndex;
     data.IsCategory:= false;
     data.IsSeparator:= false;
   end;
-  // Add Separator category
-  node:= ActionTree.GetFirst;
-  node:= ActionTree.InsertNode(node, amInsertBefore);
-  data:= ActionTree.GetNodeData(Node);
-  data.Name:= UTF8Encode(_('Separator'));
-  data.IconIndex:= -1;
-  data.IsCategory:= true;
-  data.IsSeparator:= false;
-  // Add Separator item
-  chNode:= ActionTree.AddChild(node);
-  data:= ActionTree.GetNodeData(chNode);
-  data.Name:= '---';
-  data.IconIndex:= -1;
-  data.IsCategory:= false;
-  data.IsSeparator:= true;
 
-  // Sort actions
-  node:= ActionTree.GetFirst;
-  while node <> nil do
-  begin
-    data:= ActionTree.GetNodeData(Node);
-    if data.IsCategory then
-    begin
-      ActionTree.Sort(node, 0, sdAscending, false);
-    end;
-    node:= node.NextSibling;
-  end;
-  
-  ActionTree.FullExpand;
+  HotkeyList.FullExpand;
 end;
 
 {-------------------------------------------------------------------------------
@@ -347,12 +380,15 @@ procedure TCEToolbarCustomizer.ActionTreeGetImageIndexEx(Sender:
 var
   data: PCEActTreeData;
 begin
-  data:= ActionTree.GetNodeData(Node);
-  ImageIndex:= data.IconIndex;
-  if not data.IsCategory or not data.IsSeparator then
-  ImageList:= CE_Images.SmallIcons
-  else
-  ImageList:= ActionTree.Images;
+  if Column = 0 then
+  begin
+    data:= ActionTree.GetNodeData(Node);
+    ImageIndex:= data.IconIndex;
+    if not data.IsCategory or not data.IsSeparator then
+    ImageList:= CE_Images.SmallIcons
+    else
+    ImageList:= ActionTree.Images;
+  end;
 end;
 
 {*------------------------------------------------------------------------------
@@ -697,6 +733,67 @@ begin
     else
     TTBCustomDockableWindowHack(selectedToolbar).DragHandleStyle:= dhNone;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  On HotkeyList.GetText
+-------------------------------------------------------------------------------}
+procedure TCEToolbarCustomizer.HotkeyListGetText(Sender: TBaseVirtualTree;
+    Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType; var
+    CellText: WideString);
+var
+  data: PCEActTreeData;
+begin
+  data:= HotkeyList.GetNodeData(Node);
+  if Column = 0 then
+  begin
+    if data.IsCategory then
+    CellText:= UTF8Decode(data.Name)
+    else
+    CellText:= data.Name;
+  end
+  else
+  begin
+    if not data.IsCategory then
+    CellText:= ShortCutToText(data.ActionItem.ShortCut)
+    else
+    CellText:= '';
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On HotkeyList.FocusChanged
+-------------------------------------------------------------------------------}
+procedure TCEToolbarCustomizer.HotkeyListFocusChanged(Sender: TBaseVirtualTree;
+    Node: PVirtualNode; Column: TColumnIndex);
+var
+  data: PCEActTreeData;
+  i: Integer;
+begin
+  list_actionhotkeys.Clear;
+  if assigned(Node) then
+  begin
+    data:= ActionTree.GetNodeData(Node);
+    if assigned(data.ActionItem) then
+    begin
+      if data.ActionItem.ShortCut <> 0 then
+      list_actionhotkeys.Items.Add(ShortCutToText(data.ActionItem.ShortCut));
+
+      for i:= 0 to data.ActionItem.SecondaryShortCuts.Count - 1 do
+      begin
+        list_actionhotkeys.Items.Add(ShortCutToText(data.ActionItem.SecondaryShortCuts.ShortCuts[i]));
+      end;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On list_actionhotkeys.Click
+-------------------------------------------------------------------------------}
+procedure TCEToolbarCustomizer.list_actionhotkeysClick(Sender: TObject);
+begin
+  if list_actionhotkeys.ItemIndex > -1 then
+  edit_hotkey.Text:= list_actionhotkeys.Items.Strings[list_actionhotkeys.ItemIndex];
 end;
 
 end.

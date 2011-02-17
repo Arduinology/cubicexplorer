@@ -566,4 +566,24 @@ object MainForm: TMainForm
     Left = 160
     Top = 64
   end
+  object TrayIcon: TJvTrayIcon
+    IconIndex = 0
+    PopupMenu = TrayPopupMenu
+    Visibility = [tvVisibleTaskBar, tvVisibleTaskList]
+    OnMouseUp = TrayIconMouseUp
+    Left = 196
+    Top = 64
+  end
+  object TrayPopupMenu: TSpTBXPopupMenu
+    Left = 196
+    Top = 96
+    object SpTBXItem93: TSpTBXItem
+      Action = CEActions.act_gen_showhide
+    end
+    object SpTBXSeparatorItem25: TSpTBXSeparatorItem
+    end
+    object SpTBXItem92: TSpTBXItem
+      Action = CEActions.act_gen_exit
+    end
+  end
 end

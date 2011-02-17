@@ -581,6 +581,12 @@ object CEActions: TCEActions
       Hint = 'Show Session Manager'
       OnExecute = ActionExecute
     end
+    object act_gen_showhide: TTntAction
+      Tag = 101
+      Category = 'General'
+      Caption = 'Show/Hide'
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

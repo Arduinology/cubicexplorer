@@ -40,6 +40,11 @@ type
     radio_lasttime: TTntRadioButton;
     radio_session: TTntRadioButton;
     combo_sessions: TTntComboBox;
+    check_tray_enable: TTntCheckBox;
+    check_tray_minimize: TTntCheckBox;
+    check_tray_close: TTntCheckBox;
+    check_tray_start: TTntCheckBox;
+    TntGroupBox1: TTntGroupBox;
     procedure HandleChange(Sender: TObject);
     procedure radioClick(Sender: TObject);
   private
@@ -75,8 +80,9 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEOptionsPage_General.ApplySettings;
 begin
+  // Single Instance
   MainForm.Settings.SingleInstance:= check_singleinstance.Checked;
-
+  // On Startup
   if radio_lasttime.Checked then
   MainForm.Settings.StartupType:= stLastSession
   else if radio_session.Checked then
@@ -86,6 +92,11 @@ begin
 
   if combo_sessions.ItemIndex > -1 then
   MainForm.Settings.AutoLoadSession:= combo_sessions.Items.Strings[combo_sessions.ItemIndex];
+  // Tray Icon
+  MainForm.Settings.ShowTray:= check_tray_enable.Checked;
+  MainForm.Settings.MinimizeToTray:= check_tray_minimize.Checked;
+  MainForm.Settings.CloseToTray:= check_tray_close.Checked;
+  MainForm.Settings.StartInTray:= check_tray_start.Checked;
 end;
 
 {-------------------------------------------------------------------------------
@@ -104,13 +115,13 @@ var
   i: Integer;
   ws: WideString;
 begin
+  // On Startup
   combo_sessions.Clear;
   for i:= 0 to GlobalSessions.Sessions.Items.Count - 1 do
   begin
     combo_sessions.Items.Add(GlobalSessions.Sessions.GetSession(i).Name);
   end;
-  
-  check_singleinstance.Checked:= MainForm.Settings.SingleInstance;
+
   case MainForm.Settings.StartupType of
     stNormal: radio_default.Checked:= true;
     stLastSession: radio_lasttime.Checked:= true;
@@ -120,6 +131,15 @@ begin
   ws:= MainForm.Settings.AutoLoadSession;
   if ws <> '' then
   combo_sessions.ItemIndex:= combo_sessions.Items.IndexOf(ws);
+
+  // Single Instance
+  check_singleinstance.Checked:= MainForm.Settings.SingleInstance;
+
+  // Tray Icon
+  check_tray_enable.Checked:= MainForm.Settings.ShowTray;
+  check_tray_minimize.Checked:= MainForm.Settings.MinimizeToTray;
+  check_tray_close.Checked:= MainForm.Settings.CloseToTray;
+  check_tray_start.Checked:= MainForm.Settings.StartInTray;
 end;
 
 {-------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-//******************************************************************************
+ //******************************************************************************
 //  CubicExplorer                                                                             
 //  Version: 0.90                                                                             
 //                                                                                            
@@ -165,6 +165,7 @@ type
     CreateSymbolicLink1: TTntMenuItem;
     N5: TTntMenuItem;
     act_sessions_enablehistory: TTntAction;
+    act_gen_showhide: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -379,7 +380,10 @@ end;
 procedure ExecuteGeneralCategory(ActionID: Integer);
 begin
   case ActionID of
-    100: Application.MainForm.Close; // Exit
+    100: begin
+      Application.MainForm.Close; // Exit
+    end;
+    101: MainForm.ToggleVisibility;
   end;
 end;
 
@@ -891,15 +895,15 @@ begin
              end
              else
              pidl:= nil;
-             OpenFolderInTab(nil, pidl, MainForm.TabSet.Settings.NewTabSelect, true, true);
+             OpenFolderInTab(nil, pidl, MainForm.TabSet.Settings.NewTabSelect, false, true);
            end
            else if MainForm.TabSet.Settings.NewTabType = 3 then // Open custom path
            begin
-             OpenFolderInTab(nil, MainForm.TabSet.Settings.NewTabNamespace.AbsolutePIDL, MainForm.TabSet.Settings.NewTabSelect, true, true);
+             OpenFolderInTab(nil, MainForm.TabSet.Settings.NewTabNamespace.AbsolutePIDL, MainForm.TabSet.Settings.NewTabSelect, false, true);
            end
            else // Open desktop
            begin
-             OpenFolderInTab(nil, nil, MainForm.TabSet.Settings.NewTabSelect, true, true);
+             OpenFolderInTab(nil, nil, MainForm.TabSet.Settings.NewTabSelect, false, true);
            end;
          end;
     664: begin
@@ -907,7 +911,7 @@ begin
            begin
              if MainForm.TabSet.ActivePopupTab.Page is TCEFileViewPage then
              OpenFolderInTab(MainForm.TabSet.ActivePopupTab,
-                             TCEFileViewPage(MainForm.TabSet.ActivePopupTab.Page).FileView.RootFolderNamespace.AbsolutePIDL, MainForm.TabSet.Settings.NewTabSelect, true, true);
+                             TCEFileViewPage(MainForm.TabSet.ActivePopupTab.Page).FileView.RootFolderNamespace.AbsolutePIDL, MainForm.TabSet.Settings.NewTabSelect, false, true);
            end;
          end;
     665: MainForm.TabSet.CloseTabsOnLeft(MainForm.TabSet.ActivePopupTab);

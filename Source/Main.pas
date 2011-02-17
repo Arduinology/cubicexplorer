@@ -51,7 +51,7 @@ uses
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ShellAPI, Menus, ShlObj, XPMan, ActiveX,
-  ImgList, Registry, AppEvnts, ActnList, Math;
+  ImgList, Registry, AppEvnts, ActnList, Math, JvComponentBase, JvTrayIcon;
 
 type
   TMainFormSettings = class;
@@ -206,6 +206,11 @@ type
     SpTBXItem87: TSpTBXItem;
     SpTBXItem88: TSpTBXItem;
     SpTBXSeparatorItem23: TSpTBXSeparatorItem;
+    TrayIcon: TJvTrayIcon;
+    TrayPopupMenu: TSpTBXPopupMenu;
+    SpTBXItem92: TSpTBXItem;
+    SpTBXSeparatorItem25: TSpTBXSeparatorItem;
+    SpTBXItem93: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -221,6 +226,8 @@ type
     procedure SpTBXItem80Click(Sender: TObject);
     procedure test_act1Click(Sender: TObject);
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
+    procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift:
+        TShiftState; X, Y: Integer);
   private
     fFullscreen: Boolean;
     fActiveLanguage: WideString;
@@ -266,6 +273,7 @@ type
     procedure OpenSkin;
     procedure Shutdown;
     procedure StartUp;
+    procedure ToggleVisibility;
     procedure TranslateUI(Sender: TObject);
     property Fullscreen: Boolean read fFullscreen write SetFullscreen;
     property ActiveLanguage: WideString read fActiveLanguage write
@@ -278,10 +286,13 @@ type
 
   TMainFormSettings = class(TPersistent)
   private
+    fCloseToTray: Boolean;
     fExitOnLastTabClose: Boolean;
     fHeight: Integer;
     fLeft: Integer;
+    fMinimizeToTray: Boolean;
     fShowCmd: Integer;
+    fStartInTray: Boolean;
     fStartupType: TCEStartupType;
     fTop: Integer;
     fWidth: Integer;
@@ -293,6 +304,7 @@ type
     function GetSingleInstance: Boolean;
     function GetSkin: string;
     function GetAutoLoadSession: WideString;
+    function GetShowTray: Boolean;
     procedure SetAlphaBlend(const Value: Integer);
     procedure SetAlwaysOnTop(const Value: Boolean);
     procedure SetLanguage(const Value: WideString);
@@ -301,11 +313,12 @@ type
     procedure SetSingleInstance(const Value: Boolean);
     procedure SetSkin(const Value: string);
     procedure SetAutoLoadSession(const Value: WideString);
+    procedure SetShowTray(const Value: Boolean);
   public
     Form: TMainForm;
     constructor Create;
     procedure UpdatePositionInfo;
-    procedure ApplyPositionInfo;
+    procedure ApplyPositionInfo(AHideForm: Boolean = false);
   published
     property AlphaBlend: Integer read GetAlphaBlend write SetAlphaBlend;
     property AlwaysOnTop: Boolean read GetAlwaysOnTop write SetAlwaysOnTop;
@@ -321,14 +334,17 @@ type
     property Skin: string read GetSkin write SetSkin;
     property AutoLoadSession: WideString read GetAutoLoadSession write
         SetAutoLoadSession;
+    property CloseToTray: Boolean read fCloseToTray write fCloseToTray;
     property ExitOnLastTabClose: Boolean read fExitOnLastTabClose write
         fExitOnLastTabClose;
+    property MinimizeToTray: Boolean read fMinimizeToTray write fMinimizeToTray;
+    property ShowTray: Boolean read GetShowTray write SetShowTray;
+    property StartInTray: Boolean read fStartInTray write fStartInTray;
     property StartupType: TCEStartupType read fStartupType write fStartupType;
   end;
 
 var
   MainForm: TMainForm;
-  benchStart, benchEnd: Int64;
   
 implementation
 
@@ -391,7 +407,6 @@ begin
     or WS_EX_TOOLWINDOW);
   ShowWindow(Application.Handle, SW_SHOW);
 
-  benchStart:= GetTickCount;
   ChangeNotifier.RegisterShellChangeNotify(Self);
   fLanguageList:= TTntStringList.Create;
   fLanguageList.NameValueSeparator:= '=';
@@ -654,7 +669,9 @@ begin
   SessionsToolbar.Recreate;
   // Load Settings
   GlobalAppSettings.LoadFromFile(exePath + 'settings.xml');
-  Settings.ApplyPositionInfo;
+  Settings.ApplyPositionInfo(Settings.StartInTray);
+  if not Settings.StartInTray then
+  MainForm.Show;
 
   // Load Bookmarks
   CEBookmarkPanel.BookmarksPath:= ExePath + 'bookmarks.xml';
@@ -730,6 +747,9 @@ begin
 
   if GlobalPathCtrl.ActivePage is TCEFileViewPage then
   TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.SetFocus;
+
+  if TrayIcon.Active and Settings.StartInTray then
+  TrayIcon.HideApplication;
 end;
 
 {*------------------------------------------------------------------------------
@@ -777,7 +797,6 @@ begin
   Layouts.SaveCurrentLayout;
 
   CanClose:= TabSet.CloseAllTabs;
-
   if not CanClose then
   CEActions.UpdateTimer.Enabled:= true;
 end;
@@ -1273,13 +1292,25 @@ begin
     SC_MINIMIZE:
     begin
       ShowWindow(Handle, SW_MINIMIZE);
-      Message.Result := 0;
+      if TrayIcon.Active and Settings.MinimizeToTray then
+      TrayIcon.HideApplication;
+      Message.Result:= 0;
     end;
     SC_RESTORE:
     begin
+      if TrayIcon.Active and not TrayIcon.ApplicationVisible then
+      TrayIcon.ShowApplication;
       ShowWindow(Handle, SW_RESTORE);
-      Message.Result := 0;
+      Message.Result:= 0;
     end;
+    SC_CLOSE:
+    begin
+      if TrayIcon.Active and Settings.CloseToTray then
+      TrayIcon.HideApplication
+      else
+      Self.Close;
+      Message.Result:= 0;
+    end
   else
     inherited;  
   end;
@@ -1339,6 +1370,43 @@ begin
   Handled:= DoExecuteAction(AShortcut, CEActions.HiddenActionList);
   if not Handled then
   Handled:= DoExecuteAction(AShortcut, CEActions.ActionList);
+end;
+
+{-------------------------------------------------------------------------------
+  Toggle Visibility (Restore/Minimize)
+-------------------------------------------------------------------------------}
+procedure TMainForm.ToggleVisibility;
+begin
+  if IsIconic(Handle) then
+  begin
+    if TrayIcon.Active and not TrayIcon.ApplicationVisible then
+    TrayIcon.ShowApplication;
+    
+    ShowWindow(Handle, SW_RESTORE);
+    MakeVisible;
+  end
+  else
+  begin
+    if TrayIcon.Active and Settings.MinimizeToTray then
+    begin
+      if not TrayIcon.ApplicationVisible then
+      TrayIcon.ShowApplication
+      else
+      TrayIcon.HideApplication;
+    end
+    else
+    ShowWindow(Handle, SW_MINIMIZE);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On TrayIcon.MouseUp
+-------------------------------------------------------------------------------}
+procedure TMainForm.TrayIconMouseUp(Sender: TObject; Button: TMouseButton;
+    Shift: TShiftState; X, Y: Integer);
+begin
+  if Button = mbLeft then
+  ToggleVisibility;
 end;
 
 {##############################################################################}
@@ -1411,6 +1479,9 @@ begin
   fWidth:= 640;
   fShowCmd:= 1;
   fStartupType:= stNormal;
+  fMinimizeToTray:= false;
+  fCloseToTray:= false;
+  fStartInTray:= false;
   fExitOnLastTabClose:= false;
 end;
 {-------------------------------------------------------------------------------
@@ -1434,7 +1505,7 @@ end;
 {-------------------------------------------------------------------------------
   SetP ositionInfo
 -------------------------------------------------------------------------------}
-procedure TMainFormSettings.ApplyPositionInfo;
+procedure TMainFormSettings.ApplyPositionInfo(AHideForm: Boolean = false);
 var
   Placement: TWindowPlacement;
   r: TRect;
@@ -1446,6 +1517,9 @@ begin
   Placement.Length := SizeOf(TWindowPlacement);
   GetWindowPlacement(MainForm.Handle, @Placement);
   Placement.rcNormalPosition:= r;
+  if AHideForm then
+  Placement.showCmd:= SW_HIDE
+  else
   Placement.showCmd:= ShowCmd;
   if Placement.showCmd = SW_SHOWMINIMIZED then
   Placement.showCmd:= SW_SHOWNORMAL;
@@ -1552,6 +1626,21 @@ end;
 procedure TMainFormSettings.SetAutoLoadSession(const Value: WideString);
 begin
   GlobalSessions.AutoLoadSession:= GlobalSessions.Sessions.FindSession(Value);
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set ShowTray
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetShowTray: Boolean;
+begin
+  Result:= MainForm.TrayIcon.Active;
+end;
+procedure TMainFormSettings.SetShowTray(const Value: Boolean);
+begin
+  if not Value and not MainForm.TrayIcon.ApplicationVisible then
+  MainForm.TrayIcon.ShowApplication;
+  
+  MainForm.TrayIcon.Active:= Value;
 end;
 
 

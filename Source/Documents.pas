@@ -30,6 +30,7 @@ Unit Documents;
 
 // **** General (100) ****
 // 100 = Terminate Application
+// 101 = Show/Hide Application
 
 // **** Edit (200) ****
 // 201 = Copy items to clipboard
