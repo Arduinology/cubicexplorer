@@ -566,7 +566,7 @@ begin
   // Populate menu items
   CELayoutItems.PopulateMenuItem(toolbarsMenuItem);
   CELayoutItems.PopulateMenuItem(ToolbarPopupMenu.Items);
-
+  // Add Session menu items
   sessionsMenuItem.Add(TCESessionsMenuItem.Create(self));
   sessionHistoryMenuItem.Add(TCESessionHistoryMenuItem.Create(self));
 

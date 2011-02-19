@@ -31,7 +31,8 @@ uses
   // VSTools
   MPCommonUtilities, MPCommonObjects, MPShellUtilities,
   // System Units
-  SysUtils, Classes, Windows, StrUtils, ShlObj, ShellAPI, Forms, Controls, Registry, WideStrUtils;
+  SysUtils, Classes, Windows, StrUtils, ShlObj, ShellAPI, Forms, Controls,
+  Registry, WideStrUtils, Consts;
 
 type
   TWinVersion = (wvUnknown, wvWin95, wvWin98, wvWin98SE, wvWinNT, wvWinME, wvWin2000, wvWinXP, wvWin2003, wvWinVista);
@@ -75,12 +76,26 @@ function IsWindowsVista: Boolean;
 
 function IsWindows64: Boolean;
 
+function ShortCutToTextRaw(ShortCut: TShortCut): string;
+
+function GetSpecialName(ShortCut: TShortCut): string;
+
 var
   ExePath: WideString;
   LargeShellIconSize, SmallShellIconSize: Integer;
   CE_SHLockShared: function(Handle: THandle; DWord: DWord): Pointer; stdcall;
   CE_SHUnlockShared: function (Pnt: Pointer): BOOL; stdcall;
 
+type
+  TMenuKeyCap = (mkcBkSp, mkcTab, mkcEsc, mkcEnter, mkcSpace, mkcPgUp,
+    mkcPgDn, mkcEnd, mkcHome, mkcLeft, mkcUp, mkcRight, mkcDown, mkcIns,
+    mkcDel, mkcShift, mkcCtrl, mkcAlt);
+
+var
+  MenuKeyCaps: array[TMenuKeyCap] of string = (
+    SmkcBkSp, SmkcTab, SmkcEsc, SmkcEnter, SmkcSpace, SmkcPgUp,
+    SmkcPgDn, SmkcEnd, SmkcHome, SmkcLeft, SmkcUp, SmkcRight,
+    SmkcDown, SmkcIns, SmkcDel, SmkcShift, SmkcCtrl, SmkcAlt);
 
 implementation
 
@@ -753,6 +768,54 @@ end;
 function IsWindows64: Boolean;
 begin
   Result:= fIsWindows64;
+end;
+
+{-------------------------------------------------------------------------------
+  ShortCutToText (returns Ctrl,Shift,Alt also)
+-------------------------------------------------------------------------------}
+function ShortCutToTextRaw(ShortCut: TShortCut): string;
+var
+  Name: string;
+begin
+  case WordRec(ShortCut).Lo of
+    $08, $09: Name:= MenuKeyCaps[TMenuKeyCap(Ord(mkcBkSp) + WordRec(ShortCut).Lo - $08)];
+    $0D: Name:= MenuKeyCaps[mkcEnter];
+    $10..$12: begin
+      Name:= '';
+    end;
+    $1B: Name:= MenuKeyCaps[mkcEsc];
+    $20..$28: Name:= MenuKeyCaps[TMenuKeyCap(Ord(mkcSpace) + WordRec(ShortCut).Lo - $20)];
+    $2D..$2E: Name:= MenuKeyCaps[TMenuKeyCap(Ord(mkcIns) + WordRec(ShortCut).Lo - $2D)];
+    $30..$39: Name:= Chr(WordRec(ShortCut).Lo - $30 + Ord('0'));
+    $41..$5A: Name:= Chr(WordRec(ShortCut).Lo - $41 + Ord('A'));
+    $60..$69: Name:= Chr(WordRec(ShortCut).Lo - $60 + Ord('0'));
+    $70..$87: Name:= 'F' + IntToStr(WordRec(ShortCut).Lo - $6F);
+  else
+    Name:= GetSpecialName(ShortCut);
+  end;
+
+  Result := '';
+  if ShortCut and scShift <> 0 then Result := Result + MenuKeyCaps[mkcShift];
+  if ShortCut and scCtrl <> 0 then Result := Result + MenuKeyCaps[mkcCtrl];
+  if ShortCut and scAlt <> 0 then Result := Result + MenuKeyCaps[mkcAlt];
+  Result:= Result + Name;
+end;
+
+{-------------------------------------------------------------------------------
+  Get Special Name of Shortcut
+-------------------------------------------------------------------------------}
+function GetSpecialName(ShortCut: TShortCut): string;
+var
+  ScanCode: Integer;
+  KeyName: array[0..255] of Char;
+begin
+  Result:= '';
+  ScanCode:= MapVirtualKey(WordRec(ShortCut).Lo, 0) shl 16;
+  if ScanCode <> 0 then
+  begin
+    GetKeyNameText(ScanCode, KeyName, SizeOf(KeyName));
+    Result:= KeyName;
+  end;
 end;
 
 {##############################################################################}

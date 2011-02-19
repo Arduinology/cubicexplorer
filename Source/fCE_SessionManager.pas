@@ -81,8 +81,6 @@ uses
   On Form Create
 -------------------------------------------------------------------------------}
 procedure TCESessionManager.FormCreate(Sender: TObject);
-var
-  i: Integer;
 begin
   SessionPropertiesEnabled:= false;
   PopulateSessionsList;
@@ -165,8 +163,6 @@ end;
   On list_sessions Click
 -------------------------------------------------------------------------------}
 procedure TCESessionManager.list_sessionsClick(Sender: TObject);
-var
-  session: TCESessionItem;
 begin
   fSessionPropertiesEnabled:= false;
 

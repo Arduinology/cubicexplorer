@@ -76,6 +76,7 @@ begin
   PageTitle:= _('Tabs Settings');
   PagePath:= 'Tabs';
   ImageIndex:= 1;
+  PageListPosition:= 1;
 end;
 
 {-------------------------------------------------------------------------------

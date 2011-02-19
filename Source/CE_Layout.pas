@@ -1045,7 +1045,6 @@ var
   toolbar: TTBCustomDockableWindow;
   elem,rootElem: TJvSimpleXMLElem;
   path: String;
-  RootPath: String;
 begin
   CEToolbarDocks.BeginUpdate;
   try
@@ -1208,7 +1207,6 @@ procedure LoadToolbarProperties(Toolbar: TTBCustomDockableWindow; ToolbarNode:
     TJvSimpleXMLElem);
 var
   i: Integer;
-  s: String;
 begin
   if not assigned(Toolbar) or not assigned(ToolbarNode) then
   Exit;

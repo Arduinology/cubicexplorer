@@ -26,7 +26,7 @@ interface
 uses
   // CE Units
   CE_GlobalCtrl,  dCE_Images, CE_TBActions, CE_Utils, CE_LanguageEngine,
-  CE_SpTabBar,
+  CE_SpTabBar, CE_AppSettings,
   // PngControls
   PngImageList,
   // EasyListview & VSTools
@@ -43,7 +43,7 @@ uses
   GraphicEx,
   // System Units
   SysUtils, Classes, ActnList, ImgList, Controls, Windows, ExtCtrls, Forms,
-  ShellAPI, AppEvnts, Messages, ShlObj, Clipbrd, Menus;
+  ShellAPI, AppEvnts, Messages, ShlObj, Clipbrd, Menus, DOM;
 
 const
   MK_XBUTTON1 = $20;
@@ -54,7 +54,18 @@ const
 
 type
   TCustomVirtualExplorerEasyListviewHack = class(TCustomVirtualExplorerEasyListview);
+  TDOMElementHack = class(TDOMElement);
 
+  TCEHotkeySettings = class(TCECustomSettingStorage)
+  private
+    fActions: TActionList;
+  protected
+    property Actions: TActionList read fActions write fActions;
+  public
+    procedure Load(AAppStorage: TCEAppSettings; ANode: TDOMNode); override;
+    procedure Save(AAppStorage: TCEAppSettings; ANode: TDOMNode); override;
+  end;
+    
   TCEActions = class(TDataModule)
     ActionList: TTntActionList;
     act_gen_exit: TTntAction;
@@ -177,6 +188,7 @@ type
     fPageActionList: TTntActionList;
     { Private declarations }
   protected
+    HotkeySettings: TCEHotkeySettings;
     procedure DoAssigneByClick(Sender: TObject);
     procedure DoGroupByClick(Sender: TObject);
   public
@@ -186,6 +198,8 @@ type
         fPageActionList;
     { Public declarations }
   end;
+
+
 
 // Global
 procedure ExecuteCEAction(ActionID: Integer);
@@ -253,6 +267,8 @@ function FindActionByShortcut(AActionList: TActionList; AShortcut: TShortcut;
 // Action Executes
 procedure ExecuteGeneralCategory(ActionID: Integer);
 
+function FindActionByName(AActionList: TActionList; AName: String): TAction;
+
 var
   CEActions: TCEActions;
 
@@ -276,6 +292,9 @@ uses
 procedure TCEActions.DataModuleCreate(Sender: TObject);
 begin
   AssignCustomToolbarActions;
+  HotkeySettings:= TCEHotkeySettings.Create;
+  HotkeySettings.Actions:= ActionList;
+  GlobalAppSettings.AddItem('Hotkeys', HotkeySettings);
 end;
 
 {*------------------------------------------------------------------------------
@@ -283,7 +302,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEActions.DataModuleDestroy(Sender: TObject);
 begin
-  //
+  HotkeySettings.Free;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1427,6 +1446,24 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  FindActionByName
+-------------------------------------------------------------------------------}
+function FindActionByName(AActionList: TActionList; AName: String): TAction;
+var
+  i: Integer;
+begin
+  Result:= nil;
+  for i:= 0 to AActionList.ActionCount-1 do
+  begin
+    if AActionList.Actions[i].Name = AName then
+    begin
+      Result:= TAction(AActionList.Actions[i]);
+      break;
+    end;
+  end;
+end;
+
 {##############################################################################}
 
 
@@ -1613,6 +1650,100 @@ begin
   begin
     act:= TTntAction(ActionList.Actions[i]);
     UpdateCEAction(act.Tag, act);
+  end;
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Load
+-------------------------------------------------------------------------------}
+procedure TCEHotkeySettings.Load(AAppStorage: TCEAppSettings; ANode: TDOMNode);
+var
+  chNode: TDOMNode;
+  act: TAction;
+  i,i2: Integer;
+  s: TShortcut;
+  list: TStrings;
+begin
+  if not assigned(Actions) then
+  Exit;
+  
+  if ANode.HasChildNodes then
+  begin
+    // Clear default shortcuts
+    for i:= 0 to Actions.ActionCount - 1 do
+    begin
+      act:= TAction(Actions.Actions[i]);
+      act.ShortCut:= 0;
+      act.SecondaryShortCuts.Clear;
+    end;
+    // load shortcuts
+    list:= TStringList.Create;
+    try
+      list.Delimiter:= ',';
+      // get action node
+      chNode:= ANode.FirstChild;
+      while assigned(chNode) do
+      begin
+        // find action
+        act:= FindActionByName(Actions, chNode.NodeName);
+        if assigned(act) then
+        begin
+          // add shortcuts
+          list.DelimitedText:= chNode.TextContent;
+          for i2:= 0 to list.Count - 1 do
+          begin
+            s:= StrToIntDef(list.Strings[i2], 0);
+            if (i2 = 0) or (act.ShortCut = 0) then
+            act.ShortCut:= s
+            else
+            begin
+              if s <> 0 then
+              act.SecondaryShortCuts.AddObject(ShortCutToText(s), TObject(s));
+            end;
+          end;
+        end;
+        // get next action node
+        chNode:= chNode.NextSibling;
+      end;
+    finally
+      list.Free;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Save
+-------------------------------------------------------------------------------}
+procedure TCEHotkeySettings.Save(AAppStorage: TCEAppSettings; ANode: TDOMNode);
+var
+  chNode: TDOMNode;
+  act: TAction;
+  i,i2: Integer;
+  s: String;
+begin
+  if assigned(Actions) then
+  begin
+    // clear all first
+    TDOMElementHack(ANode).FreeChildren;
+    // loop actions
+    for i:= 0 to Actions.ActionCount - 1 do
+    begin
+      act:= TAction(Actions.Actions[i]);
+      if act.ShortCut <> 0 then
+      begin
+        // create node with action's name
+        chNode:= AAppStorage.XML.CreateElement(act.Name);
+        ANode.AppendChild(chNode);
+        // convert shortcuts to string: '32,144,98...'
+        s:= IntToStr(act.ShortCut);
+        for i2:= 0 to act.SecondaryShortCuts.Count - 1 do
+        s:= s + ',' + IntToStr(act.SecondaryShortCuts.ShortCuts[i2]);
+        // add shortcuts to node's text content
+        chNode.TextContent:= s;
+      end;
+    end;
   end;
 end;
 

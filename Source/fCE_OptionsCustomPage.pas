@@ -36,6 +36,7 @@ type
     procedure HandleChange(Sender: TObject);
   private
     fOptionsDialog: TForm;
+    fPageListPosition: Integer;
   protected
     fImageIndex: Integer;
     fPageName: WideString;
@@ -43,6 +44,8 @@ type
     fPageTitle: WideString;
   public
     procedure ApplySettings; virtual;
+    procedure HandleHide; virtual;
+    procedure HandleShow; virtual;
     procedure RefreshSettings; virtual;
     procedure SetModified;
     property ImageIndex: Integer read fImageIndex write fImageIndex;
@@ -50,6 +53,9 @@ type
     property PageName: WideString read fPageName write fPageName;
     property PagePath: WideString read fPagePath write fPagePath;
     property PageTitle: WideString read fPageTitle write fPageTitle;
+  published
+    property PageListPosition: Integer read fPageListPosition write
+        fPageListPosition;
   end;
 
 implementation
@@ -73,6 +79,22 @@ end;
 procedure TCEOptionsCustomPage.HandleChange(Sender: TObject);
 begin
   SetModified;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle Hide
+-------------------------------------------------------------------------------}
+procedure TCEOptionsCustomPage.HandleHide;
+begin
+  // Override from descendant
+end;
+
+{-------------------------------------------------------------------------------
+  Handle Show
+-------------------------------------------------------------------------------}
+procedure TCEOptionsCustomPage.HandleShow;
+begin
+  // Override from descendant
 end;
 
 {-------------------------------------------------------------------------------

@@ -6,7 +6,7 @@ object CEActions: TCEActions
   Width = 385
   object ActionList: TTntActionList
     Images = CE_Images.SmallIcons
-    Left = 24
+    Left = 28
     Top = 12
     object act_tabs_closetab: TTntAction
       Tag = 661
@@ -386,8 +386,6 @@ object CEActions: TCEActions
       Tag = 213
       Category = 'Edit'
       Caption = 'Paste Shortcut'
-      SecondaryShortCuts.Strings = (
-        'Shift+Ins')
       OnExecute = ActionExecute
     end
     object act_tools_emptytrash: TCEToolbarAction
@@ -475,8 +473,6 @@ object CEActions: TCEActions
       Caption = 'Close Other Tabs'
       Hint = 'Close Other Tabs'
       ImageIndex = 34
-      SecondaryShortCuts.Strings = (
-        'Ctrl+Ins')
       OnExecute = ActionExecute
     end
     object act_tabs_addtab: TTntAction
@@ -486,8 +482,6 @@ object CEActions: TCEActions
       Hint = 'Add Tab'
       ImageIndex = 9
       ShortCut = 16468
-      SecondaryShortCuts.Strings = (
-        'Ctrl+Ins')
       OnExecute = ActionExecute
     end
     object act_tabs_duplicatetab: TTntAction
@@ -496,8 +490,6 @@ object CEActions: TCEActions
       Caption = 'Duplicate Tab'
       Hint = 'Duplicate Tab'
       ImageIndex = 32
-      SecondaryShortCuts.Strings = (
-        'Ctrl+Ins')
       OnExecute = ActionExecute
     end
     object act_tabs_closeonleft: TTntAction
@@ -506,8 +498,6 @@ object CEActions: TCEActions
       Caption = 'Close Tabs on Left'
       Hint = 'Close Tabs on Left'
       ImageIndex = 35
-      SecondaryShortCuts.Strings = (
-        'Ctrl+Ins')
       OnExecute = ActionExecute
     end
     object act_tabs_closeonright: TTntAction
@@ -516,8 +506,6 @@ object CEActions: TCEActions
       Caption = 'Close Tabs on Right'
       Hint = 'Close Tabs on Right'
       ImageIndex = 33
-      SecondaryShortCuts.Strings = (
-        'Ctrl+Ins')
       OnExecute = ActionExecute
     end
     object act_gen_menu: TCEToolbarAction

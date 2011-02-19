@@ -70,6 +70,7 @@ begin
   PageTitle:= _('Display Settings');
   PagePath:= 'Display';
   ImageIndex:= 2;
+  PageListPosition:= 2;
   // Fill themes combo
   SkinManager.SkinsList.GetSkinNames(combo_theme.Items);
   SkinManager.SkinsList.Sort;

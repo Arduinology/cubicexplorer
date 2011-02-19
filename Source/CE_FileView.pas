@@ -377,13 +377,11 @@ var
   NS: TNamespace;
   item: TEasyItem;
   tmpNS: TNamespace;
-  OldWow64: Pointer;
 begin
   NewFileTargetPath:= self.RootFolderNamespace.NameForParsing;
 
   if WideDirectoryExists(NewFileTargetPath) then
   begin
-    //OldWow64 := Wow64RedirectDisable;
     try
       NewFileTargetPath := WideIncludeTrailingBackslash(NewFileTargetPath);
       if FileName = '' then
@@ -526,7 +524,7 @@ begin
 
       end;
     finally
-      //Wow64RedirectRevert(OldWow64);
+
     end;
   end;
   Allow:= false;

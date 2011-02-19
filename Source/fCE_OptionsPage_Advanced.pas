@@ -74,6 +74,7 @@ begin
   PageTitle:= _('Advanced Settings');
   PagePath:= 'Advanced';
   ImageIndex:= 3;
+  PageListPosition:= 4;
   AddComponents;
 end;
 

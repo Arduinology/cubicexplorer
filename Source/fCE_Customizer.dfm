@@ -74,11 +74,55 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
     object tab_buttons: TSpTBXTabItem
       Caption = 'Buttons'
     end
-    object tab_hotkeys: TSpTBXTabItem
-      Caption = 'Hotkeys'
-    end
     object tab_theme: TSpTBXTabItem
       Caption = 'Theme'
+    end
+    object SpTBXTabSheet2: TSpTBXTabSheet
+      Left = 0
+      Top = 25
+      Width = 390
+      Height = 226
+      Caption = 'Buttons'
+      ImageIndex = -1
+      TabItem = 'tab_buttons'
+      object ActionTree: TVirtualStringTree
+        Left = 2
+        Top = 0
+        Width = 384
+        Height = 222
+        Align = alClient
+        BorderStyle = bsNone
+        DragType = dtVCL
+        Header.AutoSizeIndex = 0
+        Header.DefaultHeight = 17
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
+        Header.MaxHeight = 100
+        Header.Options = [hoAutoResize, hoColumnResize, hoDrag]
+        ParentShowHint = False
+        ShowHint = False
+        TabOrder = 0
+        TreeOptions.AutoOptions = [toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes]
+        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
+        TreeOptions.PaintOptions = [toShowButtons, toShowRoot, toThemeAware, toUseBlendedImages]
+        OnCompareNodes = ActionTreeCompareNodes
+        OnDragAllowed = ActionTreeDragAllowed
+        OnDragOver = ActionTreeDragOver
+        OnDragDrop = ActionTreeDragDrop
+        OnGetText = ActionTreeGetText
+        OnPaintText = ActionTreePaintText
+        OnGetImageIndexEx = ActionTreeGetImageIndexEx
+        OnStartDrag = ActionTreeStartDrag
+        Columns = <
+          item
+            Position = 0
+            Width = 384
+            WideText = 'Name'
+          end>
+      end
     end
     object SpTBXTabSheet3: TSpTBXTabSheet
       Left = 0
@@ -131,163 +175,6 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
         Height = 29
         AutoSize = False
         Wrapping = twWrap
-      end
-    end
-    object SpTBXTabSheet2: TSpTBXTabSheet
-      Left = 0
-      Top = 25
-      Width = 390
-      Height = 226
-      Caption = 'Buttons'
-      ImageIndex = -1
-      TabItem = 'tab_buttons'
-      object ActionTree: TVirtualStringTree
-        Left = 2
-        Top = 0
-        Width = 384
-        Height = 222
-        Align = alClient
-        BorderStyle = bsNone
-        DragType = dtVCL
-        Header.AutoSizeIndex = 0
-        Header.DefaultHeight = 17
-        Header.Font.Charset = DEFAULT_CHARSET
-        Header.Font.Color = clWindowText
-        Header.Font.Height = -11
-        Header.Font.Name = 'Tahoma'
-        Header.Font.Style = []
-        Header.MaxHeight = 100
-        Header.Options = [hoAutoResize, hoColumnResize, hoDrag]
-        ParentShowHint = False
-        ShowHint = False
-        TabOrder = 0
-        TreeOptions.AutoOptions = [toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes]
-        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
-        TreeOptions.PaintOptions = [toShowButtons, toShowRoot, toThemeAware, toUseBlendedImages]
-        OnCompareNodes = ActionTreeCompareNodes
-        OnDragAllowed = ActionTreeDragAllowed
-        OnDragOver = ActionTreeDragOver
-        OnDragDrop = ActionTreeDragDrop
-        OnGetText = ActionTreeGetText
-        OnPaintText = ActionTreePaintText
-        OnGetImageIndexEx = ActionTreeGetImageIndexEx
-        OnStartDrag = ActionTreeStartDrag
-        Columns = <
-          item
-            Position = 0
-            Width = 384
-            WideText = 'Name'
-          end>
-      end
-    end
-    object SpTBXTabSheet4: TSpTBXTabSheet
-      Left = 0
-      Top = 25
-      Width = 390
-      Height = 226
-      Caption = 'Hotkeys'
-      ImageIndex = -1
-      TabItem = 'tab_hotkeys'
-      object SpTBXPanel2: TSpTBXPanel
-        Left = 8
-        Top = 8
-        Width = 221
-        Height = 209
-        Caption = 'SpTBXPanel2'
-        TabOrder = 0
-        object HotkeyList: TVirtualStringTree
-          Left = 2
-          Top = 2
-          Width = 217
-          Height = 205
-          Align = alClient
-          BorderStyle = bsNone
-          DragType = dtVCL
-          Header.AutoSizeIndex = 0
-          Header.DefaultHeight = 17
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'Tahoma'
-          Header.Font.Style = []
-          Header.MaxHeight = 100
-          Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoShowHint]
-          ParentShowHint = False
-          ShowHint = False
-          TabOrder = 0
-          TreeOptions.AutoOptions = [toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes]
-          TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
-          TreeOptions.PaintOptions = [toShowButtons, toThemeAware, toUseBlendedImages]
-          TreeOptions.SelectionOptions = [toFullRowSelect]
-          OnCompareNodes = ActionTreeCompareNodes
-          OnFocusChanged = HotkeyListFocusChanged
-          OnGetText = HotkeyListGetText
-          OnPaintText = ActionTreePaintText
-          OnGetImageIndexEx = ActionTreeGetImageIndexEx
-          OnStartDrag = ActionTreeStartDrag
-          Columns = <
-            item
-              Position = 0
-              Width = 142
-              WideText = 'Name'
-            end
-            item
-              Alignment = taRightJustify
-              Position = 1
-              Width = 75
-              WideText = 'Shortcut'
-            end>
-        end
-      end
-      object list_actionhotkeys: TSpTBXListBox
-        Left = 240
-        Top = 28
-        Width = 137
-        Height = 89
-        ItemHeight = 16
-        TabOrder = 1
-        OnClick = list_actionhotkeysClick
-      end
-      object SpTBXLabel1: TSpTBXLabel
-        Left = 240
-        Top = 7
-        Width = 45
-        Height = 19
-        Caption = 'Hotkeys'
-      end
-      object edit_hotkey: TSpTBXEdit
-        Left = 241
-        Top = 132
-        Width = 137
-        Height = 21
-        TabOrder = 3
-      end
-      object SpTBXButton1: TSpTBXButton
-        Left = 241
-        Top = 159
-        Width = 66
-        Height = 25
-        Caption = 'Add'
-        Enabled = False
-        TabOrder = 4
-      end
-      object SpTBXButton2: TSpTBXButton
-        Left = 313
-        Top = 159
-        Width = 66
-        Height = 25
-        Caption = 'Change'
-        Enabled = False
-        TabOrder = 5
-      end
-      object SpTBXButton3: TSpTBXButton
-        Left = 240
-        Top = 190
-        Width = 137
-        Height = 25
-        Caption = 'Delete'
-        Enabled = False
-        TabOrder = 6
       end
     end
     object SpTBXTabSheet1: TSpTBXTabSheet

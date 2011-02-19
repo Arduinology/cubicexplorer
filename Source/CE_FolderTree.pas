@@ -58,13 +58,13 @@ type
         override;
     procedure HandleMouseDown(var Message: TWMMouse; var HitInfo: THitInfo);
         override;
-    procedure ReReadAndRefreshNode(Node: PVirtualNode; SortNode: Boolean); override;
     procedure SelectionTimer(Sender: TObject);
     procedure WMKILLFOCUS(var Message: TMessage); message WM_KILLFOCUS;
   public
     constructor Create(AOwner: TComponent); override;
     function PasteShortcutFromClipboard: Boolean;
     function Refresh: Boolean;
+    procedure ReReadAndRefreshNode(Node: PVirtualNode; SortNode: Boolean); override;
     procedure SelectedFilesDelete(ShiftKeyState: TExecuteVerbShift = evsCurrent);
         override;
     property AutoCollapse: Boolean read fAutoCollapse write fAutoCollapse;
@@ -85,7 +85,7 @@ type
 
   TCE_StringEditLink = class(TStringEditLink)
   public
-    constructor Create;
+    constructor Create; override;
   end;
 
 implementation

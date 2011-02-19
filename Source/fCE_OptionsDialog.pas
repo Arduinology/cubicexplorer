@@ -67,6 +67,8 @@ type
     procedure PageTreeAfterItemPaint(Sender: TBaseVirtualTree; TargetCanvas:
         TCanvas; Node: PVirtualNode; ItemRect: TRect);
     procedure PageTreeChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
+    procedure PageTreeCompareNodes(Sender: TBaseVirtualTree; Node1, Node2:
+        PVirtualNode; Column: TColumnIndex; var Result: Integer);
     procedure PageTreeGetNodeWidth(Sender: TBaseVirtualTree; HintCanvas: TCanvas;
         Node: PVirtualNode; Column: TColumnIndex; var NodeWidth: Integer);
     procedure PageTreeMeasureItem(Sender: TBaseVirtualTree; TargetCanvas: TCanvas;
@@ -97,6 +99,9 @@ procedure RegisterOptionsPageClass(PageClass: TCEOptionsCustomPageClass);
 procedure UnRegisterOptionsPageClass(PageClass: TCEOptionsCustomPageClass);
 
 procedure ShowOptionsDialog;
+
+var
+  CEOptionsDialog: TCEOptionsDialog = nil;
 
 implementation
 
@@ -135,11 +140,11 @@ end;
   Show OptionsDialog
 -------------------------------------------------------------------------------}
 procedure ShowOptionsDialog;
-var
-  dlg: TCEOptionsDialog;
 begin
-  dlg:= TCEOptionsDialog.Create(nil);
-  dlg.Show;
+  if not assigned(CEOptionsDialog) then
+  CEOptionsDialog:= TCEOptionsDialog.Create(nil);
+
+  CEOptionsDialog.Show;
 end;
 
 {##############################################################################}
@@ -234,6 +239,7 @@ begin
     else
     page.Free;
   end;
+  PageTree.Sort(nil,0,sdAscending, false);
 end;
 
 {*------------------------------------------------------------------------------
@@ -327,6 +333,7 @@ end;
 procedure TCEOptionsDialog.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action:= caFree;
+  CEOptionsDialog:= nil;
 end;
 
 {-------------------------------------------------------------------------------
@@ -361,11 +368,13 @@ begin
     for i:= 0 to PageList.Count - 1 do
     begin
       TCEOptionsCustomPage(PageList.Items[i]).Visible:= false;
+      TCEOptionsCustomPage(PageList.Items[i]).HandleHide;
     end;
     if assigned(fActivePage) then
     begin
       fActivePage.BoundsRect:= PageContainer.ClientRect;
       fActivePage.Visible:= true;
+      fActivePage.HandleShow;
       PageTitlePanel.Caption:= fActivePage.PageTitle;
     end
     else
@@ -556,6 +565,19 @@ procedure TCEOptionsDialog.FormKeyDown(Sender: TObject; var Key: Word; Shift:
 begin
   if Key = VK_ESCAPE then
   but_cancelClick(self);
+end;
+
+{-------------------------------------------------------------------------------
+  On Compare Node
+-------------------------------------------------------------------------------}
+procedure TCEOptionsDialog.PageTreeCompareNodes(Sender: TBaseVirtualTree;
+    Node1, Node2: PVirtualNode; Column: TColumnIndex; var Result: Integer);
+var
+  data1, data2: PPageData;
+begin
+  data1:= Sender.GetNodeData(Node1);
+  data2:= Sender.GetNodeData(Node2);
+  Result:= data1.Page.PageListPosition - data2.Page.PageListPosition;
 end;
 
 {-------------------------------------------------------------------------------

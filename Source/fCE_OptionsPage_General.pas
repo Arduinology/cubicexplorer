@@ -73,6 +73,7 @@ begin
   PageTitle:= _('General Settings');
   PagePath:= 'General';
   ImageIndex:= 0;
+  PageListPosition:= 0;
 end;
 
 {-------------------------------------------------------------------------------

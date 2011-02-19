@@ -46,6 +46,8 @@ uses
 Type
   TJvDockVSNETTreeTBX = class(TJvDockVSNETTree)
   protected
+    procedure CustomLoadZone(Stream: TStream; var Zone: TJvDockZone); override;
+    procedure CustomSaveZone(Stream: TStream; Zone: TJvDockZone); override;
     procedure TBMThemeChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure DrawDockGrabber(Control: TWinControl; const ARect: TRect); override;
     procedure DrawAutoHideButton(Zone: TJvDockZone;
@@ -366,6 +368,18 @@ Type
 destructor TJvDockVSNETTreeTBX.Destroy;
 begin
   SkinManager.RemoveSkinNotification(Self);
+  inherited;
+end;
+
+procedure TJvDockVSNETTreeTBX.CustomLoadZone(Stream: TStream; var Zone:
+    TJvDockZone);
+begin
+  inherited;
+end;
+
+procedure TJvDockVSNETTreeTBX.CustomSaveZone(Stream: TStream; Zone:
+    TJvDockZone);
+begin
   inherited;
 end;
 

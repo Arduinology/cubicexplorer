@@ -52,10 +52,6 @@ object CESessionManager: TCESessionManager
     Align = alClient
     ActiveTabIndex = 0
     TabVisible = False
-    ExplicitLeft = 20
-    ExplicitTop = 24
-    ExplicitWidth = 289
-    ExplicitHeight = 193
     HiddenItems = <>
     object SpTBXTabItem1: TSpTBXTabItem
       Checked = True
