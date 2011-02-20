@@ -4,18 +4,30 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1081\n"
+"CE-POT-Version: 1265\n"
 "CE-Language: German\n"
-"Last-Translator: zottie <(contact only via CE-support-forum)>\n"
+"Last-Translator: nefycee <(contact only via CE-support-forum)>\n"
+
+msgid "%d folder(s) searched and %d item(s) found in %.3f second(s)"
+msgstr "%d Ordner durchsucht und %d Element(e) gefunden in %.3f second(s)"
+
+msgid "..."
+msgstr "..."
 
 msgid "About CubicExplorer"
 msgstr "Über CubicExplorer"
 
 msgid "About..."
-msgstr "Über..."
+msgstr "Über"
+
+msgid "Accessed"
+msgstr "Aufgerufen"
 
 msgid "Actions"
 msgstr "Befehle"
+
+msgid "Add"
+msgstr "Hinzufügen"
 
 msgid "Add Bookmark"
 msgstr "Neuer Favorit"
@@ -23,17 +35,38 @@ msgstr "Neuer Favorit"
 msgid "Add Category"
 msgstr "Neue Kategorie"
 
+msgid "Add History Item"
+msgstr "Verlauf hinzufügen"
+
 msgid "Add Tab"
 msgstr "Neuer Tab"
 
 msgid "Address Bar"
 msgstr "Adressleiste"
 
+msgid "Advanced"
+msgstr "Erweitert"
+
+msgid "Advanced Settings"
+msgstr "Erweiterte Einstellungen"
+
+msgid "After Date:"
+msgstr "Nach Datum:"
+
+msgid "After Time:"
+msgstr "Nach Zeit:"
+
+msgid "All"
+msgstr "Alles"
+
 msgid "Always On Top"
 msgstr "Immer im Vordergrund"
 
 msgid "Always Show Sort Columns"
 msgstr "Zeige Spalten zum Sortieren"
+
+msgid "Always sort folders first."
+msgstr "Ordner immer zuerst"
 
 msgid "And Launch Files"
 msgstr "Und Dateien ausführen"
@@ -47,11 +80,26 @@ msgstr "Übernehmen"
 msgid "Apply changes."
 msgstr "Änderungen übernehmen"
 
+msgid "Are you sure you want to clear session history?"
+msgstr "Sind sie sicher das sie den Sitzungsverlauf löschen wollen?"
+
+msgid "Are you sure you want to delete this session?"
+msgstr "Sind sie sicher das sie die Sitzung löschen wollen?"
+
 msgid "Arrange By"
 msgstr "Sortieren nach"
 
+msgid "At Least:"
+msgstr "Zuletzt:"
+
+msgid "At Most:"
+msgstr "Am häufigsten:"
+
 msgid "Attributes"
 msgstr "Attribute"
+
+msgid "Author"
+msgstr "Autor"
 
 msgid "Auto"
 msgstr "Auto"
@@ -62,11 +110,17 @@ msgstr "Ordnerbaum automatisch schließen"
 msgid "Auto Expand Trees"
 msgstr "Ordnerbaum automatisch öffnen"
 
+msgid "Auto Save History"
+msgstr "Automatisch sichern"
+
 msgid "Auto collapse tree"
 msgstr "Ordnerbaum automatisch schließen"
 
 msgid "Auto expand tree"
 msgstr "Ordnerbaum automatisch öffnen"
+
+msgid "Auto size cells in list view style."
+msgstr "Zellen in Listenansicht anpassen"
 
 msgid "Automatic"
 msgstr "Automatisch"
@@ -77,20 +131,32 @@ msgstr "Zurück"
 msgid "Backward"
 msgstr "Rückwärts"
 
+msgid "Before Date:"
+msgstr "Vor Datum:"
+
+msgid "Before Time:"
+msgstr "Vor Zeitraum:"
+
 msgid "Bookmarks"
 msgstr "Favoriten"
 
 msgid "Bookmarks Panel Settings"
 msgstr "Einstellungen für Favoriten"
 
+msgid "Borders"
+msgstr "Rahmen"
+
 msgid "Bottom"
 msgstr "Unten"
 
 msgid "Breadcrumb Navigation"
-msgstr "Breadcrumb-Navigation"
+msgstr "Brotkrumennavigation"
 
 msgid "Browse..."
-msgstr "Durchsuchen..."
+msgstr "Durchsuchen"
+
+msgid "Buttons"
+msgstr "Schaltflächen"
 
 msgid "Bytes"
 msgstr "Bytes"
@@ -98,17 +164,59 @@ msgstr "Bytes"
 msgid "Cancel"
 msgstr "Abbrechen"
 
+msgid "Cancelled"
+msgstr "Abgebrochen"
+
+msgid "Case Sensitive"
+msgstr "Groß-/Kleinschreibung beachten"
+
 msgid "Case sensitivity"
 msgstr "Groß-/Kleinschreibung"
+
+msgid "Clear Filters"
+msgstr "Filter bereinigen"
+
+msgid "Clear History"
+msgstr "Verlauf bereinigen"
 
 msgid "Clear List"
 msgstr "Liste leeren"
 
+msgid "Clear Results"
+msgstr "Resultate bereinigen"
+
+msgid "Clear filter history"
+msgstr "Filterverlauf bereinigen "
+
+msgid "Clear filters on folder change"
+msgstr "Filter bei Ordner Änderungen bereinigen"
+
 msgid "Close"
 msgstr "Schließen"
 
+msgid "Close Other Tabs"
+msgstr "Restliche Tabs schliessen"
+
 msgid "Close Tab"
 msgstr "Tab schließen"
+
+msgid "Close Tabs on Left"
+msgstr "Tabs linksseitig schliessen"
+
+msgid "Close Tabs on Right"
+msgstr "Tab rechtsseitig schliessen"
+
+msgid "Close to tray"
+msgstr "In den Tray schließen"
+
+msgid "Compressed"
+msgstr "Komprimiert"
+
+msgid "Content"
+msgstr "Inhalt"
+
+msgid "Continue from last time"
+msgstr "Letzte Einstellung"
 
 msgid "Copy"
 msgstr "Kopieren"
@@ -125,8 +233,14 @@ msgstr "Erstellen"
 msgid "Create New Translation"
 msgstr "Neue Übersetzung erstellen"
 
+msgid "Create Symbolic Link"
+msgstr "Symbolischen Link erstellen"
+
 msgid "Create new translation."
 msgstr "Neue Übersetzung erstellen"
+
+msgid "Created"
+msgstr "Erstellt"
 
 msgid "CubicExplore Home Page"
 msgstr "Homepage von CubicExplorer"
@@ -135,16 +249,19 @@ msgid "CubicExplorer Options"
 msgstr "Optionen"
 
 msgid "Custom..."
-msgstr "Anpassen..."
+msgstr "Anpassen"
 
 msgid "Customize"
 msgstr "Anpassen"
 
 msgid "Customizer..."
-msgstr "Anpassen..."
+msgstr "Anpassung"
 
 msgid "Cut"
 msgstr "Ausschneiden"
+
+msgid "Date && Time"
+msgstr "Datum && Zeit"
 
 msgid "Date Accessed"
 msgstr "Letzter Zugriff:"
@@ -162,7 +279,7 @@ msgid "Delete"
 msgstr "Löschen"
 
 msgid "Delete active session."
-msgstr "Aktive Session löschen"
+msgstr "Aktive Sitzung löschen"
 
 msgid "Desktop"
 msgstr "Desktop"
@@ -171,16 +288,34 @@ msgid "Details"
 msgstr "Details"
 
 msgid "Direction"
-msgstr "Richtung"
+msgstr "Pfad"
 
 msgid "Disconnect Network Drive..."
-msgstr "Netzlaufwerk trennen..."
+msgstr "Netzlaufwerk trennen"
 
 msgid "Display"
-msgstr "Ansicht"
+msgstr "Darstellung"
+
+msgid "Display Mode"
+msgstr "Anzeige"
 
 msgid "Display Settings"
 msgstr "Einstellungen der Ansicht"
+
+msgid "Do you want to override existing session?"
+msgstr "Wollen sie die existierende Sitzung überschreiben?"
+
+msgid "Do you want to use it anyway?"
+msgstr "Wollen sie es denoch nutzen?"
+
+msgid "Donate"
+msgstr "Spenden"
+
+msgid "Drag Handle"
+msgstr "Frei positionierbar"
+
+msgid "Drag buttons to/from toolbars"
+msgstr "Schaltflächen in oder aus der Werkzeugleiste ziehen"
 
 msgid "Drives"
 msgstr "Laufwerke"
@@ -188,11 +323,17 @@ msgstr "Laufwerke"
 msgid "Drop Stack"
 msgstr "Drop Stack"
 
+msgid "DualView"
+msgstr "Zweifensteransicht"
+
 msgid "Dublicate Tab"
 msgstr "Tab duplizieren"
 
 msgid "Duplicate"
 msgstr "Duplizieren"
+
+msgid "Duplicate Hotkey"
+msgstr "Hotkey dublizieren"
 
 msgid "Duplicate Tab"
 msgstr "Tab duplizieren"
@@ -201,13 +342,13 @@ msgid "Edit"
 msgstr "Bearbeiten"
 
 msgid "Edit Session"
-msgstr "Session bearbeiten"
+msgstr "Sitzung bearbeiten"
 
 msgid "Edit session properties."
-msgstr "Session-Einstellungen bearbeiten"
+msgstr "Sitzungs Einstellungen bearbeiten"
 
 msgid "Editor Options..."
-msgstr "Editoroptionen..."
+msgstr "Editoroptionen"
 
 msgid "Empty Recycle Bin"
 msgstr "Papierkorb leeren"
@@ -215,11 +356,23 @@ msgstr "Papierkorb leeren"
 msgid "English (default)"
 msgstr "Englisch (Standard)"
 
+msgid "Enter each file mask on a separate line."
+msgstr "Jede Datei Maske in seperater Zeile eingeben."
+
+msgid "Exclude File Masks:"
+msgstr "Datei Masken ausschliessen:"
+
 msgid "Exit"
-msgstr "Schließen"
+msgstr "Beenden"
 
 msgid "File"
 msgstr "Datei"
+
+msgid "File Contains:"
+msgstr "Datei Inhalt:"
+
+msgid "File Name Mask"
+msgstr "Datei Namensmaske"
 
 msgid "File Search"
 msgstr "Dateisuche"
@@ -240,7 +393,19 @@ msgid "Find Next"
 msgstr "Nächstes Vorkommen"
 
 msgid "Find Previous"
-msgstr "Voriges Vorkommen"
+msgstr "Bereits vorhandene"
+
+msgid "Finished"
+msgstr "Abgeschlossen"
+
+msgid "Focus"
+msgstr "Fokus"
+
+msgid "Focus Addressbar"
+msgstr "Fokus Adresszeile"
+
+msgid "Folder"
+msgstr "Ordner"
 
 msgid "Folder Path"
 msgstr "Ordnerpfad"
@@ -263,14 +428,26 @@ msgstr "Vorwärts"
 msgid "Fullscreen"
 msgstr "Vollbild"
 
+msgid "GB"
+msgstr "GB"
+
 msgid "General"
 msgstr "Allgemein"
 
 msgid "General Settings"
 msgstr "Allgemeine Einstellungen"
 
+msgid "Global"
+msgstr "Global"
+
+msgid "Global Hotkey Settings"
+msgstr "Globale Einstellungen für die Tastenkombinationen"
+
 msgid "Group By"
 msgstr "Gruppieren nach"
+
+msgid "Hello World"
+msgstr "Hallo Welt"
 
 msgid "Help"
 msgstr "Hilfe"
@@ -278,20 +455,50 @@ msgstr "Hilfe"
 msgid "Hex"
 msgstr "Hex"
 
+msgid "Hidden"
+msgstr "Versteckt"
+
 msgid "Highlight row completely"
 msgstr "Komplette Zeile hervorheben"
 
 msgid "Highlighter"
 msgstr "Highlighter"
 
+msgid "History"
+msgstr "Verlauf"
+
+msgid "Hotkey Settings"
+msgstr "Einstellungen für die Tastenkombinationen"
+
+msgid "Hotkeys"
+msgstr "Hotkeys"
+
+msgid "Icon above text"
+msgstr "Icon über dem Text"
+
+msgid "Icon only"
+msgstr "Nur Text"
+
 msgid "Image"
 msgstr "Bild"
+
+msgid "Include File Masks:"
+msgstr "Datei Masken einschliessen:"
+
+msgid "Include Subfolders"
+msgstr "Unterordner einschliessen"
+
+msgid "Info Bar"
+msgstr "Info Leiste"
 
 msgid "Insert"
 msgstr "Einfügen"
 
 msgid "Invert Selection"
 msgstr "Auswahl umkehren"
+
+msgid "Item(s)"
+msgstr "Element(e)"
 
 msgid "KB"
 msgstr "KB"
@@ -308,41 +515,86 @@ msgstr "Große Symbole"
 msgid "Launch Files Only"
 msgstr "Nur Dateien ausführen"
 
+msgid "Layout"
+msgstr "Layout"
+
 msgid "Layouts"
 msgstr "Layout"
 
 msgid "Left"
 msgstr "Links"
 
+msgid "Link Name"
+msgstr "Link Name"
+
 msgid "List"
 msgstr "Liste"
 
 msgid "Load Skin..."
-msgstr "Darstellungsschema laden..."
+msgstr "Thema laden"
+
+msgid "Load session"
+msgstr "Sitzung laden"
 
 msgid "Load skin from file"
-msgstr "Darstellungsschema aus Datei laden"
+msgstr "Thema aus Datei laden"
+
+msgid "Load theme from file"
+msgstr "Lade Themen Datei"
+
+msgid "Load theme from file..."
+msgstr "Lade Themen Datei ..."
 
 msgid "Load this session on startup."
-msgstr "Session beim Programmstart laden"
+msgstr "Sitzung bei Programmstart laden"
 
 msgid "Loading..."
 msgstr "Lade..."
 
+msgid "Location"
+msgstr "Ort"
+
 msgid "MB"
 msgstr "MB"
 
+msgid "Main Menu"
+msgstr "Hauptmenü"
+
+msgid "Manage Sessions"
+msgstr "Sitzungen verwalten"
+
+msgid "Manage..."
+msgstr "Verwalten"
+
 msgid "Map Network Drive..."
-msgstr "Netzlaufwerk verbinden..."
+msgstr "Netzlaufwerk verbinden"
+
+msgid "Max Level:"
+msgstr "Max. Ebene:"
+
+msgid "Menu"
+msgstr "Menü"
+
+msgid "Min Level:"
+msgstr "Min. Ebene"
+
+msgid "Minimize to tray"
+msgstr "In den Tray minimieren"
 
 msgid "Modified"
 msgstr "Geändert"
 
+msgid "Modify"
+msgstr "Modifiziert"
+
 msgid "More..."
-msgstr "Mehr..."
+msgstr "Mehr"
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Name && Location"
+msgstr "Name && Ort"
 
 msgid "Name Only"
 msgstr "Nur Name"
@@ -362,20 +614,35 @@ msgstr "Neue Session"
 msgid "No Extension"
 msgstr "Keine Dateierweiterung"
 
+msgid "No Selection"
+msgstr "Keine Auswahl"
+
 msgid "No file loaded."
 msgstr "Keine Datei geladen."
 
 msgid "None"
 msgstr "Keine"
 
+msgid "Not yet ready, coming soon"
+msgstr "Kommt in Kürze"
+
 msgid "OK"
 msgstr "OK"
+
+msgid "On Startup"
+msgstr "Bei Programmstart"
 
 msgid "Open All in Tabs"
 msgstr "Alle in Tabs öffnen"
 
 msgid "Open Command Prompt"
 msgstr "Eingabeaufforderung öffnen"
+
+msgid "Open Containing Folder"
+msgstr "Öffne beinhaltenden Ordner"
+
+msgid "Open default tab"
+msgstr "Öffne Standart Tab"
 
 msgid "Open in new tab by default"
 msgstr "Standardmäßig in neuem Tab öffnen"
@@ -384,13 +651,13 @@ msgid "Open new tab as"
 msgstr "Neuen Tab öffnen als"
 
 msgid "Open..."
-msgstr "Öffnen..."
+msgstr "Öffnen"
 
 msgid "Options"
 msgstr "Optionen"
 
 msgid "Options..."
-msgstr "Optionen..."
+msgstr "Optionen"
 
 msgid "Original"
 msgstr "Original"
@@ -417,7 +684,7 @@ msgid "Properties"
 msgstr "Eigenschaften"
 
 msgid "Properties..."
-msgstr "Eigenschaften..."
+msgstr "Eigenschaften"
 
 msgid "Publish Translation"
 msgstr "Übersetz. veröffentl."
@@ -425,8 +692,14 @@ msgstr "Übersetz. veröffentl."
 msgid "Quick Options"
 msgstr "Schnelloptionen"
 
+msgid "QuickView"
+msgstr "Schnellansicht"
+
 msgid "Quickview"
 msgstr "Schnellansicht"
+
+msgid "Read Only"
+msgstr "Nur lesen"
 
 msgid "Redo"
 msgstr "Wiederherstellen"
@@ -441,7 +714,7 @@ msgid "Relative"
 msgstr "Relativ"
 
 msgid "Reload"
-msgstr "Aktualisieren"
+msgstr "Neu laden"
 
 msgid "Remember Tabs"
 msgstr "Merke Tabs"
@@ -467,11 +740,14 @@ msgstr "Speichern"
 msgid "Save As..."
 msgstr "Speichern unter..."
 
+msgid "Save Session"
+msgstr "Sitzung speichern"
+
 msgid "Save active session with new name."
-msgstr "Aktive Session unter neuem Namen speichern"
+msgstr "Aktive Sitzung unter neuem Namen speichern"
 
 msgid "Save active session."
-msgstr "Aktive Session speichern"
+msgstr "Aktive Sitzung speichern"
 
 msgid "Save changes before closing?"
 msgstr "Änderungen vor dem Schließen speichern?"
@@ -484,6 +760,9 @@ msgstr "Änderungen speichern?"
 
 msgid "Save settings automatically."
 msgstr "Einstellungen automatisch speichern"
+
+msgid "Save..."
+msgstr "Speichern"
 
 msgid "Save/Load Settings"
 msgstr "Einstellungen laden/speichern"
@@ -512,11 +791,20 @@ msgstr "Suche ab Cursor"
 msgid "Search in Directory"
 msgstr "Suche im Verzeichnis"
 
+msgid "Searching from"
+msgstr "Suche ab"
+
 msgid "Select All"
 msgstr "Alle auswählen"
 
 msgid "Select default folder for new tabs."
 msgstr "Standardordner für neue Tabs auswählen"
+
+msgid "Select existing translation or create new."
+msgstr "Existierende Übersetzung benutzen oder erstellen"
+
+msgid "Select first item automatically"
+msgstr "Erstes Element automatisch auswählen"
 
 msgid "Select previous folder"
 msgstr "Letzten Ordner auswählen"
@@ -531,10 +819,10 @@ msgid "Separator"
 msgstr "Trennzeichen"
 
 msgid "Session Name"
-msgstr "Sessionname"
+msgstr "Sitzungsname"
 
 msgid "Sessions"
-msgstr "Sessions"
+msgstr "Sitzung"
 
 msgid "Short Folder Path"
 msgstr "Kurzer Ordnerpfad"
@@ -544,6 +832,12 @@ msgstr "Nur kurzer Name"
 
 msgid "Short Path"
 msgstr "Kurzer Pfad"
+
+msgid "Shortcut"
+msgstr "Verknüpfung"
+
+msgid "Show"
+msgstr "Anzeigen"
 
 msgid "Show All Files"
 msgstr "Zeige alle Dateien"
@@ -566,14 +860,20 @@ msgstr "Zeige Tooltips"
 msgid "Show Path in Title bar"
 msgstr "Zeige Pfad im Fenstertitel"
 
+msgid "Show Session Manager"
+msgstr "Zeige Sitzungs Manager"
+
 msgid "Show Statusbar"
 msgstr "Zeige Statusleiste"
 
 msgid "Show Toolbar"
-msgstr "Zeile Toolbar"
+msgstr "Zeige Werkzeugleiste"
 
 msgid "Show in Groups"
 msgstr "Als Gruppen anzeigen"
+
+msgid "Show/Hide"
+msgstr "Zeigen/Verstecken"
 
 msgid "Single Instance Only"
 msgstr "Nur eine Instanz"
@@ -583,6 +883,9 @@ msgstr "Einzelklick-Modus"
 
 msgid "Size"
 msgstr "Größe"
+
+msgid "Size && Attributes"
+msgstr "Größe && Attribute"
 
 msgid "Small Icons"
 msgstr "Kleine Symbole"
@@ -596,11 +899,20 @@ msgstr "Stack"
 msgid "Start"
 msgstr "Start"
 
+msgid "Start minimized to tray"
+msgstr "Im Tray minimiert starten"
+
 msgid "Status Bar"
 msgstr "Statusleiste"
 
 msgid "Stop"
 msgstr "Stopp"
+
+msgid "Stretch"
+msgstr "Gestreckt"
+
+msgid "Strict"
+msgstr "Strikt"
 
 msgid "Subdirectories"
 msgstr "Unterordner"
@@ -608,8 +920,17 @@ msgstr "Unterordner"
 msgid "Support Forum"
 msgstr "Supportforum"
 
+msgid "Switch to Next Tab"
+msgstr "Zum nächsten Tab"
+
 msgid "Switch to a new tab immediately"
 msgstr "Sofort zu neuem Tab springen"
+
+msgid "Swith to Previous Tab"
+msgstr "Zum vorherigen Tab"
+
+msgid "System"
+msgstr "System"
 
 msgid "Tabs"
 msgstr "Tabs"
@@ -620,14 +941,20 @@ msgstr "Einstellungen der Tabs"
 msgid "Target"
 msgstr "Ziel"
 
+msgid "Target Folder"
+msgstr "Zielordner"
+
 msgid "Text"
 msgstr "Text"
 
 msgid "Text Editor"
 msgstr "Texteditor"
 
+msgid "Text only"
+msgstr "Nur Text"
+
 msgid "Theme"
-msgstr "Darstellungsschema"
+msgstr "Thema"
 
 msgid "Thumbnails"
 msgstr "Miniaturansicht"
@@ -642,7 +969,7 @@ msgid "Tiles"
 msgstr "Kacheln"
 
 msgid "Toolbars"
-msgstr "Toolbars"
+msgstr "Werkzeugleisten"
 
 msgid "Tools"
 msgstr "Werkzeuge"
@@ -674,6 +1001,9 @@ msgstr "Name des Übersetzers"
 msgid "Transparency"
 msgstr "Transparenz"
 
+msgid "Tray Icon"
+msgstr "Tray Icon"
+
 msgid "Type"
 msgstr "Typ"
 
@@ -682,6 +1012,9 @@ msgstr "Rückgängig"
 
 msgid "Untitled"
 msgstr "Unbenannt"
+
+msgid "Use strict filtering (wildcards are ? and *)"
+msgstr "Benutze eindeutigen Filte(Platzhalter sind ? und *)"
 
 msgid "Version:"
 msgstr "Version:"
@@ -695,6 +1028,9 @@ msgstr "Ansicht"
 msgid "When I open folder/file in a new tab, switch to it immediately "
 msgstr "Sofort zu neuem Ordner-/Datei-Tab springen"
 
+msgid "Whole Word"
+msgstr "Gesamtes Wort"
+
 msgid "Whole words only"
 msgstr "Nur ganze Wörter"
 
@@ -703,4 +1039,10 @@ msgstr "Wortliste"
 
 msgid "Word Wrap"
 msgstr "Zeilenumbruch"
+
+msgid "Word or Phrase in File Name"
+msgstr "Wort oder Begriff im Dateinamen"
+
+msgid "is already assigned to"
+msgstr "ist bereits zugeordnet"
 
