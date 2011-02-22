@@ -253,6 +253,7 @@ type
     procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
     procedure WMSyscommand(var Message: TWmSysCommand); message WM_SYSCOMMAND;
     procedure CreateParams(var Params: TCreateParams); override;
+    procedure WMHotkey(var Message: TMessage); message WM_HOTKEY;
   public
     DockHostForm: TCEDockHostForm;
     Layouts: TCELayoutController;
@@ -268,7 +269,7 @@ type
     procedure EndUIUpdate;
     procedure InitializeUI;
     procedure FinalizeUI;
-    procedure MakeVisible;
+    procedure MakeVisible(AForceToTop: Boolean = false);
     procedure MenuItemTranslateHandler(Obj:TObject; var IsIgnored: Boolean);
     procedure OpenSkin;
     procedure Shutdown;
@@ -724,6 +725,8 @@ begin
 
   // Testing stuff!!!
 
+  //CEActions.GlobalHotkeys.AddHotkey(CEActions.act_gen_exit, TextToShortCut('Ctrl+Shift+E'));
+
   if DebugHook <> 0 then
   begin
     SpTBXSeparatorItem2.Visible:= true;
@@ -1177,11 +1180,24 @@ end;
 {-------------------------------------------------------------------------------
   Make MainForm visible
 -------------------------------------------------------------------------------}
-procedure TMainForm.MakeVisible;
+procedure TMainForm.MakeVisible(AForceToTop: Boolean = false);
 begin
-  if IsIconic(Application.Handle) then
-  Application.Restore
-  else
+  if TrayIcon.Active and not TrayIcon.ApplicationVisible then
+  TrayIcon.ShowApplication
+  else if (GetForegroundWindow <> Handle) and AForceToTop then
+  begin
+    // Trick Windows to force CE on top.
+    Application.Minimize;
+    ShowWindow(Application.Handle, SW_HIDE);
+    ShowWindow(Application.Handle, SW_SHOW);
+    Application.Restore;
+  end;
+
+  if IsIconic(Handle) then
+  begin
+    ShowWindow(Handle, SW_RESTORE);
+  end;
+
   Application.BringToFront;
 end;
 
@@ -1381,9 +1397,10 @@ begin
   begin
     if TrayIcon.Active and not TrayIcon.ApplicationVisible then
     TrayIcon.ShowApplication;
-    
+
     ShowWindow(Handle, SW_RESTORE);
-    MakeVisible;
+
+    Application.BringToFront;
   end
   else
   begin
@@ -1407,6 +1424,15 @@ procedure TMainForm.TrayIconMouseUp(Sender: TObject; Button: TMouseButton;
 begin
   if Button = mbLeft then
   ToggleVisibility;
+end;
+
+{-------------------------------------------------------------------------------
+  On WM_Hotkey Message
+-------------------------------------------------------------------------------}
+procedure TMainForm.WMHotkey(var Message: TMessage);
+begin
+  CEActions.GlobalHotkeys.ExecuteHotkey(Message.WParam);
+  inherited;
 end;
 
 {##############################################################################}

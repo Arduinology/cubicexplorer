@@ -32,7 +32,7 @@ uses
   MPCommonUtilities, MPCommonObjects, MPShellUtilities,
   // System Units
   SysUtils, Classes, Windows, StrUtils, ShlObj, ShellAPI, Forms, Controls,
-  Registry, WideStrUtils, Consts;
+  Registry, WideStrUtils, Consts, Menus;
 
 type
   TWinVersion = (wvUnknown, wvWin95, wvWin98, wvWin98SE, wvWinNT, wvWinME, wvWin2000, wvWinXP, wvWin2003, wvWinVista);
@@ -90,6 +90,12 @@ type
   TMenuKeyCap = (mkcBkSp, mkcTab, mkcEsc, mkcEnter, mkcSpace, mkcPgUp,
     mkcPgDn, mkcEnd, mkcHome, mkcLeft, mkcUp, mkcRight, mkcDown, mkcIns,
     mkcDel, mkcShift, mkcCtrl, mkcAlt);
+
+function ShiftState2Modifier(const Shift: TShiftState):Word;
+
+function GetShortCutKey(ShortCut: TShortCut):Word;
+
+function GetShortCutModifier(ShortCut: TShortCut):Word;
 
 var
   MenuKeyCaps: array[TMenuKeyCap] of string = (
@@ -817,6 +823,42 @@ begin
     Result:= KeyName;
   end;
 end;
+
+{-------------------------------------------------------------------------------
+  ShiftState2Modifier
+-------------------------------------------------------------------------------}
+function ShiftState2Modifier(const Shift: TShiftState):Word;
+begin
+  Result := 0;
+  if ssShift in Shift then
+    Result := Result or MOD_SHIFT;
+  if ssAlt in Shift then
+    Result := Result or MOD_ALT;
+  if ssCtrl in Shift then
+    Result := Result or MOD_CONTROL;
+end;
+
+{-------------------------------------------------------------------------------
+  GetShortCutKey
+-------------------------------------------------------------------------------}
+function GetShortCutKey(ShortCut: TShortCut):Word;
+var
+  shift: TShiftState;
+begin
+  ShortCutToKey(ShortCut,Result,shift);
+end;
+
+{-------------------------------------------------------------------------------
+  GetShortCutModifier
+-------------------------------------------------------------------------------}
+function GetShortCutModifier(ShortCut: TShortCut):Word;
+var
+  key: Word;
+  shift: TShiftState;
+begin
+  ShortCutToKey(ShortCut,key,shift);
+  Result := ShiftState2Modifier(shift);
+end; 
 
 {##############################################################################}
 

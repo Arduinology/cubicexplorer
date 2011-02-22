@@ -761,3 +761,18 @@ msgstr ""
 #: fCE_SearchPage.dfm:831
 msgid "testtest"
 msgstr ""
+
+#. CEToolbarCustomizer..TabControl..SpTBXTabSheet2..TabItem
+#: fCE_Customizer.dfm:87
+msgid "tab_buttons"
+msgstr ""
+
+#. CEToolbarCustomizer..TabControl..SpTBXTabSheet3..TabItem
+#: fCE_Customizer.dfm:137
+msgid "tab_theme"
+msgstr ""
+
+#. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..TabItem
+#: fCE_Customizer.dfm:190
+msgid "tab_toolbars"
+msgstr ""

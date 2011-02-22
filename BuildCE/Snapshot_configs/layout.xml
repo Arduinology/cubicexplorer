@@ -1,44 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <Configuration>
-  <ToolbarItems>
-    <NavigationToolbar>
-      <item action="act_navi_back"/>
-      <item action="act_navi_forward"/>
-      <item action="act_navi_folderup"/>
-      <item action="act_navi_refresh"/>
-      <separator/>
-      <item action="act_tabs_addtab"/>
-      <item action="act_tabs_closetab"/>
-      <separator/>
-      <item action="act_navi_texteditor"/>
-      <item action="act_navi_quickview"/>
-      <item action="act_navi_filesearch"/>
-      <separator/>
-      <item action="act_tools_emptytrash"/>
-    </NavigationToolbar>
-    <ViewToolbar>
-      <item action="act_view_large"/>
-      <item action="act_view_small"/>
-      <item action="act_view_list"/>
-      <item action="act_view_details"/>
-      <item action="act_view_tiles"/>
-      <item action="act_view_thumbs"/>
-      <item action="act_view_filmstrip"/>
-    </ViewToolbar>
-    <EditToolbar>
-      <item action="act_edit_copy"/>
-      <item action="act_edit_cut"/>
-      <item action="act_edit_paste"/>
-      <item action="act_edit_delete"/>
-      <separator/>
-      <item action="act_edit_newfile"/>
-      <item action="act_edit_newfolder"/>
-      <separator/>
-      <separator/>
-      <separator/>
-    </EditToolbar>
-    <TabBarToolbar/>
-  </ToolbarItems>
   <Layouts>
     <FileSearch>
       <Forms>
@@ -1266,8 +1227,8 @@
         <BookmarkPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,0,227,132]</DockLoc>
-          <UnDockRect>[24,140,437,326]</UnDockRect>
+          <DockLoc>[0,0,227,124]</DockLoc>
+          <UnDockRect>[24,140,445,331]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>230</LRDockWidth>
           <TBDockHeight>100</TBDockHeight>
@@ -1288,8 +1249,8 @@
         <QuickViewPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,0,227,132]</DockLoc>
-          <UnDockRect>[24,140,436,325]</UnDockRect>
+          <DockLoc>[0,0,227,124]</DockLoc>
+          <UnDockRect>[24,140,444,330]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>499</LRDockWidth>
           <TBDockHeight>100</TBDockHeight>
@@ -1310,8 +1271,8 @@
         <FiltersPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,0,227,132]</DockLoc>
-          <UnDockRect>[24,140,433,325]</UnDockRect>
+          <DockLoc>[0,0,227,124]</DockLoc>
+          <UnDockRect>[24,140,441,330]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>100</LRDockWidth>
           <TBDockHeight>100</TBDockHeight>
@@ -1332,7 +1293,7 @@
         <TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0>
           <ParentName>DockHost@LeftDockPanel</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,18,227,173]</DockLoc>
+          <DockLoc>[0,18,227,165]</DockLoc>
           <UnDockRect>[24,140,434,320]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>100</LRDockWidth>
@@ -1354,8 +1315,8 @@
         <FolderPanel>
           <ParentName>DockHost@LeftDockPanel</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,195,227,350]</DockLoc>
-          <UnDockRect>[-89,301,433,325]</UnDockRect>
+          <DockLoc>[0,187,227,344]</DockLoc>
+          <UnDockRect>[-89,301,441,330]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>100</LRDockWidth>
           <TBDockHeight>100</TBDockHeight>
@@ -1376,15 +1337,15 @@
         <DockHost_LeftDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,227,350]</DockLoc>
+          <DockLoc>[0,0,227,344]</DockLoc>
           <UnDockRect>[0,0,205,474]</UnDockRect>
           <Visible>TRUE</Visible>
-          <DockClientData>000004005E0100000000000001E30000000100000000000100000000010100000000B100000001013C0200000137000000544A76446F636B546162486F7374466F726D5F46696C7465727350616E656C5F517569636B5669657750616E656C5F30304542443542300101000000005E01000001013C020000010B000000466F6C64657250616E656C01FFFFFFFF</DockClientData>
+          <DockClientData>00000400580100000000000001E30000000100000000000100000000010100000000A900000001013C0200000137000000544A76446F636B546162486F7374466F726D5F46696C7465727350616E656C5F517569636B5669657750616E656C5F30304542443542300101000000005801000001013C020000010B000000466F6C64657250616E656C01FFFFFFFF</DockClientData>
         </DockHost_LeftDockPanel>
         <DockHost_LeftDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,199,0]</DockLoc>
+          <DockLoc>[0,0,191,-16]</DockLoc>
           <UnDockRect>[0,0,846,311]</UnDockRect>
           <Visible>FALSE</Visible>
           <DockClientData>00000400FF00000000000000023C020000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1392,7 +1353,7 @@
         <DockHost_RightDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[632,0,632,350]</DockLoc>
+          <DockLoc>[624,0,624,344]</DockLoc>
           <UnDockRect>[0,0,0,474]</UnDockRect>
           <Visible>TRUE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1400,7 +1361,7 @@
         <DockHost_RightDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,199,0]</DockLoc>
+          <DockLoc>[0,0,191,-16]</DockLoc>
           <UnDockRect>[0,0,846,311]</UnDockRect>
           <Visible>FALSE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1408,7 +1369,7 @@
         <DockHost_TopDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,400,0]</DockLoc>
+          <DockLoc>[0,0,392,0]</DockLoc>
           <UnDockRect>[0,0,473,0]</UnDockRect>
           <Visible>TRUE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1416,7 +1377,7 @@
         <DockHost_TopDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,199,30]</DockLoc>
+          <DockLoc>[0,0,191,24]</DockLoc>
           <UnDockRect>[0,0,247,154]</UnDockRect>
           <Visible>FALSE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1424,7 +1385,7 @@
         <DockHost_BottomDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,350,400,350]</DockLoc>
+          <DockLoc>[0,344,392,344]</DockLoc>
           <UnDockRect>[0,0,473,0]</UnDockRect>
           <Visible>TRUE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1432,7 +1393,7 @@
         <DockHost_BottomDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,199,30]</DockLoc>
+          <DockLoc>[0,0,191,24]</DockLoc>
           <UnDockRect>[0,0,247,154]</UnDockRect>
           <Visible>FALSE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1440,7 +1401,7 @@
         <DockHost>
           <ParentName/>
           <LastDockSiteName/>
-          <DockLoc>[0,28,632,378]</DockLoc>
+          <DockLoc>[0,28,624,372]</DockLoc>
           <UnDockRect>[0,0,681,474]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>681</LRDockWidth>
@@ -1484,4 +1445,54 @@
       </Forms>
     </Default>
   </Layouts>
+  <Toolbars>
+    <MainToolbar DisplayMode="0" LargeIcons="0" Borders="-1" Stretch="-1" DragHandle="0"/>
+    <NavigationToolbar DisplayMode="0" LargeIcons="-1" Borders="-1" Stretch="0" DragHandle="-1">
+      <Items>
+        <item action="act_navi_back"/>
+        <item action="act_navi_forward"/>
+        <item action="act_navi_folderup"/>
+        <item action="act_navi_refresh"/>
+        <separator/>
+        <item action="act_tabs_addtab"/>
+        <item action="act_tabs_closetab"/>
+        <separator/>
+        <item action="act_navi_texteditor"/>
+        <item action="act_navi_quickview"/>
+        <item action="act_navi_filesearch"/>
+        <separator/>
+        <item action="act_tools_emptytrash"/>
+      </Items>
+    </NavigationToolbar>
+    <ViewToolbar DisplayMode="0" LargeIcons="-1" Borders="-1" Stretch="0" DragHandle="0">
+      <Items>
+        <item action="act_view_large"/>
+        <item action="act_view_small"/>
+        <item action="act_view_list"/>
+        <item action="act_view_details"/>
+        <item action="act_view_tiles"/>
+        <item action="act_view_thumbs"/>
+        <item action="act_view_filmstrip"/>
+      </Items>
+    </ViewToolbar>
+    <AddressBarToolbar Borders="-1" Stretch="-1" DragHandle="-1"/>
+    <DriveToolbar DisplayMode="0" LargeIcons="0" Borders="-1" Stretch="-1" DragHandle="-1"/>
+    <BookmarkToolbar DisplayMode="0" LargeIcons="0" Borders="-1" Stretch="-1" DragHandle="-1"/>
+    <SessionsToolbar DisplayMode="0" LargeIcons="0" Borders="-1" Stretch="-1" DragHandle="-1"/>
+    <EditToolbar DisplayMode="0" LargeIcons="0" Borders="-1" Stretch="0" DragHandle="-1">
+      <Items>
+        <item action="act_edit_copy"/>
+        <item action="act_edit_cut"/>
+        <item action="act_edit_paste"/>
+        <item action="act_edit_delete"/>
+        <separator/>
+        <item action="act_edit_newfile"/>
+        <item action="act_edit_newfolder"/>
+        <separator/>
+        <separator/>
+        <separator/>
+      </Items>
+    </EditToolbar>
+    <BreadcrumbBar Borders="-1" Stretch="-1" DragHandle="-1"/>
+  </Toolbars>
 </Configuration>

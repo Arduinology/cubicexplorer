@@ -21,14 +21,11 @@ object CESessionManager: TCESessionManager
     Top = 249
     Width = 403
     Height = 43
-    Caption = 'SpTBXPanel2'
     Align = alBottom
     TabOrder = 0
     Borders = False
     BorderType = pbrRaised
     TBXStyleBackground = True
-    ExplicitTop = 250
-    ExplicitWidth = 375
     DesignSize = (
       403
       43)
@@ -41,7 +38,6 @@ object CESessionManager: TCESessionManager
       Anchors = [akTop, akRight]
       TabOrder = 0
       ModalResult = 1
-      ExplicitLeft = 274
     end
   end
   object SpTBXTabControl1: TSpTBXTabControl
@@ -62,9 +58,6 @@ object CESessionManager: TCESessionManager
       Width = 403
       Height = 239
       ImageIndex = -1
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         403
         239)
@@ -78,8 +71,6 @@ object CESessionManager: TCESessionManager
         Anchors = [akRight, akBottom]
         TabOrder = 0
         OnClick = but_deleteClick
-        ExplicitLeft = 170
-        ExplicitTop = 192
       end
       object check_autosave: TSpTBXCheckBox
         Left = 202
@@ -92,7 +83,6 @@ object CESessionManager: TCESessionManager
         TabOrder = 1
         Wrapping = twWrap
         OnClick = check_autosaveClick
-        ExplicitLeft = 190
       end
       object edit_name: TSpTBXEdit
         Left = 202
@@ -102,7 +92,6 @@ object CESessionManager: TCESessionManager
         Anchors = [akTop, akRight]
         TabOrder = 2
         OnClick = edit_nameChange
-        ExplicitLeft = 190
       end
       object group_loadsave: TSpTBXGroupBox
         Left = 202
@@ -113,7 +102,6 @@ object CESessionManager: TCESessionManager
         Anchors = [akTop, akRight]
         Enabled = False
         TabOrder = 3
-        ExplicitLeft = 190
         DesignSize = (
           185
           95)
@@ -163,7 +151,6 @@ object CESessionManager: TCESessionManager
         Height = 19
         Caption = 'Name'
         Anchors = [akTop, akRight]
-        ExplicitLeft = 190
       end
       object list_sessions: TSpTBXListBox
         Left = 12

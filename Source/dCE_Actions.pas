@@ -43,7 +43,7 @@ uses
   GraphicEx,
   // System Units
   SysUtils, Classes, ActnList, ImgList, Controls, Windows, ExtCtrls, Forms,
-  ShellAPI, AppEvnts, Messages, ShlObj, Clipbrd, Menus, DOM;
+  ShellAPI, AppEvnts, Messages, ShlObj, Clipbrd, Menus, DOM, Contnrs;
 
 const
   MK_XBUTTON1 = $20;
@@ -64,6 +64,39 @@ type
   public
     procedure Load(AAppStorage: TCEAppSettings; ANode: TDOMNode); override;
     procedure Save(AAppStorage: TCEAppSettings; ANode: TDOMNode); override;
+  end;
+
+  TCEGlobalHotkeys = class(TCECustomSettingStorage)
+  private
+    fActions: TActionList;
+    fIsRegistered: Boolean;
+    fMsgHandle: HWND;
+    function GetCount: Integer;
+  protected
+    fHotkeyActions: TObjectList;
+    fHotkeys: TList;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    function AddHotkey(AAction: TAction; AHotkey: TShortcut): Integer;
+    function CanRegister(AAction: TTntAction; AHotkey: TShortcut): Boolean;
+    procedure Clear;
+    procedure DeleteHotkey(Index: Integer);
+    procedure ExecuteHotkey(id: Integer);
+    function GetAction(AIndex: Integer): TAction;
+    function GetHotkey(AIndex: Integer): TShortcut; overload;
+    function GetHotkey(AAction: TAction): TShortcut; overload;
+    function GetHotkeys(AAction: TAction; AResults: TStrings): Integer;
+    function IndexOf(AAction: TAction): Integer;
+    procedure Load(AAppStorage: TCEAppSettings; ANode: TDOMNode); override;
+    procedure RegisterAll;
+    procedure Replace(AIndex: Integer; AAction: TAction; AHotkey: TShortcut);
+    procedure Save(AAppStorage: TCEAppSettings; ANode: TDOMNode); override;
+    procedure UnRegisterAll;
+    property Actions: TActionList read fActions write fActions;
+    property Count: Integer read GetCount;
+    property IsRegistered: Boolean read fIsRegistered;
+    property MsgHandle: HWND read fMsgHandle write fMsgHandle;
   end;
     
   TCEActions = class(TDataModule)
@@ -192,13 +225,13 @@ type
     procedure DoAssigneByClick(Sender: TObject);
     procedure DoGroupByClick(Sender: TObject);
   public
+    GlobalHotkeys: TCEGlobalHotkeys;
     procedure AssignCustomToolbarActions;
     procedure UpdateAll;
     property PageActionList: TTntActionList read fPageActionList write
         fPageActionList;
     { Public declarations }
   end;
-
 
 
 // Global
@@ -292,9 +325,15 @@ uses
 procedure TCEActions.DataModuleCreate(Sender: TObject);
 begin
   AssignCustomToolbarActions;
+  // Hotkey Settings
   HotkeySettings:= TCEHotkeySettings.Create;
   HotkeySettings.Actions:= ActionList;
   GlobalAppSettings.AddItem('Hotkeys', HotkeySettings);
+  // Global Hotkey Settings
+  GlobalHotkeys:= TCEGlobalHotkeys.Create;
+  GlobalHotkeys.Actions:= ActionList;
+  GlobalHotkeys.MsgHandle:= MainForm.Handle;
+  GlobalAppSettings.AddItem('GlobalHotkeys', GlobalHotkeys);
 end;
 
 {*------------------------------------------------------------------------------
@@ -303,6 +342,7 @@ end;
 procedure TCEActions.DataModuleDestroy(Sender: TObject);
 begin
   HotkeySettings.Free;
+  GlobalHotkeys.Free;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1398,7 +1438,7 @@ begin
     end;
     // Make CE Visible
     WM_MakeVisible: begin
-      MainForm.MakeVisible;
+      MainForm.MakeVisible(true);
     end;
   end;
 end;
@@ -1744,6 +1784,288 @@ begin
         chNode.TextContent:= s;
       end;
     end;
+  end;
+end;
+
+
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Create an instance of TCEGlobalHotkeys
+-------------------------------------------------------------------------------}
+constructor TCEGlobalHotkeys.Create;
+begin
+  inherited;
+  fHotkeyActions:= TObjectList.Create(false);
+  fHotkeys:= TList.Create;
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy TCEGlobalHotkeys
+-------------------------------------------------------------------------------}
+destructor TCEGlobalHotkeys.Destroy;
+begin
+  Clear;
+  fHotkeys.Free;
+  fHotkeyActions.Free;
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Add Hotkey (Return index if RegisterHotKey succeeded, else -1)
+-------------------------------------------------------------------------------}
+function TCEGlobalHotkeys.AddHotkey(AAction: TAction; AHotkey:
+    TShortcut): Integer;
+begin
+  Result:= -1;
+  if IsRegistered then
+  Raise Exception.CreateFmt('Unregister hotkeys before modifying list!', []);
+
+  if assigned(AAction) and (AHotkey <> 0) then
+  begin
+    Result:= fHotkeyActions.Add(AAction);
+    fHotkeys.Add(Pointer(AHotkey));
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Can Register (returns true if can register)
+-------------------------------------------------------------------------------}
+function TCEGlobalHotkeys.CanRegister(AAction: TTntAction; AHotkey: TShortcut):
+    Boolean;
+var
+  key: Word;
+  shift: TShiftState;
+  i: Integer;
+begin
+  Result:= false;
+  if assigned(AAction) and (AHotkey <> 0) then
+  begin
+    // Check if hotkey is already on the list
+    for i:= 0 to fHotkeys.Count - 1 do
+    begin
+      if AHotkey = TShortcut(fHotkeys.Items[i]) then
+      Exit;
+    end;
+    // Register Hotkey
+    ShortCutToKey(AHotkey, key, shift);
+    if RegisterHotKey(MsgHandle, Integer(AAction), ShiftState2Modifier(shift), key) then
+    begin
+      Result:= true;
+      UnregisterHotKey(MsgHandle, Integer(AAction));
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Clear
+-------------------------------------------------------------------------------}
+procedure TCEGlobalHotkeys.Clear;
+begin
+  UnRegisterAll;
+  fHotkeyActions.Clear;
+  fHotkeys.Clear;
+end;
+
+{-------------------------------------------------------------------------------
+  Delete Hotkey
+-------------------------------------------------------------------------------}
+procedure TCEGlobalHotkeys.DeleteHotkey(Index: Integer);
+begin
+  if IsRegistered then
+  Raise Exception.CreateFmt('Unregister hotkeys before modifying list!', []);
+  
+  if (Index > -1) and (Index < fHotkeyActions.Count) then
+  begin
+    fHotkeyActions.Delete(Index);
+    fHotkeys.Delete(Index);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Execute Hotkey
+-------------------------------------------------------------------------------}
+procedure TCEGlobalHotkeys.ExecuteHotkey(id: Integer);
+begin
+  if (id > -1) and (id < fHotkeyActions.Count) then
+  begin
+    TAction(fHotkeyActions.Items[id]).Execute;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Get Action
+-------------------------------------------------------------------------------}
+function TCEGlobalHotkeys.GetAction(AIndex: Integer): TAction;
+begin
+  Result:= TAction(fHotkeyActions.Items[AIndex]);
+end;
+
+{-------------------------------------------------------------------------------
+  Get Count
+-------------------------------------------------------------------------------}
+function TCEGlobalHotkeys.GetCount: Integer;
+begin
+  Result:= fHotkeyActions.Count;
+end;
+
+{-------------------------------------------------------------------------------
+  Get Hotkey (by index)
+-------------------------------------------------------------------------------}
+function TCEGlobalHotkeys.GetHotkey(AIndex: Integer): TShortcut;
+begin
+  Result:= Integer(fHotkeys.Items[AIndex]);
+end;
+
+{-------------------------------------------------------------------------------
+  Get Hotkey (by action)
+-------------------------------------------------------------------------------}
+function TCEGlobalHotkeys.GetHotkey(AAction: TAction): TShortcut;
+var
+  i: Integer;
+begin
+  Result:= 0;
+  i:= fHotkeyActions.IndexOf(AAction);
+  if i > -1 then
+  Result:= TShortcut(fHotkeys.Items[i]);
+end;
+
+{-------------------------------------------------------------------------------
+  Get Hotkeys (Returns number of hotkeys found. Object field in the list will contain index of the hotkey)
+-------------------------------------------------------------------------------}
+function TCEGlobalHotkeys.GetHotkeys(AAction: TAction; AResults: TStrings):
+    Integer;
+var
+  i: Integer;
+begin
+  Result:= 0;
+  if assigned(AResults) then
+  begin
+    AResults.Clear;
+    for i:= 0 to fHotkeyActions.Count - 1 do
+    begin
+      if AAction = fHotkeyActions.Items[i] then
+      begin
+        AResults.AddObject(ShortCutToText(TShortcut(fHotkeys.Items[i])), TObject(i));
+      end;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Index Of
+-------------------------------------------------------------------------------}
+function TCEGlobalHotkeys.IndexOf(AAction: TAction): Integer;
+begin
+  Result:= fHotkeyActions.IndexOf(AAction);
+end;
+
+{-------------------------------------------------------------------------------
+  Replace
+-------------------------------------------------------------------------------}
+procedure TCEGlobalHotkeys.Replace(AIndex: Integer; AAction: TAction; AHotkey:
+    TShortcut);
+begin
+  if IsRegistered then
+  Raise Exception.CreateFmt('Unregister hotkeys before modifying list!', []);
+  
+  fHotkeyActions.Items[AIndex]:= AAction;
+  fHotkeys.Items[AIndex]:= Pointer(AHotkey);
+end;
+
+{-------------------------------------------------------------------------------
+  Load
+-------------------------------------------------------------------------------}
+procedure TCEGlobalHotkeys.Load(AAppStorage: TCEAppSettings; ANode:
+    TDOMNode);
+var
+  chNode: TDOMNode;
+  act: TAction;
+begin
+  if not assigned(Actions) then
+  Exit;
+  
+  UnRegisterAll;
+  
+  if ANode.HasChildNodes then
+  begin
+    // Clear default shortcuts
+    Clear;
+    // get action node
+    chNode:= ANode.FirstChild;
+    while assigned(chNode) do
+    begin
+      // find action
+      act:= FindActionByName(Actions, chNode.NodeName);
+      if assigned(act) then
+      begin
+        // add hotkey
+        AddHotkey(act, StrToIntDef(chNode.TextContent, 0));
+      end;
+      // get next action node
+      chNode:= chNode.NextSibling;
+    end;
+  end;
+  RegisterAll;
+end;
+
+{-------------------------------------------------------------------------------
+  Save
+-------------------------------------------------------------------------------}
+procedure TCEGlobalHotkeys.Save(AAppStorage: TCEAppSettings; ANode:
+    TDOMNode);
+var
+  chNode: TDOMNode;
+  i: Integer;
+begin
+  // clear all first
+  TDOMElementHack(ANode).FreeChildren;
+  // loop actions
+  for i:= 0 to fHotkeyActions.Count - 1 do
+  begin
+    // create node with action's name
+    chNode:= AAppStorage.XML.CreateElement(TAction(fHotkeyActions.Items[i]).Name);
+    ANode.AppendChild(chNode);
+    // add hotkey to text content
+    chNode.TextContent:= IntToStr(Integer(fHotkeys.Items[i]));
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Register All
+-------------------------------------------------------------------------------}
+procedure TCEGlobalHotkeys.RegisterAll;
+var
+  i: Integer;
+  key: Word;
+  shift: TShiftState;
+begin
+  if not IsRegistered then
+  begin
+    for i:= 0 to fHotkeyActions.Count - 1 do
+    begin
+      ShortCutToKey(TShortcut(fHotkeys.Items[i]), key, shift);
+      RegisterHotKey(MsgHandle, i, ShiftState2Modifier(shift), key);
+    end;
+    fIsRegistered:= true;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  UnRegister All
+-------------------------------------------------------------------------------}
+procedure TCEGlobalHotkeys.UnRegisterAll;
+var
+  i: Integer;
+begin
+  if IsRegistered then
+  begin
+    for i:= 0 to fHotkeyActions.Count - 1 do
+    begin
+      UnregisterHotKey(MsgHandle, i);
+    end;
+    fIsRegistered:= false;
   end;
 end;
 

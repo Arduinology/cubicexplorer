@@ -55,7 +55,7 @@
     <WordWrap>True</WordWrap>
   </TextEditor>
   <Sessions>
-    <AutoSaveHistory>True</AutoSaveHistory>
+    <AutoSaveHistory>False</AutoSaveHistory>
     <HistoryCount>10</HistoryCount>
   </Sessions>
   <FileSearch>
@@ -78,11 +78,43 @@
     <ShowCmd>1</ShowCmd>
     <ShowHint>True</ShowHint>
     <SingleInstance>True</SingleInstance>
-    <Skin>Office 2003</Skin>
+    <Skin>Chrome</Skin>
     <AutoLoadSession/>
+    <CloseToTray>False</CloseToTray>
     <ExitOnLastTabClose>False</ExitOnLastTabClose>
+    <MinimizeToTray>False</MinimizeToTray>
+    <ShowTray>False</ShowTray>
+    <StartInTray>False</StartInTray>
     <StartupType>0</StartupType>
   </MainForm>
+  <Hotkeys>
+    <act_tabs_closetab>16471,16499</act_tabs_closetab>
+    <act_gen_exit>32883</act_gen_exit>
+    <act_view_dropstack>16437</act_view_dropstack>
+    <act_navi_forward>32807</act_navi_forward>
+    <act_navi_back>32805</act_navi_back>
+    <act_navi_refresh>116</act_navi_refresh>
+    <act_view_folders>16433</act_view_folders>
+    <act_view_bookmark>16434</act_view_bookmark>
+    <act_view_filters>16436</act_view_filters>
+    <act_edit_copy>16451,16429</act_edit_copy>
+    <act_edit_cut>16472</act_edit_cut>
+    <act_edit_paste>16470,8237</act_edit_paste>
+    <act_edit_delete>46</act_edit_delete>
+    <act_edit_selall>16449</act_edit_selall>
+    <act_edit_invertsel>24641</act_edit_invertsel>
+    <act_edit_properties>32781</act_edit_properties>
+    <act_edit_rename>113</act_edit_rename>
+    <act_view_quickview>16435</act_view_quickview>
+    <act_edit_duplicate>16452</act_edit_duplicate>
+    <act_navi_texteditor>118</act_navi_texteditor>
+    <act_navi_filesearch>16454</act_navi_filesearch>
+    <act_edit_copypath>16466</act_edit_copypath>
+    <act_edit_newfolder>16462</act_edit_newfolder>
+    <act_view_fullscreen>122</act_view_fullscreen>
+    <act_tabs_addtab>16468</act_tabs_addtab>
+    <act_navi_quickview>119</act_navi_quickview>
+  </Hotkeys>
   <Tabs>
     <NewTabPath>PIDL:FgAAABQAH1DgT9Ag6jppEKLYCAArMDCdAAA=</NewTabPath>
     <NewTabSelect>True</NewTabSelect>

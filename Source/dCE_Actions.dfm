@@ -168,6 +168,7 @@ object CEActions: TCEActions
       Caption = 'Group By'
       ImageIndex = 31
       OnExecute = ActionExecute
+      CanExecute = False
     end
     object act_view_viewstyle: TCEToolbarAction
       Tag = 373
@@ -175,6 +176,7 @@ object CEActions: TCEActions
       Caption = 'View Style'
       ImageIndex = 16
       OnExecute = ActionExecute
+      CanExecute = False
     end
     object act_view_filmstrip: TTntAction
       Tag = 358
@@ -347,6 +349,7 @@ object CEActions: TCEActions
       Caption = 'New'
       ImageIndex = 36
       OnExecute = ActionExecute
+      CanExecute = False
     end
     object act_edit_copypath: TCEToolbarAction
       Tag = 211
@@ -454,6 +457,7 @@ object CEActions: TCEActions
       Caption = 'Arrange By'
       ImageIndex = 30
       OnExecute = ActionExecute
+      CanExecute = False
     end
     object act_navi_scrollleft: TTntAction
       Tag = 608
@@ -513,6 +517,7 @@ object CEActions: TCEActions
       Category = 'General'
       Caption = 'Menu'
       OnExecute = ActionExecute
+      CanExecute = False
     end
     object act_navi_quickview: TTntAction
       Tag = 652
@@ -542,6 +547,7 @@ object CEActions: TCEActions
       Caption = 'Bookmarks'
       ImageIndex = 18
       OnExecute = ActionExecute
+      CanExecute = False
     end
     object act_sessions_menu: TCEToolbarAction
       Tag = -1
@@ -549,6 +555,7 @@ object CEActions: TCEActions
       Caption = 'Sessions'
       ImageIndex = 41
       OnExecute = ActionExecute
+      CanExecute = False
     end
     object act_view_infobar: TTntAction
       Tag = 336
