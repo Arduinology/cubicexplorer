@@ -109,13 +109,14 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCECustomDockableForm.FormHide(Sender: TObject);
 begin
-  if not fVisibleStatus then
-  Exit;
-  
-  fVisibleStatus:= not fVisibleStatus;
-
   if not JvGlobalDockIsLoading then
-  DoFormHide;
+  begin
+    if fVisibleStatus then
+    begin
+      fVisibleStatus:= false;
+      DoFormHide;
+    end;
+  end;
 end;
 
 {*------------------------------------------------------------------------------
@@ -123,13 +124,14 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCECustomDockableForm.FormShow(Sender: TObject);
 begin
-  if fVisibleStatus then
-  Exit;
-
-  fVisibleStatus:= not fVisibleStatus;
-
   if not JvGlobalDockIsLoading then
-  DoFormShow;
+  begin
+    if not fVisibleStatus then
+    begin
+      fVisibleStatus:= true;
+      DoFormShow;
+    end;
+  end;
 end;
 
 {*------------------------------------------------------------------------------

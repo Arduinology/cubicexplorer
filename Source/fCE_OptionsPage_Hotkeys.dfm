@@ -101,6 +101,7 @@ inherited TCEOptionsPage_Hotkeys: TTCEOptionsPage_Hotkeys
       Width = 74
       Height = 25
       Caption = 'Add'
+      Enabled = False
       TabOrder = 1
       OnClick = but_addClick
     end
@@ -110,6 +111,7 @@ inherited TCEOptionsPage_Hotkeys: TTCEOptionsPage_Hotkeys
       Width = 73
       Height = 25
       Caption = 'Replace'
+      Enabled = False
       TabOrder = 2
       OnClick = but_replaceClick
     end
@@ -119,6 +121,7 @@ inherited TCEOptionsPage_Hotkeys: TTCEOptionsPage_Hotkeys
       Width = 153
       Height = 25
       Caption = 'Delete'
+      Enabled = False
       TabOrder = 3
       OnClick = but_deleteClick
     end

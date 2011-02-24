@@ -3,8 +3,8 @@ inherited CEFiltersPanel: TCEFiltersPanel
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnResize = FormResize
-  ExplicitWidth = 433
-  ExplicitHeight = 325
+  ExplicitWidth = 441
+  ExplicitHeight = 330
   PixelsPerInch = 96
   TextHeight = 13
   inherited TopDock: TSpTBXDock
