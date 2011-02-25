@@ -25,7 +25,7 @@ interface
 
 uses
   // CubicExplorer
-  CE_Sessions,
+  CE_Sessions, CE_VistaFuncs,
   // VirtualTrees
   VirtualTrees,
   // System Units
@@ -82,6 +82,8 @@ uses
 -------------------------------------------------------------------------------}
 procedure TCESessionManager.FormCreate(Sender: TObject);
 begin
+  SetVistaFont(Font);
+  CEGlobalTranslator.TranslateComponent(Self);
   SessionPropertiesEnabled:= false;
   PopulateSessionsList;
   list_sessions.ItemIndex:= GlobalSessions.ActiveSessionIndex;

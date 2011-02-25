@@ -1023,6 +1023,9 @@ begin
   CEGlobalTranslator.IncludeClasses.Add(TForm);
   CEGlobalTranslator.IncludeClasses.Add(TTBCustomDockableWindow);
   CEGlobalTranslator.IncludeClasses.Add(TTntRadioButton);
+  CEGlobalTranslator.IncludeClasses.Add(TSpTBXCheckBox);
+  CEGlobalTranslator.IncludeClasses.Add(TSpTBXGroupBox);
+  CEGlobalTranslator.IncludeClasses.Add(TSpTBXRadioGroup);
 
   CEGlobalTranslator.IgnoredProperties.Add('HelpKeyword');
   CEGlobalTranslator.IgnoredProperties.Add('ImeName');

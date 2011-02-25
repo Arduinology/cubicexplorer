@@ -32,6 +32,7 @@ inherited CESearchPage: TCESearchPage
     Header.Visible = True
     Options = [eloBrowseExecuteFolder, eloBrowseExecuteFolderShortcut, eloBrowseExecuteZipFolder, eloExecuteOnDblClick, eloThreadedImages, eloThreadedDetails, eloQueryInfoHints, eloShellContextMenus, eloGhostHiddenFiles, eloIncludeThumbnailsWithQueryInfoHints]
     PaintInfoGroup.MarginBottom.CaptionIndent = 4
+    PaintInfoGroup.MarginTop.Visible = False
     ParentShowHint = False
     ShowHint = True
     ShowThemedBorder = False

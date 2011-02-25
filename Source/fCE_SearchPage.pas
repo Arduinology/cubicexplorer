@@ -466,9 +466,10 @@ begin
     NS:= TNamespace.CreateFromFileName(FileInfo.Location + FileInfo.Name);
     ResultView.AddCustomItem(nil, NS, true);
     fFileCount:= fFileCount + 1;
-  finally
-    ResultView.EndUpdate(false);
+  except
+    // catch exceptions, nothing else to do.
   end;
+  ResultView.EndUpdate(false);
 end;
 
 {-------------------------------------------------------------------------------
