@@ -316,6 +316,9 @@ begin
   end;             
 end;
 
+{-------------------------------------------------------------------------------
+  Draw Icon
+-------------------------------------------------------------------------------}
 procedure TCEInfoBar.DrawIcon(ACanvas: TCanvas; ARect: TRect);
 var
   bit, bit2: TBitmap;
@@ -356,6 +359,9 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Draw Thumbnail
+-------------------------------------------------------------------------------}
 procedure TCEInfoBar.DrawThumbnail(ACanvas: TCanvas; ARect: TRect);
 var
   ar: Single;
@@ -386,15 +392,28 @@ begin
   t:= Round((ARect.Bottom - ARect.Top - fThumbHeight) / 2) + ARect.Top;
 
   // Draw thumbnail to buffer using resample filter.
-  bit:= TBitmap.Create;
-  try
-    Stretch(w,h, sfLanczos3, 0, fThumbnailBuffer, bit);
-    BitBlt(ACanvas.Handle, l, t, w, h, bit.Canvas.Handle, 0,0, SRCCOPY);
-  finally
-    bit.Free;
+  // If thumbnail is 1 pixel height, use StretchBlt instead, GraphicEx.DoStretch has a bug.
+  if (fThumbnailBuffer.Height > 1) and (h > 1) then
+  begin
+    bit:= TBitmap.Create;
+    try
+      Stretch(w,h, sfLanczos3, 0, fThumbnailBuffer, bit);
+      BitBlt(ACanvas.Handle, l, t, w, h, bit.Canvas.Handle, 0,0, SRCCOPY);
+    finally
+      bit.Free;
+    end;
+  end
+  else
+  begin
+    StretchBlt(ACanvas.Handle, l, t, w, h,
+               fThumbnailBuffer.Canvas.Handle, 0, 0, fThumbnailBuffer.Width, fThumbnailBuffer.Height,
+               SRCCOPY);
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Draw InfoList
+-------------------------------------------------------------------------------}
 procedure TCEInfoBar.DrawInfoList(ACanvas: TCanvas; ARect: TRect);
 var
   r: TRect;
@@ -566,17 +585,6 @@ begin
   exit;
 
   fSelectionCount:= ASelectionCount;
-  
-//  if assigned(fLatestNS) then
-//  begin
-//    if PIDLMgr.EqualPIDL(APIDL, fLatestNS.AbsolutePIDL) then
-//    begin
-//      BuildInfoList; // Refresh infolist
-//      DrawBuffer;
-//      Paint;
-//      Exit;
-//    end;
-//  end;
 
   // Terminate previous threads if present
   if assigned(fLatestThumbThread) then
@@ -654,7 +662,6 @@ begin
     fIconSize:= itExtraLargeIcon;
   end;
 
-  
   if fIconSize = itSmallIcon then
   begin
     fIconHeight:= 16;
