@@ -363,19 +363,6 @@ object MainForm: TMainForm
         object SpTBXItem84: TSpTBXItem
           Action = CEActions.act_tools_showoptions
         end
-        object SpTBXSeparatorItem19: TSpTBXSeparatorItem
-          Visible = False
-        end
-        object SpTBXItem46: TSpTBXItem
-          Caption = 'Solitaire (experiment)'
-          Visible = False
-          OnClick = SpTBXItem46Click
-        end
-        object SpTBXItem80: TSpTBXItem
-          Caption = 'Computer Management (experiment)'
-          Visible = False
-          OnClick = SpTBXItem80Click
-        end
       end
       object helpMenuItem: TSpTBXSubmenuItem
         Caption = 'Help'
@@ -398,27 +385,6 @@ object MainForm: TMainForm
         object SpTBXItem1: TSpTBXItem
           Action = CEActions.act_help_about
         end
-        object SpTBXSeparatorItem2: TSpTBXSeparatorItem
-          Visible = False
-        end
-        object SpTBXItem45: TSpTBXItem
-          Caption = 'Demo Crash'
-          Visible = False
-          OnClick = SpTBXItem45Click
-        end
-        object SpTBXItem75: TSpTBXItem
-          Caption = 'Copy In test'
-          Visible = False
-          OnClick = SpTBXItem75Click
-        end
-      end
-      object test_sep1: TSpTBXSeparatorItem
-        Visible = False
-      end
-      object test_act1: TSpTBXItem
-        Caption = 'Test1'
-        Visible = False
-        OnClick = test_act1Click
       end
     end
     object ViewToolbar: TSpTBXToolbar

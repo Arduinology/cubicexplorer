@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  CE_Layout, CE_DualView, CE_AppSettings, dCE_Images, CE_PaneHost,
+  CE_Layout, CE_AppSettings, dCE_Images, CE_PaneHost,
   // JVCL
   JvDockControlForm,
   // Toolbar2000

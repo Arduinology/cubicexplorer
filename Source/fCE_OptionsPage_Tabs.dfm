@@ -91,4 +91,22 @@ inherited CEOptionsPage_Tabs: TCEOptionsPage_Tabs
     TabOrder = 3
     OnClick = HandleChange
   end
+  object check_nexttocur_switch: TTntCheckBox
+    Left = 16
+    Top = 221
+    Width = 409
+    Height = 17
+    Caption = 'Open new tab next to current'
+    TabOrder = 4
+    OnClick = HandleChange
+  end
+  object check_autofit_switch: TTntCheckBox
+    Left = 16
+    Top = 244
+    Width = 409
+    Height = 17
+    Caption = 'Auto fit tabs'
+    TabOrder = 5
+    OnClick = HandleChange
+  end
 end

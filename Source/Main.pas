@@ -28,7 +28,7 @@ uses
   fCE_ExtAppPage, fCE_FiltersPanel, fCE_BookmarkPropDlg,
   fCE_DockHostForm, fCE_DockableForm, fCE_TabPage, fCE_FileView,
   fCE_FolderPanel, fCE_QuickViewPanel, fCE_BookmarkPanel, fCE_Customizer,
-  fCE_PoEditor,
+  fCE_PoEditor, fCE_MultiViewPage,
   // CE Data Modules
   dCE_Actions, dCE_Images, dCE_Input,
   // CE Units
@@ -146,22 +146,14 @@ type
     SpTBXSeparatorItem11: TSpTBXSeparatorItem;
     SpTBXItem35: TSpTBXItem;
     SpTBXItem50: TSpTBXItem;
-    SpTBXItem45: TSpTBXItem;
-    SpTBXSeparatorItem2: TSpTBXSeparatorItem;
-    SpTBXItem46: TSpTBXItem;
     SpTBXItem53: TSpTBXItem;
     ToolbarPopupMenu: TSpTBXPopupMenu;
     SpTBXItem52: TSpTBXItem;
     SpTBXSeparatorItem17: TSpTBXSeparatorItem;
     SpTBXItem56: TSpTBXItem;
     SpTBXItem74: TSpTBXItem;
-    test_act1: TSpTBXItem;
     StartUpTimer: TTimer;
-    SpTBXItem75: TSpTBXItem;
-    test_sep1: TSpTBXSeparatorItem;
     SpTBXItem79: TSpTBXItem;
-    SpTBXItem80: TSpTBXItem;
-    SpTBXSeparatorItem19: TSpTBXSeparatorItem;
     SpTBXItem81: TSpTBXItem;
     LanguageMenuItem: TSpTBXSubmenuItem;
     SpTBXSeparatorItem20: TSpTBXSeparatorItem;
@@ -219,12 +211,7 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormShow(Sender: TObject);
     procedure LanguageMenuItemPopup(Sender: TTBCustomItem; FromLink: Boolean);
-    procedure SpTBXItem45Click(Sender: TObject);
-    procedure SpTBXItem46Click(Sender: TObject);
     procedure StartUpTimerTimer(Sender: TObject);
-    procedure SpTBXItem75Click(Sender: TObject);
-    procedure SpTBXItem80Click(Sender: TObject);
-    procedure test_act1Click(Sender: TObject);
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
     procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer);
@@ -724,20 +711,10 @@ begin
 
 
   // Testing stuff!!!
-
-  //CEActions.GlobalHotkeys.AddHotkey(CEActions.act_gen_exit, TextToShortCut('Ctrl+Shift+E'));
-
   if DebugHook <> 0 then
   begin
-    SpTBXSeparatorItem2.Visible:= true;
-    SpTBXItem75.Visible:= true;
-    SpTBXItem45.Visible:= true;
-    test_sep1.Visible:= true;
-    test_act1.Visible:= true;
-  end;
-  //test_act1.Visible:= true;
 
-  //Caption:= IntToStr(GetTickCount - benchStart) + 'ms.';
+  end;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1438,61 +1415,6 @@ begin
   inherited;
 end;
 
-{##############################################################################}
-
-{!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!}
-// Testing stuff below!!!!
-
-procedure TMainForm.SpTBXItem45Click(Sender: TObject);
-begin
-  raise Exception.Create('Demo crash');
-end;
-
-procedure TMainForm.SpTBXItem46Click(Sender: TObject);
-var
-  page: TCEExtAppTabPage;
-begin
-  page:= TCEExtAppTabPage(TabSet.AddTab(TCEExtAppTabPage,true).Page);
-  page.ExtApp.AppWndClass:= 'Solitaire';//'FileZilla Main Window';
-  page.ExtApp.CommandLine:= 'sol.exe';//'"C:\Program Files\FileZilla\FileZilla.exe"';
-  page.ExtApp.AppWndStyle:= WS_POPUP;//WS_CHILD;
-  page.ExtApp.Run;
-  page.UpdateCaption;
-end;
-
-procedure TMainForm.SpTBXItem75Click(Sender: TObject);
-var
-  shellinfo: TSHFileOpStructA;
-  fromFile, toFile: String;
-begin
-  fromFile:= exePath + 'CubicExplorer.exe';
-  toFile:= 'D:\Projektit\CubicExplorer\InTest\CubicExplorer.exe';
-
-  ZeroMemory(@shellinfo, SizeOf(shellinfo));
-  shellinfo.wnd   := Application.Handle;
-  shellinfo.wFunc := FO_COPY;
-  shellinfo.pFrom := PChar(fromFile);
-  shellinfo.pTo   := PChar(toFile);
-  SHFileOperation(shellinfo);
-end;
-
-procedure TMainForm.SpTBXItem80Click(Sender: TObject);
-var
-  page: TCEExtAppTabPage;
-begin
-  page:= TCEExtAppTabPage(TabSet.AddTab(TCEExtAppTabPage,true).Page);
-  page.ExtApp.AppWndClass:= 'MMCMainFrame';//'FileZilla Main Window';
-  page.ExtApp.CommandLine:= 'mmc.exe compmgmt.msc';//'"C:\Program Files\FileZilla\FileZilla.exe"';
-  page.ExtApp.AppWndStyle:= WS_CHILD;
-  page.ExtApp.Run;
-  page.UpdateCaption;
-end;
-
-procedure TMainForm.test_act1Click(Sender: TObject);
-begin
-  //
-  Raise Exception.CreateFmt('Test exception', [name]);
-end;
 
 {##############################################################################}
 

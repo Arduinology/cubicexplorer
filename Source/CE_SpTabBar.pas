@@ -32,12 +32,13 @@ uses
   MPShellUtilities,
   // Windows
   Classes, Windows, SysUtils, Dialogs, Messages, Controls, Forms, ActiveX,
-  ExtCtrls, Graphics, StrUtils, ShlObj, Menus;
+  ExtCtrls, Graphics, StrUtils, ShlObj, Menus, Contnrs;
 
 type
   TSpTBXCustomTabSetAccess = class(TSpTBXCustomTabSet);
   TSpTBXTabItemViewerAccess = class(TSpTBXTabItemViewer);
   TCECustomTabPageAccess = class(TCECustomTabPage);
+  TCESpTabSet = class;
   
   // Tab Item Viewer
   TCESpTabItemViewer = class(TSpTBXTabItemViewer)
@@ -57,6 +58,7 @@ type
   public
     destructor Destroy; override;
     function CloseTab: Boolean;
+    function GetTabSet: TCESpTabSet;
     property Page: TCECustomTabPage read fPage;
     property PageVisibility: Boolean read GetPageVisibility write SetPageVisibility;
   end;
@@ -84,14 +86,13 @@ type
         fPreventLastTabClosing;
   end;
 
-  TCESpTabSet = class;
-
   TCETabSettings = class(TPersistent)
   private
     fNewTabNamespace: TNamespace;
     fNewTabPath: WideString;
     fNewTabSelect: Boolean;
     fNewTabType: Integer;
+    fOpenNextToCurrent: Boolean;
     fOpenTabSelect: Boolean;
     fReuseTabs: Boolean;
     function GetAutoFit: Boolean;
@@ -119,6 +120,8 @@ type
     property CloseButton: TSpTBXTabCloseButton read GetCloseButton write
         SetCloseButton;
     property MaxTabSize: Integer read GetMaxTabSize write SetMaxTabSize;
+    property OpenNextToCurrent: Boolean read fOpenNextToCurrent write
+        fOpenNextToCurrent;
   end;
 
   // Tab Set
@@ -136,6 +139,7 @@ type
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
     fActiveTab: TCESpTabItem;
+    fActiveTabHistory: TObjectList;
     // Tabs
     function CanActiveTabChange(const TabIndex, NewTabIndex: Integer): Boolean;
         override;
@@ -178,6 +182,7 @@ type
     function GetPrevTab(From: TSpTBXTabItem): TCESpTabItem;
     function GetTabAt(X, Y: Integer): TCESpTabItem;
     procedure SelectNextTab(GoForward: Boolean = true);
+    procedure SelectPrevSelectedTab;
     procedure SelectTab(ATab: TSpTBXTabItem);
     property ActivePopupTab: TCESpTabItem read fActivePopupTab write
         fActivePopupTab;
@@ -203,7 +208,13 @@ uses
   Destroy
 -------------------------------------------------------------------------------}
 destructor TCESpTabItem.Destroy;
+var
+  tabSet: TCESpTabSet;
 begin
+  tabSet:= GetTabSet;
+  if assigned(tabSet) then
+  tabSet.fActiveTabHistory.Remove(Self);
+  
   if assigned(fPage) then
   FreeAndNil(fPage);
   inherited;
@@ -269,6 +280,8 @@ var
   NextTab: TSpTBXTabItem;
   T: TSpTBXTabToolbar;
   b: Boolean;
+  tabSet: TCESpTabSet;
+  i: Integer;
 begin
   if Visible then
   begin
@@ -276,15 +289,16 @@ begin
     DoTabClosing(Result, b);
     if Result then
     begin
-      // Check the next visible tab
-      if Checked and GetTabToolbar(T) then
+      // Select previously selected tab
+      if Self.Checked then
       begin
-        NextTab := GetNextTab(True, sivtInmediateSkipNonVisible);
-        if not Assigned(NextTab) then
-          NextTab := GetNextTab(False, sivtInmediateSkipNonVisible);
-        if Assigned(NextTab) then
-          NextTab.Checked := True;
+        tabSet:= GetTabSet;
+        if assigned(tabSet) then
+        begin
+          tabSet.SelectPrevSelectedTab;
+        end;
       end;
+
       Visible:= False;
       DoTabClose;
     end;
@@ -300,6 +314,23 @@ begin
       CEActions.act_tabs_addtab.Execute;
     end;
   end;
+end;
+
+function TCESpTabItem.GetTabSet: TCESpTabSet;
+var
+  T: TSpTBXTabToolbar;
+begin
+  Result:= nil;
+  if GetTabToolbar(T) then
+  begin
+    if T is TCESpTabToolbar then
+    begin
+      if TCESpTabToolbar(T).FOwnerTabControl is TCESpTabSet then
+      begin
+        Result:= TCESpTabSet(TCESpTabToolbar(T).FOwnerTabControl);
+      end;
+    end;
+  end;  
 end;
 
 {##############################################################################}
@@ -323,6 +354,8 @@ begin
   fDropTimer.OnTimer:= HandleDropTimer;
   GlobalAppSettings.AddItem('Tabs', Settings, true);
   Toolbar.OnResize:= HandleToolbarResize;
+  Toolbar.ShrinkMode:= tbsmNone;
+  fActiveTabHistory:= TObjectList.Create(false);
 end;
 
 {-------------------------------------------------------------------------------
@@ -331,6 +364,7 @@ end;
 destructor TCESpTabSet.Destroy;
 begin
   fSettings.Free;
+  fActiveTabHistory.Free;
   inherited;
 end;
 
@@ -349,6 +383,7 @@ function TCESpTabSet.AddTab(TabPageClass: TCECustomTabPageClass; SelectTab:
     Boolean = false; ActivatePage: Boolean = true): TCESpTabItem;
 var
   page: TCECustomTabPage;
+  i: Integer;
 begin
   Result:= nil;
   if not assigned(TabPageClass) then
@@ -367,7 +402,23 @@ begin
   if ActivatePage then
   page.UpdateCaption;
   page.Active:= ActivatePage;
+
+  if Settings.OpenNextToCurrent then
+  begin
+    i:= Items.IndexOf(ActiveTab);
+    if i <> -1 then
+    begin
+      if i+1 < Items.Count then
+      Items.Insert(i+1, Result)
+      else
+      Items.Add(Result);
+    end
+    else
+    Items.Add(Result);
+  end
+  else
   Items.Add(Result);
+
   if SelectTab then
   begin
     Result.Checked:= true;
@@ -441,10 +492,13 @@ end;
 -------------------------------------------------------------------------------}
 function TCESpTabSet.CloseTab(ATab: TCESpTabItem; Force: Boolean = false):
     Boolean;
+var
+  i: Integer;
 begin
   if assigned(ATab) then
   begin
     Result:= ATab.CloseTab;
+
     if Result or Force then
     ATab.Free;
   end
@@ -603,6 +657,14 @@ begin
       end;
       tab.Page.SelectPage;
     end;
+
+    // Maintain ActiveTabHistory
+    i:= fActiveTabHistory.IndexOf(fActiveTab);
+    if i > -1 then
+    fActiveTabHistory.Move(i, 0)
+    else
+    fActiveTabHistory.Insert(0, fActiveTab);
+
     fActiveTab:= tab;
   end;
 
@@ -957,6 +1019,27 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Select Previously Selected Tab
+-------------------------------------------------------------------------------}
+procedure TCESpTabSet.SelectPrevSelectedTab;
+var
+  i, index: Integer;
+  tab: TCESpTabItem;
+begin
+  for i:= 0 to fActiveTabHistory.Count - 1 do
+  begin
+    tab:= TCESpTabItem(fActiveTabHistory.Items[i]);
+    if ActiveTab <> tab then
+    begin
+      index:= Items.IndexOf(tab);
+      if index <> -1 then
+      ActiveTabIndex:= index;
+      break;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   Select Tab
 -------------------------------------------------------------------------------}
 procedure TCESpTabSet.SelectTab(ATab: TSpTBXTabItem);
@@ -986,7 +1069,7 @@ constructor TCESpTabToolbar.Create(AOwner: TComponent);
 begin
   inherited;
   fPreventLastTabClosing:= false;
-  Self.ShrinkMode:= tbsmWrap;
+  Self.ShrinkMode:= tbsmNone;
 end;
 
 {-------------------------------------------------------------------------------

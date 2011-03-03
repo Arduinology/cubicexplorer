@@ -119,7 +119,8 @@ uses
   fCE_CreateSymlink in 'fCE_CreateSymlink.pas' {CreateSymlinkDlg},
   SpTBXChromeSkin in 'Components\SpSkins\SpTBXChromeSkin.pas',
   fCE_OptionsPage_Hotkeys in 'fCE_OptionsPage_Hotkeys.pas' {TCEOptionsPage_Hotkeys: TFrame},
-  fCE_OptionsPage_GlobalHotkeys in 'fCE_OptionsPage_GlobalHotkeys.pas' {TCEOptionsPage_GlobalHotkeys: TFrame};
+  fCE_OptionsPage_GlobalHotkeys in 'fCE_OptionsPage_GlobalHotkeys.pas' {TCEOptionsPage_GlobalHotkeys: TFrame},
+  fCE_MultiViewPage in 'fCE_MultiViewPage.pas' {CEMultiViewPage: TFrame};
 
 {$R *.res}
 {$R 'CE_Resources.res'}
