@@ -83,6 +83,8 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure HidePage; virtual;
+    procedure LoadFromStream(AStream: TStream); virtual;
+    procedure SaveToStream(AStream: TStream); virtual;
     procedure SelectPage; virtual;
     function TabClosing: Boolean; virtual;
     procedure UpdateCaption; virtual;
@@ -227,6 +229,22 @@ procedure TCECustomTabPage.HidePage;
 begin
   if Visible then
   Visible:= false;
+end;
+
+{-------------------------------------------------------------------------------
+  Load from stream
+-------------------------------------------------------------------------------}
+procedure TCECustomTabPage.LoadFromStream(AStream: TStream);
+begin
+  // Override from descendant.
+end;
+
+{-------------------------------------------------------------------------------
+  Save to stream
+-------------------------------------------------------------------------------}
+procedure TCECustomTabPage.SaveToStream(AStream: TStream);
+begin
+  // Override from descendant.
 end;
 
 {*------------------------------------------------------------------------------

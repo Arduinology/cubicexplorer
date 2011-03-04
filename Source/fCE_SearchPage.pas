@@ -167,6 +167,8 @@ type
     procedure HandleSearchAbort(Sender: TObject);
     procedure HandleSearchBegin(Sender: TObject);
     procedure HandleSearchFinish(Sender: TObject);
+    procedure LoadFromStream(AStream: TStream); override;
+    procedure SaveToStream(AStream: TStream); override;
     procedure SelectPage; override;
     procedure StartSearch;
     procedure UpdateCaption; override;
@@ -655,6 +657,43 @@ begin
   end;
 
   fDownShiftState:= [];
+end;
+
+{-------------------------------------------------------------------------------
+  Load from stream
+-------------------------------------------------------------------------------}
+procedure TCESearchPage.LoadFromStream(AStream: TStream);
+var
+  ws: WideString;
+begin
+  // edit_wordphrase
+  LoadWideString(AStream, ws);
+  edit_wordphrase.Text:= ws;
+  // edit_filemask
+  LoadWideString(AStream, ws);
+  edit_filemask.Text:= ws;
+  // edit_location
+  LoadWideString(AStream, ws);
+  edit_location.Text:= ws;
+  // combo_extension
+  LoadWideString(AStream, ws);
+  combo_extension.Text:= ws;
+  combo_extension.ItemIndex:= combo_extension.Items.IndexOf(ws);
+end;
+
+{-------------------------------------------------------------------------------
+  Save to stream
+-------------------------------------------------------------------------------}
+procedure TCESearchPage.SaveToStream(AStream: TStream);
+begin
+  // edit_wordphrase
+  SaveWideString(AStream, edit_wordphrase.Text);
+  // edit_filemask
+  SaveWideString(AStream, edit_filemask.Text);
+  // edit_location
+  SaveWideString(AStream, edit_location.Text);
+  // combo_extension
+  SaveWideString(AStream, combo_extension.Text);
 end;
 
 {*------------------------------------------------------------------------------

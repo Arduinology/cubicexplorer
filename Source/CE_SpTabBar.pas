@@ -39,7 +39,17 @@ type
   TSpTBXTabItemViewerAccess = class(TSpTBXTabItemViewer);
   TCECustomTabPageAccess = class(TCECustomTabPage);
   TCESpTabSet = class;
-  
+
+  // Closed Tab History Item
+  TCEClosedTabHistoryItem = class(TObject)
+  public
+    TabIndex: Integer;
+    TabPageClass: TCECustomTabPageClass;
+    TabSettings: TStream;
+    constructor Create; virtual;
+    destructor Destroy; override;
+  end;
+
   // Tab Item Viewer
   TCESpTabItemViewer = class(TSpTBXTabItemViewer)
   private
@@ -88,6 +98,7 @@ type
 
   TCETabSettings = class(TPersistent)
   private
+    fClosedTabHistory: Boolean;
     fNewTabNamespace: TNamespace;
     fNewTabPath: WideString;
     fNewTabSelect: Boolean;
@@ -106,6 +117,7 @@ type
     procedure SetMaxTabSize(const Value: Integer);
   public
     TabSet: TCESpTabSet;
+    constructor Create; virtual;
     destructor Destroy; override;
     property NewTabNamespace: TNamespace read fNewTabNamespace write
         fNewTabNamespace;
@@ -119,6 +131,8 @@ type
     property AutoFitMaxSize: Integer read GetAutoFitMaxSize write SetAutoFitMaxSize;
     property CloseButton: TSpTBXTabCloseButton read GetCloseButton write
         SetCloseButton;
+    property ClosedTabHistory: Boolean read fClosedTabHistory write
+        fClosedTabHistory default true;
     property MaxTabSize: Integer read GetMaxTabSize write SetMaxTabSize;
     property OpenNextToCurrent: Boolean read fOpenNextToCurrent write
         fOpenNextToCurrent;
@@ -131,6 +145,7 @@ type
     fClosingTab: TCESpTabItem;
     fDropTab: TCESpTabItem;
     fDropTimer: TTimer;
+    fEnableClosedTabHistory: Boolean;
     fLayoutController: TCELayoutController;
     fSettings: TCETabSettings;
     fTabPageHost: TWinControl;
@@ -140,6 +155,9 @@ type
   protected
     fActiveTab: TCESpTabItem;
     fActiveTabHistory: TObjectList;
+    fClosedTabHistory: TObjectList;
+    function AddToClosedTabHistory(ATab: TCESpTabItem): TCEClosedTabHistoryItem;
+        virtual;
     // Tabs
     function CanActiveTabChange(const TabIndex, NewTabIndex: Integer): Boolean;
         override;
@@ -168,7 +186,8 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     function AddTab(TabPageClass: TCECustomTabPageClass; SelectTab: Boolean =
-        false; ActivatePage: Boolean = true): TCESpTabItem;
+        false; ActivatePage: Boolean = true; ATabIndex: Integer = -1): TCESpTabItem;
+    function CanUndoTabClose: Boolean;
     function CloseAllTabs(ExceptThis: TCESpTabItem = nil; Force: Boolean = false):
         Boolean;
     function CloseSelectedTab(Force: Boolean = false): Boolean;
@@ -184,6 +203,7 @@ type
     procedure SelectNextTab(GoForward: Boolean = true);
     procedure SelectPrevSelectedTab;
     procedure SelectTab(ATab: TSpTBXTabItem);
+    procedure UndoTabClose;
     property ActivePopupTab: TCESpTabItem read fActivePopupTab write
         fActivePopupTab;
     property LayoutController: TCELayoutController read fLayoutController write
@@ -193,6 +213,8 @@ type
     property TabPopupMenu: TPopupMenu read fTabPopupMenu write fTabPopupMenu;
   published
     property ActiveTab: TCESpTabItem read fActiveTab;
+    property EnableClosedTabHistory: Boolean read fEnableClosedTabHistory write
+        fEnableClosedTabHistory;
     property Settings: TCETabSettings read fSettings write fSettings;
   end;
 
@@ -282,17 +304,25 @@ var
   b: Boolean;
   tabSet: TCESpTabSet;
   i: Integer;
+  item: TCEClosedTabHistoryItem;
 begin
   if Visible then
   begin
     Result:= True;
+
+    // Add Closed Tab History Item
+    tabSet:= GetTabSet;
+    if assigned(tabSet) then
+    begin
+      item:= tabset.AddToClosedTabHistory(Self);
+    end;
+    
     DoTabClosing(Result, b);
     if Result then
     begin
       // Select previously selected tab
       if Self.Checked then
       begin
-        tabSet:= GetTabSet;
         if assigned(tabSet) then
         begin
           tabSet.SelectPrevSelectedTab;
@@ -301,6 +331,11 @@ begin
 
       Visible:= False;
       DoTabClose;
+    end
+    else // Closed Tab History Item (tab could not close)
+    begin
+      if assigned(tabSet) and assigned(item) then
+      tabSet.fClosedTabHistory.Remove(item);
     end;
   end;
 
@@ -356,6 +391,8 @@ begin
   Toolbar.OnResize:= HandleToolbarResize;
   Toolbar.ShrinkMode:= tbsmNone;
   fActiveTabHistory:= TObjectList.Create(false);
+  fClosedTabHistory:= TObjectList.Create(true);
+  EnableClosedTabHistory:= true;
 end;
 
 {-------------------------------------------------------------------------------
@@ -363,6 +400,9 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCESpTabSet.Destroy;
 begin
+  EnableClosedTabHistory:= false;
+  fClosedTabHistory.Free;
+  
   fSettings.Free;
   fActiveTabHistory.Free;
   inherited;
@@ -380,7 +420,8 @@ end;
   Add Tab
 -------------------------------------------------------------------------------}
 function TCESpTabSet.AddTab(TabPageClass: TCECustomTabPageClass; SelectTab:
-    Boolean = false; ActivatePage: Boolean = true): TCESpTabItem;
+    Boolean = false; ActivatePage: Boolean = true; ATabIndex: Integer = -1):
+    TCESpTabItem;
 var
   page: TCECustomTabPage;
   i: Integer;
@@ -403,7 +444,14 @@ begin
   page.UpdateCaption;
   page.Active:= ActivatePage;
 
-  if Settings.OpenNextToCurrent then
+  if ATabIndex > -1 then
+  begin
+    if ATabIndex < Items.Count then
+    Items.Insert(ATabIndex, Result)
+    else
+    Items.Add(Result);
+  end
+  else if Settings.OpenNextToCurrent then
   begin
     i:= Items.IndexOf(ActiveTab);
     if i <> -1 then
@@ -427,12 +475,47 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Add To ClosedTabHistory
+-------------------------------------------------------------------------------}
+function TCESpTabSet.AddToClosedTabHistory(ATab: TCESpTabItem):
+    TCEClosedTabHistoryItem;
+begin
+  Result:= nil;
+
+  if not EnableClosedTabHistory or not Settings.ClosedTabHistory then
+  Exit;
+
+  if assigned(ATab) and assigned(ATab.Page) then
+  begin
+    // Add history item
+    Result:= TCEClosedTabHistoryItem.Create;
+    fClosedTabHistory.Insert(0, Result);
+    Result.TabPageClass:= TCECustomTabPageClass(ATab.Page.ClassType);
+    Result.TabIndex:= Self.Toolbar.Items.IndexOf(ATab);
+    // Save Page settings
+    ATab.Page.SaveToStream(Result.TabSettings);
+
+    // Remove old items (keep 10 items)
+    while fClosedTabHistory.Count > 10 do
+    fClosedTabHistory.Delete(fClosedTabHistory.Count-1);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   Can Active Tab Change
 -------------------------------------------------------------------------------}
 function TCESpTabSet.CanActiveTabChange(const TabIndex, NewTabIndex: Integer):
     Boolean;
 begin
   Result:= inherited CanActiveTabChange(TabIndex, NewTabIndex);
+end;
+
+{-------------------------------------------------------------------------------
+  Can Undo Tab Close
+-------------------------------------------------------------------------------}
+function TCESpTabSet.CanUndoTabClose: Boolean;
+begin
+  Result:= EnableClosedTabHistory and Settings.ClosedTabHistory and (fClosedTabHistory.Count > 0);
 end;
 
 {-------------------------------------------------------------------------------
@@ -1052,6 +1135,26 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Undo Tab Close
+-------------------------------------------------------------------------------}
+procedure TCESpTabSet.UndoTabClose;
+var
+  item: TCEClosedTabHistoryItem;
+  tab: TCESpTabItem;
+begin
+  if fClosedTabHistory.Count > 0 then
+  begin
+    // Open tab
+    item:= TCEClosedTabHistoryItem(fClosedTabHistory.Items[0]);
+    tab:= AddTab(item.TabPageClass, true, true, item.TabIndex);
+    item.TabSettings.Position:= 0;
+    tab.Page.LoadFromStream(item.TabSettings);
+    // Remove tab from history
+    fClosedTabHistory.Delete(0);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   WM_SpSkinChange
 -------------------------------------------------------------------------------}
 procedure TCESpTabSet.WMSpSkinChange(var Message: TMessage);
@@ -1303,8 +1406,21 @@ begin
   end;
 end;
 
-
 {##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Create an instance of TCETabSettings
+-------------------------------------------------------------------------------}
+constructor TCETabSettings.Create;
+begin
+  inherited;
+  fClosedTabHistory:= true;
+  fNewTabSelect:= true;
+  fNewTabType:= 0;
+  fOpenTabSelect:= true;
+  fOpenNextToCurrent:= false;
+  fReuseTabs:= false;
+end;
 
 {-------------------------------------------------------------------------------
   Destroy TCETabSettings
@@ -1403,6 +1519,27 @@ end;
 procedure TCETabSettings.SetCloseButton(const Value: TSpTBXTabCloseButton);
 begin
   TabSet.TabCloseButton:= Value;
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Create an instance of TCEClosedTabHistoryItem
+-------------------------------------------------------------------------------}
+constructor TCEClosedTabHistoryItem.Create;
+begin
+  inherited;
+  TabSettings:= TMemoryStream.Create;
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy TCEClosedTabHistoryItem
+-------------------------------------------------------------------------------}
+destructor TCEClosedTabHistoryItem.Destroy;
+begin
+  TabSettings.Size:= 0;
+  TabSettings.Free;
+  inherited;
 end;
 
 end.

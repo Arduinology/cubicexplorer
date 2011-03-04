@@ -522,6 +522,11 @@ object MainForm: TMainForm
     object SpTBXItem89: TSpTBXItem
       Action = CEActions.act_tabs_closeonright
     end
+    object SpTBXSeparatorItem2: TSpTBXSeparatorItem
+    end
+    object SpTBXItem45: TSpTBXItem
+      Action = CEActions.act_tabs_undo
+    end
   end
   object MainMenuPopupMenu: TSpTBXPopupMenu
     Images = CE_Images.SmallIcons

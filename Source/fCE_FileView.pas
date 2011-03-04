@@ -122,10 +122,12 @@ type
     procedure SelectPage; override;
     procedure UpdateCaption; override;
     procedure HidePage; override;
+    procedure LoadFromStream(AStream: TStream); override;
     procedure OnContextMenu(Sender: TCustomEasyListview; MousePt: TPoint; var
         Handled: Boolean);
     procedure OnMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState;
         X, Y: Integer);
+    procedure SaveToStream(AStream: TStream); override;
     procedure ShowHeaderSelector;
     property ShowInfoBar: Boolean read fShowInfoBar write SetShowInfoBar;
     property ThumbPosition: TAlign read fThumbPosition write SetThumbPosition;
@@ -868,6 +870,29 @@ begin
       ItemSelectionsChanged(FileView);
     end;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Load from stream
+-------------------------------------------------------------------------------}
+procedure TCEFileViewPage.LoadFromStream(AStream: TStream);
+var
+  CustomPIDL: PItemIDList;
+begin
+  CustomPIDL:= PIDLMgr.LoadFromStream(AStream);
+  if Assigned(CustomPIDL) then
+  begin
+    FileView.RootFolderCustomPIDL:= CustomPIDL;
+  end;
+  PIDLMgr.FreePIDL(CustomPIDL);
+end;
+
+{-------------------------------------------------------------------------------
+  Save to stream
+-------------------------------------------------------------------------------}
+procedure TCEFileViewPage.SaveToStream(AStream: TStream);
+begin
+  PIDLMgr.SaveToStream(AStream, FileView.RootFolderCustomPIDL);
 end;
 
 {-------------------------------------------------------------------------------

@@ -44,7 +44,9 @@ type
     Viewer: TCEQuickView;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    procedure LoadFromStream(AStream: TStream); override;
     procedure OpenFile(AFilePath: WideString);
+    procedure SaveToStream(AStream: TStream); override;
     procedure SelectPage; override;
     function TabClosing: Boolean; override;
     procedure UpdateCaption; override;
@@ -96,6 +98,18 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Load from stream
+-------------------------------------------------------------------------------}
+procedure TCEQuickViewPage.LoadFromStream(AStream: TStream);
+var
+  ws: WideString;
+begin
+  LoadWideString(AStream, ws);
+  if ws <> '' then
+  OpenFile(ws);
+end;
+
+{-------------------------------------------------------------------------------
   Open File
 -------------------------------------------------------------------------------}
 procedure TCEQuickViewPage.OpenFile(AFilePath: WideString);
@@ -112,6 +126,14 @@ begin
     ActiveFile:= '';
     UpdateCaption;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Save to stream
+-------------------------------------------------------------------------------}
+procedure TCEQuickViewPage.SaveToStream(AStream: TStream);
+begin
+  SaveWideString(AStream, ActiveFile);
 end;
 
 {*------------------------------------------------------------------------------

@@ -210,6 +210,7 @@ type
     N5: TTntMenuItem;
     act_sessions_enablehistory: TTntAction;
     act_gen_showhide: TTntAction;
+    act_tabs_undo: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -975,6 +976,7 @@ begin
          end;
     665: MainForm.TabSet.CloseTabsOnLeft(MainForm.TabSet.ActivePopupTab);
     666: MainForm.TabSet.CloseTabsOnRight(MainForm.TabSet.ActivePopupTab);
+    667: MainForm.TabSet.UndoTabClose;
   end;
 
   MainForm.TabSet.ActivePopupTab:= nil; // popup has closed so set this to nil
@@ -987,6 +989,7 @@ procedure UpdateTabsCategory(ActionID: Integer; TargetAction: TTntAction);
 begin
   case ActionID of
     661..662,664: TargetAction.Enabled:= assigned(MainForm.TabSet.ActivePopupTab) or (MainForm.TabSet.GetActiveTab <> nil);
+    667: TargetAction.Enabled:= MainForm.TabSet.CanUndoTabClose;
   end;
 end;
 

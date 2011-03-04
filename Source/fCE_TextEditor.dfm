@@ -145,7 +145,6 @@ inherited CETextEditorPage: TCETextEditorPage
     WantTabs = True
     OnReplaceText = EditorReplaceText
     OnStatusChange = EditorStatusChange
-    ExplicitHeight = 325
   end
   object StatusBar: TSpTBXStatusBar
     Left = 0
@@ -153,7 +152,6 @@ inherited CETextEditorPage: TCETextEditorPage
     Width = 670
     Height = 25
     SizeGrip = False
-    ExplicitTop = 350
     object SpTBXSeparatorItem7: TSpTBXSeparatorItem
     end
     object label_input: TSpTBXLabelItem

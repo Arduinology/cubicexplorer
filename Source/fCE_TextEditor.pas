@@ -40,7 +40,7 @@ uses
   SynHighlighterJScript, SynHighlighterPHP, SynHighlighterHtml,
   SynHighlighterCSS, SynEditHighlighter, SynHighlighterCpp,
   // VSTools
-  MPCommonObjects,
+  MPCommonObjects, MPCommonUtilities,
   // TNT Controls
   TntActnList, TntStdCtrls, TntSysUtils, TntDialogs, TntClasses,
   // System Units
@@ -181,12 +181,14 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     function CloseDocument: Boolean;
+    procedure LoadFromStream(AStream: TStream); override;
     procedure NewDocument;
     procedure OpenDocument(FilePath: WideString = '');
     procedure PopuplateHighlighters;
     procedure ReloadDocument;
     function SaveDocument: Boolean;
     function SaveDocumentAs: Boolean;
+    procedure SaveToStream(AStream: TStream); override;
     procedure SelectPage; override;
     procedure SetAutoHighlighter;
     procedure ShowOptions;
@@ -810,6 +812,26 @@ end;
 function TCETextEditorPage.GetSettingsClass: TCECustomTabPageSettingsClass;
 begin
   Result:= TCETextEditorPageSettings;
+end;
+
+{-------------------------------------------------------------------------------
+  Load from stream
+-------------------------------------------------------------------------------}
+procedure TCETextEditorPage.LoadFromStream(AStream: TStream);
+var
+  ws: WideString;
+begin
+  LoadWideString(AStream, ws);
+  if ws <> '' then
+  OpenDocument(ws);
+end;
+
+{-------------------------------------------------------------------------------
+  Save to stream
+-------------------------------------------------------------------------------}
+procedure TCETextEditorPage.SaveToStream(AStream: TStream);
+begin
+  SaveWideString(AStream, ActiveFile);
 end;
 
 {*------------------------------------------------------------------------------

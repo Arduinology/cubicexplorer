@@ -582,6 +582,13 @@ object CEActions: TCEActions
       Caption = 'Show/Hide'
       OnExecute = ActionExecute
     end
+    object act_tabs_undo: TTntAction
+      Tag = 667
+      Category = 'Tabs'
+      Caption = 'Undo Close Tab'
+      Hint = 'Close Tabs on Right'
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

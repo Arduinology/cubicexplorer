@@ -111,6 +111,7 @@ Unit Documents;
 // 664 = Duplicate Tab
 // 665 = Close Tabs On Left
 // 666 = Close Tabs On Right
+// 667 = Undo Close Tab
 
 // **** QuickView (700) ****
     // begin - group 700 -->
