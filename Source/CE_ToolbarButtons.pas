@@ -126,6 +126,13 @@ type
     constructor Create(AOwner: TComponent); override;
   end;
 
+  TCEClosedTabsListButton = class(TCEToolbarSubmenuItem)
+  protected
+    procedure DoPopup(Sender: TTBCustomItem; FromLink: Boolean); override;
+  public
+    constructor Create(AOwner: TComponent); override;
+  end;
+
 implementation
 
 uses
@@ -753,6 +760,28 @@ begin
   item.CustomHeight:= 24;
   item.Action:= CEActions.act_sessions_manage;
   Add(item);
+end;
+
+{##############################################################################}
+// TCEClosedTabsListButton
+
+{*------------------------------------------------------------------------------
+  Create an instance of TCEClosedTabsListButton
+-------------------------------------------------------------------------------}
+constructor TCEClosedTabsListButton.Create(AOwner: TComponent);
+begin
+  inherited;
+  Self.DropdownCombo:= true;
+  Self.Options:= [tboDropdownArrow];
+end;
+
+{*------------------------------------------------------------------------------
+  Do Popup
+-------------------------------------------------------------------------------}
+procedure TCEClosedTabsListButton.DoPopup(Sender: TTBCustomItem; FromLink:
+    Boolean);
+begin
+  MainForm.TabSet.PopulateUndoList(Self);
 end;
 
 

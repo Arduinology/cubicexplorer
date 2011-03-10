@@ -582,11 +582,13 @@ object CEActions: TCEActions
       Caption = 'Show/Hide'
       OnExecute = ActionExecute
     end
-    object act_tabs_undo: TTntAction
+    object act_tabs_undo: TCEToolbarAction
       Tag = 667
       Category = 'Tabs'
-      Caption = 'Undo Close Tab'
-      Hint = 'Close Tabs on Right'
+      Caption = 'Undo Tab Close'
+      Hint = 'Undo Tab Close'
+      ImageIndex = 42
+      ShortCut = 24660
       OnExecute = ActionExecute
     end
   end

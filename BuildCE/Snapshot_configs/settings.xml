@@ -115,6 +115,7 @@
     <act_tabs_addtab>16468</act_tabs_addtab>
     <act_navi_quickview>119</act_navi_quickview>
   </Hotkeys>
+  <GlobalHotkeys/>
   <Tabs>
     <NewTabPath>PIDL:FgAAABQAH1DgT9Ag6jppEKLYCAArMDCdAAA=</NewTabPath>
     <NewTabSelect>True</NewTabSelect>

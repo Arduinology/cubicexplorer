@@ -96,6 +96,13 @@ object MainForm: TMainForm
         object SpTBXItem6: TSpTBXItem
           Action = CEActions.act_tabs_closetab
         end
+        object SpTBXSeparatorItem19: TSpTBXSeparatorItem
+        end
+        object SpTBXSubmenuItem1: TSpTBXSubmenuItem
+          Action = CEActions.act_tabs_undo
+          DropdownCombo = True
+          OnPopup = sub_closed_tab_listPopup
+        end
         object SpTBXSeparatorItem5: TSpTBXSeparatorItem
         end
         object SpTBXItem9: TSpTBXItem
@@ -500,6 +507,7 @@ object MainForm: TMainForm
   end
   object TabPopupMenu: TSpTBXPopupMenu
     Images = CE_Images.SmallIcons
+    OnPopup = TabPopupMenuPopup
     Left = 96
     Top = 64
     object SpTBXItem14: TSpTBXItem
@@ -524,8 +532,10 @@ object MainForm: TMainForm
     end
     object SpTBXSeparatorItem2: TSpTBXSeparatorItem
     end
-    object SpTBXItem45: TSpTBXItem
+    object sub_closed_tab_list: TSpTBXSubmenuItem
       Action = CEActions.act_tabs_undo
+      DropdownCombo = True
+      OnPopup = sub_closed_tab_listPopup
     end
   end
   object MainMenuPopupMenu: TSpTBXPopupMenu

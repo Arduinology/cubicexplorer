@@ -210,7 +210,7 @@ type
     N5: TTntMenuItem;
     act_sessions_enablehistory: TTntAction;
     act_gen_showhide: TTntAction;
-    act_tabs_undo: TTntAction;
+    act_tabs_undo: TCEToolbarAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -362,6 +362,7 @@ begin
   act_gen_menu.ItemClass:= TCEMainMenuButton;
   act_bookmarks_menu.ItemClass:= TCEBookmarksButton;
   act_sessions_menu.ItemClass:= TCESessionsButton;
+  act_tabs_undo.ItemClass:= TCEClosedTabsListButton;
 end;
 
 {##############################################################################}

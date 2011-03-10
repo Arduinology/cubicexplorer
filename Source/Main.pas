@@ -204,7 +204,9 @@ type
     SpTBXSeparatorItem25: TSpTBXSeparatorItem;
     SpTBXItem93: TSpTBXItem;
     SpTBXSeparatorItem2: TSpTBXSeparatorItem;
-    SpTBXItem45: TSpTBXItem;
+    sub_closed_tab_list: TSpTBXSubmenuItem;
+    SpTBXSeparatorItem19: TSpTBXSeparatorItem;
+    SpTBXSubmenuItem1: TSpTBXSubmenuItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -215,6 +217,8 @@ type
     procedure LanguageMenuItemPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure StartUpTimerTimer(Sender: TObject);
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
+    procedure sub_closed_tab_listPopup(Sender: TTBCustomItem; FromLink: Boolean);
+    procedure TabPopupMenuPopup(Sender: TObject);
     procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer);
   private
@@ -1415,6 +1419,23 @@ procedure TMainForm.WMHotkey(var Message: TMessage);
 begin
   CEActions.GlobalHotkeys.ExecuteHotkey(Message.WParam);
   inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  On sub_closed_tab_list.Popup
+-------------------------------------------------------------------------------}
+procedure TMainForm.sub_closed_tab_listPopup(Sender: TTBCustomItem; FromLink:
+    Boolean);
+begin
+  TabSet.PopulateUndoList(Sender);
+end;
+
+{-------------------------------------------------------------------------------
+  On TabPopupMenu.Popup
+-------------------------------------------------------------------------------}
+procedure TMainForm.TabPopupMenuPopup(Sender: TObject);
+begin
+  sub_closed_tab_list.Enabled:= TabSet.CanUndoTabClose;
 end;
 
 

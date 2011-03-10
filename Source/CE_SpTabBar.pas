@@ -32,7 +32,7 @@ uses
   MPShellUtilities,
   // Windows
   Classes, Windows, SysUtils, Dialogs, Messages, Controls, Forms, ActiveX,
-  ExtCtrls, Graphics, StrUtils, ShlObj, Menus, Contnrs;
+  ExtCtrls, Graphics, StrUtils, ShlObj, Menus, Contnrs, ImgList;
 
 type
   TSpTBXCustomTabSetAccess = class(TSpTBXCustomTabSet);
@@ -43,6 +43,9 @@ type
   // Closed Tab History Item
   TCEClosedTabHistoryItem = class(TObject)
   public
+    TabCaption: WideString;
+    TabImageIndex: Integer;
+    TabImageList: TCustomImageList;
     TabIndex: Integer;
     TabPageClass: TCECustomTabPageClass;
     TabSettings: TStream;
@@ -106,6 +109,7 @@ type
     fOpenNextToCurrent: Boolean;
     fOpenTabSelect: Boolean;
     fReuseTabs: Boolean;
+    fUndoCount: Integer;
     function GetAutoFit: Boolean;
     function GetAutoFitMaxSize: Integer;
     function GetCloseButton: TSpTBXTabCloseButton;
@@ -136,6 +140,7 @@ type
     property MaxTabSize: Integer read GetMaxTabSize write SetMaxTabSize;
     property OpenNextToCurrent: Boolean read fOpenNextToCurrent write
         fOpenNextToCurrent;
+    property UndoCount: Integer read fUndoCount write fUndoCount;
   end;
 
   // Tab Set
@@ -182,6 +187,7 @@ type
     procedure HandleMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta:
         Integer; MousePos: TPoint; var Handled: Boolean); virtual;
     procedure HandleToolbarResize(Sender: TObject); virtual;
+    procedure HandleUndoItemClick(Sender: TObject);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -200,10 +206,11 @@ type
     function GetNextTab(From: TSpTBXTabItem): TCESpTabItem;
     function GetPrevTab(From: TSpTBXTabItem): TCESpTabItem;
     function GetTabAt(X, Y: Integer): TCESpTabItem;
+    function PopulateUndoList(ASubMenu: TTBCustomItem): Integer;
     procedure SelectNextTab(GoForward: Boolean = true);
     procedure SelectPrevSelectedTab;
     procedure SelectTab(ATab: TSpTBXTabItem);
-    procedure UndoTabClose;
+    procedure UndoTabClose(AIndex: Integer = 0);
     property ActivePopupTab: TCESpTabItem read fActivePopupTab write
         fActivePopupTab;
     property LayoutController: TCELayoutController read fLayoutController write
@@ -492,11 +499,14 @@ begin
     fClosedTabHistory.Insert(0, Result);
     Result.TabPageClass:= TCECustomTabPageClass(ATab.Page.ClassType);
     Result.TabIndex:= Self.Toolbar.Items.IndexOf(ATab);
+    Result.TabCaption:= ATab.Caption;
+    Result.TabImageIndex:= ATab.ImageIndex;
+    Result.TabImageList:= ATab.Images;
     // Save Page settings
     ATab.Page.SaveToStream(Result.TabSettings);
 
     // Remove old items (keep 10 items)
-    while fClosedTabHistory.Count > 10 do
+    while fClosedTabHistory.Count > Settings.UndoCount do
     fClosedTabHistory.Delete(fClosedTabHistory.Count-1);
   end;
 end;
@@ -1074,6 +1084,41 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Handle Undo Item Click
+-------------------------------------------------------------------------------}
+procedure TCESpTabSet.HandleUndoItemClick(Sender: TObject);
+begin
+  UndoTabClose(TSpTBXItem(Sender).Tag);
+end;
+
+{-------------------------------------------------------------------------------
+  Populate Undo List (Returns number of items added)
+-------------------------------------------------------------------------------}
+function TCESpTabSet.PopulateUndoList(ASubMenu: TTBCustomItem): Integer;
+var
+  i: Integer;
+  historyItem: TCEClosedTabHistoryItem;
+  item: TSpTBXItem;
+begin
+  Result:= 0;
+  if assigned(ASubMenu) then
+  begin
+    ASubMenu.Clear;
+    for i:= 0 to fClosedTabHistory.Count - 1 do
+    begin
+      historyItem:= TCEClosedTabHistoryItem(fClosedTabHistory.Items[i]);
+      item:= TSpTBXItem.Create(ASubMenu);
+      item.Caption:= historyItem.TabCaption;
+      item.ImageIndex:= historyItem.TabImageIndex;
+      item.Images:= historyItem.TabImageList;
+      item.Tag:= i;
+      item.OnClick:= HandleUndoItemClick;
+      ASubMenu.Add(item);
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   Select Next Tab
 -------------------------------------------------------------------------------}
 procedure TCESpTabSet.SelectNextTab(GoForward: Boolean = true);
@@ -1137,20 +1182,20 @@ end;
 {-------------------------------------------------------------------------------
   Undo Tab Close
 -------------------------------------------------------------------------------}
-procedure TCESpTabSet.UndoTabClose;
+procedure TCESpTabSet.UndoTabClose(AIndex: Integer = 0);
 var
   item: TCEClosedTabHistoryItem;
   tab: TCESpTabItem;
 begin
-  if fClosedTabHistory.Count > 0 then
+  if (fClosedTabHistory.Count > AIndex) and (AIndex > -1) then
   begin
     // Open tab
-    item:= TCEClosedTabHistoryItem(fClosedTabHistory.Items[0]);
+    item:= TCEClosedTabHistoryItem(fClosedTabHistory.Items[AIndex]);
     tab:= AddTab(item.TabPageClass, true, true, item.TabIndex);
     item.TabSettings.Position:= 0;
     tab.Page.LoadFromStream(item.TabSettings);
     // Remove tab from history
-    fClosedTabHistory.Delete(0);
+    fClosedTabHistory.Delete(AIndex);
   end;
 end;
 
@@ -1420,6 +1465,7 @@ begin
   fOpenTabSelect:= true;
   fOpenNextToCurrent:= false;
   fReuseTabs:= false;
+  fUndoCount:= 15;
 end;
 
 {-------------------------------------------------------------------------------

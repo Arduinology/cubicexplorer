@@ -1227,7 +1227,7 @@
         <BookmarkPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,0,227,124]</DockLoc>
+          <DockLoc>[0,0,227,117]</DockLoc>
           <UnDockRect>[24,140,445,331]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>230</LRDockWidth>
@@ -1249,7 +1249,7 @@
         <QuickViewPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,0,227,124]</DockLoc>
+          <DockLoc>[0,0,227,117]</DockLoc>
           <UnDockRect>[24,140,444,330]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>499</LRDockWidth>
@@ -1271,7 +1271,7 @@
         <FiltersPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,0,227,124]</DockLoc>
+          <DockLoc>[0,0,227,117]</DockLoc>
           <UnDockRect>[24,140,441,330]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>100</LRDockWidth>
@@ -1293,7 +1293,7 @@
         <TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0>
           <ParentName>DockHost@LeftDockPanel</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,18,227,165]</DockLoc>
+          <DockLoc>[0,18,227,158]</DockLoc>
           <UnDockRect>[24,140,434,320]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>100</LRDockWidth>
@@ -1315,7 +1315,7 @@
         <FolderPanel>
           <ParentName>DockHost@LeftDockPanel</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,187,227,344]</DockLoc>
+          <DockLoc>[0,180,227,344]</DockLoc>
           <UnDockRect>[-89,301,441,330]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>100</LRDockWidth>
@@ -1340,7 +1340,7 @@
           <DockLoc>[0,0,227,344]</DockLoc>
           <UnDockRect>[0,0,205,474]</UnDockRect>
           <Visible>TRUE</Visible>
-          <DockClientData>00000400580100000000000001E30000000100000000000100000000010100000000A900000001013C0200000137000000544A76446F636B546162486F7374466F726D5F46696C7465727350616E656C5F517569636B5669657750616E656C5F30304542443542300101000000005801000001013C020000010B000000466F6C64657250616E656C01FFFFFFFF</DockClientData>
+          <DockClientData>00000400580100000000000001E30000000100000000000100000000010100000000A200000001013C0200000137000000544A76446F636B546162486F7374466F726D5F46696C7465727350616E656C5F517569636B5669657750616E656C5F30304542443542300101000000005801000001013C020000010B000000466F6C64657250616E656C01FFFFFFFF</DockClientData>
         </DockHost_LeftDockPanel>
         <DockHost_LeftDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
@@ -1464,7 +1464,7 @@
         <item action="act_tools_emptytrash"/>
       </Items>
     </NavigationToolbar>
-    <ViewToolbar DisplayMode="0" LargeIcons="-1" Borders="-1" Stretch="0" DragHandle="0">
+    <ViewToolbar DisplayMode="0" LargeIcons="-1" Borders="-1" Stretch="0" DragHandle="-1">
       <Items>
         <item action="act_view_large"/>
         <item action="act_view_small"/>
