@@ -98,6 +98,7 @@ type
         Accept: Boolean);
     procedure ItemSelectionsChanged(Sender: TCustomEasyListview);
     procedure OnColumnSizeChanged(Sender: TCustomEasyListview; Column: TEasyColumn);
+    procedure OnEnumFinished(Sender: TCustomVirtualExplorerEasyListview);
     procedure OnItemContextMenu(Sender: TCustomEasyListview; HitInfo:
         TEasyHitInfoItem; WindowPoint: TPoint; var Menu: TPopupMenu; var Handled:
         Boolean);
@@ -285,6 +286,7 @@ begin
   FileView.OnMouseDown:= OnMouseDown;
   FileView.OnMouseUp:= OnMouseUp;
   FileView.OnShellNotify:= OnShellNotify;
+  FileView.OnEnumFinished:= OnEnumFinished;
   FileView.FileObjects:= [foFolders,
                           foNonFolders];
   FileView.DragManager.MouseButton:= [cmbLeft,cmbRight];
@@ -560,7 +562,7 @@ procedure TCEFileViewPage.RootRebuild(Sender:
     TCustomVirtualExplorerEasyListview);
 begin
   UpdateCaption;
-  GlobalPathCtrl.ChangeGlobalContent(Self);
+  //GlobalPathCtrl.ChangeGlobalContent(Self);
 end;
 
 {*------------------------------------------------------------------------------
@@ -863,11 +865,14 @@ end;
 procedure TCEFileViewPage.OnShellNotify(Sender:
     TCustomVirtualExplorerEasyListview; ShellEvent: TVirtualShellEvent);
 begin
-  if ShowInfoBar and assigned(InfoBar.LatestNS) then
-  begin
-    if ShellEvent.ShellNotifyEvent = vsneUpdateDir then // TODO: this should be optimized.
-    begin
+  case ShellEvent.ShellNotifyEvent of
+    vsneUpdateDir: begin
+      if ShowInfoBar and assigned(InfoBar.LatestNS) then
       ItemSelectionsChanged(FileView);
+    end;
+    vsneUpdateItem: begin
+      if Self.Visible and PIDLMgr.EqualPIDL(ShellEvent.PIDL1, FileView.RootFolderNamespace.AbsolutePIDL) then
+      GlobalPathCtrl.ChangeGlobalContent(Self);
     end;
   end;
 end;
@@ -885,6 +890,15 @@ begin
     FileView.RootFolderCustomPIDL:= CustomPIDL;
   end;
   PIDLMgr.FreePIDL(CustomPIDL);
+end;
+
+{-------------------------------------------------------------------------------
+  On EnumFinished
+-------------------------------------------------------------------------------}
+procedure TCEFileViewPage.OnEnumFinished(Sender:
+    TCustomVirtualExplorerEasyListview);
+begin
+  GlobalPathCtrl.ChangeGlobalContent(Self);
 end;
 
 {-------------------------------------------------------------------------------

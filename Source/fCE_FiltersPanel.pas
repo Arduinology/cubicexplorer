@@ -263,6 +263,7 @@ begin
   inherited;
   Filters.Active:= true;
   check_wildcards.Checked:= Filters.UseWildcards;
+  FormResize(Self);
 end;
 
 {*------------------------------------------------------------------------------
