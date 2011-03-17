@@ -1,18 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.90 RC1\n"
+"Project-Id-Version: 0.91 SVN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1079\n"
+"CE-POT-Version: 1253\n"
 "CE-Language: Chinese (Simplified)\n"
 "Last-Translator: Gniob <runningwaterpro@gmail.com>\n"
+
+msgid "%d folder(s) searched and %d item(s) found in %.3f second(s)"
+msgstr "查找到%d个文件夹和%d个项目，共花费%.3f秒。"
 
 msgid "About CubicExplorer"
 msgstr "关于 CubicExplorer"
 
 msgid "About..."
 msgstr "关于..."
+
+msgid "Accessed"
+msgstr "通过"
 
 msgid "Actions"
 msgstr "动作"
@@ -23,17 +29,38 @@ msgstr "添加书签"
 msgid "Add Category"
 msgstr "添加类别"
 
+msgid "Add History Item"
+msgstr "添加历史项目"
+
 msgid "Add Tab"
 msgstr "添加选项卡"
 
 msgid "Address Bar"
 msgstr "地址栏"
 
+msgid "Advanced"
+msgstr "高级"
+
+msgid "Advanced Settings"
+msgstr "高级设置"
+
+msgid "After Date:"
+msgstr "日期之后："
+
+msgid "After Time:"
+msgstr "时间之后："
+
+msgid "All"
+msgstr "全部"
+
 msgid "Always On Top"
 msgstr "总在最上"
 
 msgid "Always Show Sort Columns"
 msgstr "总是显示排序栏"
+
+msgid "Always sort folders first."
+msgstr "总是先对目录排序"
 
 msgid "And Launch Files"
 msgstr "同时打开文件"
@@ -47,8 +74,20 @@ msgstr "应用"
 msgid "Apply changes."
 msgstr "应用更新"
 
+msgid "Are you sure you want to clear session history?"
+msgstr "确定要清除会话历史吗？"
+
+msgid "Are you sure you want to delete this session?"
+msgstr "确定要删除此会话吗？"
+
 msgid "Arrange By"
 msgstr "排列按"
+
+msgid "At Least:"
+msgstr "至少："
+
+msgid "At Most:"
+msgstr "至多："
 
 msgid "Attributes"
 msgstr "属性"
@@ -68,6 +107,9 @@ msgstr "自动收缩子目录"
 msgid "Auto expand tree"
 msgstr "自动展开子目录"
 
+msgid "Auto size cells in list view style."
+msgstr "列表风格视图中自动改变单元格大小。"
+
 msgid "Automatic"
 msgstr "自动"
 
@@ -77,8 +119,14 @@ msgstr "后退"
 msgid "Backward"
 msgstr "后退"
 
+msgid "Before Date:"
+msgstr "日期之前："
+
+msgid "Before Time:"
+msgstr "时间之前："
+
 msgid "Bookmarks"
-msgstr "书签"
+msgstr "书签(&B)"
 
 msgid "Bookmarks Panel Settings"
 msgstr "将版面设定加入书签"
@@ -98,17 +146,56 @@ msgstr "字节"
 msgid "Cancel"
 msgstr "取消"
 
+msgid "Cancelled"
+msgstr "已取消"
+
+msgid "Case Sensitive"
+msgstr "匹配大小写"
+
 msgid "Case sensitivity"
 msgstr "区分大小写"
+
+msgid "Clear Filters"
+msgstr "清除过滤器"
+
+msgid "Clear History"
+msgstr "清除历史"
 
 msgid "Clear List"
 msgstr "清空列表"
 
+msgid "Clear Results"
+msgstr "清除结果"
+
+msgid "Clear filter history"
+msgstr "清除过滤器历史"
+
+msgid "Clear filters on folder change"
+msgstr "清除目录改变过滤器"
+
 msgid "Close"
 msgstr "关闭"
 
+msgid "Close Other Tabs"
+msgstr "关闭其他标签"
+
 msgid "Close Tab"
 msgstr "关闭选项卡"
+
+msgid "Close Tabs on Left"
+msgstr "关闭左侧标签"
+
+msgid "Close Tabs on Right"
+msgstr "关闭右侧标签"
+
+msgid "Compressed"
+msgstr "已压缩"
+
+msgid "Content"
+msgstr "内容"
+
+msgid "Continue from last time"
+msgstr "继续上次"
 
 msgid "Copy"
 msgstr "复制"
@@ -128,6 +215,9 @@ msgstr "创建新翻译"
 msgid "Create new translation."
 msgstr "创建新翻译"
 
+msgid "Created"
+msgstr "创建"
+
 msgid "CubicExplore Home Page"
 msgstr "CubicExplorer 首页"
 
@@ -146,6 +236,9 @@ msgstr "自定义..."
 msgid "Cut"
 msgstr "剪切"
 
+msgid "Date && Time"
+msgstr "日期 && 时间"
+
 msgid "Date Accessed"
 msgstr "上次访问"
 
@@ -162,7 +255,7 @@ msgid "Delete"
 msgstr "删除"
 
 msgid "Delete active session."
-msgstr "删除当前工作区"
+msgstr "删除当前会话"
 
 msgid "Desktop"
 msgstr "桌面"
@@ -182,11 +275,20 @@ msgstr "显示"
 msgid "Display Settings"
 msgstr "显示设定"
 
+msgid "Do you want to override existing session?"
+msgstr "确定要覆盖现有会话吗？"
+
+msgid "Donate"
+msgstr "捐助"
+
 msgid "Drives"
 msgstr "驱动器"
 
 msgid "Drop Stack"
 msgstr "临时容器"
+
+msgid "DualView"
+msgstr "双面板视图"
 
 msgid "Dublicate Tab"
 msgstr "复制选项卡"
@@ -198,13 +300,13 @@ msgid "Duplicate Tab"
 msgstr "复制选项卡"
 
 msgid "Edit"
-msgstr "编辑"
+msgstr "编辑(&E)"
 
 msgid "Edit Session"
-msgstr "编辑工作区"
+msgstr "编辑会话"
 
 msgid "Edit session properties."
-msgstr "编辑工作区属性"
+msgstr "编辑会话属性"
 
 msgid "Editor Options..."
 msgstr "编辑器选项..."
@@ -215,11 +317,23 @@ msgstr "清空回收站"
 msgid "English (default)"
 msgstr "英语(默认)"
 
+msgid "Enter each file mask on a separate line."
+msgstr "在不同行输入每个文件过滤器"
+
+msgid "Exclude File Masks:"
+msgstr "排除文件过滤器："
+
 msgid "Exit"
 msgstr "退出"
 
 msgid "File"
-msgstr "文件"
+msgstr "文件(&F)"
+
+msgid "File Contains:"
+msgstr "文件包含："
+
+msgid "File Name Mask"
+msgstr "文件名模板"
 
 msgid "File Search"
 msgstr "文件查找"
@@ -242,6 +356,18 @@ msgstr "查找下一个"
 msgid "Find Previous"
 msgstr "查找上一个"
 
+msgid "Finished"
+msgstr "已完成"
+
+msgid "Focus"
+msgstr "焦点"
+
+msgid "Focus Addressbar"
+msgstr "焦点定位在地址栏"
+
+msgid "Folder"
+msgstr "目录"
+
 msgid "Folder Path"
 msgstr "文件夹路径"
 
@@ -263,6 +389,9 @@ msgstr "前进"
 msgid "Fullscreen"
 msgstr "全屏"
 
+msgid "GB"
+msgstr ""
+
 msgid "General"
 msgstr "常用"
 
@@ -273,10 +402,13 @@ msgid "Group By"
 msgstr "分组"
 
 msgid "Help"
-msgstr "帮助"
+msgstr "帮助(&H)"
 
 msgid "Hex"
 msgstr ""
+
+msgid "Hidden"
+msgstr "隐藏"
 
 msgid "Highlight row completely"
 msgstr "高亮当前行"
@@ -284,14 +416,29 @@ msgstr "高亮当前行"
 msgid "Highlighter"
 msgstr "高亮"
 
+msgid "History"
+msgstr "历史"
+
 msgid "Image"
 msgstr "图片"
+
+msgid "Include File Masks:"
+msgstr "包含文件模板："
+
+msgid "Include Subfolders"
+msgstr "包含子目录"
+
+msgid "Info Bar"
+msgstr "信息条"
 
 msgid "Insert"
 msgstr "插入"
 
 msgid "Invert Selection"
 msgstr "反选"
+
+msgid "Item(s)"
+msgstr "项目"
 
 msgid "KB"
 msgstr ""
@@ -308,6 +455,9 @@ msgstr "大图标"
 msgid "Launch Files Only"
 msgstr "只打开文件"
 
+msgid "Layout"
+msgstr "布局"
+
 msgid "Layouts"
 msgstr "布局"
 
@@ -320,20 +470,44 @@ msgstr "列表"
 msgid "Load Skin..."
 msgstr "加载皮肤..."
 
+msgid "Load session"
+msgstr "加载会话"
+
 msgid "Load skin from file"
 msgstr "从文件中加载皮肤"
 
 msgid "Load this session on startup."
-msgstr "启动时载入此工作区"
+msgstr "启动时载入此会话"
 
 msgid "Loading..."
 msgstr "正在加载..."
 
+msgid "Location"
+msgstr "位置"
+
 msgid "MB"
 msgstr ""
 
+msgid "Main Menu"
+msgstr "主菜单"
+
+msgid "Manage Sessions"
+msgstr "管理会话"
+
+msgid "Manage..."
+msgstr "管理..."
+
 msgid "Map Network Drive..."
 msgstr "映射网络驱动器..."
+
+msgid "Max Level:"
+msgstr "最大级别："
+
+msgid "Menu"
+msgstr "菜单"
+
+msgid "Min Level:"
+msgstr "最小级别："
 
 msgid "Modified"
 msgstr "已修改"
@@ -343,6 +517,9 @@ msgstr "更多..."
 
 msgid "Name"
 msgstr "名称"
+
+msgid "Name && Location"
+msgstr "名称 && 位置"
 
 msgid "Name Only"
 msgstr "只显示名称"
@@ -357,10 +534,13 @@ msgid "New Folder"
 msgstr "新建文件夹"
 
 msgid "New Session"
-msgstr "新工作区"
+msgstr "新会话"
 
 msgid "No Extension"
 msgstr "不显示扩展名"
+
+msgid "No Selection"
+msgstr "未选择"
 
 msgid "No file loaded."
 msgstr "文件未加载"
@@ -371,17 +551,26 @@ msgstr "无"
 msgid "OK"
 msgstr "确定"
 
+msgid "On Startup"
+msgstr "启动时"
+
 msgid "Open All in Tabs"
 msgstr "分别在选项卡中打开"
 
 msgid "Open Command Prompt"
 msgstr "打卡命令行窗口"
 
+msgid "Open Containing Folder"
+msgstr "打开包含目录"
+
+msgid "Open default tab"
+msgstr "打开默认标签"
+
 msgid "Open in new tab by default"
 msgstr "在新选项卡中打开默认文件夹"
 
 msgid "Open new tab as"
-msgstr "以新选项卡打开"
+msgstr "打开新选项卡"
 
 msgid "Open..."
 msgstr "打开..."
@@ -425,8 +614,14 @@ msgstr "发布翻译"
 msgid "Quick Options"
 msgstr "快速选项"
 
+msgid "QuickView"
+msgstr "快速查看"
+
 msgid "Quickview"
 msgstr "快速查看"
+
+msgid "Read Only"
+msgstr "只读"
 
 msgid "Redo"
 msgstr "重做"
@@ -467,11 +662,14 @@ msgstr "保存"
 msgid "Save As..."
 msgstr "另存为... "
 
+msgid "Save Session"
+msgstr "保存会话"
+
 msgid "Save active session with new name."
-msgstr "使用新名保存当前工作区"
+msgstr "使用新名保存当前会话"
 
 msgid "Save active session."
-msgstr "保存当前工作区"
+msgstr "保存当前会话"
 
 msgid "Save changes before closing?"
 msgstr "关闭前是否保存?"
@@ -484,6 +682,9 @@ msgstr "保存修改吗?"
 
 msgid "Save settings automatically."
 msgstr "自动保存设置"
+
+msgid "Save..."
+msgstr "保存..."
 
 msgid "Save/Load Settings"
 msgstr "保存/载入设置"
@@ -512,11 +713,20 @@ msgstr "从光标处开始查找"
 msgid "Search in Directory"
 msgstr "从文件夹中查找"
 
+msgid "Searching from"
+msgstr "查找窗体"
+
 msgid "Select All"
 msgstr "全选"
 
 msgid "Select default folder for new tabs."
 msgstr "新选项卡打开时的默认文件夹"
+
+msgid "Select existing translation or create new."
+msgstr "选择已存在的翻译或新建。"
+
+msgid "Select first item automatically"
+msgstr "自动选择第一项"
 
 msgid "Select previous folder"
 msgstr "选择上一个文件夹"
@@ -531,10 +741,10 @@ msgid "Separator"
 msgstr "分隔符"
 
 msgid "Session Name"
-msgstr "工作区名称"
+msgstr "会话名称"
 
 msgid "Sessions"
-msgstr "工作区"
+msgstr "会话(&S)"
 
 msgid "Short Folder Path"
 msgstr "文件夹短路径"
@@ -563,6 +773,9 @@ msgstr "显示提示"
 msgid "Show Path in Title bar"
 msgstr "在标题栏中显示路径"
 
+msgid "Show Session Manager"
+msgstr "显示会话管理器"
+
 msgid "Show Statusbar"
 msgstr "显示任务栏"
 
@@ -580,6 +793,9 @@ msgstr "单击模式"
 
 msgid "Size"
 msgstr "大小"
+
+msgid "Size && Attributes"
+msgstr "大小 && 属性"
 
 msgid "Small Icons"
 msgstr "小图标"
@@ -599,14 +815,26 @@ msgstr "任务栏"
 msgid "Stop"
 msgstr "停止"
 
+msgid "Strict"
+msgstr "精确"
+
 msgid "Subdirectories"
 msgstr "子目录"
 
 msgid "Support Forum"
 msgstr "论坛支持"
 
+msgid "Switch to Next Tab"
+msgstr "切换到下一个标签"
+
 msgid "Switch to a new tab immediately"
 msgstr "立即切换到新选项卡"
+
+msgid "Swith to Previous Tab"
+msgstr "切换到上一个标签"
+
+msgid "System"
+msgstr "系统"
 
 msgid "Tabs"
 msgstr "选项卡"
@@ -642,7 +870,7 @@ msgid "Toolbars"
 msgstr "工具栏"
 
 msgid "Tools"
-msgstr "工具"
+msgstr "工具(&T)"
 
 msgid "Top"
 msgstr "顶端"
@@ -680,17 +908,23 @@ msgstr "取消"
 msgid "Untitled"
 msgstr "未命名"
 
+msgid "Use strict filtering (wildcards are ? and *)"
+msgstr "使用精确过滤器（通配符 ？ 和 *）"
+
 msgid "Version:"
 msgstr "版本:"
 
 msgid "View"
-msgstr "视图"
+msgstr "视图(&V)"
 
 msgid "View Style"
 msgstr "视图风格"
 
 msgid "When I open folder/file in a new tab, switch to it immediately "
 msgstr "当在新选项卡中打开文件/文件夹时"
+
+msgid "Whole Word"
+msgstr "整个词"
 
 msgid "Whole words only"
 msgstr "只是整个词"
@@ -700,6 +934,9 @@ msgstr "关键词类表"
 
 msgid "Word Wrap"
 msgstr "自动换行"
+
+msgid "Word or Phrase in File Name"
+msgstr "文件名中的单词或语法"
 
 msgid "前进"
 msgstr "前一個"

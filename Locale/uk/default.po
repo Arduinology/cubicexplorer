@@ -1,0 +1,715 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.9\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"CE-POT-Version: 1131\n"
+"CE-Language: Ukrainian\n"
+"Last-Translator: igor Paliychuk <mansonigor@gmail.com>\n"
+
+msgid "About CubicExplorer"
+msgstr "Про CubicExplorer"
+
+msgid "About..."
+msgstr "Про програму..."
+
+msgid "Actions"
+msgstr "Дії"
+
+msgid "Add Bookmark"
+msgstr "Додати Закладку"
+
+msgid "Add Category"
+msgstr "Додати Категорію"
+
+msgid "Add Tab"
+msgstr "Додати Вкладку"
+
+msgid "Address Bar"
+msgstr "Рядок Адреси"
+
+msgid "Always On Top"
+msgstr "Завжди Зверху"
+
+msgid "Always Show Sort Columns"
+msgstr "Завжди Відображати Графи Сортування"
+
+msgid "Always sort folders first."
+msgstr "Завжди сортувати список тек."
+
+msgid "And Launch Files"
+msgstr ""
+
+msgid "Application Revision:"
+msgstr "Ревізія Додатку:"
+
+msgid "Apply"
+msgstr "Застосувати"
+
+msgid "Apply changes."
+msgstr "Застосувати зміни."
+
+msgid "Arrange By"
+msgstr "Сортувати За"
+
+msgid "Attributes"
+msgstr "Атрибути"
+
+msgid "Auto"
+msgstr "Авто"
+
+msgid "Auto collapse tree"
+msgstr "Авто згортання дерева"
+
+msgid "Auto expand tree"
+msgstr "Авто розгортання дерева"
+
+msgid "Auto size cells in list view style."
+msgstr ""
+
+msgid "Automatic"
+msgstr "Автоматично"
+
+msgid "Back"
+msgstr "Назад"
+
+msgid "Backward"
+msgstr "Крок Назад"
+
+msgid "Bookmarks"
+msgstr "Закладки"
+
+msgid "Bookmarks Panel Settings"
+msgstr "Налаштування Панелі Закладок"
+
+msgid "Bottom"
+msgstr ""
+
+msgid "Breadcrumb Navigation"
+msgstr "Навігація Ланцюжком"
+
+msgid "Browse..."
+msgstr "Оляд..."
+
+msgid "Bytes"
+msgstr "Байтів"
+
+msgid "Cancel"
+msgstr "Скасувати"
+
+msgid "Case sensitivity"
+msgstr "Чутливий до регістру"
+
+msgid "Clear List"
+msgstr "Очистити Список"
+
+msgid "Clear filters on folder change"
+msgstr ""
+
+msgid "Close"
+msgstr "Закрити"
+
+msgid "Close Other Tabs"
+msgstr "Закрити Інші Вкладки"
+
+msgid "Close Tab"
+msgstr "Закрити Вкладку"
+
+msgid "Close Tabs on Left"
+msgstr "Закрити Вкладки Зліва"
+
+msgid "Close Tabs on Right"
+msgstr "Закрити Вкладки Справа"
+
+msgid "Copy"
+msgstr "Копіювати"
+
+msgid "Copy Path"
+msgstr "Копіювати Шлях"
+
+msgid "Copy of active tab"
+msgstr "Копія активної вкладки"
+
+msgid "Create"
+msgstr "Створити"
+
+msgid "Create New Translation"
+msgstr "Створити Новий Переклад"
+
+msgid "Create new translation."
+msgstr "Створити новий переклад."
+
+msgid "CubicExplore Home Page"
+msgstr "Домашня Сторінка CubicExplorer"
+
+msgid "CubicExplorer Options"
+msgstr "Онції CubicExplorer"
+
+msgid "Custom..."
+msgstr "Власні Налаштування..."
+
+msgid "Customize"
+msgstr "Налаштувати"
+
+msgid "Customizer..."
+msgstr "Налаштовувач..."
+
+msgid "Cut"
+msgstr "Вирізати"
+
+msgid "Date Accessed"
+msgstr "Дата Доступу"
+
+msgid "Date Created"
+msgstr "Дата Створення"
+
+msgid "Date Modified"
+msgstr "Дата Зміни"
+
+msgid "Default"
+msgstr "За Замовчуванням"
+
+msgid "Delete"
+msgstr "Видалити"
+
+msgid "Delete active session."
+msgstr "Видалити активну Сесію."
+
+msgid "Desktop"
+msgstr "Стільниця"
+
+msgid "Details"
+msgstr "Деталі"
+
+msgid "Direction"
+msgstr "Напрямок"
+
+msgid "Disconnect Network Drive..."
+msgstr "Відключити Мережний Диск..."
+
+msgid "Display"
+msgstr "Відображення"
+
+msgid "Display Settings"
+msgstr "Налаштування Відображення"
+
+msgid "Drives"
+msgstr "Диски"
+
+msgid "Drop Stack"
+msgstr "Кинути Пачку"
+
+msgid "Duplicate"
+msgstr "Дублювати"
+
+msgid "Duplicate Tab"
+msgstr "Дублювати Вкладку"
+
+msgid "Edit"
+msgstr "Правка"
+
+msgid "Edit Session"
+msgstr "Правити Сесію"
+
+msgid "Edit session properties."
+msgstr "Правити властивості сесії."
+
+msgid "Editor Options..."
+msgstr "Налаштування Редактора..."
+
+msgid "Empty Recycle Bin"
+msgstr "Очистити Кошик"
+
+msgid "English (default)"
+msgstr "Англійська(за замовчуванням)"
+
+msgid "Exit"
+msgstr "Вихід"
+
+msgid "File"
+msgstr "Файл"
+
+msgid "File Search"
+msgstr "Пошук Файлів"
+
+msgid "Fileview"
+msgstr "Перегляд Файлів"
+
+msgid "Fileview Settings"
+msgstr "Налаштування Перегляду Файлів"
+
+msgid "Filmstrip"
+msgstr "Діафільм"
+
+msgid "Filters"
+msgstr "Фільтри"
+
+msgid "Find Next"
+msgstr "Знайти Далі"
+
+msgid "Find Previous"
+msgstr "Знайти Раніше"
+
+msgid "Folder Path"
+msgstr "Шлях до Теки"
+
+msgid "Folder Up"
+msgstr "Текою Вверх"
+
+msgid "Folders"
+msgstr "Теки"
+
+msgid "Folders Panel Settings"
+msgstr "Налаштування Панелі Тек"
+
+msgid "Format"
+msgstr "Формат"
+
+msgid "Forward"
+msgstr "Вперед"
+
+msgid "Fullscreen"
+msgstr "Повний Екран"
+
+msgid "General"
+msgstr "Загальні"
+
+msgid "General Settings"
+msgstr "Загальні Налаштування"
+
+msgid "Group By"
+msgstr "Групувати За"
+
+msgid "Help"
+msgstr "Довідка"
+
+msgid "Hex"
+msgstr ""
+
+msgid "Highlight row completely"
+msgstr ""
+
+msgid "Highlighter"
+msgstr "Підсвічування"
+
+msgid "Image"
+msgstr "Картинка"
+
+msgid "Insert"
+msgstr "Вставка"
+
+msgid "Invert Selection"
+msgstr "Інверсія Виділення"
+
+msgid "KB"
+msgstr "КБ"
+
+msgid "Language"
+msgstr "Мова"
+
+msgid "Language Editor"
+msgstr "Правка Мови"
+
+msgid "Large Icons"
+msgstr "Великі Значки"
+
+msgid "Launch Files Only"
+msgstr ""
+
+msgid "Layouts"
+msgstr "Розкладки"
+
+msgid "Left"
+msgstr ""
+
+msgid "List"
+msgstr "Список"
+
+msgid "Load Skin..."
+msgstr "Завантажити Обкладинку..."
+
+msgid "Load skin from file"
+msgstr "Завантажити Обкладинку з Файлу"
+
+msgid "Load this session on startup."
+msgstr "Завантажити цю сесію при старті."
+
+msgid "Loading..."
+msgstr "Завантажую..."
+
+msgid "MB"
+msgstr "МБ"
+
+msgid "Main Menu"
+msgstr "Головне Меню"
+
+msgid "Map Network Drive..."
+msgstr "Відключити Мережний Диск..."
+
+msgid "Menu"
+msgstr "Меню"
+
+msgid "Modified"
+msgstr "Змінений"
+
+msgid "More..."
+msgstr "Більше..."
+
+msgid "Name"
+msgstr "Назва"
+
+msgid "Name Only"
+msgstr "Лише Назву"
+
+msgid "Navigation"
+msgstr "Навігація"
+
+msgid "New"
+msgstr "Новий"
+
+msgid "New Folder"
+msgstr "Нова Тека"
+
+msgid "New Session"
+msgstr "Нова Сесія"
+
+msgid "No Extension"
+msgstr ""
+
+msgid "No file loaded."
+msgstr "Не завантажено жодного файлу"
+
+msgid "None"
+msgstr "Немає"
+
+msgid "OK"
+msgstr "ОК"
+
+msgid "Open All in Tabs"
+msgstr ""
+
+msgid "Open Command Prompt"
+msgstr "Відкрити Командний Рядок"
+
+msgid "Open in new tab by default"
+msgstr ""
+
+msgid "Open new tab as"
+msgstr "Відкрити нову вкладку як"
+
+msgid "Open..."
+msgstr "Відкрити..."
+
+msgid "Options"
+msgstr "Опції"
+
+msgid "Options..."
+msgstr "Опції..."
+
+msgid "Original"
+msgstr ""
+
+msgid "Override"
+msgstr ""
+
+msgid "Panels"
+msgstr "Панелі"
+
+msgid "Paste"
+msgstr "Вставити"
+
+msgid "Paste Shortcut"
+msgstr "Вставити Ярлик"
+
+msgid "Path"
+msgstr "Шлях"
+
+msgid "Pause"
+msgstr "Пауза"
+
+msgid "Properties"
+msgstr "Властивості"
+
+msgid "Properties..."
+msgstr "Властивості..."
+
+msgid "Publish Translation"
+msgstr "Публікувати Переклад"
+
+msgid "QuickView"
+msgstr "Швидкий Перегляд"
+
+msgid "Quickview"
+msgstr "Швидкий перегляд"
+
+msgid "Redo"
+msgstr "Повторити"
+
+msgid "Refresh"
+msgstr "Оновити"
+
+msgid "Regular expression"
+msgstr ""
+
+msgid "Relative"
+msgstr ""
+
+msgid "Reload"
+msgstr "Перевантажити"
+
+msgid "Rename"
+msgstr "Перейменувати"
+
+msgid "Replace"
+msgstr "Замінити"
+
+msgid "Replace All"
+msgstr "Замінити Все"
+
+msgid "Reuse already open tabs"
+msgstr ""
+
+msgid "Right"
+msgstr ""
+
+msgid "Save"
+msgstr "Зберегти"
+
+msgid "Save As..."
+msgstr "Зберегти Як..."
+
+msgid "Save active session with new name."
+msgstr "Зберегти активну сесію з новою назвою."
+
+msgid "Save active session."
+msgstr "Зберегти активну сесію."
+
+msgid "Save changes before closing?"
+msgstr "Зберегти зміни перед закриттям?"
+
+msgid "Save changes."
+msgstr "Зберегти Зміни."
+
+msgid "Save changes?"
+msgstr "Зберегти Зміни?"
+
+msgid "Save settings automatically."
+msgstr "Зберігати налаштування автоматично."
+
+msgid "Save/Load Settings"
+msgstr "Зберегти/Завантажити Налаштування"
+
+msgid "Scroll Left"
+msgstr "Прокрутити Вліво"
+
+msgid "Scroll Right"
+msgstr "Прокрутити Вправо"
+
+msgid "Search"
+msgstr "Пошук"
+
+msgid "Search File Mask"
+msgstr "Маска Файлу для Пошуку"
+
+msgid "Search Word or Phrase in File Name"
+msgstr "Шукати в Назвы Файлу Слово або Фразу"
+
+msgid "Search and Replace"
+msgstr "Знайти та Замінити"
+
+msgid "Search from cursor"
+msgstr "Шукати від курсора"
+
+msgid "Search in Directory"
+msgstr "Шукати в Теці"
+
+msgid "Select All"
+msgstr "Вибрати Все"
+
+msgid "Select default folder for new tabs."
+msgstr ""
+
+msgid "Select first item automatically"
+msgstr "Автоматично Вибирати Перший Об'єкт"
+
+msgid "Select previous folder"
+msgstr "Вибрати попередню теку"
+
+msgid "Selected"
+msgstr "Вибрано"
+
+msgid "Selected text only"
+msgstr "Лише вибраний текст"
+
+msgid "Separator"
+msgstr "Розділювач"
+
+msgid "Session Name"
+msgstr "Назва Сесії"
+
+msgid "Sessions"
+msgstr "Сесії"
+
+msgid "Short Folder Path"
+msgstr "Короткий Шлях до Теки"
+
+msgid "Short Name Only"
+msgstr "Лише Короткі Назви"
+
+msgid "Short Path"
+msgstr "Короткий Шлях"
+
+msgid "Show All Files"
+msgstr "Показати Всі Файли"
+
+msgid "Show Extensions"
+msgstr "Показувати Розширення"
+
+msgid "Show Folders"
+msgstr "Показувати Теки"
+
+msgid "Show Hidden Files"
+msgstr "Показувати Приховані Файли"
+
+msgid "Show Hints"
+msgstr "Показувати Підказки"
+
+msgid "Show Path in Title bar"
+msgstr "Показувати Шлях в Заголовку"
+
+msgid "Show Statusbar"
+msgstr "Показати Панель Стану"
+
+msgid "Show Toolbar"
+msgstr "Показати Панель Інструментів"
+
+msgid "Show in Groups"
+msgstr "Показати в Групах"
+
+msgid "Single Instance Only"
+msgstr "Лише в Одному Екземплярі"
+
+msgid "Single click mode"
+msgstr "Режим одинарного кліку"
+
+msgid "Size"
+msgstr "Розмір"
+
+msgid "Small Icons"
+msgstr "Маленькі Значки"
+
+msgid "Stack"
+msgstr "Пачка"
+
+msgid "Start"
+msgstr "Почати"
+
+msgid "Status Bar"
+msgstr "Пенель Стану"
+
+msgid "Stop"
+msgstr "Зупинити"
+
+msgid "Subdirectories"
+msgstr "Піддиректорії"
+
+msgid "Support Forum"
+msgstr "Форум Підтримки"
+
+msgid "Switch to a new tab immediately"
+msgstr "Негайно переключатись на нову вкладку"
+
+msgid "Tabs"
+msgstr "Вкладки"
+
+msgid "Tabs Settings"
+msgstr "Налаштування Вкладок"
+
+msgid "Target"
+msgstr "Ціль"
+
+msgid "Text"
+msgstr "Текст"
+
+msgid "Text Editor"
+msgstr "Текстовий Редактор"
+
+msgid "Theme"
+msgstr "Тема"
+
+msgid "Thumbnails"
+msgstr "Ескізи"
+
+msgid "Thumbs Position"
+msgstr ""
+
+msgid "Thumbs View Style"
+msgstr ""
+
+msgid "Tiles"
+msgstr "Плитка"
+
+msgid "Toolbars"
+msgstr "Панелі Інструментів"
+
+msgid "Tools"
+msgstr "Інструменти"
+
+msgid "Top"
+msgstr ""
+
+msgid "Total Size"
+msgstr "Загальний Розмір"
+
+msgid "Translate CubicExplorer"
+msgstr "Перекласти CubicExplorer"
+
+msgid "Translation"
+msgstr "Переклад"
+
+msgid "Translation Revision:"
+msgstr "Ревізія Перекладу:"
+
+msgid "Translation Version"
+msgstr "Версія Перекладу"
+
+msgid "Translator's Email"
+msgstr "Поштова Скринька  Перекладача"
+
+msgid "Translator's Name"
+msgstr "Ім'я перекладача"
+
+msgid "Transparency"
+msgstr "Прозорість"
+
+msgid "Type"
+msgstr "Тип"
+
+msgid "Undo"
+msgstr "Відмінити"
+
+msgid "Untitled"
+msgstr "Безназви"
+
+msgid "Version:"
+msgstr "Версія:"
+
+msgid "View"
+msgstr "Вигляд"
+
+msgid "View Style"
+msgstr "Стиль перегляду"
+
+msgid "When I open folder/file in a new tab, switch to it immediately "
+msgstr ""
+
+msgid "Whole words only"
+msgstr "Лише цілі слова"
+
+msgid "Word List"
+msgstr "Список Слів"
+
+msgid "Word Wrap"
+msgstr "Перенос Слів"
+
