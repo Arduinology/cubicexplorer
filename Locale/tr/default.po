@@ -1,15 +1,18 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0\n"
+"Project-Id-Version: 1.1\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1251\n"
+"CE-POT-Version: 1282\n"
 "CE-Language: Turkish\n"
 "Last-Translator: Kadir Yaylaci <yaylaci.kadir@gmail.com>\n"
 
 msgid "%d folder(s) searched and %d item(s) found in %.3f second(s)"
 msgstr "%d klasör(ler) arandı ve %d öğe %.3f saniyede bulundu."
+
+msgid "..."
+msgstr "..."
 
 msgid "About CubicExplorer"
 msgstr "CubicExplorer"
@@ -22,6 +25,9 @@ msgstr "Çalıştırılma tarihi"
 
 msgid "Actions"
 msgstr "Hareketler"
+
+msgid "Add"
+msgstr "Ekle"
 
 msgid "Add Bookmark"
 msgstr "Sık kullanılan Ekle"
@@ -92,14 +98,23 @@ msgstr "Şu Boyuttan Küçük:"
 msgid "Attributes"
 msgstr "Nitelikler"
 
+msgid "Author"
+msgstr "Yazar"
+
 msgid "Auto"
 msgstr "Otomatik"
+
+msgid "Auto Save History"
+msgstr "Geçmişi Otomatik Kaydet"
 
 msgid "Auto collapse tree"
 msgstr "Ağacı otomatik daralt"
 
 msgid "Auto expand tree"
 msgstr "Ağacı otomatik genişlet"
+
+msgid "Auto fit tabs"
+msgstr "Sekmeleri otomatik boyutlandır"
 
 msgid "Auto size cells in list view style."
 msgstr "Liste görünümünde hücreleri otomatik boyutlandır."
@@ -125,6 +140,9 @@ msgstr "Sık Kullanılanlar"
 msgid "Bookmarks Panel Settings"
 msgstr "Sık Kullanılanlar Panel Ayarları"
 
+msgid "Borders"
+msgstr "Sınırlar"
+
 msgid "Bottom"
 msgstr "Alt"
 
@@ -133,6 +151,9 @@ msgstr "Klasör Yolundaki Düğmeler"
 
 msgid "Browse..."
 msgstr "Gözat"
+
+msgid "Buttons"
+msgstr "Düğmeler"
 
 msgid "Bytes"
 msgstr "Byte"
@@ -182,6 +203,9 @@ msgstr "Soldaki Sekmeleri Kapat"
 msgid "Close Tabs on Right"
 msgstr "Sağdaki Sekmeleri Kapat"
 
+msgid "Close to tray"
+msgstr "Sistem çubuğuna kapat"
+
 msgid "Compressed"
 msgstr "Sıkıştırılmış"
 
@@ -189,7 +213,7 @@ msgid "Content"
 msgstr "İçerik"
 
 msgid "Continue from last time"
-msgstr ""
+msgstr "Kaldığı yerden devam et"
 
 msgid "Copy"
 msgstr "Kopyala"
@@ -205,6 +229,9 @@ msgstr "Yarat"
 
 msgid "Create New Translation"
 msgstr "Yeni Tercüme Yarat"
+
+msgid "Create Symbolic Link"
+msgstr "Sembolik Bağlantı Oluştur"
 
 msgid "Create new translation."
 msgstr "Yeni tercüme yarat"
@@ -266,14 +293,26 @@ msgstr "Ağ Sürücüsüyle Bağlantıyı Kes..."
 msgid "Display"
 msgstr "Görüntü"
 
+msgid "Display Mode"
+msgstr "Görüntüleme Modu"
+
 msgid "Display Settings"
 msgstr "Görüntü Ayarları"
 
 msgid "Do you want to override existing session?"
-msgstr ""
+msgstr "Oluşturulmuş oturumun üstüne yazmak istiyormusunuz?"
+
+msgid "Do you want to use it anyway?"
+msgstr "Yine de kullanmak istiyormusunuz?"
 
 msgid "Donate"
 msgstr "Bağış Yap"
+
+msgid "Drag Handle"
+msgstr "Elle Sürükle"
+
+msgid "Drag buttons to/from toolbars"
+msgstr ""
 
 msgid "Drives"
 msgstr "Sürücüler"
@@ -289,6 +328,9 @@ msgstr "İkiz Sekme"
 
 msgid "Duplicate"
 msgstr "Aynı"
+
+msgid "Duplicate Hotkey"
+msgstr "İkiz Kısayol"
 
 msgid "Duplicate Tab"
 msgstr "Sekmeyi çiftle"
@@ -312,10 +354,10 @@ msgid "English (default)"
 msgstr "İngilizce (varsayılan)"
 
 msgid "Enter each file mask on a separate line."
-msgstr ""
+msgstr "Her bir dosya kalıbını ayrı bir hatta girin."
 
 msgid "Exclude File Masks:"
-msgstr ""
+msgstr "İçermeyen Dosya Kalıbı"
 
 msgid "Exit"
 msgstr "Çıkış"
@@ -324,10 +366,10 @@ msgid "File"
 msgstr "Dosya"
 
 msgid "File Contains:"
-msgstr ""
+msgstr "Dosya İçeriği"
 
 msgid "File Name Mask"
-msgstr ""
+msgstr "Dosya İsmi Kalıbı"
 
 msgid "File Search"
 msgstr "Dosya Arama"
@@ -354,10 +396,10 @@ msgid "Finished"
 msgstr "Bitti"
 
 msgid "Focus"
-msgstr ""
+msgstr "Odakla"
 
 msgid "Focus Addressbar"
-msgstr ""
+msgstr "Adres Çubuğuna Odakla"
 
 msgid "Folder"
 msgstr "Klasör"
@@ -392,6 +434,12 @@ msgstr "Genel"
 msgid "General Settings"
 msgstr "Genel Ayarlar"
 
+msgid "Global"
+msgstr "Global"
+
+msgid "Global Hotkey Settings"
+msgstr "Global Klavye Kısayol Ayarları"
+
 msgid "Group By"
 msgstr "Grupla"
 
@@ -413,11 +461,23 @@ msgstr "Yazım Şekli"
 msgid "History"
 msgstr "Geçmiş"
 
+msgid "Hotkey Settings"
+msgstr "Klavye Kısayol Ayarları"
+
+msgid "Hotkeys"
+msgstr "Klavye Kısayolları"
+
+msgid "Icon above text"
+msgstr "Yazı üstünde simge"
+
+msgid "Icon only"
+msgstr "Sadece simge"
+
 msgid "Image"
 msgstr "İmaj"
 
 msgid "Include File Masks:"
-msgstr ""
+msgstr "Dosya Kalıplarını Dahil Et:"
 
 msgid "Include Subfolders"
 msgstr "Altklasörleri Dahil Et"
@@ -450,13 +510,16 @@ msgid "Launch Files Only"
 msgstr "Sadece Dosyaları Aç"
 
 msgid "Layout"
-msgstr ""
+msgstr "Yerleşim Planı"
 
 msgid "Layouts"
 msgstr "Katmanlar"
 
 msgid "Left"
 msgstr "Sol"
+
+msgid "Link Name"
+msgstr "Bağlantı ismi"
 
 msgid "List"
 msgstr "Liste"
@@ -469,6 +532,12 @@ msgstr "Oturum yükle"
 
 msgid "Load skin from file"
 msgstr "Dosyadan arayüz yükle"
+
+msgid "Load theme from file"
+msgstr "Dosyadan tema yükle"
+
+msgid "Load theme from file..."
+msgstr "Dosyadan tema yükle.."
 
 msgid "Load this session on startup."
 msgstr "Açılışta bu oturum yükle"
@@ -503,8 +572,14 @@ msgstr "Menü"
 msgid "Min Level:"
 msgstr "En Düşük Seviye"
 
+msgid "Minimize to tray"
+msgstr "Sistem çubuğuna küçült"
+
 msgid "Modified"
 msgstr "Düzenlenme zamanı"
+
+msgid "Modify Hotkey"
+msgstr "Klavye Kısayollarını Düzenleyin"
 
 msgid "More..."
 msgstr "Daha Fazla..."
@@ -540,7 +615,7 @@ msgid "No file loaded."
 msgstr "Yüklenen dosya yok"
 
 msgid "None"
-msgstr "Transparanlık Yok"
+msgstr "Saydamlık Yok"
 
 msgid "OK"
 msgstr "Tamam"
@@ -565,6 +640,9 @@ msgstr "Varsayılan olarak yeni sekmede aç"
 
 msgid "Open new tab as"
 msgstr "Yeni sekmeyi şöyle aç"
+
+msgid "Open new tab next to current"
+msgstr "Hemen yanına yeni sekme aç"
 
 msgid "Open..."
 msgstr "Aç..."
@@ -595,6 +673,9 @@ msgstr "Klasör Yolu"
 
 msgid "Pause"
 msgstr "Duraklat"
+
+msgid "Please choose different hotkey."
+msgstr "Lütfen farklı bir klavye kısayolu seçin."
 
 msgid "Properties"
 msgstr "Özellikler"
@@ -714,7 +795,7 @@ msgid "Select default folder for new tabs."
 msgstr "Yeni sekme için varsayılan klasörü seçin"
 
 msgid "Select existing translation or create new."
-msgstr ""
+msgstr "Oluşturulmuş tercüme veya yeni bir tane seçin."
 
 msgid "Select first item automatically"
 msgstr "Otomatikman ilk öğeyi aç"
@@ -746,6 +827,12 @@ msgstr "Sadece Kısaltılmış İsim"
 msgid "Short Path"
 msgstr "Kısaltılmış Klasör Yolu"
 
+msgid "Shortcut"
+msgstr "Kısayol"
+
+msgid "Show"
+msgstr "Göster"
+
 msgid "Show All Files"
 msgstr "Tüm Dosyaları Göster"
 
@@ -776,6 +863,9 @@ msgstr "Araç Çubuğunu Göster"
 msgid "Show in Groups"
 msgstr "Grup Olarak Göster"
 
+msgid "Show/Hide"
+msgstr "Göster/Gizle"
+
 msgid "Single Instance Only"
 msgstr "Sadece Tek Oturum"
 
@@ -797,11 +887,17 @@ msgstr "Yığın"
 msgid "Start"
 msgstr "Başlat"
 
+msgid "Start minimized to tray"
+msgstr "Sistem çubuğunda küçültülmüş şekilde başlat"
+
 msgid "Status Bar"
 msgstr "Durum Çubuğu"
 
 msgid "Stop"
 msgstr "Durdur"
+
+msgid "Stretch"
+msgstr "Uzat"
 
 msgid "Strict"
 msgstr ""
@@ -833,11 +929,17 @@ msgstr "Sekme Ayarları"
 msgid "Target"
 msgstr "Hedef"
 
+msgid "Target Folder"
+msgstr "Hedef Klasör"
+
 msgid "Text"
 msgstr "Yazı"
 
 msgid "Text Editor"
 msgstr "Yazı Editörü"
+
+msgid "Text only"
+msgstr "Sadece yazı"
 
 msgid "Theme"
 msgstr "Tema"
@@ -885,7 +987,10 @@ msgid "Translator's Name"
 msgstr "Tercümanın İsmi"
 
 msgid "Transparency"
-msgstr "Transparanlık"
+msgstr "Saydamlık"
+
+msgid "Tray Icon"
+msgstr "Sistem Çubuğu Simgesi"
 
 msgid "Type"
 msgstr "Tip"
@@ -893,11 +998,14 @@ msgstr "Tip"
 msgid "Undo"
 msgstr "Geri al"
 
+msgid "Undo Tab Close"
+msgstr "Sekme Kapatılmasını Geri Al"
+
 msgid "Untitled"
 msgstr "İsimsiz"
 
 msgid "Use strict filtering (wildcards are ? and *)"
-msgstr ""
+msgstr "Harfi harfine filtreleme (özel semboller ? ve *)"
 
 msgid "Version:"
 msgstr "Versiyon"
@@ -924,5 +1032,11 @@ msgid "Word Wrap"
 msgstr "Sözcük Kaydır"
 
 msgid "Word or Phrase in File Name"
-msgstr ""
+msgstr "Dosya İsminde Kelime veya Kelime Grubu"
+
+msgid "is already assigned to"
+msgstr "zaten belirlenmiş"
+
+msgid "is already in use!"
+msgstr "zaten kullanımda"
 

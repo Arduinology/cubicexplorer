@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-03-04 14:18\n"
-"PO-Revision-Date: 2011-03-04 14:18\n"
+"POT-Creation-Date: 2011-03-11 16:02\n"
+"PO-Revision-Date: 2011-03-11 16:02\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,8 +28,8 @@ msgstr ""
 #. Create TabSet
 #: dCE_Actions.dfm:13  dCE_Actions.dfm:476 dCE_Actions.dfm:484
 #: dCE_Actions.dfm:493 dCE_Actions.dfm:501 dCE_Actions.dfm:509
-#: dCE_Actions.dfm:587 dCE_Actions.dfm:700 dCE_Actions.dfm:709
-#: fCE_SessionManager.dfm:113 fCE_OptionsPage_Tabs.pas:77 Main.pas:464
+#: dCE_Actions.dfm:587 dCE_Actions.dfm:702 dCE_Actions.dfm:711
+#: fCE_SessionManager.dfm:113 fCE_OptionsPage_Tabs.pas:77 Main.pas:468
 msgid "Tabs"
 msgstr ""
 
@@ -92,8 +92,8 @@ msgstr ""
 #: dCE_Actions.dfm:175 dCE_Actions.dfm:183 dCE_Actions.dfm:304
 #: dCE_Actions.dfm:363 dCE_Actions.dfm:376 dCE_Actions.dfm:410
 #: dCE_Actions.dfm:416 dCE_Actions.dfm:423 dCE_Actions.dfm:456
-#: dCE_Actions.dfm:562 dCE_Actions.dfm:611 fCE_TextEditor.dfm:95
-#: fCE_TextEditor.dfm:442 fCE_TextEditor.dfm:458 Main.dfm:164 Main.dfm:400
+#: dCE_Actions.dfm:562 dCE_Actions.dfm:613 fCE_TextEditor.dfm:95
+#: fCE_TextEditor.dfm:442 fCE_TextEditor.dfm:458 Main.dfm:171 Main.dfm:407
 msgid "View"
 msgstr ""
 
@@ -109,7 +109,7 @@ msgstr ""
 #. CEActions..ActionList..act_help_poedit_form..Category
 #. MainForm..TopToolDock..MainToolbar..helpMenuItem..Caption
 #: dCE_Actions.dfm:39  dCE_Actions.dfm:286 dCE_Actions.dfm:292
-#: dCE_Actions.dfm:298 dCE_Actions.dfm:429 Main.dfm:368
+#: dCE_Actions.dfm:298 dCE_Actions.dfm:429 Main.dfm:375
 msgid "Help"
 msgstr ""
 
@@ -130,7 +130,7 @@ msgstr ""
 #. MainForm..TopToolDock..NavigationToolbar..Caption
 #: dCE_Actions.dfm:45  dCE_Actions.dfm:53 dCE_Actions.dfm:61
 #: dCE_Actions.dfm:68 dCE_Actions.dfm:320 dCE_Actions.dfm:328
-#: dCE_Actions.dfm:464 dCE_Actions.dfm:470 dCE_Actions.dfm:524 Main.dfm:432
+#: dCE_Actions.dfm:464 dCE_Actions.dfm:470 dCE_Actions.dfm:524 Main.dfm:439
 msgid "Navigation"
 msgstr ""
 
@@ -170,8 +170,8 @@ msgstr ""
 #. MainForm..TopToolDock..MainToolbar..bookmarkMenuItem..Caption
 #. Create BookmarkBar
 #: dCE_Actions.dfm:85  dCE_Actions.dfm:546 dCE_Actions.dfm:547
-#: fCE_SessionManager.dfm:127 Main.dfm:317
-#: fCE_OptionsPage_Display_Bookmarks.pas:65 Main.pas:501
+#: fCE_SessionManager.dfm:127 Main.dfm:324
+#: fCE_OptionsPage_Display_Bookmarks.pas:65 Main.pas:505
 msgid "Bookmarks"
 msgstr ""
 
@@ -256,7 +256,7 @@ msgstr ""
 
 #. CEActions..ActionList..act_view_groupby..Caption
 #. CEActions..BackgroundCMItems_up..MenuItem_GroupBy..Caption
-#: dCE_Actions.dfm:168  dCE_Actions.dfm:648
+#: dCE_Actions.dfm:168  dCE_Actions.dfm:650
 msgid "Group By"
 msgstr ""
 
@@ -307,7 +307,7 @@ msgstr ""
 #: fCE_TextEditor.dfm:324 fCE_TextEditor.dfm:362 fCE_TextEditor.dfm:369
 #: fCE_TextEditor.dfm:376 fCE_TextEditor.dfm:383 fCE_TextEditor.dfm:390
 #: fCE_TextEditor.dfm:397 fCE_TextEditor.dfm:404 fCE_TextEditor.dfm:412
-#: fCE_TextEditor.dfm:420 Main.dfm:117 Main.dfm:470
+#: fCE_TextEditor.dfm:420 Main.dfm:124 Main.dfm:477
 msgid "Edit"
 msgstr ""
 
@@ -379,7 +379,7 @@ msgstr ""
 #. CEActions..ActionList..act_quick_none..Caption
 #. CETextEditorPage..TopDock..MainToolbar..highlighterSubmenu..SpTBXItem16..Caption
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem57..Caption
-#: dCE_Actions.dfm:257  fCE_TextEditor.dfm:107 Main.dfm:232
+#: dCE_Actions.dfm:257  fCE_TextEditor.dfm:107 Main.dfm:239
 msgid "None"
 msgstr ""
 
@@ -441,7 +441,7 @@ msgstr ""
 #. CEActions..ActionList..act_tools_showoptions..Category
 #. MainForm..TopToolDock..MainToolbar..toolsMenuItem..Caption
 #: dCE_Actions.dfm:336  dCE_Actions.dfm:342 dCE_Actions.dfm:369
-#: dCE_Actions.dfm:396 dCE_Actions.dfm:403 dCE_Actions.dfm:435 Main.dfm:349
+#: dCE_Actions.dfm:396 dCE_Actions.dfm:403 dCE_Actions.dfm:435 Main.dfm:356
 msgid "Tools"
 msgstr ""
 
@@ -538,7 +538,7 @@ msgstr ""
 #. Create SessionsBar
 #: dCE_Actions.dfm:442  dCE_Actions.dfm:449 dCE_Actions.dfm:532
 #: dCE_Actions.dfm:539 dCE_Actions.dfm:554 dCE_Actions.dfm:555
-#: dCE_Actions.dfm:574 Main.dfm:320 Main.pas:511
+#: dCE_Actions.dfm:574 Main.dfm:327 Main.pas:515
 msgid "Sessions"
 msgstr ""
 
@@ -568,7 +568,7 @@ msgstr ""
 
 #. CEActions..ActionList..act_view_arrangeby..Caption
 #. CEActions..BackgroundCMItems_up..MenuItem_ArragneBy..Caption
-#: dCE_Actions.dfm:457  dCE_Actions.dfm:645
+#: dCE_Actions.dfm:457  dCE_Actions.dfm:647
 msgid "Arrange By"
 msgstr ""
 
@@ -608,8 +608,7 @@ msgstr ""
 
 #. CEActions..ActionList..act_tabs_closeonright..Caption
 #. CEActions..ActionList..act_tabs_closeonright..Hint
-#. CEActions..ActionList..act_tabs_undo..Hint
-#: dCE_Actions.dfm:510  dCE_Actions.dfm:511 dCE_Actions.dfm:589
+#: dCE_Actions.dfm:510  dCE_Actions.dfm:511
 msgid "Close Tabs on Right"
 msgstr ""
 
@@ -655,27 +654,28 @@ msgid "Show/Hide"
 msgstr ""
 
 #. CEActions..ActionList..act_tabs_undo..Caption
-#: dCE_Actions.dfm:588 
-msgid "Undo Close Tab"
+#. CEActions..ActionList..act_tabs_undo..Hint
+#: dCE_Actions.dfm:588  dCE_Actions.dfm:589
+msgid "Undo Tab Close"
 msgstr ""
 
 #. CEActions..HiddenActionList..act_focus_addressbar..Category
-#: dCE_Actions.dfm:690 
+#: dCE_Actions.dfm:692 
 msgid "Focus"
 msgstr ""
 
 #. CEActions..HiddenActionList..act_focus_addressbar..Caption
-#: dCE_Actions.dfm:691 
+#: dCE_Actions.dfm:693 
 msgid "Focus Addressbar"
 msgstr ""
 
 #. CEActions..HiddenActionList..act_tabs_next..Caption
-#: dCE_Actions.dfm:701 
+#: dCE_Actions.dfm:703 
 msgid "Switch to Next Tab"
 msgstr ""
 
 #. CEActions..HiddenActionList..act_tabs_prev..Caption
-#: dCE_Actions.dfm:710 
+#: dCE_Actions.dfm:712 
 msgid "Swith to Previous Tab"
 msgstr ""
 
@@ -802,7 +802,7 @@ msgstr ""
 #. CEToolbarCustomizer..TabControl..tab_toolbars..Caption
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..Caption
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..toolbarsMenuItem..Caption
-#: fCE_Customizer.dfm:71  fCE_Customizer.dfm:185 Main.dfm:183
+#: fCE_Customizer.dfm:71  fCE_Customizer.dfm:185 Main.dfm:190
 msgid "Toolbars"
 msgstr ""
 
@@ -817,7 +817,7 @@ msgstr ""
 #. CEOptionsPage_Display..TntLabel1..Caption
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem6..Caption
 #: fCE_Customizer.dfm:78  fCE_Customizer.dfm:132
-#: fCE_OptionsPage_Display.dfm:7 Main.dfm:212
+#: fCE_OptionsPage_Display.dfm:7 Main.dfm:219
 msgid "Theme"
 msgstr ""
 
@@ -1123,7 +1123,7 @@ msgstr ""
 #. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel3..Caption
 #. CENewTranslationDlg..TntLabel1..Caption
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..LanguageMenuItem..Caption
-#: fCE_PoEditor.dfm:103  fCE_PoEditor_NewForm.dfm:37 Main.dfm:222
+#: fCE_PoEditor.dfm:103  fCE_PoEditor_NewForm.dfm:37 Main.dfm:229
 msgid "Language"
 msgstr ""
 
@@ -1612,17 +1612,17 @@ msgid "Main Menu"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem9..Caption
-#: Main.dfm:186 
+#: Main.dfm:193 
 msgid "Panels"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..Caption
-#: Main.dfm:228 
+#: Main.dfm:235 
 msgid "Transparency"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..sessionsMenuItem..sessionHistoryMenuItem..Caption
-#: Main.dfm:330 
+#: Main.dfm:337 
 msgid "History"
 msgstr ""
 
@@ -1671,36 +1671,36 @@ msgstr ""
 msgid "Total Size"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:303 
+#: CE_ToolbarButtons.pas:310 
 msgid "Folder Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:309 
+#: CE_ToolbarButtons.pas:316 
 msgid "Name Only"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:318 
+#: CE_ToolbarButtons.pas:325 
 msgid "Short Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:324 
+#: CE_ToolbarButtons.pas:331 
 msgid "Short Folder Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:330 
+#: CE_ToolbarButtons.pas:337 
 msgid "Short Name Only"
 msgstr ""
 
 #. More... item
 #. More... item
-#: CE_ToolbarButtons.pas:511  CE_ToolbarButtons.pas:663 dCE_Actions.pas:1569
-#: dCE_Actions.pas:1608
+#: CE_ToolbarButtons.pas:518  CE_ToolbarButtons.pas:670 dCE_Actions.pas:1570
+#: dCE_Actions.pas:1609
 msgid "More..."
 msgstr ""
 
 #. Grouped toggle item
 #. Sho in Groups
-#: CE_ToolbarButtons.pas:637  dCE_Actions.pas:1578
+#: CE_ToolbarButtons.pas:644  dCE_Actions.pas:1579
 msgid "Show in Groups"
 msgstr ""
 
@@ -1866,22 +1866,22 @@ msgid "Untitled"
 msgstr ""
 
 #. Create FolderCombo Toolbar
-#: Main.pas:482 
+#: Main.pas:486 
 msgid "Address Bar"
 msgstr ""
 
 #. Create DriveToolbar
-#: Main.pas:490 
+#: Main.pas:494 
 msgid "Drives"
 msgstr ""
 
 #. Create BreadcrumbBar
-#: Main.pas:521 
+#: Main.pas:525 
 msgid "Breadcrumb Navigation"
 msgstr ""
 
 #. Add default menu items
-#: Main.pas:892 
+#: Main.pas:896 
 msgid "English (default)"
 msgstr ""
 
