@@ -49,12 +49,19 @@ type
     SpTBXTabItem1: TSpTBXTabItem;
     SpTBXTabSheet1: TSpTBXTabSheet;
     list_sessions: TSpTBXListBox;
+    SpTBXLabel2: TSpTBXLabel;
     procedure but_deleteClick(Sender: TObject);
     procedure check_autosaveClick(Sender: TObject);
     procedure edit_nameChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure list_sessionsClick(Sender: TObject);
+    procedure list_sessionsDragDrop(Sender, Source: TObject; X, Y: Integer);
+    procedure list_sessionsDragOver(Sender, Source: TObject; X, Y: Integer; State:
+        TDragState; var Accept: Boolean);
+    procedure list_sessionsMouseDown(Sender: TObject; Button: TMouseButton; Shift:
+        TShiftState; X, Y: Integer);
   private
+    flist_mousedown: TPoint;
     fSessionPropertiesEnabled: Boolean;
     procedure SetSessionPropertiesEnabled(const Value: Boolean);
     { Private declarations }
@@ -201,6 +208,45 @@ begin
   begin
     list_sessions.Items.Add(GlobalSessions.Sessions.GetSession(i).Name);
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  On list_sessions.MouseDown
+-------------------------------------------------------------------------------}
+procedure TCESessionManager.list_sessionsMouseDown(Sender: TObject; Button:
+    TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  flist_mousedown.X:= X;
+  flist_mousedown.Y:= Y;
+end;
+
+{-------------------------------------------------------------------------------
+  On list_sessions.DragOver
+-------------------------------------------------------------------------------}
+procedure TCESessionManager.list_sessionsDragOver(Sender, Source: TObject; X,
+    Y: Integer; State: TDragState; var Accept: Boolean);
+begin
+  Accept:= Source = list_sessions;
+end;
+
+{-------------------------------------------------------------------------------
+  On list_sessions.DragDrop
+-------------------------------------------------------------------------------}
+procedure TCESessionManager.list_sessionsDragDrop(Sender, Source: TObject; X,
+    Y: Integer);
+var
+  DropPosition, StartPosition: Integer;
+  DropPoint: TPoint;
+begin
+  DropPoint.X:= X;
+  DropPoint.Y:= Y;
+  StartPosition:= TListBox(Source).ItemAtPos(flist_mousedown,True);
+  DropPosition:= TListBox(Source).ItemAtPos(DropPoint,True);
+  if DropPosition = -1 then
+  DropPosition:= TListBox(Source).Items.Count - 1;
+  TListBox(Source).Items.Move(StartPosition, DropPosition);
+  GlobalSessions.Sessions.MoveSession(StartPosition, DropPosition);
+  TListBox(Source).ItemIndex:= DropPosition;
 end;
 
 

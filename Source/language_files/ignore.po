@@ -776,3 +776,10 @@ msgstr ""
 #: fCE_Customizer.dfm:190
 msgid "tab_toolbars"
 msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:3513
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:6604
+msgid "PngImage42"
+msgstr ""

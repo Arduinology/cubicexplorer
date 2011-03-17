@@ -120,6 +120,7 @@ type
     destructor Destroy; override;
     procedure BrowseTo(APIDL: PItemIDList);
     procedure Initialize;
+    procedure OnBreadBackgroundClick(Sender: TObject);
     procedure OnBreadToggleClick(Sender: TObject);
     procedure OnDropClick(Sender: TObject);
     procedure OnGetFormClass(Sender: TObject; var AFormClass: TCustomFormClass);
@@ -375,6 +376,7 @@ begin
   DropButton:= TCE_AButton.Create(nil);
   BreadToggleButton:= TCE_AButton.Create(nil);
   Breadcrumbs:= TCEBreadcrumb.Create(nil);
+  Breadcrumbs.OnBackgroundClick:= OnBreadBackgroundClick;
 
   FolderPopupMenu:= TCE_AFormPopupMenu.Create(nil);
   FolderPopupMenu.OnPopup:= OnPopup;
@@ -583,12 +585,28 @@ begin
   BrowseTo(NewPIDL);
 end;
 
+{-------------------------------------------------------------------------------
+  On BreadBackgroundClick
+-------------------------------------------------------------------------------}
+procedure TCEAddressBar.OnBreadBackgroundClick(Sender: TObject);
+begin
+  AutoSwitchToBreadcrumb:= true;
+  Breadcrumb:= false;
+  TextEditor.SetFocus;
+  TextEditor.SelectAll;
+end;
+
 {*------------------------------------------------------------------------------
   On BreadToggleButton Click
 -------------------------------------------------------------------------------}
 procedure TCEAddressBar.OnBreadToggleClick(Sender: TObject);
 begin
   Breadcrumb:= not Breadcrumb;
+  if not Breadcrumb then
+  begin
+    TextEditor.SetFocus;
+    TextEditor.SelectAll;
+  end;
 end;
 
 {*------------------------------------------------------------------------------

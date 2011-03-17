@@ -328,7 +328,7 @@ begin
           LoadPositionsForToolbars(AppStorage, s, tdtOuter);
           CurrentOuterToolbarLayout:= s;
         end;
-        
+
         // Inner Toolbar Layout
         if LoadInnerToolbarLayout then
         s:= LayoutName
@@ -404,7 +404,12 @@ begin
   SaveDockedForms(AppStorage, CurrentFormLayout);
   if CurrentInnerToolbarLayout <> CurrentOuterToolbarLayout then
   begin
-    SavePositionsForToolbars(AppStorage, CurrentInnerToolbarLayout, tdtInner);
+    // Both need's to be saved in case inner toolbar has moved to outer dock.
+    // Because saving is done by looping toolbars, changes would not be saved
+    // if the toolbar is on Outer dock.
+    // TODO: It would be better to loop Docks instead.
+    SavePositionsForToolbars(AppStorage, CurrentInnerToolbarLayout, tdtBoth);
+
     SavePositionsForToolbars(AppStorage, CurrentOuterToolbarLayout, tdtOuter);
   end
   else

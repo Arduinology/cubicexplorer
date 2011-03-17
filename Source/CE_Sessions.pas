@@ -82,6 +82,7 @@ type
     function GetSession(AIndex: Integer): TCESessionItem;
     procedure Load(AAppStorage: TCEAppSettings; ANode: TDOMNode); override;
     procedure LoadSession(ASession: TCESessionItem);
+    procedure MoveSession(CurIndex: Integer; NewIndex: Integer);
     procedure SaveSession(ASession: TCESessionItem);
     procedure SortByTime;
     property RootNodeName: WideString read fRootNodeName write fRootNodeName;
@@ -627,6 +628,32 @@ begin
       MainForm.EndUIUpdate;
     end;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Move Session
+-------------------------------------------------------------------------------}
+procedure TCESessionList.MoveSession(CurIndex: Integer; NewIndex: Integer);
+var
+  session, session2: TCESessionItem;
+  node: TDOMNode;
+begin
+  if CurIndex = NewIndex then
+  Exit;
+  
+  session:= GetSession(CurIndex);
+  if CurIndex > NewIndex then
+  session2:= GetSession(NewIndex)
+  else if (NewIndex + 1) < Items.Count then
+  session2:= GetSession(NewIndex+1)
+  else
+  session2:= nil;
+
+  if assigned(session2) then
+  ARootNode.InsertBefore(session.Node, session2.Node)
+  else
+  ARootNode.AppendChild(session.Node);
+  Items.Move(CurIndex, NewIndex);
 end;
 
 {-------------------------------------------------------------------------------

@@ -64,6 +64,7 @@ type
     fLeftArrowVisible: Boolean;
     fOffset: Integer;
     fMouseDown: Boolean;
+    fOnBackgroundClick: TNotifyEvent;
     fRightArrowVisible: Boolean;
     fSelectedIndex: Integer;
     fSeparatorSize: Integer;
@@ -72,6 +73,7 @@ type
   protected
     procedure ClickLeftArrow; virtual;
     procedure ClickRightArrow; virtual;
+    procedure DoBackgroundClick; virtual;
     procedure DrawBackground; virtual;
     procedure DrawLeftArrow(ItemStyle: TItemStyle = itNormal); virtual;
     procedure DrawRightArrow(ItemStyle: TItemStyle = itNormal); virtual;
@@ -105,6 +107,9 @@ type
     property RightArrowVisible: Boolean read fRightArrowVisible;
     property SelectedIndex: Integer read fSelectedIndex write SetSelectedIndex;
     property SeparatorSize: Integer read fSeparatorSize write fSeparatorSize;
+  published
+    property OnBackgroundClick: TNotifyEvent read fOnBackgroundClick write
+        fOnBackgroundClick;
   end;
 
 procedure DrawMenuItem(Buffer: TBitmap32; ARect: TRect; Checked: Boolean;
@@ -430,6 +435,14 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Do BackgroundClick
+-------------------------------------------------------------------------------}
+procedure TCEScrollToolbar.DoBackgroundClick;
+begin
+  if Assigned(fOnBackgroundClick) then fOnBackgroundClick(Self);
+end;
+
 {*------------------------------------------------------------------------------
   Set Selected Index
 -------------------------------------------------------------------------------}
@@ -722,7 +735,9 @@ begin
       item:= TCEScrollToolbarItem(fItems.Items[i]);
       r:= GetItemRect(i);
       item.MouseUp(Button, Shift, (0 - fOffset) + X - r.Left, Y - r.Top);
-    end;
+    end
+    else if Button = mbLeft then
+    DoBackgroundClick;
   end;
 end;
 

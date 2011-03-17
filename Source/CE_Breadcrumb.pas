@@ -77,6 +77,8 @@ type
   end;
 
   TCEBreadcrumbBar = class(TSpTBXToolWindow)
+  protected
+    procedure DoContextPopup(MousePos: TPoint; var Handled: Boolean); override;
   public
     Breadcrumb: TCEBreadcrumb;
     constructor Create(AOwner: TComponent); override;
@@ -386,6 +388,18 @@ begin
   Breadcrumb.SeparatorSize:= 1;
   self.MinClientHeight:= Max(Breadcrumb.Constraints.MinHeight,20);
   self.ClientHeight:= 22;
+end;
+
+{-------------------------------------------------------------------------------
+  Do ContextPopup
+-------------------------------------------------------------------------------}
+procedure TCEBreadcrumbBar.DoContextPopup(MousePos: TPoint; var Handled:
+    Boolean);
+var
+  s: sTring;
+begin
+  inherited;
+  Handled:= Self.Breadcrumb.IndexByPos(MousePos.X, MousePos.Y) > -1;
 end;
 
 

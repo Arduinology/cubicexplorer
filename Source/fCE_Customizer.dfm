@@ -49,6 +49,7 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
       Height = 42
       Align = alCustom
       AutoSize = False
+      Enabled = False
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
@@ -76,53 +77,6 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
     end
     object tab_theme: TSpTBXTabItem
       Caption = 'Theme'
-    end
-    object SpTBXTabSheet2: TSpTBXTabSheet
-      Left = 0
-      Top = 25
-      Width = 390
-      Height = 226
-      Caption = 'Buttons'
-      ImageIndex = -1
-      TabItem = 'tab_buttons'
-      object ActionTree: TVirtualStringTree
-        Left = 2
-        Top = 0
-        Width = 384
-        Height = 222
-        Align = alClient
-        BorderStyle = bsNone
-        DragType = dtVCL
-        Header.AutoSizeIndex = 0
-        Header.DefaultHeight = 17
-        Header.Font.Charset = DEFAULT_CHARSET
-        Header.Font.Color = clWindowText
-        Header.Font.Height = -11
-        Header.Font.Name = 'Tahoma'
-        Header.Font.Style = []
-        Header.MaxHeight = 100
-        Header.Options = [hoAutoResize, hoColumnResize, hoDrag]
-        ParentShowHint = False
-        ShowHint = False
-        TabOrder = 0
-        TreeOptions.AutoOptions = [toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes]
-        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
-        TreeOptions.PaintOptions = [toShowButtons, toShowRoot, toThemeAware, toUseBlendedImages]
-        OnCompareNodes = ActionTreeCompareNodes
-        OnDragAllowed = ActionTreeDragAllowed
-        OnDragOver = ActionTreeDragOver
-        OnDragDrop = ActionTreeDragDrop
-        OnGetText = ActionTreeGetText
-        OnPaintText = ActionTreePaintText
-        OnGetImageIndexEx = ActionTreeGetImageIndexEx
-        OnStartDrag = ActionTreeStartDrag
-        Columns = <
-          item
-            Position = 0
-            Width = 384
-            WideText = 'Name'
-          end>
-      end
     end
     object SpTBXTabSheet3: TSpTBXTabSheet
       Left = 0
@@ -175,6 +129,53 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
         Height = 29
         AutoSize = False
         Wrapping = twWrap
+      end
+    end
+    object SpTBXTabSheet2: TSpTBXTabSheet
+      Left = 0
+      Top = 25
+      Width = 390
+      Height = 226
+      Caption = 'Buttons'
+      ImageIndex = -1
+      TabItem = 'tab_buttons'
+      object ActionTree: TVirtualStringTree
+        Left = 2
+        Top = 0
+        Width = 384
+        Height = 222
+        Align = alClient
+        BorderStyle = bsNone
+        DragType = dtVCL
+        Header.AutoSizeIndex = 0
+        Header.DefaultHeight = 17
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'Tahoma'
+        Header.Font.Style = []
+        Header.MaxHeight = 100
+        Header.Options = [hoAutoResize, hoColumnResize, hoDrag]
+        ParentShowHint = False
+        ShowHint = False
+        TabOrder = 0
+        TreeOptions.AutoOptions = [toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes]
+        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
+        TreeOptions.PaintOptions = [toShowButtons, toShowRoot, toThemeAware, toUseBlendedImages]
+        OnCompareNodes = ActionTreeCompareNodes
+        OnDragAllowed = ActionTreeDragAllowed
+        OnDragOver = ActionTreeDragOver
+        OnDragDrop = ActionTreeDragDrop
+        OnGetText = ActionTreeGetText
+        OnPaintText = ActionTreePaintText
+        OnGetImageIndexEx = ActionTreeGetImageIndexEx
+        OnStartDrag = ActionTreeStartDrag
+        Columns = <
+          item
+            Position = 0
+            Width = 384
+            WideText = 'Name'
+          end>
       end
     end
     object SpTBXTabSheet1: TSpTBXTabSheet

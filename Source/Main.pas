@@ -527,6 +527,7 @@ begin
   BreadcrumbBar.Visible:= false;
   BreadcrumbBar.DockableTo:= [TB2Dock.dpTop, TB2Dock.dpBottom];
   BreadcrumbBar.CurrentDock:= TopToolDock;
+  BreadcrumbBar.PopupMenu:= ToolbarPopupMenu;
   BreadcrumbBar.Tag:= 1;
   // Create Status bar
   StatusBar:= TCEStatusBar.Create(Self);

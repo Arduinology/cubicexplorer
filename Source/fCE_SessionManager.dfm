@@ -39,6 +39,21 @@ object CESessionManager: TCESessionManager
       TabOrder = 0
       ModalResult = 1
     end
+    object SpTBXLabel2: TSpTBXLabel
+      Left = 12
+      Top = 6
+      Width = 284
+      Height = 31
+      Caption = 'Change order by dragging'
+      AutoSize = False
+      Enabled = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsItalic]
+      ParentFont = False
+    end
   end
   object SpTBXTabControl1: TSpTBXTabControl
     Left = 0
@@ -158,9 +173,13 @@ object CESessionManager: TCESessionManager
         Width = 177
         Height = 214
         Anchors = [akLeft, akTop, akRight, akBottom]
+        DragMode = dmAutomatic
         ItemHeight = 16
         TabOrder = 5
         OnClick = list_sessionsClick
+        OnDragDrop = list_sessionsDragDrop
+        OnDragOver = list_sessionsDragOver
+        OnMouseDown = list_sessionsMouseDown
       end
     end
   end

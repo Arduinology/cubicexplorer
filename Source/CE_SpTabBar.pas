@@ -306,17 +306,16 @@ end;
 
 function TCESpTabItem.CloseTab: Boolean;
 var
-  NextTab: TSpTBXTabItem;
   T: TSpTBXTabToolbar;
   b: Boolean;
   tabSet: TCESpTabSet;
-  i: Integer;
   item: TCEClosedTabHistoryItem;
 begin
   if Visible then
   begin
     Result:= True;
-
+    item:= nil;
+    
     // Add Closed Tab History Item
     tabSet:= GetTabSet;
     if assigned(tabSet) then
@@ -585,8 +584,6 @@ end;
 -------------------------------------------------------------------------------}
 function TCESpTabSet.CloseTab(ATab: TCESpTabItem; Force: Boolean = false):
     Boolean;
-var
-  i: Integer;
 begin
   if assigned(ATab) then
   begin
