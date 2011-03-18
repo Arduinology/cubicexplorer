@@ -1723,7 +1723,7 @@ procedure TCEHotkeySettings.Load(AAppStorage: TCEAppSettings; ANode: TDOMNode);
 var
   chNode: TDOMNode;
   act: TAction;
-  i,i2: Integer;
+  i: Integer;
   s: TShortcut;
   list: TStrings;
 begin
@@ -1732,14 +1732,6 @@ begin
   
   if ANode.HasChildNodes then
   begin
-//    // Clear default shortcuts
-//    for i:= 0 to Actions.ActionCount - 1 do
-//    begin
-//      act:= TAction(Actions.Actions[i]);
-//      act.ShortCut:= 0;
-//      act.SecondaryShortCuts.Clear;
-//    end;
-
     fModifiedActions.Clear;
 
     // load shortcuts
@@ -1760,10 +1752,10 @@ begin
           fModifiedActions.Add(act);
           // add shortcuts
           list.DelimitedText:= chNode.TextContent;
-          for i2:= 0 to list.Count - 1 do
+          for i:= 0 to list.Count - 1 do
           begin
-            s:= StrToIntDef(list.Strings[i2], 0);
-            if (i2 = 0) or (act.ShortCut = 0) then
+            s:= StrToIntDef(list.Strings[i], 0);
+            if (i = 0) or (act.ShortCut = 0) then
             act.ShortCut:= s
             else
             begin

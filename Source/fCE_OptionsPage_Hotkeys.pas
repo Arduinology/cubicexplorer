@@ -58,7 +58,14 @@ type
     procedure HotkeyListKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure but_resetClick(Sender: TObject);
+    procedure list_actionhotkeysMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure list_actionhotkeysDragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
+    procedure list_actionhotkeysDragDrop(Sender, Source: TObject; X,
+      Y: Integer);
   private
+    flist_mousedown: TPoint;
     fnewHotkey: TShortcut;
     fselectedAction: TTntAction;
     procedure SetnewHotkey(const Value: TShortcut);
@@ -339,6 +346,45 @@ begin
     edit_hotkey.Text:= '';
     but_delete.Enabled:= false;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  On list_actionhotkeys.DragDrop
+-------------------------------------------------------------------------------}
+procedure TTCEOptionsPage_Hotkeys.list_actionhotkeysDragDrop(Sender,
+  Source: TObject; X, Y: Integer);
+var
+  DropPosition, StartPosition: Integer;
+  DropPoint: TPoint;
+begin
+  DropPoint.X:= X;
+  DropPoint.Y:= Y;
+  StartPosition:= TListBox(Source).ItemAtPos(flist_mousedown,True);
+  DropPosition:= TListBox(Source).ItemAtPos(DropPoint,True);
+  if DropPosition = -1 then
+  DropPosition:= TListBox(Source).Items.Count - 1;
+  TListBox(Source).Items.Move(StartPosition, DropPosition);
+  TListBox(Source).ItemIndex:= DropPosition;
+  UpdateActionShortcuts;
+end;
+
+{-------------------------------------------------------------------------------
+  On list_actionhotkeys.DragOver
+-------------------------------------------------------------------------------}
+procedure TTCEOptionsPage_Hotkeys.list_actionhotkeysDragOver(Sender,
+  Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
+begin
+  Accept:= Source = list_actionhotkeys;
+end;
+
+{-------------------------------------------------------------------------------
+  On list_actionhotkeys.MouseDown
+-------------------------------------------------------------------------------}
+procedure TTCEOptionsPage_Hotkeys.list_actionhotkeysMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  flist_mousedown.X:= X;
+  flist_mousedown.Y:= Y;
 end;
 
 {-------------------------------------------------------------------------------

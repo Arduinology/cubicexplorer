@@ -395,8 +395,6 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEBreadcrumbBar.DoContextPopup(MousePos: TPoint; var Handled:
     Boolean);
-var
-  s: sTring;
 begin
   inherited;
   Handled:= Self.Breadcrumb.IndexByPos(MousePos.X, MousePos.Y) > -1;

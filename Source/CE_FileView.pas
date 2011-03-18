@@ -113,6 +113,8 @@ type
     procedure GoFolderUp;
     procedure GoForwardInHistory;
     procedure PasteShortcutFromClipboard;
+    procedure SelectedFilesDelete(ShiftKeyState: TExecuteVerbShift = evsCurrent);
+        override;
     procedure SetFocus; override;
     property AutosizeListViewStyle: Boolean read fAutosizeListViewStyle write
         SetAutosizeListViewStyle;
@@ -201,7 +203,7 @@ procedure StringToColSettings(AString: String; var ColSettings: TCEColSettings);
 implementation
 
 uses
-  CE_GlobalCtrl, CE_Utils, dCE_Actions;
+  CE_GlobalCtrl, CE_Utils, dCE_Actions, Main;
 
 {##############################################################################}
 
@@ -764,6 +766,27 @@ begin
     end;
   finally
     Cursor:= crDefault;
+  end
+end;
+
+procedure TCEFileView.SelectedFilesDelete(ShiftKeyState: TExecuteVerbShift =
+    evsCurrent);
+var
+  Item: TExplorerItem;
+  old_hints: Boolean;
+begin
+  Cursor := crHourglass;
+  try
+    Item := TExplorerItem(Selection.First);
+    if Assigned(Item) then
+    begin
+      old_hints:= MainForm.ShowHint;
+      MainForm.ShowHint:= false; // Cheap workaround for a bug. In XP, hint will bring CE on top of the delete confirmation window
+      Item.Namespace.Delete(MainForm, SelectedToNamespaceArray, ShiftKeyState);
+      MainForm.ShowHint:= old_hints;
+    end;
+  finally
+    Cursor := crDefault
   end
 end;
 

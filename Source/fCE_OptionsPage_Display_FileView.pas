@@ -39,6 +39,7 @@ type
     check_autoselect: TTntCheckBox;
     check_autosize_liststyle: TTntCheckBox;
     check_sortfoldersfirst: TTntCheckBox;
+    check_infotips: TTntCheckBox;
   private
     { Private declarations }
   public
@@ -80,6 +81,7 @@ begin
   GlobalFileViewSettings.AutoSelectFirstItem:= check_autoselect.Checked;
   GlobalFileViewSettings.AutosizeListViewStyle:= check_autosize_liststyle.Checked;
   GlobalFileViewSettings.SortFolderFirstAlways:= check_sortfoldersfirst.Checked;
+  GlobalFileViewSettings.ShowInfoTips:= check_infotips.Checked;
 end;
 
 {-------------------------------------------------------------------------------
@@ -92,6 +94,7 @@ begin
   check_autoselect.Checked:= GlobalFileViewSettings.AutoSelectFirstItem;
   check_autosize_liststyle.Checked:= GlobalFileViewSettings.AutosizeListViewStyle;
   check_sortfoldersfirst.Checked:= GlobalFileViewSettings.SortFolderFirstAlways;
+  check_infotips.Checked:= GlobalFileViewSettings.ShowInfoTips;
 end;
 
 {##############################################################################}

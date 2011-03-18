@@ -71,6 +71,7 @@ type
     procedure QuickViewPopupMenuPopup(Sender: TObject);
     procedure ThumbViewStyleClick(Sender: TObject);
     procedure QuickViewSplitterMoved(Sender: TObject);
+    procedure View(Sender: TObject);
   private
     fDownShiftState: TShiftState;
     fPathChanging: Boolean;
@@ -166,6 +167,7 @@ type
     fFilmstrip: TCEFilmstripSettings;
     fGroupBy: TCEGroupBySettings;
     fInfoBarSize: Integer;
+    fShowInfoTips: Boolean;
     fRememberPanelLayout: Boolean;
     fRememberInnerToolbarLayout: Boolean;
     fRememberOuterToolbarLayout: Boolean;
@@ -185,6 +187,7 @@ type
     procedure SetAutoSelectFirstItem(const Value: Boolean);
     procedure SetAutosizeListViewStyle(const Value: Boolean);
     procedure SetBrowseZipFolders(const Value: Boolean);
+    procedure SetShowInfoTips(const Value: Boolean);
     procedure SetShowExtensions(const Value: Boolean);
     procedure SetShowHeaderAlways(const Value: Boolean);
     procedure SetShowInfoBar(const Value: Boolean);
@@ -224,6 +227,7 @@ type
     property GroupBy: TCEGroupBySettings read fGroupBy write fGroupBy;
     property HiddenFiles: Boolean read fHiddenFiles write SetHiddenFiles;
     property InfoBarSize: Integer read fInfoBarSize write fInfoBarSize;
+    property ShowInfoTips: Boolean read fShowInfoTips write SetShowInfoTips;
     property RememberPanelLayout: Boolean read fRememberPanelLayout write
         fRememberPanelLayout;
     property RememberInnerToolbarLayout: Boolean read fRememberInnerToolbarLayout
@@ -540,7 +544,8 @@ begin
     begin
       if not fPathChanging then
       GlobalPathCtrl.ChangeGlobalPathPIDL(Self, Namespace.AbsolutePIDL);
-      //GlobalFileViewSettings.AssignColumnSettingsFrom(FileView);
+      if FileView.Active then
+      GlobalFileViewSettings.AssignColumnSettingsFrom(FileView);
     end;
   end;
   fPathChanging:= false;
@@ -607,6 +612,12 @@ begin
   TabItem.Hint:= UTF8Encode(FileView.RootFolderNamespace.NameParseAddress);
   if GlobalPathCtrl.ActivePage = Self then
   GlobalPathCtrl.GlobalPathCaption:= FileView.RootFolderNamespace.NameParseAddress;
+end;
+
+procedure TCEFileViewPage.View(Sender: TObject);
+begin
+  inherited;
+
 end;
 
 {*------------------------------------------------------------------------------
@@ -678,7 +689,10 @@ end;
 procedure TCEFileViewPage.SetViewStyle(const Value: TEasyListStyle);
 begin
   if fViewStyle = Value then Exit;
-  
+
+  if FileView.Active and ((fViewStyle = elsReport) or GlobalFileViewSettings.ShowHeaderAlways) then
+  GlobalFileViewSettings.AssignColumnSettingsFrom(FileView);
+
   fViewStyle:= Value;
 
   if fViewStyle = elsFilmStrip then
@@ -720,13 +734,15 @@ begin
   else
   begin
     FileView.Align:= alClient;
-    
+
     if assigned(fQuickView) then
     begin
       FreeAndNil(fQuickView);
     end;
     QuickViewSplitter.Visible:= false;
     FileView.View:= fViewStyle;
+    if FileView.Active and ((fViewStyle = elsReport) or GlobalFileViewSettings.ShowHeaderAlways) then
+    GlobalFileViewSettings.AssignColumnSettingsTo(FileView);
   end;
 
   GlobalFileViewSettings.ViewStyle:= fViewStyle;
@@ -1037,6 +1053,8 @@ begin
   Filmstrip.ThumbSize:= 120;
   fRememberInnerToolbarLayout:= true;
   fInfoBarSize:= 3;
+  fShowInfoTips:= true;
+  fBrowseZipFolders:= false;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1110,6 +1128,8 @@ begin
     if fThreadedImages then Include(options, eloThreadedImages) else Exclude(options, eloThreadedImages);
     if fThreadedEnumeration then Include(options, eloThreadedEnumeration) else Exclude(options, eloThreadedEnumeration);
     if fThreadedDetails then Include(options, eloThreadedDetails) else Exclude(options, eloThreadedDetails);
+    if fShowInfoTips then Include(options, eloQueryInfoHints) else Exclude(options, eloQueryInfoHints);
+
     FileViewPage.FileView.Options:= options;
     
     if AssignColumnSettings then
@@ -1412,9 +1432,21 @@ begin
   SendChanges;
 end;
 
+{-------------------------------------------------------------------------------
+  Set ShowInfoBar
+-------------------------------------------------------------------------------}
 procedure TCEFileViewSettings.SetShowInfoBar(const Value: Boolean);
 begin
   fShowInfoBar:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set ShowInfoTips
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetShowInfoTips(const Value: Boolean);
+begin
+  fShowInfoTips:= Value;
   SendChanges;
 end;
 

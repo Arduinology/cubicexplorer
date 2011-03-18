@@ -636,7 +636,6 @@ end;
 procedure TCESessionList.MoveSession(CurIndex: Integer; NewIndex: Integer);
 var
   session, session2: TCESessionItem;
-  node: TDOMNode;
 begin
   if CurIndex = NewIndex then
   Exit;

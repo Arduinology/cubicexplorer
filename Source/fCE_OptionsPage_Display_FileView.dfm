@@ -44,4 +44,13 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
     TabOrder = 4
     OnClick = HandleChange
   end
+  object check_infotips: TTntCheckBox
+    Left = 16
+    Top = 131
+    Width = 401
+    Height = 17
+    Caption = 'Show InfoTips'
+    TabOrder = 5
+    OnClick = HandleChange
+  end
 end

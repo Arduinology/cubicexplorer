@@ -74,9 +74,13 @@ inherited TCEOptionsPage_Hotkeys: TTCEOptionsPage_Hotkeys
     Top = 63
     Width = 176
     Height = 106
+    DragMode = dmAutomatic
     ItemHeight = 13
     TabOrder = 2
     OnClick = list_actionhotkeysClick
+    OnDragDrop = list_actionhotkeysDragDrop
+    OnDragOver = list_actionhotkeysDragOver
+    OnMouseDown = list_actionhotkeysMouseDown
   end
   object TntGroupBox1: TTntGroupBox
     Left = 249

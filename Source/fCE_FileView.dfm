@@ -1,5 +1,6 @@
 inherited CEFileViewPage: TCEFileViewPage
   Width = 586
+  OnClick = View
   ExplicitWidth = 586
   object QuickViewSplitter: TSpTBXSplitter
     Left = 0
