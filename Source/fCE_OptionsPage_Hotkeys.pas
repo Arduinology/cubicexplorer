@@ -36,6 +36,7 @@ type
     but_add: TTntButton;
     but_replace: TTntButton;
     but_delete: TTntButton;
+    but_reset: TTntButton;
     procedure HotkeyListGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
     procedure HotkeyListGetImageIndexEx(Sender: TBaseVirtualTree;
@@ -56,6 +57,7 @@ type
     procedure but_deleteClick(Sender: TObject);
     procedure HotkeyListKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure but_resetClick(Sender: TObject);
   private
     fnewHotkey: TShortcut;
     fselectedAction: TTntAction;
@@ -399,6 +401,7 @@ begin
     list_actionhotkeys.Enabled:= true;
     label_action_name.Caption:= fselectedAction.Caption;
     label_action_name.ImageIndex:= fselectedAction.ImageIndex;
+    but_reset.Enabled:= CEActions.HotkeySettings.ModifiedActions.IndexOf(fselectedAction) > -1;
 
     // Get shortcut list
     if fselectedAction.ShortCut <> 0 then
@@ -420,6 +423,7 @@ begin
     but_add.Enabled:= false;
     but_replace.Enabled:= false;
     but_delete.Enabled:= false;
+    but_reset.Enabled:= false;
   end;
 end;
 
@@ -448,6 +452,32 @@ begin
     list_actionhotkeys.Items.Objects[list_actionhotkeys.ItemIndex]:= TObject(newHotkey);
     UpdateActionShortcuts;
     list_actionhotkeysClick(Self);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On but_reset.Click
+-------------------------------------------------------------------------------}
+procedure TTCEOptionsPage_Hotkeys.but_resetClick(Sender: TObject);
+var
+  s, s2: String;
+begin
+  if assigned(selectedAction) then
+  begin
+    s:= _('Do you want to reset all hotkeys for this action?')
+        +#13+#10+''+#13+#10+
+        _('Default hotkeys become available after restart!');
+
+    s2:= _('Reset hotkeys?');
+    if MessageBox(Self.Handle, PChar(s), PChar(s2), MB_ICONQUESTION or MB_YESNO) = ID_YES then
+    begin
+      CEActions.HotkeySettings.ModifiedActions.Remove(selectedAction);
+      selectedAction.ShortCut:= 0;
+      selectedAction.SecondaryShortCuts.Clear;
+      list_actionhotkeys.Clear;
+      edit_hotkey.Text:= '';
+      but_reset.Enabled:= false;
+    end;
   end;
 end;
 
@@ -529,6 +559,12 @@ begin
     begin
       selectedAction.SecondaryShortCuts.AddObject(list_actionhotkeys.Items.Strings[i],
                                                   list_actionhotkeys.Items.Objects[i]);
+    end;
+
+    if CEActions.HotkeySettings.ModifiedActions.IndexOf(fselectedAction) = -1 then
+    begin
+      CEActions.HotkeySettings.ModifiedActions.Add(selectedAction);
+      but_reset.Enabled:= true;
     end;
   end;
   HotkeyList.Repaint;

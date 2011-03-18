@@ -59,11 +59,15 @@ type
   TCEHotkeySettings = class(TCECustomSettingStorage)
   private
     fActions: TActionList;
+    fModifiedActions: TObjectList;
   protected
     property Actions: TActionList read fActions write fActions;
   public
+    constructor Create; virtual;
+    destructor Destroy; override;
     procedure Load(AAppStorage: TCEAppSettings; ANode: TDOMNode); override;
     procedure Save(AAppStorage: TCEAppSettings; ANode: TDOMNode); override;
+    property ModifiedActions: TObjectList read fModifiedActions;
   end;
 
   TCEGlobalHotkeys = class(TCECustomSettingStorage)
@@ -195,10 +199,6 @@ type
     act_gen_menu: TCEToolbarAction;
     act_navi_quickview: TTntAction;
     act_help_donate: TTntAction;
-    HiddenActionList: TTntActionList;
-    act_focus_addressbar: TTntAction;
-    act_tabs_next: TTntAction;
-    act_tabs_prev: TTntAction;
     act_sessions_addhistoryitem: TTntAction;
     act_sessions_clearhistory: TTntAction;
     act_bookmarks_menu: TCEToolbarAction;
@@ -211,6 +211,9 @@ type
     act_sessions_enablehistory: TTntAction;
     act_gen_showhide: TTntAction;
     act_tabs_undo: TCEToolbarAction;
+    act_tabs_next: TTntAction;
+    act_tabs_prev: TTntAction;
+    act_focus_addressbar: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -222,11 +225,11 @@ type
     fPageActionList: TTntActionList;
     { Private declarations }
   protected
-    HotkeySettings: TCEHotkeySettings;
     procedure DoAssigneByClick(Sender: TObject);
     procedure DoGroupByClick(Sender: TObject);
   public
     GlobalHotkeys: TCEGlobalHotkeys;
+    HotkeySettings: TCEHotkeySettings;
     procedure AssignCustomToolbarActions;
     procedure UpdateAll;
     property PageActionList: TTntActionList read fPageActionList write
@@ -239,8 +242,6 @@ type
 procedure ExecuteCEAction(ActionID: Integer);
 procedure UpdateCEAction(ActionID: Integer; TargetAction: TTntAction);
 
-// Action Executes
-procedure ExecuteHiddenCategory(ActionID: Integer);
 procedure ExecuteEditCategory(ActionID: Integer);
 procedure ExecuteSessionsCategory(ActionID: Integer);
 procedure ExecuteTabsCategory(ActionID: Integer);
@@ -302,6 +303,8 @@ function FindActionByShortcut(AActionList: TActionList; AShortcut: TShortcut;
 procedure ExecuteGeneralCategory(ActionID: Integer);
 
 function FindActionByName(AActionList: TActionList; AName: String): TAction;
+
+procedure ExecuteFocusCategory(ActionID: Integer);
 
 var
   CEActions: TCEActions;
@@ -408,8 +411,8 @@ begin
     700..799: ExecuteQuickviewCategory(ActionID);
     800..849: ExecuteBookmarksCategory(ActionID);
     850..899: ExecuteSessionsCategory(ActionID);
-    900..999: ExecuteQuickOptionsCategory(ActionID);
-    1000..1100: ExecuteHiddenCategory(ActionID);
+    900..949: ExecuteQuickOptionsCategory(ActionID);
+    950..999: ExecuteFocusCategory(ActionID);
   end;
 end;
 
@@ -591,6 +594,27 @@ begin
       205,206,207,210,211,212: TargetAction.Enabled:= true;
       214: TargetAction.Enabled:= (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion > 4);
     end;
+  end;
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Focus Category Execute
+-------------------------------------------------------------------------------}
+procedure ExecuteFocusCategory(ActionID: Integer);
+begin
+  case ActionID of
+    951: if MainForm.AddressBarToolbar.Visible then
+         begin
+           if MainForm.AddressBarToolbar.AddressBar.Breadcrumb then
+           begin
+             MainForm.AddressBarToolbar.AddressBar.AutoSwitchToBreadcrumb:= true;
+             MainForm.AddressBarToolbar.AddressBar.Breadcrumb:= false;
+           end;
+           MainForm.AddressBarToolbar.AddressBar.TextEditor.SetFocus;
+           MainForm.AddressBarToolbar.AddressBar.TextEditor.SelectAll;
+         end;
   end;
 end;
 
@@ -978,6 +1002,8 @@ begin
     665: MainForm.TabSet.CloseTabsOnLeft(MainForm.TabSet.ActivePopupTab);
     666: MainForm.TabSet.CloseTabsOnRight(MainForm.TabSet.ActivePopupTab);
     667: MainForm.TabSet.UndoTabClose;
+    668: MainForm.TabSet.SelectNextTab(true);
+    669: MainForm.TabSet.SelectNextTab(false);
   end;
 
   MainForm.TabSet.ActivePopupTab:= nil; // popup has closed so set this to nil
@@ -1087,29 +1113,6 @@ begin
   TargetAction.Enabled:= true;
   if ActionID = 855 then
   TargetAction.Checked:= GlobalSessions.AutoSaveHistory;
-end;
-
-{##############################################################################}
-
-{*------------------------------------------------------------------------------
-  Hidden Category Execute
--------------------------------------------------------------------------------}
-procedure ExecuteHiddenCategory(ActionID: Integer);
-begin
-  case ActionID of
-    1001: if MainForm.AddressBarToolbar.Visible then
-          begin
-            if MainForm.AddressBarToolbar.AddressBar.Breadcrumb then
-            begin
-              MainForm.AddressBarToolbar.AddressBar.AutoSwitchToBreadcrumb:= true;
-              MainForm.AddressBarToolbar.AddressBar.Breadcrumb:= false;
-            end;
-            MainForm.AddressBarToolbar.AddressBar.TextEditor.SetFocus;
-            MainForm.AddressBarToolbar.AddressBar.TextEditor.SelectAll;
-          end;
-    1002: MainForm.TabSet.SelectNextTab(true);
-    1003: MainForm.TabSet.SelectNextTab(false);
-  end;
 end;
 
 {##############################################################################}
@@ -1480,7 +1483,7 @@ begin
     begin
       for i2:= 0 to act.SecondaryShortCuts.Count - 1 do
       begin
-        if TShortCut(act.SecondaryShortCuts.Objects[I]) = AShortcut then
+        if TShortCut(act.SecondaryShortCuts.Objects[i2]) = AShortcut then
         begin
           Result:= act;
           break;
@@ -1507,10 +1510,6 @@ begin
     end;
   end;
 end;
-
-{##############################################################################}
-
-
 
 {##############################################################################}
 
@@ -1700,6 +1699,24 @@ end;
 {##############################################################################}
 
 {-------------------------------------------------------------------------------
+  Create an instance of TCEHotkeySettings
+-------------------------------------------------------------------------------}
+constructor TCEHotkeySettings.Create;
+begin
+  inherited;
+  fModifiedActions:= TObjectList.Create(false);
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy TCEHotkeySettings
+-------------------------------------------------------------------------------}
+destructor TCEHotkeySettings.Destroy;
+begin
+  fModifiedActions.Free;
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
   Load
 -------------------------------------------------------------------------------}
 procedure TCEHotkeySettings.Load(AAppStorage: TCEAppSettings; ANode: TDOMNode);
@@ -1715,13 +1732,16 @@ begin
   
   if ANode.HasChildNodes then
   begin
-    // Clear default shortcuts
-    for i:= 0 to Actions.ActionCount - 1 do
-    begin
-      act:= TAction(Actions.Actions[i]);
-      act.ShortCut:= 0;
-      act.SecondaryShortCuts.Clear;
-    end;
+//    // Clear default shortcuts
+//    for i:= 0 to Actions.ActionCount - 1 do
+//    begin
+//      act:= TAction(Actions.Actions[i]);
+//      act.ShortCut:= 0;
+//      act.SecondaryShortCuts.Clear;
+//    end;
+
+    fModifiedActions.Clear;
+
     // load shortcuts
     list:= TStringList.Create;
     try
@@ -1734,6 +1754,10 @@ begin
         act:= FindActionByName(Actions, chNode.NodeName);
         if assigned(act) then
         begin
+          // clear default shortcuts
+          act.ShortCut:= 0;
+          act.SecondaryShortCuts.Clear;
+          fModifiedActions.Add(act);
           // add shortcuts
           list.DelimitedText:= chNode.TextContent;
           for i2:= 0 to list.Count - 1 do
@@ -1771,15 +1795,15 @@ begin
   begin
     // clear all first
     TDOMElementHack(ANode).FreeChildren;
-    // loop actions
-    for i:= 0 to Actions.ActionCount - 1 do
+    // loop modified actions
+    for i:= 0 to ModifiedActions.Count - 1 do
     begin
-      act:= TAction(Actions.Actions[i]);
+      act:= TAction(ModifiedActions.Items[i]);
+      // create node with action's name
+      chNode:= AAppStorage.XML.CreateElement(act.Name);
+      ANode.AppendChild(chNode);
       if act.ShortCut <> 0 then
       begin
-        // create node with action's name
-        chNode:= AAppStorage.XML.CreateElement(act.Name);
-        ANode.AppendChild(chNode);
         // convert shortcuts to string: '32,144,98...'
         s:= IntToStr(act.ShortCut);
         for i2:= 0 to act.SecondaryShortCuts.Count - 1 do

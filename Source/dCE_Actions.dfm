@@ -591,6 +591,33 @@ object CEActions: TCEActions
       ShortCut = 24660
       OnExecute = ActionExecute
     end
+    object act_tabs_next: TTntAction
+      Tag = 668
+      Category = 'Tabs'
+      Caption = 'Switch to Next Tab'
+      ShortCut = 16393
+      SecondaryShortCuts.Strings = (
+        'Ctrl+PgUp')
+      OnExecute = ActionExecute
+    end
+    object act_tabs_prev: TTntAction
+      Tag = 669
+      Category = 'Tabs'
+      Caption = 'Swith to Previous Tab'
+      ShortCut = 24585
+      SecondaryShortCuts.Strings = (
+        'Ctrl+PgDn')
+      OnExecute = ActionExecute
+    end
+    object act_focus_addressbar: TTntAction
+      Tag = 951
+      Category = 'Focus'
+      Caption = 'Set focus to address bar'
+      ShortCut = 32836
+      SecondaryShortCuts.Strings = (
+        'F4')
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False
@@ -682,38 +709,6 @@ object CEActions: TCEActions
     end
     object Properties1: TTntMenuItem
       Action = act_edit_properties
-    end
-  end
-  object HiddenActionList: TTntActionList
-    Left = 216
-    Top = 128
-    object act_focus_addressbar: TTntAction
-      Tag = 1001
-      Category = 'Focus'
-      Caption = 'Focus Addressbar'
-      ShortCut = 32836
-      SecondaryShortCuts.Strings = (
-        'F4'
-        'F6')
-      OnExecute = ActionExecute
-    end
-    object act_tabs_next: TTntAction
-      Tag = 1002
-      Category = 'Tabs'
-      Caption = 'Switch to Next Tab'
-      ShortCut = 16393
-      SecondaryShortCuts.Strings = (
-        'Ctrl+PgUp')
-      OnExecute = ActionExecute
-    end
-    object act_tabs_prev: TTntAction
-      Tag = 1003
-      Category = 'Tabs'
-      Caption = 'Swith to Previous Tab'
-      ShortCut = 24585
-      SecondaryShortCuts.Strings = (
-        'Ctrl+PgDn')
-      OnExecute = ActionExecute
     end
   end
 end

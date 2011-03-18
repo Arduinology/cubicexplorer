@@ -82,7 +82,7 @@ inherited TCEOptionsPage_Hotkeys: TTCEOptionsPage_Hotkeys
     Left = 249
     Top = 179
     Width = 176
-    Height = 118
+    Height = 146
     Caption = 'Modify Hotkey'
     TabOrder = 3
     object edit_hotkey: TTntEdit
@@ -124,6 +124,16 @@ inherited TCEOptionsPage_Hotkeys: TTCEOptionsPage_Hotkeys
       Enabled = False
       TabOrder = 3
       OnClick = but_deleteClick
+    end
+    object but_reset: TTntButton
+      Left = 12
+      Top = 110
+      Width = 153
+      Height = 25
+      Caption = 'Reset to default'
+      Enabled = False
+      TabOrder = 4
+      OnClick = but_resetClick
     end
   end
 end

@@ -112,6 +112,8 @@ Unit Documents;
 // 665 = Close Tabs On Left
 // 666 = Close Tabs On Right
 // 667 = Undo Close Tab
+// 668 = Switch to Next Tab
+// 669 = Switch to Previous Tab
 
 // **** QuickView (700) ****
     // begin - group 700 -->
@@ -135,12 +137,10 @@ Unit Documents;
 // 854 = Clear History
 // 855 = Auto save history
 
-// **** Quick Options (900) ***
+// **** Quick Options (900) ****
 
-// **** Hidden Actions (1000) ****
-// 1001 = Focus Addressbar
-// 1002 = Switch to Next Tab
-// 1003 = Switch to Prev Tab
+// **** Focus (950) ****
+// 951 = Set focus to address bar
 
 
 interface

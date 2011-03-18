@@ -1370,8 +1370,6 @@ begin
   if assigned(GlobalPathCtrl.ActivePage) then
   Handled:= DoExecuteAction(AShortcut, TCECustomTabPage(GlobalPathCtrl.ActivePage).PageActionList);
   if not Handled then
-  Handled:= DoExecuteAction(AShortcut, CEActions.HiddenActionList);
-  if not Handled then
   Handled:= DoExecuteAction(AShortcut, CEActions.ActionList);
 end;
 
