@@ -146,6 +146,7 @@ type
 
   TCEAddressBarToolbar = class(TSpTBXToolWindow)
   protected
+    procedure DoContextPopup(MousePos: TPoint; var Handled: Boolean); override;
   public
     AddressBar: TCEAddressBar;
     Settings: TCEAddressBarSettings;
@@ -740,6 +741,16 @@ destructor TCEAddressBarToolbar.Destroy;
 begin
   Settings.Free;
   inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Do ContextPopup
+-------------------------------------------------------------------------------}
+procedure TCEAddressBarToolbar.DoContextPopup(MousePos: TPoint; var Handled:
+    Boolean);
+begin
+  inherited;
+  Handled:= AddressBar.Breadcrumbs.IndexByPos(MousePos.X-2, MousePos.Y-2) > -1;
 end;
 
 {##############################################################################}

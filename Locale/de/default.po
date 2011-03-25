@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1265\n"
+"CE-POT-Version: 1290\n"
 "CE-Language: German\n"
 "Last-Translator: nefycee <(contact only via CE-support-forum)>\n"
 
@@ -119,6 +119,9 @@ msgstr "Ordnerbaum automatisch schließen"
 msgid "Auto expand tree"
 msgstr "Ordnerbaum automatisch öffnen"
 
+msgid "Auto fit tabs"
+msgstr "An Breite angepasst "
+
 msgid "Auto size cells in list view style."
 msgstr "Zellen in Listenansicht anpassen"
 
@@ -172,6 +175,9 @@ msgstr "Groß-/Kleinschreibung beachten"
 
 msgid "Case sensitivity"
 msgstr "Groß-/Kleinschreibung"
+
+msgid "Change order by dragging"
+msgstr "Reihenfolge per Drag & Drop ändern"
 
 msgid "Clear Filters"
 msgstr "Filter bereinigen"
@@ -275,6 +281,9 @@ msgstr "Geändert am:"
 msgid "Default"
 msgstr "Standard"
 
+msgid "Default hotkeys become available after restart!"
+msgstr "Standard Hotkeys werden nach einem Neustart wiederhergestellt"
+
 msgid "Delete"
 msgstr "Löschen"
 
@@ -305,8 +314,11 @@ msgstr "Einstellungen der Ansicht"
 msgid "Do you want to override existing session?"
 msgstr "Wollen sie die existierende Sitzung überschreiben?"
 
+msgid "Do you want to reset all hotkeys for this action?"
+msgstr "Wollen sie für diese Aktion die Standard Hotkeys wiederherstellen?"
+
 msgid "Do you want to use it anyway?"
-msgstr "Wollen sie es denoch nutzen?"
+msgstr "Wollen sie diese dennoch nutzen?"
 
 msgid "Donate"
 msgstr "Spenden"
@@ -587,6 +599,9 @@ msgstr "Geändert"
 msgid "Modify"
 msgstr "Modifiziert"
 
+msgid "Modify Hotkey"
+msgstr "Neue Tastenkombination"
+
 msgid "More..."
 msgstr "Mehr"
 
@@ -650,6 +665,9 @@ msgstr "Standardmäßig in neuem Tab öffnen"
 msgid "Open new tab as"
 msgstr "Neuen Tab öffnen als"
 
+msgid "Open new tab next to current"
+msgstr "Neben aktiven Tab öffnen"
+
 msgid "Open..."
 msgstr "Öffnen"
 
@@ -679,6 +697,9 @@ msgstr "Pfad"
 
 msgid "Pause"
 msgstr "Pause"
+
+msgid "Please choose different hotkey."
+msgstr "Bitte eine andere Kombination wählen."
 
 msgid "Properties"
 msgstr "Eigenschaften"
@@ -727,6 +748,12 @@ msgstr "Ersetzen"
 
 msgid "Replace All"
 msgstr "Alle ersetzen"
+
+msgid "Reset hotkeys?"
+msgstr "Standard Hotkeys wiederherstellen"
+
+msgid "Reset to default"
+msgstr "Standard wiederherstellen"
 
 msgid "Reuse already open tabs"
 msgstr "Bereits geöffnete Tabs wiederverwenden"
@@ -824,6 +851,9 @@ msgstr "Sitzungsname"
 msgid "Sessions"
 msgstr "Sitzung"
 
+msgid "Set focus to address bar"
+msgstr "Fokus auf Adressleiste"
+
 msgid "Short Folder Path"
 msgstr "Kurzer Ordnerpfad"
 
@@ -856,6 +886,9 @@ msgstr "Zeige versteckte Dateien"
 
 msgid "Show Hints"
 msgstr "Zeige Tooltips"
+
+msgid "Show InfoTips"
+msgstr "Zeige Info Tipps"
 
 msgid "Show Path in Title bar"
 msgstr "Zeige Pfad im Fenstertitel"
@@ -1010,6 +1043,12 @@ msgstr "Typ"
 msgid "Undo"
 msgstr "Rückgängig"
 
+msgid "Undo Close Tab"
+msgstr "Geschlossenen Tab wiederherstellen"
+
+msgid "Undo Tab Close"
+msgstr "Tab wiederherstellen"
+
 msgid "Untitled"
 msgstr "Unbenannt"
 
@@ -1045,4 +1084,7 @@ msgstr "Wort oder Begriff im Dateinamen"
 
 msgid "is already assigned to"
 msgstr "ist bereits zugeordnet"
+
+msgid "is already in use!"
+msgstr "ist bereits in Benutzung!"
 
