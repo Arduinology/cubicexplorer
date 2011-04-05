@@ -393,6 +393,10 @@ object MainForm: TMainForm
           Action = CEActions.act_help_about
         end
       end
+      object SpTBXItem45: TSpTBXItem
+        Caption = 'test'
+        OnClick = SpTBXItem45Click
+      end
     end
     object ViewToolbar: TSpTBXToolbar
       Left = 270

@@ -266,13 +266,13 @@ procedure MouseAction(var Msg: tagMSG; var Handled: Boolean);
 procedure OpenFileInTab(FilePath: WideString; SelectTab: Boolean = true;
     ActivateApp: Boolean = false);
 
-procedure OpenFolderInTab(Sender: TObject; PIDL: PItemIDList; SelectTab:
-    Boolean = true; ActivateApp: Boolean = false; ForceNewTab: Boolean = false;
-    PaneNumber: Integer = 0); overload;
+function OpenFolderInTab(Sender: TObject; PIDL: PItemIDList; SelectTab: Boolean
+    = true; ActivateApp: Boolean = false; ForceNewTab: Boolean = false;
+    PaneNumber: Integer = 0): TCESpTabItem; overload;
 
-procedure OpenFolderInTab(Sender: TObject; FilePath: WideString; SelectTab:
+function OpenFolderInTab(Sender: TObject; FilePath: WideString; SelectTab:
     Boolean = true; ActivateApp: Boolean = false; ForceNewTab: Boolean = false;
-    PaneNumber: Integer = 0); overload;
+    PaneNumber: Integer = 0): TCESpTabItem; overload;
 
 function IsSingleInstance: Boolean;
 
@@ -1171,25 +1171,24 @@ end;
 {*------------------------------------------------------------------------------
   Open Folder in a new tab
 -------------------------------------------------------------------------------}
-procedure OpenFolderInTab(Sender: TObject; FilePath: WideString; SelectTab:
+function OpenFolderInTab(Sender: TObject; FilePath: WideString; SelectTab:
     Boolean = true; ActivateApp: Boolean = false; ForceNewTab: Boolean = false;
-    PaneNumber: Integer = 0);
+    PaneNumber: Integer = 0): TCESpTabItem;
 var
   PIDL: PItemIDList;
 begin
   PIDL:= PathToPIDL(FilePath);
-  OpenFolderInTab(Sender, PIDL, SelectTab, ActivateApp, ForceNewTab, PaneNumber);
+  Result:= OpenFolderInTab(Sender, PIDL, SelectTab, ActivateApp, ForceNewTab, PaneNumber);
 end;
 
 {*------------------------------------------------------------------------------
   Open Folder in a new tab
 -------------------------------------------------------------------------------}
-procedure OpenFolderInTab(Sender: TObject; PIDL: PItemIDList; SelectTab:
-    Boolean = true; ActivateApp: Boolean = false; ForceNewTab: Boolean = false;
-    PaneNumber: Integer = 0);
+function OpenFolderInTab(Sender: TObject; PIDL: PItemIDList; SelectTab: Boolean
+    = true; ActivateApp: Boolean = false; ForceNewTab: Boolean = false;
+    PaneNumber: Integer = 0): TCESpTabItem;
 var
   page: TCEFileViewPage;
-  item: TCESpTabItem;
   eItem: TExplorerItem;
   i: Integer;
   ns: TNamespace;
@@ -1210,7 +1209,7 @@ begin
   end;
 
   try
-    item:= nil;
+    Result:= nil;
     GlobalFileViewSettings.AssignFromActivePage;
     if MainForm.TabSet.Settings.ReuseTabs and not ForceNewTab then
     begin
@@ -1218,32 +1217,32 @@ begin
       begin
         if MainForm.TabSet.Items.Items[i] is TCESpTabItem then
         begin
-          item:= TCESpTabItem(MainForm.TabSet.Items.Items[i]);
-          if item.Page is TCEFileViewPage then
+          Result:= TCESpTabItem(MainForm.TabSet.Items.Items[i]);
+          if Result.Page is TCEFileViewPage then
           begin
-            page:= TCEFileViewPage(item.Page);
+            page:= TCEFileViewPage(Result.Page);
             if ILIsEqual(browsePIDL, page.FileView.RootFolderNamespace.AbsolutePIDL) then
             begin
-              MainForm.TabSet.SelectTab(item);
+              MainForm.TabSet.SelectTab(Result);
               if ActivateApp then
               MainForm.MakeVisible;
               break;
             end
             else
-            item:= nil;
+            Result:= nil;
           end
           else
-          item:= nil;
+          Result:= nil;
         end;
       end;
     end;
 
-    if not assigned(item) then
+    if not assigned(Result) then
     begin
-      item:= MainForm.TabSet.AddTab(TCEFileViewPage, false, false);
-      if assigned(item) then
+      Result:= MainForm.TabSet.AddTab(TCEFileViewPage, false, false);
+      if assigned(Result) then
       begin
-        page:= TCEFileViewPage(item.Page);
+        page:= TCEFileViewPage(Result.Page);
         page.FileView.fChangeHistory:= false;
         page.FileView.Selection.ClearAll;
         page.FileView.RootFolderCustomPIDL:= browsePIDL;
@@ -1255,7 +1254,7 @@ begin
         page.FileView.fChangeHistory:= true;
         page.Active:= true;
         if SelectTab or (MainForm.TabSet.Toolbar.GetTabsCount(true) = 1) then
-        MainForm.TabSet.SelectTab(item);
+        MainForm.TabSet.SelectTab(Result);
         if ActivateApp then
         MainForm.MakeVisible;
       end;
@@ -1263,9 +1262,9 @@ begin
 
     if not isFolder then
     begin
-      if assigned(item) then
+      if assigned(Result) then
       begin
-        page:= TCEFileViewPage(item.Page);
+        page:= TCEFileViewPage(Result.Page);
         eItem:= page.FileView.FindItemByPIDL(PIDL);
         if assigned(eItem) then
         begin

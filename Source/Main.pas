@@ -207,6 +207,7 @@ type
     sub_closed_tab_list: TSpTBXSubmenuItem;
     SpTBXSeparatorItem19: TSpTBXSeparatorItem;
     SpTBXSubmenuItem1: TSpTBXSubmenuItem;
+    SpTBXItem45: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -221,6 +222,7 @@ type
     procedure TabPopupMenuPopup(Sender: TObject);
     procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer);
+    procedure SpTBXItem45Click(Sender: TObject);
   private
     fFullscreen: Boolean;
     fActiveLanguage: WideString;
@@ -355,7 +357,7 @@ begin
   fUpdatingCount:= fUpdatingCount + 1;
   if fUpdatingCount > 1 then
   Exit;
-  LockWindowUpdate(GetDesktopWindow);
+  LockWindowUpdate(GetDesktopWindow); // TODO: this should not be used
   SendMessage(MainForm.DockHostForm.Handle, WM_SETREDRAW, 0,0);
   Self.TopToolDock.BeginUpdate;
   Self.RightToolDock.BeginUpdate;
@@ -466,6 +468,7 @@ begin
   TabSet.Align:= alTop;
   TabSet.Name:= 'TabBar';
   TabSet.Toolbar.Caption:= _('Tabs');
+  TabSet.Toolbar.Name:= 'TabToolbar';
   TabSet.TabDragReorder:= true;
   TabSet.TabPageHost:= DockHostForm.PaneGroupHost.GetPane;
   TabSet.LayoutController:= Layouts;
@@ -751,6 +754,11 @@ begin
 
   Layouts.SaveSettingsForToolbars;
   Layouts.SaveToFile(ExePath + 'layout.xml');
+end;
+
+procedure TMainForm.SpTBXItem45Click(Sender: TObject);
+begin
+  TabSet.CloseAllTabs;
 end;
 
 {*------------------------------------------------------------------------------

@@ -167,7 +167,7 @@ implementation
 
 uses
   fCE_TabPage, WideSupport, XMLWrite, Main, CE_SpTabBar, fCE_SaveSessionDlg,
-  fCE_SessionManager, CE_LanguageEngine, dCE_Images;
+  fCE_SessionManager, CE_LanguageEngine, dCE_Images, fCE_FileView;
 
 {-------------------------------------------------------------------------------
   CompareSessionTime
@@ -600,11 +600,13 @@ procedure TCESessionList.LoadSession(ASession: TCESessionItem);
       if tabClass <> nil then
       begin
         tab:= MainForm.TabSet.AddTab(tabClass).Page;
+        if tabClass = TCEFileViewPage then
+        tab.SelectPage; //TODO: This is a hack around a bug. TCustomEasyListview.Destroy will eventually cause crash without this for some unknown reason.
         AStorage.LoadObjectProperties(tab.Settings, chNode);
       end;
       chNode:= chNode.NextSibling;
     end;
-    MainForm.TabSet.ActiveTabIndex:= StrToIntDef(TDOMElement(ATabsNode).AttribStrings['active'], 0);
+    MainForm.TabSet.CEActiveTabIndex:= StrToIntDef(TDOMElement(ATabsNode).AttribStrings['active'], 0);
   end;
 
 var
@@ -681,7 +683,7 @@ procedure TCESessionList.SaveSession(ASession: TCESessionItem);
         end;
       end;
     end;
-    TDOMElement(ATabsNode).AttribStrings['active']:= IntToStr(MainForm.TabSet.ActiveTabIndex);
+    TDOMElement(ATabsNode).AttribStrings['active']:= IntToStr(MainForm.TabSet.CEActiveTabIndex);
   end;
 
 var

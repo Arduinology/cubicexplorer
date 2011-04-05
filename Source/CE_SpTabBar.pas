@@ -35,10 +35,13 @@ uses
   ExtCtrls, Graphics, StrUtils, ShlObj, Menus, Contnrs, ImgList;
 
 type
+  TTBItemViewerAccess = class(TTBItemViewer);
   TSpTBXCustomTabSetAccess = class(TSpTBXCustomTabSet);
   TSpTBXTabItemViewerAccess = class(TSpTBXTabItemViewer);
   TCECustomTabPageAccess = class(TCECustomTabPage);
   TCESpTabSet = class;
+
+  TCEScrollArrowItem = class(TSpTBXItem);
 
   // Closed Tab History Item
   TCEClosedTabHistoryItem = class(TObject)
@@ -79,19 +82,39 @@ type
   // Tab Toolbar
   TCESpTabToolbar = class(TSpTBXTabToolbar)
   private
+    centerTab: TSpTBXTabItem;
+    fCEAutoFit: Boolean;
+    firstTab: TSpTBXTabItem;
     fPreventLastTabClosing: Boolean;
+    lastTab: TSpTBXTabItem;
     function GetTabCount: Integer;
+    procedure SetCEAutoFit(const Value: Boolean);
   protected
+    FLastDropMark: TRect;
     function CanDragCustomize(Button: TMouseButton; Shift: TShiftState; X, Y:
         Integer): Boolean; override;
+    procedure DoItemNotification(Ancestor: TTBCustomItem; Relayed: Boolean; Action:
+        TTBItemChangedAction; Index: Integer; Item: TTBCustomItem); override;
+    procedure DragOver(Source: TObject; X: Integer; Y: Integer; State: TDragState;
+        var Accept: Boolean); override;
+    function GetNextTab(ANextFrom: TTBCustomItem): TSpTBXTabItem;
+    function GetPrevTab(APrevFrom: TTBCustomItem): TSpTBXTabItem;
+    procedure HandleArrowClick(Sender: TObject); virtual;
     procedure InternalDrawBackground(ACanvas: TCanvas; ARect: TRect; PaintOnNCArea:
         Boolean; PaintBorders: Boolean = True); override;
+    procedure RightAlignItems; override;
+    procedure Scroll(ToRight: Boolean = true);
+    procedure ScrollToView(AItem: TSpTBXTabItem; ACenter: Boolean = false);
     procedure WMLButtonDblClick(var Message: TWMMouse); message WM_LBUTTONDBLCLK;
   public
+    LeftArrow: TCEScrollArrowItem;
+    RightArrow: TCEScrollArrowItem;
     constructor Create(AOwner: TComponent); override;
+    procedure ArrangeTabs; virtual;
     function CanTabClose: Boolean;
     function GetTab(Index: Integer): TCESpTabItem;
     function GetTabAt(X, Y: Integer): TCESpTabItem;
+    property CEAutoFit: Boolean read fCEAutoFit write SetCEAutoFit;
     property TabCount: Integer read GetTabCount;
   published
     property OnMouseWheel;
@@ -155,7 +178,9 @@ type
     fSettings: TCETabSettings;
     fTabPageHost: TWinControl;
     fTabPopupMenu: TPopupMenu;
+    function GetCEActiveTabIndex: Integer;
     function GetTabCount: Integer;
+    procedure SetCEActiveTabIndex(const Value: Integer);
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
     fActiveTab: TCESpTabItem;
@@ -188,6 +213,9 @@ type
         Integer; MousePos: TPoint; var Handled: Boolean); virtual;
     procedure HandleToolbarResize(Sender: TObject); virtual;
     procedure HandleUndoItemClick(Sender: TObject);
+    procedure TabDeleting(Item: TSpTBXTabItem; FreeTabSheet: Boolean = True);
+        override;
+    procedure TabInserted(Item: TSpTBXTabItem); override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -213,6 +241,8 @@ type
     procedure UndoTabClose(AIndex: Integer = 0);
     property ActivePopupTab: TCESpTabItem read fActivePopupTab write
         fActivePopupTab;
+    property CEActiveTabIndex: Integer read GetCEActiveTabIndex write
+        SetCEActiveTabIndex;
     property LayoutController: TCELayoutController read fLayoutController write
         fLayoutController;
     property TabCount: Integer read GetTabCount;
@@ -229,7 +259,7 @@ type
 implementation
 
 uses
-  Main, dCE_Actions, fCE_FileView;
+  Main, dCE_Actions, fCE_FileView, CE_LanguageEngine;
 
 {##############################################################################}
 
@@ -304,6 +334,9 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Close Tab
+-------------------------------------------------------------------------------}
 function TCESpTabItem.CloseTab: Boolean;
 var
   T: TSpTBXTabToolbar;
@@ -357,6 +390,9 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Get TabSet
+-------------------------------------------------------------------------------}
 function TCESpTabItem.GetTabSet: TCESpTabSet;
 var
   T: TSpTBXTabToolbar;
@@ -538,6 +574,8 @@ var
 begin
   Result:= false;
   i:= 0;
+  Self.ActiveTabIndex:= -1;
+  Self.fActiveTab:= nil;
   while i < Items.Count do
   begin
     if Items.Items[i] is TCESpTabItem then
@@ -554,7 +592,9 @@ begin
           if assigned(item.Page) then
           begin
             if item.Page.TabClosing then
-            item.Free
+            begin
+              item.Free
+            end
             else
             Exit;
           end
@@ -746,6 +786,7 @@ begin
         LayoutController.CurrentLayout:= tab.page.Layout;
       end;
       tab.Page.SelectPage;
+      TCESpTabToolbar(Toolbar).ScrollToView(tab);
     end;
 
     // Maintain ActiveTabHistory
@@ -851,6 +892,51 @@ begin
   begin
     if Items.Items[ActiveTabIndex] is TCESpTabItem then
     Result:= TCESpTabItem(Items.Items[ActiveTabIndex]);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Get CEActiveTabIndex
+-------------------------------------------------------------------------------}
+function TCESpTabSet.GetCEActiveTabIndex: Integer;
+var
+  i,i2: Integer;
+begin
+  Result:= -1;
+  i2:= -1;
+  for i:= 0 to Items.Count - 1 do
+  begin
+    if Items.Items[i] is TSpTBXTabItem then
+    begin
+      i2:= i2 + 1;
+      if i = ActiveTabIndex then
+      begin
+        Result:= i2;
+        Break;
+      end;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set CEActiveTabIndex
+-------------------------------------------------------------------------------}
+procedure TCESpTabSet.SetCEActiveTabIndex(const Value: Integer);
+var
+  i,i2: Integer;
+begin
+  i2:= -1;
+  for i:= 0 to Items.Count - 1 do
+  begin
+    if Items.Items[i] is TSpTBXTabItem then
+    begin
+      i2:= i2 + 1;
+      if i2 = Value then
+      begin
+        ActiveTabIndex:= i;
+        Break;
+      end;
+    end;
   end;
 end;
 
@@ -1018,6 +1104,7 @@ begin
     end
     else
     begin
+      if Self.Toolbar.View.ViewerFromPoint(Point(X, Y)) = nil then
       CEActions.act_tabs_addtab.Execute;
     end;
     fActivePopupTab:= nil;
@@ -1177,6 +1264,23 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Tab Deleting
+-------------------------------------------------------------------------------}
+procedure TCESpTabSet.TabDeleting(Item: TSpTBXTabItem; FreeTabSheet: Boolean =
+    True);
+begin
+  // Do Nothing
+end;
+
+{-------------------------------------------------------------------------------
+  Tab Inserted
+-------------------------------------------------------------------------------}
+procedure TCESpTabSet.TabInserted(Item: TSpTBXTabItem);
+begin
+  // Do Nothing
+end;
+
+{-------------------------------------------------------------------------------
   Undo Tab Close
 -------------------------------------------------------------------------------}
 procedure TCESpTabSet.UndoTabClose(AIndex: Integer = 0);
@@ -1215,6 +1319,57 @@ begin
   inherited;
   fPreventLastTabClosing:= false;
   Self.ShrinkMode:= tbsmNone;
+  LeftArrow:= TCEScrollArrowItem.Create(Self);
+  LeftArrow.Caption:= '<';
+  LeftArrow.Hint:= _('Show more tabs');
+  LeftArrow.Visible:= false;
+  LeftArrow.OnClick:= HandleArrowClick;
+  Items.Add(LeftArrow);
+
+  RightArrow:= TCEScrollArrowItem.Create(Self);
+  RightArrow.Caption:= '>';
+  RightArrow.Hint:= _('Show more tabs');
+  RightArrow.Visible:= false;
+  RightArrow.OnClick:= HandleArrowClick;
+  Items.Add(RightArrow);  
+end;
+
+{-------------------------------------------------------------------------------
+  Arrange Tabs
+-------------------------------------------------------------------------------}
+procedure TCESpTabToolbar.ArrangeTabs;
+var
+  i, prevIndex, index: Integer;
+  list, list2, tabs: TObjectList;
+  prevItem, item: TTBCustomItem;
+begin
+  tabs:= TObjectList.Create(false);
+  Self.BeginUpdate;
+  try
+    // Find tabs
+    for i:= 0 to Items.Count - 1 do
+    begin
+      if Items.Items[i] is TSpTBXTabItem then
+      tabs.Add(Items.Items[i]);
+    end;
+    // Arrange tabs
+    prevItem:= nil;
+    for i:= 0 to tabs.Count - 1 do
+    begin
+      item:= TTBCustomItem(tabs.Items[i]);
+      if assigned(prevItem) then
+      begin
+        index:= Items.IndexOf(item);
+        prevIndex:= Items.IndexOf(prevItem);
+        if index > (prevIndex+1) then
+        Items.Move(index, prevIndex+1);
+      end;
+      prevItem:= item;
+    end;
+  finally
+    Self.EndUpdate;
+    tabs.Free;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1264,9 +1419,199 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  CanTabClose
+-------------------------------------------------------------------------------}
 function TCESpTabToolbar.CanTabClose: Boolean;
 begin
   Result:= not ((GetTabCount = 1) and PreventLastTabClosing);
+end;
+
+{-------------------------------------------------------------------------------
+  Do ItemNotification
+-------------------------------------------------------------------------------}
+procedure TCESpTabToolbar.DoItemNotification(Ancestor: TTBCustomItem; Relayed:
+    Boolean; Action: TTBItemChangedAction; Index: Integer; Item: TTBCustomItem);
+var
+  I: Integer;
+begin
+  if (csDestroying in ComponentState) or (csReading in ComponentState) then Exit;
+
+  if not (tstResizing in FState) and not IsItemMoving then begin
+    if Assigned(OnItemNotification) then OnItemNotification(Self, Ancestor, Relayed, Action, Index, Item);
+
+    case Action of
+      tbicInserted:
+        begin
+          if Item is TSpTBXTabItem then
+          begin
+            if Index < Items.IndexOf(LeftArrow) then
+            begin
+              BeginItemMove;
+              Items.Move(Index, Items.IndexOf(LeftArrow));
+              EndItemMove;
+            end
+            else if Index > Items.IndexOf(RightArrow) then
+            begin
+              BeginItemMove;
+              Items.Move(Index, Items.IndexOf(RightArrow));
+              EndItemMove;
+            end;
+          end
+          else
+          begin
+            if (Index > Items.IndexOf(LeftArrow)) and (Index < Items.IndexOf(RightArrow))  then
+            begin
+              BeginItemMove;
+              Items.Move(Index, Items.IndexOf(LeftArrow));
+              EndItemMove;
+            end;
+          end;
+          RightAlignItems;
+          AnchorItems(True);
+        end;
+      tbicDeleting:
+        begin
+          I := FAnchoredControlItems.IndexOf(Item);
+          if I > -1 then
+            FAnchoredControlItems.Delete(I);
+          if Item = lastTab then
+          begin
+            lastTab:= GetPrevTab(Item);
+            if not assigned(lastTab) then
+            lastTab:= GetNextTab(Item);
+          end;
+          if Item = firstTab then
+          begin
+            firstTab:= GetNextTab(Item);
+            if not assigned(firstTab) then
+            firstTab:= GetPrevTab(Item);
+          end;
+          RightAlignItems;
+          AnchorItems(True);
+        end;
+      tbicInvalidateAndResize:
+        begin
+          RightAlignItems;
+        end;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  DragOver
+-------------------------------------------------------------------------------}
+procedure TCESpTabToolbar.DragOver(Source: TObject; X, Y: Integer; State:
+    TDragState; var Accept: Boolean);
+var
+  D: TSpTBXTabItemDragObject;
+  DestIV, RightAlignIV: TTBItemViewer;
+  OrigItem: TTBCustomItem;
+  OrigPos, DestPos, RightAlignPos: Integer;
+  DropMark: TRect;
+begin
+  // Draw drop mark
+  if IsCustomizing and Customizable then
+  begin
+    Accept:= True;
+    SpGetDropPosItemViewer(Items, View, Point(X, Y), DestIV, DestPos, DropMark);
+    if not EqualRect(DropMark, FLastDropMark) then
+    begin
+      // Clear the last DropMark
+      InvalidateRect(Handle, @FLastDropMark, True);
+      // Draw the new DropMark
+      SpDrawDropMark(Canvas, DropMark);
+      FLastDropMark:= DropMark;
+    end;
+  end;  
+
+  // Handle Tab dragging
+  if TabDragReorder and Assigned(Source) and (Source is TSpTBXTabItemDragObject) then
+  begin
+    D:= TSpTBXTabItemDragObject(Source);
+    OrigItem:= D.SouceItem;
+    OrigPos:= OrigItem.Parent.IndexOf(OrigItem);
+
+    // Move the dragging item in the toolbar
+    if OrigItem.Parent = Items then
+    begin
+      Accept:= true;
+      SpGetDropPosItemViewer(Items, View, Point(X, Y), OrigPos, DestIV, DestPos);
+
+      RightAlignIV:= SpGetFirstRightAlignSpacer(View);
+      if Assigned(RightAlignIV) then
+      RightAlignPos := Items.IndexOf(RightAlignIV.Item)
+      else
+      RightAlignPos := -1;
+
+      if (OrigPos <> DestPos) and (DestPos > -1) and (DestPos < Items.Count) and (OrigItem <> DestIV.Item) and
+        (DestPos > Items.IndexOf(LeftArrow)) and (DestPos < Items.IndexOf(RightArrow)) then
+      begin
+        if TSpTBXCustomTabSetAccess(FOwnerTabControl).CanActiveTabReorder(OrigPos, DestPos) then
+        begin
+          BeginUpdate;
+          BeginItemMove;
+          try
+            // The item is the active tab, we need to update the ActiveTabIndex
+            // Just set the internal value because the page didn't change
+            FActiveTabIndex := DestPos;
+            Items.Move(OrigPos, DestPos);
+            TSpTBXCustomTabSetAccess(FOwnerTabControl).DoActiveTabReorder(DestPos);
+          finally
+            EndItemMove;
+            EndUpdate;
+            //InvalidateNC;
+          end;
+        end;
+      end;
+    end;
+  end
+  // Handle dragging of other items
+  else
+  begin
+    SpGetDropPosItemViewer(Items, View, Point(X, Y), OrigPos, DestIV, DestPos);
+    Accept:= (DestPos <= Items.IndexOf(LeftArrow)) or (DestPos > Items.IndexOf(RightArrow));
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  GetNextTab
+-------------------------------------------------------------------------------}
+function TCESpTabToolbar.GetNextTab(ANextFrom: TTBCustomItem): TSpTBXTabItem;
+var
+  i: Integer;
+  index: Integer;
+begin
+  Result:= nil;
+  index:= Items.IndexOf(ANextFrom);
+  for i:= index+1 to Items.Count - 1 do
+  begin
+    if Items.Items[i] is TSpTBXTabItem  then
+    begin
+      Result:= TSpTBXTabItem(Items.Items[i]);
+      break;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  GetPrevTab
+-------------------------------------------------------------------------------}
+function TCESpTabToolbar.GetPrevTab(APrevFrom: TTBCustomItem): TSpTBXTabItem;
+var
+  i: Integer;
+  index: Integer;
+begin
+  Result:= nil;
+  index:= Items.IndexOf(APrevFrom);
+  for i:= index-1 downto 0 do
+  begin
+    if Items.Items[i] is TSpTBXTabItem  then
+    begin
+      Result:= TSpTBXTabItem(Items.Items[i]);
+      break;
+    end;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1326,6 +1671,14 @@ begin
       Result:= Result + 1;
     end;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle ArrowClick
+-------------------------------------------------------------------------------}
+procedure TCESpTabToolbar.HandleArrowClick(Sender: TObject);
+begin
+  Scroll(Sender = RightArrow);
 end;
 
 {-------------------------------------------------------------------------------
@@ -1414,6 +1767,447 @@ begin
   end
   else
     SpDrawXPToolbar(Self, ACanvas, ARect, PaintOnNCArea, TabBackgroundBorders and (T <> sknNone), skncTabToolbar);
+end;
+
+{-------------------------------------------------------------------------------
+  RightAlignItems
+-------------------------------------------------------------------------------}
+procedure TCESpTabToolbar.RightAlignItems;
+var
+  i, activeIndex: Integer;
+  W,H: Integer;
+  totalWidth, fullWidth, overWidth, tabsWidth, rightAlignSize: Integer;
+  leftIndex, rightIndex: Integer;
+  doRight: Boolean;
+  IV: TTBItemViewer;
+  tabs: TObjectList;
+  found, showArrows: Boolean;
+  rightAlignItem: TSpTBXRightAlignSpacerItem;
+  someVisible: Boolean;
+begin
+  if (csDestroying in ComponentState)
+     or (tstRightAligning in FState)
+     or not Assigned(CurrentDock)
+     or (Items.Count <= 0)
+     or not Stretch
+     or (ShrinkMode <> tbsmNone)
+     or (CurrentDock.Width <= 0)
+     or (CurrentDock.Height <= 0)
+     or IsUpdating
+     then Exit;
+
+  if fCEAutofit then
+  begin
+    Autofit;
+    Exit;
+  end;
+
+  tabs:= TObjectList.Create(false);
+  FState:= FState + [tstRightAligning];
+  View.BeginUpdate;
+  View.ValidatePositions;
+  try
+    fullWidth:= CurrentDock.Width + 4;
+    LeftArrow.Enabled:= false;
+    RightArrow.Enabled:= false; 
+    //** Calculate total width and get tab list
+    activeIndex:= 0;
+    totalWidth:= 8;
+    tabsWidth:= 0;
+    rightAlignItem:= nil;
+    someVisible:= false;
+    for i:= 0 to View.ViewerCount - 1 do
+    begin
+      IV:= View.Viewers[i];
+      if (IV.Item <> LeftArrow) and (IV.Item <> RightArrow) then
+      begin
+        if not (IV.Item is TSpTBXRightAlignSpacerItem) then
+        begin
+          if IV.Item.Visible then
+          W:= IV.BoundsRect.Right - IV.BoundsRect.Left
+          else
+          TTBItemViewerAccess(IV).CalcSize(Canvas, W, H);
+          totalWidth:= totalWidth + W;
+          // Add tabs to list
+          if IV.Item is TSpTBXTabItem then
+          begin
+            if (IV.Item = centerTab) or (not assigned(centerTab) and IV.Item.Checked) then
+            activeIndex:= tabs.Add(IV)
+            else
+            tabs.Add(IV);
+            tabsWidth:= tabsWidth + W;
+          end;
+        end
+        else
+        rightAlignItem:= TSpTBXRightAlignSpacerItem(IV.Item);
+      end;
+    end;
+    //** Re-Calculate total width if arrows are visible
+    if (totalWidth > fullWidth) and (tabs.Count > 1) then
+    begin
+      IV:= View.Find(RightArrow);
+      if assigned(IV) then
+      begin
+        if IV.Item.Visible then
+        W:= IV.BoundsRect.Right - IV.BoundsRect.Left
+        else
+        TTBItemViewerAccess(IV).CalcSize(Canvas, W, H);
+        totalWidth:= totalWidth + W;
+      end;
+      IV:= View.Find(LeftArrow);
+      if assigned(IV) then
+      begin
+        if IV.Item.Visible then
+        W:= IV.BoundsRect.Right - IV.BoundsRect.Left
+        else
+        TTBItemViewerAccess(IV).CalcSize(Canvas, W, H);
+        totalWidth:= totalWidth + W;
+      end;
+    end;
+
+    //** Hide tabs
+    if totalWidth > fullWidth then
+    begin
+      overWidth:= fullWidth - (totalWidth - tabsWidth);
+      rightAlignSize:= 0;
+      //// Hide left most tabs
+      if assigned(lastTab) then
+      begin
+        found:= false;
+        for i:= tabs.Count-1 downto 0 do
+        begin
+          IV:= TTBItemViewer(tabs.Items[i]);
+          if not found then
+          begin
+            found:= IV.Item = lastTab;
+            if found then
+            RightArrow.Enabled:= i < tabs.Count-1;
+          end;
+          if (overWidth > 0) and found then
+          begin
+            if IV.Item.Visible then
+            W:= IV.BoundsRect.Right - IV.BoundsRect.Left
+            else
+            TTBItemViewerAccess(IV).CalcSize(Canvas, W, H);
+            overWidth:= overWidth - W;
+            if overWidth >= 0 then
+            IV.Item.Visible:= true
+            else
+            begin
+              rightAlignSize:= overWidth + W;
+              IV.Item.Visible:= false;
+              LeftArrow.Enabled:= true;
+            end;
+          end
+          else
+          begin
+            IV.Item.Visible:= false;
+            if found then
+            LeftArrow.Enabled:= true;
+          end;
+          if not someVisible then
+          someVisible:= IV.Item.Visible;
+        end;
+      end
+      //// Hide right most tabs
+      else if assigned(firstTab) then
+      begin
+        found:= false;
+        for i:= 0 to tabs.Count-1 do
+        begin
+          IV:= TTBItemViewer(tabs.Items[i]);
+          if not found then
+          begin
+            found:= IV.Item = firstTab;
+            if found then
+            LeftArrow.Enabled:= i > 0;
+          end;
+          if (overWidth > 0) and found then
+          begin
+            if IV.Item.Visible then
+            W:= IV.BoundsRect.Right - IV.BoundsRect.Left
+            else
+            TTBItemViewerAccess(IV).CalcSize(Canvas, W, H);
+            overWidth:= overWidth - W;
+            if overWidth >= 0 then
+            IV.Item.Visible:= true
+            else
+            begin
+              rightAlignSize:= overWidth + W;
+              IV.Item.Visible:= false;
+              RightArrow.Enabled:= true;
+            end;
+          end
+          else
+          begin
+            IV.Item.Visible:= false;
+            if found then
+            RightArrow.Enabled:= true;
+          end;
+          if not someVisible then
+          someVisible:= IV.Item.Visible;
+        end;
+      end
+      //// Hide tabs around active tab
+      else
+      begin
+        leftIndex:= activeIndex-1;
+        rightIndex:= activeIndex;
+        doRight:= true;
+        i:= 0;
+        while i < tabs.Count do
+        begin
+          // Hide right most tabs
+          if doRight then
+          begin
+            if (rightIndex < tabs.Count) then
+            begin
+              IV:= TTBItemViewer(tabs.Items[rightIndex]);
+              if overWidth > 0 then
+              begin
+                if IV.Item.Visible then
+                W:= IV.BoundsRect.Right - IV.BoundsRect.Left
+                else
+                TTBItemViewerAccess(IV).CalcSize(Canvas, W, H);
+                overWidth:= overWidth - W;
+                if overWidth >= 0 then
+                IV.Item.Visible:= true
+                else
+                begin
+                  rightAlignSize:= overWidth + W;
+                  IV.Item.Visible:= false;
+                  RightArrow.Enabled:= true;
+                end;
+              end
+              else
+              begin
+                IV.Item.Visible:= false;
+                RightArrow.Enabled:= true;
+              end;
+              rightIndex:= rightIndex + 1;
+              i:= i + 1;
+              if not someVisible then
+              someVisible:= IV.Item.Visible;
+            end;
+            doRight:= false;
+          end
+          // Hide left most tabs
+          else
+          begin
+            if (leftIndex > -1) then
+            begin
+              IV:= TTBItemViewer(tabs.Items[leftIndex]);
+              if overWidth > 0 then
+              begin
+                if IV.Item.Visible then
+                W:= IV.BoundsRect.Right - IV.BoundsRect.Left
+                else
+                TTBItemViewerAccess(IV).CalcSize(Canvas, W, H);
+                overWidth:= overWidth - W;
+                if overWidth >= 0 then
+                IV.Item.Visible:= true
+                else
+                begin
+                  rightAlignSize:= overWidth + W;
+                  IV.Item.Visible:= false;
+                  LeftArrow.Enabled:= true;
+                end;
+              end
+              else
+              begin
+                IV.Item.Visible:= false;
+                LeftArrow.Enabled:= true;
+              end;
+              leftIndex:= leftIndex - 1;
+              i:= i + 1;
+              if not someVisible then
+              someVisible:= IV.Item.Visible;
+            end;
+            doRight:= true;
+          end;
+        end;
+      end;
+      // Show at least one tab
+      if not someVisible then
+      begin
+        if assigned(lastTab) then
+        lastTab.Visible:= true
+        else if assigned(firstTab) then
+        firstTab.Visible:= true
+        else if (activeIndex > 0) and (activeIndex < tabs.Count) then
+        TTBItemViewer(tabs.Items[activeIndex]).Item.Visible:= true
+        else if tabs.Count > 0 then
+        TTBItemViewer(tabs.Items[0]).Item.Visible:= true;
+      end;
+    end
+    //** Show all tabs
+    else
+    begin
+      for i:= 0 to tabs.Count-1 do
+      TTBItemViewer(tabs.Items[i]).Item.Visible:= true;
+      firstTab:= nil;
+      lastTab:= nil;
+      LeftArrow.Enabled:= false;
+      RightArrow.Enabled:= false;
+      rightAlignSize:= fullWidth - totalWidth;
+    end;
+
+    // Show/Hide arrows
+    LeftArrow.Visible:= LeftArrow.Enabled or RightArrow.Enabled;
+    RightArrow.Visible:= LeftArrow.Visible;
+    // Set Right align size 
+    if assigned(rightAlignItem) then
+    rightAlignItem.CustomWidth:= rightAlignSize;
+  finally
+    Self.InvalidateNC;
+    View.EndUpdate;
+    FState:= FState - [tstRightAligning];
+    tabs.Free;    
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Scroll
+-------------------------------------------------------------------------------}
+procedure TCESpTabToolbar.Scroll(ToRight: Boolean = true);
+var
+  i, lastI: Integer;
+  item: TSpTBXTabItem;
+begin
+  lastI:= 0;
+  firstTab:= nil;
+  lastTab:= nil;
+  if ToRight then
+  begin
+    for i:= Items.Count - 1 downto 0 do
+    begin
+      if Items.Items[i] is TSpTBXTabItem then
+      begin
+        item:= TSpTBXTabItem(Items.Items[i]);
+        if item.Visible then
+        begin
+          if lastI > i then
+          lastTab:= TSpTBXTabItem(Items.Items[lastI])
+          else
+          lastTab:= TSpTBXTabItem(Items.Items[i]);
+          break;
+        end
+        else
+        lastI:= i;
+      end;
+    end;
+  end
+  else
+  begin
+    lastI:= Items.Count-1;
+    for i:= 0 to Items.Count - 1 do
+    begin
+      if Items.Items[i] is TSpTBXTabItem then
+      begin
+        item:= TSpTBXTabItem(Items.Items[i]);
+        if item.Visible then
+        begin
+          if lastI < i then
+          firstTab:= TSpTBXTabItem(Items.Items[lastI])
+          else
+          firstTab:= TSpTBXTabItem(Items.Items[i]);
+          break;
+        end
+        else
+        lastI:= i;
+      end;
+    end;
+  end;
+  RightAlignItems;
+end;
+
+{-------------------------------------------------------------------------------
+  ScrollToView
+-------------------------------------------------------------------------------}
+procedure TCESpTabToolbar.ScrollToView(AItem: TSpTBXTabItem; ACenter: Boolean =
+    false);
+var
+  i: Integer;
+  l, r, index: Integer;
+  item: TSpTBXTabItem;
+begin
+  if assigned(AItem) then
+  begin
+    if AItem.Visible then
+    Exit; // Nothing to do
+
+    if ACenter then
+    begin
+      centerTab:= AItem;
+      lastTab:= nil;
+      firstTab:= nil;
+      RightAlignItems;
+    end
+    else
+    begin
+      centerTab:= nil;
+      l:= -1;
+      index:= -1;
+      for i:= 0 to Items.Count - 1 do
+      begin
+        if Items.Items[i] is TSpTBXTabItem then
+        begin
+          item:= TSpTBXTabItem(Items.Items[i]);
+          if (l = -1) and item.Visible then
+          l:= i;
+          if item.Visible then
+          r:= i;
+          if Items.Items[i] = AItem then
+          index:= i;
+        end;
+      end;
+      if (index-l) > (r-index) then
+      begin
+        lastTab:= AItem;
+        firstTab:= nil;
+      end
+      else
+      begin
+        lastTab:= nil;
+        firstTab:= AItem;
+      end;
+      RightAlignItems;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set CEAutoFit
+-------------------------------------------------------------------------------}
+procedure TCESpTabToolbar.SetCEAutoFit(const Value: Boolean);
+var
+  i: Integer;
+begin
+  if fCEAutoFit <> Value then
+  begin
+    fCEAutoFit:= Value;
+    BeginUpdate;
+    try
+      for i:= 0 to Items.Count - 1 do
+      begin
+        if Items.Items[i] is TSpTBXTabItem then
+        begin
+          if not fCEAutoFit then
+          TSpTBXTabItem(Items.Items[i]).CustomWidth:= -1
+          else
+          TSpTBXTabItem(Items.Items[i]).Visible:= true;
+        end;
+      end;
+    finally
+      if fCEAutoFit then
+      begin
+        LeftArrow.Visible:= false;
+        RightArrow.Visible:= false;
+      end;
+      TabAutofit:= fCEAutoFit;
+      EndUpdate;
+    end;
+  end;
 end;
 
 {-------------------------------------------------------------------------------

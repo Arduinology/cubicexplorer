@@ -53,6 +53,7 @@ type
     Name: WideString;
     IconIndex: Integer;
     IsSeparator: Boolean;
+    IsRightAlign: Boolean;
   end;
 
   TCEToolbarCustomizer = class(TTntForm)
@@ -253,6 +254,7 @@ begin
     data.IconIndex:= act.ImageIndex;
     data.IsCategory:= false;
     data.IsSeparator:= false;
+    data.IsRightAlign:= false;
   end;
   // Add Separator category to ActionList
   node:= ActionTree.GetFirst;
@@ -262,6 +264,7 @@ begin
   data.IconIndex:= -1;
   data.IsCategory:= true;
   data.IsSeparator:= false;
+  data.IsRightAlign:= false;
   // Add Separator item to ActionList
   chNode:= ActionTree.AddChild(node);
   data:= ActionTree.GetNodeData(chNode);
@@ -269,6 +272,16 @@ begin
   data.IconIndex:= -1;
   data.IsCategory:= false;
   data.IsSeparator:= true;
+  data.IsRightAlign:= false;
+  // Add Right Align item to ActionList
+  chNode:= ActionTree.AddChild(node);
+  data:= ActionTree.GetNodeData(chNode);
+  data.Name:= '[ ]';
+  data.IconIndex:= -1;
+  data.IsCategory:= false;
+  data.IsSeparator:= false;
+  data.IsRightAlign:= true;
+
 
   // Sort actions
   node:= ActionTree.GetFirst;
@@ -414,6 +427,10 @@ begin
   if data.IsSeparator then
   begin
     itemClass:= TSpTBXSeparatorItem;
+  end
+  else if data.IsRightAlign then
+  begin
+    itemClass:= TSpTBXRightAlignSpacerItem;
   end
   else if data.ActionItem is TCEToolbarAction then
   begin

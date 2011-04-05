@@ -1063,22 +1063,29 @@ begin
     begin
       for i:= 0 to CELayoutItems.Count - 1 do
       begin
+        // Normal Toolbars
         if CELayoutItems.Items[i] is TTBCustomDockableWindow then
         begin
-          if CELayoutItems.Items[i] is TCESpTabSet then
-          toolbar:= TCESpTabSet(CELayoutItems.Items[i]).Toolbar
-          else
           toolbar:= TTBCustomDockableWindow(CELayoutItems.Items[i]);
-
           elem:= rootElem.Items.ItemNamed[toolbar.Name];
-          if assigned(elem) then
+        end
+        // TabSet toolbar
+        else if CELayoutItems.Items[i] is TCESpTabSet then
+        begin
+          toolbar:= TCESpTabSet(CELayoutItems.Items[i]).Toolbar;
+          elem:= rootElem.Items.ItemNamed[TCESpTabSet(CELayoutItems.Items[i]).Name];
+        end
+        // Something else (unsupported)
+        else
+        continue; // continue to next item ->
+
+        if assigned(elem) then
+        begin
+          LoadToolbarProperties(toolbar, elem);
+          if toolbar is TSpTBXToolbar then
           begin
-            LoadToolbarProperties(toolbar, elem);
-            if toolbar is TSpTBXToolbar then
-            begin
-              if TSpTBXToolbar(toolbar).Customizable then
-              LoadToolbarItems(TSpTBXToolbar(toolbar),elem);
-            end;
+            if TSpTBXToolbar(toolbar).Customizable then
+            LoadToolbarItems(TSpTBXToolbar(toolbar),elem);
           end;
         end;
       end;
@@ -1093,10 +1100,93 @@ end;
 -------------------------------------------------------------------------------}
 procedure SaveToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
     TJvSimpleXMLElem);
+
+  procedure SaveNormalToolbar(ToNode: TJvSimpleXMLElem);
+  var
+    i: Integer;
+    item: TTBCustomItem;
+    chNode: TJvSimpleXMLElem;
+  begin
+    // Loop through toolbar items
+    for i:= 0 to Toolbar.Items.Count - 1 do
+    begin
+      item:= Toolbar.Items.Items[i];
+
+      // Normal Item
+      if item is TSpTBXItem then
+      begin
+        chNode:= ToNode.Items.Add('item');
+        if assigned(item.Action) then
+        chNode.Properties.Add('action', item.Action.Name)
+        else
+        chNode.Properties.Add('name', item.Name);
+      end
+      // Separator
+      else if (item.ClassType = TTBSeparatorItem) or (item.ClassType = TSpTBXSeparatorItem) then
+      begin
+        ToNode.Items.Add('separator');
+      end
+      // Right Align Spacer
+      else if item is TSpTBXRightAlignSpacerItem then
+      begin
+        ToNode.Items.Add('right_align');
+      end
+      // Submenu
+      else if item.ClassType = TSpTBXSubmenuItem then
+      begin
+        chNode:= ToNode.Items.Add('submenu');
+        chNode.Properties.Add('name', item.Name);
+      end;
+    end;
+  end;
+
+  procedure SaveTabToolbar(ToNode: TJvSimpleXMLElem);
+  var
+    i: Integer;
+    item: TTBCustomItem;
+    chNode: TJvSimpleXMLElem;
+  begin
+    // Loop through toolbar items
+    for i:= 0 to Toolbar.Items.Count - 1 do
+    begin
+      item:= Toolbar.Items.Items[i];
+      // Tabs
+      if item is TCEScrollArrowItem then
+      begin
+        if item = TCESpTabToolbar(Toolbar).LeftArrow then
+        chNode:= ToNode.Items.Add('tabs');
+      end
+      // Normal Item
+      else if (item is TSpTBXItem) then
+      begin
+        chNode:= ToNode.Items.Add('item');
+        if assigned(item.Action) then
+        chNode.Properties.Add('action', item.Action.Name)
+        else
+        chNode.Properties.Add('name', item.Name);
+      end
+      // Separator
+      else if (item.ClassType = TTBSeparatorItem) or (item.ClassType = TSpTBXSeparatorItem) then
+      begin
+        ToNode.Items.Add('separator');
+      end
+      // Submenu
+      else if item.ClassType = TSpTBXSubmenuItem then
+      begin
+        chNode:= ToNode.Items.Add('submenu');
+        chNode.Properties.Add('name', item.Name);
+      end
+      // Right Align Spacer
+      else if item is TSpTBXRightAlignSpacerItem then
+      begin
+        ToNode.Items.Add('right_align');
+      end
+    end;
+  end;
+
 var
   i: Integer;
   rootNode, chNode: TJvSimpleXMLElem;
-  item: TTBCustomItem;
 begin
   if not assigned(Toolbar) then
   Exit;
@@ -1109,32 +1199,10 @@ begin
   else
   rootNode.Clear;
 
-  // Loop through toolbar items
-  for i:= 0 to Toolbar.Items.Count - 1 do
-  begin
-    item:= Toolbar.Items.Items[i];
-
-    // Normal Item
-    if item is TSpTBXItem then 
-    begin
-      chNode:= rootNode.Items.Add('item');
-      if assigned(item.Action) then
-      chNode.Properties.Add('action', item.Action.Name)
-      else
-      chNode.Properties.Add('name', item.Name);
-    end
-    // Separator
-    else if (item.ClassType = TTBSeparatorItem) or (item.ClassType = TSpTBXSeparatorItem) then
-    begin
-      rootNode.Items.Add('separator');
-    end
-    // Submenu
-    else if item.ClassType = TSpTBXSubmenuItem then
-    begin
-      chNode:= rootNode.Items.Add('submenu');
-      chNode.Properties.Add('name', item.Name);
-    end;    
-  end;
+  if Toolbar is TCESpTabToolbar then
+  SaveTabToolbar(rootNode)
+  else
+  SaveNormalToolbar(rootNode);
 end;
 
 {*------------------------------------------------------------------------------
@@ -1142,35 +1210,19 @@ end;
 -------------------------------------------------------------------------------}
 procedure LoadToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
     TJvSimpleXMLElem);
-var
-  i: Integer;
-  chNode: TJvSimpleXMLElem;
-  item: TTBCustomItem;
-  itemClass: TTBCustomItemClass;
-  act: TTntAction;
-  rootNode: TJvSimpleXMLElem;
-begin
-  if not assigned(Toolbar) then
-  Exit;
-  if not assigned(ToolbarNode) then
-  Exit;
-  if not assigned(CEActions.ActionList) then
-  Exit;
 
-  if Toolbar.MenuBar or (toolbar.Tag = 1) then
-  Exit;
-
-  Toolbar.BeginUpdate;
-
-  Toolbar.Items.Clear;
-  try
-    rootNode:= ToolbarNode.Items.ItemNamed['Items'];
-    if not assigned(rootNode) then // old version doesn't use "Items" node.
-    rootNode:= ToolbarNode;
-
-    for i:= 0 to rootNode.Items.Count - 1 do
+  procedure LoadNormalToolbar(FromNode: TJvSimpleXMLElem);
+  var
+    i: Integer;
+    chNode: TJvSimpleXMLElem;
+    act: TTntAction;
+    item: TTBCustomItem;
+    itemClass: TTBCustomItemClass;
+  begin
+    Toolbar.Items.Clear;
+    for i:= 0 to FromNode.Items.Count - 1 do
     begin
-      chNode:= rootNode.Items.Item[i];
+      chNode:= FromNode.Items.Item[i];
       // Normal Item
       if SameText(chNode.Name, 'item') then
       begin
@@ -1193,6 +1245,12 @@ begin
         item:= TSpTBXSeparatorItem.Create(Toolbar);
         Toolbar.Items.Add(item);
       end
+      // Right Align Spacer
+      else if SameText(chNode.Name, 'right_align') then
+      begin
+        item:= TSpTBXRightAlignSpacerItem.Create(Toolbar);
+        Toolbar.Items.Add(item);
+      end
       // Submenu item
       else if SameText(chNode.Name, 'submenu') then
       begin
@@ -1200,6 +1258,98 @@ begin
         Toolbar.Items.Add(item);
       end;
     end;
+  end;
+
+  procedure LoadTabToolbar(FromNode: TJvSimpleXMLElem);
+  var
+    i, index: Integer;
+    chNode: TJvSimpleXMLElem;
+    act: TTntAction;
+    item: TTBCustomItem;
+    itemClass: TTBCustomItemClass;
+  begin
+    // Clear old items
+    i:= 0;
+    while i < Toolbar.Items.Count do
+    begin
+      if not (Toolbar.Items.Items[i] is TCEScrollArrowItem) and not (Toolbar.Items.Items[i] is TSpTBXTabItem) then
+      Toolbar.Items.Delete(i)
+      else
+      i:= i + 1;
+    end;
+    // Load Items
+    index:= 0;
+    for i:= 0 to FromNode.Items.Count - 1 do
+    begin
+      chNode:= FromNode.Items.Item[i];
+      item:= nil;
+      // Normal Item
+      if SameText(chNode.Name, 'item') then
+      begin
+        act:= FindAction(CEActions.ActionList, chNode.Properties.Value('action'));
+        if act is TCEToolbarAction then
+        itemClass:= TCEToolbarAction(act).ItemClass
+        else
+        itemClass:= TSpTBXItem;
+
+        if assigned(itemClass) then
+        begin
+          item:= itemClass.Create(Toolbar);
+          item.Action:= act;
+        end;
+      end
+      // Separator
+      else if SameText(chNode.Name, 'separator') then
+      begin
+        item:= TSpTBXSeparatorItem.Create(Toolbar);
+      end
+      // Submenu item
+      else if SameText(chNode.Name, 'submenu') then
+      begin
+        item:= TSpTBXSubmenuItem.Create(Toolbar);
+      end
+      // Tabs
+      else if SameText(chNode.Name, 'tabs') then
+      begin
+        index:= Toolbar.Items.IndexOf(TCESpTabToolbar(Toolbar).RightArrow)+1;
+      end
+      // Right Align Spacer
+      else if SameText(chNode.Name, 'right_align') then
+      begin
+        item:= TSpTBXRightAlignSpacerItem.Create(Toolbar);
+      end;
+
+      if assigned(item) then
+      begin
+        Toolbar.Items.Insert(index, item);
+        index:= index + 1;
+      end;
+    end;
+  end;
+
+var
+  rootNode: TJvSimpleXMLElem;
+begin
+  if not assigned(Toolbar) then
+  Exit;
+  if not assigned(ToolbarNode) then
+  Exit;
+  if not assigned(CEActions.ActionList) then
+  Exit;
+
+  if Toolbar.MenuBar or (toolbar.Tag = 1) then
+  Exit;
+
+  Toolbar.BeginUpdate;
+  try
+    rootNode:= ToolbarNode.Items.ItemNamed['Items'];
+    if not assigned(rootNode) then // old version doesn't use "Items" node.
+    rootNode:= ToolbarNode;
+
+    if Toolbar is TCESpTabToolbar then
+    LoadTabToolbar(rootNode)
+    else
+    LoadNormalToolbar(rootNode);
   finally
     Toolbar.EndUpdate;
   end;
@@ -1290,25 +1440,33 @@ begin
   AppStorage.BeginUpdate;
   try
     path:= AppStorage.ConcatPaths([AppStoragePath, 'Toolbars']);
+
     rootElem:= TJvCustomAppXMLStorageHack(AppStorage).CreateAndSetNode(path);
     
     rootElem.Items.Clear;
     for i:= 0 to CELayoutItems.Count - 1 do
     begin
+      // Normal toolbar
       if CELayoutItems.Items[i] is TTBCustomDockableWindow then
       begin
-        if CELayoutItems.Items[i] is TCESpTabSet then
-        toolbar:= TCESpTabSet(CELayoutItems.Items[i]).Toolbar
-        else
         toolbar:= TTBCustomDockableWindow(CELayoutItems.Items[i]);
-
         elem:= rootElem.Items.Add(toolbar.Name);
-        SaveToolbarProperties(toolbar, elem);
-        if (toolbar is TSpTBXToolbar) then
-        begin
-          if TSpTBXToolbar(toolbar).Customizable then
-          SaveToolbarItems(TSpTBXToolbar(toolbar),elem);
-        end;
+      end
+      // TabSet
+      else if CELayoutItems.Items[i] is TCESpTabSet then
+      begin
+        toolbar:= TCESpTabSet(CELayoutItems.Items[i]).Toolbar;
+        elem:= rootElem.Items.Add(TCESpTabSet(CELayoutItems.Items[i]).Name);
+      end
+      // Something else (unsupported)
+      else 
+      continue; // continue to next item->
+      
+      SaveToolbarProperties(toolbar, elem);
+      if (toolbar is TSpTBXToolbar) then
+      begin
+        if TSpTBXToolbar(toolbar).Customizable then
+        SaveToolbarItems(TSpTBXToolbar(toolbar),elem);
       end;
     end;
   finally
