@@ -29,12 +29,12 @@ uses
   // JVCL
   JvSimpleXml,
   // VSTools
-  MPShellUtilities, MPCommonObjects,
+  MPShellUtilities, MPCommonObjects, MPCommonUtilities, MPDataObject,
   // Tnt
   TntClasses, TntSysUtils,
   // System Units
   Classes, SysUtils, Windows, Messages, ImgList, Controls, Contnrs, Dialogs,
-  ShlObj;
+  ShlObj, ActiveX;
 
 type
   TCECategoryComp = class(TCECustomBookComp)
@@ -56,13 +56,22 @@ type
     fIsPath: Boolean;
     fIsPIDL: Boolean;
     fPIDL: string;
+    fSupportsDragDrop: Boolean;
   public
     Namespace: TNamespace;
     constructor Create; override;
     destructor Destroy; override;
     procedure Assign(From: TCECustomBookComp); override;
     procedure AssignTo(ToComp: TCECustomBookComp); override;
+    function DoDragEnter(DataObject: IDataObject; Shift: TShiftState; Pt: TPoint;
+        var Effect: Integer): Boolean; override;
+    procedure DoDragLeave; override;
+    function DoDragOver(Shift: TShiftState; Pt: TPoint; var Effect: Integer):
+        Boolean; override;
+    function DoDragDrop(DataObject: IDataObject; Shift: TShiftState; Pt: TPoint;
+        var Effect: Integer): Boolean; override;
     function GetImageIndex(Open: Boolean = false): Integer; override;
+    function IsExecutable: Boolean;
     function IsFile: Boolean;
     function IsFolder: Boolean;
     procedure KeyAction(CharCode: Word; Shift: TShiftState); override;
@@ -73,6 +82,7 @@ type
         Boolean = false); override;
     procedure Refresh(OnlyIfLocal: Boolean = false);
     procedure SaveToXmlNode(XmlNode: TJvSimpleXmlElem); override;
+    function SupportsDragDrop: Boolean; override;
     property NameForParsing: WideString read GetNameForParsing;
     property NameParseAddress: WideString read GetNameParseAddress;
     property Path: WideString read fPath write fPath;
@@ -165,6 +175,7 @@ begin
     FreeAndNil(Namespace);
     Namespace:= TNamespace.Create(PIDLMgr.CopyPIDL(c.Namespace.AbsolutePIDL),nil);//c.Namespace.Parent);
   end;
+  fSupportsDragDrop:= IsExecutable;
 end;
 
 {*------------------------------------------------------------------------------
@@ -201,6 +212,79 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Do Drag Enter
+-------------------------------------------------------------------------------}
+function TCENormalItemComp.DoDragEnter(DataObject: IDataObject; Shift:
+    TShiftState; Pt: TPoint; var Effect: Integer): Boolean;
+var
+  hd: TCommonShellIDList;
+  i: Integer;
+  ns: TNamespace;
+begin
+  Result:= false;
+  if assigned(Namespace) then
+  begin
+    // Check if DataObject contains folders. Only Files are allowed
+    hd:= TCommonShellIDList.Create;
+    try
+      hd.LoadFromDataObject(DataObject);
+      Result:= true;
+      for i:= 0 to hd.PIDLCount - 1 do
+      begin
+        if PIDLIsFolder(hd.AbsolutePIDL(i)) then
+        begin
+          Result:= false;
+          break;
+        end;
+      end;
+    finally
+      hd.Free;
+    end;
+    if Result then
+    Result:= Namespace.DragEnter(DataObject, ShiftStateToKeys(Shift), Pt, Effect) = S_OK;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Do Drag Leave
+-------------------------------------------------------------------------------}
+procedure TCENormalItemComp.DoDragLeave;
+begin
+  if assigned(Namespace) then
+  Namespace.DragLeave;
+end;
+
+{-------------------------------------------------------------------------------
+  Do Drag Over (Return true if drag is handled)
+-------------------------------------------------------------------------------}
+function TCENormalItemComp.DoDragOver(Shift: TShiftState; Pt: TPoint; var
+    Effect: Integer): Boolean;
+begin
+  Result:= false;
+  if assigned(Namespace) then
+  Result:= Namespace.DragOver(ShiftStateToKeys(Shift), Pt, Effect) = S_OK;
+end;
+
+{-------------------------------------------------------------------------------
+  Do Drop (Return true if drop is handled)
+-------------------------------------------------------------------------------}
+function TCENormalItemComp.DoDragDrop(DataObject: IDataObject; Shift:
+    TShiftState; Pt: TPoint; var Effect: Integer): Boolean;
+var
+  keyState: Integer;
+begin
+  Result:= false;
+  if assigned(Namespace) and assigned(DataObject) then
+  begin
+    keyState:= ShiftStateToKeys(Shift);
+    effect:= DROPEFFECT_COPY or DROPEFFECT_MOVE or DROPEFFECT_LINK;
+    Namespace.DragOver(keystate, pt, effect);
+    effect:= DROPEFFECT_COPY or DROPEFFECT_MOVE or DROPEFFECT_LINK;
+    Result:= Namespace.Drop(DataObject, keyState, pt, effect) = S_OK;
+  end;
+end;
+
 {*------------------------------------------------------------------------------
   Get ImageIndex
 -------------------------------------------------------------------------------}
@@ -232,6 +316,21 @@ begin
   Result:= Namespace.NameParseAddress
   else
   Result:= fPath;
+end;
+
+{-------------------------------------------------------------------------------
+  Is this an executable?
+-------------------------------------------------------------------------------}
+function TCENormalItemComp.IsExecutable: Boolean;
+begin
+  Result:= false;
+  if assigned(Namespace) then
+  begin
+    if not Namespace.Folder and IsSameText(Namespace.Extension,'.exe') then
+    begin
+      Result:= true;
+    end;
+  end;
 end;
 
 {*------------------------------------------------------------------------------
@@ -327,7 +426,8 @@ begin
       fGhosted:= false;
       ImageList:= SmallSysImages;
     end;
-  end;  
+  end;
+  fSupportsDragDrop:= IsExecutable;  
 end;
 
 {*------------------------------------------------------------------------------
@@ -367,6 +467,7 @@ begin
       fPIDL:= SavePIDLToMime(Namespace.AbsolutePIDL);
     end;
   end;
+  fSupportsDragDrop:= IsExecutable;
 end;
 
 {*------------------------------------------------------------------------------
@@ -422,6 +523,7 @@ begin
       fGhosted:= false;
     end;
   end;
+  fSupportsDragDrop:= IsExecutable;
 end;
 
 {*------------------------------------------------------------------------------
@@ -600,6 +702,14 @@ end;
 procedure TCENormalItemComp.SetRelative(const Value: Boolean);
 begin
   fRelative:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Supports DragDrop?
+-------------------------------------------------------------------------------}
+function TCENormalItemComp.SupportsDragDrop: Boolean;
+begin
+  Result:= fSupportsDragDrop;
 end;
 
 {##############################################################################}

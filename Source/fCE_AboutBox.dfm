@@ -975,7 +975,7 @@ object CEAboutBox: TCEAboutBox
     Gutter.Width = 0
     Highlighter = SynURISyn1
     Lines.UnicodeStrings = 
-      'Copyright 2006-2009 Marko Savolainen.'#13#10#13#10'Homepage - http://www.c' +
+      'Copyright 2006-2011 Marko Savolainen.'#13#10#13#10'Homepage - http://www.c' +
       'ubicreality.com'#13#10'Support - http://www.cubicreality.com/forum'#13#10#13#10 +
       '================================================================' +
       '=='#13#10'   CubicExplorer uses the following 3rd party Delphi compone' +
@@ -1017,7 +1017,7 @@ object CEAboutBox: TCEAboutBox
       35)
     object but_close: TTntButton
       Left = 367
-      Top = 4
+      Top = 2
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]

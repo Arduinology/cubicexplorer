@@ -29,7 +29,7 @@ uses
   // JVCL
   JvSimpleXml, JvAppStorage,
   // VSTools
-  MPShellUtilities, MPCommonObjects, MPDataObject,
+  MPShellUtilities, MPCommonObjects, MPDataObject, MPCommonUtilities,
   // VT
   VirtualTrees,
   // SpTBX
@@ -43,11 +43,16 @@ uses
 type
   TCEBookmarkTree = class(TVirtualStringTree)
   private
+    fDragDataObject: IDataObject;
+    fDropNode: PVirtualNode;
     fAutoCollapse: Boolean;
     fAutoExpand: Boolean;
+    fDragEnterMouseShiftState: TShiftState;
+    fDropNodeAcceptsDrop: Boolean;
     fOnBookmarksChange: TNotifyEvent;
     fSingleClickMode: Boolean;
   protected
+    procedure ClearDropNode;
     procedure DoDragDrop(Source: TObject; DataObject: IDataObject; Formats:
         TFormatArray; Shift: TShiftState; Pt: TPoint; var Effect: Integer; Mode:
         TDropMode); override;
@@ -570,7 +575,7 @@ var
   Nodes: TNodeArray;
   i: Integer;
   hd: TCommonShellIDList;
-  data: PCEBookData;
+  data, targetData: PCEBookData;
 begin
 
   // Get Attach mode
@@ -604,6 +609,27 @@ begin
     hd:= TCommonShellIDList.Create;
     try
       Self.BeginUpdate;
+      // Do custom drop action
+      if fDropNodeAcceptsDrop and Assigned(fDropNode) and (Mode <> dmNowhere) then
+      begin
+        data:= Self.GetNodeData(fDropNode);
+        if (Mode = dmOnNode) and data.BookComp.SupportsDragDrop then
+        begin
+          if Assigned(fDropNode) then
+          begin
+            try
+              data:= Self.GetNodeData(fDropNode);
+              Effect:= DROPEFFECT_COPY or DROPEFFECT_MOVE or DROPEFFECT_LINK;
+              Shift:= Shift + fDragEnterMouseShiftState;
+              data.BookComp.DoDragDrop(Self.DragManager.DataObject, Shift, Self.ClientToScreen(Pt), Effect);
+              Exit;
+            finally
+              ClearDropNode;
+            end;
+          end;
+        end;
+      end;
+      // Add new bookmark
       hd.LoadFromDataObject(DataObject);
       for i:= 0 to hd.PIDLCount-1 do
       begin
@@ -632,6 +658,7 @@ var
   Nodes: TNodeArray;
   i: Integer;
   tmpNode: PVirtualNode;
+  data: PCEBookData;
 begin
   inherited DoDragOver(Source,Shift,State,Pt,Mode,Effect);
   Result:= false;
@@ -642,7 +669,7 @@ begin
     begin
       Effect:= DROPEFFECT_NONE;
     end
-    else
+    else // Internal move
     begin
       Nodes:= self.GetSortedSelection(True);
       tmpNode:= self.DropTargetNode;
@@ -669,11 +696,62 @@ begin
   else if (source is TCESpTabToolbar) or (source is TSpTBXItemDragObject) then
   begin
     Effect:= DROPEFFECT_NONE;
+    Result:= false;
   end
-  else
+  else // Shell drop
   begin
-    Effect:= DROPEFFECT_LINK;
-    Result:= true;
+    if State = dsDragLeave then
+    begin
+      ClearDropNode;
+    end
+    else if State = dsDragMove then
+    begin
+      if Assigned(Self.DropTargetNode) and (Mode <> dmNowhere) then
+      begin
+        data:= Self.GetNodeData(Self.DropTargetNode);
+        if (Mode = dmOnNode) and data.BookComp.SupportsDragDrop then
+        begin
+          if fDropNode <> Self.DropTargetNode then
+          begin
+            ClearDropNode;
+            fDropNode:= Self.DropTargetNode;
+            if data.BookComp.DoDragEnter(Self.DragManager.DataObject, Shift, Self.ClientToScreen(Pt), Effect) then
+            begin
+              fDropNodeAcceptsDrop:= true;
+              if ssLeft in Shift then
+              fDragEnterMouseShiftState:= [ssLeft]
+              else if ssRight in Shift then
+              fDragEnterMouseShiftState:= [ssRight]
+              else
+              fDragEnterMouseShiftState:= [ssMiddle];
+            end
+            else
+            begin
+              Result:= True;
+              Effect:= DROPEFFECT_LINK;
+            end;
+          end
+          else if fDropNodeAcceptsDrop then
+          begin
+            Effect:= DROPEFFECT_COPY or DROPEFFECT_MOVE or DROPEFFECT_LINK;
+            Result:= data.BookComp.DoDragOver(Shift, Self.ClientToScreen(Pt), Effect);
+          end
+          else
+          begin
+            Effect:= DROPEFFECT_LINK;
+            Result:= true;
+          end;
+        end
+        else
+        begin
+          ClearDropNode;
+          Result:= True;
+          Effect:= DROPEFFECT_LINK;
+        end;
+      end
+      else
+      ClearDropNode;
+    end;
   end;
 end;
 
@@ -726,6 +804,23 @@ begin
   data.BookComp:= CEBookCompList.CreateNewComp(ItemName);
   if not assigned(data.BookComp) then
   data.BookComp:= TCECustomBookComp.Create;
+end;
+
+{-------------------------------------------------------------------------------
+  Clear Drop Node
+-------------------------------------------------------------------------------}
+procedure TCEBookmarkTree.ClearDropNode;
+var
+  data: PCEBookData;
+begin
+  if fDropNodeAcceptsDrop and Assigned(fDropNode) then
+  begin
+    data:= Self.GetNodeData(fDropNode);
+    if assigned(data.BookComp) then
+    data.BookComp.DoDragLeave;
+  end;
+  fDropNode:= nil;
+  fDropNodeAcceptsDrop:= false;
 end;
 
 

@@ -31,7 +31,7 @@ uses
   // Tnt
   TntClasses, TntSysUtils,
   // System Units
-  Classes, SysUtils, Windows, Messages, ImgList, Controls, Contnrs;
+  Classes, SysUtils, Windows, Messages, ImgList, Controls, Contnrs, ActiveX;
 
 type
   TCECustomBookCompClass = class of TCECustomBookComp;
@@ -48,12 +48,20 @@ type
     constructor Create; virtual;
     procedure Assign(From: TCECustomBookComp); virtual;
     procedure AssignTo(ToComp: TCECustomBookComp); virtual;
+    function DoDragDrop(DataObject: IDataObject; Shift: TShiftState; Pt: TPoint;
+        var Effect: Integer): Boolean; virtual;
+    function DoDragOver(Shift: TShiftState; Pt: TPoint; var Effect: Integer):
+        Boolean; virtual;
+    function DoDragEnter(DataObject: IDataObject; Shift: TShiftState; Pt: TPoint;
+        var Effect: Integer): Boolean; virtual;
+    procedure DoDragLeave; virtual;
     function GetImageIndex(Open: Boolean = false): Integer; virtual;
     procedure KeyAction(CharCode: Word; Shift: TShiftState); virtual;
     procedure LoadFromXmlNode(XmlNode: TJvSimpleXmlElem); virtual;
     procedure MouseClick(Shift: TShiftState; Button: TMouseButton; SingleClickMode:
         Boolean = false); virtual;
     procedure SaveToXmlNode(XmlNode: TJvSimpleXmlElem); virtual;
+    function SupportsDragDrop: Boolean; virtual;
     property Enabled: Boolean read fEnabled write fEnabled;
     property Expanded: Boolean read fExpanded write fExpanded;
     property Ghosted: Boolean read fGhosted write fGhosted;
@@ -126,6 +134,41 @@ begin
   ToComp.fSubMenuOnly:= fSubMenuOnly;
 end;
 
+{-------------------------------------------------------------------------------
+  Do Drag Drop (Return true if drop is handled)
+-------------------------------------------------------------------------------}
+function TCECustomBookComp.DoDragDrop(DataObject: IDataObject; Shift:
+    TShiftState; Pt: TPoint; var Effect: Integer): Boolean;
+begin
+  Result:= false;
+end;
+
+{-------------------------------------------------------------------------------
+  Do Drag Over (Return true if drag is handled)
+-------------------------------------------------------------------------------}
+function TCECustomBookComp.DoDragOver(Shift: TShiftState; Pt: TPoint; var
+    Effect: Integer): Boolean;
+begin
+  Result:= false;
+end;
+
+{-------------------------------------------------------------------------------
+  Do Drag Enter
+-------------------------------------------------------------------------------}
+function TCECustomBookComp.DoDragEnter(DataObject: IDataObject; Shift:
+    TShiftState; Pt: TPoint; var Effect: Integer): Boolean;
+begin
+  Result:= false;
+end;
+
+{-------------------------------------------------------------------------------
+  Do Drag Leave
+-------------------------------------------------------------------------------}
+procedure TCECustomBookComp.DoDragLeave;
+begin
+  // nothing to do
+end;
+
 {*------------------------------------------------------------------------------
   Load values from xml node.
 -------------------------------------------------------------------------------}
@@ -168,6 +211,11 @@ end;
 function TCECustomBookComp.GetImageIndex(Open: Boolean = false): Integer;
 begin
   Result:= -1;
+end;
+
+function TCECustomBookComp.SupportsDragDrop: Boolean;
+begin
+  Result:= false;
 end;
 
 {##############################################################################}
