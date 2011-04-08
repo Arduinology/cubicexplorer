@@ -120,7 +120,7 @@ begin
   Self.DragMode:= dmAutomatic;
   self.DragType:= dtVCL;
   Self.NodeDataSize:= SizeOf(TCEBookData);
-  Self.TreeOptions.SelectionOptions:= [toDisableDrawSelection, toRightClickSelect, toMultiSelect];
+  Self.TreeOptions.SelectionOptions:= [toRightClickSelect, toMultiSelect];
   Self.TreeOptions.AnimationOptions:= [];
   Self.TreeOptions.AutoOptions:= [toAutoDropExpand,toAutoScrollOnExpand,toAutoTristateTracking,toAutoDeleteMovedNodes];
   Self.TreeOptions.MiscOptions:= [toAcceptOLEDrop,toEditable,toFullRepaintOnResize,toInitOnSave];
@@ -576,6 +576,8 @@ var
   i: Integer;
   hd: TCommonShellIDList;
   data, targetData: PCEBookData;
+  node: PVirtualNode;
+  h: Integer;
 begin
 
   // Get Attach mode
@@ -607,28 +609,30 @@ begin
   begin
     Effect:= DROPEFFECT_LINK;
     hd:= TCommonShellIDList.Create;
-    try
-      Self.BeginUpdate;
-      // Do custom drop action
-      if fDropNodeAcceptsDrop and Assigned(fDropNode) and (Mode <> dmNowhere) then
+
+    // Do custom drop action
+    if fDropNodeAcceptsDrop and Assigned(fDropNode) and (Mode <> dmNowhere) then
+    begin
+      data:= Self.GetNodeData(fDropNode);
+      if (Mode = dmOnNode) and data.BookComp.SupportsDragDrop then
       begin
-        data:= Self.GetNodeData(fDropNode);
-        if (Mode = dmOnNode) and data.BookComp.SupportsDragDrop then
+        if Assigned(fDropNode) then
         begin
-          if Assigned(fDropNode) then
-          begin
-            try
-              data:= Self.GetNodeData(fDropNode);
-              Effect:= DROPEFFECT_COPY or DROPEFFECT_MOVE or DROPEFFECT_LINK;
-              Shift:= Shift + fDragEnterMouseShiftState;
-              data.BookComp.DoDragDrop(Self.DragManager.DataObject, Shift, Self.ClientToScreen(Pt), Effect);
-              Exit;
-            finally
-              ClearDropNode;
-            end;
+          try
+            data:= Self.GetNodeData(fDropNode);
+            Effect:= DROPEFFECT_COPY or DROPEFFECT_MOVE or DROPEFFECT_LINK;
+            Shift:= Shift + fDragEnterMouseShiftState;
+            data.BookComp.DoDragDrop(Self.DragManager.DataObject, Shift, Self.ClientToScreen(Pt), Effect);
+            Exit; // ---> EXIT
+          finally
+            ClearDropNode;
           end;
         end;
       end;
+    end;
+
+    try
+      Self.BeginUpdate;
       // Add new bookmark
       hd.LoadFromDataObject(DataObject);
       for i:= 0 to hd.PIDLCount-1 do
@@ -639,9 +643,19 @@ begin
         data.BookComp:= TCENormalItemComp.Create;
         TCENormalItemComp(data.BookComp).LoadFromPIDL(hd.AbsolutePIDL(i));
       end;
+
+      // Update scrollbar size (VT doesn't do that automatically for some reason)
+      h:= Self.RootNode.NodeHeight + Self.BottomSpace;
+      node:= Self.GetFirstVisible;
+      while assigned(node) do
+      begin
+        h:= h + node.NodeHeight;
+        node:= Self.GetNextVisible(node);
+      end;
+      Self.RootNode.TotalHeight:= h;
     finally
       hd.Free;
-      Self.EndUpdate;
+      Self.EndUpdate;      
     end;
   end;
   inherited;
@@ -750,7 +764,11 @@ begin
         end;
       end
       else
-      ClearDropNode;
+      begin
+        ClearDropNode;
+        Result:= True;
+        Effect:= DROPEFFECT_LINK;
+      end;
     end;
   end;
 end;

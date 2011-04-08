@@ -48,6 +48,7 @@ type
     check_reusetabs_switch: TTntCheckBox;
     check_nexttocur_switch: TTntCheckBox;
     check_autofit_switch: TTntCheckBox;
+    check_dblclick_switch: TTntCheckBox;
     procedure radio_newtab_1Click(Sender: TObject);
     procedure but_newtabClick(Sender: TObject);
   private
@@ -129,6 +130,7 @@ begin
   MainForm.TabSet.Settings.ReuseTabs:= check_reusetabs_switch.Checked;
   MainForm.TabSet.Settings.OpenNextToCurrent:= check_nexttocur_switch.Checked;
   MainForm.TabSet.Settings.AutoFit:= check_autofit_switch.Checked;
+  MainForm.TabSet.Settings.DblClickCloseTab:= check_dblclick_switch.Checked;
 end;
 
 {-------------------------------------------------------------------------------
@@ -202,8 +204,10 @@ begin
   check_reusetabs_switch.Checked:= MainForm.TabSet.Settings.ReuseTabs;
   // Switch to next to current
   check_nexttocur_switch.Checked:= MainForm.TabSet.Settings.OpenNextToCurrent;
-  // Swtich to autofit
+  // Switch to autofit
   check_autofit_switch.Checked:= MainForm.TabSet.Settings.AutoFit;
+  // Switch to close on double click
+  check_dblclick_switch.Checked:= MainForm.TabSet.Settings.DblClickCloseTab;
 end;
 
 {##############################################################################}

@@ -321,7 +321,12 @@ procedure TCESessions.SaveToFile(AFilePath: WideString);
 var
   FileStream: TStream;
 begin
-  FileStream:= TWideFileStream.Create(AFilePath, fmCreate);
+  try
+    FileStream:= TWideFileStream.Create(AFilePath, fmCreate);
+  except
+    Exit;
+  end;
+  
   try
     WriteXML(XML.DocumentElement, FileStream);
   finally

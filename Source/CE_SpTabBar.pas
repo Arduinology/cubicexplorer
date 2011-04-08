@@ -125,6 +125,7 @@ type
   TCETabSettings = class(TPersistent)
   private
     fClosedTabHistory: Boolean;
+    fDblClickCloseTab: Boolean;
     fNewTabNamespace: TNamespace;
     fNewTabPath: WideString;
     fNewTabSelect: Boolean;
@@ -160,6 +161,8 @@ type
         SetCloseButton;
     property ClosedTabHistory: Boolean read fClosedTabHistory write
         fClosedTabHistory default true;
+    property DblClickCloseTab: Boolean read fDblClickCloseTab write
+        fDblClickCloseTab;
     property MaxTabSize: Integer read GetMaxTabSize write SetMaxTabSize;
     property OpenNextToCurrent: Boolean read fOpenNextToCurrent write
         fOpenNextToCurrent;
@@ -1097,7 +1100,9 @@ begin
     fActivePopupTab:= GetTabAt(X, Y);
     if assigned(fActivePopupTab) then
     begin
-      if fActivePopupTab.Page is TCEFileViewPage then
+      if Settings.DblClickCloseTab then
+      CEActions.act_tabs_closetab.Execute
+      else if fActivePopupTab.Page is TCEFileViewPage then
       CEActions.act_tabs_duplicatetab.Execute
       else
       CEActions.act_tabs_addtab.Execute;
@@ -2257,6 +2262,7 @@ begin
   fOpenNextToCurrent:= false;
   fReuseTabs:= false;
   fUndoCount:= 15;
+  fDblClickCloseTab:= false;
 end;
 
 {-------------------------------------------------------------------------------

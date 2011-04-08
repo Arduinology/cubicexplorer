@@ -109,4 +109,13 @@ inherited CEOptionsPage_Tabs: TCEOptionsPage_Tabs
     TabOrder = 5
     OnClick = HandleChange
   end
+  object check_dblclick_switch: TTntCheckBox
+    Left = 16
+    Top = 267
+    Width = 409
+    Height = 17
+    Caption = 'Close tab on double click'
+    TabOrder = 6
+    OnClick = HandleChange
+  end
 end

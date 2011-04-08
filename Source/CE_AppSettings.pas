@@ -56,12 +56,13 @@ type
     function LoadFromFile(AFilePath: WideString): Boolean; virtual;
     procedure LoadObjectProperties(AObject: TObject; ANode: TDOMNode; ARecursive:
         Boolean = true; AExcludeProperties: TStrings = nil; AIncludeProperties:
-        TStrings = nil);
-    procedure LoadProperties;
+        TStrings = nil); virtual;
+    procedure LoadProperties; virtual;
     procedure SaveObjectProperties(AObject: TObject; AParentNode: TDOMNode;
         ARecursive: Boolean = true; ASaveDefaultValues: Boolean = false;
         AExcludeProperties: TStrings = nil; AIncludeProperties: TStrings = nil);
-    procedure SaveProperties;
+        virtual;
+    procedure SaveProperties; virtual;
     procedure SaveToFile(AFilePath: WideString); virtual;
     property Count: Integer read GetCount;
     property Items[Index: Integer]: TCEAppSettingItem read GetItems; default;
