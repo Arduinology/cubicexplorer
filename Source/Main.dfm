@@ -59,7 +59,7 @@ object MainForm: TMainForm
     Width = 628
     Height = 59
     PopupMenu = ToolbarPopupMenu
-    object MainToolbar: TSpTBXToolbar
+    object MainToolbar: TCEToolbar
       Left = 0
       Top = 0
       CloseButton = False
@@ -393,12 +393,8 @@ object MainForm: TMainForm
           Action = CEActions.act_help_about
         end
       end
-      object SpTBXItem45: TSpTBXItem
-        Caption = 'test'
-        OnClick = SpTBXItem45Click
-      end
     end
-    object ViewToolbar: TSpTBXToolbar
+    object ViewToolbar: TCEToolbar
       Left = 270
       Top = 25
       ChevronMoveItems = False
@@ -431,7 +427,7 @@ object MainForm: TMainForm
         Action = CEActions.act_view_filmstrip
       end
     end
-    object NavigationToolbar: TSpTBXToolbar
+    object NavigationToolbar: TCEToolbar
       Left = 0
       Top = 25
       ChevronMoveItems = False
@@ -470,7 +466,7 @@ object MainForm: TMainForm
         Action = CEActions.act_navi_filesearch
       end
     end
-    object EditToolbar: TSpTBXToolbar
+    object EditToolbar: TCEToolbar
       Left = 511
       Top = 25
       DockPos = 511

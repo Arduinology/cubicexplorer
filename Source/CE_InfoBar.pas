@@ -57,7 +57,6 @@ type
     fRowHeight: Integer;
     fShowFolderItemCount: Boolean;
     fUseJumboIcons: Boolean;
-    procedure WMEraseBkgnd(var Message: TWmEraseBkgnd);
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
     fBuffer: TBitmap;
@@ -89,6 +88,7 @@ type
     procedure RunInfoThread; virtual;
     procedure ThumbThreadFinished(AThread: TCEThumbLoadThread); virtual;
     procedure InfoThreadFinished(AThread: TCEInfoLoadThread); virtual;
+    procedure WMEraseBkgnd(var Message: TMessage); message WM_ERASEBKGND;
   public
     fResizedThumbnail: Boolean;
     constructor Create(AOwner: TComponent); override;
@@ -794,7 +794,7 @@ end;
 {-------------------------------------------------------------------------------
   Handle WM_EraseBkgnd message (Don't erase background)
 -------------------------------------------------------------------------------}
-procedure TCEInfoBar.WMEraseBkgnd(var Message: TWmEraseBkgnd);
+procedure TCEInfoBar.WMEraseBkgnd(var Message: TMessage);
 begin
   Message.Result:= 1;
 end;

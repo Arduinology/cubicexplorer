@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  fCE_TabPage, CE_Layout, CE_Utils, CE_AppSettings,
+  fCE_TabPage, CE_Layout, CE_Utils, CE_AppSettings, CE_Toolbar,
   // SpTBX
   SpTBXItem, SpTBXTabs, TB2Item, TB2Dock, SpTBXSkins,
   // VSTools
@@ -262,7 +262,7 @@ type
 implementation
 
 uses
-  Main, dCE_Actions, fCE_FileView, CE_LanguageEngine;
+  Main, dCE_Actions, fCE_FileView, CE_LanguageEngine, dCE_Images;
 
 {##############################################################################}
 
@@ -1329,6 +1329,8 @@ begin
   LeftArrow.Hint:= _('Show more tabs');
   LeftArrow.Visible:= false;
   LeftArrow.OnClick:= HandleArrowClick;
+  LeftArrow.Images:= CE_Images.MiscImages;
+  LeftArrow.ImageIndex:= 2;
   Items.Add(LeftArrow);
 
   RightArrow:= TCEScrollArrowItem.Create(Self);
@@ -1336,6 +1338,8 @@ begin
   RightArrow.Hint:= _('Show more tabs');
   RightArrow.Visible:= false;
   RightArrow.OnClick:= HandleArrowClick;
+  RightArrow.Images:= CE_Images.MiscImages;
+  RightArrow.ImageIndex:= 3;
   Items.Add(RightArrow);  
 end;
 
@@ -1345,7 +1349,7 @@ end;
 procedure TCESpTabToolbar.ArrangeTabs;
 var
   i, prevIndex, index: Integer;
-  list, list2, tabs: TObjectList;
+  tabs: TObjectList;
   prevItem, item: TTBCustomItem;
 begin
   tabs:= TObjectList.Create(false);
@@ -1510,9 +1514,9 @@ procedure TCESpTabToolbar.DragOver(Source: TObject; X, Y: Integer; State:
     TDragState; var Accept: Boolean);
 var
   D: TSpTBXTabItemDragObject;
-  DestIV, RightAlignIV: TTBItemViewer;
+  DestIV: TTBItemViewer;
   OrigItem: TTBCustomItem;
-  OrigPos, DestPos, RightAlignPos: Integer;
+  OrigPos, DestPos: Integer;
   DropMark: TRect;
 begin
   // Draw drop mark
@@ -1543,12 +1547,6 @@ begin
       Accept:= true;
       SpGetDropPosItemViewer(Items, View, Point(X, Y), OrigPos, DestIV, DestPos);
 
-      RightAlignIV:= SpGetFirstRightAlignSpacer(View);
-      if Assigned(RightAlignIV) then
-      RightAlignPos := Items.IndexOf(RightAlignIV.Item)
-      else
-      RightAlignPos := -1;
-
       if (OrigPos <> DestPos) and (DestPos > -1) and (DestPos < Items.Count) and (OrigItem <> DestIV.Item) and
         (DestPos > Items.IndexOf(LeftArrow)) and (DestPos < Items.IndexOf(RightArrow)) then
       begin
@@ -1574,6 +1572,7 @@ begin
   // Handle dragging of other items
   else
   begin
+    OrigPos:= -1;
     SpGetDropPosItemViewer(Items, View, Point(X, Y), OrigPos, DestIV, DestPos);
     Accept:= (DestPos <= Items.IndexOf(LeftArrow)) or (DestPos > Items.IndexOf(RightArrow));
   end;
@@ -1786,8 +1785,8 @@ var
   doRight: Boolean;
   IV: TTBItemViewer;
   tabs: TObjectList;
-  found, showArrows: Boolean;
-  rightAlignItem: TSpTBXRightAlignSpacerItem;
+  found: Boolean;
+  dynamicSpacerItem: TCEToolbarDynamicSpacerItem;
   someVisible: Boolean;
 begin
   if (csDestroying in ComponentState)
@@ -1819,14 +1818,14 @@ begin
     activeIndex:= 0;
     totalWidth:= 8;
     tabsWidth:= 0;
-    rightAlignItem:= nil;
+    dynamicSpacerItem:= nil;
     someVisible:= false;
     for i:= 0 to View.ViewerCount - 1 do
     begin
       IV:= View.Viewers[i];
       if (IV.Item <> LeftArrow) and (IV.Item <> RightArrow) then
       begin
-        if not (IV.Item is TSpTBXRightAlignSpacerItem) then
+        if not (IV.Item is TCEToolbarDynamicSpacerItem) then
         begin
           if IV.Item.Visible then
           W:= IV.BoundsRect.Right - IV.BoundsRect.Left
@@ -1844,7 +1843,7 @@ begin
           end;
         end
         else
-        rightAlignItem:= TSpTBXRightAlignSpacerItem(IV.Item);
+        dynamicSpacerItem:= TCEToolbarDynamicSpacerItem(IV.Item);
       end;
     end;
     //** Re-Calculate total width if arrows are visible
@@ -2061,8 +2060,8 @@ begin
     LeftArrow.Visible:= LeftArrow.Enabled or RightArrow.Enabled;
     RightArrow.Visible:= LeftArrow.Visible;
     // Set Right align size 
-    if assigned(rightAlignItem) then
-    rightAlignItem.CustomWidth:= rightAlignSize;
+    if assigned(dynamicSpacerItem) then
+    dynamicSpacerItem.CustomWidth:= rightAlignSize;
   finally
     Self.InvalidateNC;
     View.EndUpdate;
@@ -2152,6 +2151,7 @@ begin
     begin
       centerTab:= nil;
       l:= -1;
+      r:= -1;
       index:= -1;
       for i:= 0 to Items.Count - 1 do
       begin

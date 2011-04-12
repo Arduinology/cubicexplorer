@@ -220,7 +220,6 @@ function TCENormalItemComp.DoDragEnter(DataObject: IDataObject; Shift:
 var
   hd: TCommonShellIDList;
   i: Integer;
-  ns: TNamespace;
 begin
   Result:= false;
   if assigned(Namespace) then

@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-03-18 18:51\n"
-"PO-Revision-Date: 2011-03-18 18:51\n"
+"POT-Creation-Date: 2011-04-08 12:40\n"
+"PO-Revision-Date: 2011-04-08 12:40\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,7 +35,7 @@ msgstr ""
 #: dCE_Actions.dfm:605
 #. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..group_loadsave..check_tabs..Caption
 #: fCE_SessionManager.dfm:128
-#: fCE_OptionsPage_Tabs.pas:77
+#: fCE_OptionsPage_Tabs.pas:78
 #. Create TabSet
 #: Main.pas:468
 msgid "Tabs"
@@ -227,7 +227,7 @@ msgstr ""
 #: Main.dfm:324
 #: fCE_OptionsPage_Display_Bookmarks.pas:65
 #. Create BookmarkBar
-#: Main.pas:505
+#: Main.pas:506
 msgid "Bookmarks"
 msgstr ""
 
@@ -670,7 +670,7 @@ msgstr ""
 #. MainForm..TopToolDock..MainToolbar..sessionsMenuItem..Caption
 #: Main.dfm:327
 #. Create SessionsBar
-#: Main.pas:515
+#: Main.pas:516
 msgid "Sessions"
 msgstr ""
 
@@ -859,7 +859,7 @@ msgstr ""
 #. CE_Images..MiscImages......Name
 #: dCE_Images.dfm:7109
 #. CE_Images..PaneIndicators......Name
-#: dCE_Images.dfm:7151
+#: dCE_Images.dfm:7171
 #. CEOptionsDialog..SmallImageList......Name
 #: fCE_OptionsDialog.dfm:314
 #. CEOptionsDialog..LargeImageList......Name
@@ -878,7 +878,7 @@ msgstr ""
 #. CE_Images..MiscImages......Name
 #: dCE_Images.dfm:7132
 #. CE_Images..PaneIndicators......Name
-#: dCE_Images.dfm:7163
+#: dCE_Images.dfm:7183
 #. CEOptionsDialog..SmallImageList......Name
 #: fCE_OptionsDialog.dfm:421
 msgid "PngImage1"
@@ -905,6 +905,10 @@ msgstr ""
 #: dCE_Images.dfm:3956
 #. CE_Images..BookmarkImages......Name
 #: dCE_Images.dfm:7069
+#. CE_Images..MiscImages......Name
+#: dCE_Images.dfm:7142
+#. CE_Images..MiscImages......Name
+#: dCE_Images.dfm:7152
 #. CEOptionsDialog..SmallImageList......Name
 #: fCE_OptionsDialog.dfm:539
 #. CEOptionsDialog..LargeImageList......Name
@@ -1274,7 +1278,7 @@ msgstr ""
 
 #. CEAboutBox..SynMemo1....Lines.UnicodeStrings
 #: fCE_AboutBox.dfm:1000
-msgid "Copyright 2006-2009 Marko Savolainen.\n"
+msgid "Copyright 2006-2011 Marko Savolainen.\n"
 "\nHomepage - http://www.cubicreality.com\n"
 "Support - http://www.cubicreality.com/forum\n"
 "\n==================================================================\n"
@@ -1806,6 +1810,11 @@ msgstr ""
 #. CEOptionsPage_Tabs..check_autofit_switch..Caption
 #: fCE_OptionsPage_Tabs.dfm:108
 msgid "Auto fit tabs"
+msgstr ""
+
+#. CEOptionsPage_Tabs..check_dblclick_switch..Caption
+#: fCE_OptionsPage_Tabs.dfm:117
+msgid "Close tab on double click"
 msgstr ""
 
 #. CEPoEditor..SpTBXDock1..SpTBXToolbar1..Caption
@@ -2562,6 +2571,11 @@ msgid "Are you sure you want to clear session "
 "history?"
 msgstr ""
 
+#: CE_SpTabBar.pas:1329
+#: CE_SpTabBar.pas:1338
+msgid "Show more tabs"
+msgstr ""
+
 #: CE_StatusBar.pas:176
 msgid "Total Size"
 msgstr ""
@@ -2590,49 +2604,49 @@ msgstr ""
 #: CE_ToolbarButtons.pas:518
 #. More... item
 #: CE_ToolbarButtons.pas:670
-#: dCE_Actions.pas:1569
-#: dCE_Actions.pas:1608
+#: dCE_Actions.pas:1568
+#: dCE_Actions.pas:1607
 msgid "More..."
 msgstr ""
 
 #. Grouped toggle item
 #: CE_ToolbarButtons.pas:644
 #. Sho in Groups
-#: dCE_Actions.pas:1578
+#: dCE_Actions.pas:1577
 msgid "Show in Groups"
 msgstr ""
 
 #. Add Separator category to ActionList
-#: fCE_Customizer.pas:261
+#: fCE_Customizer.pas:263
 msgid "Separator"
 msgstr ""
 
 #. Populate Theme list
-#: fCE_Customizer.pas:295
+#: fCE_Customizer.pas:308
 #. Populate Theme list
-#: fCE_Customizer.pas:503
-#: fCE_Customizer.pas:541
+#: fCE_Customizer.pas:520
+#: fCE_Customizer.pas:558
 msgid "Author"
 msgstr ""
 
 #. Populate group_displayMode
-#: fCE_Customizer.pas:317
+#: fCE_Customizer.pas:330
 msgid "Default"
 msgstr ""
 
-#: fCE_Customizer.pas:318
+#: fCE_Customizer.pas:331
 msgid "Icon only"
 msgstr ""
 
-#: fCE_Customizer.pas:319
+#: fCE_Customizer.pas:332
 msgid "Icon above text"
 msgstr ""
 
-#: fCE_Customizer.pas:320
+#: fCE_Customizer.pas:333
 msgid "Text only"
 msgstr ""
 
-#: fCE_Customizer.pas:526
+#: fCE_Customizer.pas:543
 msgid "Drag buttons to/from toolbars"
 msgstr ""
 
@@ -2724,11 +2738,11 @@ msgstr ""
 msgid "Do you want to use it anyway?"
 msgstr ""
 
-#: fCE_OptionsPage_Tabs.pas:78
+#: fCE_OptionsPage_Tabs.pas:79
 msgid "Tabs Settings"
 msgstr ""
 
-#: fCE_OptionsPage_Tabs.pas:151
+#: fCE_OptionsPage_Tabs.pas:153
 msgid "Select default folder for new tabs."
 msgstr ""
 
@@ -2784,22 +2798,22 @@ msgid "Untitled"
 msgstr ""
 
 #. Create FolderCombo Toolbar
-#: Main.pas:486
+#: Main.pas:487
 msgid "Address Bar"
 msgstr ""
 
 #. Create DriveToolbar
-#: Main.pas:494
+#: Main.pas:495
 msgid "Drives"
 msgstr ""
 
 #. Create BreadcrumbBar
-#: Main.pas:525
+#: Main.pas:526
 msgid "Breadcrumb Navigation"
 msgstr ""
 
 #. Add default menu items
-#: Main.pas:897
+#: Main.pas:898
 msgid "English (default)"
 msgstr ""
 

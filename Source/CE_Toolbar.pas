@@ -25,11 +25,13 @@ interface
 
 uses
   // TB2K, TBX, SpTBX
-  SpTBXItem, TB2Item,
+  SpTBXItem, TB2Item, SpTBXSkins,
   // System Units
-  Classes, Windows, SysUtils, Controls, Messages, TntActnList;
+  Classes, Windows, SysUtils, Controls, Messages, TntActnList, Graphics, Math;
 
 type
+  TTBItemViewerAccess = class(TTBItemViewer);
+  
   TCEToolbarItem = class(TSpTBXItem)
   end;
 
@@ -50,12 +52,45 @@ type
   private
     fLargeImages: Boolean;
   protected
+    procedure RightAlignItems; override;
     procedure SetLargeImages(const Value: Boolean); virtual;
   public
     property LargeImages: Boolean read fLargeImages write SetLargeImages;
   end;
 
+  TCEToolbarSeparatorItem = class(TSpTBXSeparatorItem)
+  end;
+
+  TCECustomToolbarSpacerItem = class(TSpTBXCustomLabelItem)
+  protected
+    procedure DoDrawButton(ACanvas: TCanvas; ARect: TRect; ItemInfo:
+        TSpTBXMenuItemInfo; const PaintStage: TSpTBXPaintStage; var PaintDefault:
+        Boolean); override;
+  public
+  published
+    property CustomHeight;
+    property CustomWidth;
+    property Options;
+  end;
+
+  TCEToolbarFixedSpacerItem = class(TCECustomToolbarSpacerItem)
+  public
+    constructor Create(AOwner: TComponent); override;
+  end;
+
+  TCEToolbarDynamicSpacerItem = class(TCECustomToolbarSpacerItem)
+  public
+    constructor Create(AOwner: TComponent); override;
+  end;
+
+procedure Register;
+
 implementation
+
+procedure Register;
+begin
+  RegisterComponents('CubicExplorer', [TCEToolbar]);
+end;
 
 {*------------------------------------------------------------------------------
   Create an instance of TCEToolbarSubmenuItem
@@ -98,11 +133,150 @@ end;
 {##############################################################################}
 
 {-------------------------------------------------------------------------------
+  RightAlignItems
+-------------------------------------------------------------------------------}
+procedure TCEToolbar.RightAlignItems;
+var
+  i: Integer;
+  spacers: TList;
+  spacer: TCEToolbarDynamicSpacerItem;
+  size, totalSize, fullSize, dynamicSize, overSize: Integer;
+  IV: TTBItemViewer;
+  IsRotated: Boolean;
+begin
+  if (csDestroying in ComponentState)
+     or (tstRightAligning in FState)
+     //or not Assigned(CurrentDock)
+     or (Items.Count <= 0)
+     or not Stretch
+     //or ((CurrentDock.Width <= 0) and (CurrentDock.Height <= 0))
+     or IsUpdating
+  then Exit;
+
+  // Set Dynamic Spacers to Zero size if floating
+  if Self.Floating then
+  begin
+    for i:= 0 to Items.Count-1 do
+    begin
+      if Items.Items[i] is TCEToolbarDynamicSpacerItem then
+      TCEToolbarDynamicSpacerItem(Items.Items[i]).CustomWidth:= 0;
+    end;
+    Exit; // --> EXIT
+  end;
+
+  FState := FState + [tstRightAligning];
+
+  spacers:= TList.Create;
+  View.ValidatePositions;
+  View.BeginUpdate;
+  try
+    IsRotated:= IsVertical;
+    
+    if IsRotated then
+    fullSize:= Self.ClientHeight
+    else
+    fullSize:= Self.ClientWidth;
+
+    // calculate total size of items
+    totalSize:= 0;
+    for i:= 0 to View.ViewerCount - 1 do
+    begin
+      IV:= View.Viewers[i];
+      if not (IV.Item is TCEToolbarDynamicSpacerItem) then
+      begin
+        if IV.Item.Visible then
+        begin
+          if IsRotated then
+          size:= IV.BoundsRect.Bottom - IV.BoundsRect.Top
+          else
+          size:= IV.BoundsRect.Right - IV.BoundsRect.Left;
+        end;
+        totalSize:= totalSize + size;
+      end
+      else
+      begin
+        spacers.Add(Pointer(IV.Item));
+      end;
+    end;
+
+    // Calculate size for spacers
+    overSize:= fullSize - totalSize;
+    if (overSize > 0) and (spacers.Count > 0) then
+    dynamicSize:= Floor(overSize / spacers.Count)
+    else
+    dynamicSize:= 0;
+
+    // Set spacer sizes
+    for i:= 0 to spacers.Count - 1 do
+    begin
+      spacer:= TCEToolbarDynamicSpacerItem(spacers.Items[i]);
+      if i < spacers.Count-1 then
+      spacer.CustomWidth:= dynamicSize
+      else
+      spacer.CustomWidth:= overSize;
+      overSize:= overSize - dynamicSize;
+    end;
+  finally
+    View.EndUpdate;
+    FState:= FState - [tstRightAligning];
+    spacers.Free;
+  end;
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
   Set Large Images
 -------------------------------------------------------------------------------}
 procedure TCEToolbar.SetLargeImages(const Value: Boolean);
 begin
   fLargeImages:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  DoDrawButton
+-------------------------------------------------------------------------------}
+procedure TCECustomToolbarSpacerItem.DoDrawButton(ACanvas: TCanvas; ARect:
+    TRect; ItemInfo: TSpTBXMenuItemInfo; const PaintStage: TSpTBXPaintStage;
+    var PaintDefault: Boolean);
+begin
+  //inherited;
+  PaintDefault:= false;
+  if Self.GetParentComponent is TSpTBXToolbar then
+  begin
+    if TSpTBXToolbar(Self.GetParentComponent).IsCustomizing then
+    begin
+      ACanvas.Brush.Color:= clWhite;
+      ACanvas.Brush.Style:= bsSolid;
+      ACanvas.FillRect(ARect);
+      ACanvas.Brush.Color:= clBlack;
+      ACanvas.FrameRect(ARect);
+    end;
+  end;
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Create an instance of TCEToolbarFixedSpacerItem
+-------------------------------------------------------------------------------}
+constructor TCEToolbarFixedSpacerItem.Create(AOwner: TComponent);
+begin
+  inherited;
+  Self.CustomWidth:= 12;
+  Self.CustomHeight:= 16;
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Create an instance of TCEToolbarDynamicSpacerItem
+-------------------------------------------------------------------------------}
+constructor TCEToolbarDynamicSpacerItem.Create(AOwner: TComponent);
+begin
+  inherited;
+  Self.CustomWidth:= 12;
+  Self.CustomHeight:= 16;
 end;
 
 end.

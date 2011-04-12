@@ -10,9 +10,11 @@
 	</PersonalityInfo>
 	<Default.Personality>  <Projects>
       <Projects Name="CubicExplorer.exe">CubicExplorer.bdsproj</Projects>
-      <Projects Name="Project2.exe">..\..\Tests\TabSet\Project2.bdsproj</Projects>
-      <Projects Name="Targets">CubicExplorer.exe Project2.exe</Projects>
+      <Projects Name="CEToolbar.bpl">CEToolbar.bdsproj</Projects>
+      <Projects Name="Targets">CubicExplorer.exe CEToolbar.bpl</Projects>
     </Projects>
     <Dependencies/>
   </Default.Personality>
+	<StarTeamAssociation></StarTeamAssociation>
+	<StarTeamNonRelativeFiles></StarTeamNonRelativeFiles>
 </BorlandProject>

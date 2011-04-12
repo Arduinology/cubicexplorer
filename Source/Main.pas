@@ -36,7 +36,7 @@ uses
   CE_DriveBar, CE_BookmarkBar, CE_StatusBar, CE_VistaFuncs, CE_Breadcrumb,
   CE_ToolbarButtons, CE_TBActions, CE_LanguageCodes, CE_LanguageEngine,
   CE_LanguageUtils, CE_Sessions, CE_SpTabBar,
-  CE_AppSettings,
+  CE_AppSettings, CE_Toolbar,
   // Toolbar2000
   TB2Dock, TB2Item, TB2Toolbar, TB2ToolWindow, TB2ExtItems,
   // SpTBX
@@ -61,14 +61,14 @@ type
     RightToolDock: TSpTBXDock;
     BottomToolDock: TSpTBXDock;
     LeftToolDock: TSpTBXDock;
-    MainToolbar: TSpTBXToolbar;
+    MainToolbar: TCEToolbar;
     MainPanel: TPanel;
     fileMenuItem: TSpTBXSubmenuItem;
     editMenuItem: TSpTBXSubmenuItem;
     viewMenuItem: TSpTBXSubmenuItem;
     toolsMenuItem: TSpTBXSubmenuItem;
     helpMenuItem: TSpTBXSubmenuItem;
-    ViewToolbar: TSpTBXToolbar;
+    ViewToolbar: TCEToolbar;
     SpTBXItem3: TSpTBXItem;
     SpTBXSubmenuItem6: TSpTBXSubmenuItem;
     SpTBXItem4: TSpTBXItem;
@@ -105,7 +105,7 @@ type
     SpTBXItem32: TSpTBXItem;
     SpTBXItem33: TSpTBXItem;
     SpTBXItem34: TSpTBXItem;
-    NavigationToolbar: TSpTBXToolbar;
+    NavigationToolbar: TCEToolbar;
     SpTBXItem36: TSpTBXItem;
     SpTBXItem37: TSpTBXItem;
     SpTBXItem38: TSpTBXItem;
@@ -135,7 +135,7 @@ type
     SpTBXItem64: TSpTBXItem;
     SpTBXItem65: TSpTBXItem;
     SpTBXItem66: TSpTBXItem;
-    EditToolbar: TSpTBXToolbar;
+    EditToolbar: TCEToolbar;
     SpTBXItem67: TSpTBXItem;
     SpTBXItem68: TSpTBXItem;
     SpTBXItem69: TSpTBXItem;
@@ -207,7 +207,6 @@ type
     sub_closed_tab_list: TSpTBXSubmenuItem;
     SpTBXSeparatorItem19: TSpTBXSeparatorItem;
     SpTBXSubmenuItem1: TSpTBXSubmenuItem;
-    SpTBXItem45: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -222,7 +221,6 @@ type
     procedure TabPopupMenuPopup(Sender: TObject);
     procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer);
-    procedure SpTBXItem45Click(Sender: TObject);
   private
     fFullscreen: Boolean;
     fActiveLanguage: WideString;
@@ -754,11 +752,6 @@ begin
 
   Layouts.SaveSettingsForToolbars;
   Layouts.SaveToFile(ExePath + 'layout.xml');
-end;
-
-procedure TMainForm.SpTBXItem45Click(Sender: TObject);
-begin
-  TabSet.CloseAllTabs;
 end;
 
 {*------------------------------------------------------------------------------

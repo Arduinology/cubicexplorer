@@ -43,7 +43,6 @@ uses
 type
   TCEBookmarkTree = class(TVirtualStringTree)
   private
-    fDragDataObject: IDataObject;
     fDropNode: PVirtualNode;
     fAutoCollapse: Boolean;
     fAutoExpand: Boolean;
@@ -575,7 +574,7 @@ var
   Nodes: TNodeArray;
   i: Integer;
   hd: TCommonShellIDList;
-  data, targetData: PCEBookData;
+  data: PCEBookData;
   node: PVirtualNode;
   h: Integer;
 begin

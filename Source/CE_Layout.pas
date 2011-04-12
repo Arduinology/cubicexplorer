@@ -1012,6 +1012,7 @@ begin
     if assigned(toolbar) then
     begin
       toolbar.BeginCustomize;
+      toolbar.Repaint;
     end;
   end;
 end;
@@ -1036,6 +1037,7 @@ begin
     if assigned(toolbar) then
     begin
       toolbar.EndCustomize;
+      toolbar.Repaint;
     end;
   end;
 end;
@@ -1122,14 +1124,19 @@ procedure SaveToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
         chNode.Properties.Add('name', item.Name);
       end
       // Separator
-      else if (item.ClassType = TTBSeparatorItem) or (item.ClassType = TSpTBXSeparatorItem) then
+      else if item is TCEToolbarSeparatorItem then
       begin
         ToNode.Items.Add('separator');
       end
-      // Right Align Spacer
-      else if item is TSpTBXRightAlignSpacerItem then
+      // Dynamic Spacer
+      else if item is TCEToolbarDynamicSpacerItem then
       begin
-        ToNode.Items.Add('right_align');
+        ToNode.Items.Add('dynamic_spacer');
+      end
+      // Fixed Spacer
+      else if item is TCEToolbarFixedSpacerItem then
+      begin
+        ToNode.Items.Add('fixed_spacer');
       end
       // Submenu
       else if item.ClassType = TSpTBXSubmenuItem then
@@ -1154,7 +1161,7 @@ procedure SaveToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
       if item is TCEScrollArrowItem then
       begin
         if item = TCESpTabToolbar(Toolbar).LeftArrow then
-        chNode:= ToNode.Items.Add('tabs');
+        ToNode.Items.Add('tabs');
       end
       // Normal Item
       else if (item is TSpTBXItem) then
@@ -1166,9 +1173,19 @@ procedure SaveToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
         chNode.Properties.Add('name', item.Name);
       end
       // Separator
-      else if (item.ClassType = TTBSeparatorItem) or (item.ClassType = TSpTBXSeparatorItem) then
+      else if item is TCEToolbarSeparatorItem then
       begin
         ToNode.Items.Add('separator');
+      end
+      // Dynamic Spacer
+      else if item is TCEToolbarDynamicSpacerItem then
+      begin
+        ToNode.Items.Add('dynamic_spacer');
+      end
+      // Fixed Spacer
+      else if item is TCEToolbarFixedSpacerItem then
+      begin
+        ToNode.Items.Add('fixed_spacer');
       end
       // Submenu
       else if item.ClassType = TSpTBXSubmenuItem then
@@ -1176,17 +1193,11 @@ procedure SaveToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
         chNode:= ToNode.Items.Add('submenu');
         chNode.Properties.Add('name', item.Name);
       end
-      // Right Align Spacer
-      else if item is TSpTBXRightAlignSpacerItem then
-      begin
-        ToNode.Items.Add('right_align');
-      end
     end;
   end;
 
 var
-  i: Integer;
-  rootNode, chNode: TJvSimpleXMLElem;
+  rootNode: TJvSimpleXMLElem;
 begin
   if not assigned(Toolbar) then
   Exit;
@@ -1245,16 +1256,29 @@ procedure LoadToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
         item:= TSpTBXSeparatorItem.Create(Toolbar);
         Toolbar.Items.Add(item);
       end
-      // Right Align Spacer
-      else if SameText(chNode.Name, 'right_align') then
+      // Dynamic Spacer
+      else if SameText(chNode.Name, 'dynamic_spacer') then
       begin
-        item:= TSpTBXRightAlignSpacerItem.Create(Toolbar);
+        item:= TCEToolbarDynamicSpacerItem.Create(Toolbar);
+        Toolbar.Items.Add(item);
+      end
+      // Fixed Spacer
+      else if SameText(chNode.Name, 'fixed_spacer') then
+      begin
+        item:= TCEToolbarFixedSpacerItem.Create(Toolbar);
         Toolbar.Items.Add(item);
       end
       // Submenu item
       else if SameText(chNode.Name, 'submenu') then
       begin
         item:= TSpTBXSubmenuItem.Create(Toolbar);
+        Toolbar.Items.Add(item);
+      end
+      // Right Align Spacer
+      // TODO: Depricated, remove this!
+      else if SameText(chNode.Name, 'right_align') then
+      begin
+        item:= TCEToolbarDynamicSpacerItem.Create(Toolbar);
         Toolbar.Items.Add(item);
       end;
     end;
@@ -1313,10 +1337,21 @@ procedure LoadToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
       begin
         index:= Toolbar.Items.IndexOf(TCESpTabToolbar(Toolbar).RightArrow)+1;
       end
+      // Dynamic Spacer
+      else if SameText(chNode.Name, 'dynamic_spacer') then
+      begin
+        item:= TCEToolbarDynamicSpacerItem.Create(Toolbar);
+      end
+      // Fixed Spacer
+      else if SameText(chNode.Name, 'fixed_spacer') then
+      begin
+        item:= TCEToolbarFixedSpacerItem.Create(Toolbar);
+      end
       // Right Align Spacer
+      // TODO: Depricated, remove this!
       else if SameText(chNode.Name, 'right_align') then
       begin
-        item:= TSpTBXRightAlignSpacerItem.Create(Toolbar);
+        item:= TCEToolbarDynamicSpacerItem.Create(Toolbar);
       end;
 
       if assigned(item) then

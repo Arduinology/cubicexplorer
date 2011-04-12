@@ -126,7 +126,7 @@ msgstr ""
 #. CEAboutBox..SynMemo1....Lines.UnicodeStrings
 #: fCE_AboutBox.dfm:202
 msgid ""
-"Copyright 2006-2009 Marko Savolainen.\n"
+"Copyright 2006-2011 Marko Savolainen.\n"
 "\n"
 "Homepage - http://www.cubicreality.com\n"
 "Support - http://www.cubicreality.com/forum\n"
