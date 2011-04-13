@@ -1,42 +1,78 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0\n"
+"Project-Id-Version: 1.2\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1105\n"
+"CE-POT-Version: 1308\n"
 "CE-Language: French\n"
-"Last-Translator: Chris <veuxpas-depub@yahoo.fr>\n"
+"Last-Translator: BB <courriel.bb@laposte.net>\n"
+
+msgid "%d folder(s) searched and %d file(s) found in %.3f second(s)"
+msgstr "%d dossier(s) examiné(s) et %d fichier(s) trouvé(s), en %.3f seconde(s)"
+
+msgid "%d folder(s) searched and %d item(s) found in %.3f second(s)"
+msgstr "%d dossier(s) examiné(s) et %d objet(s) trouvé(s), en %.3f seconde(s)"
+
+msgid "..."
+msgstr "..."
 
 msgid "About CubicExplorer"
-msgstr "A propos de Clubic Explorer"
+msgstr "A propos de CubicExplorer"
 
 msgid "About..."
-msgstr "A propos de ..."
+msgstr "A propos..."
+
+msgid "Accessed"
+msgstr "Dernier accès le"
 
 msgid "Actions"
 msgstr "Actions"
 
+msgid "Add"
+msgstr "Ajouter"
+
 msgid "Add Bookmark"
-msgstr "Ajouter un favoris"
+msgstr "Ajouter un favori"
 
 msgid "Add Category"
 msgstr "Ajouter une catégorie"
 
+msgid "Add History Item"
+msgstr "Ajouter un élément à l'historique"
+
 msgid "Add Tab"
-msgstr "Ajouter onglet"
+msgstr "Ajouter un onglet"
 
 msgid "Address Bar"
-msgstr "Barre d'adresses"
+msgstr "Barre d'adresse"
+
+msgid "Advanced"
+msgstr "Avancé"
+
+msgid "Advanced Settings"
+msgstr "Paramètres avancés"
+
+msgid "After Date:"
+msgstr "Après la date :"
+
+msgid "After Time:"
+msgstr "Après l'heure :"
+
+msgid "All"
+msgstr "Tout"
 
 msgid "Always On Top"
-msgstr "Toujours au dessus"
+msgstr "Toujours au-dessus"
 
 msgid "Always Show Sort Columns"
-msgstr "Toujours montrer les entêtes de colonnes"
+msgstr "Toujours afficher les en-têtes de colonne"
+
+msgid "Always sort folders first."
+msgstr " Toujours classer les dossiers en premier"
 
 msgid "And Launch Files"
-msgstr "Un onglet par favori défini"
+msgstr "Et lancer les fichiers"
 
 msgid "Application Revision:"
 msgstr "Révision de l'application :"
@@ -47,65 +83,122 @@ msgstr "Appliquer"
 msgid "Apply changes."
 msgstr "Appliquer les changements"
 
+msgid "Are you sure you want to clear session history?"
+msgstr "Etes-vous sûr de vouloir effacer l'historique de sessions ?"
+
+msgid "Are you sure you want to delete this session?"
+msgstr "Etes-vous sûr de vouloir supprimer cette session ?"
+
 msgid "Arrange By"
-msgstr "Arranger par"
+msgstr "Trier par"
+
+msgid "At Least:"
+msgstr "Au moins :"
+
+msgid "At Most:"
+msgstr "Au plus :"
 
 msgid "Attributes"
 msgstr "Attributs"
 
+msgid "Author"
+msgstr "Auteur"
+
 msgid "Auto"
-msgstr "Automatique"
+msgstr "Auto"
 
 msgid "Auto Collapse Trees"
-msgstr "Réduire automatiquement"
+msgstr "Réduire automatiquement les arborescences"
 
 msgid "Auto Expand Trees"
-msgstr "Développer automatiquement"
+msgstr "Développer automatiquement les arborescences"
+
+msgid "Auto Save History"
+msgstr "Sauver automatiquement l'historique"
 
 msgid "Auto collapse tree"
-msgstr "Réduction automatique de l'arborescence"
+msgstr " Réduire automatiquement l'arborescence"
 
 msgid "Auto expand tree"
-msgstr "Développer automatiquement l'arborescence"
+msgstr " Développer automatiquement l'arborescence"
+
+msgid "Auto fit tabs"
+msgstr " Ajuster automatiquement la taille des onglets"
 
 msgid "Auto size cells in list view style."
-msgstr "Taille automatique des cellules en mode liste"
+msgstr " Redimensionner automatiquement les cellules si l'affichage est en mode liste"
 
 msgid "Automatic"
 msgstr "Automatique"
 
 msgid "Back"
-msgstr "Précédent"
+msgstr "Reculer"
 
 msgid "Backward"
-msgstr "En arrière"
+msgstr "Reculer"
+
+msgid "Before Date:"
+msgstr "Avant la date :"
+
+msgid "Before Time:"
+msgstr "Avant l'heure :"
 
 msgid "Bookmarks"
 msgstr "Favoris"
 
 msgid "Bookmarks Panel Settings"
-msgstr "Options du panneau des favoris"
+msgstr "Paramètres du volet des favoris"
+
+msgid "Borders"
+msgstr "Bordures"
 
 msgid "Bottom"
 msgstr "Bas"
 
 msgid "Breadcrumb Navigation"
-msgstr "Historique navigation"
+msgstr "Fil d'Ariane"
 
 msgid "Browse..."
-msgstr "Parcourir ..."
+msgstr "Parcourir..."
+
+msgid "Buttons"
+msgstr "Boutons"
 
 msgid "Bytes"
-msgstr "Octets"
+msgstr "octets"
 
 msgid "Cancel"
 msgstr "Annuler"
 
+msgid "Cancelled"
+msgstr "Annulé"
+
+msgid "Case Sensitive"
+msgstr "Sensible à la casse"
+
 msgid "Case sensitivity"
-msgstr "Case à cocher"
+msgstr "Respecter la casse"
+
+msgid "Change order by dragging"
+msgstr "Changez l'ordre en faisant glisser"
+
+msgid "Clear Filters"
+msgstr "Effacer les filtres"
+
+msgid "Clear History"
+msgstr "Effacer l'historique"
 
 msgid "Clear List"
-msgstr "Nettoyer la liste"
+msgstr "Effacer la liste"
+
+msgid "Clear Results"
+msgstr "Effacer résultats"
+
+msgid "Clear filter history"
+msgstr "Effacer l'historique des filtres"
+
+msgid "Clear filters on folder change"
+msgstr "Effacer les filtres lorsque le dossier change"
 
 msgid "Close"
 msgstr "Fermer"
@@ -122,6 +215,21 @@ msgstr "Fermer les onglets de gauche"
 msgid "Close Tabs on Right"
 msgstr "Fermer les onglets de droite"
 
+msgid "Close tab on double click"
+msgstr " Fermer les onglets par un double-clic"
+
+msgid "Close to tray"
+msgstr " Fermer dans la zone de notification"
+
+msgid "Compressed"
+msgstr "Compressé"
+
+msgid "Content"
+msgstr "Contenu"
+
+msgid "Continue from last time"
+msgstr " Poursuivre depuis la dernière fois"
+
 msgid "Copy"
 msgstr "Copier"
 
@@ -129,37 +237,46 @@ msgid "Copy Path"
 msgstr "Copier le chemin"
 
 msgid "Copy of active tab"
-msgstr "Copie de l'onglet actif"
+msgstr " Copie de l'onglet actif"
 
 msgid "Create"
 msgstr "Créer"
 
 msgid "Create New Translation"
-msgstr "Nouvelle traduction"
+msgstr "Créer une nouvelle traduction"
+
+msgid "Create Symbolic Link"
+msgstr "Créer un lien symbolique"
 
 msgid "Create new translation."
-msgstr "Nouvelle traduction"
+msgstr "Créer une nouvelle traduction."
+
+msgid "Created"
+msgstr "Créé le"
 
 msgid "CubicExplore Home Page"
-msgstr "Site Cubic Explorer"
+msgstr "Page d'acceuil de CubicExplorer"
 
 msgid "CubicExplorer Options"
-msgstr "Options CubicExplorer"
+msgstr "Options de CubicExplorer"
 
 msgid "Custom..."
-msgstr "Personnalisé..."
+msgstr " Personnalisé..."
 
 msgid "Customize"
-msgstr "Personnalisation"
+msgstr "Personnaliser"
 
 msgid "Customizer..."
-msgstr "Personnaliser ... "
+msgstr "Fenêtre de personnalisation... "
 
 msgid "Cut"
 msgstr "Couper"
 
+msgid "Date && Time"
+msgstr "Date && Heure"
+
 msgid "Date Accessed"
-msgstr "Date de dernière utilisation"
+msgstr "Date de dernier accès"
 
 msgid "Date Created"
 msgstr "Date de création"
@@ -168,16 +285,19 @@ msgid "Date Modified"
 msgstr "Date de modification"
 
 msgid "Default"
-msgstr "Défaut"
+msgstr "Par défaut"
+
+msgid "Default hotkeys become available after restart!"
+msgstr "Les raccourcis par défaut ne deviendront valides qu'après un redémarrage !"
 
 msgid "Delete"
-msgstr "Effacer"
+msgstr "Supprimer"
 
 msgid "Delete active session."
 msgstr "Supprimer la session active"
 
 msgid "Desktop"
-msgstr "Bureau"
+msgstr " Bureau"
 
 msgid "Details"
 msgstr "Détails"
@@ -186,25 +306,52 @@ msgid "Direction"
 msgstr "Direction"
 
 msgid "Disconnect Network Drive..."
-msgstr "Déconnecter un lecteur réseau ..."
+msgstr "Déconnecter un lecteur réseau..."
 
 msgid "Display"
-msgstr "Affichage"
+msgstr "Visuel"
+
+msgid "Display Mode"
+msgstr "Mode d'affichage "
 
 msgid "Display Settings"
-msgstr "Options d'affichage"
+msgstr "Paramètres visuels"
+
+msgid "Do you want to override existing session?"
+msgstr "Voulez-vous remplacer la session existante ?"
+
+msgid "Do you want to reset all hotkeys for this action?"
+msgstr "Voulez-vous réinitialiser tous les raccourcis clavier pour cette action ?"
+
+msgid "Do you want to use it anyway?"
+msgstr "Voulez-vous quand même l'utiliser ?"
+
+msgid "Donate"
+msgstr "Faire un don"
+
+msgid "Drag Handle"
+msgstr "Poignées de redimensionnement"
+
+msgid "Drag buttons to/from toolbars"
+msgstr " Faites glisser les boutons depuis/vers les barres d'outils"
 
 msgid "Drives"
-msgstr "Volumes"
+msgstr "Lecteurs"
 
 msgid "Drop Stack"
-msgstr ""
+msgstr "Panier de copie/déplac."
+
+msgid "DualView"
+msgstr "Double fenêtrage"
 
 msgid "Dublicate Tab"
-msgstr "Dupliquer l'onglet"
+msgstr "Doubler l'onglet"
 
 msgid "Duplicate"
 msgstr "Dupliquer"
+
+msgid "Duplicate Hotkey"
+msgstr "Dupliquer le raccourci clavier"
 
 msgid "Duplicate Tab"
 msgstr "Dupliquer l'onglet"
@@ -216,10 +363,10 @@ msgid "Edit Session"
 msgstr "Editer la session"
 
 msgid "Edit session properties."
-msgstr "Editeur les propriétés de la session"
+msgstr "Editer les propriétés de la session"
 
 msgid "Editor Options..."
-msgstr "Editeur d'options ..."
+msgstr "Options de l'éditeur..."
 
 msgid "Empty Recycle Bin"
 msgstr "Vider la corbeille"
@@ -227,35 +374,59 @@ msgstr "Vider la corbeille"
 msgid "English (default)"
 msgstr "Anglais (par défaut)"
 
+msgid "Enter each file mask on a separate line."
+msgstr "Entrez chaque masque de fichiers sur une ligne distincte."
+
+msgid "Exclude File Masks:"
+msgstr "Masques de fichier exclus :"
+
 msgid "Exit"
-msgstr "Fermer"
+msgstr "Quitter"
 
 msgid "File"
 msgstr "Fichier"
 
+msgid "File Contains:"
+msgstr "Le fichier contient :"
+
+msgid "File Name Mask"
+msgstr "Masque pour le nom du fichier :"
+
 msgid "File Search"
-msgstr "Chercher un fichier"
+msgstr "Recherche de fichiers"
 
 msgid "Fileview"
-msgstr "Fichiers"
+msgstr "Fenêtre principale"
 
 msgid "Fileview Settings"
-msgstr "Paramètres d'affichage des fichiers"
+msgstr "Paramètres de la fenêtre principale (la partie où l'on manipule les fichiers)"
 
 msgid "Filmstrip"
-msgstr "Aperçu rapide"
+msgstr "Diapositives"
 
 msgid "Filters"
 msgstr "Filtres"
 
 msgid "Find Next"
-msgstr "Chercher le suivant"
+msgstr "Trouver le suivant"
 
 msgid "Find Previous"
-msgstr "Chercher le précédent"
+msgstr "Trouver le précédent"
+
+msgid "Finished"
+msgstr "Terminé"
+
+msgid "Focus"
+msgstr "Focus"
+
+msgid "Focus Addressbar"
+msgstr "Donner le focus à la barre d'adresse"
+
+msgid "Folder"
+msgstr "Dossier"
 
 msgid "Folder Path"
-msgstr "Chemin complet"
+msgstr "Chemin du dossier"
 
 msgid "Folder Up"
 msgstr "Dossier parent"
@@ -264,25 +435,37 @@ msgid "Folders"
 msgstr "Dossiers"
 
 msgid "Folders Panel Settings"
-msgstr "Options du panneau des dossiers"
+msgstr "Paramètres du volet des dossiers"
 
 msgid "Format"
 msgstr "Format"
 
 msgid "Forward"
-msgstr "Suivant"
+msgstr "Avancer"
 
 msgid "Fullscreen"
 msgstr "Plein écran"
+
+msgid "GB"
+msgstr "Go"
 
 msgid "General"
 msgstr "Général"
 
 msgid "General Settings"
-msgstr "Configuration générale"
+msgstr "Paramètres généraux"
+
+msgid "Global"
+msgstr "Raccourcis globaux"
+
+msgid "Global Hotkey Settings"
+msgstr "Agissent même si CE est en arrière-plan ou minimisé dans la zone de notif."
 
 msgid "Group By"
-msgstr "Grouper par"
+msgstr "Regrouper par"
+
+msgid "Hello World"
+msgstr "Bonjour tout le monde"
 
 msgid "Help"
 msgstr "Aide"
@@ -290,14 +473,41 @@ msgstr "Aide"
 msgid "Hex"
 msgstr "Hexa"
 
+msgid "Hidden"
+msgstr "Caché"
+
 msgid "Highlight row completely"
-msgstr "Mettre en surbrillance la ligne"
+msgstr " Mettre en surbrillance la ligne complète"
 
 msgid "Highlighter"
-msgstr "Surlignage"
+msgstr "Coloration"
+
+msgid "History"
+msgstr "Historique"
+
+msgid "Hotkey Settings"
+msgstr "Paramètres des raccourcis clavier"
+
+msgid "Hotkeys"
+msgstr "Raccourcis"
+
+msgid "Icon above text"
+msgstr "Icônes au-dessus du texte"
+
+msgid "Icon only"
+msgstr "Icônes seulement"
 
 msgid "Image"
 msgstr "Image"
+
+msgid "Include File Masks:"
+msgstr "Masques de fichier inclus :"
+
+msgid "Include Subfolders"
+msgstr "Inclure sous-dossiers"
+
+msgid "Info Bar"
+msgstr "Barre d'informations"
 
 msgid "Insert"
 msgstr "Insérer"
@@ -305,41 +515,62 @@ msgstr "Insérer"
 msgid "Invert Selection"
 msgstr "Inverser la sélection"
 
+msgid "Item(s)"
+msgstr "élément(s)"
+
 msgid "KB"
 msgstr "Ko"
 
 msgid "Language"
-msgstr "Langues"
+msgstr "Langue"
 
 msgid "Language Editor"
-msgstr "Editeur de langue"
+msgstr "Editeur de langues"
 
 msgid "Large Icons"
 msgstr "Grandes icônes"
 
 msgid "Launch Files Only"
-msgstr "Lancer les fichiers uniquement"
+msgstr "Lancer uniquement les fichiers"
+
+msgid "Layout"
+msgstr "Disposition"
 
 msgid "Layouts"
-msgstr "Disposition"
+msgstr "Dispositions"
 
 msgid "Left"
 msgstr "Gauche"
+
+msgid "Link Name"
+msgstr "Nom du lien"
 
 msgid "List"
 msgstr "Liste"
 
 msgid "Load Skin..."
-msgstr "Charger skin..."
+msgstr "Charger une apparence..."
+
+msgid "Load session"
+msgstr " Charger une session :"
 
 msgid "Load skin from file"
-msgstr "Charger skin à partir d'un fichier"
+msgstr "Charger une apparence depuis un fichier"
+
+msgid "Load theme from file"
+msgstr "Charger un thème depuis un fichier"
+
+msgid "Load theme from file..."
+msgstr "Charger un fichier thème..."
 
 msgid "Load this session on startup."
 msgstr "Charger cette session au démarrage"
 
 msgid "Loading..."
-msgstr "Chargement ..."
+msgstr "Chargement..."
+
+msgid "Location"
+msgstr "Emplacement :"
 
 msgid "MB"
 msgstr "Mo"
@@ -347,14 +578,35 @@ msgstr "Mo"
 msgid "Main Menu"
 msgstr "Menu principal"
 
+msgid "Manage Sessions"
+msgstr "Gérer les sessions"
+
+msgid "Manage..."
+msgstr "Gérer..."
+
 msgid "Map Network Drive..."
-msgstr "Connecter un lecteur réseau"
+msgstr "Connecter un lecteur réseau..."
+
+msgid "Max Level:"
+msgstr "Niveau max :"
 
 msgid "Menu"
 msgstr "Menu"
 
+msgid "Min Level:"
+msgstr "Niveau min :"
+
+msgid "Minimize to tray"
+msgstr " Réduire dans la zone de notification"
+
 msgid "Modified"
-msgstr "Modifié"
+msgstr "Modifié le"
+
+msgid "Modify"
+msgstr "Modifier"
+
+msgid "Modify Hotkey"
+msgstr "Modifier le raccourci"
 
 msgid "More..."
 msgstr "Plus..."
@@ -362,8 +614,11 @@ msgstr "Plus..."
 msgid "Name"
 msgstr "Nom"
 
+msgid "Name && Location"
+msgstr "Nom && Emplacement"
+
 msgid "Name Only"
-msgstr "Nom seul"
+msgstr "Noms des éléments sélectionnés"
 
 msgid "Navigation"
 msgstr "Navigation"
@@ -378,31 +633,49 @@ msgid "New Session"
 msgstr "Nouvelle session"
 
 msgid "No Extension"
-msgstr "Sans extension"
+msgstr "Pas d'extension"
+
+msgid "No Selection"
+msgstr "Aucune sélection"
 
 msgid "No file loaded."
-msgstr "Aucun fichier image sélectionné"
+msgstr "Aucun fichier chargé"
 
 msgid "None"
-msgstr "Aucun"
+msgstr "Aucun(e)"
+
+msgid "Not yet ready, coming soon"
+msgstr "Pas encore prêt, à venir prochainement"
 
 msgid "OK"
 msgstr "OK"
 
+msgid "On Startup"
+msgstr "Au démarrage"
+
 msgid "Open All in Tabs"
-msgstr "Ouvrir des onglets"
+msgstr "Tout ouvrir dans des onglets"
 
 msgid "Open Command Prompt"
-msgstr "Ouvrir ligne de commande"
+msgstr "Invite de commandes"
+
+msgid "Open Containing Folder"
+msgstr "Ouvrir le dossier contenant"
+
+msgid "Open default tab"
+msgstr " Ouvrir l'onglet par défaut"
 
 msgid "Open in new tab by default"
-msgstr "Ouvrir dans un nouvel onglet par défaut"
+msgstr " Ouvrir dans un nouvel onglet"
 
 msgid "Open new tab as"
-msgstr "Ouvrir le nouvel onglet comme"
+msgstr "Chemin à l'ouverture d'un onglet"
+
+msgid "Open new tab next to current"
+msgstr " Ouvrir les nouveaux onglets à côté de l'onglet actif"
 
 msgid "Open..."
-msgstr "Ouvrir ..."
+msgstr "Ouvrir..."
 
 msgid "Options"
 msgstr "Options"
@@ -417,7 +690,7 @@ msgid "Override"
 msgstr "Ignorer"
 
 msgid "Panels"
-msgstr "Fenêtres"
+msgstr "Volets"
 
 msgid "Paste"
 msgstr "Coller"
@@ -431,11 +704,14 @@ msgstr "Chemin"
 msgid "Pause"
 msgstr "Pause"
 
+msgid "Please choose different hotkey."
+msgstr "S'il vous plaît, choisissez un raccourci clavier différent."
+
 msgid "Properties"
 msgstr "Propriétés"
 
 msgid "Properties..."
-msgstr "Propriétés ..."
+msgstr "Propriétés..."
 
 msgid "Publish Translation"
 msgstr "Publier la traduction"
@@ -443,14 +719,20 @@ msgstr "Publier la traduction"
 msgid "Quick Options"
 msgstr "Options rapides"
 
+msgid "QuickView"
+msgstr "Visualiser"
+
 msgid "Quickview"
-msgstr "Aperçu images"
+msgstr "Visualisation"
+
+msgid "Read Only"
+msgstr "Lecture seule"
 
 msgid "Redo"
-msgstr "Répéter"
+msgstr "Restaurer"
 
 msgid "Refresh"
-msgstr "Rafraîchir"
+msgstr "Actualiser"
 
 msgid "Regular expression"
 msgstr "Expression régulière"
@@ -459,10 +741,10 @@ msgid "Relative"
 msgstr "Relatif"
 
 msgid "Reload"
-msgstr "Relancer"
+msgstr "Recharger"
 
 msgid "Remember Tabs"
-msgstr "Mémoriser les onglets à la fermeture"
+msgstr "Mémoriser les onglets"
 
 msgid "Rename"
 msgstr "Renommer"
@@ -473,8 +755,14 @@ msgstr "Remplacer"
 msgid "Replace All"
 msgstr "Remplacer tout"
 
+msgid "Reset hotkeys?"
+msgstr "Restaurer les raccourcis clavier ?"
+
+msgid "Reset to default"
+msgstr "Restaurer par défaut"
+
 msgid "Reuse already open tabs"
-msgstr "Toujours réutiliser les onglets ouverts"
+msgstr " Réutiliser les onglets déjà ouverts"
 
 msgid "Right"
 msgstr "Droite"
@@ -483,7 +771,10 @@ msgid "Save"
 msgstr "Enregistrer"
 
 msgid "Save As..."
-msgstr "Enregistrer sous ..."
+msgstr "Enregistrer sous..."
+
+msgid "Save Session"
+msgstr "Sauver la session"
 
 msgid "Save active session with new name."
 msgstr "Sauver la session active sous un nouveau nom"
@@ -492,7 +783,7 @@ msgid "Save active session."
 msgstr "Sauver la session active"
 
 msgid "Save changes before closing?"
-msgstr "Enregistrer les modifications avant de quitter ?"
+msgstr "Enregistrer les modifications avant de fermer ?"
 
 msgid "Save changes."
 msgstr "Enregistrer les modifications"
@@ -501,52 +792,61 @@ msgid "Save changes?"
 msgstr "Enregistrer les modifications ?"
 
 msgid "Save settings automatically."
-msgstr "Sauver automatiquement les paramètres"
+msgstr "Enregistrer automatiquement les paramètres"
+
+msgid "Save..."
+msgstr "Sauver..."
 
 msgid "Save/Load Settings"
-msgstr "Sauver/Charger paramètres"
+msgstr "Sauver/Charger les paramètres"
 
 msgid "Scroll Left"
-msgstr "	Faire défiler vers la gauche"
+msgstr "Défiler vers la gauche"
 
 msgid "Scroll Right"
-msgstr "Faire défiler vers la droite"
+msgstr "Défiler vers la droite"
 
 msgid "Search"
 msgstr "Chercher"
 
 msgid "Search File Mask"
-msgstr "Chercher une partie ou l'ensemble du nom du fichier :"
+msgstr "Rechercher à l'aide d'un masque de fichier"
 
 msgid "Search Word or Phrase in File Name"
-msgstr "Chercher un mot ou une phrase dans un nom de fichier"
+msgstr "Rechercher un mot ou une phrase dans le nom du fichier"
 
 msgid "Search and Replace"
-msgstr "Chercher et remplacer"
+msgstr "Rechercher et remplacer"
 
 msgid "Search from cursor"
-msgstr "Chercher à partir du curseur"
+msgstr "Partir du curseur"
 
 msgid "Search in Directory"
-msgstr "Chercher dans :"
+msgstr "Rechercher dans le répertoire"
+
+msgid "Searching from"
+msgstr "Recherche dans "
 
 msgid "Select All"
 msgstr "Sélectionner tout"
 
 msgid "Select default folder for new tabs."
-msgstr "Sélectionner le dossier par défaut pour les nouveaux onglets"
+msgstr "Sélectionnez le dossier par défaut pour les nouveaux onglets."
+
+msgid "Select existing translation or create new."
+msgstr "Sélectionnez une traduction existante ou créez-en une nouvelle."
 
 msgid "Select first item automatically"
-msgstr "Sélectionner automatiquement le premier objet"
+msgstr " Sélectionner automatiquement le premier objet"
 
 msgid "Select previous folder"
-msgstr "Sélectionner le dossier précédent"
+msgstr " Sélectionner le dossier précédent"
 
 msgid "Selected"
-msgstr "Sélectionner"
+msgstr "sélectionné(s)"
 
 msgid "Selected text only"
-msgstr "Texte sélectionné uniquement"
+msgstr "Texte sélect. seulem."
 
 msgid "Separator"
 msgstr "Séparateur"
@@ -557,35 +857,50 @@ msgstr "Nom de la session"
 msgid "Sessions"
 msgstr "Sessions"
 
+msgid "Set focus to address bar"
+msgstr "Se rendre sur la barre d'adresse"
+
 msgid "Short Folder Path"
 msgstr "Chemin du dossier abrégé"
 
 msgid "Short Name Only"
-msgstr "Nom abrégé"
+msgstr "Noms des éléments sélectionnés abrégés"
 
 msgid "Short Path"
-msgstr "Chemin abrégé"
+msgstr "Chemin et noms abrégés"
+
+msgid "Shortcut"
+msgstr "Raccourci"
+
+msgid "Show"
+msgstr " Afficher"
 
 msgid "Show All Files"
 msgstr "Afficher tous les fichiers"
 
 msgid "Show Extensions"
-msgstr "Montrer les extensions"
+msgstr "Afficher les extensions"
 
 msgid "Show Filtering Background"
-msgstr "Montrer le filtrage en arrière plan"
+msgstr "Appliquer l'arrière-plan lors d'un filtrage"
 
 msgid "Show Folders"
 msgstr "Afficher les dossiers"
 
 msgid "Show Hidden Files"
-msgstr "Montrer les fichiers cachés"
+msgstr "Afficher les fichiers cachés"
 
 msgid "Show Hints"
-msgstr "Montrer les infos bulles"
+msgstr "Afficher les infobulles"
+
+msgid "Show InfoTips"
+msgstr " Afficher les infobulles"
 
 msgid "Show Path in Title bar"
-msgstr "Afficher le chemin dans la barre de titre"
+msgstr " Afficher le chemin dans la barre de titre"
+
+msgid "Show Session Manager"
+msgstr "Afficher le gestionnaire de sessions"
 
 msgid "Show Statusbar"
 msgstr "Afficher la barre d'état"
@@ -594,16 +909,25 @@ msgid "Show Toolbar"
 msgstr "Afficher la barre d'outils"
 
 msgid "Show in Groups"
-msgstr "Afficher en groupe"
+msgstr "Afficher en groupes"
+
+msgid "Show more tabs"
+msgstr "Afficher plus d'onglets"
+
+msgid "Show/Hide"
+msgstr "Afficher/Cacher"
 
 msgid "Single Instance Only"
-msgstr "Une seule instance"
+msgstr " N'autoriser qu'une seule instance de CubicExplorer"
 
 msgid "Single click mode"
-msgstr "Mode simple clic"
+msgstr " Mode simple-clic"
 
 msgid "Size"
 msgstr "Taille"
+
+msgid "Size && Attributes"
+msgstr "Taille && Attributs"
 
 msgid "Small Icons"
 msgstr "Petites icônes"
@@ -612,10 +936,13 @@ msgid "Smooth Scroll"
 msgstr "Défilement doux"
 
 msgid "Stack"
-msgstr ""
+msgstr "Panier"
 
 msgid "Start"
 msgstr "Démarrer"
+
+msgid "Start minimized to tray"
+msgstr " Démarrer minimisé dans la zone de notification"
 
 msgid "Status Bar"
 msgstr "Barre d'état"
@@ -623,29 +950,50 @@ msgstr "Barre d'état"
 msgid "Stop"
 msgstr "Arrêter"
 
+msgid "Stretch"
+msgstr "Etirer"
+
+msgid "Strict"
+msgstr "Strict"
+
 msgid "Subdirectories"
-msgstr "Sous répertoires"
+msgstr "Sous-répertoires"
 
 msgid "Support Forum"
-msgstr "Forum utilisateurs"
+msgstr "Forum d'entraide"
+
+msgid "Switch to Next Tab"
+msgstr "Basculer vers l'onglet suivant"
 
 msgid "Switch to a new tab immediately"
-msgstr "Aller sur le nouvel onglet immédiatement"
+msgstr " Se rendre immédiatement sur les nouveaux onglets"
+
+msgid "Swith to Previous Tab"
+msgstr "Basculer vers l'onglet précédent"
+
+msgid "System"
+msgstr "Système"
 
 msgid "Tabs"
 msgstr "Onglets"
 
 msgid "Tabs Settings"
-msgstr "Options des onglets"
+msgstr "Paramètres des onglets"
 
 msgid "Target"
 msgstr "Cible"
+
+msgid "Target Folder"
+msgstr "Dossier cible"
 
 msgid "Text"
 msgstr "Texte"
 
 msgid "Text Editor"
 msgstr "Editeur de texte"
+
+msgid "Text only"
+msgstr "Textes seulement"
 
 msgid "Theme"
 msgstr "Thème"
@@ -654,7 +1002,7 @@ msgid "Thumbnails"
 msgstr "Miniatures"
 
 msgid "Thumbs Position"
-msgstr "Positionnement des miniatures"
+msgstr "Position des miniatures"
 
 msgid "Thumbs View Style"
 msgstr "Style d'affichage des miniatures"
@@ -675,34 +1023,46 @@ msgid "Total Size"
 msgstr "Taille totale"
 
 msgid "Translate CubicExplorer"
-msgstr "Traduire Cubic Explorer"
+msgstr "Traduire CubicExplorer"
 
 msgid "Translation"
 msgstr "Traduction"
 
 msgid "Translation Revision:"
-msgstr "Dernière révision"
+msgstr "Révision de la traduction :"
 
 msgid "Translation Version"
-msgstr "Version"
+msgstr "Version de la traduction"
 
 msgid "Translator's Email"
-msgstr "Email du traducteur"
+msgstr "Courriel du traducteur"
 
 msgid "Translator's Name"
-msgstr "Traducteur"
+msgstr "Nom du traducteur"
 
 msgid "Transparency"
-msgstr "Effet de transparence"
+msgstr "Transparence"
+
+msgid "Tray Icon"
+msgstr "Icône de la zone de notification"
 
 msgid "Type"
-msgstr "Saisie"
+msgstr "Type"
 
 msgid "Undo"
 msgstr "Annuler"
 
+msgid "Undo Close Tab"
+msgstr "Annuler la fermeture de l'onglet"
+
+msgid "Undo Tab Close"
+msgstr "Annuler la fermeture d'un onglet"
+
 msgid "Untitled"
 msgstr "Sans titre"
+
+msgid "Use strict filtering (wildcards are ? and *)"
+msgstr "Filtrage strict (les jokers sont ? et *)"
 
 msgid "Version:"
 msgstr "Version :"
@@ -711,17 +1071,29 @@ msgid "View"
 msgstr "Affichage"
 
 msgid "View Style"
-msgstr "Style d'affichage"
+msgstr "Mode d'affichage"
 
 msgid "When I open folder/file in a new tab, switch to it immediately "
-msgstr "Quand j'ouvre un dossier/fichier dans un nouvel onglet"
+msgstr " Quand j'ouvre un dossier/fichier dans un nouvel onglet, basculer aussitôt dessus"
+
+msgid "Whole Word"
+msgstr "Mot entier"
 
 msgid "Whole words only"
-msgstr "Mots entiers seulement"
+msgstr "Mots entiers seulem."
 
 msgid "Word List"
-msgstr "Liste de mots"
+msgstr "Liste des mots"
 
 msgid "Word Wrap"
 msgstr "Retour à la ligne"
+
+msgid "Word or Phrase in File Name"
+msgstr "Mot ou phrase dans le nom du fichier :"
+
+msgid "is already assigned to"
+msgstr "est déjà attribué à "
+
+msgid "is already in use!"
+msgstr "est déjà utilisé !"
 
