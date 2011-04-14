@@ -190,8 +190,8 @@ begin
           size:= IV.BoundsRect.Bottom - IV.BoundsRect.Top
           else
           size:= IV.BoundsRect.Right - IV.BoundsRect.Left;
+          totalSize:= totalSize + size;
         end;
-        totalSize:= totalSize + size;
       end
       else
       begin

@@ -41,7 +41,23 @@ type
   TCECustomTabPageAccess = class(TCECustomTabPage);
   TCESpTabSet = class;
 
-  TCEScrollArrowItem = class(TSpTBXItem);
+  TArrowDirection = (adLeft, adRight, adUp, adDown);
+
+  TCEScrollArrowItem = class(TSpTBXItem)
+  private
+    fArrowDirection: TArrowDirection;
+    fArrowSize: Integer;
+  protected
+    procedure DoDrawCaption(ACanvas: TCanvas; ClientAreaRect: TRect; State:
+        TSpTBXSkinStatesType; var ACaption: WideString; var CaptionRect: TRect; var
+        CaptionFormat: Cardinal; IsTextRotated: Boolean; const PaintStage:
+        TSpTBXPaintStage; var PaintDefault: Boolean); override;
+  public
+    constructor Create(AOwner: TComponent); override;
+    property ArrowDirection: TArrowDirection read fArrowDirection write
+        fArrowDirection;
+    property ArrowSize: Integer read fArrowSize write fArrowSize;
+  end;
 
   // Closed Tab History Item
   TCEClosedTabHistoryItem = class(TObject)
@@ -83,6 +99,7 @@ type
   TCESpTabToolbar = class(TSpTBXTabToolbar)
   private
     centerTab: TSpTBXTabItem;
+    fAutofitting: Boolean;
     fCEAutoFit: Boolean;
     firstTab: TSpTBXTabItem;
     fPreventLastTabClosing: Boolean;
@@ -93,6 +110,7 @@ type
     FLastDropMark: TRect;
     function CanDragCustomize(Button: TMouseButton; Shift: TShiftState; X, Y:
         Integer): Boolean; override;
+    procedure DoAutofit; virtual;
     procedure DoItemNotification(Ancestor: TTBCustomItem; Relayed: Boolean; Action:
         TTBItemChangedAction; Index: Integer; Item: TTBCustomItem); override;
     procedure DragOver(Source: TObject; X: Integer; Y: Integer; State: TDragState;
@@ -182,8 +200,10 @@ type
     fTabPageHost: TWinControl;
     fTabPopupMenu: TPopupMenu;
     function GetCEActiveTabIndex: Integer;
+    function GetCEAutoFit: Boolean;
     function GetTabCount: Integer;
     procedure SetCEActiveTabIndex(const Value: Integer);
+    procedure SetCEAutoFit(const Value: Boolean);
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
     fActiveTab: TCESpTabItem;
@@ -246,6 +266,7 @@ type
         fActivePopupTab;
     property CEActiveTabIndex: Integer read GetCEActiveTabIndex write
         SetCEActiveTabIndex;
+    property CEAutoFit: Boolean read GetCEAutoFit write SetCEAutoFit;
     property LayoutController: TCELayoutController read fLayoutController write
         fLayoutController;
     property TabCount: Integer read GetTabCount;
@@ -262,7 +283,7 @@ type
 implementation
 
 uses
-  Main, dCE_Actions, fCE_FileView, CE_LanguageEngine, dCE_Images;
+  Main, dCE_Actions, fCE_FileView, CE_LanguageEngine, dCE_Images, Math;
 
 {##############################################################################}
 
@@ -1269,6 +1290,22 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Get CEAutoFit
+-------------------------------------------------------------------------------}
+function TCESpTabSet.GetCEAutoFit: Boolean;
+begin
+  Result:= TCESpTabToolbar(Toolbar).CEAutoFit;
+end;
+
+{-------------------------------------------------------------------------------
+  Set CEAutoFit
+-------------------------------------------------------------------------------}
+procedure TCESpTabSet.SetCEAutoFit(const Value: Boolean);
+begin
+  TCESpTabToolbar(Toolbar).CEAutoFit:= Value;
+end;
+
+{-------------------------------------------------------------------------------
   Tab Deleting
 -------------------------------------------------------------------------------}
 procedure TCESpTabSet.TabDeleting(Item: TSpTBXTabItem; FreeTabSheet: Boolean =
@@ -1329,8 +1366,7 @@ begin
   LeftArrow.Hint:= 'Show more tabs';
   LeftArrow.Visible:= false;
   LeftArrow.OnClick:= HandleArrowClick;
-  LeftArrow.Images:= CE_Images.MiscImages;
-  LeftArrow.ImageIndex:= 2;
+  LeftArrow.ArrowDirection:= adLeft;
   Items.Add(LeftArrow);
 
   RightArrow:= TCEScrollArrowItem.Create(Self);
@@ -1338,9 +1374,10 @@ begin
   RightArrow.Hint:= 'Show more tabs';
   RightArrow.Visible:= false;
   RightArrow.OnClick:= HandleArrowClick;
-  RightArrow.Images:= CE_Images.MiscImages;
-  RightArrow.ImageIndex:= 3;
-  Items.Add(RightArrow);  
+  RightArrow.ArrowDirection:= adRight;
+  Items.Add(RightArrow);
+
+  fCEAutoFit:= false;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1434,6 +1471,86 @@ end;
 function TCESpTabToolbar.CanTabClose: Boolean;
 begin
   Result:= not ((GetTabCount = 1) and PreventLastTabClosing);
+end;
+
+{-------------------------------------------------------------------------------
+  Do Autofit
+-------------------------------------------------------------------------------}
+procedure TCESpTabToolbar.DoAutofit;
+var
+  i: Integer;
+  fullWidth, overWidth, itemsWidth: Integer;
+  tabSize, dynamicSize: Integer;
+  IV: TTBItemViewer;
+  tabs, spacers: TList;
+  spacer: TCEToolbarDynamicSpacerItem;
+begin
+  if not fCEAutofit or IsUpdating or (Items.Count = 0) or fAutofitting then Exit;
+  
+  tabs:= TList.Create;
+  spacers:= TList.Create;
+  View.ValidatePositions;
+  View.BeginUpdate;
+  fAutofitting:= true;
+  try
+    fullWidth:= CurrentDock.Width + 4;
+    itemsWidth:= 8;
+    // Calculate width of visible items
+    for i:= 0 to View.ViewerCount - 1 do
+    begin
+      IV:= View.Viewers[i];
+      if IV.Item is TCEToolbarDynamicSpacerItem then
+      begin
+        spacers.Add(Pointer(IV.Item));
+      end
+      else if IV.Item.Visible then
+      begin
+        if IV.Item is TSpTBXTabItem then
+        tabs.Add(Pointer(IV.Item))
+        else
+        itemsWidth:= itemsWidth + (IV.BoundsRect.Right - IV.BoundsRect.Left);
+      end;
+    end;
+
+    // Resize tabs
+    overWidth:= fullWidth - itemsWidth;
+    if tabs.Count > 0 then
+    begin
+      tabSize:= Round(overWidth / tabs.Count);
+      if tabSize > TabAutofitMaxSize then
+      tabSize:= TabAutofitMaxSize;
+
+      if tabSize < 1 then
+      tabSize:= 1;
+
+      for i:= 0 to tabs.Count - 1 do
+      begin
+        TSpTBXTabItem(tabs.Items[i]).CustomWidth:= tabSize;
+        overWidth:= overWidth - tabSize;
+      end;
+    end;
+
+    // Calculate size for spacers
+    if (overWidth > 0) and (spacers.Count > 0) then
+    dynamicSize:= Floor(overWidth / spacers.Count)
+    else
+    dynamicSize:= 0;
+    // Set spacer sizes
+    for i:= 0 to spacers.Count - 1 do
+    begin
+      spacer:= TCEToolbarDynamicSpacerItem(spacers.Items[i]);
+      if i < spacers.Count-1 then
+      spacer.CustomWidth:= dynamicSize
+      else
+      spacer.CustomWidth:= overWidth;
+      overWidth:= overWidth - dynamicSize;
+    end;
+  finally
+    View.EndUpdate;
+    tabs.Free;
+    spacers.Free;
+    fAutofitting:= false;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1784,29 +1901,32 @@ var
   leftIndex, rightIndex: Integer;
   doRight: Boolean;
   IV: TTBItemViewer;
-  tabs: TObjectList;
+  tabs, spacers: TList;
   found: Boolean;
-  dynamicSpacerItem: TCEToolbarDynamicSpacerItem;
   someVisible: Boolean;
+  dynamicSize: Integer;
+  spacer: TCEToolbarDynamicSpacerItem;
 begin
   if (csDestroying in ComponentState)
-     or (tstRightAligning in FState)
      or not Assigned(CurrentDock)
+     or IsUpdating
+     or (tstRightAligning in FState)
+     or fAutofitting
+     or (CurrentDock.Width <= 0)
+     or (CurrentDock.Height <= 0)
      or (Items.Count <= 0)
      or not Stretch
      or (ShrinkMode <> tbsmNone)
-     or (CurrentDock.Width <= 0)
-     or (CurrentDock.Height <= 0)
-     or IsUpdating
      then Exit;
 
-  if fCEAutofit then
+  if CEAutofit then
   begin
-    Autofit;
+    DoAutofit;
     Exit;
   end;
 
-  tabs:= TObjectList.Create(false);
+  tabs:= TList.Create;
+  spacers:= TList.Create;
   FState:= FState + [tstRightAligning];
   View.BeginUpdate;
   View.ValidatePositions;
@@ -1818,7 +1938,6 @@ begin
     activeIndex:= 0;
     totalWidth:= 8;
     tabsWidth:= 0;
-    dynamicSpacerItem:= nil;
     someVisible:= false;
     for i:= 0 to View.ViewerCount - 1 do
     begin
@@ -1838,12 +1957,12 @@ begin
             if (IV.Item = centerTab) or (not assigned(centerTab) and IV.Item.Checked) then
             activeIndex:= tabs.Add(IV)
             else
-            tabs.Add(IV);
+            tabs.Add(Pointer(IV));
             tabsWidth:= tabsWidth + W;
           end;
         end
         else
-        dynamicSpacerItem:= TCEToolbarDynamicSpacerItem(IV.Item);
+        spacers.Add(Pointer(IV.Item));
       end;
     end;
     //** Re-Calculate total width if arrows are visible
@@ -2059,14 +2178,31 @@ begin
     // Show/Hide arrows
     LeftArrow.Visible:= LeftArrow.Enabled or RightArrow.Enabled;
     RightArrow.Visible:= LeftArrow.Visible;
-    // Set Right align size 
-    if assigned(dynamicSpacerItem) then
-    dynamicSpacerItem.CustomWidth:= rightAlignSize;
+
+    // Calculate size for spacers
+    if (rightAlignSize > 0) and (spacers.Count > 0) then
+    dynamicSize:= Floor(rightAlignSize / spacers.Count)
+    else
+    dynamicSize:= 0;
+
+    if rightAlignSize < 0 then
+    rightAlignSize:= 0;
+    // Set spacer sizes
+    for i:= 0 to spacers.Count - 1 do
+    begin
+      spacer:= TCEToolbarDynamicSpacerItem(spacers.Items[i]);
+      if i < spacers.Count-1 then
+      spacer.CustomWidth:= dynamicSize
+      else
+      spacer.CustomWidth:= rightAlignSize;
+      rightAlignSize:= rightAlignSize - dynamicSize;
+    end;
   finally
     Self.InvalidateNC;
     View.EndUpdate;
     FState:= FState - [tstRightAligning];
-    tabs.Free;    
+    tabs.Free;
+    spacers.Free;   
   end;
 end;
 
@@ -2209,7 +2345,6 @@ begin
         LeftArrow.Visible:= false;
         RightArrow.Visible:= false;
       end;
-      TabAutofit:= fCEAutoFit;
       EndUpdate;
     end;
   end;
@@ -2308,24 +2443,11 @@ end;
 -------------------------------------------------------------------------------}
 function TCETabSettings.GetAutoFit: Boolean;
 begin
-  Result:= TabSet.TabAutoFit;
+  Result:= TabSet.CEAutoFit;
 end;
 procedure TCETabSettings.SetAutoFit(const Value: Boolean);
-var
-  i: Integer;
 begin
-  if TabSet.TabAutoFit <> Value then
-  begin
-    TabSet.TabAutoFit:= Value;
-    if not TabSet.TabAutoFit then
-    begin
-      for i:= 0 to TabSet.Items.Count - 1 do
-      begin
-        if TabSet.Items.Items[i] is TSpTBXTabItem then
-        TSpTBXTabItem(TabSet.Items.Items[i]).CustomWidth:= -1;
-      end;
-    end;
-  end;
+  TabSet.CEAutoFit:= Value;
 end;
 
 {-------------------------------------------------------------------------------
@@ -2383,6 +2505,51 @@ begin
   TabSettings.Size:= 0;
   TabSettings.Free;
   inherited;
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Create an instance of TCEScrollArrowItem
+-------------------------------------------------------------------------------}
+constructor TCEScrollArrowItem.Create(AOwner: TComponent);
+begin
+  inherited;
+  fArrowsize:= 12;
+end;
+
+procedure TCEScrollArrowItem.DoDrawCaption(ACanvas: TCanvas; ClientAreaRect:
+    TRect; State: TSpTBXSkinStatesType; var ACaption: WideString; var
+    CaptionRect: TRect; var CaptionFormat: Cardinal; IsTextRotated: Boolean;
+    const PaintStage: TSpTBXPaintStage; var PaintDefault: Boolean);
+var
+  r: TRect;
+  i: Integer;
+  c: TColor;
+begin
+  if PaintStage = pstPrePaint then
+  begin
+    r:= ClientAreaRect;
+    i:= fArrowsize div 3;
+    if (ArrowDirection = adLeft) or (ArrowDirection = adRight) then
+    begin
+      r.Left:= Round(((r.Right - r.Left) - (i)) / 2);
+      r.Top:= r.Top + Round((r.Bottom - r.Top) / 2);
+    end
+    else
+    begin
+      r.Left:= Round((r.Right - r.Left) / 2);
+      r.Top:= Round(((r.Bottom - r.Top) - i) / 2);
+    end;
+    c:= SkinManager.CurrentSkin.GetTextColor(skncToolbarItem, State);
+    case ArrowDirection of
+      adLeft: SpDrawArrow(ACanvas, r.Left, r.Top, c, false, true, i);
+      adRight: SpDrawArrow(ACanvas, r.Left, r.Top, c, false, false, i);
+      adUp: SpDrawArrow(ACanvas, r.Left, r.Top, c, true, true, i);
+      adDown: SpDrawArrow(ACanvas, r.Left, r.Top, c, true, false, i);
+    end;
+  end;
+  PaintDefault:= false;
 end;
 
 end.

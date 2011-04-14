@@ -86,6 +86,7 @@ type
     procedure MouseLeave; override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); overload; override;
     procedure OnAnimTimer(Sender: TObject);
+    procedure Paint; override;
     procedure SetSelectedIndex(const Value: Integer); virtual;
   public
     constructor Create(AOwner: TComponent); override;
@@ -738,6 +739,17 @@ begin
     end
     else if Button = mbLeft then
     DoBackgroundClick;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Paint
+-------------------------------------------------------------------------------}
+procedure TCEScrollToolbar.Paint;
+begin
+  if (Self.Width > 0) and (Self.Height > 0) then
+  begin
+    inherited;
   end;
 end;
 
