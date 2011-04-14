@@ -25,13 +25,13 @@ interface
 
 uses
   // Tnt
-  TntStdCtrls, TntDialogs,
+  TntStdCtrls, TntDialogs, TntForms,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls;
 
 type
-  TCESaveSessionDlg = class(TForm)
+  TCESaveSessionDlg = class(TTntForm)
     TntLabel1: TTntLabel;
     SessionCombo: TTntComboBox;
     but_save: TTntButton;
@@ -49,7 +49,7 @@ type
 implementation
 
 uses
-  CE_Sessions, CE_LanguageEngine;
+  CE_Sessions, CE_LanguageEngine, CE_VistaFuncs;
 
 {$R *.dfm}
 
@@ -59,6 +59,8 @@ uses
 procedure TCESaveSessionDlg.FormCreate(Sender: TObject);
 begin
   PopulateSessionNames;
+  SetVistaFont(Font);
+  CEGlobalTranslator.TranslateComponent(Self);
 end;
 
 {-------------------------------------------------------------------------------

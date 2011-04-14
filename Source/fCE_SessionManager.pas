@@ -31,10 +31,10 @@ uses
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, SpTBXControls, SpTBXEditors, SpTBXItem,
-  SpTBXDkPanels, SpTBXTabs, TB2Item, TntStdCtrls;
+  SpTBXDkPanels, SpTBXTabs, TB2Item, TntStdCtrls, TntForms;
 
 type
-  TCESessionManager = class(TForm)
+  TCESessionManager = class(TTntForm)
     SpTBXLabel1: TSpTBXLabel;
     edit_name: TSpTBXEdit;
     group_loadsave: TSpTBXGroupBox;
@@ -90,11 +90,11 @@ uses
 procedure TCESessionManager.FormCreate(Sender: TObject);
 begin
   SetVistaFont(Font);
-  CEGlobalTranslator.TranslateComponent(Self);
   SessionPropertiesEnabled:= false;
   PopulateSessionsList;
   list_sessions.ItemIndex:= GlobalSessions.ActiveSessionIndex;
-  list_sessionsClick(self);  
+  list_sessionsClick(self);
+  CEGlobalTranslator.TranslateComponent(Self);
 end;
 
 {-------------------------------------------------------------------------------

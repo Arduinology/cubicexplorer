@@ -609,7 +609,7 @@ begin
 //  TCESpTabItem(TabItem).NormalImageIndex:= FileView.RootFolderNamespace.GetIconIndex(false, icSmall);
   TCESpTabItem(TabItem).Images:= SmallSysImages;
   TCESpTabItem(TabItem).ImageIndex:= FileView.RootFolderNamespace.GetIconIndex(false, icSmall);
-  TabItem.Hint:= UTF8Encode(FileView.RootFolderNamespace.NameParseAddress);
+  TabItem.Hint:= FileView.RootFolderNamespace.NameParseAddress;
   if GlobalPathCtrl.ActivePage = Self then
   GlobalPathCtrl.GlobalPathCaption:= FileView.RootFolderNamespace.NameParseAddress;
 end;
@@ -617,7 +617,6 @@ end;
 procedure TCEFileViewPage.View(Sender: TObject);
 begin
   inherited;
-
 end;
 
 {*------------------------------------------------------------------------------

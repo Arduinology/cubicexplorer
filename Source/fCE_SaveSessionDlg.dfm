@@ -32,7 +32,7 @@ object CESaveSessionDlg: TCESaveSessionDlg
     Width = 233
     Height = 21
     Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 0
+    ItemHeight = 13
     TabOrder = 0
     OnChange = SessionComboChange
   end
@@ -47,8 +47,6 @@ object CESaveSessionDlg: TCESaveSessionDlg
     Enabled = False
     TabOrder = 1
     OnClick = but_saveClick
-    ExplicitLeft = 45
-    ExplicitTop = 62
   end
   object but_cancel: TTntButton
     Left = 128
@@ -59,7 +57,5 @@ object CESaveSessionDlg: TCESaveSessionDlg
     Caption = 'Cancel'
     ModalResult = 2
     TabOrder = 2
-    ExplicitLeft = 126
-    ExplicitTop = 62
   end
 end

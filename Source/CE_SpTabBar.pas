@@ -1326,7 +1326,7 @@ begin
   Self.ShrinkMode:= tbsmNone;
   LeftArrow:= TCEScrollArrowItem.Create(Self);
   LeftArrow.Caption:= '<';
-  LeftArrow.Hint:= _('Show more tabs');
+  LeftArrow.Hint:= 'Show more tabs';
   LeftArrow.Visible:= false;
   LeftArrow.OnClick:= HandleArrowClick;
   LeftArrow.Images:= CE_Images.MiscImages;
@@ -1335,7 +1335,7 @@ begin
 
   RightArrow:= TCEScrollArrowItem.Create(Self);
   RightArrow.Caption:= '>';
-  RightArrow.Hint:= _('Show more tabs');
+  RightArrow.Hint:= 'Show more tabs';
   RightArrow.Visible:= false;
   RightArrow.OnClick:= HandleArrowClick;
   RightArrow.Images:= CE_Images.MiscImages;

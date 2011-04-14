@@ -887,7 +887,7 @@ begin
   begin
     session:= TCESessionItem(GlobalSessions.SessionHistory.Items.Items[i]);
     item:= TSpTBXItem.Create(self);
-    item.Caption:= 'Session at ' + session.TimeStr;
+    item.Caption:= _('Session at') + session.TimeStr;
     item.Tag:= i;
     item.Images:= CE_Images.SmallIcons;
     item.ImageIndex:= 41;

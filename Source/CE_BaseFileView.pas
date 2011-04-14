@@ -34,17 +34,18 @@ uses
   MPCommonObjects, MPCommonUtilities, MPShellUtilities,
   VirtualExplorerEasyListview, VirtualResources,
   VirtualExplorerTree,  VirtualShellHistory,
-  VirtualShellNewMenu, VirtualThumbnails,
+  VirtualShellNewMenu, VirtualThumbnails, VirtualShellNotifier,
   // SpTBXLib
-  SpTBXItem, SpTBXSkins,
+  SpTBXItem, SpTBXSkins, TB2Item,
   // Graphics32
   GR32,
   // Tnt Controls
   TntSysUtils, TntStdCtrls, TntWideStrUtils,
+  // VT
+  VirtualTrees,
   // System Units
   Windows, Messages, SysUtils, Classes, Controls, ExtCtrls, Forms,
-  Graphics, Menus, ShellAPI, Math, ShlObj, ActiveX, CommCtrl,
-  VirtualShellNotifier;
+  Graphics, Menus, ShellAPI, Math, ShlObj, ActiveX, CommCtrl;
 
 type
   TNamespaceHack = class(TNamespace);
@@ -79,6 +80,8 @@ type
     procedure SpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
     function BrowseObject(pidl: PItemIDList; flags: UINT): HResult; stdcall;
+    procedure CEColumnHeaderMenuItemClick(Sender: TObject);
+    procedure CEColumnSettingCallback(Sender: TObject);
     procedure HandleContextMenuAfterCmdCallback(Namespace: TNamespace; Verb:
         WideString; MenuItemID: Integer; Successful: Boolean);
     procedure HandleContextMenuCmdCallback(Namespace: TNamespace; Verb: WideString;
@@ -86,6 +89,8 @@ type
     procedure HandleContextMenuShowCallback(Namespace: TNamespace; Menu: hMenu; var
         Allow: Boolean);
     function ContextSensitiveHelp(fEnterMode: BOOL): HResult; stdcall;
+    procedure DoColumnContextMenu(HitInfo: TEasyHitInfoColumn; WindowPoint: TPoint;
+        var Menu: TPopupMenu); override;
     procedure DoColumnCustomView(Column: TEasyColumn; var ViewClass:
         TEasyViewColumnClass); override;
     procedure DoColumnSizeChanging(Column: TEasyColumn; Size, NewSize: Integer; var
@@ -176,7 +181,7 @@ type
 implementation
 
 uses
-  Main;
+  Main, CE_LanguageEngine, CE_ColumnFormSpTBX;
 
 {*------------------------------------------------------------------------------
   Get's called on set focus
@@ -298,7 +303,7 @@ begin
   self.IncrementalSearch.Enabled:= true;
   self.IncrementalSearch.StartType:= eissFocusedNode;
 
-  self.BackGround.Caption:= 'Empty folder.';
+  self.BackGround.Caption:= _('Empty folder.');
   self.BackGround.CaptionAlignment:= taCenter;
   self.BackGround.CaptionShowOnlyWhenEmpty:= true;
   self.BackGround.CaptionSingleLine:= true;
@@ -1238,6 +1243,92 @@ begin
   Result:= S_OK
 end;
 
+procedure TCECustomFileView.CEColumnHeaderMenuItemClick(Sender: TObject);
+
+  function IsDuplicate(VST: TVirtualStringTree; Text: WideString): Boolean;
+  var
+    ColData: PColumnData;
+    Node: PVirtualNode;
+  begin
+    Result := False;
+    Node := VST.GetFirst;
+    while not Result and Assigned(Node) do
+    begin
+      ColData := VST.GetNodeData(Node);
+      Result := WideStrComp(PWideChar(ColData^.Title), PWideChar( Text)) = 0;
+      Node := VST.GetNext(Node)
+    end
+  end;
+
+var
+  Item: TTBCustomItem;
+  ColumnSettings: TCEFormColumnSettings;
+  ColumnNames: TVirtualStringTree;
+  ColData: PColumnData;
+  BackupHeader: TMemoryStream;
+  i, j, Count: Integer;
+begin
+  Item:= Sender as TTBCustomItem;
+  Count:= TTBPopupMenu(ColumnHeaderMenu).Items.Count; // Items is not polymorphic
+
+  if Item.Tag = Count - 1 then
+  begin
+    ColumnSettings:= TCEFormColumnSettings.Create(nil);
+
+    BackupHeader := TMemoryStream.Create;
+    ColumnNames := ColumnSettings.VSTColumnNames;
+    ColumnNames.BeginUpdate;
+    try
+      for i := 0 to Header.Columns.Count - 1 do
+      begin
+        j := 0;
+        { Create the nodes ordered in columns items relative position }
+        while (j < Header.Columns.Count) and (Header.Columns[j].Position <> i) do
+          Inc(j);
+        if (Header.Columns[j].Caption <> '') and not IsDuplicate(ColumnNames, Header.Columns[j].Caption) then
+        begin
+          ColData := ColumnNames.GetNodeData(ColumnNames.AddChild(nil));
+          ColData.Title := Header.Columns[j].Caption;
+          ColData.Enabled :=  Header.Columns[j].Visible;
+          ColData.Width := Header.Columns[j].Width;
+          ColData.ColumnIndex := Header.Columns[j].Index;
+        end
+      end;
+      Header.SaveToStream(BackupHeader);
+      BackupHeader.Seek(0, soFromBeginning);
+    finally
+      ColumnNames.EndUpdate;
+    end;
+
+    ColumnSettings.OnVETUpdate:= CEColumnSettingCallback;
+    if ColumnSettings.ShowModal = mrOk then
+    begin
+      UpdateColumnsFromDialog(ColumnNames);
+      DoColumnStructureChange;
+    end else
+    begin
+      BeginUpdate;
+      try
+        Header.LoadFromStream(BackupHeader);
+      finally
+        EndUpdate
+      end
+    end;
+
+    BackupHeader.Free;
+    ColumnSettings.Release
+  end else
+  begin
+    Header.Columns[Item.Tag].Visible := not Item.Checked;
+    DoColumnStructureChange;
+  end
+end;
+
+procedure TCECustomFileView.CEColumnSettingCallback(Sender: TObject);
+begin
+  UpdateColumnsFromDialog((Sender as TCEFormColumnSettings).VSTColumnNames);
+end;
+
 // IShellBrowser.EnableModelessSB
 function TCECustomFileView.EnableModelessSB(Enable: BOOL): HResult;
 begin
@@ -1327,6 +1418,55 @@ end;
 function TCECustomFileView.ContextSensitiveHelp(fEnterMode: BOOL): HResult;
 begin
   Result:= E_NOTIMPL;
+end;
+
+{-------------------------------------------------------------------------------
+  DoColumnContextMenu (Hack to use SpTBX popup and translated settings form)
+-------------------------------------------------------------------------------}
+procedure TCECustomFileView.DoColumnContextMenu(HitInfo: TEasyHitInfoColumn;
+    WindowPoint: TPoint; var Menu: TPopupMenu);
+var
+  i, MenuItemCount: Integer;
+  item: TSpTBXItem;
+  sep: TSpTBXSeparatorItem;
+  MenuItem: TTBRootItem;
+begin
+  if not Assigned(Menu) then
+  begin
+    if assigned(ColumnHeaderMenu) then
+    begin
+      ColumnHeaderMenu.Free;
+      ColumnHeaderMenu:= nil;
+    end;
+
+    ColumnHeaderMenu:= TSpTBXPopupMenu.Create(Self);
+    Menu:= ColumnHeaderMenu;
+    MenuItem:= TSpTBXPopupMenu(ColumnHeaderMenu).Items;
+    MenuItem.Clear;
+    MenuItemCount:= ColumnMenuItemCount;
+    if MenuItemCount > RootFolderNamespace.DetailsSupportedColumns then
+    MenuItemCount:= RootFolderNamespace.DetailsSupportedColumns;
+    // Add columns
+    for i:= 0 to MenuItemCount - 1 do
+    begin
+      item:= TSpTBXItem.Create(ColumnHeaderMenu);
+      item.Caption:= RootFolderNamespace.DetailsColumnTitle(i);
+      item.Checked:= Header.Columns[i].Visible;
+      item.OnClick:= CEColumnHeaderMenuItemClick;
+      item.Tag:= i;
+      MenuItem.Add(item)
+    end;
+    // Add separator
+    sep:= TSpTBXSeparatorItem.Create(ColumnHeaderMenu);
+    sep.Tag:= MenuItemCount;
+    MenuItem.Add(sep);
+    // Add "More..." item
+    item:= TSpTBXItem.Create(ColumnHeaderMenu);
+    item.Caption:= _('More...');
+    item.Tag:= MenuItemCount + 1;
+    item.OnClick:= CEColumnHeaderMenuItemClick;
+    MenuItem.Add(item)
+  end;
 end;
 
 {-------------------------------------------------------------------------------

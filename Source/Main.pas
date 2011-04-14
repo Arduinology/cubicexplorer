@@ -259,6 +259,7 @@ type
     Settings: TMainFormSettings;
     StatusBar: TCEStatusBar;
     procedure BeginUIUpdate;
+    procedure DoCustomTranslate;
     procedure EndUIUpdate;
     procedure InitializeUI;
     procedure FinalizeUI;
@@ -986,6 +987,16 @@ begin
   EnumItem(Root);
 end;
 
+{-------------------------------------------------------------------------------
+  DoCustomTranslate
+-------------------------------------------------------------------------------}
+procedure TMainForm.DoCustomTranslate;
+begin
+  // TabBar Left/Right arrow hints
+  TCESpTabToolbar(TabSet.Toolbar).LeftArrow.Hint:= _('Show more tabs');
+  TCESpTabToolbar(TabSet.Toolbar).RightArrow.Hint:= TCESpTabToolbar(TabSet.Toolbar).LeftArrow.Hint;
+end;
+
 {*------------------------------------------------------------------------------
   Initialize Language stuff
 -------------------------------------------------------------------------------}
@@ -1011,6 +1022,7 @@ begin
   CEGlobalTranslator.IncludeClasses.Add(TSpTBXCheckBox);
   CEGlobalTranslator.IncludeClasses.Add(TSpTBXGroupBox);
   CEGlobalTranslator.IncludeClasses.Add(TSpTBXRadioGroup);
+  CEGlobalTranslator.IncludeClasses.Add(TSpTBXLabel);
 
   CEGlobalTranslator.IgnoredProperties.Add('HelpKeyword');
   CEGlobalTranslator.IgnoredProperties.Add('ImeName');
@@ -1100,12 +1112,14 @@ begin
   begin
     CEGlobalTranslator.ResetToOld(false);
     fActiveLanguage:= '';
+    DoCustomTranslate;
   end
   else
   begin
     CEGlobalTranslator.LoadPOFromFile(ws);
     TranslateUI(self);
     fActiveLanguage:= Value;
+    DoCustomTranslate;
   end;
 end;
 
@@ -1161,7 +1175,6 @@ begin
   begin
     CEGlobalTranslator.TranslateComponent(Self);
   end;
-
   EndUIUpdate;
 end;
 

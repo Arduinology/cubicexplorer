@@ -336,6 +336,8 @@ begin
   CETextEditorOptions.AssignSettingsTo(self);
 
   CEGlobalTranslator.TranslateComponent(Self);
+  opt_radio.Items.Strings[0]:= _('Forward');
+  opt_radio.Items.Strings[1]:= _('Backward');
 end;
 
 {*------------------------------------------------------------------------------
