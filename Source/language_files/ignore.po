@@ -783,3 +783,10 @@ msgstr ""
 #: dCE_Images.dfm:6604
 msgid "PngImage42"
 msgstr ""
+
+#. CEFormColumnSettings..SpTBXTabControl1..SpTBXTabSheet1..Label1..Font.Name
+#: CE_ColumnFormSpTBX.dfm:119
+#. CEFormColumnSettings..SpTBXTabControl1..SpTBXTabSheet1..VSTColumnNames..Header.Font.Name
+#: CE_ColumnFormSpTBX.dfm:149
+msgid "MS Sans Serif"
+msgstr ""

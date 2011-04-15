@@ -174,6 +174,7 @@ type
     fShowExtensions: Boolean;
     fShowHeaderAlways: Boolean;
     fShowInfoBar: Boolean;
+    fSingleClickBrowse: Boolean;
     fSortFolderFirstAlways: Boolean;
     fThreadedDetails: Boolean;
     fThreadedEnumeration: Boolean;
@@ -191,6 +192,7 @@ type
     procedure SetShowExtensions(const Value: Boolean);
     procedure SetShowHeaderAlways(const Value: Boolean);
     procedure SetShowInfoBar(const Value: Boolean);
+    procedure SetSingleClickBrowse(const Value: Boolean);
     procedure SetSmoothScroll(const Value: Boolean);
     procedure SetSortFolderFirstAlways(const Value: Boolean);
     procedure SetThreadedDetails(const Value: Boolean);
@@ -238,6 +240,8 @@ type
     property ShowHeaderAlways: Boolean read fShowHeaderAlways write
         SetShowHeaderAlways;
     property ShowInfoBar: Boolean read fShowInfoBar write SetShowInfoBar;
+    property SingleClickBrowse: Boolean read fSingleClickBrowse write
+        SetSingleClickBrowse;
     property SmoothScroll: Boolean read fSmoothScroll write SetSmoothScroll;
     property SortFolderFirstAlways: Boolean read fSortFolderFirstAlways write
         SetSortFolderFirstAlways;
@@ -1054,6 +1058,7 @@ begin
   fInfoBarSize:= 3;
   fShowInfoTips:= true;
   fBrowseZipFolders:= false;
+  fSingleClickBrowse:= false;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1121,6 +1126,7 @@ begin
     FileViewPage.ShowInfoBar:= fShowInfoBar;
     FileViewPage.InfoBar.Height:= fInfoBarSize;
     FileViewPage.InfoBar.UseJumboIcons:= fUse_JumboIcons_in_InfoBar;
+    FileViewPage.FileView.SingleClickBrowse:= fSingleClickBrowse;
     // Options
     options:= FileViewPage.FileView.Options;
     if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
@@ -1446,6 +1452,15 @@ end;
 procedure TCEFileViewSettings.SetShowInfoTips(const Value: Boolean);
 begin
   fShowInfoTips:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set SingleClickBrowse
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetSingleClickBrowse(const Value: Boolean);
+begin
+  fSingleClickBrowse:= Value;
   SendChanges;
 end;
 

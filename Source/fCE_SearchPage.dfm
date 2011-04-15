@@ -27,10 +27,11 @@ inherited CESearchPage: TCESearchPage
     EncryptedFile.Font.Name = 'Tahoma'
     EncryptedFile.Font.Style = []
     FileSizeFormat = vfsfDefault
+    DragManager.Enabled = True
     Grouped = False
     GroupingColumn = 0
     Header.Visible = True
-    Options = [eloBrowseExecuteFolder, eloBrowseExecuteFolderShortcut, eloBrowseExecuteZipFolder, eloExecuteOnDblClick, eloThreadedImages, eloThreadedDetails, eloQueryInfoHints, eloShellContextMenus, eloGhostHiddenFiles, eloIncludeThumbnailsWithQueryInfoHints]
+    Options = [eloExecuteOnDblClick, eloThreadedImages, eloThreadedDetails, eloQueryInfoHints, eloShellContextMenus, eloGhostHiddenFiles]
     PaintInfoGroup.MarginBottom.CaptionIndent = 4
     PaintInfoGroup.MarginTop.Visible = False
     ParentShowHint = False
@@ -48,6 +49,7 @@ inherited CESearchPage: TCESearchPage
     OnColumnCustomView = ResultViewColumnCustomView
     OnContextMenuCmd = ResultViewContextMenuCmd
     OnContextMenuShow = ResultViewContextMenuShow
+    OnHintCustomInfo = ResultViewHintCustomInfo
     OnItemContextMenu = ResultViewItemContextMenu
     OnMouseDown = ResultViewMouseDown
     OnMouseUp = ResultViewMouseUp
@@ -108,13 +110,14 @@ inherited CESearchPage: TCESearchPage
       Width = 433
       Height = 185
       Anchors = [akLeft, akTop, akRight]
-      ActiveTabIndex = 2
+      ActiveTabIndex = 0
       TabAutofit = True
       TabBackgroundColor = clBtnFace
       TabPosition = ttpBottom
       HiddenItems = <>
       object SpTBXTabItem1: TSpTBXTabItem
         Caption = 'Name && Location'
+        Checked = True
         CustomWidth = 85
       end
       object SpTBXTabItem2: TSpTBXTabItem
@@ -123,7 +126,6 @@ inherited CESearchPage: TCESearchPage
       end
       object SpTBXTabItem3: TSpTBXTabItem
         Caption = 'Size && Attributes'
-        Checked = True
         CustomWidth = 85
       end
       object SpTBXTabItem4: TSpTBXTabItem
@@ -427,62 +429,6 @@ inherited CESearchPage: TCESearchPage
           end
         end
       end
-      object sheet_content: TSpTBXTabSheet
-        Left = 0
-        Top = 0
-        Width = 433
-        Height = 160
-        Caption = 'Content'
-        ImageIndex = -1
-        DesignSize = (
-          433
-          160)
-        TabItem = 'SpTBXTabItem4'
-        object SpTBXLabel4: TSpTBXLabel
-          Left = 12
-          Top = 9
-          Width = 71
-          Height = 19
-          Caption = 'File Contains:'
-        end
-        object memo_content: TTntMemo
-          Left = 12
-          Top = 30
-          Width = 409
-          Height = 96
-          Anchors = [akLeft, akTop, akRight]
-          ScrollBars = ssBoth
-          TabOrder = 1
-        end
-        object check_content_wordwrap: TSpTBXCheckBox
-          Left = 214
-          Top = 7
-          Width = 207
-          Height = 21
-          Caption = 'Word Wrap'
-          Anchors = [akLeft, akTop, akRight]
-          AutoSize = False
-          TabOrder = 2
-          OnClick = check_content_wordwrapClick
-          Alignment = taRightJustify
-        end
-        object check_content_case_sensitive: TSpTBXCheckBox
-          Left = 12
-          Top = 132
-          Width = 94
-          Height = 21
-          Caption = 'Case Sensitive'
-          TabOrder = 3
-        end
-        object check_content_wholeword: TSpTBXCheckBox
-          Left = 131
-          Top = 132
-          Width = 83
-          Height = 21
-          Caption = 'Whole Word'
-          TabOrder = 4
-        end
-      end
       object sheet_filters: TSpTBXTabSheet
         Left = 0
         Top = 0
@@ -535,143 +481,6 @@ inherited CESearchPage: TCESearchPage
           Width = 195
           Height = 19
           Caption = 'Enter each file mask on a separate line.'
-        end
-      end
-      object sheet_name_location: TSpTBXTabSheet
-        Left = 0
-        Top = 0
-        Width = 433
-        Height = 160
-        Caption = 'Name && Location'
-        ImageIndex = -1
-        DesignSize = (
-          433
-          160)
-        TabItem = 'SpTBXTabItem1'
-        object edit_filemask: TSpTBXEdit
-          Left = 242
-          Top = 31
-          Width = 179
-          Height = 21
-          Anchors = [akLeft, akTop, akRight]
-          Enabled = False
-          TabOrder = 0
-        end
-        object SpTBXLabel2: TSpTBXLabel
-          Left = 12
-          Top = 58
-          Width = 46
-          Height = 19
-          Caption = 'Location'
-        end
-        object check_subfolders: TSpTBXCheckBox
-          Left = 12
-          Top = 105
-          Width = 113
-          Height = 21
-          Caption = 'Include Subfolders'
-          TabOrder = 2
-          Checked = True
-          State = cbChecked
-        end
-        object spin_minlevel: TSpTBXSpinEdit
-          Left = 142
-          Top = 128
-          Width = 68
-          Height = 21
-          Enabled = False
-          TabOrder = 3
-          SpinButton.Left = 50
-          SpinButton.Top = 0
-          SpinButton.Width = 14
-          SpinButton.Height = 17
-          SpinButton.Align = alRight
-          SpinButton.Enabled = False
-        end
-        object check_minlevel: TSpTBXCheckBox
-          Left = 142
-          Top = 105
-          Width = 72
-          Height = 21
-          Caption = 'Min Level:'
-          TabOrder = 4
-          OnClick = check_levelClick
-        end
-        object check_maxlevel: TSpTBXCheckBox
-          Left = 242
-          Top = 105
-          Width = 76
-          Height = 21
-          Caption = 'Max Level:'
-          TabOrder = 5
-          OnClick = check_levelClick
-        end
-        object spin_maxlevel: TSpTBXSpinEdit
-          Left = 242
-          Top = 128
-          Width = 68
-          Height = 21
-          Enabled = False
-          TabOrder = 6
-          SpinButton.Left = 50
-          SpinButton.Top = 0
-          SpinButton.Width = 14
-          SpinButton.Height = 17
-          SpinButton.Align = alRight
-          SpinButton.Enabled = False
-        end
-        object edit_wordphrase: TSpTBXEdit
-          Left = 12
-          Top = 31
-          Width = 159
-          Height = 21
-          TabOrder = 7
-        end
-        object radio_name_word: TSpTBXRadioButton
-          Left = 10
-          Top = 7
-          Width = 159
-          Height = 21
-          Caption = 'Word or Phrase in File Name'
-          TabOrder = 8
-          TabStop = True
-          OnClick = radio_nameClick
-          Checked = True
-          GroupIndex = 1
-        end
-        object combo_extension: TSpTBXComboBox
-          Left = 175
-          Top = 31
-          Width = 52
-          Height = 21
-          ItemHeight = 13
-          TabOrder = 9
-          Text = 'All'
-        end
-        object radio_name_mask: TSpTBXRadioButton
-          Left = 242
-          Top = 7
-          Width = 97
-          Height = 21
-          Caption = 'File Name Mask'
-          TabOrder = 10
-          OnClick = radio_nameClick
-          GroupIndex = 1
-        end
-        object edit_location: TSpTBXButtonEdit
-          Left = 12
-          Top = 78
-          Width = 409
-          Height = 21
-          Anchors = [akLeft, akTop, akRight]
-          PopupMenu = FolderTreePopup
-          TabOrder = 11
-          EditButton.Left = 385
-          EditButton.Top = 0
-          EditButton.Width = 20
-          EditButton.Height = 17
-          EditButton.Align = alRight
-          EditButton.DropDownMenu = FolderTreePopup
         end
       end
       object sheet_size_attributes: TSpTBXTabSheet
@@ -830,6 +639,199 @@ inherited CESearchPage: TCESearchPage
             AllowGrayed = True
             State = cbGrayed
           end
+        end
+      end
+      object sheet_content: TSpTBXTabSheet
+        Left = 0
+        Top = 0
+        Width = 433
+        Height = 160
+        Caption = 'Content'
+        ImageIndex = -1
+        DesignSize = (
+          433
+          160)
+        TabItem = 'SpTBXTabItem4'
+        object SpTBXLabel4: TSpTBXLabel
+          Left = 12
+          Top = 9
+          Width = 71
+          Height = 19
+          Caption = 'File Contains:'
+        end
+        object memo_content: TTntMemo
+          Left = 12
+          Top = 30
+          Width = 409
+          Height = 96
+          Anchors = [akLeft, akTop, akRight]
+          ScrollBars = ssBoth
+          TabOrder = 1
+        end
+        object check_content_wordwrap: TSpTBXCheckBox
+          Left = 214
+          Top = 7
+          Width = 207
+          Height = 21
+          Caption = 'Word Wrap'
+          Anchors = [akLeft, akTop, akRight]
+          AutoSize = False
+          TabOrder = 2
+          OnClick = check_content_wordwrapClick
+          Alignment = taRightJustify
+        end
+        object check_content_case_sensitive: TSpTBXCheckBox
+          Left = 12
+          Top = 132
+          Width = 94
+          Height = 21
+          Caption = 'Case Sensitive'
+          TabOrder = 3
+        end
+        object check_content_wholeword: TSpTBXCheckBox
+          Left = 131
+          Top = 132
+          Width = 83
+          Height = 21
+          Caption = 'Whole Word'
+          TabOrder = 4
+        end
+      end
+      object sheet_name_location: TSpTBXTabSheet
+        Left = 0
+        Top = 0
+        Width = 433
+        Height = 160
+        Caption = 'Name && Location'
+        ImageIndex = -1
+        DesignSize = (
+          433
+          160)
+        TabItem = 'SpTBXTabItem1'
+        object edit_filemask: TSpTBXEdit
+          Left = 242
+          Top = 31
+          Width = 179
+          Height = 21
+          Anchors = [akLeft, akTop, akRight]
+          Enabled = False
+          TabOrder = 0
+        end
+        object SpTBXLabel2: TSpTBXLabel
+          Left = 12
+          Top = 58
+          Width = 46
+          Height = 19
+          Caption = 'Location'
+        end
+        object check_subfolders: TSpTBXCheckBox
+          Left = 12
+          Top = 105
+          Width = 113
+          Height = 21
+          Caption = 'Include Subfolders'
+          TabOrder = 2
+          Checked = True
+          State = cbChecked
+        end
+        object spin_minlevel: TSpTBXSpinEdit
+          Left = 142
+          Top = 128
+          Width = 68
+          Height = 21
+          Enabled = False
+          TabOrder = 3
+          SpinButton.Left = 50
+          SpinButton.Top = 0
+          SpinButton.Width = 14
+          SpinButton.Height = 17
+          SpinButton.Align = alRight
+          SpinButton.Enabled = False
+        end
+        object check_minlevel: TSpTBXCheckBox
+          Left = 142
+          Top = 105
+          Width = 72
+          Height = 21
+          Caption = 'Min Level:'
+          TabOrder = 4
+          OnClick = check_levelClick
+        end
+        object check_maxlevel: TSpTBXCheckBox
+          Left = 242
+          Top = 105
+          Width = 76
+          Height = 21
+          Caption = 'Max Level:'
+          TabOrder = 5
+          OnClick = check_levelClick
+        end
+        object spin_maxlevel: TSpTBXSpinEdit
+          Left = 242
+          Top = 128
+          Width = 68
+          Height = 21
+          Enabled = False
+          TabOrder = 6
+          SpinButton.Left = 50
+          SpinButton.Top = 0
+          SpinButton.Width = 14
+          SpinButton.Height = 17
+          SpinButton.Align = alRight
+          SpinButton.Enabled = False
+        end
+        object edit_wordphrase: TSpTBXEdit
+          Left = 12
+          Top = 31
+          Width = 159
+          Height = 21
+          TabOrder = 7
+        end
+        object radio_name_word: TSpTBXRadioButton
+          Left = 10
+          Top = 7
+          Width = 159
+          Height = 21
+          Caption = 'Word or Phrase in File Name'
+          TabOrder = 8
+          TabStop = True
+          OnClick = radio_nameClick
+          Checked = True
+          GroupIndex = 1
+        end
+        object combo_extension: TSpTBXComboBox
+          Left = 175
+          Top = 31
+          Width = 52
+          Height = 21
+          ItemHeight = 13
+          TabOrder = 9
+          Text = 'All'
+        end
+        object radio_name_mask: TSpTBXRadioButton
+          Left = 242
+          Top = 7
+          Width = 97
+          Height = 21
+          Caption = 'File Name Mask'
+          TabOrder = 10
+          OnClick = radio_nameClick
+          GroupIndex = 1
+        end
+        object edit_location: TSpTBXButtonEdit
+          Left = 12
+          Top = 78
+          Width = 409
+          Height = 21
+          Anchors = [akLeft, akTop, akRight]
+          PopupMenu = FolderTreePopup
+          TabOrder = 11
+          EditButton.Left = 385
+          EditButton.Top = 0
+          EditButton.Width = 20
+          EditButton.Height = 17
+          EditButton.Align = alRight
+          EditButton.DropDownMenu = FolderTreePopup
         end
       end
     end

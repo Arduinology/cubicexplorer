@@ -53,4 +53,13 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
     TabOrder = 5
     OnClick = HandleChange
   end
+  object check_singleclick: TTntCheckBox
+    Left = 16
+    Top = 154
+    Width = 401
+    Height = 17
+    Caption = 'Single click browsing'
+    TabOrder = 6
+    OnClick = HandleChange
+  end
 end

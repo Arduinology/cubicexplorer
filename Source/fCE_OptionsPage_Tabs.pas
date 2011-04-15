@@ -49,6 +49,7 @@ type
     check_nexttocur_switch: TTntCheckBox;
     check_autofit_switch: TTntCheckBox;
     check_dblclick_switch: TTntCheckBox;
+    check_exit: TTntCheckBox;
     procedure radio_newtab_1Click(Sender: TObject);
     procedure but_newtabClick(Sender: TObject);
   private
@@ -131,6 +132,7 @@ begin
   MainForm.TabSet.Settings.OpenNextToCurrent:= check_nexttocur_switch.Checked;
   MainForm.TabSet.Settings.AutoFit:= check_autofit_switch.Checked;
   MainForm.TabSet.Settings.DblClickCloseTab:= check_dblclick_switch.Checked;
+  MainForm.Settings.ExitOnLastTabClose:= check_exit.Checked;
 end;
 
 {-------------------------------------------------------------------------------
@@ -208,6 +210,8 @@ begin
   check_autofit_switch.Checked:= MainForm.TabSet.Settings.AutoFit;
   // Switch to close on double click
   check_dblclick_switch.Checked:= MainForm.TabSet.Settings.DblClickCloseTab;
+  // Switch to Exit on last tab close
+  check_exit.Checked:= MainForm.Settings.ExitOnLastTabClose;
 end;
 
 {##############################################################################}

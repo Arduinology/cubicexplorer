@@ -120,7 +120,8 @@ uses
   SpTBXChromeSkin in 'Components\SpSkins\SpTBXChromeSkin.pas',
   fCE_OptionsPage_Hotkeys in 'fCE_OptionsPage_Hotkeys.pas' {TCEOptionsPage_Hotkeys: TFrame},
   fCE_OptionsPage_GlobalHotkeys in 'fCE_OptionsPage_GlobalHotkeys.pas' {TCEOptionsPage_GlobalHotkeys: TFrame},
-  fCE_MultiViewPage in 'fCE_MultiViewPage.pas' {CEMultiViewPage: TFrame};
+  fCE_MultiViewPage in 'fCE_MultiViewPage.pas' {CEMultiViewPage: TFrame},
+  fCE_ColumnFormSpTBX in 'fCE_ColumnFormSpTBX.pas' {CEFormColumnSettings: TTntForm};
 
 {$R *.res}
 {$R 'CE_Resources.res'}
@@ -174,6 +175,7 @@ begin
   Application.ShowMainForm:= false;
   // Create Main Form
   Application.CreateForm(TMainForm, MainForm);
+  Application.CreateForm(TCEFormColumnSettings, CEFormColumnSettings);
   MainForm.InitializeUI;
   MainForm.BeginUIUpdate;
 

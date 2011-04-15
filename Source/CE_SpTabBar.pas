@@ -363,7 +363,6 @@ end;
 -------------------------------------------------------------------------------}
 function TCESpTabItem.CloseTab: Boolean;
 var
-  T: TSpTBXTabToolbar;
   b: Boolean;
   tabSet: TCESpTabSet;
   item: TCEClosedTabHistoryItem;
@@ -379,7 +378,7 @@ begin
     begin
       item:= tabset.AddToClosedTabHistory(Self);
     end;
-    
+
     DoTabClosing(Result, b);
     if Result then
     begin
@@ -399,17 +398,6 @@ begin
     begin
       if assigned(tabSet) and assigned(item) then
       tabSet.fClosedTabHistory.Remove(item);
-    end;
-  end;
-
-  if GetTabToolbar(T) then
-  begin
-    if T.GetTabsCount(true) = 0 then
-    begin
-      if MainForm.Settings.ExitOnLastTabClose then
-      PostMessage(MainForm.Handle, WM_Close, 0, 0)
-      else
-      CEActions.act_tabs_addtab.Execute;
     end;
   end;
 end;
@@ -1563,8 +1551,10 @@ var
 begin
   if (csDestroying in ComponentState) or (csReading in ComponentState) then Exit;
 
-  if not (tstResizing in FState) and not IsItemMoving then begin
-    if Assigned(OnItemNotification) then OnItemNotification(Self, Ancestor, Relayed, Action, Index, Item);
+  if not (tstResizing in FState) and not IsItemMoving then
+  begin
+    if Assigned(OnItemNotification) then
+    OnItemNotification(Self, Ancestor, Relayed, Action, Index, Item);
 
     case Action of
       tbicInserted:
@@ -1615,6 +1605,14 @@ begin
           end;
           RightAlignItems;
           AnchorItems(True);
+          // Exit app or open new tab if last tab has closed.
+          if not MainForm.CEIsClosing and (GetTabsCount(true) = 0) then
+          begin
+            if MainForm.Settings.ExitOnLastTabClose then
+            PostMessage(MainForm.Handle, WM_Close, 0, 0)
+            else
+            CEActions.act_tabs_addtab.Execute;
+          end;
         end;
       tbicInvalidateAndResize:
         begin

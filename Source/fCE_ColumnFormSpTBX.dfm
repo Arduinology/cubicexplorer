@@ -31,7 +31,6 @@ object CEFormColumnSettings: TCEFormColumnSettings
     Align = alBottom
     TabOrder = 0
     TBXStyleBackground = True
-    ExplicitTop = 296
     DesignSize = (
       287
       38)
@@ -44,14 +43,13 @@ object CEFormColumnSettings: TCEFormColumnSettings
       Anchors = [akLeft, akBottom]
       TabOrder = 0
       OnClick = CheckBoxLiveUpdateClick
-      ExplicitTop = 72
     end
     object ButtonOk: TSpTBXButton
       Left = 123
       Top = 6
       Width = 75
       Height = 25
-      Caption = '&OK'
+      Caption = 'OK'
       Anchors = [akRight, akBottom]
       TabOrder = 1
       ModalResult = 1
@@ -61,7 +59,7 @@ object CEFormColumnSettings: TCEFormColumnSettings
       Top = 6
       Width = 75
       Height = 25
-      Caption = '&Cancel'
+      Caption = 'Cancel'
       Anchors = [akRight, akBottom]
       TabOrder = 2
       ModalResult = 2
@@ -75,10 +73,6 @@ object CEFormColumnSettings: TCEFormColumnSettings
     Align = alClient
     ActiveTabIndex = 0
     TabVisible = False
-    ExplicitLeft = -2
-    ExplicitTop = 8
-    ExplicitWidth = 289
-    ExplicitHeight = 281
     HiddenItems = <>
     object SpTBXTabItem1: TSpTBXTabItem
       Checked = True
@@ -89,8 +83,6 @@ object CEFormColumnSettings: TCEFormColumnSettings
       Width = 287
       Height = 284
       ImageIndex = -1
-      ExplicitTop = 8
-      ExplicitHeight = 254
       DesignSize = (
         287
         284)
@@ -121,8 +113,6 @@ object CEFormColumnSettings: TCEFormColumnSettings
         ParentFont = False
         Wrapping = twWrap
         Alignment = taCenter
-        ExplicitTop = 2
-        ExplicitWidth = 283
       end
       object Label2: TSpTBXLabel
         Left = 49

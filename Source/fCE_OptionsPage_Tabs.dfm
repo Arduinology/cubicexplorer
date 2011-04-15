@@ -118,4 +118,13 @@ inherited CEOptionsPage_Tabs: TCEOptionsPage_Tabs
     TabOrder = 6
     OnClick = HandleChange
   end
+  object check_exit: TTntCheckBox
+    Left = 16
+    Top = 290
+    Width = 409
+    Height = 17
+    Caption = 'Exit program when last tab is closed'
+    TabOrder = 7
+    OnClick = HandleChange
+  end
 end

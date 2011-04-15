@@ -137,6 +137,8 @@ type
       Sender: TCustomVirtualExplorerEasyListview; Namespace: TNamespace;
       Verb: WideString; MenuItemID: Integer; var Handled: Boolean);
     procedure timer_statusTimer(Sender: TObject);
+    procedure ResultViewHintCustomInfo(Sender: TCustomEasyListview;
+      TargetObj: TEasyCollectionItem; Info: TEasyHintInfo);
   private
     fStatus: WideString;
     fOpenFolderID: Integer;
@@ -551,6 +553,16 @@ procedure TCESearchPage.ResultViewContextMenuShow(
 begin
   fOpenFolderID:= AddContextMenuItem(Menu, '-', 0);
   fOpenFolderID:= AddContextMenuItem(Menu, _('Open Containing Folder'), 0);
+end;
+
+procedure TCESearchPage.ResultViewHintCustomInfo(Sender: TCustomEasyListview;
+  TargetObj: TEasyCollectionItem; Info: TEasyHintInfo);
+begin
+  inherited;
+  if (TargetObj is TExplorerItem) then
+  begin
+    Info.Text:= Info.Text + #13#10 + 'Path: ' + WideExtractFilePath(TExplorerItem(TargetObj).Namespace.NameForParsing);
+  end;
 end;
 
 {-------------------------------------------------------------------------------

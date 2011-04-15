@@ -431,6 +431,8 @@ begin
   if data.IsCategory then
   Exit;
 
+  itemClass:= nil;
+
   if data.IsSeparator then
   begin
     case data.SeparatorType of
@@ -451,10 +453,13 @@ begin
     itemClass:= TCEToolbarItem;
   end;
 
-  item:= itemClass.Create(nil);
-  item.Action:= data.ActionItem;
-  tmpItem.Add(item);
-  DragObject := TSpTBXItemDragObject.Create(ActionTree, item);
+  if assigned(itemClass) then
+  begin
+    item:= itemClass.Create(nil);
+    item.Action:= data.ActionItem;
+    tmpItem.Add(item);
+    DragObject := TSpTBXItemDragObject.Create(ActionTree, item);
+  end;
 end;
 
 {*------------------------------------------------------------------------------

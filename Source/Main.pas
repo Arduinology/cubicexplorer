@@ -224,6 +224,7 @@ type
   private
     fFullscreen: Boolean;
     fActiveLanguage: WideString;
+    fCEIsClosing: Boolean;
     fLanguageList: TTntStrings;
     fOldWindowState: TWindowState;
     fPathInTitle: Boolean;
@@ -275,6 +276,8 @@ type
         SetActiveLanguage;
     property PathInTitle: Boolean read fPathInTitle write SetPathInTitle;
     property SingleInstance: Boolean read fSingleInstance write SetSingleInstance;
+  published
+    property CEIsClosing: Boolean read fCEIsClosing;
   end;
 
   TCEStartupType = (stNormal, stSession, stLastSession);
@@ -407,6 +410,7 @@ begin
   fLanguageList.NameValueSeparator:= '=';
   fIsReady:= false;
   fUpdatingCount:= 0;
+  fCEIsClosing:= false;
   fPathInTitle:= false;
   SetVistaFont(Self.Font);
   Settings:= TMainFormSettings.Create;
@@ -768,6 +772,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
+  fCEIsClosing:= true;
   CEActions.UpdateTimer.Enabled:= false;
 
   if GlobalPathCtrl.ActivePage is TCEFileViewPage then
@@ -787,7 +792,10 @@ begin
 
   CanClose:= TabSet.CloseAllTabs;
   if not CanClose then
-  CEActions.UpdateTimer.Enabled:= true;
+  begin
+    CEActions.UpdateTimer.Enabled:= true;
+    fCEIsClosing:= false;
+  end;
 end;
 
 {*------------------------------------------------------------------------------

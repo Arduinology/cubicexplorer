@@ -181,7 +181,7 @@ type
 implementation
 
 uses
-  Main, CE_LanguageEngine, CE_ColumnFormSpTBX;
+  Main, CE_LanguageEngine, fCE_ColumnFormSpTBX;
 
 {*------------------------------------------------------------------------------
   Get's called on set focus
@@ -303,7 +303,7 @@ begin
   self.IncrementalSearch.Enabled:= true;
   self.IncrementalSearch.StartType:= eissFocusedNode;
 
-  self.BackGround.Caption:= _('Empty folder.');
+  self.BackGround.Caption:= _('Empty folder');
   self.BackGround.CaptionAlignment:= taCenter;
   self.BackGround.CaptionShowOnlyWhenEmpty:= true;
   self.BackGround.CaptionSingleLine:= true;

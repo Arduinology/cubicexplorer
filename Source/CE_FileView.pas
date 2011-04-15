@@ -73,6 +73,7 @@ type
     fLeftMouseButton_IsDown: Boolean;
     fLeftMouseButton_RockerClicks: Integer;
     fRightMouseButton_RockerClicks: Integer;
+    fSingleClickBrowse: Boolean;
     fUseMouseRocker: Boolean;
     procedure SetAutosizeListViewStyle(const Value: Boolean);
     procedure SetUseKernelNotification(const Value: Boolean);
@@ -81,6 +82,8 @@ type
     procedure DoEnumFinished; override;
     procedure DoEnumFolder(const Namespace: TNamespace; var AllowAsChild: Boolean);
         override;
+    procedure DoItemClick(Item: TEasyItem; KeyStates: TCommonKeyStates; HitInfo:
+        TEasyItemHitTestInfoSet); override;
     procedure DoKeyAction(var CharCode: Word; var Shift: TShiftState; var
         DoDefault: Boolean); override;
     procedure DoRootChange; override;
@@ -131,6 +134,8 @@ type
         fAutoSelectFirstItem;
     property SelectPreviousFolder: Boolean read fSelectPreviousFolder write
         fSelectPreviousFolder;
+    property SingleClickBrowse: Boolean read fSingleClickBrowse write
+        fSingleClickBrowse;
     property UseKernelNotification: Boolean read fUseKernelNotification write
         SetUseKernelNotification;
     property OnViewStyleChange: TNotifyEvent read fOnViewStyleChange write
@@ -300,6 +305,7 @@ begin
   Self.Selection.FirstItemFocus:= false;
 
   UseMouseRocker:= true;
+  fSingleClickBrowse:= false;
 end;
 
 {-------------------------------------------------------------------------------
@@ -517,6 +523,29 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Do Item Click
+-------------------------------------------------------------------------------}
+procedure TCEFileView.DoItemClick(Item: TEasyItem; KeyStates: TCommonKeyStates;
+    HitInfo: TEasyItemHitTestInfoSet);
+var
+  ns: TNamespace;
+begin
+  inherited;
+  
+  if SingleClickBrowse and (KeyStates = []) then
+  begin
+    if Self.ValidateNamespace(Item, ns) then
+    begin
+      if ns.Folder then
+      begin
+        if not (IsSameText(ns.Extension, '.zip') and (eloBrowseExecuteZipFolder in Options)) then
+        Self.DoShellExecute(item);
+      end;
+    end;
+  end;  
+end;
+
+{-------------------------------------------------------------------------------
   Handle Key Action
 -------------------------------------------------------------------------------}
 procedure TCEFileView.DoKeyAction(var CharCode: Word; var Shift: TShiftState;
@@ -701,12 +730,10 @@ begin
     if (Button = cmbLeft) and fRightMouseButton_IsDown then
     begin
       GoBackInHistory;
-      fLeftMouseButton_RockerClicks:= fLeftMouseButton_RockerClicks + 1;
     end
     else if (Button = cmbRight) and fLeftMouseButton_IsDown then
     begin
       GoForwardInHistory;
-      fRightMouseButton_RockerClicks:= fRightMouseButton_RockerClicks + 1;
     end;
   end;
 end;
@@ -720,14 +747,10 @@ begin
   if Button = cmbLeft then
   begin
     fLeftMouseButton_IsDown:= false;
-    if fLeftMouseButton_IsDown then
-    fLeftMouseButton_RockerClicks:= 0;
   end
   else if Button = cmbRight then
   begin
     fRightMouseButton_IsDown:= false;
-    if fRightMouseButton_IsDown then
-    fRightMouseButton_RockerClicks:= 0;
   end;
 end;
 

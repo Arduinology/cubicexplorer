@@ -33,13 +33,15 @@
       <Network>0,False</Network>
     </GroupBy>
     <HiddenFiles>False</HiddenFiles>
-    <InfoBarSize>3</InfoBarSize>
+    <InfoBarSize>69</InfoBarSize>
+    <ShowInfoTips>True</ShowInfoTips>
     <RememberPanelLayout>False</RememberPanelLayout>
     <RememberInnerToolbarLayout>True</RememberInnerToolbarLayout>
     <RememberOuterToolbarLayout>False</RememberOuterToolbarLayout>
     <ShowExtensions>True</ShowExtensions>
     <ShowHeaderAlways>False</ShowHeaderAlways>
     <ShowInfoBar>False</ShowInfoBar>
+    <SingleClickBrowse>False</SingleClickBrowse>
     <SmoothScroll>False</SmoothScroll>
     <SortFolderFirstAlways>True</SortFolderFirstAlways>
     <ThreadedDetails>False</ThreadedDetails>
@@ -69,8 +71,8 @@
   <MainForm>
     <AlphaBlend>255</AlphaBlend>
     <AlwaysOnTop>False</AlwaysOnTop>
-    <Left>38</Left>
-    <Top>22</Top>
+    <Left>44</Left>
+    <Top>23</Top>
     <Width>640</Width>
     <Height>494</Height>
     <Language/>
@@ -95,10 +97,14 @@
     <NewTabType>1</NewTabType>
     <OpenTabSelect>True</OpenTabSelect>
     <ReuseTabs>False</ReuseTabs>
-    <AutoFit>False</AutoFit>
+    <AutoFit>True</AutoFit>
     <AutoFitMaxSize>200</AutoFitMaxSize>
     <CloseButton>2</CloseButton>
+    <ClosedTabHistory>True</ClosedTabHistory>
+    <DblClickCloseTab>False</DblClickCloseTab>
     <MaxTabSize>-1</MaxTabSize>
+    <OpenNextToCurrent>False</OpenNextToCurrent>
+    <UndoCount>15</UndoCount>
   </Tabs>
   <AddressBar>
     <Breadcrumb>False</Breadcrumb>
