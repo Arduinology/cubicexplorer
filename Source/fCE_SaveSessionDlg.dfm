@@ -32,7 +32,7 @@ object CESaveSessionDlg: TCESaveSessionDlg
     Width = 233
     Height = 21
     Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 13
+    ItemHeight = 0
     TabOrder = 0
     OnChange = SessionComboChange
   end
@@ -45,6 +45,7 @@ object CESaveSessionDlg: TCESaveSessionDlg
     Caption = 'Save'
     Default = True
     Enabled = False
+    ModalResult = 1
     TabOrder = 1
     OnClick = but_saveClick
   end

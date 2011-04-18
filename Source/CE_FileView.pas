@@ -74,6 +74,7 @@ type
     fLeftMouseButton_RockerClicks: Integer;
     fRightMouseButton_RockerClicks: Integer;
     fSingleClickBrowse: Boolean;
+    fSingleClickExecute: Boolean;
     fUseMouseRocker: Boolean;
     procedure SetAutosizeListViewStyle(const Value: Boolean);
     procedure SetUseKernelNotification(const Value: Boolean);
@@ -136,6 +137,8 @@ type
         fSelectPreviousFolder;
     property SingleClickBrowse: Boolean read fSingleClickBrowse write
         fSingleClickBrowse;
+    property SingleClickExecute: Boolean read fSingleClickExecute write
+        fSingleClickExecute;
     property UseKernelNotification: Boolean read fUseKernelNotification write
         SetUseKernelNotification;
     property OnViewStyleChange: TNotifyEvent read fOnViewStyleChange write
@@ -306,6 +309,7 @@ begin
 
   UseMouseRocker:= true;
   fSingleClickBrowse:= false;
+  fSingleClickExecute:= false;
 end;
 
 {-------------------------------------------------------------------------------
@@ -531,18 +535,6 @@ var
   ns: TNamespace;
 begin
   inherited;
-  
-  if SingleClickBrowse and (KeyStates = []) then
-  begin
-    if Self.ValidateNamespace(Item, ns) then
-    begin
-      if ns.Folder then
-      begin
-        if not (IsSameText(ns.Extension, '.zip') and (eloBrowseExecuteZipFolder in Options)) then
-        Self.DoShellExecute(item);
-      end;
-    end;
-  end;  
 end;
 
 {-------------------------------------------------------------------------------
@@ -716,9 +708,16 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFileView.HandleMouseDown(Button: TCommonMouseButton; Msg:
     TWMMouse);
+var
+  doDefault, doBrowse, doExecute: Boolean;
+  viewPt: TPoint;
+  item: TEasyItem;
+  itemHitInfo: TEasyItemHitTestInfoSet;
+  ns: TNamespace;
+  PIDL: PItemIDList;
 begin
-  Inherited;
-  
+  doDefault:= true;
+
   if Button = cmbLeft then
   fLeftMouseButton_IsDown:= true;
   if Button = cmbRight then
@@ -736,6 +735,66 @@ begin
       GoForwardInHistory;
     end;
   end;
+
+  // SingleClickBrowse and SingleClickExecute
+  if (SingleClickBrowse or SingleClickExecute) and (Msg.Keys = MK_LBUTTON) then
+  begin
+    viewPt:= Scrollbars.MapWindowToView(Msg.Pos);
+    item:= Groups.ItembyPoint(viewPt);
+    if assigned(item) then
+    begin
+      item.HitTestAt(viewPt, itemHitInfo);
+      if ehtOnClickSelectBounds in itemHitInfo then
+      begin
+        if Self.ValidateNamespace(item, ns) then
+        begin
+          doBrowse:= false;
+          doExecute:= false;
+          if ns.Folder then
+          begin
+            // ZIP folders
+            if IsSameText(ns.Extension, '.zip') then
+            begin
+              if (eloBrowseExecuteZipFolder in Options) then
+              begin
+                doBrowse:= SingleClickBrowse;
+                doExecute:= SingleClickExecute;
+              end
+              else
+              doExecute:= SingleClickExecute;
+            end
+            // Normal folders
+            else
+            doBrowse:= SingleClickBrowse;
+          end
+          // Files
+          else
+          doExecute:= SingleClickExecute;
+
+          // Do Browse
+          if doBrowse then
+          begin
+            PIDL:= PIDLMgr.CopyPIDL(ns.AbsolutePIDL);
+            try
+              BrowseToByPIDL(PIDL);
+              doDefault:= false;
+            finally
+              PIDLMgr.FreePIDL(PIDL);
+            end;
+          end
+          // Do Execute
+          else if doExecute then
+          begin
+            Self.DoShellExecute(item);
+            doDefault:= not item.Selected;
+          end;
+        end;
+      end;
+    end;
+  end;
+
+  if doDefault then
+  Inherited;
 end;
 
 {-------------------------------------------------------------------------------

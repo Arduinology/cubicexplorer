@@ -118,9 +118,9 @@ var
 begin
   // On Startup
   combo_sessions.Clear;
-  for i:= 0 to GlobalSessions.Sessions.Items.Count - 1 do
+  for i:= 0 to GlobalSessions.Sessions.Count - 1 do
   begin
-    combo_sessions.Items.Add(GlobalSessions.Sessions.GetSession(i).Name);
+    combo_sessions.Items.Add(GlobalSessions.Sessions.Items[i].Name);
   end;
 
   case MainForm.Settings.StartupType of

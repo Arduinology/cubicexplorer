@@ -59,6 +59,7 @@ type
     but_properties: TSpTBXItem;
     but_refresh: TSpTBXItem;
     SpTBXSeparatorItem3: TSpTBXSeparatorItem;
+    but_addSession: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure BookmarkPopupMenuPopup(Sender: TObject);
@@ -85,6 +86,7 @@ type
 
   TCEBookmarkPanelSettings = class(TPersistent)
   private
+    fShowOpenAllAtTop: Boolean;
     function GetAutoCollapse: Boolean;
     function GetAutoExpand: Boolean;
     function GetOpenInNewTab: Boolean;
@@ -99,6 +101,8 @@ type
     property AutoCollapse: Boolean read GetAutoCollapse write SetAutoCollapse;
     property AutoExpand: Boolean read GetAutoExpand write SetAutoExpand;
     property OpenInNewTab: Boolean read GetOpenInNewTab write SetOpenInNewTab;
+    property ShowOpenAllAtTop: Boolean read fShowOpenAllAtTop write
+        fShowOpenAllAtTop;
     property SingleClickMode: Boolean read GetSingleClickMode write
         SetSingleClickMode;
   end;
@@ -110,7 +114,8 @@ implementation
 
 uses
   dCE_Actions, CE_BookmarkBar, fCE_FileView, CE_VistaFuncs,
-  CE_StdBookmarkComps, fCE_BookmarkPropDlg, CE_LanguageEngine;
+  CE_StdBookmarkComps, fCE_BookmarkPropDlg, CE_LanguageEngine,
+  fCE_SaveSessionDlg;
 
 {$R *.dfm}
 
@@ -211,6 +216,7 @@ var
   apidl: PItemIDList;
   node: PVirtualNode;
   comp: TCECustomBookComp;
+  sessionDlg: TCESaveSessionDlg;
 begin
   case TSpTBXItem(Sender).Tag of
     1: begin
@@ -240,6 +246,25 @@ begin
          end;
        end;
     9: RefreshBookmarks;
+    10: begin // Add Session
+      sessionDlg:= TCESaveSessionDlg.Create(nil);
+      try
+        sessionDlg.Caption:= _('Select Session');
+        sessionDlg.but_save.Caption:= _('OK');
+        sessionDlg.but_save.OnClick:= nil;
+        sessionDlg.SessionCombo.ItemIndex:= -1;
+        if (sessionDlg.ShowModal = mrOK) and (sessionDlg.SessionCombo.ItemIndex > -1) then
+        begin
+          node:= BookmarkTree.AddBookItem('session',BookmarkTree.FocusedNode);
+          comp:= BookmarkTree.GetNodeComp(node);
+          TCESessionComp(comp).SessionName:= sessionDlg.SessionCombo.Items.Strings[sessionDlg.SessionCombo.ItemIndex];
+          TCESessionComp(comp).Title:= TCESessionComp(comp).SessionName;
+          BookmarkTree.BookmarksChange;
+        end;
+      finally
+        sessionDlg.Free;
+      end;      
+    end;
   end;
 end;
 

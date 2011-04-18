@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1290\n"
+"CE-POT-Version: 1318\n"
 "CE-Language: German\n"
 "Last-Translator: nefycee <(contact only via CE-support-forum)>\n"
 
@@ -66,7 +66,7 @@ msgid "Always Show Sort Columns"
 msgstr "Zeige Spalten zum Sortieren"
 
 msgid "Always sort folders first."
-msgstr "Ordner immer zuerst"
+msgstr "Ordner zuerst auflisten"
 
 msgid "And Launch Files"
 msgstr "Und Dateien ausführen"
@@ -120,7 +120,7 @@ msgid "Auto expand tree"
 msgstr "Ordnerbaum automatisch öffnen"
 
 msgid "Auto fit tabs"
-msgstr "An Breite angepasst "
+msgstr "Tabs an Fensterbreite angepasst "
 
 msgid "Auto size cells in list view style."
 msgstr "Zellen in Listenansicht anpassen"
@@ -212,8 +212,14 @@ msgstr "Tabs linksseitig schliessen"
 msgid "Close Tabs on Right"
 msgstr "Tab rechtsseitig schliessen"
 
+msgid "Close tab on double click"
+msgstr "Tab per Doppelklick schließen"
+
 msgid "Close to tray"
 msgstr "In den Tray schließen"
+
+msgid "Column Settings"
+msgstr "Spalten Einstellungen"
 
 msgid "Compressed"
 msgstr "Komprimiert"
@@ -326,6 +332,9 @@ msgstr "Spenden"
 msgid "Drag Handle"
 msgstr "Frei positionierbar"
 
+msgid "Drag and Drop to reorder the columns. "
+msgstr "Reihenfolge der Spalten per Drag & Drop ändern "
+
 msgid "Drag buttons to/from toolbars"
 msgstr "Schaltflächen in oder aus der Werkzeugleiste ziehen"
 
@@ -365,6 +374,9 @@ msgstr "Editoroptionen"
 msgid "Empty Recycle Bin"
 msgstr "Papierkorb leeren"
 
+msgid "Empty folder"
+msgstr "Ordner leeren"
+
 msgid "English (default)"
 msgstr "Englisch (Standard)"
 
@@ -376,6 +388,9 @@ msgstr "Datei Masken ausschliessen:"
 
 msgid "Exit"
 msgstr "Beenden"
+
+msgid "Exit program when last tab is closed"
+msgstr "Programm beenden wenn der letzte Tab geschlossen wird"
 
 msgid "File"
 msgstr "Datei"
@@ -489,7 +504,7 @@ msgid "Icon above text"
 msgstr "Icon über dem Text"
 
 msgid "Icon only"
-msgstr "Nur Text"
+msgstr "Nur Icon"
 
 msgid "Image"
 msgstr "Bild"
@@ -541,6 +556,9 @@ msgstr "Link Name"
 
 msgid "List"
 msgstr "Liste"
+
+msgid "Live Update"
+msgstr "Live Update"
 
 msgid "Load Skin..."
 msgstr "Thema laden"
@@ -666,7 +684,7 @@ msgid "Open new tab as"
 msgstr "Neuen Tab öffnen als"
 
 msgid "Open new tab next to current"
-msgstr "Neben aktiven Tab öffnen"
+msgstr "Neuen Tab eben aktiven Tab öffnen"
 
 msgid "Open..."
 msgstr "Öffnen"
@@ -848,6 +866,9 @@ msgstr "Trennzeichen"
 msgid "Session Name"
 msgstr "Sitzungsname"
 
+msgid "Session at"
+msgstr "Sitzung bei"
+
 msgid "Sessions"
 msgstr "Sitzung"
 
@@ -888,7 +909,7 @@ msgid "Show Hints"
 msgstr "Zeige Tooltips"
 
 msgid "Show InfoTips"
-msgstr "Zeige Info Tipps"
+msgstr "Info Tipps anzeigen"
 
 msgid "Show Path in Title bar"
 msgstr "Zeige Pfad im Fenstertitel"
@@ -905,14 +926,20 @@ msgstr "Zeige Werkzeugleiste"
 msgid "Show in Groups"
 msgstr "Als Gruppen anzeigen"
 
+msgid "Show more tabs"
+msgstr "Weitere Tabs zeigen"
+
 msgid "Show/Hide"
 msgstr "Zeigen/Verstecken"
 
 msgid "Single Instance Only"
 msgstr "Nur eine Instanz"
 
+msgid "Single click browsing"
+msgstr "Mit einzelnen Klick öffnen"
+
 msgid "Single click mode"
-msgstr "Einzelklick-Modus"
+msgstr "Mit einzelnen Klick öffnen"
 
 msgid "Size"
 msgstr "Größe"
@@ -1072,6 +1099,9 @@ msgstr "Gesamtes Wort"
 
 msgid "Whole words only"
 msgstr "Nur ganze Wörter"
+
+msgid "Width of the selected column"
+msgstr "Breite der ausgewählten Spalte"
 
 msgid "Word List"
 msgstr "Wortliste"

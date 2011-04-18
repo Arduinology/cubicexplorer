@@ -55,6 +55,9 @@ type
     TargetPanel: TPanel;
     but_browse: TButton;
     open1: TOpenDialog;
+    SessionPanel: TPanel;
+    Label1: TLabel;
+    combo_session: TComboBox;
     procedure but_ApplyClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure but_browseClick(Sender: TObject);
@@ -92,7 +95,7 @@ var
 implementation
 
 uses
-  fCE_BookmarkPanel;
+  fCE_BookmarkPanel, CE_Sessions;
 
 {$R *.dfm}
 
@@ -186,6 +189,7 @@ end;
 procedure TBookmarkPropDlg.SetBookmarkComp(const Value: TCECustomBookComp);
 var
   c: TCECustomBookCompClass;
+  i: Integer;
 begin
   if assigned(tmpBookComp) then
   FreeAndNil(tmpBookComp);
@@ -219,6 +223,19 @@ begin
     edit_target.Text:= EncodeRelativePath(TCENormalItemComp(tmpBookComp).NameParseAddress)
     else
     edit_target.Text:= TCENormalItemComp(tmpBookComp).NameParseAddress;
+    TargetPanel.Visible:= true;
+    SessionPanel.Visible:= false;
+  end
+  else if fBookmarkComp is TCESessionComp then
+  begin
+    TargetPanel.Visible:= false;
+    SessionPanel.Visible:= true;
+    combo_session.Items.Clear;
+    for i:= 0 to GlobalSessions.Sessions.Count - 1 do
+    begin
+      combo_session.Items.Add(GlobalSessions.Sessions.Items[i].Name);
+    end;
+    combo_session.ItemIndex:= GlobalSessions.Sessions.IndexOf(TCESessionComp(fBookmarkComp).SessionName);
   end;
 
   Modified:= false;
@@ -342,6 +359,11 @@ begin
   begin
     c:= TCENormalItemComp(tmpBookComp);
     c.LoadFromPath(edit_target.Text, check_relative.Checked);
+  end
+  else if tmpBookComp is TCESessionComp then
+  begin
+    if combo_session.ItemIndex > -1 then
+    TCESessionComp(tmpBookComp).SessionName:= combo_session.Items.Strings[combo_session.ItemIndex];
   end;
   
   if assigned(fBookmarkComp) then

@@ -175,6 +175,7 @@ type
     fShowHeaderAlways: Boolean;
     fShowInfoBar: Boolean;
     fSingleClickBrowse: Boolean;
+    fSingleClickExecute: Boolean;
     fSortFolderFirstAlways: Boolean;
     fThreadedDetails: Boolean;
     fThreadedEnumeration: Boolean;
@@ -193,6 +194,7 @@ type
     procedure SetShowHeaderAlways(const Value: Boolean);
     procedure SetShowInfoBar(const Value: Boolean);
     procedure SetSingleClickBrowse(const Value: Boolean);
+    procedure SetSingleClickExecute(const Value: Boolean);
     procedure SetSmoothScroll(const Value: Boolean);
     procedure SetSortFolderFirstAlways(const Value: Boolean);
     procedure SetThreadedDetails(const Value: Boolean);
@@ -242,6 +244,8 @@ type
     property ShowInfoBar: Boolean read fShowInfoBar write SetShowInfoBar;
     property SingleClickBrowse: Boolean read fSingleClickBrowse write
         SetSingleClickBrowse;
+    property SingleClickExecute: Boolean read fSingleClickExecute write
+        SetSingleClickExecute;
     property SmoothScroll: Boolean read fSmoothScroll write SetSmoothScroll;
     property SortFolderFirstAlways: Boolean read fSortFolderFirstAlways write
         SetSortFolderFirstAlways;
@@ -1127,6 +1131,7 @@ begin
     FileViewPage.InfoBar.Height:= fInfoBarSize;
     FileViewPage.InfoBar.UseJumboIcons:= fUse_JumboIcons_in_InfoBar;
     FileViewPage.FileView.SingleClickBrowse:= fSingleClickBrowse;
+    FileViewPage.FileView.SingleClickExecute:= fSingleClickExecute;
     // Options
     options:= FileViewPage.FileView.Options;
     if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
@@ -1461,6 +1466,15 @@ end;
 procedure TCEFileViewSettings.SetSingleClickBrowse(const Value: Boolean);
 begin
   fSingleClickBrowse:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set SingleClickExecute
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetSingleClickExecute(const Value: Boolean);
+begin
+  fSingleClickExecute:= Value;
   SendChanges;
 end;
 

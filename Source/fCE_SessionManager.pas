@@ -175,7 +175,7 @@ procedure TCESessionManager.list_sessionsClick(Sender: TObject);
 begin
   fSessionPropertiesEnabled:= false;
 
-  if (list_sessions.ItemIndex > -1) and (list_sessions.ItemIndex < GlobalSessions.Sessions.Items.Count) then
+  if (list_sessions.ItemIndex > -1) and (list_sessions.ItemIndex < GlobalSessions.Sessions.Count) then
   fSelectedSession:= GlobalSessions.Sessions.GetSession(list_sessions.ItemIndex)
   else
   fSelectedSession:= nil;  
@@ -204,9 +204,9 @@ var
   i: Integer;
 begin
   list_sessions.Clear;
-  for i:= 0 to GlobalSessions.Sessions.Items.Count - 1 do
+  for i:= 0 to GlobalSessions.Sessions.Count - 1 do
   begin
-    list_sessions.Items.Add(GlobalSessions.Sessions.GetSession(i).Name);
+    list_sessions.Items.Add(GlobalSessions.Sessions.Items[i].Name);
   end;
 end;
 

@@ -89,13 +89,31 @@ type
     property Relative: Boolean read fRelative write SetRelative;
   end;
 
+  TCESessionComp = class(TCECustomBookComp)
+  private
+    fSessionName: WideString;
+  protected
+    procedure OpenSession; virtual;
+  public
+    constructor Create; override;
+    procedure Assign(From: TCECustomBookComp); override;
+    procedure AssignTo(ToComp: TCECustomBookComp); override;
+    function GetImageIndex(Open: Boolean = false): Integer; override;
+    procedure LoadFromXmlNode(XmlNode: TJvSimpleXmlElem); override;
+    procedure MouseClick(Shift: TShiftState; Button: TMouseButton; SingleClickMode:
+        Boolean = false); override;
+    procedure SaveToXmlNode(XmlNode: TJvSimpleXmlElem); override;
+  published
+    property SessionName: WideString read fSessionName write fSessionName;
+  end;
+
 var
   OpenBookmarkInNewTabByDefault: Boolean = false;  
 
 implementation
 
 uses
-  CE_GlobalCtrl, dCE_Images, dCE_Actions, Main;
+  CE_GlobalCtrl, dCE_Images, dCE_Actions, Main, CE_Sessions;
 
 {*------------------------------------------------------------------------------
   Create an instance of TCECategoryComp object.
@@ -713,8 +731,98 @@ end;
 
 {##############################################################################}
 
+{*------------------------------------------------------------------------------
+  Create an instance of TCESessionComp object.
+-------------------------------------------------------------------------------}
+constructor TCESessionComp.Create;
+begin
+  inherited;
+  fTitle:= 'Session';
+  fSubMenuOnly:= true;
+  fImageList:= CE_Images.SmallIcons;
+end;
+
+{*------------------------------------------------------------------------------
+  Assign values from component
+-------------------------------------------------------------------------------}
+procedure TCESessionComp.Assign(From: TCECustomBookComp);
+begin
+  if not assigned(From) then Exit;
+  Inherited;
+
+  if From is TCESessionComp then
+  fSessionName:= TCESessionComp(From).SessionName;
+end;
+
+{*------------------------------------------------------------------------------
+  Assign values to component
+-------------------------------------------------------------------------------}
+procedure TCESessionComp.AssignTo(ToComp: TCECustomBookComp);
+begin
+  if not assigned(ToComp) then Exit;
+  Inherited;
+
+  if ToComp is TCESessionComp then
+  TCESessionComp(ToComp).SessionName:= fSessionName;
+end;
+
+{*------------------------------------------------------------------------------
+  Get ImageIndex
+-------------------------------------------------------------------------------}
+function TCESessionComp.GetImageIndex(Open: Boolean = false): Integer;
+begin
+  Result:= 41;
+end;
+
+{*------------------------------------------------------------------------------
+  Load values from xml node.
+-------------------------------------------------------------------------------}
+procedure TCESessionComp.LoadFromXmlNode(XmlNode: TJvSimpleXmlElem);
+var
+  PIDL: PItemIDList;
+begin
+  inherited;
+  fSessionName:= XmlNode.Properties.Value('session');
+end;
+
+{*------------------------------------------------------------------------------
+  Handle mouse click
+-------------------------------------------------------------------------------}
+procedure TCESessionComp.MouseClick(Shift: TShiftState; Button: TMouseButton;
+    SingleClickMode: Boolean = false);
+begin
+  if Shift = [ssDouble,ssLeft] then
+  begin
+    OpenSession;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Open Session
+-------------------------------------------------------------------------------}
+procedure TCESessionComp.OpenSession;
+var
+  session: TCESessionItem;
+begin
+  session:= GlobalSessions.Sessions.FindSession(fSessionName);
+  if assigned(session) then
+  GlobalSessions.ActiveSession:= session;
+end;
+
+{*------------------------------------------------------------------------------
+  Save values to xml node.
+-------------------------------------------------------------------------------}
+procedure TCESessionComp.SaveToXmlNode(XmlNode: TJvSimpleXmlElem);
+begin
+  inherited;
+  XmlNode.Properties.Add('session', fSessionName);
+end;
+
+{##############################################################################}
+
 initialization
   CEBookCompList.RegisterBookComp('category', TCECategoryComp);
   CEBookCompList.RegisterBookComp('item', TCENormalItemComp);
+  CEBookCompList.RegisterBookComp('session', TCESessionComp);
 
 end.

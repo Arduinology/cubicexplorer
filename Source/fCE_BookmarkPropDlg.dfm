@@ -101,6 +101,32 @@ object BookmarkPropDlg: TBookmarkPropDlg
           OnClick = but_browseClick
         end
       end
+      object SessionPanel: TPanel
+        Left = 3
+        Top = 47
+        Width = 337
+        Height = 144
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        BevelInner = bvRaised
+        BevelOuter = bvLowered
+        TabOrder = 2
+        object Label1: TLabel
+          Left = 8
+          Top = 8
+          Width = 66
+          Height = 13
+          Caption = 'Session Name'
+        end
+        object combo_session: TComboBox
+          Left = 8
+          Top = 27
+          Width = 174
+          Height = 21
+          ItemHeight = 13
+          TabOrder = 0
+          OnChange = edit_nameChange
+        end
+      end
     end
   end
   object but_OK: TButton

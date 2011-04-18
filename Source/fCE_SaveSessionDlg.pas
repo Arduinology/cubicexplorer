@@ -72,9 +72,9 @@ var
   session: TCESessionItem;
 begin
   SessionCombo.Items.Clear;
-  for i:= 0 to GlobalSessions.Sessions.Items.Count - 1 do
+  for i:= 0 to GlobalSessions.Sessions.Count - 1 do
   begin
-    session:= TCESessionItem(GlobalSessions.Sessions.Items.Items[i]);
+    session:= GlobalSessions.Sessions.Items[i];
     SessionCombo.Items.Add(session.Name);
   end;
   if GlobalSessions.ActiveSessionIndex > -1 then

@@ -115,6 +115,19 @@ procedure PopulateBookmarkItem(RootItem: TTBCustomItem; BookmarkTree:
     sep: TSpTBXSeparatorItem;
     openAll: TCEOpenAllBookmarksItem;
   begin
+    // Show "Open All in Tabs" at top of the menu (Opera style)
+    if CEBookmarkPanel.Settings.ShowOpenAllAtTop then
+    begin
+      if (SubItem is TCEBookmarkSubItem) then
+      begin
+        openAll:= TCEOpenAllBookmarksItem.Create(RootItem);
+        openAll.CustomHeight:= 24;
+        SubItem.Add(openAll);
+        sep:= TSpTBXSeparatorItem.Create(RootItem);
+        SubItem.Add(sep);
+      end
+    end;
+
     chNode:= Node.FirstChild;
     while assigned(chNode) do
     begin
@@ -154,15 +167,19 @@ procedure PopulateBookmarkItem(RootItem: TTBCustomItem; BookmarkTree:
       SubItem.Add(chItem);
       chNode:= chNode.NextSibling;
     end;
-
-    if (SubItem is TCEBookmarkSubItem) then
+    
+    // Show "Open All in Tabs" at bottom of the menu (Firefox style)
+    if not CEBookmarkPanel.Settings.ShowOpenAllAtTop then
     begin
-      sep:= TSpTBXSeparatorItem.Create(RootItem);
-      SubItem.Add(sep);
-      openAll:= TCEOpenAllBookmarksItem.Create(RootItem);
-      openAll.CustomHeight:= 24;
-      SubItem.Add(openAll);
-    end
+      if (SubItem is TCEBookmarkSubItem) then
+      begin
+        sep:= TSpTBXSeparatorItem.Create(RootItem);
+        SubItem.Add(sep);
+        openAll:= TCEOpenAllBookmarksItem.Create(RootItem);
+        openAll.CustomHeight:= 24;
+        SubItem.Add(openAll);
+      end
+    end;
   end;
 var
   sep: TSpTBXSeparatorItem;
@@ -173,15 +190,27 @@ begin
   if not assigned(BookmarkTree) then
   Exit;
 
+  // Show "Open All in Tabs" at top of the menu (Opera style)
+  if OpenAllToRoot and CEBookmarkPanel.Settings.ShowOpenAllAtTop then
+  begin
+    openAll:= TCEOpenAllBookmarksItem.Create(RootItem);
+    openAll.CustomHeight:= 24;
+    RootItem.Add(openAll);
+    sep:= TSpTBXSeparatorItem.Create(RootItem);
+    RootItem.Add(sep);
+  end;
+
   EnumNode(BookmarkTree.RootNode, RootItem);
-  if OpenAllToRoot then
+
+  // Show "Open All in Tabs" at bottom of the menu (Firefox style)
+  if OpenAllToRoot and not CEBookmarkPanel.Settings.ShowOpenAllAtTop then
   begin
     sep:= TSpTBXSeparatorItem.Create(RootItem);
     RootItem.Add(sep);
     openAll:= TCEOpenAllBookmarksItem.Create(RootItem);
     openAll.CustomHeight:= 24;
     RootItem.Add(openAll);
-  end
+  end;
 end;
 
 {##############################################################################}

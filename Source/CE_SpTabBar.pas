@@ -588,39 +588,44 @@ begin
   i:= 0;
   Self.ActiveTabIndex:= -1;
   Self.fActiveTab:= nil;
-  while i < Items.Count do
-  begin
-    if Items.Items[i] is TCESpTabItem then
+  Self.Toolbar.BeginUpdate;
+  try
+    while i < Items.Count do
     begin
-      item:= TCESpTabItem(Items.Items[i]);
-      if item <> ExceptThis then
+      if Items.Items[i] is TCESpTabItem then
       begin
-        if Force then
+        item:= TCESpTabItem(Items.Items[i]);
+        if item <> ExceptThis then
         begin
-          item.Free;
-        end
-        else
-        begin
-          if assigned(item.Page) then
+          if Force then
           begin
-            if item.Page.TabClosing then
-            begin
-              item.Free
-            end
-            else
-            Exit;
+            item.Free;
           end
           else
-          item.Free;
-        end;
+          begin
+            if assigned(item.Page) then
+            begin
+              if item.Page.TabClosing then
+              begin
+                item.Free
+              end
+              else
+              Exit;
+            end
+            else
+            item.Free;
+          end;
+        end
+        else
+        i:= i + 1;
       end
       else
       i:= i + 1;
-    end
-    else
-    i:= i + 1;
+    end;
+    Result:= true;
+  finally
+    Self.Toolbar.EndUpdate;
   end;
-  Result:= true;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1089,6 +1094,7 @@ procedure TCESpTabSet.HandleMouseUp(Sender: TObject; Button: TMouseButton;
 var
   tab: TCESpTabItem;
   p: TPoint;
+  IV: TTBItemViewer;
 begin
   if assigned(fClosingTab) then
   begin
@@ -1118,7 +1124,8 @@ begin
     end
     else
     begin
-      if Self.Toolbar.View.ViewerFromPoint(Point(X, Y)) = nil then
+      IV:= Self.Toolbar.View.ViewerFromPoint(Point(X, Y));
+      if (assigned(IV) and (IV.Item is TCEToolbarDynamicSpacerItem)) or not assigned(IV) then
       CEActions.act_tabs_addtab.Execute;
     end;
     fActivePopupTab:= nil;
@@ -1606,7 +1613,7 @@ begin
           RightAlignItems;
           AnchorItems(True);
           // Exit app or open new tab if last tab has closed.
-          if not MainForm.CEIsClosing and (GetTabsCount(true) = 0) then
+          if not Self.IsUpdating and not MainForm.CEIsClosing and (GetTabsCount(true) = 0) then
           begin
             if MainForm.Settings.ExitOnLastTabClose then
             PostMessage(MainForm.Handle, WM_Close, 0, 0)

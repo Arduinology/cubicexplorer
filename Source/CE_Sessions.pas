@@ -66,11 +66,13 @@ type
   TCESessionList = class(TCECustomSettingStorage)
   private
     fRootNodeName: WideString;
+    function GetCount: Integer;
+    function GetItems(Index: Integer): TCESessionItem;
   protected
     ARootNode: TDOMNode;
     AStorage: TCEAppSettings;
+    fItems: TObjectList;
   public
-    Items: TObjectList;
     constructor Create;
     destructor Destroy; override;
     function AddSession: TCESessionItem;
@@ -80,12 +82,17 @@ type
     function FindSession(AName: WideString): TCESessionItem;
     function GetNewestSession: TCESessionItem;
     function GetSession(AIndex: Integer): TCESessionItem;
+    function IndexOf(ASessionName: WideString): Integer; overload;
+    function IndexOf(ASession: TCESessionItem): Integer; overload;
     procedure Load(AAppStorage: TCEAppSettings; ANode: TDOMNode); override;
     procedure LoadSession(ASession: TCESessionItem);
     procedure MoveSession(CurIndex: Integer; NewIndex: Integer);
     procedure SaveSession(ASession: TCESessionItem);
     procedure SortByTime;
+    property Items[Index: Integer]: TCESessionItem read GetItems;
     property RootNodeName: WideString read fRootNodeName write fRootNodeName;
+  published
+    property Count: Integer read GetCount;
   end;
 
   TCESessions = class(TCEAppSettings)
@@ -224,12 +231,12 @@ var
   session: TCESessionItem;
   c: Integer;
 begin
-  c:= fSessionHistory.Items.Count;
+  c:= fSessionHistory.Count;
   while (c > fHistoryCount-1) and (c > 0) do
   begin
     if not SessionHistory.DeleteOldestSession then
     break;
-    c:= fSessionHistory.Items.Count;
+    c:= fSessionHistory.Count;
   end;
   session:= SessionHistory.AddSession;
   SessionHistory.SaveSession(session);
@@ -252,9 +259,9 @@ end;
 function TCESessions.GetActiveSessionIndex: Integer;
 begin
   if ActiveSessionIsHistory then
-  Result:= SessionHistory.Items.IndexOf(ActiveSession)
+  Result:= SessionHistory.fItems.IndexOf(ActiveSession)
   else
-  Result:= Sessions.Items.IndexOf(ActiveSession);
+  Result:= Sessions.fItems.IndexOf(ActiveSession);
 end;
 
 {-------------------------------------------------------------------------------
@@ -280,9 +287,9 @@ procedure TCESessions.SaveActiveSession;
 begin
   if assigned(ActiveSession) then
   begin
-    if Sessions.Items.IndexOf(ActiveSession) > -1 then
+    if Sessions.fItems.IndexOf(ActiveSession) > -1 then
     Sessions.SaveSession(ActiveSession)
-    else if SessionHistory.Items.IndexOf(ActiveSession) > -1 then
+    else if SessionHistory.fItems.IndexOf(ActiveSession) > -1 then
     SessionHistory.SaveSession(ActiveSession);
   end;
 end;
@@ -349,12 +356,12 @@ begin
   fActiveSession:= Value;
   if assigned(fActiveSession) then
   begin
-    if Sessions.Items.IndexOf(fActiveSession) > -1 then
+    if Sessions.fItems.IndexOf(fActiveSession) > -1 then
     begin
       Sessions.LoadSession(fActiveSession);
       fActiveSessionIsHistory:= false;
     end
-    else if SessionHistory.Items.IndexOf(fActiveSession) > -1 then
+    else if SessionHistory.fItems.IndexOf(fActiveSession) > -1 then
     begin
       SessionHistory.LoadSession(fActiveSession);
       fActiveSessionIsHistory:= true;
@@ -374,7 +381,7 @@ end;
 procedure TCESessions.SetHistoryCount(const Value: Integer);
 begin
   fHistoryCount:= Max(Value, 0);
-  while (fSessionHistory.Items.Count > fHistoryCount) and (fSessionHistory.Items.Count > 0) do
+  while (fSessionHistory.Count > fHistoryCount) and (fSessionHistory.Count > 0) do
   begin
     SessionHistory.DeleteOldestSession;
   end;
@@ -405,7 +412,7 @@ end;
 constructor TCESessionList.Create;
 begin
   inherited;
-  Items:= TObjectList.Create(true);
+  fItems:= TObjectList.Create(true);
 end;
 
 {-------------------------------------------------------------------------------
@@ -413,7 +420,7 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCESessionList.Destroy;
 begin
-  Items.Free;
+  fItems.Free;
   inherited;
 end;
 
@@ -423,7 +430,7 @@ end;
 function TCESessionList.AddSession: TCESessionItem;
 begin
   Result:= TCESessionItem.Create;
-  Items.Add(Result);
+  fItems.Add(Result);
   Result.Node:= AStorage.XML.CreateElement('Session');
   if not assigned(ARootNode) then
   begin
@@ -441,16 +448,16 @@ var
   i: Integer;
   session: TCESessionItem;
 begin
-  for i:= 0 to Items.Count - 1 do
+  for i:= 0 to fItems.Count - 1 do
   begin
-    session:= TCESessionItem(Items.Items[i]);
+    session:= TCESessionItem(fItems.Items[i]);
     if assigned(session.Node) then
     begin
       if assigned(ARootNode) then
       ARootNode.RemoveChild(session.Node);
     end;
   end;
-  Items.Clear;
+  fItems.Clear;
 end;
 
 {-------------------------------------------------------------------------------
@@ -463,11 +470,11 @@ var
 begin
   d:= 0;
   index:= -1;
-  for i:= 0 to Items.Count - 1 do
+  for i:= 0 to fItems.Count - 1 do
   begin
-    if (TCESessionItem(Items.Items[i]).Time < d) or (i = 0) then
+    if (TCESessionItem(fItems.Items[i]).Time < d) or (i = 0) then
     begin
-      d:= TCESessionItem(Items.Items[i]).Time;
+      d:= TCESessionItem(fItems.Items[i]).Time;
       index:= i;
     end;
   end;
@@ -483,16 +490,16 @@ function TCESessionList.DeleteSession(AIndex: Integer): Boolean;
 var
   session: TCESessionItem;
 begin
-  Result:= (AIndex > -1) and (AIndex < Items.Count);
+  Result:= (AIndex > -1) and (AIndex < fItems.Count);
   if Result then
   begin
-    session:= TCESessionItem(Items.Items[AIndex]);
+    session:= TCESessionItem(fItems.Items[AIndex]);
     if assigned(session.Node) then
     begin
       if assigned(ARootNode) then
       ARootNode.RemoveChild(session.Node);
     end;
-    Items.Delete(AIndex);
+    fItems.Delete(AIndex);
   end;
 end;
 
@@ -505,15 +512,31 @@ var
   session: TCESessionItem;
 begin
   Result:= nil;
-  for i:= 0 to Items.Count - 1 do
+  for i:= 0 to fItems.Count - 1 do
   begin
-    session:= TCESessionItem(Items.Items[i]);
+    session:= TCESessionItem(fItems.Items[i]);
     if session.Name = AName then
     begin
       Result:= session;
       break;
     end;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Get Count
+-------------------------------------------------------------------------------}
+function TCESessionList.GetCount: Integer;
+begin
+  Result:= fItems.Count;
+end;
+
+{-------------------------------------------------------------------------------
+  Get Items
+-------------------------------------------------------------------------------}
+function TCESessionList.GetItems(Index: Integer): TCESessionItem;
+begin
+  Result:= TCESessionItem(fItems.Items[Index]);
 end;
 
 {-------------------------------------------------------------------------------
@@ -526,12 +549,12 @@ var
 begin
   Result:= nil;
   d:= 0;
-  for i:= 0 to Items.Count - 1 do
+  for i:= 0 to fItems.Count - 1 do
   begin
-    if (TCESessionItem(Items.Items[i]).Time > d) or (i = 0) then
+    if (TCESessionItem(fItems.Items[i]).Time > d) or (i = 0) then
     begin
-      d:= TCESessionItem(Items.Items[i]).Time;
-      Result:= TCESessionItem(Items.Items[i]);
+      d:= TCESessionItem(fItems.Items[i]).Time;
+      Result:= TCESessionItem(fItems.Items[i]);
     end;
   end;
 end;
@@ -541,7 +564,33 @@ end;
 -------------------------------------------------------------------------------}
 function TCESessionList.GetSession(AIndex: Integer): TCESessionItem;
 begin
-  Result:= TCESessionItem(Items.Items[AIndex]);
+  Result:= TCESessionItem(fItems.Items[AIndex]);
+end;
+
+{-------------------------------------------------------------------------------
+  Index Of
+-------------------------------------------------------------------------------}
+function TCESessionList.IndexOf(ASessionName: WideString): Integer;
+var
+  i: Integer;
+begin
+  Result:= -1;
+  for i:= 0 to fItems.Count - 1 do
+  begin
+    if TCESessionItem(fItems.Items[i]).Name = ASessionName then
+    begin
+      Result:= i;
+      Break;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Index Of
+-------------------------------------------------------------------------------}
+function TCESessionList.IndexOf(ASession: TCESessionItem): Integer;
+begin
+  Result:= fItems.IndexOf(ASession);
 end;
 
 {-------------------------------------------------------------------------------
@@ -555,7 +604,7 @@ var
 begin
   AStorage:= AAppStorage;
   ARootNode:= ANode;
-  Items.Clear;
+  fItems.Clear;
   chNode:= ANode.FirstChild;
   while assigned(chNode) do
   begin
@@ -581,7 +630,7 @@ begin
       item.SaveLoadItems:= sli;
 
       item.Node:= TDOMElement(chNode);
-      Items.Add(item);
+      fItems.Add(item);
     end;
     chNode:= chNode.NextSibling;
   end;
@@ -650,7 +699,7 @@ begin
   session:= GetSession(CurIndex);
   if CurIndex > NewIndex then
   session2:= GetSession(NewIndex)
-  else if (NewIndex + 1) < Items.Count then
+  else if (NewIndex + 1) < fItems.Count then
   session2:= GetSession(NewIndex+1)
   else
   session2:= nil;
@@ -659,7 +708,7 @@ begin
   ARootNode.InsertBefore(session.Node, session2.Node)
   else
   ARootNode.AppendChild(session.Node);
-  Items.Move(CurIndex, NewIndex);
+  fItems.Move(CurIndex, NewIndex);
 end;
 
 {-------------------------------------------------------------------------------
@@ -712,7 +761,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCESessionList.SortByTime;
 begin
-  Items.Sort(@CompareSessionTime);
+  fItems.Sort(@CompareSessionTime);
 end;
 
 {##############################################################################}
@@ -815,9 +864,9 @@ var
   i: Integer;
   session: TCESessionItem;
 begin
-  for i:= 0 to GlobalSessions.Sessions.Items.Count - 1 do
+  for i:= 0 to GlobalSessions.Sessions.Count - 1 do
   begin
-    session:= TCESessionItem(GlobalSessions.Sessions.Items.Items[i]);
+    session:= GlobalSessions.Sessions.Items[i];
     item:= TSpTBXItem.Create(self);
     item.Caption:= session.Name;
     item.Tag:= i;
@@ -848,9 +897,9 @@ var
   session: TCESessionItem;
 begin
   item:= TSpTBXItem(Sender);
-  if (item.Tag > -1) and (item.Tag < GlobalSessions.Sessions.Items.Count) then
+  if (item.Tag > -1) and (item.Tag < GlobalSessions.Sessions.Count) then
   begin
-    session:= TCESessionItem(GlobalSessions.Sessions.Items.Items[item.Tag]);
+    session:= GlobalSessions.Sessions.Items[item.Tag];
     GlobalSessions.ActiveSession:= session;
   end;
 end;
@@ -883,9 +932,9 @@ var
   i: Integer;
   session: TCESessionItem;
 begin
-  for i:= GlobalSessions.SessionHistory.Items.Count - 1 downto 0 do
+  for i:= GlobalSessions.SessionHistory.Count - 1 downto 0 do
   begin
-    session:= TCESessionItem(GlobalSessions.SessionHistory.Items.Items[i]);
+    session:= GlobalSessions.SessionHistory.Items[i];
     item:= TSpTBXItem.Create(self);
     item.Caption:= _('Session at') + session.TimeStr;
     item.Tag:= i;
@@ -916,9 +965,9 @@ var
   session: TCESessionItem;
 begin
   item:= TSpTBXItem(Sender);
-  if (item.Tag > -1) and (item.Tag < GlobalSessions.SessionHistory.Items.Count) then
+  if (item.Tag > -1) and (item.Tag < GlobalSessions.SessionHistory.Count) then
   begin
-    session:= TCESessionItem(GlobalSessions.SessionHistory.Items.Items[item.Tag]);
+    session:= GlobalSessions.SessionHistory.Items[item.Tag];
     GlobalSessions.ActiveSession:= session;
   end;
 end;
@@ -960,9 +1009,9 @@ var
   i: Integer;
   session: TCESessionItem;
 begin
-  for i:= 0 to GlobalSessions.Sessions.Items.Count - 1 do
+  for i:= 0 to GlobalSessions.Sessions.Count - 1 do
   begin
-    session:= GlobalSessions.Sessions.GetSession(i);
+    session:= GlobalSessions.Sessions.Items[i];
     item:= TSpTBXItem.Create(self);
     item.Caption:= session.Name;
     item.Tag:= i;
