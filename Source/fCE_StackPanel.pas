@@ -25,12 +25,12 @@ interface
 
 uses
   // CE Units
-  fCE_DockableForm, CE_DropStack, CE_GlobalCtrl, dCE_Images, CE_VistaFuncs,
+  fCE_DockableForm, CE_Stacks, CE_StackTree, CE_GlobalCtrl, dCE_Images, CE_VistaFuncs,
   CE_AppSettings,
   // SpTBX
   TB2Dock, SpTBXItem, 
   // VSTools
-  MPCommonObjects, EasyListview, VirtualExplorerEasyListview, MPCommonUtilities,
+  MPCommonObjects, EasyListview, MPCommonUtilities,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus, TB2Item;
@@ -43,35 +43,23 @@ type
   TCEStackPanel = class(TCECustomDockableForm)
     DropStackPopup: TSpTBXPopupMenu;
     but_clearlist: TSpTBXItem;
-    SpTBXSubmenuItem1: TSpTBXSubmenuItem;
-    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
-    viewstyle_1: TSpTBXItem;
-    viewstyle_2: TSpTBXItem;
-    viewstyle_4: TSpTBXItem;
-    viewstyle_3: TSpTBXItem;
-    viewstyle_5: TSpTBXItem;
-    viewstyle_6: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure but_clearlistClick(Sender: TObject);
-    procedure ViewStyleClick(Sender: TObject);
     procedure DropStackPopupPopup(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
     fSettings: TCEStackPanelSettings;
     { Private declarations }
   public
-    DropStack: TCEDropStack;
+    StackTree: TCEStackTree;
     property Settings: TCEStackPanelSettings read fSettings write fSettings;
   end;
 
   TCEStackPanelSettings = class(TPersistent)
   private
-    function GetViewStyle: TEasyListStyle;
-    procedure SetViewStyle(const Value: TEasyListStyle);
   public
     StackPanel: TCEStackPanel;
   published
-    property ViewStyle: TEasyListStyle read GetViewStyle write SetViewStyle;
   end;
 
 var
@@ -87,23 +75,26 @@ implementation
 procedure TCEStackPanel.FormCreate(Sender: TObject);
 begin
   inherited;
-  fSettings:= TCEStackPanelSettings.Create;
-  fSettings.StackPanel:= Self;
-  DropStack:= TCEDropStack.Create(self);
-  DropStack.Parent:= Self;
-  DropStack.Align:= alClient;
-  DropStack.BorderStyle:= bsNone;
-  DropStack.View:= elsReport;
-  DropStack.DragManager.MouseButton:= [cmbLeft,cmbRight];
-  DropStack.PopupMenu:= DropStackPopup;
-  DropStack.Selection.MouseButton:= [cmbLeft,cmbRight];
-  DropStack.ShowThemedBorder:= false;
+  // Properties
   TopDock.Name:= 'StackPanel_TopDock';
   BottomDock.Name:= 'StackPanel_BottomDock';
-  Caption:= 'Drop Stack';
-  GlobalFocusCtrl.CtrlList.Add(DropStack);
-  TControlHack(DropStack).OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
-
+  Caption:= 'Stack';
+  // StackTree
+  StackTree:= TCEStackTree.Create(self);
+  StackTree.Parent:= Self;
+  StackTree.Align:= alClient;
+  StackTree.BackgroundPopupMenu:= DropStackPopup;
+  StackTree.Images:= CE_Images.BookmarkImages;
+  StackTree.GroupImageIndex:= 5;
+  StackTree.GroupOpenImageIndex:= 5;
+  StackTree.NotAvailableImageIndex:= 4;
+  StackTree.BottomSpace:= 6;
+  // Focus control
+  GlobalFocusCtrl.CtrlList.Add(StackTree);
+  TControlHack(StackTree).OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
+  // Settings
+  fSettings:= TCEStackPanelSettings.Create;
+  fSettings.StackPanel:= Self;
   GlobalAppSettings.AddItem('StackPanel', fSettings, true);
 end;
 
@@ -117,33 +108,11 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  ViewStyleClick
--------------------------------------------------------------------------------}
-procedure TCEStackPanel.ViewStyleClick(Sender: TObject);
-begin
-  case TSpTBXItem(Sender).Tag of
-    0: DropStack.View:= elsIcon;
-    1: DropStack.View:= elsSmallIcon;
-    2: DropStack.View:= elsList;
-    3: DropStack.View:= elsReport;
-    4: DropStack.View:= elsTile;
-    5: DropStack.View:= elsThumbnail;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
   On DropStackPopup popup
 -------------------------------------------------------------------------------}
 procedure TCEStackPanel.DropStackPopupPopup(Sender: TObject);
 begin
-  case DropStack.View of
-    elsIcon: viewstyle_1.Checked:= true;
-    elsSmallIcon: viewstyle_2.Checked:= true;
-    elsList: viewstyle_3.Checked:= true;
-    elsReport: viewstyle_4.Checked:= true;
-    elsTile: viewstyle_5.Checked:= true;
-    elsThumbnail: viewstyle_6.Checked:= true;
-  end;
+  //
 end;
 
 {-------------------------------------------------------------------------------
@@ -151,21 +120,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEStackPanel.but_clearlistClick(Sender: TObject);
 begin
-  DropStack.Items.Clear;
-end;
-
-{##############################################################################}
-
-{-------------------------------------------------------------------------------
-  Get/Set ViewStyle
--------------------------------------------------------------------------------}
-function TCEStackPanelSettings.GetViewStyle: TEasyListStyle;
-begin
-  Result:= StackPanel.DropStack.View;
-end;
-procedure TCEStackPanelSettings.SetViewStyle(const Value: TEasyListStyle);
-begin
-  StackPanel.DropStack.View:= Value;
+  StackTree.Clear;
 end;
 
 end.

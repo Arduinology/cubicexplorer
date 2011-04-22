@@ -116,8 +116,8 @@ type
     ColumnIndex: integer;
   end;
 
-var
-  CEFormColumnSettings: TCEFormColumnSettings;
+//var
+//  CEFormColumnSettings: TCEFormColumnSettings;
 
 implementation
 

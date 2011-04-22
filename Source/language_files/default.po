@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-04-15 13:52\n"
-"PO-Revision-Date: 2011-04-15 13:52\n"
+"POT-Creation-Date: 2011-04-22 10:26\n"
+"PO-Revision-Date: 2011-04-22 10:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -204,7 +204,7 @@ msgstr ""
 #. CEActions..ActionList..act_navi_refresh..Caption
 #: dCE_Actions.dfm:69
 #. CEBookmarkPanel..BookmarkPopupMenu..but_refresh..Caption
-#: fCE_BookmarkPanel.dfm:56
+#: fCE_BookmarkPanel.dfm:79
 msgid "Refresh"
 msgstr ""
 
@@ -238,8 +238,6 @@ msgstr ""
 #: fCE_Customizer.dfm:217
 #. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_icon..Caption
 #: fCE_FileView.dfm:56
-#. CEStackPanel..DropStackPopup..SpTBXSubmenuItem1..viewstyle_1..Caption
-#: fCE_StackPanel.dfm:25
 msgid "Large Icons"
 msgstr ""
 
@@ -247,8 +245,6 @@ msgstr ""
 #: dCE_Actions.dfm:100
 #. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_smallicon..Caption
 #: fCE_FileView.dfm:63
-#. CEStackPanel..DropStackPopup..SpTBXSubmenuItem1..viewstyle_2..Caption
-#: fCE_StackPanel.dfm:31
 msgid "Small Icons"
 msgstr ""
 
@@ -256,8 +252,6 @@ msgstr ""
 #: dCE_Actions.dfm:107
 #. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_list..Caption
 #: fCE_FileView.dfm:70
-#. CEStackPanel..DropStackPopup..SpTBXSubmenuItem1..viewstyle_3..Caption
-#: fCE_StackPanel.dfm:37
 msgid "List"
 msgstr ""
 
@@ -281,8 +275,6 @@ msgstr ""
 #: dCE_Actions.dfm:128
 #. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_details..Caption
 #: fCE_FileView.dfm:77
-#. CEStackPanel..DropStackPopup..SpTBXSubmenuItem1..viewstyle_4..Caption
-#: fCE_StackPanel.dfm:43
 msgid "Details"
 msgstr ""
 
@@ -295,8 +287,6 @@ msgstr ""
 #: dCE_Actions.dfm:141
 #. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_thumbnails..Caption
 #: fCE_FileView.dfm:91
-#. CEStackPanel..DropStackPopup..SpTBXSubmenuItem1..viewstyle_6..Caption
-#: fCE_StackPanel.dfm:55
 msgid "Thumbnails"
 msgstr ""
 
@@ -316,8 +306,6 @@ msgstr ""
 #: dCE_Actions.dfm:155
 #. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_tiles..Caption
 #: fCE_FileView.dfm:84
-#. CEStackPanel..DropStackPopup..SpTBXSubmenuItem1..viewstyle_5..Caption
-#: fCE_StackPanel.dfm:49
 msgid "Tiles"
 msgstr ""
 
@@ -335,8 +323,6 @@ msgstr ""
 
 #. CEActions..ActionList..act_view_viewstyle..Caption
 #: dCE_Actions.dfm:176
-#. CEStackPanel..DropStackPopup..SpTBXSubmenuItem1..Caption
-#: fCE_StackPanel.dfm:23
 msgid "View Style"
 msgstr ""
 
@@ -438,7 +424,7 @@ msgstr ""
 #. CEActions..ActionList..act_edit_delete..Caption
 #: dCE_Actions.dfm:219
 #. CEBookmarkPanel..BookmarkPopupMenu..but_delete..Caption
-#: fCE_BookmarkPanel.dfm:49
+#: fCE_BookmarkPanel.dfm:72
 #. TCEOptionsPage_GlobalHotkeys..TntGroupBox1..but_delete..Caption
 #: fCE_OptionsPage_GlobalHotkeys.dfm:123
 #. TCEOptionsPage_Hotkeys..TntGroupBox1..but_delete..Caption
@@ -465,14 +451,14 @@ msgstr ""
 #. CEActions..ActionList..act_edit_properties..Caption
 #: dCE_Actions.dfm:241
 #. CEBookmarkPanel..BookmarkPopupMenu..but_properties..Caption
-#: fCE_BookmarkPanel.dfm:39
+#: fCE_BookmarkPanel.dfm:62
 msgid "Properties..."
 msgstr ""
 
 #. CEActions..ActionList..act_edit_rename..Caption
 #: dCE_Actions.dfm:249
 #. CEBookmarkPanel..BookmarkPopupMenu..but_rename..Caption
-#: fCE_BookmarkPanel.dfm:44
+#: fCE_BookmarkPanel.dfm:67
 msgid "Rename"
 msgstr ""
 
@@ -610,7 +596,7 @@ msgstr ""
 
 #. CEActions..ActionList..act_edit_newfolder..Caption
 #: dCE_Actions.dfm:383
-#: CE_FileView.pas:457
+#: CE_FileView.pas:461
 msgid "New Folder"
 msgstr ""
 
@@ -858,9 +844,9 @@ msgstr ""
 #. CE_Images..BookmarkImages......Name
 #: dCE_Images.dfm:6728
 #. CE_Images..MiscImages......Name
-#: dCE_Images.dfm:7109
+#: dCE_Images.dfm:7136
 #. CE_Images..PaneIndicators......Name
-#: dCE_Images.dfm:7171
+#: dCE_Images.dfm:7198
 #. CEOptionsDialog..SmallImageList......Name
 #: fCE_OptionsDialog.dfm:314
 #. CEOptionsDialog..LargeImageList......Name
@@ -877,9 +863,9 @@ msgstr ""
 #. CE_Images..BookmarkImages......Name
 #: dCE_Images.dfm:6845
 #. CE_Images..MiscImages......Name
-#: dCE_Images.dfm:7132
+#: dCE_Images.dfm:7159
 #. CE_Images..PaneIndicators......Name
-#: dCE_Images.dfm:7183
+#: dCE_Images.dfm:7210
 #. CEOptionsDialog..SmallImageList......Name
 #: fCE_OptionsDialog.dfm:421
 msgid "PngImage1"
@@ -907,9 +893,9 @@ msgstr ""
 #. CE_Images..BookmarkImages......Name
 #: dCE_Images.dfm:7069
 #. CE_Images..MiscImages......Name
-#: dCE_Images.dfm:7142
+#: dCE_Images.dfm:7169
 #. CE_Images..MiscImages......Name
-#: dCE_Images.dfm:7152
+#: dCE_Images.dfm:7179
 #. CEOptionsDialog..SmallImageList......Name
 #: fCE_OptionsDialog.dfm:539
 #. CEOptionsDialog..LargeImageList......Name
@@ -934,6 +920,8 @@ msgstr ""
 #: dCE_Images.dfm:771
 #. CE_Images..SmallIcons......Name
 #: dCE_Images.dfm:4175
+#. CE_Images..BookmarkImages......Name
+#: dCE_Images.dfm:7119
 #. CEOptionsDialog..SmallImageList......Name
 #: fCE_OptionsDialog.dfm:597
 msgid "PngImage5"
@@ -1340,34 +1328,39 @@ msgstr ""
 msgid "CEBookmarkPanel"
 msgstr ""
 
-#. CEBookmarkPanel..BookmarkPopupMenu..but_addCat..Caption
-#: fCE_BookmarkPanel.dfm:27
-msgid "Add Category"
-msgstr ""
-
-#. CEBookmarkPanel..BookmarkPopupMenu..but_addBookmark..Caption
-#: fCE_BookmarkPanel.dfm:32
-msgid "Add Bookmark"
-msgstr ""
-
 #. CEBookmarkPanel..BookmarkPopupMenu..but_openAll..Caption
-#: fCE_BookmarkPanel.dfm:63
-#: CE_BookmarkBar.pas:336
+#: fCE_BookmarkPanel.dfm:27
+#: CE_BookmarkBar.pas:365
 msgid "Open All in Tabs"
 msgstr ""
 
 #. CEBookmarkPanel..BookmarkPopupMenu..but_openAll..SpTBXItem1..Caption
-#: fCE_BookmarkPanel.dfm:68
+#: fCE_BookmarkPanel.dfm:32
 #. "And Launch Files" item
-#: CE_BookmarkBar.pas:340
+#: CE_BookmarkBar.pas:369
 msgid "And Launch Files"
 msgstr ""
 
 #. CEBookmarkPanel..BookmarkPopupMenu..but_openAll..SpTBXItem2..Caption
-#: fCE_BookmarkPanel.dfm:73
+#: fCE_BookmarkPanel.dfm:37
 #. "Launch Files Only" item
-#: CE_BookmarkBar.pas:348
+#: CE_BookmarkBar.pas:377
 msgid "Launch Files Only"
+msgstr ""
+
+#. CEBookmarkPanel..BookmarkPopupMenu..but_addCat..Caption
+#: fCE_BookmarkPanel.dfm:45
+msgid "Add Category"
+msgstr ""
+
+#. CEBookmarkPanel..BookmarkPopupMenu..but_addBookmark..Caption
+#: fCE_BookmarkPanel.dfm:50
+msgid "Add Bookmark"
+msgstr ""
+
+#. CEBookmarkPanel..BookmarkPopupMenu..but_addSession..Caption
+#: fCE_BookmarkPanel.dfm:55
+msgid "Add Session"
 msgstr ""
 
 #. BookmarkPropDlg..Caption
@@ -1394,17 +1387,25 @@ msgstr ""
 msgid "Browse..."
 msgstr ""
 
+#. BookmarkPropDlg..PageControl..GeneralSheet..SessionPanel..Label1..Caption
+#: fCE_BookmarkPropDlg.dfm:118
+#. CESaveSessionDlg..TntLabel1..Caption
+#: fCE_SaveSessionDlg.dfm:27
+msgid "Session Name"
+msgstr ""
+
 #. BookmarkPropDlg..but_OK..Caption
-#: fCE_BookmarkPropDlg.dfm:112
+#: fCE_BookmarkPropDlg.dfm:138
 #. CEFormColumnSettings..SpTBXPanel1..ButtonOk..Caption
 #: fCE_ColumnFormSpTBX.dfm:52
 #. CEOptionsDialog..BottomPanel..but_ok..Caption
 #: fCE_OptionsDialog.dfm:158
+#: fCE_BookmarkPanel.pas:253
 msgid "OK"
 msgstr ""
 
 #. BookmarkPropDlg..but_Cancel..Caption
-#: fCE_BookmarkPropDlg.dfm:123
+#: fCE_BookmarkPropDlg.dfm:149
 #. CEFormColumnSettings..SpTBXPanel1..ButtonCancel..Caption
 #: fCE_ColumnFormSpTBX.dfm:62
 #. CreateSymlinkDlg..but_cancel..Caption
@@ -1414,12 +1415,12 @@ msgstr ""
 #. CENewTranslationDlg..but_cancel..Caption
 #: fCE_PoEditor_NewForm.dfm:80
 #. CESaveSessionDlg..but_cancel..Caption
-#: fCE_SaveSessionDlg.dfm:57
+#: fCE_SaveSessionDlg.dfm:58
 msgid "Cancel"
 msgstr ""
 
 #. BookmarkPropDlg..but_Apply..Caption
-#: fCE_BookmarkPropDlg.dfm:134
+#: fCE_BookmarkPropDlg.dfm:160
 #. CEOptionsDialog..BottomPanel..but_apply..Caption
 #: fCE_OptionsDialog.dfm:179
 #. CEPoEditor..ActionList..act_apply..Caption
@@ -2008,11 +2009,6 @@ msgstr ""
 msgid "Save Session"
 msgstr ""
 
-#. CESaveSessionDlg..TntLabel1..Caption
-#: fCE_SaveSessionDlg.dfm:27
-msgid "Session Name"
-msgstr ""
-
 #. CESearchPage..ResultView..ThumbsManager.StorageFilename
 #: fCE_SearchPage.dfm:47
 msgid "Thumbnails.album"
@@ -2347,7 +2343,7 @@ msgid "Stack"
 msgstr ""
 
 #. CEStackPanel..DropStackPopup..but_clearlist..Caption
-#: fCE_StackPanel.dfm:63
+#: fCE_StackPanel.dfm:23
 msgid "Clear List"
 msgstr ""
 
@@ -2630,13 +2626,27 @@ msgstr ""
 msgid "Loading..."
 msgstr ""
 
-#: CE_Sessions.pas:243
+#: CE_Sessions.pas:250
 msgid "Are you sure you want to clear session "
 "history?"
 msgstr ""
 
-#: CE_Sessions.pas:890
+#: CE_Sessions.pas:939
 msgid "Session at"
+msgstr ""
+
+#: CE_StackTree.pas:593
+msgid "item"
+msgstr ""
+
+#: CE_StackTree.pas:595
+msgid "items"
+msgstr ""
+
+#. Auto create caption
+#: CE_StackTree.pas:719
+#: CE_StackTree.pas:728
+msgid "Group"
 msgstr ""
 
 #: CE_StatusBar.pas:176
@@ -2668,6 +2678,11 @@ msgstr ""
 #. Sho in Groups
 #: dCE_Actions.pas:1577
 msgid "Show in Groups"
+msgstr ""
+
+#. Add Session
+#: fCE_BookmarkPanel.pas:252
+msgid "Select Session"
 msgstr ""
 
 #. Add Separator category to ActionList

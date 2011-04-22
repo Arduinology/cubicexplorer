@@ -30,7 +30,8 @@ object CEActions: TCEActions
     object act_view_dropstack: TTntAction
       Tag = 305
       Category = 'View'
-      Caption = 'Drop Stack'
+      Caption = 'Stack'
+      ImageIndex = 43
       ShortCut = 16437
       OnExecute = ActionExecute
     end
