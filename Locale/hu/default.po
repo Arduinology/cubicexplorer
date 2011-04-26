@@ -1,0 +1,715 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"CE-POT-Version: 1131\n"
+"CE-Language: Hungarian\n"
+"Last-Translator: Mezei Zoltan <mezzoli@mailbox.hu>\n"
+
+msgid "About CubicExplorer"
+msgstr "A CubicExplorer névjegye"
+
+msgid "About..."
+msgstr "Névjegy..."
+
+msgid "Actions"
+msgstr "Műveletek"
+
+msgid "Add Bookmark"
+msgstr "Könyvjelző hozzáadása"
+
+msgid "Add Category"
+msgstr "Kategória hozzáadása"
+
+msgid "Add Tab"
+msgstr "Fül hozzáadása"
+
+msgid "Address Bar"
+msgstr "Címsáv"
+
+msgid "Always On Top"
+msgstr "Mindig felül"
+
+msgid "Always Show Sort Columns"
+msgstr "Rövid oszlopok mutatása mindig"
+
+msgid "Always sort folders first."
+msgstr "Mindig a rövid mappákat először"
+
+msgid "And Launch Files"
+msgstr "Indító fájlok mutatása"
+
+msgid "Application Revision:"
+msgstr "Alkalmazás átvizsgálása:"
+
+msgid "Apply"
+msgstr "Alkalmazás"
+
+msgid "Apply changes."
+msgstr "Változások alkalmazása"
+
+msgid "Arrange By"
+msgstr "Rendezés"
+
+msgid "Attributes"
+msgstr "Tulajdonságok"
+
+msgid "Auto"
+msgstr "Automatikus"
+
+msgid "Auto collapse tree"
+msgstr "Automatikus összecsukás"
+
+msgid "Auto expand tree"
+msgstr "Automatikus kinyitás"
+
+msgid "Auto size cells in list view style."
+msgstr "Automatikus elem méret lista nézetben"
+
+msgid "Automatic"
+msgstr "Automatikus"
+
+msgid "Back"
+msgstr "Vissza"
+
+msgid "Backward"
+msgstr "Visszafelé"
+
+msgid "Bookmarks"
+msgstr "Könyvjelzők"
+
+msgid "Bookmarks Panel Settings"
+msgstr "Könyvjelzők beállítása"
+
+msgid "Bottom"
+msgstr "Gomb"
+
+msgid "Breadcrumb Navigation"
+msgstr "Breadcrumb navigáció"
+
+msgid "Browse..."
+msgstr "Böngész..."
+
+msgid "Bytes"
+msgstr "Bájtok"
+
+msgid "Cancel"
+msgstr "Mégse"
+
+msgid "Case sensitivity"
+msgstr "Ügy érzékenység"
+
+msgid "Clear List"
+msgstr "Lista törlése"
+
+msgid "Clear filters on folder change"
+msgstr "Szűrők törlése mappaváltozáskor"
+
+msgid "Close"
+msgstr "Bezárás"
+
+msgid "Close Other Tabs"
+msgstr "Többi fül bezárása"
+
+msgid "Close Tab"
+msgstr "Fül bezárása"
+
+msgid "Close Tabs on Left"
+msgstr "Bal oldali fülek bezárása"
+
+msgid "Close Tabs on Right"
+msgstr "Jobb oldali fülek bezárása"
+
+msgid "Copy"
+msgstr "Másolás"
+
+msgid "Copy Path"
+msgstr "Útvonal másolása"
+
+msgid "Copy of active tab"
+msgstr "Aktív fül másolása"
+
+msgid "Create"
+msgstr "Létrehozás"
+
+msgid "Create New Translation"
+msgstr "Új fordítás létrehozása"
+
+msgid "Create new translation."
+msgstr "Új fordítás létrehozása"
+
+msgid "CubicExplore Home Page"
+msgstr "A CubicExplorer weboldala"
+
+msgid "CubicExplorer Options"
+msgstr "CubicExplorer beállítások"
+
+msgid "Custom..."
+msgstr "Testreszab..."
+
+msgid "Customize"
+msgstr "Testreszab"
+
+msgid "Customizer..."
+msgstr "Testreszabás..."
+
+msgid "Cut"
+msgstr "Kivágás"
+
+msgid "Date Accessed"
+msgstr "Adat hozzáférés kész"
+
+msgid "Date Created"
+msgstr "Adat létrehozva"
+
+msgid "Date Modified"
+msgstr "Adat módosítva"
+
+msgid "Default"
+msgstr "Alapértelmezett"
+
+msgid "Delete"
+msgstr "Törlés"
+
+msgid "Delete active session."
+msgstr "Aktív szakasz törlése"
+
+msgid "Desktop"
+msgstr "Asztal"
+
+msgid "Details"
+msgstr "Részletek"
+
+msgid "Direction"
+msgstr "Irány"
+
+msgid "Disconnect Network Drive..."
+msgstr "Hálózati meghajtó leválasztása"
+
+msgid "Display"
+msgstr "Kijelző"
+
+msgid "Display Settings"
+msgstr "Kijelző beállítása"
+
+msgid "Drives"
+msgstr "Meghajtók"
+
+msgid "Drop Stack"
+msgstr "Csepp rakás"
+
+msgid "Duplicate"
+msgstr "Duplikálás"
+
+msgid "Duplicate Tab"
+msgstr "Fül duplikálása"
+
+msgid "Edit"
+msgstr "Szerkesztés"
+
+msgid "Edit Session"
+msgstr "Szakasz szerkesztése"
+
+msgid "Edit session properties."
+msgstr "Szakasz szerkesztés tulajdonságok"
+
+msgid "Editor Options..."
+msgstr "Szerkesztő beállításai"
+
+msgid "Empty Recycle Bin"
+msgstr "Lomtár ürítése"
+
+msgid "English (default)"
+msgstr "Angol (alapértelmezett)"
+
+msgid "Exit"
+msgstr "Kilépés"
+
+msgid "File"
+msgstr "Fájl"
+
+msgid "File Search"
+msgstr "Fájl keresés"
+
+msgid "Fileview"
+msgstr "Fájlnézet"
+
+msgid "Fileview Settings"
+msgstr "Fájlnézet beállítások"
+
+msgid "Filmstrip"
+msgstr "Filmszalag"
+
+msgid "Filters"
+msgstr "Szűrők"
+
+msgid "Find Next"
+msgstr "Következő keresés"
+
+msgid "Find Previous"
+msgstr "Előző keresés"
+
+msgid "Folder Path"
+msgstr "Mappa útvonal"
+
+msgid "Folder Up"
+msgstr "Mappa fel"
+
+msgid "Folders"
+msgstr "Mappák"
+
+msgid "Folders Panel Settings"
+msgstr "Mappák beállítása"
+
+msgid "Format"
+msgstr "Formátum"
+
+msgid "Forward"
+msgstr "Előre"
+
+msgid "Fullscreen"
+msgstr "Teljes méret"
+
+msgid "General"
+msgstr "Általános"
+
+msgid "General Settings"
+msgstr "Általános beállítások"
+
+msgid "Group By"
+msgstr "Csoportosítás"
+
+msgid "Help"
+msgstr "Súgó"
+
+msgid "Hex"
+msgstr "Hex"
+
+msgid "Highlight row completely"
+msgstr "Fontos sor teljesen"
+
+msgid "Highlighter"
+msgstr "Fontos"
+
+msgid "Image"
+msgstr "Kép"
+
+msgid "Insert"
+msgstr "Beillesztés"
+
+msgid "Invert Selection"
+msgstr "Fordított kiválasztás"
+
+msgid "KB"
+msgstr "KB"
+
+msgid "Language"
+msgstr "Nyelv"
+
+msgid "Language Editor"
+msgstr "Nyelv szerkesztő"
+
+msgid "Large Icons"
+msgstr "Nagy ikonok"
+
+msgid "Launch Files Only"
+msgstr "Csak indító fájlok"
+
+msgid "Layouts"
+msgstr "Tervezetek"
+
+msgid "Left"
+msgstr "Bal"
+
+msgid "List"
+msgstr "Lista"
+
+msgid "Load Skin..."
+msgstr "Téma betöltése..."
+
+msgid "Load skin from file"
+msgstr "Téma betöltése fájlból"
+
+msgid "Load this session on startup."
+msgstr "Töltse be ezt a szakaszt indításkor"
+
+msgid "Loading..."
+msgstr "Betöltés..."
+
+msgid "MB"
+msgstr "MB"
+
+msgid "Main Menu"
+msgstr "Főmenü"
+
+msgid "Map Network Drive..."
+msgstr "Hálózati meghajtó feltérképezése..."
+
+msgid "Menu"
+msgstr "Menü"
+
+msgid "Modified"
+msgstr "Módosítva"
+
+msgid "More..."
+msgstr "Több..."
+
+msgid "Name"
+msgstr "Név"
+
+msgid "Name Only"
+msgstr "Csak név"
+
+msgid "Navigation"
+msgstr "Navigáció"
+
+msgid "New"
+msgstr "Új"
+
+msgid "New Folder"
+msgstr "Új mappa"
+
+msgid "New Session"
+msgstr "Új szakasz"
+
+msgid "No Extension"
+msgstr "Nincs kiterjesztés"
+
+msgid "No file loaded."
+msgstr "Nincs fájl betöltve"
+
+msgid "None"
+msgstr "Semmi"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open All in Tabs"
+msgstr "Összes megnyitása fülekkel"
+
+msgid "Open Command Prompt"
+msgstr "Parancs azonnali megnyitása"
+
+msgid "Open in new tab by default"
+msgstr "Megnyitás új fülön mindig"
+
+msgid "Open new tab as"
+msgstr "Új fül megnyitása mint"
+
+msgid "Open..."
+msgstr "Megnyitás..."
+
+msgid "Options"
+msgstr "Beállítások"
+
+msgid "Options..."
+msgstr "Beállítások..."
+
+msgid "Original"
+msgstr "Eredeti"
+
+msgid "Override"
+msgstr "Megsemmisítés"
+
+msgid "Panels"
+msgstr "Panelek"
+
+msgid "Paste"
+msgstr "Beillesztés"
+
+msgid "Paste Shortcut"
+msgstr "Parancsikon beillesztése"
+
+msgid "Path"
+msgstr "Útvonal"
+
+msgid "Pause"
+msgstr "Szünet"
+
+msgid "Properties"
+msgstr "Tulajdonságok"
+
+msgid "Properties..."
+msgstr "Tulajdonságok..."
+
+msgid "Publish Translation"
+msgstr "Fordítás közzététele"
+
+msgid "QuickView"
+msgstr "Gyorsnézet"
+
+msgid "Quickview"
+msgstr "Gyorsnézet"
+
+msgid "Redo"
+msgstr "Átalakítás"
+
+msgid "Refresh"
+msgstr "Frissítés"
+
+msgid "Regular expression"
+msgstr "Szabályos kifejezés"
+
+msgid "Relative"
+msgstr "Viszonylagos"
+
+msgid "Reload"
+msgstr "Újratöltés"
+
+msgid "Rename"
+msgstr "Átnevezés"
+
+msgid "Replace"
+msgstr "Lecserélés"
+
+msgid "Replace All"
+msgstr "Összes lecserélése"
+
+msgid "Reuse already open tabs"
+msgstr "Újrafelhasználás már megnyitott füleken"
+
+msgid "Right"
+msgstr "Jobb"
+
+msgid "Save"
+msgstr "Mentés"
+
+msgid "Save As..."
+msgstr "Mentés másként..."
+
+msgid "Save active session with new name."
+msgstr "Aktív szakasz mentése más néven"
+
+msgid "Save active session."
+msgstr "Aktív szakasz mentése"
+
+msgid "Save changes before closing?"
+msgstr "Menti a változásokat bezárás előtt?"
+
+msgid "Save changes."
+msgstr "Változások mentése"
+
+msgid "Save changes?"
+msgstr "Változások mentése?"
+
+msgid "Save settings automatically."
+msgstr "Változások mentése automatikusan"
+
+msgid "Save/Load Settings"
+msgstr "Betöltés és mentés beállítások"
+
+msgid "Scroll Left"
+msgstr "Bal oldali görgetés"
+
+msgid "Scroll Right"
+msgstr "Jobb oldali görgetés"
+
+msgid "Search"
+msgstr "Keresés"
+
+msgid "Search File Mask"
+msgstr "Fájl keresése"
+
+msgid "Search Word or Phrase in File Name"
+msgstr "Szó vagy kifejezés keresése a fájlnevekben"
+
+msgid "Search and Replace"
+msgstr "Keresés és lecserélés"
+
+msgid "Search from cursor"
+msgstr "Keresés a kijelöléstől kezdve"
+
+msgid "Search in Directory"
+msgstr "Keresés a könyvtárakban"
+
+msgid "Select All"
+msgstr "Összes kiválasztása"
+
+msgid "Select default folder for new tabs."
+msgstr "Alapértelmezett mappa kiválasztása új füleken"
+
+msgid "Select first item automatically"
+msgstr "Első tétel kiválasztása automatikusan"
+
+msgid "Select previous folder"
+msgstr "Előző mappa kiválasztása"
+
+msgid "Selected"
+msgstr "Kiválasztva"
+
+msgid "Selected text only"
+msgstr "Csak szöveg kiválasztása"
+
+msgid "Separator"
+msgstr "Elválasztó"
+
+msgid "Session Name"
+msgstr "Szakasz neve"
+
+msgid "Sessions"
+msgstr "Szakaszok"
+
+msgid "Short Folder Path"
+msgstr "Rövid mappa útvonal"
+
+msgid "Short Name Only"
+msgstr "Csak rövid név"
+
+msgid "Short Path"
+msgstr "Rövid útvonal"
+
+msgid "Show All Files"
+msgstr "Minden fájl mutatása"
+
+msgid "Show Extensions"
+msgstr "Kiterjesztések mutatása"
+
+msgid "Show Folders"
+msgstr "Mappák mutatása"
+
+msgid "Show Hidden Files"
+msgstr "Rejtett fájlok mutatása"
+
+msgid "Show Hints"
+msgstr "Tippek mutatása"
+
+msgid "Show Path in Title bar"
+msgstr "Útvonal mutatása a címsávban"
+
+msgid "Show Statusbar"
+msgstr "Állapotsor mutatása"
+
+msgid "Show Toolbar"
+msgstr "Eszköztár mutatása"
+
+msgid "Show in Groups"
+msgstr "Mutatás csoportokban"
+
+msgid "Single Instance Only"
+msgstr "Csak egy alkalomra"
+
+msgid "Single click mode"
+msgstr "Egy kattintásos üzemmód"
+
+msgid "Size"
+msgstr "Méret"
+
+msgid "Small Icons"
+msgstr "Kis ikonok"
+
+msgid "Stack"
+msgstr "Rakás"
+
+msgid "Start"
+msgstr "Kezdés"
+
+msgid "Status Bar"
+msgstr "Állapotsor"
+
+msgid "Stop"
+msgstr "Állj"
+
+msgid "Subdirectories"
+msgstr "Alkönyvtárak"
+
+msgid "Support Forum"
+msgstr "Fórum támogatás"
+
+msgid "Switch to a new tab immediately"
+msgstr "Átváltás új fülre azonnal"
+
+msgid "Tabs"
+msgstr "Fülek"
+
+msgid "Tabs Settings"
+msgstr "Fülek beállításai"
+
+msgid "Target"
+msgstr "Cél"
+
+msgid "Text"
+msgstr "Szöveg"
+
+msgid "Text Editor"
+msgstr "Szövegszerkesztő"
+
+msgid "Theme"
+msgstr "Téma"
+
+msgid "Thumbnails"
+msgstr "Ikonok"
+
+msgid "Thumbs Position"
+msgstr "Ikonok helyzete"
+
+msgid "Thumbs View Style"
+msgstr "Ikon nézet"
+
+msgid "Tiles"
+msgstr "Mozaik"
+
+msgid "Toolbars"
+msgstr "Eszköztárak"
+
+msgid "Tools"
+msgstr "Eszközök"
+
+msgid "Top"
+msgstr "Felső"
+
+msgid "Total Size"
+msgstr "Teljes méret"
+
+msgid "Translate CubicExplorer"
+msgstr "CubicExplorer fordító"
+
+msgid "Translation"
+msgstr "Fordítás"
+
+msgid "Translation Revision:"
+msgstr "Fordítás átvizsgálása:"
+
+msgid "Translation Version"
+msgstr "Fordítás verziója"
+
+msgid "Translator's Email"
+msgstr "Fordító e-mail címe"
+
+msgid "Translator's Name"
+msgstr "Fordító neve"
+
+msgid "Transparency"
+msgstr "Átlátszóság"
+
+msgid "Type"
+msgstr "Típus"
+
+msgid "Undo"
+msgstr "Visszavonás"
+
+msgid "Untitled"
+msgstr "Cím nélküli"
+
+msgid "Version:"
+msgstr "Verzió:"
+
+msgid "View"
+msgstr "Nézet"
+
+msgid "View Style"
+msgstr "Nézet stílusok"
+
+msgid "When I open folder/file in a new tab, switch to it immediately "
+msgstr "Mappa vagy fájl új fülön való megnyitásakor átváltás azonnal"
+
+msgid "Whole words only"
+msgstr "Csak teljes szavak"
+
+msgid "Word List"
+msgstr "Szó lista"
+
+msgid "Word Wrap"
+msgstr "Szó csomag"
+
