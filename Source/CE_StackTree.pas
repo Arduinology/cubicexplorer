@@ -30,10 +30,12 @@ type
 
   TCEStackTree = class(TVirtualStringTree)
   private
+    fActiveDataObject: IDataObject;
     fBackgroundPopupMenu: TPopupMenu;
     fGroupImageIndex: Integer;
     fGroupOpenImageIndex: Integer;
     fNotAvailableImageIndex: Integer;
+    fSafeOperationsOnly: Boolean;
     fStacks: TCEStacks;
     function GetStacks: TCEStacks;
   protected
@@ -48,6 +50,7 @@ type
         TDropMode); override;
     function DoDragOver(Source: TObject; Shift: TShiftState; State: TDragState; Pt:
         TPoint; Mode: TDropMode; var Effect: Integer): Boolean; override;
+    procedure DoEndDrag(Target: TObject; X, Y: Integer); override;
     function DoEndEdit: Boolean; override;
     procedure DoExpanded(Node: PVirtualNode); override;
     procedure DoFreeNode(Node: PVirtualNode); override;
@@ -58,6 +61,8 @@ type
         LineBreakStyle: TVTTooltipLineBreakStyle): UnicodeString; override;
     procedure DoGetText(Node: PVirtualNode; Column: TColumnIndex; TextType:
         TVSTTextType; var Text: UnicodeString); override;
+    function DoKeyAction(var CharCode: Word; var Shift: TShiftState): Boolean;
+        override;
     procedure DoNewText(Node: PVirtualNode; Column: TColumnIndex; Text:
         UnicodeString); override;
     procedure DoPaintText(Node: PVirtualNode; const Canvas: TCanvas; Column:
@@ -85,6 +90,8 @@ type
         fGroupOpenImageIndex;
     property NotAvailableImageIndex: Integer read fNotAvailableImageIndex write
         fNotAvailableImageIndex;
+    property SafeOperationsOnly: Boolean read fSafeOperationsOnly write
+        fSafeOperationsOnly;
     property Stacks: TCEStacks read GetStacks write fStacks;
   end;
 
@@ -192,6 +199,7 @@ begin
   fGroupImageIndex:= -1;
   fGroupOpenImageIndex:= -1;
   fNotAvailableImageIndex:= -1;
+  fSafeOperationsOnly:= true;
   BorderStyle:= bsNone;
   BevelInner:= bvNone;
   BevelOuter:= bvNone;
@@ -271,6 +279,7 @@ begin
       // Create IDataObject
       DataObj:= TCEStackDataObject.Create(Self, False);
       Result:= DataObj;
+      fActiveDataObject:= Result;
       // Create ShellDataObject
       DataObj.ShellDataObject:= nil;
       NSList:= NamespaceToNamespaceList(NSA);
@@ -464,6 +473,32 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Do EndDrag
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.DoEndDrag(Target: TObject; X, Y: Integer);
+var
+  Effect: TCommonLogicalPerformedDropEffect;
+begin
+  inherited;
+
+  if assigned(fActiveDataObject) then
+  begin
+    Effect := TCommonLogicalPerformedDropEffect.Create;
+    try
+      if fActiveDataObject.QueryGetData(Effect.GetFormatEtc) = S_OK then
+      begin
+        Effect.LoadFromDataObject(fActiveDataObject);
+        if (Effect.Action = effectMove) then
+        Self.DeleteSelectedNodes;
+      end;
+    finally
+      Effect.Free;
+    end;
+    fActiveDataObject:= nil;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   Do EndEdit
 -------------------------------------------------------------------------------}
 function TCEStackTree.DoEndEdit: Boolean;
@@ -608,6 +643,21 @@ begin
   inherited;
 end;
 
+{*------------------------------------------------------------------------------
+  Do KeyAction
+-------------------------------------------------------------------------------}
+function TCEStackTree.DoKeyAction(var CharCode: Word; var Shift: TShiftState):
+    Boolean;
+var
+  data: PCEStackItemData;
+begin
+  Result:= inherited DoKeyAction(CharCode, Shift);
+  if CharCode = VK_DELETE then
+  begin
+    self.DeleteSelectedNodes;
+  end;
+end;
+
 {-------------------------------------------------------------------------------
   Do NewText
 -------------------------------------------------------------------------------}
@@ -670,12 +720,18 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEStackTree.DragAndDrop(AllowedEffects: Integer; DataObject:
     IDataObject; DragEffect: Integer);
+var
+  effect: Integer;
 begin
+  if SafeOperationsOnly then
+  effect:= DROPEFFECT_COPY or DROPEFFECT_LINK
+  else
+  effect:= DROPEFFECT_COPY or DROPEFFECT_LINK or DROPEFFECT_MOVE;
   // Vista and up
   if (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6) and Assigned(SHDoDragDrop_MP) then
-  SHDoDragDrop_MP(Handle, DataObject, nil, AllowedEffects, DragEffect)
+  SHDoDragDrop_MP(Handle, DataObject, nil, effect, DragEffect)
   else // Older Windows versions
-  inherited DragAndDrop(AllowedEffects, DataObject, DragEffect);
+  inherited DragAndDrop(effect, DataObject, DragEffect);
 end;
 
 {-------------------------------------------------------------------------------

@@ -133,11 +133,19 @@ type
     constructor Create(AOwner: TComponent); override;
   end;
 
+type
+  TCEFiltersMenuButton = class(TCEToolbarSubmenuItem)
+  protected
+    procedure DoPopup(Sender: TTBCustomItem; FromLink: Boolean); override;
+  public
+    constructor Create(AOwner: TComponent); override;
+  end;
+
 implementation
 
 uses
   CE_FileView, fCE_FileView, CE_BaseFileView, dCE_Actions, dCE_Images, Main,
-  CE_Sessions;
+  CE_Sessions, fCE_FiltersPanel;
 
 {##############################################################################}
 
@@ -782,6 +790,28 @@ procedure TCEClosedTabsListButton.DoPopup(Sender: TTBCustomItem; FromLink:
     Boolean);
 begin
   MainForm.TabSet.PopulateUndoList(Self);
+end;
+
+{##############################################################################}
+// TCEFiltersMenuButton
+
+{*------------------------------------------------------------------------------
+  Create an instance of TCEFiltersMenuButton
+-------------------------------------------------------------------------------}
+constructor TCEFiltersMenuButton.Create(AOwner: TComponent);
+begin
+  inherited;
+  Self.DropdownCombo:= false;
+  Self.Options:= [tboDropdownArrow];
+end;
+
+{*------------------------------------------------------------------------------
+  Do NewFile Button Popup
+-------------------------------------------------------------------------------}
+procedure TCEFiltersMenuButton.DoPopup(Sender: TTBCustomItem; FromLink:
+    Boolean);
+begin
+  CEFiltersPanel.Filters.PopulateMenuItem(Self);
 end;
 
 

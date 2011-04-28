@@ -85,6 +85,7 @@ type
     function CreatePageNode(PagePath: String): PVirtualNode;
     procedure CreatePages;
     function FindPageNode(PagePath: String): PVirtualNode;
+    procedure SelectActivePageFromTree;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -104,6 +105,9 @@ var
   CEOptionsDialog: TCEOptionsDialog = nil;
 
 implementation
+
+uses
+  fCE_OptionsPage_Advanced;
 
 {$R *.dfm}
 
@@ -187,6 +191,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEOptionsDialog.but_applyClick(Sender: TObject);
 begin
+  if not (ActivePage is TCEOptionsPage_Advanced) then
   ApplyAll;
   Modified:= false;
 end;
@@ -204,6 +209,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEOptionsDialog.but_okClick(Sender: TObject);
 begin
+  if not (ActivePage is TCEOptionsPage_Advanced) then
   ApplyAll;
   Modified:= false;
   Self.Close;
@@ -360,10 +366,38 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEOptionsDialog.SetActivePage(const Value: TCEOptionsCustomPage);
 var
-  i: Integer;
+  i, hr: Integer;
+  s,s2: String;
 begin
   if Value <> fActivePage then
   begin
+    if fActivePage is TCEOptionsPage_Advanced then
+    begin
+      Self.RefreshAll;
+      Modified:= false;
+    end
+    else if Value is TCEOptionsPage_Advanced then
+    begin
+      if Modified then
+      begin
+        s:= _('Apply changes now?')+#13#10+
+            #13+#10+
+            _('If not, all changes will be lost.');
+        s2:= _('Apply Changes');
+        hr:= MessageBox(Self.Handle, PChar(s), PChar(s2) , MB_ICONQUESTION or MB_YESNOCANCEL);
+        if hr = IDCANCEL then
+        begin
+          SelectActivePageFromTree;
+          Exit;
+        end
+        else if hr = IDYES then
+        begin
+          ApplyAll;
+          Modified:= false;
+        end;
+      end;
+    end;
+    
     fActivePage:= Value;
     for i:= 0 to PageList.Count - 1 do
     begin
@@ -592,6 +626,28 @@ begin
   begin
     page:= TCEOptionsCustomPage(Pagelist.Items[i]);
     page.RefreshSettings;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Select ActivePage From Tree
+-------------------------------------------------------------------------------}
+procedure TCEOptionsDialog.SelectActivePageFromTree;
+var
+  data: PPageData;
+  node: PVirtualNode;
+begin
+  node:= PageTree.GetFirst;
+  while assigned(node) do
+  begin
+    data:= PageTree.GetNodeData(node);
+    if data.Page = fActivePage then
+    begin
+      PageTree.FocusedNode:= node;
+      PageTree.Selected[node]:= true;
+      break;
+    end;
+    node:= PageTree.GetNext(node);
   end;
 end;
 

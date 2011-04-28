@@ -43,10 +43,13 @@ type
   TCEStackPanel = class(TCECustomDockableForm)
     DropStackPopup: TSpTBXPopupMenu;
     but_clearlist: TSpTBXItem;
+    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    but_safetyswitch: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure but_clearlistClick(Sender: TObject);
     procedure DropStackPopupPopup(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure but_safetyswitchClick(Sender: TObject);
   private
     fSettings: TCEStackPanelSettings;
     { Private declarations }
@@ -57,9 +60,13 @@ type
 
   TCEStackPanelSettings = class(TPersistent)
   private
+    function GetSafeOperationsOnly: Boolean;
+    procedure SetSafeOperationsOnly(const Value: Boolean);
   public
     StackPanel: TCEStackPanel;
   published
+    property SafeOperationsOnly: Boolean read GetSafeOperationsOnly write
+        SetSafeOperationsOnly;
   end;
 
 var
@@ -112,8 +119,17 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEStackPanel.DropStackPopupPopup(Sender: TObject);
 begin
-  //
+  but_safetyswitch.Checked:= StackTree.SafeOperationsOnly;
 end;
+
+{-------------------------------------------------------------------------------
+  On but_safetyswitch Click
+-------------------------------------------------------------------------------}
+procedure TCEStackPanel.but_safetyswitchClick(Sender: TObject);
+begin
+  StackTree.SafeOperationsOnly:= not StackTree.SafeOperationsOnly;
+end;
+
 
 {-------------------------------------------------------------------------------
   Clear List
@@ -121,6 +137,20 @@ end;
 procedure TCEStackPanel.but_clearlistClick(Sender: TObject);
 begin
   StackTree.Clear;
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Get/Set SafeOperationsOnly
+-------------------------------------------------------------------------------}
+function TCEStackPanelSettings.GetSafeOperationsOnly: Boolean;
+begin
+  Result:= StackPanel.StackTree.SafeOperationsOnly;
+end;
+procedure TCEStackPanelSettings.SetSafeOperationsOnly(const Value: Boolean);
+begin
+  StackPanel.StackTree.SafeOperationsOnly:= Value;
 end;
 
 end.

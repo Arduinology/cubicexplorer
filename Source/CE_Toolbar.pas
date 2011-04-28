@@ -59,6 +59,8 @@ type
   end;
 
   TCEToolbarSeparatorItem = class(TSpTBXSeparatorItem)
+  public
+    constructor Create(AOwner: TComponent); override;
   end;
 
   TCECustomToolbarSpacerItem = class(TSpTBXCustomLabelItem)
@@ -265,6 +267,7 @@ begin
   inherited;
   Self.CustomWidth:= 12;
   Self.CustomHeight:= 16;
+  Self.ItemStyle:= Self.ItemStyle + [tbisClicksTransparent];
 end;
 
 {##############################################################################}
@@ -277,6 +280,18 @@ begin
   inherited;
   Self.CustomWidth:= 12;
   Self.CustomHeight:= 16;
+  Self.ItemStyle:= Self.ItemStyle + [tbisClicksTransparent];
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Create an instance of TCEToolbarSeparatorItem
+-------------------------------------------------------------------------------}
+constructor TCEToolbarSeparatorItem.Create(AOwner: TComponent);
+begin
+  inherited;
+  //Self.ItemStyle:= Self.ItemStyle - [tbisSeparator];
 end;
 
 end.

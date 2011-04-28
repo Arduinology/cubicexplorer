@@ -32,7 +32,7 @@ uses
   JvExControls, JvInspector, JvComponentBase, 
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls;
+  Dialogs, StdCtrls, ExtCtrls, SpTBXItem, SpTBXControls;
 
 type
   TJvCustomInspectorHack = class(TJvCustomInspector);
@@ -45,6 +45,7 @@ type
 
   TCEOptionsPage_Advanced = class(TCEOptionsCustomPage)
     Inspector: TJvInspector;
+    SpTBXLabel1: TSpTBXLabel;
   private
     Painter: TCEInspector_Painter;
     { Private declarations }

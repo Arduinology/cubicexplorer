@@ -619,6 +619,14 @@ object CEActions: TCEActions
         'F4')
       OnExecute = ActionExecute
     end
+    object act_view_filtersmenu: TCEToolbarAction
+      Tag = 375
+      Category = 'Filters'
+      Caption = 'Filter Menu'
+      ImageIndex = 29
+      OnExecute = ActionExecute
+      CanExecute = False
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

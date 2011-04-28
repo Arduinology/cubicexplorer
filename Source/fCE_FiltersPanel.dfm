@@ -18,8 +18,8 @@ inherited CEFiltersPanel: TCEFiltersPanel
       DockMode = dmCannotFloatOrChangeDocks
       DockPos = 0
       DragHandleStyle = dhNone
-      FullSize = True
       ShrinkMode = tbsmNone
+      Stretch = True
       TabOrder = 0
       object combo_controlitem: TTBControlItem
         Control = combo_filterpattern

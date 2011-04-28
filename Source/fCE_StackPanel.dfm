@@ -19,6 +19,12 @@ inherited CEStackPanel: TCEStackPanel
     OnPopup = DropStackPopupPopup
     Left = 360
     Top = 48
+    object but_safetyswitch: TSpTBXItem
+      Caption = 'Safe Operations Only'
+      OnClick = but_safetyswitchClick
+    end
+    object SpTBXSeparatorItem1: TSpTBXSeparatorItem
+    end
     object but_clearlist: TSpTBXItem
       Caption = 'Clear List'
       OnClick = but_clearlistClick

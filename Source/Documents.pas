@@ -74,6 +74,7 @@ Unit Documents;
 // 372 = Arrange By
 // 373 = View Style
 // 374 = Group By
+// 375 = Filters menu
 // 380 = DualView
 
 // **** Tools (400) ****

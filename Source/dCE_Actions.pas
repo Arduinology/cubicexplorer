@@ -214,6 +214,7 @@ type
     act_tabs_next: TTntAction;
     act_tabs_prev: TTntAction;
     act_focus_addressbar: TTntAction;
+    act_view_filtersmenu: TCEToolbarAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -366,6 +367,7 @@ begin
   act_bookmarks_menu.ItemClass:= TCEBookmarksButton;
   act_sessions_menu.ItemClass:= TCESessionsButton;
   act_tabs_undo.ItemClass:= TCEClosedTabsListButton;
+  act_view_filtersmenu.ItemClass:= TCEFiltersMenuButton;
 end;
 
 {##############################################################################}
