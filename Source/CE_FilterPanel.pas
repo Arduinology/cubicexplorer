@@ -560,11 +560,9 @@ end;
 procedure TCEFilterList.PopulateMenuItem(AItem: TSpTBXItem);
 var
   item: TSpTBXItem;
-  i: Integer;
   node: PVirtualNode;
   data: PFilterItem;
   Text: WideString;
-  sep: TSpTBXSeparatorItem;
 begin
   if assigned(AItem) then
   begin

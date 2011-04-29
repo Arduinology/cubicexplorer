@@ -210,7 +210,12 @@ begin
         begin
           fXML:= TXMLDocument.Create;
           XML.AppendChild(XML.CreateElement('CubicExplorer'));
-        end;
+        end
+        else if not assigned(XML.DocumentElement) then
+        begin
+          XML.AppendChild(XML.CreateElement('CubicExplorer'));
+        end
+        else
         Result:= false;
       end;
     end;

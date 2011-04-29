@@ -231,6 +231,12 @@ procedure TCEFolderTree.HandleMouseDown(var Message: TWMMouse; var HitInfo:
 var
   ShiftState: TShiftState;
 begin
+  if Self.IsEditing then
+  begin
+    Self.EndEditNode;
+    Exit;
+  end;
+
   if not assigned(HitInfo.HitNode) then
   begin
     inherited;

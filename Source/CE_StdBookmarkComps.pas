@@ -778,8 +778,6 @@ end;
   Load values from xml node.
 -------------------------------------------------------------------------------}
 procedure TCESessionComp.LoadFromXmlNode(XmlNode: TJvSimpleXmlElem);
-var
-  PIDL: PItemIDList;
 begin
   inherited;
   fSessionName:= XmlNode.Properties.Value('session');

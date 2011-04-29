@@ -237,7 +237,11 @@ begin
       s:= TTntFileStream.Create(fFilePath, fmOpenRead or fmShareDenyNone);
       try
         s.Position:= 0;
-        AppStorage.Xml.LoadFromStream(s);
+        try
+          AppStorage.Xml.LoadFromStream(s);
+        except
+          AppStorage.Xml.LoadFromResourceName(hInstance, 'DEFAULT_LAYOUT_DATA');
+        end;
       finally
         s.Free;
       end;

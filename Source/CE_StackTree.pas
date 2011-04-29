@@ -111,9 +111,6 @@ function PIDLToCEPath(APIDL: PItemIDList): WideString;
 var
   folderID: Integer;
   pidl: PItemIDList;
-  ws: WideString;
-  stream: TStream;
-  buf: AnsiString;
   ns: TNamespace;
 begin
   Result:= '';
@@ -231,8 +228,6 @@ end;
   Do CancelEdit
 -------------------------------------------------------------------------------}
 function TCEStackTree.DoCancelEdit: Boolean;
-var
-  node: PVirtualNode;
 begin
   Result:= inherited DoCancelEdit;
   Self.InvalidateNode(Self.FocusedNode);
@@ -539,6 +534,7 @@ function TCEStackTree.DoGetImageIndex(Node: PVirtualNode; Kind: TVTImageKind;
 var
   data: PCEStackItemData;
 begin
+  Result:= nil;
   if (Kind = ikState) then
   Exit;
   
@@ -648,8 +644,6 @@ end;
 -------------------------------------------------------------------------------}
 function TCEStackTree.DoKeyAction(var CharCode: Word; var Shift: TShiftState):
     Boolean;
-var
-  data: PCEStackItemData;
 begin
   Result:= inherited DoKeyAction(CharCode, Shift);
   if CharCode = VK_DELETE then
@@ -817,7 +811,7 @@ procedure TCEStackTree.LoadFromStack(AStack: TCEStackItem);
 var
   i, i2: Integer;
   list: TTntStrings;
-  node, groupNode: PVirtualNode;
+  groupNode: PVirtualNode;
   APIDL: PItemIDList;
 begin
   for i:= 0 to AStack.GroupCount - 1 do
@@ -872,7 +866,6 @@ procedure TCEStackTree.SaveToStack(AStack: TCEStackItem);
   var
     chNode: PVirtualNode;
     chData: PCEStackItemData;
-    PIDL: PItemIDList;
   begin
     chNode:= Self.GetFirstChild(groupNode);
     while assigned(chNode) do

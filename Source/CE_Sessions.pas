@@ -335,6 +335,8 @@ begin
   end;
   
   try
+    if not assigned(XML.DocumentElement) then
+    XML.AppendChild(XML.CreateElement('CubicExplorer'));
     WriteXML(XML.DocumentElement, FileStream);
   finally
     FileStream.Free;
@@ -654,8 +656,8 @@ procedure TCESessionList.LoadSession(ASession: TCESessionItem);
       if tabClass <> nil then
       begin
         tab:= MainForm.TabSet.AddTab(tabClass).Page;
-        if tabClass = TCEFileViewPage then
-        tab.SelectPage; //TODO: This is a hack around a bug. TCustomEasyListview.Destroy will eventually cause crash without this for some unknown reason.
+        //if tabClass = TCEFileViewPage then
+        //tab.SelectPage; //TODO: This is a hack around a bug. TCustomEasyListview.Destroy will eventually cause crash without this for some unknown reason.
         AStorage.LoadObjectProperties(tab.Settings, chNode);
       end;
       chNode:= chNode.NextSibling;

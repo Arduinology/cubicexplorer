@@ -272,7 +272,7 @@ begin
       if fileView.ShellNewMenu.Items[I].Caption <> '-' then
       begin
         item:= TSpTBXItem.Create(nil);
-        item.Caption:= fileView.ShellNewMenu.Items[I].Caption;
+        item.Caption:= _(fileView.ShellNewMenu.Items[I].Caption);
         item.Tag:= i;
         item.ImageIndex := fileView.ShellNewMenu.Items[I].ImageIndex;
         item.OnClick := OnSubClick;

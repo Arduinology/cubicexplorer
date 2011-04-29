@@ -261,7 +261,7 @@ begin
   node:= ActionTree.GetFirst;
   node:= ActionTree.InsertNode(node, amInsertBefore);
   data:= ActionTree.GetNodeData(Node);
-  data.Name:= UTF8Encode(_('Separator'));
+  data.Name:= UTF8Encode(_('Separators'));
   data.IconIndex:= -1;
   data.IsCategory:= true;
   data.IsSeparator:= false;

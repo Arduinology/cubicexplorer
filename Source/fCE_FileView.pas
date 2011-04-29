@@ -972,74 +972,8 @@ end;
   Show Header Selector
 -------------------------------------------------------------------------------}
 procedure TCEFileViewPage.ShowHeaderSelector;
-
-  function IsDuplicate(VST: TVirtualStringTree; Text: WideString): Boolean;
-  var
-    ColData: PColumnData;
-    Node: PVirtualNode;
-  begin
-    Result := False;
-    Node := VST.GetFirst;
-    while not Result and Assigned(Node) do
-    begin
-      ColData := VST.GetNodeData(Node);
-      Result := WideStrComp(PWideChar(ColData^.Title), PWideChar( Text)) = 0;
-      Node := VST.GetNext(Node)
-    end
-  end;
-
-var
-  ColumnSettings: TFormColumnSettings;
-  ColumnNames: TVirtualStringTree;
-  ColData: PColumnData;
-  BackupHeader: TMemoryStream;
-  i, j: Integer;
 begin
-  ColumnSettings:= TFormColumnSettings.Create(nil);
-
-  BackupHeader:= TMemoryStream.Create;
-  ColumnNames:= ColumnSettings.VSTColumnNames;
-  ColumnNames.BeginUpdate;
-  try
-    for i := 0 to FileView.Header.Columns.Count - 1 do
-    begin
-      j := 0;
-      { Create the nodes ordered in columns items relative position }
-      while (j < FileView.Header.Columns.Count) and (FileView.Header.Columns[j].Position <> i) do
-        Inc(j);
-      if (FileView.Header.Columns[j].Caption <> '') and not IsDuplicate(ColumnNames, FileView.Header.Columns[j].Caption) then
-      begin
-        ColData := ColumnNames.GetNodeData(ColumnNames.AddChild(nil));
-        ColData.Title := FileView.Header.Columns[j].Caption;
-        ColData.Enabled :=  FileView.Header.Columns[j].Visible;
-        ColData.Width := FileView.Header.Columns[j].Width;
-        ColData.ColumnIndex := FileView.Header.Columns[j].Index;
-      end
-    end;
-    FileView.Header.SaveToStream(BackupHeader);
-    BackupHeader.Seek(0, soFromBeginning);
-  finally
-    ColumnNames.EndUpdate;
-  end;
-
-  ColumnSettings.OnVETUpdate:= TCEFileViewHack(FileView).ColumnSettingCallback;
-  ColumnSettings.PopupParent:= MainForm;
-  if ColumnSettings.ShowModal = mrOk then
-  begin
-    TCEFileViewHack(FileView).UpdateColumnsFromDialog(ColumnNames);
-  end
-  else
-  begin
-    FileView.BeginUpdate;
-    try
-      FileView.Header.LoadFromStream(BackupHeader);
-    finally
-      FileView.EndUpdate
-    end
-  end;
-
-  BackupHeader.Free;
-  ColumnSettings.Release
+  FileView.ShowHeaderSelector;
 end;
 
 {##############################################################################}

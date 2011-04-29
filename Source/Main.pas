@@ -1003,6 +1003,33 @@ begin
   // TabBar Left/Right arrow hints
   TCESpTabToolbar(TabSet.Toolbar).LeftArrow.Hint:= _('Show more tabs');
   TCESpTabToolbar(TabSet.Toolbar).RightArrow.Hint:= TCESpTabToolbar(TabSet.Toolbar).LeftArrow.Hint;
+
+  // VSTools strings
+  S_WARNING:= _('Warning');
+  S_OPEN:= _('Open');
+
+  STR_GROUPMODIFIEDHOUR:= _('Last hour');
+  STR_GROUPMODIFIEDTODAY:= _('Last twenty-four hours');
+  STR_GROUPMODIFIEDTHISWEEK:= _('This week');
+  STR_GROUPMODIFIEDTWOWEEKS:= _('Two weeks ago');
+  STR_GROUPMODIFIEDTHREEWEEKS:= _('Three weeks ago');
+  STR_GROUPMODIFIEDMONTH:= _('A month ago');
+  STR_GROUPMODIFIEDTWOMONTHS:= _('Two months ago');
+  STR_GROUPMODIFIEDTHREEMONTHS:= _('Three months ago');
+  STR_GROUPMODIFIEDFOURMONTHS:= _('Four months ago');
+  STR_GROUPMODIFIEDFIVEMONTHS:= _('Five months ago');
+  STR_GROUPMODIFIEDSIXMONTHS:= _('Six months ago');
+  STR_GROUPMODIFIEDEARLIERTHISYEAR:= _('Earlier this year');
+  STR_GROUPMODIFIEDLONGTIMEAGO:= _('A long time ago');
+
+  STR_GROUPSIZEZERO:= _('Zero');
+  STR_GROUPSIZETINY:= _('Tiny');
+  STR_GROUPSIZESMALL:= _('Small');
+  STR_GROUPSIZEMEDIUM:= _('Medium');
+  STR_GROUPSIZELARGE:= _('Large');
+  STR_GROUPSIZEGIGANTIC:= _('Gigantic');
+  STR_GROUPSIZESYSFOLDER:= _('System Folders');
+  STR_GROUPSIZEFOLDER:= _('Folders');
 end;
 
 {*------------------------------------------------------------------------------
@@ -1030,6 +1057,7 @@ begin
   CEGlobalTranslator.IncludeClasses.Add(TSpTBXCheckBox);
   CEGlobalTranslator.IncludeClasses.Add(TSpTBXGroupBox);
   CEGlobalTranslator.IncludeClasses.Add(TSpTBXRadioGroup);
+  CEGlobalTranslator.IncludeClasses.Add(TSpTBXRadioButton);
   CEGlobalTranslator.IncludeClasses.Add(TSpTBXLabel);
 
   CEGlobalTranslator.IgnoredProperties.Add('HelpKeyword');

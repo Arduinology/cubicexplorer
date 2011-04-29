@@ -531,8 +531,6 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFileView.DoItemClick(Item: TEasyItem; KeyStates: TCommonKeyStates;
     HitInfo: TEasyItemHitTestInfoSet);
-var
-  ns: TNamespace;
 begin
   inherited;
 end;

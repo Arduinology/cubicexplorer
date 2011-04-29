@@ -266,7 +266,7 @@ begin
   CreatedAfterTime.Time:= Now;
 
   combo_extension.Items.Delimiter:= ',';
-  combo_extension.Items.DelimitedText:= 'All,txt,pdf,ini,zip,rar,jpg,gif,bmp,png,avi,mp3,mov,mp4,mkv,wmv,flv,exe';
+  combo_extension.Items.DelimitedText:= _('All') + ',txt,pdf,ini,zip,rar,jpg,gif,bmp,png,avi,mp3,mov,mp4,mkv,wmv,flv,exe';
   combo_extension.ItemIndex:= 0;
 
   CriteriaTabControl.ActiveTabIndex:= 0;
@@ -274,6 +274,13 @@ begin
   CEFileSearchSettings.AssignSettingsTo(Self);
   UpdateTheme;
   CEGlobalTranslator.TranslateComponent(Self);
+
+  // translate size combos
+  combo_size_atleast.Items.Strings[0]:= _('Bytes');
+  combo_size_atleast.Items.Strings[0]:= _('KB');
+  combo_size_atleast.Items.Strings[0]:= _('MB');
+  combo_size_atleast.Items.Strings[0]:= _('GB');
+  combo_size_atmost.Items.Assign(combo_size_atleast.Items);
 
   fLastStatusChange:= 0;
 end;

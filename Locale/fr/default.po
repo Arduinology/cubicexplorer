@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1308\n"
+"CE-POT-Version: 1320\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
 
@@ -40,6 +40,9 @@ msgstr "Ajouter une catégorie"
 
 msgid "Add History Item"
 msgstr "Ajouter un élément à l'historique"
+
+msgid "Add Session"
+msgstr "Ajouter une session"
 
 msgid "Add Tab"
 msgstr "Ajouter un onglet"
@@ -180,7 +183,7 @@ msgid "Case sensitivity"
 msgstr "Respecter la casse"
 
 msgid "Change order by dragging"
-msgstr "Changez l'ordre en faisant glisser"
+msgstr "Changez l'ordre en faisant glisser les sessions"
 
 msgid "Clear Filters"
 msgstr "Effacer les filtres"
@@ -216,10 +219,13 @@ msgid "Close Tabs on Right"
 msgstr "Fermer les onglets de droite"
 
 msgid "Close tab on double click"
-msgstr " Fermer les onglets par un double-clic"
+msgstr " Fermer les onglets par double-clic"
 
 msgid "Close to tray"
 msgstr " Fermer dans la zone de notification"
+
+msgid "Column Settings"
+msgstr "Paramètres des colonnes"
 
 msgid "Compressed"
 msgstr "Compressé"
@@ -332,6 +338,9 @@ msgstr "Faire un don"
 msgid "Drag Handle"
 msgstr "Poignées de redimensionnement"
 
+msgid "Drag and Drop to reorder the columns. "
+msgstr "Glissez-déposez pour réorganiser les colonnes."
+
 msgid "Drag buttons to/from toolbars"
 msgstr " Faites glisser les boutons depuis/vers les barres d'outils"
 
@@ -371,6 +380,9 @@ msgstr "Options de l'éditeur..."
 msgid "Empty Recycle Bin"
 msgstr "Vider la corbeille"
 
+msgid "Empty folder"
+msgstr "Dossier vide"
+
 msgid "English (default)"
 msgstr "Anglais (par défaut)"
 
@@ -382,6 +394,9 @@ msgstr "Masques de fichier exclus :"
 
 msgid "Exit"
 msgstr "Quitter"
+
+msgid "Exit program when last tab is closed"
+msgstr " Quitter le programme lorsque le dernier onglet est fermé"
 
 msgid "File"
 msgstr "Fichier"
@@ -460,6 +475,9 @@ msgstr "Raccourcis globaux"
 
 msgid "Global Hotkey Settings"
 msgstr "Agissent même si CE est en arrière-plan ou minimisé dans la zone de notif."
+
+msgid "Group"
+msgstr "Groupe"
 
 msgid "Group By"
 msgstr "Regrouper par"
@@ -547,6 +565,9 @@ msgstr "Nom du lien"
 
 msgid "List"
 msgstr "Liste"
+
+msgid "Live Update"
+msgstr "Mise à jour en direct"
 
 msgid "Load Skin..."
 msgstr "Charger une apparence..."
@@ -830,6 +851,9 @@ msgstr "Recherche dans "
 msgid "Select All"
 msgstr "Sélectionner tout"
 
+msgid "Select Session"
+msgstr "Sélectionnez la session"
+
 msgid "Select default folder for new tabs."
 msgstr "Sélectionnez le dossier par défaut pour les nouveaux onglets."
 
@@ -853,6 +877,9 @@ msgstr "Séparateur"
 
 msgid "Session Name"
 msgstr "Nom de la session"
+
+msgid "Session at"
+msgstr "Session du "
 
 msgid "Sessions"
 msgstr "Sessions"
@@ -920,8 +947,11 @@ msgstr "Afficher/Cacher"
 msgid "Single Instance Only"
 msgstr " N'autoriser qu'une seule instance de CubicExplorer"
 
+msgid "Single click browsing"
+msgstr " Navigation par simple-clic (ouvrir les dossiers avec un seul clic souris)"
+
 msgid "Single click mode"
-msgstr " Mode simple-clic"
+msgstr " Mode simple-clic (ouvrir avec un seul clic souris)"
 
 msgid "Size"
 msgstr "Taille"
@@ -1082,6 +1112,9 @@ msgstr "Mot entier"
 msgid "Whole words only"
 msgstr "Mots entiers seulem."
 
+msgid "Width of the selected column"
+msgstr "Largeur de la colonne sélectionnée"
+
 msgid "Word List"
 msgstr "Liste des mots"
 
@@ -1096,4 +1129,10 @@ msgstr "est déjà attribué à "
 
 msgid "is already in use!"
 msgstr "est déjà utilisé !"
+
+msgid "item"
+msgstr "élément"
+
+msgid "items"
+msgstr "éléments"
 

@@ -159,6 +159,7 @@ type
     procedure OnScrollAnimTimer(Sender: TObject);
     procedure ResizeColumns(ChangingColumn: TEasyColumn = nil; NewSize: Integer =
         0);
+    procedure ShowHeaderSelector;
     property FullSizeColumn: Integer read fFullSizeColumn write SetFullSizeColumn;
     property ScrollSize: Integer read fScrollSize write fScrollSize;
     property ScrollStep: Integer read fScrollStep write fScrollStep;
@@ -1244,80 +1245,18 @@ begin
 end;
 
 procedure TCECustomFileView.CEColumnHeaderMenuItemClick(Sender: TObject);
-
-  function IsDuplicate(VST: TVirtualStringTree; Text: WideString): Boolean;
-  var
-    ColData: PColumnData;
-    Node: PVirtualNode;
-  begin
-    Result := False;
-    Node := VST.GetFirst;
-    while not Result and Assigned(Node) do
-    begin
-      ColData := VST.GetNodeData(Node);
-      Result := WideStrComp(PWideChar(ColData^.Title), PWideChar( Text)) = 0;
-      Node := VST.GetNext(Node)
-    end
-  end;
-
 var
   Item: TTBCustomItem;
-  ColumnSettings: TCEFormColumnSettings;
-  ColumnNames: TVirtualStringTree;
-  ColData: PColumnData;
-  BackupHeader: TMemoryStream;
-  i, j, Count: Integer;
+  Count: Integer;
 begin
   Item:= Sender as TTBCustomItem;
   Count:= TTBPopupMenu(ColumnHeaderMenu).Items.Count; // Items is not polymorphic
 
   if Item.Tag = Count - 1 then
   begin
-    ColumnSettings:= TCEFormColumnSettings.Create(nil);
-
-    BackupHeader := TMemoryStream.Create;
-    ColumnNames := ColumnSettings.VSTColumnNames;
-    ColumnNames.BeginUpdate;
-    try
-      for i := 0 to Header.Columns.Count - 1 do
-      begin
-        j := 0;
-        { Create the nodes ordered in columns items relative position }
-        while (j < Header.Columns.Count) and (Header.Columns[j].Position <> i) do
-          Inc(j);
-        if (Header.Columns[j].Caption <> '') and not IsDuplicate(ColumnNames, Header.Columns[j].Caption) then
-        begin
-          ColData := ColumnNames.GetNodeData(ColumnNames.AddChild(nil));
-          ColData.Title := Header.Columns[j].Caption;
-          ColData.Enabled :=  Header.Columns[j].Visible;
-          ColData.Width := Header.Columns[j].Width;
-          ColData.ColumnIndex := Header.Columns[j].Index;
-        end
-      end;
-      Header.SaveToStream(BackupHeader);
-      BackupHeader.Seek(0, soFromBeginning);
-    finally
-      ColumnNames.EndUpdate;
-    end;
-
-    ColumnSettings.OnVETUpdate:= CEColumnSettingCallback;
-    if ColumnSettings.ShowModal = mrOk then
-    begin
-      UpdateColumnsFromDialog(ColumnNames);
-      DoColumnStructureChange;
-    end else
-    begin
-      BeginUpdate;
-      try
-        Header.LoadFromStream(BackupHeader);
-      finally
-        EndUpdate
-      end
-    end;
-
-    BackupHeader.Free;
-    ColumnSettings.Release
-  end else
+    ShowHeaderSelector;
+  end
+  else
   begin
     Header.Columns[Item.Tag].Visible := not Item.Checked;
     DoColumnStructureChange;
@@ -1602,6 +1541,76 @@ begin
       ShellEvent.Handled:= true;
     end;
   end;
+end;
+
+procedure TCECustomFileView.ShowHeaderSelector;
+
+  function IsDuplicate(VST: TVirtualStringTree; Text: WideString): Boolean;
+  var
+    ColData: PColumnData;
+    Node: PVirtualNode;
+  begin
+    Result := False;
+    Node := VST.GetFirst;
+    while not Result and Assigned(Node) do
+    begin
+      ColData := VST.GetNodeData(Node);
+      Result := WideStrComp(PWideChar(ColData^.Title), PWideChar( Text)) = 0;
+      Node := VST.GetNext(Node)
+    end
+  end;
+
+var
+  ColumnSettings: TCEFormColumnSettings;
+  ColumnNames: TVirtualStringTree;
+  ColData: PColumnData;
+  BackupHeader: TMemoryStream;
+  i, j: Integer;
+begin
+  ColumnSettings:= TCEFormColumnSettings.Create(nil);
+
+  BackupHeader := TMemoryStream.Create;
+  ColumnNames := ColumnSettings.VSTColumnNames;
+  ColumnNames.BeginUpdate;
+  try
+    for i := 0 to Header.Columns.Count - 1 do
+    begin
+      j := 0;
+      { Create the nodes ordered in columns items relative position }
+      while (j < Header.Columns.Count) and (Header.Columns[j].Position <> i) do
+        Inc(j);
+      if (Header.Columns[j].Caption <> '') and not IsDuplicate(ColumnNames, Header.Columns[j].Caption) then
+      begin
+        ColData := ColumnNames.GetNodeData(ColumnNames.AddChild(nil));
+        ColData.Title := Header.Columns[j].Caption;
+        ColData.Enabled :=  Header.Columns[j].Visible;
+        ColData.Width := Header.Columns[j].Width;
+        ColData.ColumnIndex := Header.Columns[j].Index;
+      end
+    end;
+    Header.SaveToStream(BackupHeader);
+    BackupHeader.Seek(0, soFromBeginning);
+  finally
+    ColumnNames.EndUpdate;
+  end;
+
+  ColumnSettings.OnVETUpdate:= CEColumnSettingCallback;
+  if ColumnSettings.ShowModal = mrOk then
+  begin
+    UpdateColumnsFromDialog(ColumnNames);
+    DoColumnStructureChange;
+  end else
+  begin
+    BeginUpdate;
+    try
+      Header.LoadFromStream(BackupHeader);
+    finally
+      EndUpdate
+    end
+  end;
+
+  BackupHeader.Free;
+  ColumnSettings.Release;
 end;
 
 {##############################################################################}
