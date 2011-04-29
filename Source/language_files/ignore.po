@@ -790,3 +790,10 @@ msgstr ""
 #: CE_ColumnFormSpTBX.dfm:149
 msgid "MS Sans Serif"
 msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3646
+#: dCE_Images.dfm:6764
+msgid "PngImage43"
+msgstr ""

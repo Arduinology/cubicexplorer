@@ -811,6 +811,8 @@ end;
 procedure TCEFiltersMenuButton.DoPopup(Sender: TTBCustomItem; FromLink:
     Boolean);
 begin
+  if not CEFiltersPanel.Filters.Active then
+  CEFiltersPanel.Filters.Active:= true;
   CEFiltersPanel.Filters.PopulateMenuItem(Self);
 end;
 
