@@ -866,8 +866,8 @@ begin
   CanClose:= true;
   if PoEditor.IsChanged then
   begin
-    ws:= _('Save changes before closing?');
-    ws2:= _('Save changes?');
+    ws2:= _('Save changes before closing?');
+    ws:= _('Save changes?');
     res:= WideMessageBox(Self.Handle, ws, ws2, MB_ICONQUESTION or MB_YESNOCANCEL);
     if res = idYes then
     PoEditor.act_save.Execute

@@ -347,7 +347,7 @@ var
 implementation
 
 uses
-  madExcept, CE_QuickView, Clipbrd, CE_PaneHost;
+  madExcept, CE_QuickView, Clipbrd, CE_PaneHost, CE_Stacks;
 
 {$R *.dfm}
 
@@ -416,6 +416,8 @@ begin
   Settings:= TMainFormSettings.Create;
   Settings.Form:= Self;
   GlobalAppSettings.AddItem('MainForm', Settings, true, true);
+
+  GlobalStacks.StackDirPath:= ExePath + 'Stacks\';
 end;
 
 {-------------------------------------------------------------------------------
@@ -685,6 +687,9 @@ begin
   Layouts.LoadFromFile(ExePath + 'layout.xml');
   Layouts.LoadSettingsForToolbars;
 
+  // Load Stacks
+  GlobalStacks.LoadFromDir(GlobalStacks.StackDirPath);
+
   TabsOpened:= false;
   if WideParamCount > 0 then
   begin
@@ -750,6 +755,8 @@ end;
 -------------------------------------------------------------------------------}
 procedure TMainForm.Shutdown;
 begin
+  GlobalStacks.SaveToDir(GlobalStacks.StackDirPath);
+
   GlobalSessions.SaveToFile(exePath + 'sessions.xml');
 
   Settings.UpdatePositionInfo;

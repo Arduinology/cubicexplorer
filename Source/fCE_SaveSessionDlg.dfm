@@ -12,7 +12,7 @@ object CESaveSessionDlg: TCESaveSessionDlg
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
-  Position = poScreenCenter
+  Position = poMainFormCenter
   OnCreate = FormCreate
   DesignSize = (
     249
@@ -32,7 +32,7 @@ object CESaveSessionDlg: TCESaveSessionDlg
     Width = 233
     Height = 21
     Anchors = [akLeft, akTop, akRight]
-    ItemHeight = 0
+    ItemHeight = 13
     TabOrder = 0
     OnChange = SessionComboChange
   end

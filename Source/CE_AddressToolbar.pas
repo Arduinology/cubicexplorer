@@ -157,7 +157,7 @@ type
 implementation
 
 uses
-  dCE_Images;
+  dCE_Images, CE_LanguageEngine;
 
 {##############################################################################}
 
@@ -514,7 +514,7 @@ begin
       if errCode <> ERROR_CANCELLED then
       begin
         error:= WideSysErrorMessage(GetLastError);
-        WideMessageBox(Application.MainFormHandle, 'Connection error!', error, MB_ICONERROR or MB_OK);
+        WideMessageBox(Application.MainFormHandle, _('Connection error!'), error, MB_ICONERROR or MB_OK);
       end;
       exit;
     end;

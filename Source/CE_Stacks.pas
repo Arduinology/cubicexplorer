@@ -27,8 +27,10 @@ type
     function AddGroup(AGroupName: WideString): Integer;
     procedure ClearGroups;
     procedure DeleteGroup(AIndex: Integer);
-    procedure LoadFromFile(AFilePath: WideString); virtual;
-    procedure SaveToFile(AFilePath: WideString); virtual;
+    procedure LoadFromFile(AFilePath: WideString);
+    procedure LoadFromList(AStrings: TTntStrings);
+    procedure SaveToFile(AFilePath: WideString);
+    procedure SaveToList(AStrings: TTntStrings);
     property GroupCount: Integer read GetGroupCount;
     property GroupItems[Index: Integer]: TTntStrings read GetGroupItems;
     property GroupName[Index: Integer]: WideString read GetGroupName write
@@ -49,6 +51,7 @@ type
     destructor Destroy; override;
     function AddStack(AName: WideString): TCEStackItem;
     procedure LoadFromDir(ADirPath: WideString);
+    procedure SaveToDir(ADirPath: WideString);
     property Count: Integer read GetCount;
     property Items[Index: Integer]: TCEStackItem read GetItems;
     property StackDirPath: WideString read fStackDirPath write fStackDirPath;
@@ -138,39 +141,48 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEStackItem.LoadFromFile(AFilePath: WideString);
 var
-  list, items: TTntStrings;
-  i, c: Integer;
-  ws: WideString;
+  list: TTntStrings;
 begin
-  items:= nil;
   list:= TTntStringList.Create;
   try
-    ClearGroups;
     list.LoadFromFile(AFilePath);
-    for i:= 0 to list.Count - 1 do
+    LoadFromList(list);
+  finally
+    list.Free;
+  end;
+end;                            
+
+{-------------------------------------------------------------------------------
+  Load From List
+-------------------------------------------------------------------------------}
+procedure TCEStackItem.LoadFromList(AStrings: TTntStrings);
+var
+  i, c: Integer;
+  ws: WideString;
+  items: TTntStrings;
+begin
+  ClearGroups;
+  for i:= 0 to AStrings.Count - 1 do
+  begin
+    ws:= Trim(AStrings.Strings[i]);
+    c:= Length(ws);
+    if c > 0 then
     begin
-      ws:= Trim(list.Strings[i]);
-      c:= Length(ws);
-      if c > 0 then
+      if c > 2 then
       begin
-        if c > 2 then
+        // group
+        if (ws[1] = '[') and (ws[c] = ']') then
         begin
-          // group
-          if (ws[1] = '[') and (ws[c] = ']') then
-          begin
-            items:= GroupItems[AddGroup(Copy(ws, 2, c-2))];
-          end
-          // file item
-          else if assigned(items) then
-          items.Add(ws);
+          items:= GroupItems[AddGroup(Copy(ws, 2, c-2))];
         end
         // file item
         else if assigned(items) then
         items.Add(ws);
-      end;
+      end
+      // file item
+      else if assigned(items) then
+      items.Add(ws);
     end;
-  finally
-    list.Free;
   end;
 end;
 
@@ -178,8 +190,39 @@ end;
   Save To File
 -------------------------------------------------------------------------------}
 procedure TCEStackItem.SaveToFile(AFilePath: WideString);
+var
+  list: TTntStrings;
 begin
+  list:= TTntStringList.Create;
+  try
+    SaveToList(list);
+    list.SaveToFile(AFilePath);
+  finally
+    list.Free;
+  end;
+end;
 
+{-------------------------------------------------------------------------------
+  Save To List
+-------------------------------------------------------------------------------}
+procedure TCEStackItem.SaveToList(AStrings: TTntStrings);
+var
+  i, i2: Integer;
+  list: TTntStrings;
+begin
+  if not assigned(AStrings) then
+  Exit;
+
+  AStrings.Clear;
+  for i:= 0 to GroupCount - 1 do
+  begin
+    list:= GroupItems[i];
+    AStrings.Add('[' + GroupName[i] + ']');
+    for i2:= 0 to list.Count - 1 do
+    begin
+      AStrings.Add(list.Strings[i2]);
+    end;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -249,9 +292,42 @@ begin
   begin
     repeat
       item:= AddStack(WideExtractFileName(sr.Name, true));
-      item.LoadFromFile(ADirPath + sr.Name);
+      try
+        item.LoadFromFile(ADirPath + sr.Name);
+      except
+        // catch exceptions
+      end;
     until WideFindNext(sr) <> 0;
     WideFindClose(sr);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Save To Dir
+-------------------------------------------------------------------------------}
+procedure TCEStacks.SaveToDir(ADirPath: WideString);
+var
+  item: TCEStackItem;
+  i: Integer;
+begin
+  if ADirPath = '' then
+  Exit;
+  
+  ADirPath:= WideIncludeTrailingPathDelimiter(ADirPath);
+
+  // Create stack dir if it doesn't exist
+  if not WideDirectoryExists(ADirPath) then
+  WideCreateDir(ADirPath);
+
+  for i:= 0 to Count - 1 do
+  begin
+    item:= Items[i];
+    try
+      item.SaveToFile(ADirPath + item.StackName + '.stk');
+    //except
+    finally
+      // catch exceptions
+    end;
   end;
 end;
 

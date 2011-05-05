@@ -96,7 +96,7 @@ var
 implementation
 
 uses
-  Main, CE_TBActions;
+  Main, CE_TBActions, MPCommonUtilities;
 
 {$R *.dfm}
 
@@ -506,16 +506,16 @@ end;
 -------------------------------------------------------------------------------}
 procedure TTCEOptionsPage_Hotkeys.but_resetClick(Sender: TObject);
 var
-  s, s2: String;
+  ws, ws2: WideString;
 begin
   if assigned(selectedAction) then
   begin
-    s:= _('Do you want to reset all hotkeys for this action?')
+    ws2:= _('Do you want to reset all hotkeys for this action?')
         +#13+#10+''+#13+#10+
         _('Default hotkeys become available after restart!');
 
-    s2:= _('Reset hotkeys?');
-    if MessageBox(Self.Handle, PChar(s), PChar(s2), MB_ICONQUESTION or MB_YESNO) = ID_YES then
+    ws:= _('Reset hotkeys?');
+    if WideMessageBox(Self.Handle, ws, ws2, MB_ICONQUESTION or MB_YESNO) = ID_YES then
     begin
       CEActions.HotkeySettings.ModifiedActions.Remove(selectedAction);
       selectedAction.ShortCut:= 0;
@@ -548,7 +548,7 @@ function TTCEOptionsPage_Hotkeys.CheckDuplicateHotkey(AShortcut: TShortcut;
 var
   i: Integer;
   act: TTntAction;
-  s,s2: String;
+  ws,ws2: String;
 begin
   Result:= true;
   for i:= 0 to CEActions.ActionList.ActionCount - 1 do
@@ -558,10 +558,10 @@ begin
     begin
       if AShowWarning then
       begin
-        s:= ShortCutToText(AShortcut) + ' ' + _('is already assigned to') + ': "' + act.Caption + '"' +
+        ws2:= ShortCutToText(AShortcut) + ' ' + _('is already assigned to') + ': "' + act.Caption + '"' +
                            #13+#10+_('Do you want to use it anyway?');
-        s2:= _('Duplicate Hotkey');
-        if MessageBox(Self.Handle, PChar(s), PChar(s2), MB_ICONWARNING or MB_YESNO) = idNo then
+        ws:= _('Duplicate Hotkey');
+        if WideMessageBox(Self.Handle, ws, ws2, MB_ICONWARNING or MB_YESNO) = idNo then
         Result:= false;
       end
       else

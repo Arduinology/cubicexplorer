@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-04-29 14:34\n"
-"PO-Revision-Date: 2011-04-29 14:34\n"
+"POT-Creation-Date: 2011-04-29 15:03\n"
+"PO-Revision-Date: 2011-04-29 15:03\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -202,11 +202,12 @@ msgstr ""
 
 #. CEActions..ActionList..act_view_filters..Caption
 #. CEActions..ActionList..act_view_filtersmenu..Category
+#. CEActions..ActionList..act_view_filtersmenu..Caption
 #. CEFiltersPanel..Caption
 #. CESearchPage..SearchPanel..CriteriaTabControl..SpTBXTabItem8..Caption
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_filters..Caption
-#: dCE_Actions.dfm:121  dCE_Actions.dfm:624 fCE_FiltersPanel.dfm:2
-#: fCE_SearchPage.dfm:136 fCE_SearchPage.dfm:437
+#: dCE_Actions.dfm:121  dCE_Actions.dfm:624 dCE_Actions.dfm:625
+#: fCE_FiltersPanel.dfm:2 fCE_SearchPage.dfm:136 fCE_SearchPage.dfm:437
 msgid "Filters"
 msgstr ""
 
@@ -671,11 +672,6 @@ msgstr ""
 #. CEActions..ActionList..act_focus_addressbar..Caption
 #: dCE_Actions.dfm:616 
 msgid "Set focus to address bar"
-msgstr ""
-
-#. CEActions..ActionList..act_view_filtersmenu..Caption
-#: dCE_Actions.dfm:625 
-msgid "Filter Menu"
 msgstr ""
 
 #. CEAboutBox..Caption

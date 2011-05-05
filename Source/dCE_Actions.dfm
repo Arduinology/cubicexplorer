@@ -622,7 +622,7 @@ object CEActions: TCEActions
     object act_view_filtersmenu: TCEToolbarAction
       Tag = 375
       Category = 'Filters'
-      Caption = 'Filter Menu'
+      Caption = 'Filters'
       ImageIndex = 29
       OnExecute = ActionExecute
       CanExecute = False

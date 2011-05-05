@@ -107,7 +107,7 @@ var
 implementation
 
 uses
-  fCE_OptionsPage_Advanced;
+  fCE_OptionsPage_Advanced, MPCommonUtilities;
 
 {$R *.dfm}
 
@@ -367,7 +367,7 @@ end;
 procedure TCEOptionsDialog.SetActivePage(const Value: TCEOptionsCustomPage);
 var
   i, hr: Integer;
-  s,s2: String;
+  ws,ws2: WideString;
 begin
   if Value <> fActivePage then
   begin
@@ -380,11 +380,11 @@ begin
     begin
       if Modified then
       begin
-        s:= _('Apply changes now?')+#13#10+
+        ws2:= _('Apply changes now?')+#13#10+
             #13+#10+
             _('If not, all changes will be lost.');
-        s2:= _('Apply Changes');
-        hr:= MessageBox(Self.Handle, PChar(s), PChar(s2) , MB_ICONQUESTION or MB_YESNOCANCEL);
+        ws:= _('Apply Changes');
+        hr:= WideMessageBox(Self.Handle, ws, ws2 , MB_ICONQUESTION or MB_YESNOCANCEL);
         if hr = IDCANCEL then
         begin
           SelectActivePageFromTree;

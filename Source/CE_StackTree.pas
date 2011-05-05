@@ -26,11 +26,15 @@ type
     Caption: WideString;
     Namespace: TNamespace;
     ItemType: TCEStackItemType;
+    CEPath: WideString;
+    Offline: Boolean;
   end;
 
   TCEStackTree = class(TVirtualStringTree)
   private
     fActiveDataObject: IDataObject;
+    fActiveStack: TCEStackItem;
+    fAutoSaveActiveStack: Boolean;
     fBackgroundPopupMenu: TPopupMenu;
     fGroupImageIndex: Integer;
     fGroupOpenImageIndex: Integer;
@@ -40,6 +44,7 @@ type
     function GetStacks: TCEStacks;
   protected
     function CanShowDragImage: Boolean; override;
+    procedure DoAutoSaveActiveStack; virtual;
     function DoCancelEdit: Boolean; override;
     procedure DoCanEdit(Node: PVirtualNode; Column: TColumnIndex; var Allowed:
         Boolean); override;
@@ -74,15 +79,20 @@ type
     procedure UpdateScrollbarSize;
   public
     constructor Create(AOwner: TComponent); override;
+    procedure CheckAvailability(APIDL: PItemIDList = nil);
     function InsertGroupNode(ToNode: PVirtualNode; Mode: TVTNodeAttachMode;
         ACaption: WideString = ''): PVirtualNode; virtual;
     function InsertShellNode(ToNode: PVirtualNode; Mode: TVTNodeAttachMode; APIDL:
         PItemIDList): PVirtualNode; virtual;
     procedure LoadFromStack(AStack: TCEStackItem); virtual;
-    procedure RemoveEmptyGroups;
+    function RemoveEmptyGroups: Boolean;
+    function SaveActiveStack: Boolean;
     procedure SaveToStack(AStack: TCEStackItem); virtual;
     function SelectedToNamespaceArray: TNamespaceArray;
+    property ActiveStack: TCEStackItem read fActiveStack write fActiveStack;
   published
+    property AutoSaveActiveStack: Boolean read fAutoSaveActiveStack write
+        fAutoSaveActiveStack;
     property BackgroundPopupMenu: TPopupMenu read fBackgroundPopupMenu write
         fBackgroundPopupMenu;
     property GroupImageIndex: Integer read fGroupImageIndex write fGroupImageIndex;
@@ -130,11 +140,13 @@ begin
     ns.FreePIDLOnDestroy:= false;
     try
       pidl:= PathToPIDL(ns.NameForParsing);
+      // Normal Path
       if assigned(pidl) then
       begin
         Result:= ns.NameForParsing;
         PIDLMgr.FreeAndNilPIDL(pidl);
       end
+      // PIDL
       else
       begin
         Result:= 'pidl://' + SavePIDLToMime(APIDL);
@@ -225,6 +237,84 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Check Availability of Shell items (if APIDL is assigned, then only it will be checked, else all items are checked)
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.CheckAvailability(APIDL: PItemIDList = nil);
+var
+  node, chNode: PVirtualNode;
+  data, chData: PCEStackItemData;
+  check: Boolean;
+  ws: WideString;
+  pidl: PItemIDList;
+begin
+  node:= Self.GetFirst;
+  while assigned(node) do
+  begin
+    data:= Self.GetNodeData(node);
+    if data.ItemType = sitGroup then
+    begin
+      chNode:= Self.GetFirstChild(node);
+      while assigned(chNode) do
+      begin
+        chData:= Self.GetNodeData(chNode);
+        if (chData.ItemType = sitShell) then
+        begin
+          if assigned(chData.Namespace) then
+          begin
+            if assigned(APIDL) then
+            check:= PIDLMgr.EqualPIDL(chData.Namespace.AbsolutePIDL, APIDL)
+            else
+            check:= true;
+
+            if check then
+            begin
+              pidl:= CEPathToPIDL(chData.CEPath);
+              if assigned(pidl) then
+              begin
+                chData.Offline:= false;
+                PIDLMgr.FreeAndNilPIDL(pidl);
+              end
+              else
+              begin
+                chData.Offline:= true;
+                chData.Namespace.Free;
+                chData.Namespace:= nil;
+              end;
+            end;
+          end
+          else
+          begin
+            pidl:= CEPathToPIDL(chData.CEPath);
+            if assigned(pidl) then
+            begin
+              chData.Namespace:= TNamespace.Create(PIDLMgr.CopyPIDL(pidl),nil);
+              chData.Caption:= chData.Namespace.NameNormal;
+              chData.Offline:= false;
+              PIDLMgr.FreeAndNilPIDL(pidl);
+            end
+            else
+            begin
+              chData.Offline:= true;
+            end;
+          end;
+        end;
+        chNode:= Self.GetNextSibling(chNode);
+      end;
+    end;
+    node:= Self.GetNextSibling(node);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Do Auto Save Active Stack
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.DoAutoSaveActiveStack;
+begin
+  if AutoSaveActiveStack and (UpdateCount = 0) then
+  SaveActiveStack;
+end;
+
+{-------------------------------------------------------------------------------
   Do CancelEdit
 -------------------------------------------------------------------------------}
 function TCEStackTree.DoCancelEdit: Boolean;
@@ -302,7 +392,6 @@ var
   Nodes: TNodeArray;
 begin
   inherited;
- 
   BeginUpdate;
   try
     groupNode:= nil;
@@ -412,6 +501,7 @@ begin
     Self.Expanded[groupNode]:= true;
   finally
     EndUpdate;
+    DoAutoSaveActiveStack;
   end;
 end;
 
@@ -478,13 +568,13 @@ begin
 
   if assigned(fActiveDataObject) then
   begin
-    Effect := TCommonLogicalPerformedDropEffect.Create;
+    Effect:= TCommonLogicalPerformedDropEffect.Create;
     try
       if fActiveDataObject.QueryGetData(Effect.GetFormatEtc) = S_OK then
       begin
         Effect.LoadFromDataObject(fActiveDataObject);
         if (Effect.Action = effectMove) then
-        Self.DeleteSelectedNodes;
+        Self.DeleteSelectedNodes; // TODO: All items might not have been moved!!!
       end;
     finally
       Effect.Free;
@@ -541,7 +631,7 @@ begin
   data:= Self.GetNodeData(Node);
   if data.ItemType = sitShell then
   begin
-    if assigned(data.Namespace) then
+    if not data.Offline then
     begin
       Result:= SmallSysImages;
       if Kind = ikOverlay then
@@ -627,7 +717,7 @@ begin
       end
       else
       begin
-        Text:= data.Caption
+        Text:= data.Caption;
       end;
     end
     else
@@ -649,6 +739,7 @@ begin
   if CharCode = VK_DELETE then
   begin
     self.DeleteSelectedNodes;
+    DoAutoSaveActiveStack;
   end;
 end;
 
@@ -667,6 +758,7 @@ begin
     if data.ItemType = sitGroup then
     data.Caption:= Text;
   end;
+  DoAutoSaveActiveStack;
 end;
 
 {-------------------------------------------------------------------------------
@@ -674,9 +766,12 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEStackTree.DoPaintText(Node: PVirtualNode; const Canvas: TCanvas;
     Column: TColumnIndex; TextType: TVSTTextType);
+var
+  data: PCEStackItemData;
 begin
   inherited;
-  if TextType = ttStatic then
+  data:= Self.GetNodeData(Node);
+  if (TextType = ttStatic) or data.Offline then
   Canvas.Font.Color:= clGrayText
   else
   Canvas.Font.Color:= clWindowText;
@@ -781,6 +876,7 @@ begin
     data.Caption:= ACaption;
   finally
     EndUpdate;
+    DoAutoSaveActiveStack;
   end;
 end;
 
@@ -799,8 +895,11 @@ begin
     data.ItemType:= sitShell;
     data.Namespace:= TNamespace.Create(PIDLMgr.CopyPIDL(APIDL), nil);
     data.Caption:= data.Namespace.NameNormal;
+    data.Offline:= false;
+    data.CEPath:= PIDLToCEPath(APIDL);
   finally
     EndUpdate;
+    DoAutoSaveActiveStack;
   end;
 end;
 
@@ -810,51 +909,101 @@ end;
 procedure TCEStackTree.LoadFromStack(AStack: TCEStackItem);
 var
   i, i2: Integer;
-  list: TTntStrings;
-  groupNode: PVirtualNode;
+  list, l: TTntStrings;
+  groupNode, node: PVirtualNode;
   APIDL: PItemIDList;
+  data: PCEStackItemData;
 begin
-  for i:= 0 to AStack.GroupCount - 1 do
-  begin
-    groupNode:= InsertGroupNode(nil, amAddChildLast, AStack.GroupName[i]);
-    list:= AStack.GroupItems[i];
-    for i2:= 0 to list.Count - 1 do
+  fActiveStack:= AStack;
+  if not assigned(AStack) then
+  Exit;
+
+  l:= TTntStringList.Create;
+  BeginUpdate;
+  Self.Clear;
+  try
+    for i:= 0 to AStack.GroupCount - 1 do
     begin
-      if list.Strings[i2] <> '' then
+      groupNode:= InsertGroupNode(nil, amAddChildLast, AStack.GroupName[i]);
+      list:= AStack.GroupItems[i];
+      for i2:= 0 to list.Count - 1 do
       begin
-        APIDL:= CEPathToPIDL(list.Strings[i2]);
-        if assigned(APIDL) then
+        if list.Strings[i2] <> '' then
         begin
-          InsertShellNode(groupNode, amAddChildLast, APIDL);
-          PIDLMgr.FreePIDL(APIDL);
+          l.CommaText:= list.Strings[i2];
+          if l.Count > 0 then
+          begin
+            APIDL:= CEPathToPIDL(l.Strings[0]);
+            if assigned(APIDL) then
+            begin
+              node:= InsertShellNode(groupNode, amAddChildLast, APIDL);
+              PIDLMgr.FreePIDL(APIDL);
+            end
+            else
+            begin
+              node:= InsertNode(groupNode, amAddChildLast);
+              data:= GetNodeData(node);
+              data.ItemType:= sitShell;
+              data.Namespace:= nil;
+              data.Offline:= true;
+              data.CEPath:= l.Strings[0];
+              if l.Count > 1 then
+              data.Caption:= l.Strings[1]
+              else
+              data.Caption:= WideExtractFileName(data.CEPath, false);
+            end;
+          end;
         end;
       end;
     end;
+  finally
+    EndUpdate;
+    l.Free;
   end;
 end;
 
 {-------------------------------------------------------------------------------
-  Remove Empty Groups
+  Remove Empty Groups (Result is TRUE if node(s) have been deleted)
 -------------------------------------------------------------------------------}
-procedure TCEStackTree.RemoveEmptyGroups;
+function TCEStackTree.RemoveEmptyGroups: Boolean;
 var
   node, tmpNode: PVirtualNode;
   data: PCEStackItemData;
 begin
-  node:= Self.GetFirst;
-  while assigned(node) do
-  begin
-    data:= Self.GetNodeData(node);
-    if data.ItemType = sitGroup then
+  Result:= false;
+  BeginUpdate;
+  try
+    node:= Self.GetFirst;
+    while assigned(node) do
     begin
-      tmpNode:= node;
+      data:= Self.GetNodeData(node);
+      if data.ItemType = sitGroup then
+      begin
+        tmpNode:= node;
+        node:= GetNext(node);
+        if not Self.HasChildren[tmpNode] then
+        begin
+          Self.DeleteNode(tmpNode);
+          Result:= true;
+        end;
+      end
+      else
       node:= GetNext(node);
-      if not Self.HasChildren[tmpNode] then
-      Self.DeleteNode(tmpNode);
-    end
-    else
-    node:= GetNext(node);
+    end;
+  finally
+    EndUpdate;
+    DoAutoSaveActiveStack;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Save Active Stack
+-------------------------------------------------------------------------------}
+function TCEStackTree.SaveActiveStack: Boolean;
+begin
+  Result:= assigned(ActiveStack);
+  if Result then
+  SaveToStack(ActiveStack);
 end;
 
 {-------------------------------------------------------------------------------
@@ -866,16 +1015,25 @@ procedure TCEStackTree.SaveToStack(AStack: TCEStackItem);
   var
     chNode: PVirtualNode;
     chData: PCEStackItemData;
+    l: TTntStrings;
   begin
+    l:= TTntStringList.Create;
+    try
     chNode:= Self.GetFirstChild(groupNode);
-    while assigned(chNode) do
-    begin
-      chData:= Self.GetNodeData(chNode);
-      if assigned(chData.Namespace) then
+      while assigned(chNode) do
       begin
-
+        chData:= Self.GetNodeData(chNode);
+        if assigned(chData.Namespace) then
+        begin
+          l.Clear;
+          l.Add(PIDLToCEPath(chData.Namespace.AbsolutePIDL));
+          l.Add(chData.Caption);
+          groupItems.Add(l.CommaText);
+        end;
+        chNode:= Self.GetNextSibling(chNode);
       end;
-      chNode:= Self.GetNextSibling(chNode);
+    finally
+      l.Free;
     end;
   end;
 

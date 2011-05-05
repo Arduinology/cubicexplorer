@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-04-29 14:34\n"
-"PO-Revision-Date: 2011-04-29 14:34\n"
+"POT-Creation-Date: 2011-04-29 15:03\n"
+"PO-Revision-Date: 2011-04-29 15:03\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -267,6 +267,8 @@ msgstr ""
 #: dCE_Actions.dfm:121
 #. CEActions..ActionList..act_view_filtersmenu..Category
 #: dCE_Actions.dfm:624
+#. CEActions..ActionList..act_view_filtersmenu..Caption
+#: dCE_Actions.dfm:625
 #. CEFiltersPanel..Caption
 #: fCE_FiltersPanel.dfm:2
 #. CESearchPage..SearchPanel..CriteriaTabControl..SpTBXTabItem8..Caption
@@ -827,11 +829,6 @@ msgstr ""
 #. CEActions..ActionList..act_focus_addressbar....SecondaryShortCuts.Strings
 #: dCE_Actions.dfm:619
 msgid "F4"
-msgstr ""
-
-#. CEActions..ActionList..act_view_filtersmenu..Caption
-#: dCE_Actions.dfm:625
-msgid "Filter Menu"
 msgstr ""
 
 #. CEActions..BackgroundCMItems_up..N1..Caption

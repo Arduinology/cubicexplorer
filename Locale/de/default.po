@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1320\n"
+"CE-POT-Version: 1327\n"
 "CE-Language: German\n"
 "Last-Translator: nefycee <(contact only via CE-support-forum)>\n"
 
@@ -13,6 +13,12 @@ msgstr "%d Ordner durchsucht und %d Element(e) gefunden in %.3f second(s)"
 
 msgid "..."
 msgstr "..."
+
+msgid "A long time ago"
+msgstr "Vor langer Zeit"
+
+msgid "A month ago"
+msgstr "Vor einem Monat"
 
 msgid "About CubicExplorer"
 msgstr "Über CubicExplorer"
@@ -79,6 +85,12 @@ msgstr "Anw.-Revisionsnr:"
 
 msgid "Apply"
 msgstr "Übernehmen"
+
+msgid "Apply Changes"
+msgstr "Änderungen übernehmen"
+
+msgid "Apply changes now?"
+msgstr "Änderungen zustimmen?"
 
 msgid "Apply changes."
 msgstr "Änderungen übernehmen"
@@ -192,7 +204,7 @@ msgid "Clear List"
 msgstr "Liste leeren"
 
 msgid "Clear Results"
-msgstr "Resultate bereinigen"
+msgstr "Liste bereinigen"
 
 msgid "Clear filter history"
 msgstr "Filterverlauf bereinigen "
@@ -226,6 +238,9 @@ msgstr "Spalten Einstellungen"
 
 msgid "Compressed"
 msgstr "Komprimiert"
+
+msgid "Contact File"
+msgstr "Kontakt Datei "
 
 msgid "Content"
 msgstr "Inhalt"
@@ -362,6 +377,9 @@ msgstr "Hotkey dublizieren"
 msgid "Duplicate Tab"
 msgstr "Tab duplizieren"
 
+msgid "Earlier this year"
+msgstr "Früher dieses Jahr"
+
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -428,6 +446,9 @@ msgstr "Bereits vorhandene"
 msgid "Finished"
 msgstr "Abgeschlossen"
 
+msgid "Five months ago"
+msgstr "Vor 5 Monaten"
+
 msgid "Focus"
 msgstr "Fokus"
 
@@ -455,6 +476,9 @@ msgstr "Format"
 msgid "Forward"
 msgstr "Vorwärts"
 
+msgid "Four months ago"
+msgstr "Vor 4 Monaten"
+
 msgid "Fullscreen"
 msgstr "Vollbild"
 
@@ -466,6 +490,9 @@ msgstr "Allgemein"
 
 msgid "General Settings"
 msgstr "Allgemeine Einstellungen"
+
+msgid "Gigantic"
+msgstr "Riesig"
 
 msgid "Global"
 msgstr "Global"
@@ -512,6 +539,9 @@ msgstr "Icon über dem Text"
 msgid "Icon only"
 msgstr "Nur Icon"
 
+msgid "If not, all changes will be lost."
+msgstr "Andernfalls werden die Veränderungen verworfen."
+
 msgid "Image"
 msgstr "Bild"
 
@@ -542,8 +572,17 @@ msgstr "Sprache"
 msgid "Language Editor"
 msgstr "Spracheditor"
 
+msgid "Large"
+msgstr "Groß"
+
 msgid "Large Icons"
 msgstr "Große Symbole"
+
+msgid "Last hour"
+msgstr "In der letzten Stunde"
+
+msgid "Last twenty-four hours"
+msgstr "Die letzten 24 Stunden"
 
 msgid "Launch Files Only"
 msgstr "Nur Dateien ausführen"
@@ -608,6 +647,9 @@ msgstr "Netzlaufwerk verbinden"
 msgid "Max Level:"
 msgstr "Max. Ebene:"
 
+msgid "Medium"
+msgstr "Medium"
+
 msgid "Menu"
 msgstr "Menü"
 
@@ -650,6 +692,9 @@ msgstr "Neuer Ordner"
 msgid "New Session"
 msgstr "Neue Session"
 
+msgid "New Shortcut"
+msgstr "Neue Verknüpfung"
+
 msgid "No Extension"
 msgstr "Keine Dateierweiterung"
 
@@ -670,6 +715,9 @@ msgstr "OK"
 
 msgid "On Startup"
 msgstr "Bei Programmstart"
+
+msgid "Open"
+msgstr "Öffnen"
 
 msgid "Open All in Tabs"
 msgstr "Alle in Tabs öffnen"
@@ -785,6 +833,9 @@ msgstr "Bereits geöffnete Tabs wiederverwenden"
 msgid "Right"
 msgstr "Rechts"
 
+msgid "Safe Operations Only"
+msgstr "Nur sichere Operationen"
+
 msgid "Save"
 msgstr "Speichern"
 
@@ -870,7 +921,10 @@ msgid "Selected text only"
 msgstr "Nur selektierten Text"
 
 msgid "Separator"
-msgstr "Trennzeichen"
+msgstr "Zwischenraum"
+
+msgid "Separators"
+msgstr "Zwischenräume"
 
 msgid "Session Name"
 msgstr "Sitzungsname"
@@ -879,7 +933,7 @@ msgid "Session at"
 msgstr "Sitzung bei"
 
 msgid "Sessions"
-msgstr "Sitzung"
+msgstr "Sitzungen"
 
 msgid "Set focus to address bar"
 msgstr "Fokus auf Adressleiste"
@@ -950,11 +1004,17 @@ msgstr "Mit einzelnen Klick öffnen"
 msgid "Single click mode"
 msgstr "Mit einzelnen Klick öffnen"
 
+msgid "Six months ago"
+msgstr "Vor 6 Monaten"
+
 msgid "Size"
 msgstr "Größe"
 
 msgid "Size && Attributes"
 msgstr "Größe && Attribute"
+
+msgid "Small"
+msgstr "Klein"
 
 msgid "Small Icons"
 msgstr "Kleine Symbole"
@@ -1001,6 +1061,9 @@ msgstr "Zum vorherigen Tab"
 msgid "System"
 msgstr "System"
 
+msgid "System Folders"
+msgstr "Systemordner"
+
 msgid "Tabs"
 msgstr "Tabs"
 
@@ -1016,6 +1079,9 @@ msgstr "Zielordner"
 msgid "Text"
 msgstr "Text"
 
+msgid "Text Document"
+msgstr "Text Dokument"
+
 msgid "Text Editor"
 msgstr "Texteditor"
 
@@ -1024,6 +1090,15 @@ msgstr "Nur Text"
 
 msgid "Theme"
 msgstr "Themen"
+
+msgid "This week"
+msgstr "Diese Woche"
+
+msgid "Three months ago"
+msgstr "Vor 3 Monaten"
+
+msgid "Three weeks ago"
+msgstr "Vor 3 Wochen"
 
 msgid "Thumbnails"
 msgstr "Miniaturansicht"
@@ -1036,6 +1111,9 @@ msgstr "Anordnung der Miniaturansicht"
 
 msgid "Tiles"
 msgstr "Kacheln"
+
+msgid "Tiny"
+msgstr "Winzig"
 
 msgid "Toolbars"
 msgstr "Werkzeugleisten"
@@ -1073,6 +1151,12 @@ msgstr "Transparenz"
 msgid "Tray Icon"
 msgstr "Tray Icon"
 
+msgid "Two months ago"
+msgstr "Vor 2 Monaten"
+
+msgid "Two weeks ago"
+msgstr "Vor 2 Wochen"
+
 msgid "Type"
 msgstr "Typ"
 
@@ -1100,6 +1184,12 @@ msgstr "Ansicht"
 msgid "View Style"
 msgstr "Ansicht"
 
+msgid "Warning"
+msgstr "Warnung"
+
+msgid "Warning: changes are made immediately!"
+msgstr "Warnung: Änderungen werden sofort aktiv!"
+
 msgid "When I open folder/file in a new tab, switch to it immediately "
 msgstr "Zu neuem Tab springen wenn  Ordner oder Datei geöffnet wird"
 
@@ -1120,6 +1210,9 @@ msgstr "Zeilenumbruch"
 
 msgid "Word or Phrase in File Name"
 msgstr "Wort oder Begriff im Dateinamen"
+
+msgid "Zero"
+msgstr "Null"
 
 msgid "is already assigned to"
 msgstr "ist bereits zugeordnet"

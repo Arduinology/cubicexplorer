@@ -35,6 +35,9 @@ procedure ShowCreateSymlinkDialog(AParentFolderPath: WideString; ALinkName:
 
 implementation
 
+uses
+  MPCommonUtilities, CE_LanguageEngine;
+
 {$R *.dfm}
 
 {-------------------------------------------------------------------------------
@@ -63,12 +66,12 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCreateSymlinkDlg.but_createClick(Sender: TObject);
 var
-  s: String;
+  ws: WideString;
 begin
   if FileOrFolderExists(WideIncludeTrailingPathDelimiter(ParentLinkFolderPath) + edit_linkname.Text) then
   begin
-    s:= '"'+edit_linkname.Text+'" already exists. Please choose another name.';
-    MessageBox(0, PChar(s), 'Duplicate name', MB_ICONINFORMATION or MB_OK);
+    ws:= WideFormat(_('"%s" already exists. Please choose another name.'), [edit_linkname.Text]);
+    WideMessageBox(0, _('Duplicate name'), ws, MB_ICONINFORMATION or MB_OK);
     Exit;
   end;
   

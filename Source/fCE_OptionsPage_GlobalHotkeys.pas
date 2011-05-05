@@ -85,7 +85,7 @@ var
 implementation
 
 uses
-  CE_TBActions;
+  CE_TBActions, MPCommonUtilities;
 
 {$R *.dfm}
 
@@ -317,7 +317,7 @@ end;
 procedure TTCEOptionsPage_GlobalHotkeys.but_addClick(Sender: TObject);
 var
   data: PCEActTreeData;
-  s, s2: String;
+  ws, ws2: String;
   index,i: Integer;
 begin
   if assigned(selectedAction) and (newHotkey <> 0) then
@@ -339,10 +339,10 @@ begin
     end
     else // hotkey already registered, show warning.
     begin
-      s:= ShortCutToText(newHotkey) + ' ' + _('is already in use!')+#13+#10+
+      ws2:= ShortCutToText(newHotkey) + ' ' + _('is already in use!')+#13+#10+
           _('Please choose different hotkey.');
-      s2:= _('Duplicate Hotkey');
-      MessageBox(Handle, PChar(s) , PChar(s2), MB_ICONWARNING or MB_OK);
+      ws:= _('Duplicate Hotkey');
+      WideMessageBox(Handle, ws , ws2, MB_ICONWARNING or MB_OK);
     end;
   end;
 end;
@@ -379,7 +379,7 @@ end;
 procedure TTCEOptionsPage_GlobalHotkeys.but_replaceClick(Sender: TObject);
 var
   data: PCEActTreeData;
-  s,s2: String;
+  ws,ws2: String;
   index: Integer;
 begin
   if assigned(selectedAction) then
@@ -403,10 +403,10 @@ begin
       end
       else // hotkey already registered, show warning.
       begin
-        s:= ShortCutToText(newHotkey) + ' ' + _('is already in use!')+#13+#10+
+        ws2:= ShortCutToText(newHotkey) + ' ' + _('is already in use!')+#13+#10+
             _('Please choose different hotkey.');
-        s2:= _('Duplicate Hotkey');
-        MessageBox(Handle, PChar(s) , PChar(s2), MB_ICONWARNING or MB_OK);
+        ws:= _('Duplicate Hotkey');
+        WideMessageBox(Handle, ws , ws2, MB_ICONWARNING or MB_OK);
       end;
     end;
   end;
