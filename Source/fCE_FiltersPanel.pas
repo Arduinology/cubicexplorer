@@ -29,6 +29,8 @@ uses
   fCE_FileView, dCE_Images, CE_AppSettings, fCE_SearchPage,
   // TB2k, TBX, SpTBX
   TB2Dock, SpTBXItem,
+  // Virtual Trees
+  VirtualTrees,
   // VSTools
   VirtualExplorerEasyListview,
   // Graphics32
@@ -36,7 +38,7 @@ uses
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ShlObj, Menus, TB2Item, SpTBXEditors, TB2Toolbar, StdCtrls,
-  TntStdCtrls, ExtCtrls, SpTBXSkins;
+  TntStdCtrls, ExtCtrls, SpTBXSkins, Contnrs;
 
 type
   TControlHack = class(TControl);
@@ -72,9 +74,12 @@ type
     procedure but_clearClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
   private
+    fPatternNotifyInProgress: Boolean;
     fSettings: TCEFiltersPanelSettings;
   protected
     FilterBackgroundBitmap: TBitmap;
+    procedure DoMenuEditChange(Sender: TObject; const AText: WideString); virtual;
+    procedure DoMenuItemClick(Sender: TObject); virtual;
     procedure DrawFilterBitmap;
     procedure GlobalActivePageChange(OldPage, NewPage: TComponent); override;
         stdcall;
@@ -85,8 +90,10 @@ type
         stdcall;
   public
     Filters: TCEFilterList;
+    PatternNotifyList: TObjectList;
     procedure DoFormHide; override;
     procedure DoFormShow; override;
+    procedure PopulateMenuItem(AItem: TSpTBXItem);
   published
     property Settings: TCEFiltersPanelSettings read fSettings write fSettings;
   end;
@@ -120,7 +127,7 @@ var
 implementation
 
 uses
-  Main;
+  Main, CE_LanguageEngine;
 {$R *.dfm}
 
 {*------------------------------------------------------------------------------
@@ -151,6 +158,9 @@ begin
   Settings.SaveFilterHistory:= true;
   Settings.ShowBkgrd:= true;
   Settings.AutoResetFilters:= true;
+
+  PatternNotifyList:= TObjectList.Create(false);
+  fPatternNotifyInProgress:= false;
 end;
 
 {*------------------------------------------------------------------------------
@@ -160,9 +170,13 @@ procedure TCEFiltersPanel.FormDestroy(Sender: TObject);
 begin
   FilterBackgroundBitmap.Free;
   fSettings.Free;
+  PatternNotifyList.Free;
   inherited;
 end;
 
+{-------------------------------------------------------------------------------
+  On Form Resize
+-------------------------------------------------------------------------------}
 procedure TCEFiltersPanel.FormResize(Sender: TObject);
 var
   i: Integer;
@@ -312,6 +326,7 @@ begin
   Filters.ClearFilters;
   GlobalFileViewSettings.ClearFilters;
   Filters.PopulateTree;
+  combo_filterpatternChange(combo_filterpattern);
 end;
 
 {-------------------------------------------------------------------------------
@@ -344,9 +359,27 @@ end;
   On combo_filterpattern Change
 -------------------------------------------------------------------------------}
 procedure TCEFiltersPanel.combo_filterpatternChange(Sender: TObject);
+var
+  i: Integer;
 begin
   inherited;
-  FilterTimer.Enabled:= true;
+  if fPatternNotifyInProgress then
+  Exit;
+
+  fPatternNotifyInProgress:= true;
+  try
+    for i:= 0 to PatternNotifyList.Count - 1 do
+    begin
+      if PatternNotifyList.Items[i] <> Sender then
+      begin
+        if PatternNotifyList.Items[i] is TSpTBXEditItem then
+        TSpTBXEditItem(PatternNotifyList.Items[i]).Text:= combo_filterpattern.Text;
+      end;
+    end;
+  finally
+    fPatternNotifyInProgress:= false;
+    FilterTimer.Enabled:= true;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -374,6 +407,7 @@ end;
 procedure TCEFiltersPanel.combo_filterpatternSelect(Sender: TObject);
 begin
   Filters.PatternText:= combo_filterpattern.Text;
+  combo_filterpatternChange(Sender);
 end;
 
 {-------------------------------------------------------------------------------
@@ -382,6 +416,49 @@ end;
 procedure TCEFiltersPanel.check_resetfiltersClick(Sender: TObject);
 begin
   Settings.AutoResetFilters:= not Settings.AutoResetFilters;
+end;
+
+{-------------------------------------------------------------------------------
+  Do MenuEditChange
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.DoMenuEditChange(Sender: TObject; const AText:
+    WideString);
+begin
+  combo_filterpattern.Text:= AText;
+  combo_filterpatternChange(Sender);
+end;
+
+{-------------------------------------------------------------------------------
+  Do MenuItemClick
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.DoMenuItemClick(Sender: TObject);
+var
+  node, node2: PVirtualNode;
+begin
+  // Clear Filters
+  if TSpTBXItem(Sender).Tag = -1 then
+  begin
+    but_clearClick(Sender);
+  end
+  // Other items
+  else
+  begin
+    node:= Pointer(TSpTBXItem(Sender).Tag);
+    // Just to be safe, make sure that the node is still in the tree
+    node2:= Filters.GetFirst;
+    while assigned(node2) do
+    begin
+      if node2 = node then
+      begin
+        if node2.CheckState = csCheckedNormal then
+        Filters.CheckState[node2]:= csUncheckedNormal
+        else
+        Filters.CheckState[node2]:= csCheckedNormal;
+        break;
+      end;
+      node2:= Filters.GetNext(node2);
+    end;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -399,6 +476,73 @@ procedure TCEFiltersPanel.FilterTimerTimer(Sender: TObject);
 begin
   FilterTimer.Enabled:= false;
   Filters.PatternText:= combo_filterpattern.Text;
+end;
+
+{-------------------------------------------------------------------------------
+  PopulateMenuItem
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.PopulateMenuItem(AItem: TSpTBXItem);
+var
+  item: TSpTBXItem;
+  edit: TSpTBXEditItem;
+  node: PVirtualNode;
+  data: PFilterItem;
+  Text: WideString;
+begin
+  if assigned(AItem) then
+  begin
+    AItem.Clear;
+    // Add Text filter edit
+    edit:= TSpTBXEditItem.Create(AItem);
+    edit.Text:= combo_filterpattern.Text;
+    edit.OnChange:= DoMenuEditChange;
+    edit.Images:= CE_Images.SmallIcons;
+    edit.EditImageIndex:= 29;
+    AItem.Add(edit);
+    // Add separator
+    AItem.Add(TSpTBXSeparatorItem.Create(AItem));
+    // Add items from FilterList
+    node:= Filters.GetFirst;
+    while assigned(node) do
+    begin
+      data:= Filters.GetNodeData(node);
+      item:= TSpTBXItem.Create(AItem);
+
+      if data.ShowAllItem then
+      Text:= _('Show All Files') + ' (' + IntToStr(data.count) + ')'
+      else if data.ShowFoldersItem then
+      Text:= _('Show Folders') + ' (' + IntToStr(data.count) + ')'
+      else if data.Extension = 'none' then
+      begin
+        Text:= _('No Extension') + ' (' + IntToStr(data.count) + ')';
+      end
+      else
+      Text:= data.extension + ' (' + IntToStr(data.count) + ')';
+
+      item.Caption:= Text;
+      item.Checked:= Filters.CheckState[node] = csCheckedNormal;
+      item.Tag:= Integer(node);
+      item.OnClick:= DoMenuItemClick;
+      AItem.Add(item);
+
+      // Add separator
+      if data.ShowAllItem then
+      begin
+        AItem.Add(TSpTBXSeparatorItem.Create(AItem));
+      end;
+      node:= Filters.GetNext(node);
+    end;
+    // Add separator
+    AItem.Add(TSpTBXSeparatorItem.Create(AItem));
+    // Add Clear Filters
+    item:= TSpTBXItem.Create(AItem);
+    item.Caption:= _('Clear Filters');
+    item.Tag:= -1;
+    item.OnClick:= DoMenuItemClick;
+    item.Images:= but_clear.Images;
+    item.ImageIndex:= but_clear.ImageIndex;
+    AItem.Add(item);
+  end;
 end;
 
 

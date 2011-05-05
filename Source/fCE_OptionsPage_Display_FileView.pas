@@ -30,7 +30,7 @@ uses
   TntStdCtrls,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls;
+  Dialogs, StdCtrls, SpTBXItem, SpTBXControls, SpTBXEditors;
 
 type
   TCE_OptionsPage_Display_FileView = class(TCEOptionsCustomPage)
@@ -41,6 +41,9 @@ type
     check_sortfoldersfirst: TTntCheckBox;
     check_infotips: TTntCheckBox;
     check_singleclick: TTntCheckBox;
+    combo_sizeformat: TSpTBXComboBox;
+    SpTBXLabel1: TSpTBXLabel;
+    procedure HandleChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -56,7 +59,7 @@ var
 implementation
 
 uses
-  fCE_FileView;
+  fCE_FileView, VirtualExplorerEasyListview;
 
 {$R *.dfm}
 
@@ -77,13 +80,24 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCE_OptionsPage_Display_FileView.ApplySettings;
 begin
-  GlobalFileViewSettings.FullRowSelect:= check_fullrowselect.Checked;
-  GlobalFileViewSettings.SelectPreviousFolder:= check_selectprev.Checked;
-  GlobalFileViewSettings.AutoSelectFirstItem:= check_autoselect.Checked;
-  GlobalFileViewSettings.AutosizeListViewStyle:= check_autosize_liststyle.Checked;
-  GlobalFileViewSettings.SortFolderFirstAlways:= check_sortfoldersfirst.Checked;
-  GlobalFileViewSettings.ShowInfoTips:= check_infotips.Checked;
-  GlobalFileViewSettings.SingleClickBrowse:= check_singleclick.Checked;
+  GlobalFileViewSettings.BeginUpdate;
+  try
+    GlobalFileViewSettings.FullRowSelect:= check_fullrowselect.Checked;
+    GlobalFileViewSettings.SelectPreviousFolder:= check_selectprev.Checked;
+    GlobalFileViewSettings.AutoSelectFirstItem:= check_autoselect.Checked;
+    GlobalFileViewSettings.AutosizeListViewStyle:= check_autosize_liststyle.Checked;
+    GlobalFileViewSettings.SortFolderFirstAlways:= check_sortfoldersfirst.Checked;
+    GlobalFileViewSettings.ShowInfoTips:= check_infotips.Checked;
+    GlobalFileViewSettings.SingleClickBrowse:= check_singleclick.Checked;
+    GlobalFileViewSettings.FileSizeFormat:= TVirtualFileSizeFormat(combo_sizeformat.ItemIndex);
+  finally
+    GlobalFileViewSettings.EndUpdate(true);
+  end;
+end;
+
+procedure TCE_OptionsPage_Display_FileView.HandleChange(Sender: TObject);
+begin
+  inherited;
 end;
 
 {-------------------------------------------------------------------------------
@@ -98,6 +112,8 @@ begin
   check_sortfoldersfirst.Checked:= GlobalFileViewSettings.SortFolderFirstAlways;
   check_infotips.Checked:= GlobalFileViewSettings.ShowInfoTips;
   check_singleclick.Checked:= GlobalFileViewSettings.SingleClickBrowse;
+
+  combo_sizeformat.ItemIndex:= Ord(GlobalFileViewSettings.FileSizeFormat);
 end;
 
 {##############################################################################}

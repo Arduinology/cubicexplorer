@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  CE_Toolbar, CE_GlobalCtrl, CE_LanguageEngine,
+  CE_Toolbar, CE_GlobalCtrl, CE_LanguageEngine, CE_ToolbarEditorItems,
   // VSTools
   MPShellUtilities, MPCommonObjects, MPCommonUtilities, EasyListview,
   // TB2K, SpTBX
@@ -33,7 +33,8 @@ uses
   // Tnt Controls
   TntActnList, TntClipbrd, TntSysUtils, TntClasses,
   // System Units
-  Classes, Windows, SysUtils, Controls, Messages, Graphics, ImgList, ShlObj;
+  Classes, Windows, SysUtils, Controls, Messages, Graphics, ImgList, ShlObj,
+  SpTBXEditors;
 
 type
   TCEFileViewBackButton = class(TCEToolbarSubmenuItem)
@@ -139,6 +140,14 @@ type
     procedure DoPopup(Sender: TTBCustomItem; FromLink: Boolean); override;
   public
     constructor Create(AOwner: TComponent); override;
+  end;
+
+  TCEFilterPatternItem = class(TCEToolbarEditItem)
+  protected
+    procedure DoChange(const AText: WideString); override;
+  public
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
   end;
 
 implementation
@@ -813,7 +822,40 @@ procedure TCEFiltersMenuButton.DoPopup(Sender: TTBCustomItem; FromLink:
 begin
   if not CEFiltersPanel.Filters.Active then
   CEFiltersPanel.Filters.Active:= true;
-  CEFiltersPanel.Filters.PopulateMenuItem(Self);
+  CEFiltersPanel.PopulateMenuItem(Self);
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Create an instance of PatternNotifyList
+-------------------------------------------------------------------------------}
+constructor TCEFilterPatternItem.Create(AOwner: TComponent);
+begin
+  inherited;
+  CEFiltersPanel.PatternNotifyList.Add(Self);
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy PatternNotifyList
+-------------------------------------------------------------------------------}
+destructor TCEFilterPatternItem.Destroy;
+begin
+  CEFiltersPanel.PatternNotifyList.Remove(Self);
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Do Change
+-------------------------------------------------------------------------------}
+procedure TCEFilterPatternItem.DoChange(const AText: WideString);
+begin
+  inherited;
+  if CEFiltersPanel.combo_filterpattern.Text <> AText then
+  begin
+    CEFiltersPanel.combo_filterpattern.Text:= AText;
+    CEFiltersPanel.combo_filterpatternChange(Self);
+  end;
 end;
 
 

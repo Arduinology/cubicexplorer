@@ -142,7 +142,8 @@ implementation
 
 uses
   fCE_DockHostForm, fCE_Customizer, Main, fCE_DockableForm, CE_SpTabBar,
-  CE_StatusBar, dCE_Actions, CE_TBActions, dCE_Images;
+  CE_StatusBar, dCE_Actions, CE_TBActions, dCE_Images, CE_ToolbarEditorItems,
+  SpTBXEditors;
 
 {*------------------------------------------------------------------------------
   Create an instance of TCELayoutController
@@ -1142,6 +1143,16 @@ procedure SaveToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
       begin
         ToNode.Items.Add('fixed_spacer');
       end
+      // Editor Item
+      else if item is TSpTBXEditItem then
+      begin
+        chNode:= ToNode.Items.Add('item');
+        if assigned(item.Action) then
+        chNode.Properties.Add('action', item.Action.Name)
+        else
+        chNode.Properties.Add('name', item.Name);
+        chNode.Properties.Add('size', TSpTBXEditItem(item).CustomWidth);
+      end
       // Submenu
       else if item.ClassType = TSpTBXSubmenuItem then
       begin
@@ -1190,6 +1201,16 @@ procedure SaveToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
       else if item is TCEToolbarFixedSpacerItem then
       begin
         ToNode.Items.Add('fixed_spacer');
+      end
+      // Editor Item
+      else if item is TSpTBXEditItem then
+      begin
+        chNode:= ToNode.Items.Add('item');
+        if assigned(item.Action) then
+        chNode.Properties.Add('action', item.Action.Name)
+        else
+        chNode.Properties.Add('name', item.Name);
+        chNode.Properties.Add('size', TSpTBXEditItem(item).CustomWidth);
       end
       // Submenu
       else if item.ClassType = TSpTBXSubmenuItem then
@@ -1251,6 +1272,10 @@ procedure LoadToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
         begin
           item:= itemClass.Create(Toolbar);
           item.Action:= act;
+          // Editor item size
+          if item is TSpTBXEditItem then
+          TSpTBXEditItem(item).CustomWidth:= chNode.Properties.IntValue('size', TSpTBXEditItem(item).CustomWidth);
+
           Toolbar.Items.Add(item);
         end;
       end
@@ -1325,6 +1350,8 @@ procedure LoadToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
         begin
           item:= itemClass.Create(Toolbar);
           item.Action:= act;
+          if item is TSpTBXEditItem then
+          TSpTBXEditItem(item).CustomWidth:= chNode.Properties.IntValue('size', TSpTBXEditItem(item).CustomWidth);
         end;
       end
       // Separator

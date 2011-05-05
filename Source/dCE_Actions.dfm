@@ -619,10 +619,17 @@ object CEActions: TCEActions
         'F4')
       OnExecute = ActionExecute
     end
-    object act_view_filtersmenu: TCEToolbarAction
+    object act_filters_menu: TCEToolbarAction
       Tag = 375
       Category = 'Filters'
       Caption = 'Filters'
+      ImageIndex = 29
+      OnExecute = ActionExecute
+      CanExecute = False
+    end
+    object act_filters_pattern: TCEToolbarAction
+      Category = 'Filters'
+      Caption = 'Text Filter'
       ImageIndex = 29
       OnExecute = ActionExecute
       CanExecute = False

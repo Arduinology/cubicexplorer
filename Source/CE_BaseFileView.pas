@@ -314,6 +314,8 @@ begin
   self.CompressedFile.Font.Assign(self.Font);
 
   self.Scrollbars.SnapHorzView:= true;
+
+  self.FileSizeFormat:= vfsfExplorer;
   
   BalloonHint:= TJvBalloonHint.Create(self);
   BalloonHint.Options:= [];

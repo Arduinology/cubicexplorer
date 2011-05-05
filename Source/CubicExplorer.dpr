@@ -123,7 +123,8 @@ uses
   fCE_ColumnFormSpTBX in 'fCE_ColumnFormSpTBX.pas' {CEFormColumnSettings: TTntForm},
   CE_Stacks in 'CE_Stacks.pas',
   CE_StackTree in 'CE_StackTree.pas',
-  TB2Item in 'Components\Tb2K\TB2Item.pas';
+  TB2Item in 'Components\Tb2K\TB2Item.pas',
+  CE_ToolbarEditorItems in 'CE_ToolbarEditorItems.pas';
 
 {$R *.res}
 {$R 'CE_Resources.res'}

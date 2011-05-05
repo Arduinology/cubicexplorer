@@ -78,7 +78,6 @@ type
         override;
     procedure DoGetText(Node: PVirtualNode; Column: TColumnIndex; TextType:
         TVSTTextType; var Text: WideString); override;
-    procedure DoMenuItemClick(Sender: TObject); virtual;
     procedure DoPaintText(Node: PVirtualNode; const Canvas: TCanvas; Column:
         TColumnIndex; TextType: TVSTTextType); override;
     procedure HandleMouseDown(var Message: TWMMouse; var HitInfo: THitInfo);
@@ -91,7 +90,6 @@ type
     procedure DeFilter;
     procedure DoFiltering;
     function FindByExtension(ext: WideString): PVirtualNode;
-    procedure PopulateMenuItem(AItem: TSpTBXItem);
     procedure PopulateTree;
     property Active: Boolean read fActive write SetActive;
     property FilteringImage: TBitmap read fFilteringImage write fFilteringImage;
@@ -453,30 +451,6 @@ begin
   Result:= CompareText(data1.Extension, data2.Extension);
 end;
 
-{-------------------------------------------------------------------------------
-  Do MenuItemClick
--------------------------------------------------------------------------------}
-procedure TCEFilterList.DoMenuItemClick(Sender: TObject);
-var
-  node, node2: PVirtualNode;
-begin
-  node:= Pointer(TSpTBXItem(Sender).Tag);
-  // Just to be safe, make sure that the node is still in the tree
-  node2:= Self.GetFirst;
-  while assigned(node2) do
-  begin
-    if node2 = node then
-    begin
-      if node2.CheckState = csCheckedNormal then
-      Self.CheckState[node2]:= csUncheckedNormal
-      else
-      Self.CheckState[node2]:= csCheckedNormal;
-      break;
-    end;
-    node2:= Self.GetNext(node2);
-  end;
-end;
-
 {*------------------------------------------------------------------------------
   DoPaintText
 -------------------------------------------------------------------------------}
@@ -550,52 +524,6 @@ begin
       Self.CheckState[HitInfo.HitNode]:= csUncheckedNormal
       else
       Self.CheckState[HitInfo.HitNode]:= csCheckedNormal;
-    end;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  PopulateMenuItem
--------------------------------------------------------------------------------}
-procedure TCEFilterList.PopulateMenuItem(AItem: TSpTBXItem);
-var
-  item: TSpTBXItem;
-  node: PVirtualNode;
-  data: PFilterItem;
-  Text: WideString;
-begin
-  if assigned(AItem) then
-  begin
-    AItem.Clear;
-    node:= Self.GetFirst;
-    while assigned(node) do
-    begin
-      data:= Self.GetNodeData(node);
-      item:= TSpTBXItem.Create(AItem);
-
-      if data.ShowAllItem then
-      Text:= _('Show All Files') + ' (' + IntToStr(data.count) + ')'
-      else if data.ShowFoldersItem then
-      Text:= _('Show Folders') + ' (' + IntToStr(data.count) + ')'
-      else if data.Extension = 'none' then
-      begin
-        Text:= _('No Extension') + ' (' + IntToStr(data.count) + ')';
-      end
-      else
-      Text:= data.extension + ' (' + IntToStr(data.count) + ')';
-
-      item.Caption:= Text;
-      item.Checked:= Self.CheckState[node] = csCheckedNormal;
-      item.Tag:= Integer(node);
-      item.OnClick:= DoMenuItemClick;
-      AItem.Add(item);
-
-      // Add separator
-      if data.ShowAllItem then
-      begin
-        AItem.Add(TSpTBXSeparatorItem.Create(AItem));
-      end;
-      node:= Self.GetNext(node);
     end;
   end;
 end;

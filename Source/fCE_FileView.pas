@@ -164,6 +164,7 @@ type
     fAutosizeListViewStyle: Boolean;
     fBrowseZipFolders: Boolean;
     fColumns: TCEColumnSettings;
+    fFileSizeFormat: TVirtualFileSizeFormat;
     fFilmstrip: TCEFilmstripSettings;
     fGroupBy: TCEGroupBySettings;
     fInfoBarSize: Integer;
@@ -180,7 +181,6 @@ type
     fThreadedDetails: Boolean;
     fThreadedEnumeration: Boolean;
     fThreadedImages: Boolean;
-    fUpdating: Boolean;
     fUse_JumboIcons_in_InfoBar: Boolean;
     NotifyList: TComponentList;
     procedure SetFullRowSelect(const Value: Boolean);
@@ -189,6 +189,7 @@ type
     procedure SetAutoSelectFirstItem(const Value: Boolean);
     procedure SetAutosizeListViewStyle(const Value: Boolean);
     procedure SetBrowseZipFolders(const Value: Boolean);
+    procedure SetFileSizeFormat(const Value: TVirtualFileSizeFormat);
     procedure SetShowInfoTips(const Value: Boolean);
     procedure SetShowExtensions(const Value: Boolean);
     procedure SetShowHeaderAlways(const Value: Boolean);
@@ -202,6 +203,7 @@ type
     procedure SetThreadedImages(const Value: Boolean);
     procedure SetUse_JumboIcons_in_InfoBar(const Value: Boolean);
   protected
+    fUpdateCount: Integer;
     fViewStyle: TEasyListStyle;
   public
     fSmoothScroll: Boolean;
@@ -215,7 +217,9 @@ type
     procedure AssignColumnSettingsTo(FileView: TVirtualExplorerEasyListview);
     procedure SendChanges;
     procedure AssignColumnSettingsFrom(FileView: TVirtualExplorerEasyListview);
+    procedure BeginUpdate;
     procedure ClearFilters;
+    procedure EndUpdate(ASendChanges: Boolean = false);
   published
     property SelectPreviousFolder: Boolean read fSelectPreviousFolder write
         SetSelectPreviousFolder;
@@ -226,6 +230,8 @@ type
     property BrowseZipFolders: Boolean read fBrowseZipFolders write
         SetBrowseZipFolders;
     property Columns: TCEColumnSettings read fColumns write fColumns;
+    property FileSizeFormat: TVirtualFileSizeFormat read fFileSizeFormat write
+        SetFileSizeFormat;
     property Filmstrip: TCEFilmstripSettings read fFilmstrip write fFilmstrip;
     property FullRowSelect: Boolean read fFullRowSelect write SetFullRowSelect;
     property GroupBy: TCEGroupBySettings read fGroupBy write fGroupBy;
@@ -984,7 +990,7 @@ end;
 constructor TCEFileViewSettings.Create;
 begin
   inherited;
-  fUpdating:= false;
+  fUpdateCount:= 0;
   NotifyList:= TComponentList.Create(false);
   fColumns:= TCEColumnSettings.Create;
   fGroupBy:= TCEGroupBySettings.Create;
@@ -997,6 +1003,7 @@ begin
   fShowInfoTips:= true;
   fBrowseZipFolders:= false;
   fSingleClickBrowse:= false;
+  fFileSizeFormat:= vfsfDefault;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1016,7 +1023,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFileViewSettings.AssignSettingsFrom(FileViewPage: TCEFileViewPage);
 begin
-  if fUpdating then
+  if fUpdateCount > 0 then
   Exit;
   
   if not assigned(FileViewPage) then
@@ -1038,7 +1045,8 @@ var
 begin
   if not assigned(FileViewPage) then
   Exit;
-  fUpdating:= true;
+
+  Self.BeginUpdate;
   FileViewPage.FileView.BeginUpdate;
   try
     FileViewPage.ThumbViewSize:= Filmstrip.ThumbSize;
@@ -1075,12 +1083,15 @@ begin
     if fShowInfoTips then Include(options, eloQueryInfoHints) else Exclude(options, eloQueryInfoHints);
 
     FileViewPage.FileView.Options:= options;
+
+    // Misc
+    FileViewPage.FileView.FileSizeFormat:= fFileSizeFormat;
     
     if AssignColumnSettings then
     AssignColumnSettingsTo(FileViewPage.FileView);
   finally
     FileViewPage.FileView.EndUpdate(FileViewPage.Visible);
-    fUpdating:= false;
+    Self.EndUpdate;
   end;
 end;
 
@@ -1180,6 +1191,9 @@ var
   FileViewPage: TCEFileViewPage;
   doRebuild: Boolean;
 begin
+  if fUpdateCount > 0 then
+  Exit;
+  
   for i:= 0 to NotifyList.Count - 1 do
   begin
     if NotifyList.Items[i] is TCEFileViewPage then
@@ -1314,6 +1328,27 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Begin Update
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.BeginUpdate;
+begin
+  fUpdateCount:= fUpdateCount + 1;
+end;
+
+{-------------------------------------------------------------------------------
+  End Update
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.EndUpdate(ASendChanges: Boolean = false);
+begin
+  fUpdateCount:= fUpdateCount - 1;
+  if fUpdateCount < 0 then
+  fUpdateCount:= 0;
+
+  if (fUpdateCount = 0) and ASendChanges then
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
   Clear filters from all FileViews
 -------------------------------------------------------------------------------}
 procedure TCEFileViewSettings.ClearFilters;
@@ -1368,11 +1403,21 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Browse Zip Folders
+  Set BrowseZipFolders
 -------------------------------------------------------------------------------}
 procedure TCEFileViewSettings.SetBrowseZipFolders(const Value: Boolean);
 begin
   fBrowseZipFolders:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set FileSizeFormat
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetFileSizeFormat(const Value:
+    TVirtualFileSizeFormat);
+begin
+  fFileSizeFormat:= Value;
   SendChanges;
 end;
 
