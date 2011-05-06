@@ -277,11 +277,12 @@ begin
 
   // translate size combos
   combo_size_atleast.Items.Strings[0]:= _('Bytes');
-  combo_size_atleast.Items.Strings[0]:= _('KB');
-  combo_size_atleast.Items.Strings[0]:= _('MB');
-  combo_size_atleast.Items.Strings[0]:= _('GB');
+  combo_size_atleast.Items.Strings[1]:= _('KB');
+  combo_size_atleast.Items.Strings[2]:= _('MB');
+  combo_size_atleast.Items.Strings[3]:= _('GB');
+  combo_size_atleast.ItemIndex:= 1;
   combo_size_atmost.Items.Assign(combo_size_atleast.Items);
-
+  combo_size_atmost.ItemIndex:= 1;
   fLastStatusChange:= 0;
 end;
 

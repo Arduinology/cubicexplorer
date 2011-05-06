@@ -276,7 +276,7 @@ begin
   // Add Dynamic Spacer item to ActionList
   chNode:= ActionTree.AddChild(node);
   data:= ActionTree.GetNodeData(chNode);
-  data.Name:= '[Dynamic Spacer]';
+  data.Name:= '[' + _('Dynamic Spacer') + ']';
   data.IconIndex:= -1;
   data.IsCategory:= false;
   data.IsSeparator:= true;
@@ -284,7 +284,7 @@ begin
   // Add Fixed Spacer item to ActionList
   chNode:= ActionTree.AddChild(node);
   data:= ActionTree.GetNodeData(chNode);
-  data.Name:= '[Fixed Spacer]';
+  data.Name:= '[' + _('Fixed Spacer') + ']';
   data.IconIndex:= -1;
   data.IsCategory:= false;
   data.IsSeparator:= true;

@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1320\n"
+"CE-POT-Version: 1327\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
 
@@ -16,6 +16,12 @@ msgstr "%d dossier(s) examiné(s) et %d objet(s) trouvé(s), en %.3f seconde(s)"
 
 msgid "..."
 msgstr "..."
+
+msgid "A long time ago"
+msgstr "Il y a longtemps"
+
+msgid "A month ago"
+msgstr "Il y a un mois"
 
 msgid "About CubicExplorer"
 msgstr "A propos de CubicExplorer"
@@ -82,6 +88,12 @@ msgstr "Révision de l'application :"
 
 msgid "Apply"
 msgstr "Appliquer"
+
+msgid "Apply Changes"
+msgstr "Appliquer les modifications"
+
+msgid "Apply changes now?"
+msgstr "Appliquer les modifications maintenant ?"
 
 msgid "Apply changes."
 msgstr "Appliquer les changements"
@@ -230,6 +242,9 @@ msgstr "Paramètres des colonnes"
 msgid "Compressed"
 msgstr "Compressé"
 
+msgid "Contact File"
+msgstr "Contact"
+
 msgid "Content"
 msgstr "Contenu"
 
@@ -365,6 +380,9 @@ msgstr "Dupliquer le raccourci clavier"
 msgid "Duplicate Tab"
 msgstr "Dupliquer l'onglet"
 
+msgid "Earlier this year"
+msgstr "Plus tôt cette année"
+
 msgid "Edit"
 msgstr "Edition"
 
@@ -431,6 +449,9 @@ msgstr "Trouver le précédent"
 msgid "Finished"
 msgstr "Terminé"
 
+msgid "Five months ago"
+msgstr "Il y a cinq mois"
+
 msgid "Focus"
 msgstr "Focus"
 
@@ -458,6 +479,9 @@ msgstr "Format"
 msgid "Forward"
 msgstr "Avancer"
 
+msgid "Four months ago"
+msgstr "Il y a quatre mois"
+
 msgid "Fullscreen"
 msgstr "Plein écran"
 
@@ -469,6 +493,9 @@ msgstr "Général"
 
 msgid "General Settings"
 msgstr "Paramètres généraux"
+
+msgid "Gigantic"
+msgstr "Gigantesque"
 
 msgid "Global"
 msgstr "Raccourcis globaux"
@@ -515,6 +542,9 @@ msgstr "Icônes au-dessus du texte"
 msgid "Icon only"
 msgstr "Icônes seulement"
 
+msgid "If not, all changes will be lost."
+msgstr "Si non, tous les changements seront perdus."
+
 msgid "Image"
 msgstr "Image"
 
@@ -545,8 +575,17 @@ msgstr "Langue"
 msgid "Language Editor"
 msgstr "Editeur de langues"
 
+msgid "Large"
+msgstr "Gros"
+
 msgid "Large Icons"
 msgstr "Grandes icônes"
+
+msgid "Last hour"
+msgstr "L'heure passée"
+
+msgid "Last twenty-four hours"
+msgstr "Les dernières 24 heures"
 
 msgid "Launch Files Only"
 msgstr "Lancer uniquement les fichiers"
@@ -611,6 +650,9 @@ msgstr "Connecter un lecteur réseau..."
 msgid "Max Level:"
 msgstr "Niveau max :"
 
+msgid "Medium"
+msgstr "Moyen"
+
 msgid "Menu"
 msgstr "Menu"
 
@@ -653,6 +695,9 @@ msgstr "Nouveau dossier"
 msgid "New Session"
 msgstr "Nouvelle session"
 
+msgid "New Shortcut"
+msgstr "Nouveau raccourci"
+
 msgid "No Extension"
 msgstr "Pas d'extension"
 
@@ -673,6 +718,9 @@ msgstr "OK"
 
 msgid "On Startup"
 msgstr "Au démarrage"
+
+msgid "Open"
+msgstr "Ouvrir"
 
 msgid "Open All in Tabs"
 msgstr "Tout ouvrir dans des onglets"
@@ -788,6 +836,9 @@ msgstr " Réutiliser les onglets déjà ouverts"
 msgid "Right"
 msgstr "Droite"
 
+msgid "Safe Operations Only"
+msgstr "Opérations sûres seulement"
+
 msgid "Save"
 msgstr "Enregistrer"
 
@@ -875,6 +926,9 @@ msgstr "Texte sélect. seulem."
 msgid "Separator"
 msgstr "Séparateur"
 
+msgid "Separators"
+msgstr "Séparateurs"
+
 msgid "Session Name"
 msgstr "Nom de la session"
 
@@ -953,11 +1007,17 @@ msgstr " Navigation par simple-clic (ouvrir les dossiers avec un seul clic souri
 msgid "Single click mode"
 msgstr " Mode simple-clic (ouvrir avec un seul clic souris)"
 
+msgid "Six months ago"
+msgstr "Il y a six mois"
+
 msgid "Size"
 msgstr "Taille"
 
 msgid "Size && Attributes"
 msgstr "Taille && Attributs"
+
+msgid "Small"
+msgstr "Petit"
 
 msgid "Small Icons"
 msgstr "Petites icônes"
@@ -1004,6 +1064,9 @@ msgstr "Basculer vers l'onglet précédent"
 msgid "System"
 msgstr "Système"
 
+msgid "System Folders"
+msgstr "Dossiers système"
+
 msgid "Tabs"
 msgstr "Onglets"
 
@@ -1019,6 +1082,9 @@ msgstr "Dossier cible"
 msgid "Text"
 msgstr "Texte"
 
+msgid "Text Document"
+msgstr "Document texte"
+
 msgid "Text Editor"
 msgstr "Editeur de texte"
 
@@ -1027,6 +1093,15 @@ msgstr "Textes seulement"
 
 msgid "Theme"
 msgstr "Thème"
+
+msgid "This week"
+msgstr "Cette semaine"
+
+msgid "Three months ago"
+msgstr "Il y a trois mois"
+
+msgid "Three weeks ago"
+msgstr "Il y a trois semaines"
 
 msgid "Thumbnails"
 msgstr "Miniatures"
@@ -1039,6 +1114,9 @@ msgstr "Style d'affichage des miniatures"
 
 msgid "Tiles"
 msgstr "Mosaïques"
+
+msgid "Tiny"
+msgstr "Minuscule"
 
 msgid "Toolbars"
 msgstr "Barres d'outils"
@@ -1076,6 +1154,12 @@ msgstr "Transparence"
 msgid "Tray Icon"
 msgstr "Icône de la zone de notification"
 
+msgid "Two months ago"
+msgstr "Il y a deux mois"
+
+msgid "Two weeks ago"
+msgstr "Il y a deux semaines"
+
 msgid "Type"
 msgstr "Type"
 
@@ -1103,6 +1187,12 @@ msgstr "Affichage"
 msgid "View Style"
 msgstr "Mode d'affichage"
 
+msgid "Warning"
+msgstr "Avertissement"
+
+msgid "Warning: changes are made immediately!"
+msgstr "Avertissement : les changements sont effectués immédiatement !"
+
 msgid "When I open folder/file in a new tab, switch to it immediately "
 msgstr " Quand j'ouvre un dossier/fichier dans un nouvel onglet, basculer aussitôt dessus"
 
@@ -1123,6 +1213,9 @@ msgstr "Retour à la ligne"
 
 msgid "Word or Phrase in File Name"
 msgstr "Mot ou phrase dans le nom du fichier :"
+
+msgid "Zero"
+msgstr "Zéro"
 
 msgid "is already assigned to"
 msgstr "est déjà attribué à "

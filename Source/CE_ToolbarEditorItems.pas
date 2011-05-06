@@ -89,9 +89,7 @@ end;
 procedure TCEToolbarEditItemViewer.InternalDrawFrame(ACanvas: TCanvas; ARect:
     TRect; ItemInfo: TSpTBXMenuItemInfo);
 var
-  IsHotTrack: Boolean;
   R: TRect;
-  c1, c2: TColor;
 begin
   R:= ARect;
   inherited;

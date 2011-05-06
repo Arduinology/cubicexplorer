@@ -43,22 +43,24 @@ type
   TCEStackPanel = class(TCECustomDockableForm)
     DropStackPopup: TSpTBXPopupMenu;
     but_clearlist: TSpTBXItem;
-    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
-    but_safetyswitch: TSpTBXItem;
     StackToolbar: TCEToolbar;
     sub_load: TSpTBXSubmenuItem;
     sub_save: TSpTBXSubmenuItem;
+    item_safe_operations: TSpTBXItem;
+    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    item_clear_list: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure but_clearlistClick(Sender: TObject);
     procedure DropStackPopupPopup(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure but_safetyswitchClick(Sender: TObject);
     procedure sub_loadPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure sub_savePopup(Sender: TTBCustomItem; FromLink: Boolean);
+    procedure item_safe_operationsClick(Sender: TObject);
   private
     fSettings: TCEStackPanelSettings;
     { Private declarations }
   protected
+    procedure HandleSafeOperationsOnlyChange(Sender: TObject);
     procedure HandleStackLoadClick(Sender: TObject);
     procedure HandleStackSaveClick(Sender: TObject);
   public
@@ -71,12 +73,15 @@ type
   TCEStackPanelSettings = class(TPersistent)
   private
     function GetSafeOperationsOnly: Boolean;
+    function GetShowWarnings: Boolean;
     procedure SetSafeOperationsOnly(const Value: Boolean);
+    procedure SetShowWarnings(const Value: Boolean);
   public
     StackPanel: TCEStackPanel;
   published
     property SafeOperationsOnly: Boolean read GetSafeOperationsOnly write
         SetSafeOperationsOnly;
+    property ShowWarnings: Boolean read GetShowWarnings write SetShowWarnings;
   end;
 
 var
@@ -93,6 +98,8 @@ uses
   Gets called when TCEStackPanel is created
 -------------------------------------------------------------------------------}
 procedure TCEStackPanel.FormCreate(Sender: TObject);
+var
+  i: Integer;
 begin
   inherited;
   // Properties
@@ -105,10 +112,12 @@ begin
   StackTree.Align:= alClient;
   StackTree.BackgroundPopupMenu:= DropStackPopup;
   StackTree.Images:= CE_Images.BookmarkImages;
-  StackTree.GroupImageIndex:= 5;
-  StackTree.GroupOpenImageIndex:= 5;
+  StackTree.GroupImageIndex:= 6;
+  StackTree.GroupOpenImageIndex:= 6;
   StackTree.NotAvailableImageIndex:= 4;
   StackTree.BottomSpace:= 6;
+  StackTree.OnSafeOperationsOnlyChange:= HandleSafeOperationsOnlyChange;
+  HandleSafeOperationsOnlyChange(Self);
   // Focus control
   GlobalFocusCtrl.CtrlList.Add(StackTree);
   TControlHack(StackTree).OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
@@ -116,6 +125,10 @@ begin
   fSettings:= TCEStackPanelSettings.Create;
   fSettings.StackPanel:= Self;
   GlobalAppSettings.AddItem('StackPanel', fSettings, true);
+  // Add dynamic spacer to toolbar
+  i:= StackToolbar.Items.IndexOf(item_safe_operations);
+  if i > 0 then
+  StackToolbar.Items.Insert(i, TCEToolbarDynamicSpacerItem.Create(StackToolbar.Items));
 end;
 
 {-------------------------------------------------------------------------------
@@ -162,17 +175,8 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEStackPanel.DropStackPopupPopup(Sender: TObject);
 begin
-  but_safetyswitch.Checked:= StackTree.SafeOperationsOnly;
+  //
 end;
-
-{-------------------------------------------------------------------------------
-  On but_safetyswitch Click
--------------------------------------------------------------------------------}
-procedure TCEStackPanel.but_safetyswitchClick(Sender: TObject);
-begin
-  StackTree.SafeOperationsOnly:= not StackTree.SafeOperationsOnly;
-end;
-
 
 {-------------------------------------------------------------------------------
   Clear List
@@ -180,6 +184,18 @@ end;
 procedure TCEStackPanel.but_clearlistClick(Sender: TObject);
 begin
   StackTree.Clear;
+end;
+
+{-------------------------------------------------------------------------------
+  On OnSafeOperationsOnlyChange
+-------------------------------------------------------------------------------}
+procedure TCEStackPanel.HandleSafeOperationsOnlyChange(Sender: TObject);
+begin
+  item_safe_operations.Checked:= not StackTree.SafeOperationsOnly;
+  if item_safe_operations.Checked then
+  item_safe_operations.ImageIndex:= 7
+  else
+  item_safe_operations.ImageIndex:= 8;
 end;
 
 {-------------------------------------------------------------------------------
@@ -271,6 +287,14 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  On item_safe_operations Click
+-------------------------------------------------------------------------------}
+procedure TCEStackPanel.item_safe_operationsClick(Sender: TObject);
+begin
+  StackTree.SafeOperationsOnly:= not StackTree.SafeOperationsOnly;
+end;
+
+{-------------------------------------------------------------------------------
   Populate Stack Save MenuItem
 -------------------------------------------------------------------------------}
 procedure TCEStackPanel.PopulateStackSaveMenuItem(AItem: TTBCustomItem;
@@ -329,6 +353,18 @@ end;
 procedure TCEStackPanelSettings.SetSafeOperationsOnly(const Value: Boolean);
 begin
   StackPanel.StackTree.SafeOperationsOnly:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set ShowWarnings
+-------------------------------------------------------------------------------}
+function TCEStackPanelSettings.GetShowWarnings: Boolean;
+begin
+  Result:= StackPanel.StackTree.ShowWarnings;
+end;
+procedure TCEStackPanelSettings.SetShowWarnings(const Value: Boolean);
+begin
+  StackPanel.StackTree.ShowWarnings:= Value;
 end;
 
 end.

@@ -34,8 +34,8 @@ inherited CEFiltersPanel: TCEFiltersPanel
       end
       object but_clear: TSpTBXItem
         Caption = 'Clear Filters'
-        ImageIndex = 4
-        Images = CE_Images.SmallIcons
+        ImageIndex = 9
+        Images = CE_Images.MiscImages
         OnClick = but_clearClick
       end
       object combo_filterpattern: TSpTBXComboBox

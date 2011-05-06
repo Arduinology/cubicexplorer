@@ -39,9 +39,12 @@ type
     fGroupImageIndex: Integer;
     fGroupOpenImageIndex: Integer;
     fNotAvailableImageIndex: Integer;
+    fOnSafeOperationsOnlyChange: TNotifyEvent;
     fSafeOperationsOnly: Boolean;
+    fShowWarnings: Boolean;
     fStacks: TCEStacks;
     function GetStacks: TCEStacks;
+    procedure SetSafeOperationsOnly(const Value: Boolean);
   protected
     function CanShowDragImage: Boolean; override;
     procedure DoAutoSaveActiveStack; virtual;
@@ -49,6 +52,10 @@ type
     procedure DoCanEdit(Node: PVirtualNode; Column: TColumnIndex; var Allowed:
         Boolean); override;
     procedure DoCollapsed(Node: PVirtualNode); override;
+    procedure DoContextMenuCmdCallback(Namespace: TNamespace; Verb: WideString;
+        MenuItemID: Integer; var Handled: Boolean); virtual;
+    procedure DoContextMenuShowCallback(Namespace: TNamespace; Menu: hMenu; var
+        Allow: Boolean); virtual;
     function DoCreateDataObject: IDataObject; override;
     procedure DoDragDrop(Source: TObject; DataObject: IDataObject; Formats:
         TFormatArray; Shift: TShiftState; Pt: TPoint; var Effect: Integer; Mode:
@@ -101,8 +108,11 @@ type
     property NotAvailableImageIndex: Integer read fNotAvailableImageIndex write
         fNotAvailableImageIndex;
     property SafeOperationsOnly: Boolean read fSafeOperationsOnly write
-        fSafeOperationsOnly;
+        SetSafeOperationsOnly;
+    property ShowWarnings: Boolean read fShowWarnings write fShowWarnings;
     property Stacks: TCEStacks read GetStacks write fStacks;
+    property OnSafeOperationsOnlyChange: TNotifyEvent read
+        fOnSafeOperationsOnlyChange write fOnSafeOperationsOnlyChange;
   end;
 
 function PIDLToCEPath(APIDL: PItemIDList): WideString;
@@ -209,6 +219,7 @@ begin
   fGroupOpenImageIndex:= -1;
   fNotAvailableImageIndex:= -1;
   fSafeOperationsOnly:= true;
+  fShowWarnings:= true;
   BorderStyle:= bsNone;
   BevelInner:= bvNone;
   BevelOuter:= bvNone;
@@ -244,7 +255,6 @@ var
   node, chNode: PVirtualNode;
   data, chData: PCEStackItemData;
   check: Boolean;
-  ws: WideString;
   pidl: PItemIDList;
 begin
   node:= Self.GetFirst;
@@ -343,6 +353,99 @@ procedure TCEStackTree.DoCollapsed(Node: PVirtualNode);
 begin
   inherited;
   UpdateScrollbarSize;
+end;
+
+{-------------------------------------------------------------------------------
+  Do ContextMenuCmdCallback
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.DoContextMenuCmdCallback(Namespace: TNamespace; Verb:
+    WideString; MenuItemID: Integer; var Handled: Boolean);
+begin
+  if MenuItemID = 555 then
+  begin
+    self.DeleteSelectedNodes;
+    DoAutoSaveActiveStack;
+    Handled:= true;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Do ContextMenuShowCallback
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.DoContextMenuShowCallback(Namespace: TNamespace; Menu:
+    hMenu; var Allow: Boolean);
+var
+  infoA: TMenuItemInfoA;
+  infoW: TMenuItemInfoW;
+  ws: WideString;
+  s: String;
+begin
+  // Add "Remove from Stack" item
+  if Self.SelectedCount > 1 then
+  ws:= _('Remove from Stack') + ' (' + IntToStr(Self.SelectedCount) + ' ' + _('items') + ')'
+  else
+  ws:= _('Remove from Stack');
+  if IsUnicode then
+  begin
+    FillChar(infoW, SizeOf(infoW), #0);
+    infoW.cbSize:= SizeOf(infoW);
+    infoW.fMask:= MIIM_TYPE or MIIM_ID;
+    infoW.fType:= MFT_STRING;
+    infoW.dwTypeData:= PWideChar(ws);
+    infoW.cch:= Length(ws) + 1;
+    infoW.wID:= 555;
+    InsertMenuItemW(Menu, 0, true, infoW);
+  end
+  else
+  begin
+    s:= String(ws);
+    FillChar(infoA, SizeOf(infoA), #0);
+    infoA.cbSize:= SizeOf(infoA);
+    infoA.fMask:= MIIM_TYPE or MIIM_ID;
+    infoA.fType:= MFT_STRING;
+    infoA.dwTypeData:= PChar(s);
+    infoA.cch:= Length(s) + 1;
+    infoA.wID:= 555;
+    InsertMenuItemA(Menu, 0, true, infoA);
+  end;
+
+  // Add Separators
+  FillChar(infoA, SizeOf(infoA), #0);
+  infoA.cbSize:= SizeOf(infoA);
+  infoA.fMask:= MIIM_TYPE or MIIM_ID;
+  infoA.fType:= MFT_SEPARATOR;
+  InsertMenuItemA(Menu, 1, true, infoA);
+  InsertMenuItemA(Menu, 1, true, infoA);
+
+  // Add Warning item
+  if ShowWarnings then
+  begin
+    InsertMenuItemA(Menu, 1, true, infoA);
+    if IsUnicode then
+    begin
+      ws:= _('WARNING: Real file operations below');
+      FillChar(infoW, SizeOf(infoW), #0);
+      infoW.cbSize:= SizeOf(infoW);
+      infoW.fMask:= MIIM_TYPE or MIIM_STATE;
+      infoW.fType:= MFT_STRING;
+      infoW.dwTypeData:= PWideChar(ws);
+      infoW.cch:= Length(ws) + 1;
+      infoW.fState:= MFS_DISABLED	or MFS_HILITE;
+      InsertMenuItemW(Menu, 2, true, infoW);
+    end
+    else
+    begin
+      ws:= _('WARNING: Real file operations below');
+      FillChar(infoA, SizeOf(infoA), #0);
+      infoA.cbSize:= SizeOf(infoA);
+      infoA.fMask:= MIIM_TYPE or MIIM_STATE;
+      infoA.fType:= MFT_STRING;
+      infoA.dwTypeData:= PChar(s);
+      infoA.cch:= Length(s) + 1;
+      infoA.fState:= MFS_DISABLED	or MFS_HILITE;
+      InsertMenuItemA(Menu, 2, true, infoA);
+    end;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -792,7 +895,18 @@ begin
   begin
     data:= Self.GetNodeData(Node);
     if assigned(data.Namespace) then
-    data.Namespace.ShowContextMenuMulti(Self, nil,nil,nil, SelectedToNamespaceArray, nil, nil, '', data.Namespace)
+    data.Namespace.ShowContextMenuMulti(Self,                     // Owner
+                                        DoContextMenuCmdCallback, // Menu Cmd Callback
+                                        DoContextMenuShowCallback,// Menu Show Callback
+                                        nil,                      // Menu After Callback
+                                        SelectedToNamespaceArray, // Namespace Array
+                                        nil,                      // Position
+                                        nil,                      // Custom Shell Sub Menu
+                                        '',                       // Custom Sub Menu Caption
+                                        data.Namespace,           // Focused
+                                        false,                    // Show Paste Item
+                                        false,                    // Show Rename Item
+                                        false);                   // Show Shortcut Item
   end
   else if not (hiOnItemButton in info.HitPositions) then
   begin
@@ -936,7 +1050,7 @@ begin
             APIDL:= CEPathToPIDL(l.Strings[0]);
             if assigned(APIDL) then
             begin
-              node:= InsertShellNode(groupNode, amAddChildLast, APIDL);
+              InsertShellNode(groupNode, amAddChildLast, APIDL);
               PIDLMgr.FreePIDL(APIDL);
             end
             else
@@ -1099,6 +1213,19 @@ begin
     end;
   finally
     list.Free;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set SafeOperationsOnly
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.SetSafeOperationsOnly(const Value: Boolean);
+begin
+  if Value <> fSafeOperationsOnly then
+  begin
+    fSafeOperationsOnly:= Value;
+    if assigned(fOnSafeOperationsOnlyChange) then
+    fOnSafeOperationsOnlyChange(Self);
   end;
 end;
 

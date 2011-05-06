@@ -162,6 +162,7 @@ var
   items: TTntStrings;
 begin
   ClearGroups;
+  items:= nil;
   for i:= 0 to AStrings.Count - 1 do
   begin
     ws:= Trim(AStrings.Strings[i]);

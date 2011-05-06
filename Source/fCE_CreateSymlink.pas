@@ -70,7 +70,7 @@ var
 begin
   if FileOrFolderExists(WideIncludeTrailingPathDelimiter(ParentLinkFolderPath) + edit_linkname.Text) then
   begin
-    ws:= WideFormat(_('"%s" already exists. Please choose another name.'), [edit_linkname.Text]);
+    ws:= '"' + edit_linkname.Text + '" ' + _('already exists. Please choose another name.');
     WideMessageBox(0, _('Duplicate name'), ws, MB_ICONINFORMATION or MB_OK);
     Exit;
   end;

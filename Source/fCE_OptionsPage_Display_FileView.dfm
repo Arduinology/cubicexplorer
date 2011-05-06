@@ -62,26 +62,19 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
     TabOrder = 6
     OnClick = HandleChange
   end
-  object combo_sizeformat: TSpTBXComboBox
-    Left = 16
-    Top = 200
-    Width = 145
-    Height = 21
-    ItemHeight = 13
-    TabOrder = 7
-    OnChange = HandleChange
-    Items.Strings = (
-      'Default'
-      'Explorer'
-      'Actual'
-      'DiskUsage'
-      'Text')
-  end
   object SpTBXLabel1: TSpTBXLabel
     Left = 16
     Top = 181
     Width = 82
     Height = 19
     Caption = 'File size format:'
+  end
+  object combo_sizeformat: TTntComboBox
+    Left = 16
+    Top = 200
+    Width = 145
+    Height = 21
+    ItemHeight = 13
+    TabOrder = 8
   end
 end

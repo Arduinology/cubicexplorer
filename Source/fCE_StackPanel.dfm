@@ -21,9 +21,8 @@ inherited CEStackPanel: TCEStackPanel
       Images = CE_Images.MiscImages
       Stretch = True
       TabOrder = 0
-      Caption = 'StackToolbar'
       object sub_load: TSpTBXSubmenuItem
-        Caption = 'Load'
+        Caption = 'Open'
         ImageIndex = 4
         Options = [tboDropdownArrow]
         OnPopup = sub_loadPopup
@@ -33,6 +32,20 @@ inherited CEStackPanel: TCEStackPanel
         ImageIndex = 5
         Options = [tboDropdownArrow]
         OnPopup = sub_savePopup
+      end
+      object SpTBXSeparatorItem1: TSpTBXSeparatorItem
+      end
+      object item_clear_list: TSpTBXItem
+        Caption = 'Clear List'
+        ImageIndex = 9
+        Images = CE_Images.MiscImages
+        OnClick = but_clearlistClick
+      end
+      object item_safe_operations: TSpTBXItem
+        Caption = 'Allow Move'
+        ImageIndex = 7
+        Images = CE_Images.MiscImages
+        OnClick = item_safe_operationsClick
       end
     end
   end
@@ -44,14 +57,10 @@ inherited CEStackPanel: TCEStackPanel
     OnPopup = DropStackPopupPopup
     Left = 368
     Top = 48
-    object but_safetyswitch: TSpTBXItem
-      Caption = 'Safe Operations Only'
-      OnClick = but_safetyswitchClick
-    end
-    object SpTBXSeparatorItem1: TSpTBXSeparatorItem
-    end
     object but_clearlist: TSpTBXItem
       Caption = 'Clear List'
+      ImageIndex = 9
+      Images = CE_Images.MiscImages
       OnClick = but_clearlistClick
     end
   end

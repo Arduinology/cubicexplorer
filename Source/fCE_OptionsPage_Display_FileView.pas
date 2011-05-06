@@ -41,8 +41,8 @@ type
     check_sortfoldersfirst: TTntCheckBox;
     check_infotips: TTntCheckBox;
     check_singleclick: TTntCheckBox;
-    combo_sizeformat: TSpTBXComboBox;
     SpTBXLabel1: TSpTBXLabel;
+    combo_sizeformat: TTntComboBox;
     procedure HandleChange(Sender: TObject);
   private
     { Private declarations }
@@ -73,6 +73,11 @@ begin
   PageTitle:= _('Fileview Settings');
   PagePath:= 'Display/Fileview';
   ImageIndex:= 5;
+  combo_sizeformat.Items.Add(_('Default'));
+  combo_sizeformat.Items.Add(_('Explorer'));
+  combo_sizeformat.Items.Add(_('Actual'));
+  combo_sizeformat.Items.Add(_('Disk Usage'));
+  combo_sizeformat.Items.Add(_('Text'));
 end;
 
 {-------------------------------------------------------------------------------

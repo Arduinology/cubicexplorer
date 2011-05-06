@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-04-29 15:03\n"
-"PO-Revision-Date: 2011-04-29 15:03\n"
+"POT-Creation-Date: 2011-05-06 15:35\n"
+"PO-Revision-Date: 2011-05-06 15:35\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +29,7 @@ msgstr ""
 #: dCE_Actions.dfm:13  dCE_Actions.dfm:477 dCE_Actions.dfm:485
 #: dCE_Actions.dfm:494 dCE_Actions.dfm:502 dCE_Actions.dfm:510
 #: dCE_Actions.dfm:588 dCE_Actions.dfm:597 dCE_Actions.dfm:606
-#: fCE_SessionManager.dfm:128 fCE_OptionsPage_Tabs.pas:79 Main.pas:473
+#: fCE_SessionManager.dfm:128 fCE_OptionsPage_Tabs.pas:79 Main.pas:475
 msgid "Tabs"
 msgstr ""
 
@@ -92,7 +92,7 @@ msgstr ""
 #: dCE_Actions.dfm:176 dCE_Actions.dfm:184 dCE_Actions.dfm:305
 #: dCE_Actions.dfm:364 dCE_Actions.dfm:377 dCE_Actions.dfm:411
 #: dCE_Actions.dfm:417 dCE_Actions.dfm:424 dCE_Actions.dfm:457
-#: dCE_Actions.dfm:563 dCE_Actions.dfm:649 fCE_TextEditor.dfm:95
+#: dCE_Actions.dfm:563 dCE_Actions.dfm:656 fCE_TextEditor.dfm:95
 #: fCE_TextEditor.dfm:442 fCE_TextEditor.dfm:458 Main.dfm:171 Main.dfm:407
 msgid "View"
 msgstr ""
@@ -160,7 +160,7 @@ msgstr ""
 #. CEActions..ActionList..act_view_folders..Caption
 #. CEFolderPanel..Caption
 #: dCE_Actions.dfm:78  fCE_FolderPanel.dfm:2
-#: fCE_OptionsPage_Display_FolderTree.pas:63 Main.pas:1032
+#: fCE_OptionsPage_Display_FolderTree.pas:63 Main.pas:1039
 msgid "Folders"
 msgstr ""
 
@@ -172,7 +172,7 @@ msgstr ""
 #. Create BookmarkBar
 #: dCE_Actions.dfm:86  dCE_Actions.dfm:547 dCE_Actions.dfm:548
 #: fCE_SessionManager.dfm:142 Main.dfm:324
-#: fCE_OptionsPage_Display_Bookmarks.pas:65 Main.pas:511
+#: fCE_OptionsPage_Display_Bookmarks.pas:65 Main.pas:513
 msgid "Bookmarks"
 msgstr ""
 
@@ -201,13 +201,15 @@ msgid "Always Show Sort Columns"
 msgstr ""
 
 #. CEActions..ActionList..act_view_filters..Caption
-#. CEActions..ActionList..act_view_filtersmenu..Category
-#. CEActions..ActionList..act_view_filtersmenu..Caption
+#. CEActions..ActionList..act_filters_menu..Category
+#. CEActions..ActionList..act_filters_menu..Caption
+#. CEActions..ActionList..act_filters_pattern..Category
 #. CEFiltersPanel..Caption
 #. CESearchPage..SearchPanel..CriteriaTabControl..SpTBXTabItem8..Caption
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_filters..Caption
 #: dCE_Actions.dfm:121  dCE_Actions.dfm:624 dCE_Actions.dfm:625
-#: fCE_FiltersPanel.dfm:2 fCE_SearchPage.dfm:136 fCE_SearchPage.dfm:437
+#: dCE_Actions.dfm:631 fCE_FiltersPanel.dfm:2 fCE_SearchPage.dfm:136
+#: fCE_SearchPage.dfm:437
 msgid "Filters"
 msgstr ""
 
@@ -252,7 +254,7 @@ msgstr ""
 
 #. CEActions..ActionList..act_view_groupby..Caption
 #. CEActions..BackgroundCMItems_up..MenuItem_GroupBy..Caption
-#: dCE_Actions.dfm:169  dCE_Actions.dfm:686
+#: dCE_Actions.dfm:169  dCE_Actions.dfm:693
 msgid "Group By"
 msgstr ""
 
@@ -384,7 +386,7 @@ msgid "Auto"
 msgstr ""
 
 #. CEActions..ActionList..act_quick_text..Caption
-#: dCE_Actions.dfm:270 
+#: dCE_Actions.dfm:270  fCE_OptionsPage_Display_FileView.pas:80
 msgid "Text"
 msgstr ""
 
@@ -424,7 +426,7 @@ msgid "Text Editor"
 msgstr ""
 
 #. CEActions..ActionList..act_navi_filesearch..Caption
-#: dCE_Actions.dfm:330  fCE_SearchPage.pas:865
+#: dCE_Actions.dfm:330  fCE_SearchPage.pas:866
 msgid "File Search"
 msgstr ""
 
@@ -533,7 +535,7 @@ msgstr ""
 #. Create SessionsBar
 #: dCE_Actions.dfm:443  dCE_Actions.dfm:450 dCE_Actions.dfm:533
 #: dCE_Actions.dfm:540 dCE_Actions.dfm:555 dCE_Actions.dfm:556
-#: dCE_Actions.dfm:575 Main.dfm:327 Main.pas:521
+#: dCE_Actions.dfm:575 Main.dfm:327 Main.pas:523
 msgid "Sessions"
 msgstr ""
 
@@ -563,7 +565,7 @@ msgstr ""
 
 #. CEActions..ActionList..act_view_arrangeby..Caption
 #. CEActions..BackgroundCMItems_up..MenuItem_ArragneBy..Caption
-#: dCE_Actions.dfm:458  dCE_Actions.dfm:683
+#: dCE_Actions.dfm:458  dCE_Actions.dfm:690
 msgid "Arrange By"
 msgstr ""
 
@@ -672,6 +674,11 @@ msgstr ""
 #. CEActions..ActionList..act_focus_addressbar..Caption
 #: dCE_Actions.dfm:616 
 msgid "Set focus to address bar"
+msgstr ""
+
+#. CEActions..ActionList..act_filters_pattern..Caption
+#: dCE_Actions.dfm:632 
+msgid "Text Filter"
 msgstr ""
 
 #. CEAboutBox..Caption
@@ -920,7 +927,8 @@ msgid "Use strict filtering (wildcards are ? and *)"
 msgstr ""
 
 #. CEFiltersPanel..TopDock..PatternToolbar..but_clear..Caption
-#: fCE_FiltersPanel.dfm:36 
+#. Add Clear Filters
+#: fCE_FiltersPanel.dfm:36  fCE_FiltersPanel.pas:539
 msgid "Clear Filters"
 msgstr ""
 
@@ -1008,6 +1016,11 @@ msgstr ""
 #. CE_OptionsPage_Display_FileView..check_singleclick..Caption
 #: fCE_OptionsPage_Display_FileView.dfm:61 
 msgid "Single click browsing"
+msgstr ""
+
+#. CE_OptionsPage_Display_FileView..SpTBXLabel1..Caption
+#: fCE_OptionsPage_Display_FileView.dfm:70 
+msgid "File size format:"
 msgstr ""
 
 #. CEOptionsPage_General..check_singleinstance..Caption
@@ -1220,8 +1233,10 @@ msgstr ""
 
 #. CEPoEditor..ActionList..act_save..Caption
 #. CESaveSessionDlg..but_save..Caption
+#. CEStackPanel..TopDock..StackToolbar..sub_save..Caption
 #. CETextEditorPage..ActionList..text_file_save..Caption
-#: fCE_PoEditor.dfm:396  fCE_SaveSessionDlg.dfm:45 fCE_TextEditor.dfm:340
+#: fCE_PoEditor.dfm:396  fCE_SaveSessionDlg.dfm:45 fCE_StackPanel.dfm:31
+#: fCE_TextEditor.dfm:340
 msgid "Save"
 msgstr ""
 
@@ -1520,14 +1535,20 @@ msgstr ""
 msgid "Layouts"
 msgstr ""
 
-#. CEStackPanel..DropStackPopup..but_safetyswitch..Caption
-#: fCE_StackPanel.dfm:23 
-msgid "Safe Operations Only"
+#. CEStackPanel..TopDock..StackToolbar..sub_load..Caption
+#: fCE_StackPanel.dfm:25  Main.pas:1016
+msgid "Open"
 msgstr ""
 
+#. CEStackPanel..TopDock..StackToolbar..item_clear_list..Caption
 #. CEStackPanel..DropStackPopup..but_clearlist..Caption
-#: fCE_StackPanel.dfm:29 
+#: fCE_StackPanel.dfm:39  fCE_StackPanel.dfm:61
 msgid "Clear List"
+msgstr ""
+
+#. CEStackPanel..TopDock..StackToolbar..item_safe_operations..Caption
+#: fCE_StackPanel.dfm:45 
+msgid "Allow Move"
 msgstr ""
 
 #. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem1..Caption
@@ -1622,7 +1643,8 @@ msgid "Open..."
 msgstr ""
 
 #. CETextEditorPage..ActionList..text_file_saveas..Caption
-#: fCE_TextEditor.dfm:348 
+#. Save As...
+#: fCE_TextEditor.dfm:348  fCE_StackPanel.pas:309
 msgid "Save As..."
 msgstr ""
 
@@ -1686,6 +1708,10 @@ msgstr ""
 msgid "History"
 msgstr ""
 
+#: CE_AddressToolbar.pas:517 
+msgid "Connection error!"
+msgstr ""
+
 #: CE_BaseFileView.pas:307 
 msgid "Empty folder"
 msgstr ""
@@ -1693,20 +1719,20 @@ msgstr ""
 #. Add "More..." item
 #. More... item
 #. More... item
-#: CE_BaseFileView.pas:1404  CE_ToolbarButtons.pas:526
-#: CE_ToolbarButtons.pas:678 dCE_Actions.pas:1570 dCE_Actions.pas:1609
+#: CE_BaseFileView.pas:1406  CE_ToolbarButtons.pas:535
+#: CE_ToolbarButtons.pas:687 dCE_Actions.pas:1572 dCE_Actions.pas:1611
 msgid "More..."
 msgstr ""
 
-#: CE_FilterPanel.pas:378  CE_FilterPanel.pas:577
+#: CE_FilterPanel.pas:376  fCE_FiltersPanel.pas:512
 msgid "Show All Files"
 msgstr ""
 
-#: CE_FilterPanel.pas:380  CE_FilterPanel.pas:579
+#: CE_FilterPanel.pas:378  fCE_FiltersPanel.pas:514
 msgid "Show Folders"
 msgstr ""
 
-#: CE_FilterPanel.pas:383  CE_FilterPanel.pas:582
+#: CE_FilterPanel.pas:381  fCE_FiltersPanel.pas:517
 msgid "No Extension"
 msgstr ""
 
@@ -1743,16 +1769,26 @@ msgstr ""
 msgid "Session at"
 msgstr ""
 
-#: CE_StackTree.pas:624 
-msgid "item"
+#. Add "Remove from Stack" item
+#: CE_StackTree.pas:385  CE_StackTree.pas:387
+msgid "Remove from Stack"
 msgstr ""
 
-#: CE_StackTree.pas:626 
+#: CE_StackTree.pas:385  CE_StackTree.pas:819
 msgid "items"
 msgstr ""
 
+#. Add Warning item
+#: CE_StackTree.pas:426  CE_StackTree.pas:438
+msgid "WARNING: Real file operations below"
+msgstr ""
+
+#: CE_StackTree.pas:817 
+msgid "item"
+msgstr ""
+
 #. Auto create caption
-#: CE_StackTree.pas:769  CE_StackTree.pas:778
+#: CE_StackTree.pas:978  CE_StackTree.pas:987
 msgid "Group"
 msgstr ""
 
@@ -1760,29 +1796,29 @@ msgstr ""
 msgid "Total Size"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:318 
+#: CE_ToolbarButtons.pas:327 
 msgid "Folder Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:324 
+#: CE_ToolbarButtons.pas:333 
 msgid "Name Only"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:333 
+#: CE_ToolbarButtons.pas:342 
 msgid "Short Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:339 
+#: CE_ToolbarButtons.pas:348 
 msgid "Short Folder Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:345 
+#: CE_ToolbarButtons.pas:354 
 msgid "Short Name Only"
 msgstr ""
 
 #. Grouped toggle item
 #. Sho in Groups
-#: CE_ToolbarButtons.pas:652  dCE_Actions.pas:1579
+#: CE_ToolbarButtons.pas:661  dCE_Actions.pas:1581
 msgid "Show in Groups"
 msgstr ""
 
@@ -1791,9 +1827,27 @@ msgstr ""
 msgid "Select Session"
 msgstr ""
 
+#: fCE_CreateSymlink.pas:73 
+msgid "already exists. Please choose another name."
+msgstr ""
+
+#: fCE_CreateSymlink.pas:74 
+msgid "Duplicate name"
+msgstr ""
+
 #. Add Separator category to ActionList
 #: fCE_Customizer.pas:264 
 msgid "Separators"
+msgstr ""
+
+#. Add Dynamic Spacer item to ActionList
+#: fCE_Customizer.pas:279 
+msgid "Dynamic Spacer"
+msgstr ""
+
+#. Add Fixed Spacer item to ActionList
+#: fCE_Customizer.pas:287 
+msgid "Fixed Spacer"
 msgstr ""
 
 #. Populate Theme list
@@ -1803,7 +1857,7 @@ msgid "Author"
 msgstr ""
 
 #. Populate group_displayMode
-#: fCE_Customizer.pas:337 
+#: fCE_Customizer.pas:337  fCE_OptionsPage_Display_FileView.pas:76
 msgid "Default"
 msgstr ""
 
@@ -1855,12 +1909,24 @@ msgstr ""
 msgid "Bookmarks Panel Settings"
 msgstr ""
 
-#: fCE_OptionsPage_Display_FileView.pas:69 
+#: fCE_OptionsPage_Display_FileView.pas:72 
 msgid "Fileview"
 msgstr ""
 
-#: fCE_OptionsPage_Display_FileView.pas:70 
+#: fCE_OptionsPage_Display_FileView.pas:73 
 msgid "Fileview Settings"
+msgstr ""
+
+#: fCE_OptionsPage_Display_FileView.pas:77 
+msgid "Explorer"
+msgstr ""
+
+#: fCE_OptionsPage_Display_FileView.pas:78 
+msgid "Actual"
+msgstr ""
+
+#: fCE_OptionsPage_Display_FileView.pas:79 
+msgid "Disk Usage"
 msgstr ""
 
 #: fCE_OptionsPage_Display_FolderTree.pas:64 
@@ -1944,28 +2010,51 @@ msgstr ""
 msgid "Do you want to override existing session?"
 msgstr ""
 
-#: fCE_SearchPage.pas:492 
+#: fCE_SearchPage.pas:493 
 msgid "Searching from"
 msgstr ""
 
-#: fCE_SearchPage.pas:525 
+#: fCE_SearchPage.pas:526 
 msgid "Cancelled"
 msgstr ""
 
-#: fCE_SearchPage.pas:527 
+#: fCE_SearchPage.pas:528 
 msgid "Finished"
 msgstr ""
 
-#: fCE_SearchPage.pas:529 
+#: fCE_SearchPage.pas:530 
 msgid "%d folder(s) searched and %d item(s) found in %.3f second(s)"
 msgstr ""
 
-#: fCE_SearchPage.pas:562 
+#: fCE_SearchPage.pas:563 
 msgid "Open Containing Folder"
 msgstr ""
 
 #: fCE_SessionManager.pas:147 
 msgid "Are you sure you want to delete this session?"
+msgstr ""
+
+#. Borrow Save Session Dialog
+#: fCE_StackPanel.pas:234 
+msgid "Save Stack"
+msgstr ""
+
+#: fCE_StackPanel.pas:235 
+msgid "Stack Name"
+msgstr ""
+
+#. Save stack
+#. Save to existing Stack
+#: fCE_StackPanel.pas:251  fCE_StackPanel.pas:278
+msgid "You are about to save over existing stack."
+msgstr ""
+
+#: fCE_StackPanel.pas:252  fCE_StackPanel.pas:279
+msgid "Are you sure you want to do that?"
+msgstr ""
+
+#: fCE_StackPanel.pas:253  fCE_StackPanel.pas:280
+msgid "Confirm Stack Save"
 msgstr ""
 
 #: fCE_TextEditor.pas:791 
@@ -1977,116 +2066,112 @@ msgid "Untitled"
 msgstr ""
 
 #. Create FolderCombo Toolbar
-#: Main.pas:492 
+#: Main.pas:494 
 msgid "Address Bar"
 msgstr ""
 
 #. Create DriveToolbar
-#: Main.pas:500 
+#: Main.pas:502 
 msgid "Drives"
 msgstr ""
 
 #. Create BreadcrumbBar
-#: Main.pas:531 
+#: Main.pas:533 
 msgid "Breadcrumb Navigation"
 msgstr ""
 
 #. Add default menu items
-#: Main.pas:907 
+#: Main.pas:914 
 msgid "English (default)"
 msgstr ""
 
 #. TabBar Left/Right arrow hints
-#: Main.pas:1004 
+#: Main.pas:1011 
 msgid "Show more tabs"
 msgstr ""
 
 #. VSTools strings
-#: Main.pas:1008 
+#: Main.pas:1015 
 msgid "Warning"
 msgstr ""
 
-#: Main.pas:1009 
-msgid "Open"
-msgstr ""
-
-#: Main.pas:1011 
+#: Main.pas:1018 
 msgid "Last hour"
 msgstr ""
 
-#: Main.pas:1012 
+#: Main.pas:1019 
 msgid "Last twenty-four hours"
 msgstr ""
 
-#: Main.pas:1013 
+#: Main.pas:1020 
 msgid "This week"
 msgstr ""
 
-#: Main.pas:1014 
+#: Main.pas:1021 
 msgid "Two weeks ago"
 msgstr ""
 
-#: Main.pas:1015 
+#: Main.pas:1022 
 msgid "Three weeks ago"
 msgstr ""
 
-#: Main.pas:1016 
+#: Main.pas:1023 
 msgid "A month ago"
 msgstr ""
 
-#: Main.pas:1017 
+#: Main.pas:1024 
 msgid "Two months ago"
 msgstr ""
 
-#: Main.pas:1018 
+#: Main.pas:1025 
 msgid "Three months ago"
 msgstr ""
 
-#: Main.pas:1019 
+#: Main.pas:1026 
 msgid "Four months ago"
 msgstr ""
 
-#: Main.pas:1020 
+#: Main.pas:1027 
 msgid "Five months ago"
 msgstr ""
 
-#: Main.pas:1021 
+#: Main.pas:1028 
 msgid "Six months ago"
 msgstr ""
 
-#: Main.pas:1022 
+#: Main.pas:1029 
 msgid "Earlier this year"
 msgstr ""
 
-#: Main.pas:1023 
+#: Main.pas:1030 
 msgid "A long time ago"
 msgstr ""
 
-#: Main.pas:1025 
+#: Main.pas:1032 
 msgid "Zero"
 msgstr ""
 
-#: Main.pas:1026 
+#: Main.pas:1033 
 msgid "Tiny"
 msgstr ""
 
-#: Main.pas:1027 
+#: Main.pas:1034 
 msgid "Small"
 msgstr ""
 
-#: Main.pas:1028 
+#: Main.pas:1035 
 msgid "Medium"
 msgstr ""
 
-#: Main.pas:1029 
+#: Main.pas:1036 
 msgid "Large"
 msgstr ""
 
-#: Main.pas:1030 
+#: Main.pas:1037 
 msgid "Gigantic"
 msgstr ""
 
-#: Main.pas:1031 
+#: Main.pas:1038 
 msgid "System Folders"
 msgstr ""
 
