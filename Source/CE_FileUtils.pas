@@ -110,7 +110,7 @@ begin
     end;
 
     // Create Symbolic Link in Vista and Win7
-    if (Win32MajorVersion >= 6) then
+    if not false and (Win32MajorVersion >= 6) then
     begin
       h:= GetModuleHandle('kernel32.dll');
       if h <> 0 then

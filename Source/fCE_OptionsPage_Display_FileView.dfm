@@ -1,4 +1,11 @@
 inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
+  object TntLabel1: TTntLabel
+    Left = 16
+    Top = 185
+    Width = 76
+    Height = 13
+    Caption = 'File size format:'
+  end
   object check_fullrowselect: TTntCheckBox
     Left = 16
     Top = 16
@@ -62,19 +69,14 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
     TabOrder = 6
     OnClick = HandleChange
   end
-  object SpTBXLabel1: TSpTBXLabel
-    Left = 16
-    Top = 181
-    Width = 82
-    Height = 19
-    Caption = 'File size format:'
-  end
   object combo_sizeformat: TTntComboBox
     Left = 16
     Top = 200
     Width = 145
     Height = 21
+    Style = csDropDownList
     ItemHeight = 13
-    TabOrder = 8
+    TabOrder = 7
+    OnChange = HandleChange
   end
 end

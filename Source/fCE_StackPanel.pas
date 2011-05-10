@@ -65,6 +65,7 @@ type
     procedure HandleStackSaveClick(Sender: TObject);
   public
     StackTree: TCEStackTree;
+    procedure DoFormShow; override;
     procedure PopulateStackSaveMenuItem(AItem: TTBCustomItem; ShowAutoSaveItem:
         Boolean = false);
     property Settings: TCEStackPanelSettings read fSettings write fSettings;
@@ -184,6 +185,15 @@ end;
 procedure TCEStackPanel.but_clearlistClick(Sender: TObject);
 begin
   StackTree.Clear;
+end;
+
+{*------------------------------------------------------------------------------
+  Get's called when form gets shown.
+-------------------------------------------------------------------------------}
+procedure TCEStackPanel.DoFormShow;
+begin
+  inherited;
+  StackToolbar.Realign;
 end;
 
 {-------------------------------------------------------------------------------

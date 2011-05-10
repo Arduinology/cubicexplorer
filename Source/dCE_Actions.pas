@@ -203,7 +203,6 @@ type
     act_sessions_clearhistory: TTntAction;
     act_bookmarks_menu: TCEToolbarAction;
     act_sessions_menu: TCEToolbarAction;
-    act_view_dualview: TTntAction;
     act_view_infobar: TTntAction;
     act_edit_create_symlink: TTntAction;
     CreateSymbolicLink1: TTntMenuItem;
@@ -654,7 +653,6 @@ begin
               end;
     370: MainForm.Fullscreen:= not MainForm.Fullscreen;
     371: MainForm.OpenSkin;
-    //380: MainForm.DockHostForm.DualViewSettings.Enabled:= not MainForm.DockHostForm.DualViewSettings.Enabled;
   end;
 end;
 
@@ -694,7 +692,6 @@ begin
               end;
     370: TargetAction.Checked:= MainForm.Fullscreen;
     372..374: TargetAction.Enabled:= GlobalPathCtrl.ActivePage is TCEFileViewPage;
-    //380: TargetAction.Checked:= MainForm.DockHostForm.DualViewSettings.Enabled;
   end;
 end;
 

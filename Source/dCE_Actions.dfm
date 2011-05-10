@@ -130,12 +130,6 @@ object CEActions: TCEActions
       ImageIndex = 14
       OnExecute = ActionExecute
     end
-    object act_view_dualview: TTntAction
-      Tag = 380
-      Category = 'View'
-      Caption = 'DualView'
-      OnExecute = ActionExecute
-    end
     object act_view_thumbs: TTntAction
       Tag = 355
       Category = 'View'

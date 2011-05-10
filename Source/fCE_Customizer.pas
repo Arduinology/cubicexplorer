@@ -268,7 +268,7 @@ begin
   // Add Separator item to ActionList
   chNode:= ActionTree.AddChild(node);
   data:= ActionTree.GetNodeData(chNode);
-  data.Name:= '---';
+  data.Name:= '[' + _('Separator') + ']';
   data.IconIndex:= -1;
   data.IsCategory:= false;
   data.IsSeparator:= true;
@@ -353,6 +353,9 @@ var
 begin
   data1:= ActionTree.GetNodeData(Node1);
   data2:= ActionTree.GetNodeData(Node2);
+  if data1.IsSeparator and data1.IsSeparator then
+  Result:= Ord(data1.SeparatorType) - Ord(data2.SeparatorType)
+  else
   Result:= WideCompareText(data1.Name, data2.Name);
 end;
 

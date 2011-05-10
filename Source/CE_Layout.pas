@@ -1284,7 +1284,6 @@ procedure LoadToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
       begin
         item:= TCEToolbarSeparatorItem.Create(Toolbar);
         Toolbar.Items.Add(item);
-        item.Caption:= Toolbar.Name + '_' + IntToStr(Toolbar.Items.IndexOf(item));
       end
       // Dynamic Spacer
       else if SameText(chNode.Name, 'dynamic_spacer') then
@@ -1357,7 +1356,7 @@ procedure LoadToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
       // Separator
       else if SameText(chNode.Name, 'separator') then
       begin
-        item:= TSpTBXSeparatorItem.Create(Toolbar);
+        item:= TCEToolbarSeparatorItem.Create(Toolbar);
       end
       // Submenu item
       else if SameText(chNode.Name, 'submenu') then

@@ -41,8 +41,8 @@ type
     check_sortfoldersfirst: TTntCheckBox;
     check_infotips: TTntCheckBox;
     check_singleclick: TTntCheckBox;
-    SpTBXLabel1: TSpTBXLabel;
     combo_sizeformat: TTntComboBox;
+    TntLabel1: TTntLabel;
     procedure HandleChange(Sender: TObject);
   private
     { Private declarations }
