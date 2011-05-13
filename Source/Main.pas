@@ -417,7 +417,7 @@ begin
   Settings.Form:= Self;
   GlobalAppSettings.AddItem('MainForm', Settings, true, true);
 
-  GlobalStacks.StackDirPath:= ExePath + 'Stacks\';
+  StackDirPath:= ExePath + 'Stacks\';
 end;
 
 {-------------------------------------------------------------------------------
@@ -688,7 +688,7 @@ begin
   Layouts.LoadSettingsForToolbars;
 
   // Load Stacks
-  GlobalStacks.LoadFromDir(GlobalStacks.StackDirPath);
+  //GlobalStacks.LoadFromDir(GlobalStacks.StackDirPath);
 
   TabsOpened:= false;
   if WideParamCount > 0 then
@@ -755,7 +755,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TMainForm.Shutdown;
 begin
-  GlobalStacks.SaveToDir(GlobalStacks.StackDirPath);
+  //GlobalStacks.SaveToDir(GlobalStacks.StackDirPath);
 
   GlobalSessions.SaveToFile(exePath + 'sessions.xml');
 

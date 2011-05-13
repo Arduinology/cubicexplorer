@@ -18,6 +18,7 @@ inherited CEFiltersPanel: TCEFiltersPanel
       DockMode = dmCannotFloatOrChangeDocks
       DockPos = 0
       DragHandleStyle = dhNone
+      Images = CE_Images.SmallIcons
       ShrinkMode = tbsmNone
       Stretch = True
       TabOrder = 0
@@ -33,10 +34,7 @@ inherited CEFiltersPanel: TCEFiltersPanel
         OnDrawItem = check_wildcardsDrawItem
       end
       object but_clear: TSpTBXItem
-        Caption = 'Clear Filters'
-        ImageIndex = 9
-        Images = CE_Images.MiscImages
-        OnClick = but_clearClick
+        Action = CEActions.act_filters_clear
       end
       object combo_filterpattern: TSpTBXComboBox
         Left = 0

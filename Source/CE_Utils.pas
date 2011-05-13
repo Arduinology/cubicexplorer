@@ -37,8 +37,6 @@ uses
 type
   TWinVersion = (wvUnknown, wvWin95, wvWin98, wvWin98SE, wvWinNT, wvWinME, wvWin2000, wvWinXP, wvWin2003, wvWinVista);
 
-  function SavePIDLToMime(APIDL: PItemIDList): String;
-  function LoadPIDLFromMime(MimeStr: String): PItemIDList;
   function DecodeRelativePath(Path: WideString): WideString;
   function EncodeRelativePath(Path: WideString): WideString;
   function FindAction(ActionList: TTntActionList; ActionName: String): TTntAction;
@@ -58,7 +56,6 @@ type
   procedure ReplaceSystemVariablePath(var Path: WideString);
   function GetFileVersionBuild(Path: WideString): Integer;
   function GetRealVisibility(Comp: TWinControl): Boolean;
-  function PathExists(Path: WideString): Boolean;
   function UseConnection(RemotePath: String; Handle: HWND): Integer;
   function IsUNC(Path: WideString): Boolean;
   function WideGetDriveType(lpRootPathName: WideString): Integer;
@@ -109,46 +106,6 @@ var
   fIsWindowsVista: Boolean;
   fIsWindows64: Boolean;
   
-{*------------------------------------------------------------------------------
-  Save PIDL to Mime encoded string
--------------------------------------------------------------------------------}
-function SavePIDLToMime(APIDL: PItemIDList): String;
-var
-  stream: TStream;
-  buf: AnsiString;
-begin
-  Result:= '';
-  stream:= TMemoryStream.Create;
-  try
-    PIDLMgr.SaveToStream(stream, APIDL);
-    SetLength(buf,stream.Size);
-    stream.Position:= 0;
-    stream.Read(buf[1],stream.Size);
-    Result:= MimeEncodeStringNoCRLF(buf);
-  finally
-    stream.Free;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Load PIDL from Mime encoded string
--------------------------------------------------------------------------------}
-function LoadPIDLFromMime(MimeStr: String): PItemIDList;
-var
-  stream: TStream;
-  buf: AnsiString;
-begin
-  stream:= TMemoryStream.Create;
-  try
-    buf:= MimeDecodeString(MimeStr);
-    stream.Write(buf[1],Length(buf));
-    stream.Position:= 0;
-    Result:= PIDLMgr.LoadFromStream(stream);
-  finally
-    stream.Free;
-  end;
-end;
-
 {*------------------------------------------------------------------------------
   Decode Relative Path (relative to application path)
 -------------------------------------------------------------------------------}
@@ -553,17 +510,6 @@ begin
       break;
     end;
   end;
-end;
-
-{-------------------------------------------------------------------------------
-  Check if Path Exists
--------------------------------------------------------------------------------}
-function PathExists(Path: WideString): Boolean;
-begin
-  if Win32PlatformIsUnicode then
-  Result:= GetFileAttributesW(PWideChar(Path)) <> INVALID_FILE_ATTRIBUTES
-  else
-  Result:= GetFileAttributesA(PChar(String(Path))) <> INVALID_FILE_ATTRIBUTES;
 end;
 
 {-------------------------------------------------------------------------------

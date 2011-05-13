@@ -4,17 +4,17 @@ interface
 
 uses
   // CE
-  CE_Stacks, CE_Utils, CE_CommonObjects,
+  CE_Stacks, CE_Utils, CE_CommonObjects, CE_FileUtils,
   // VT
   VirtualTrees,
   // Tnt
   TntClasses,
   // VS Tools
   MPDataObject, MPShellUtilities, MPCommonObjects, MPCommonUtilities,
-  VirtualExplorerTree,
+  VirtualExplorerTree, VirtualResources, VirtualShellNotifier,
   // System Units
   SysUtils, Classes, Windows, Forms, Controls, ActiveX, ImgList, ShlObj,
-  Graphics, Menus;
+  Graphics, Menus, Messages;
 
 type
   TCEStackDataObject = class(TVETDataObject);
@@ -24,13 +24,18 @@ type
   PCEStackItemData = ^ACEStackItemData;
   ACEStackItemData = record
     Caption: WideString;
-    Namespace: TNamespace;
+    IconIndex: Integer;
+    OverlayIndex: Integer;
     ItemType: TCEStackItemType;
     CEPath: WideString;
+    PathType: TCEPathType;
     Offline: Boolean;
+    fLastOfflineCheck: Integer;
+    fLastIconRefresh: Integer;
+    Data: TObject;
   end;
 
-  TCEStackTree = class(TVirtualStringTree)
+  TCEStackTree = class(TVirtualStringTree, IVirtualShellNotify)
   private
     fActiveDataObject: IDataObject;
     fActiveStack: TCEStackItem;
@@ -38,14 +43,19 @@ type
     fBackgroundPopupMenu: TPopupMenu;
     fGroupImageIndex: Integer;
     fGroupOpenImageIndex: Integer;
+    fCleanList: TList;
+    fMaxHintItemCount: Integer;
     fNotAvailableImageIndex: Integer;
     fOnSafeOperationsOnlyChange: TNotifyEvent;
     fSafeOperationsOnly: Boolean;
     fShowWarnings: Boolean;
     fStacks: TCEStacks;
+    function GetOkToShellNotifyDispatch: Boolean;
     function GetStacks: TCEStacks;
     procedure SetSafeOperationsOnly(const Value: Boolean);
   protected
+    LastIconRefresh: Integer;
+    LastOfflineCheck: Integer;
     function CanShowDragImage: Boolean; override;
     procedure DoAutoSaveActiveStack; virtual;
     function DoCancelEdit: Boolean; override;
@@ -83,19 +93,33 @@ type
         TPoint); override;
     procedure DragAndDrop(AllowedEffects: Integer; DataObject: IDataObject;
         DragEffect: Integer); override;
+    procedure FreeNamespaceArray(NamespaceArray: TNamespaceArray);
+    procedure Notify(var Msg: TMessage);
     procedure UpdateScrollbarSize;
+    procedure WMCreate(var Msg: TMessage); message WM_CREATE;
+    procedure WMNCDestroy(var Msg: TMessage); message WM_NCDESTROY;
+    procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
+    property OkToShellNotifyDispatch: Boolean read GetOkToShellNotifyDispatch;
   public
     constructor Create(AOwner: TComponent); override;
-    procedure CheckAvailability(APIDL: PItemIDList = nil);
+    destructor Destroy; override;
+    procedure CheckOfflineState(ANode: PVirtualNode; AForce: Boolean = false);
+    procedure CheckOfflineStates(AForce: Boolean = false);
+    procedure CleanItems(ClearList: Boolean = false);
+    function FindByPath(APath: WideString; Offset: PVirtualNode = nil):
+        PVirtualNode;
     function InsertGroupNode(ToNode: PVirtualNode; Mode: TVTNodeAttachMode;
         ACaption: WideString = ''): PVirtualNode; virtual;
     function InsertShellNode(ToNode: PVirtualNode; Mode: TVTNodeAttachMode; APIDL:
         PItemIDList): PVirtualNode; virtual;
     procedure LoadFromStack(AStack: TCEStackItem); virtual;
+    procedure RefreshIcons(AForce: Boolean = false);
+    procedure RefreshIcon(ANode: PVirtualNode; AForce: Boolean = false);
     function RemoveEmptyGroups: Boolean;
     function SaveActiveStack: Boolean;
     procedure SaveToStack(AStack: TCEStackItem); virtual;
-    function SelectedToNamespaceArray: TNamespaceArray;
+    function SelectedToNamespaceArray(AddToCleanList: Boolean = false):
+        TNamespaceArray;
     property ActiveStack: TCEStackItem read fActiveStack write fActiveStack;
   published
     property AutoSaveActiveStack: Boolean read fAutoSaveActiveStack write
@@ -105,6 +129,8 @@ type
     property GroupImageIndex: Integer read fGroupImageIndex write fGroupImageIndex;
     property GroupOpenImageIndex: Integer read fGroupOpenImageIndex write
         fGroupOpenImageIndex;
+    property MaxHintItemCount: Integer read fMaxHintItemCount write
+        fMaxHintItemCount;
     property NotAvailableImageIndex: Integer read fNotAvailableImageIndex write
         fNotAvailableImageIndex;
     property SafeOperationsOnly: Boolean read fSafeOperationsOnly write
@@ -115,95 +141,23 @@ type
         fOnSafeOperationsOnlyChange write fOnSafeOperationsOnlyChange;
   end;
 
-function PIDLToCEPath(APIDL: PItemIDList): WideString;
+type
+  // Simpilies dealing with the CFSTR_LOGICALPERFORMEDDROPEFFECT format
+  TCELogicalPerformedDropEffect = class(TCommonClipboardFormat)
+  private
+    fAction: Cardinal;
+  public
+    function GetFormatEtc: TFormatEtc; override;
+    function LoadFromDataObject(DataObject: IDataObject): Boolean; override;
+    function SaveToDataObject(DataObject: IDataObject): Boolean; override;
 
-function CEPathToPIDL(APath: WideString): PItemIDList;
+    property Action: Cardinal read fAction write fAction;
+  end;
 
 implementation
 
 uses
   CE_LanguageEngine;
-
-{-------------------------------------------------------------------------------
-  PIDL to CEPath
--------------------------------------------------------------------------------}
-function PIDLToCEPath(APIDL: PItemIDList): WideString;
-var
-  folderID: Integer;
-  pidl: PItemIDList;
-  ns: TNamespace;
-begin
-  Result:= '';
-  if not assigned(APIDL) then Exit;
-  // Get Special folder ID
-  if PIDLMgr.IsDesktopFolder(APIDL) then
-  folderID:= 0
-  else
-  folderID:= CE_SpecialNamespaces.GetSpecialID(APIDL);
-
-  // Special Folder ID
-  if folderID > -1 then
-  Result:= 'special://' + IntToStr(folderID)
-  else
-  begin
-    ns:= TNamespace.Create(APIDL, nil);
-    ns.FreePIDLOnDestroy:= false;
-    try
-      pidl:= PathToPIDL(ns.NameForParsing);
-      // Normal Path
-      if assigned(pidl) then
-      begin
-        Result:= ns.NameForParsing;
-        PIDLMgr.FreeAndNilPIDL(pidl);
-      end
-      // PIDL
-      else
-      begin
-        Result:= 'pidl://' + SavePIDLToMime(APIDL);
-      end;
-    finally
-      ns.Free;
-    end;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  CE Path to PIDL
--------------------------------------------------------------------------------}
-function CEPathToPIDL(APath: WideString): PItemIDList;
-var
-  ws: WideString;
-  c, folderID: Integer;
-begin
-  Result:= nil;
-  c:= Length(APath);
-  if c = 0 then Exit;
-  // PIDL
-  if Pos('pidl://', APath) = 1 then
-  begin
-    if c > 7 then
-    begin
-      ws:= Copy(APath, 8, c - 7);
-      Result:= LoadPIDLFromMime(ws);
-    end;
-  end
-  // Special folder id
-  else if Pos('special://', APath) = 1 then
-  begin
-    if c > 10 then
-    begin
-      ws:= Copy(APath, 11, c - 10);
-      folderID:= StrToIntDef(ws, -1);
-      if folderID > -1 then
-      SHGetspecialFolderLocation(0, folderID, Result);
-    end;
-  end
-  // Normal Path
-  else
-  begin
-    Result:= PathToPIDL(APath);
-  end;
-end;
 
 {##############################################################################}
 
@@ -218,8 +172,8 @@ begin
   fGroupImageIndex:= -1;
   fGroupOpenImageIndex:= -1;
   fNotAvailableImageIndex:= -1;
-  fSafeOperationsOnly:= true;
-  fShowWarnings:= true;
+  fSafeOperationsOnly:= false;
+  fMaxHintItemCount:= 20;
   BorderStyle:= bsNone;
   BevelInner:= bvNone;
   BevelOuter:= bvNone;
@@ -232,7 +186,21 @@ begin
   TreeOptions.PaintOptions:= [toShowButtons,toShowDropmark,toShowRoot,toShowTreeLines, toThemeAware, toUseBlendedImages];
   TreeOptions.SelectionOptions:= [toMultiSelect,toRightClickSelect];
   TreeOptions.StringOptions:= [toSaveCaptions,toShowStaticText,toAutoAcceptEditChange];
-  TreeOptions.MiscOptions:= [toEditable, toAcceptOLEDrop,toFullRepaintOnResize,toInitOnSave,toToggleOnDblClick,toWheelPanning,toEditOnClick]
+  TreeOptions.MiscOptions:= [toEditable, toAcceptOLEDrop,toFullRepaintOnResize,toInitOnSave,toToggleOnDblClick,toWheelPanning,toEditOnClick];
+
+  LastIconRefresh:= GetTickCount;
+  LastOfflineCheck:= LastIconRefresh;
+
+  fCleanList:= TList.Create;
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy TCEStackTree
+-------------------------------------------------------------------------------}
+destructor TCEStackTree.Destroy;
+begin
+  fCleanList.Destroy;
+  inherited;
 end;
 
 {-------------------------------------------------------------------------------
@@ -248,71 +216,115 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Check Availability of Shell items (if APIDL is assigned, then only it will be checked, else all items are checked)
+  Check Item Offline state
 -------------------------------------------------------------------------------}
-procedure TCEStackTree.CheckAvailability(APIDL: PItemIDList = nil);
+procedure TCEStackTree.CheckOfflineState(ANode: PVirtualNode; AForce: Boolean =
+    false);
 var
-  node, chNode: PVirtualNode;
-  data, chData: PCEStackItemData;
-  check: Boolean;
-  pidl: PItemIDList;
+  data: PCEStackItemData;
+  ns: TNamespace;
 begin
-  node:= Self.GetFirst;
-  while assigned(node) do
+  data:= Self.GetNodeData(ANode);
+  if data.ItemType = sitShell then
   begin
-    data:= Self.GetNodeData(node);
-    if data.ItemType = sitGroup then
-    begin
-      chNode:= Self.GetFirstChild(node);
-      while assigned(chNode) do
-      begin
-        chData:= Self.GetNodeData(chNode);
-        if (chData.ItemType = sitShell) then
-        begin
-          if assigned(chData.Namespace) then
-          begin
-            if assigned(APIDL) then
-            check:= PIDLMgr.EqualPIDL(chData.Namespace.AbsolutePIDL, APIDL)
-            else
-            check:= true;
+    if not AForce and (data.fLastOfflineCheck >= LastOfflineCheck) then
+    Exit;
 
-            if check then
-            begin
-              pidl:= CEPathToPIDL(chData.CEPath);
-              if assigned(pidl) then
-              begin
-                chData.Offline:= false;
-                PIDLMgr.FreeAndNilPIDL(pidl);
-              end
-              else
-              begin
-                chData.Offline:= true;
-                chData.Namespace.Free;
-                chData.Namespace:= nil;
-              end;
-            end;
-          end
-          else
-          begin
-            pidl:= CEPathToPIDL(chData.CEPath);
-            if assigned(pidl) then
-            begin
-              chData.Namespace:= TNamespace.Create(PIDLMgr.CopyPIDL(pidl),nil);
-              chData.Caption:= chData.Namespace.NameNormal;
-              chData.Offline:= false;
-              PIDLMgr.FreeAndNilPIDL(pidl);
-            end
-            else
-            begin
-              chData.Offline:= true;
-            end;
-          end;
-        end;
-        chNode:= Self.GetNextSibling(chNode);
+    if data.Offline then
+    begin
+      if CEPathExists(data.CEPath, data.PathType) then
+      begin
+        ns:= CEPathToNamespace(data.CEPath, data.PathType);
+        data.Caption:= ns.NameNormal;
+        data.IconIndex:= ns.GetIconIndex(false, icSmall, true);
+        data.OverlayIndex:= ns.OverlayIconIndex;
+        data.fLastIconRefresh:= GetTickCount;
+        data.Offline:= false;
+        ns.Free;
       end;
+    end
+    else
+    begin
+      data.Offline:= not CEPathExists(data.CEPath, data.PathType);
     end;
-    node:= Self.GetNextSibling(node);
+    data.fLastOfflineCheck:= GetTickCount;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Check Offline States
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.CheckOfflineStates(AForce: Boolean = false);
+var
+  node: PVirtualNode;
+  data: PCEStackItemData;
+  ns: TNamespace;
+begin
+  LastOfflineCheck:= GetTickCount;
+  if AForce then
+  begin
+    node:= Self.GetFirst;
+    while assigned(node) do
+    begin
+      data:= Self.GetNodeData(node);
+      if data.ItemType = sitShell then
+      begin
+        if data.Offline then
+        begin
+          if CEPathExists(data.CEPath, data.PathType) then
+          begin
+            ns:= CEPathToNamespace(data.CEPath, data.PathType);
+            data.Caption:= ns.NameNormal;
+            data.IconIndex:= ns.GetIconIndex(false, icSmall, true);
+            data.OverlayIndex:= ns.OverlayIconIndex;
+            data.fLastIconRefresh:= LastOfflineCheck;
+            data.Offline:= false;
+            ns.Free;
+          end;
+        end
+        else
+        begin
+          data.Offline:= not CEPathExists(data.CEPath, data.PathType);
+        end;
+        data.fLastOfflineCheck:= LastOfflineCheck;
+      end;
+      node:= Self.GetNext(node);
+    end;
+  end;
+  Self.Refresh;
+end;
+
+{-------------------------------------------------------------------------------
+  Clean Items
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.CleanItems(ClearList: Boolean = false);
+var
+  i: Integer;
+  node: PVirtualNode;
+  data: PCEStackItemData;
+begin
+  i:= 0;
+  while i < fCleanList.Count do
+  begin
+    data:= Self.GetNodeData(fCleanList.Items[i]);
+    if not data.Offline then // Clean only items that were online
+    begin
+      // Delete item if it doesn't exist anymore
+      if not CEPathExists(data.CEPath, data.PathType) then
+      begin
+        Self.DeleteNode(fCleanList.Items[i]);
+        fCleanList.Delete(i);
+      end
+      else
+      i:= i + 1;
+    end
+    else // remove offline items from list
+    begin
+      fCleanList.Delete(i);
+    end;
+  end;
+  if ClearList then
+  fCleanList.Clear;
 end;
 
 {-------------------------------------------------------------------------------
@@ -463,18 +475,23 @@ begin
   begin
     if (Self.SelectedCount > 0) then
     begin
-      NSA:= SelectedToNamespaceArray;
-      // Create IDataObject
-      DataObj:= TCEStackDataObject.Create(Self, False);
-      Result:= DataObj;
-      fActiveDataObject:= Result;
-      // Create ShellDataObject
-      DataObj.ShellDataObject:= nil;
-      NSList:= NamespaceToNamespaceList(NSA);
+      fCleanList.Clear;
+      NSA:= SelectedToNamespaceArray(true);
       try
-        CreateFullyQualifiedShellDataObject(NSList, true,  Result);
+        // Create IDataObject
+        DataObj:= TCEStackDataObject.Create(Self, False);
+        Result:= DataObj;
+        fActiveDataObject:= Result;
+        // Create ShellDataObject
+        DataObj.ShellDataObject:= nil;
+        NSList:= NamespaceToNamespaceList(NSA);
+        try
+          CreateFullyQualifiedShellDataObject(NSList, true,  Result);
+        finally
+          FreeAndNil(NSList)
+        end;
       finally
-        FreeAndNil(NSList)
+        FreeNamespaceArray(NSA);
       end;
     end
   end
@@ -665,19 +682,20 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEStackTree.DoEndDrag(Target: TObject; X, Y: Integer);
 var
-  Effect: TCommonLogicalPerformedDropEffect;
+  Effect: TCELogicalPerformedDropEffect;
 begin
   inherited;
 
   if assigned(fActiveDataObject) then
   begin
-    Effect:= TCommonLogicalPerformedDropEffect.Create;
+    Effect:= TCELogicalPerformedDropEffect.Create;
     try
       if fActiveDataObject.QueryGetData(Effect.GetFormatEtc) = S_OK then
       begin
-        Effect.LoadFromDataObject(fActiveDataObject);
-        if (Effect.Action = effectMove) then
-        Self.DeleteSelectedNodes; // TODO: All items might not have been moved!!!
+        CleanItems(true);
+        //Effect.LoadFromDataObject(fActiveDataObject);
+        //if (Effect.Action = DROPEFFECT_MOVE) then
+        //CleanItems(true);
       end;
     finally
       Effect.Free;
@@ -701,7 +719,7 @@ end;
 procedure TCEStackTree.DoExpanded(Node: PVirtualNode);
 begin
   inherited;
-  UpdateScrollbarSize
+  UpdateScrollbarSize;
 end;
 
 {-------------------------------------------------------------------------------
@@ -712,9 +730,8 @@ var
   data: PCEStackItemData;
 begin
   data:= Self.GetNodeData(Node);
-  if assigned(data.Namespace) then
-  FreeAndNil(data.Namespace);
-  
+  if assigned(data.Data) then
+  data.Data.Free;  
   inherited;
 end;
 
@@ -734,14 +751,16 @@ begin
   data:= Self.GetNodeData(Node);
   if data.ItemType = sitShell then
   begin
+    if Kind <> ikOverlay then
+    CheckOfflineState(Node);
+
     if not data.Offline then
     begin
       Result:= SmallSysImages;
       if Kind = ikOverlay then
-      Index:= data.Namespace.OverlayIconIndex
+      Index:= data.OverlayIndex
       else
-      Index:= data.Namespace.GetIconIndex(false, icSmall);
-      Ghosted:= false;
+      Index:= data.IconIndex;
     end
     else
     begin
@@ -772,14 +791,18 @@ function TCEStackTree.DoGetNodeHint(Node: PVirtualNode; Column: TColumnIndex;
 var
   data: PCEStackItemData;
   chNode: PVirtualNode;
+  c: Integer;
 begin
+  c:= 0;
   Result:= inherited DoGetNodeHint(Node, Column, LineBreakStyle);
   data:= Self.GetNodeData(Node);
   if data.ItemType = sitShell then
   begin
     LineBreakStyle:= hlbForceSingleLine;
-    if assigned(data.Namespace) then
-    Result:= data.Namespace.NameForParsing;
+    if data.PathType = ptPath then
+    Result:= data.CEPath
+    else
+    Result:= data.Caption;
   end
   else
   begin
@@ -789,8 +812,16 @@ begin
     while assigned(chNode) do
     begin
       data:= Self.GetNodeData(chNode);
-      if assigned(data.Namespace) then
-      Result:= Result + #13#10 + data.Namespace.NameForParsing;
+      if data.PathType = ptPath then
+      Result:= Result + #13#10 + data.CEPath
+      else
+      Result:= Result + #13#10 + data.Caption;
+      c:= c + 1;
+      if c >= fMaxHintItemCount then
+      begin
+        Result:= Result + #13#10 + '...';
+        break;
+      end;
       chNode:= Self.GetNextSibling(chNode);
     end;
   end;
@@ -889,24 +920,29 @@ var
   data: PCEStackItemData;
   info: THitInfo;
   p: TPoint;
+  nArray: TNamespaceArray;
+  ns: TNamespace;
+  pidl: PItemIDList;
 begin
   Self.GetHitTestInfoAt(Position.X, Position.Y, false, info);
   if assigned(info.HitNode) and ((hiOnNormalIcon in info.HitPositions) or (hiOnItemLabel in info.HitPositions)) then
   begin
     data:= Self.GetNodeData(Node);
-    if assigned(data.Namespace) then
-    data.Namespace.ShowContextMenuMulti(Self,                     // Owner
-                                        DoContextMenuCmdCallback, // Menu Cmd Callback
-                                        DoContextMenuShowCallback,// Menu Show Callback
-                                        nil,                      // Menu After Callback
-                                        SelectedToNamespaceArray, // Namespace Array
-                                        nil,                      // Position
-                                        nil,                      // Custom Shell Sub Menu
-                                        '',                       // Custom Sub Menu Caption
-                                        data.Namespace,           // Focused
-                                        false,                    // Show Paste Item
-                                        false,                    // Show Rename Item
-                                        false);                   // Show Shortcut Item
+    if data.ItemType = sitShell then
+    begin
+      pidl:= CEPathToPIDL(data.CEPath);
+      if assigned(pidl) then
+      begin
+        ns:= TNamespace.Create(pidl, nil);
+        try
+          nArray:= SelectedToNamespaceArray;
+          ns.ShowContextMenuMulti(Self, nil,nil,nil, nArray, nil, nil, '', ns);
+        finally
+          ns.Free;
+          FreeNamespaceArray(nArray);
+        end;
+      end;
+    end;
   end
   else if not (hiOnItemButton in info.HitPositions) then
   begin
@@ -935,6 +971,54 @@ begin
   SHDoDragDrop_MP(Handle, DataObject, nil, effect, DragEffect)
   else // Older Windows versions
   inherited DragAndDrop(effect, DataObject, DragEffect);
+end;
+
+{-------------------------------------------------------------------------------
+  Find By Path
+-------------------------------------------------------------------------------}
+function TCEStackTree.FindByPath(APath: WideString; Offset: PVirtualNode =
+    nil): PVirtualNode;
+var
+  node: PVirtualNode;
+  data: PCEStackItemData;
+begin
+  Result:= nil;
+  if assigned(Offset) then
+  node:= Self.GetNext(Offset)
+  else
+  node:= Self.GetFirst;
+  while assigned(node) do
+  begin
+    data:= Self.GetNodeData(node);
+    if data.ItemType = sitShell then
+    begin
+      if data.CEPath = APath then
+      begin
+        Result:= node;
+        Break;
+      end;
+    end;
+    node:= Self.GetNext(node);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Free NamespaceArray
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.FreeNamespaceArray(NamespaceArray: TNamespaceArray);
+var
+  i: Integer;
+begin
+  for i:= 0 to Length(NamespaceArray) - 1 do
+  NamespaceArray[i].Free;
+end;
+
+{-------------------------------------------------------------------------------
+  Get OkToShellNotifyDispatch
+-------------------------------------------------------------------------------}
+function TCEStackTree.GetOkToShellNotifyDispatch: Boolean;
+begin
+  Result:= not Self.Dragging;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1001,16 +1085,21 @@ function TCEStackTree.InsertShellNode(ToNode: PVirtualNode; Mode:
     TVTNodeAttachMode; APIDL: PItemIDList): PVirtualNode;
 var
   data: PCEStackItemData;
+  ns: TNamespace;
 begin
   BeginUpdate;
   try
     Result:= InsertNode(ToNode, Mode);
     data:= GetNodeData(Result);
     data.ItemType:= sitShell;
-    data.Namespace:= TNamespace.Create(PIDLMgr.CopyPIDL(APIDL), nil);
-    data.Caption:= data.Namespace.NameNormal;
-    data.Offline:= false;
+    data.Offline:= true;
     data.CEPath:= PIDLToCEPath(APIDL);
+    data.PathType:= GetCEPathType(data.CEPath);
+    data.Caption:= WideExtractFileName(data.CEPath, false);
+    data.IconIndex:= -1;
+    data.OverlayIndex:= -1;
+    data.fLastOfflineCheck:= 0;
+    data.fLastIconRefresh:= 0;
   finally
     EndUpdate;
     DoAutoSaveActiveStack;
@@ -1025,7 +1114,6 @@ var
   i, i2: Integer;
   list, l: TTntStrings;
   groupNode, node: PVirtualNode;
-  APIDL: PItemIDList;
   data: PCEStackItemData;
 begin
   fActiveStack:= AStack;
@@ -1047,25 +1135,20 @@ begin
           l.CommaText:= list.Strings[i2];
           if l.Count > 0 then
           begin
-            APIDL:= CEPathToPIDL(l.Strings[0]);
-            if assigned(APIDL) then
-            begin
-              InsertShellNode(groupNode, amAddChildLast, APIDL);
-              PIDLMgr.FreePIDL(APIDL);
-            end
+            node:= InsertNode(groupNode, amAddChildLast);
+            data:= GetNodeData(node);
+            data.ItemType:= sitShell;
+            data.Offline:= true;
+            data.CEPath:= l.Strings[0];
+            data.PathType:= GetCEPathType(data.CEPath);
+            if l.Count > 1 then
+            data.Caption:= l.Strings[1]
             else
-            begin
-              node:= InsertNode(groupNode, amAddChildLast);
-              data:= GetNodeData(node);
-              data.ItemType:= sitShell;
-              data.Namespace:= nil;
-              data.Offline:= true;
-              data.CEPath:= l.Strings[0];
-              if l.Count > 1 then
-              data.Caption:= l.Strings[1]
-              else
-              data.Caption:= WideExtractFileName(data.CEPath, false);
-            end;
+            data.Caption:= WideExtractFileName(data.CEPath, false);
+            data.IconIndex:= -1;
+            data.OverlayIndex:= -1;
+            data.fLastOfflineCheck:= 0;
+            data.fLastIconRefresh:= 0;
           end;
         end;
       end;
@@ -1073,6 +1156,69 @@ begin
   finally
     EndUpdate;
     l.Free;
+    CheckOfflineStates;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Notify (on Shell Notify)
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.Notify(var Msg: TMessage);
+begin
+  if HandleAllocated then
+  WMShellNotify(Msg)
+end;
+
+{-------------------------------------------------------------------------------
+  Refresh Icons
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.RefreshIcons(AForce: Boolean = false);
+var
+  node: PVirtualNode;
+  data: PCEStackItemData;
+  ns: TNamespace;
+begin
+  LastIconRefresh:= GetTickCount;
+  if AForce then
+  begin
+    node:= GetFirst;
+    while assigned(node) do
+    begin
+      data:= GetNodeData(node);
+      if data.ItemType = sitShell then
+      begin
+        ns:= TNamespace.Create(CEPathToPIDL(data.CEPath), nil);
+        data.IconIndex:= ns.GetIconIndex(false, icSmall, true);
+        data.OverlayIndex:= ns.OverlayIconIndex;
+        data.fLastIconRefresh:= GetTickCount;
+        ns.Free;
+      end;
+      node:= GetNext(node);
+    end;
+  end;
+  Self.Refresh;
+end;
+
+{-------------------------------------------------------------------------------
+  Refresh Item Icon
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.RefreshIcon(ANode: PVirtualNode; AForce: Boolean =
+    false);
+var
+  data: PCEStackItemData;
+  ns: TNamespace;
+begin
+  data:= Self.GetNodeData(ANode);
+  if data.ItemType = sitShell then
+  begin
+    if not AForce and (data.fLastIconRefresh >= LastIconRefresh) then
+    Exit;
+
+    ns:= TNamespace.Create(CEPathToPIDL(data.CEPath), nil);
+    data.IconIndex:= ns.GetIconIndex(false, icSmall, true);
+    data.OverlayIndex:= ns.OverlayIconIndex;
+    data.fLastIconRefresh:= GetTickCount;
+    ns.Free;
   end;
 end;
 
@@ -1117,7 +1263,11 @@ function TCEStackTree.SaveActiveStack: Boolean;
 begin
   Result:= assigned(ActiveStack);
   if Result then
-  SaveToStack(ActiveStack);
+  begin
+    SaveToStack(ActiveStack);
+    if ActiveStack.StackPath <> '' then
+    ActiveStack.SaveToFile(ActiveStack.StackPath);
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1137,13 +1287,10 @@ procedure TCEStackTree.SaveToStack(AStack: TCEStackItem);
       while assigned(chNode) do
       begin
         chData:= Self.GetNodeData(chNode);
-        if assigned(chData.Namespace) then
-        begin
-          l.Clear;
-          l.Add(PIDLToCEPath(chData.Namespace.AbsolutePIDL));
-          l.Add(chData.Caption);
-          groupItems.Add(l.CommaText);
-        end;
+        l.Clear;
+        l.Add(chData.CEPath);
+        l.Add(chData.Caption);
+        groupItems.Add(l.CommaText);
         chNode:= Self.GetNextSibling(chNode);
       end;
     finally
@@ -1173,12 +1320,14 @@ end;
 {-------------------------------------------------------------------------------
   Selected To NamespaceArray
 -------------------------------------------------------------------------------}
-function TCEStackTree.SelectedToNamespaceArray: TNamespaceArray;
+function TCEStackTree.SelectedToNamespaceArray(AddToCleanList: Boolean =
+    false): TNamespaceArray;
 var
   i: Integer;
   node, chNode: PVirtualNode;
   data, chData: PCEStackItemData;
   list: TList;
+  pidl: PItemIDList;
 begin
   list:= TList.Create;
   try
@@ -1189,8 +1338,13 @@ begin
       data:= Self.GetNodeData(node);
       if data.ItemType = sitShell then
       begin
-        if assigned(data.Namespace) then
-        list.Add(Pointer(data.Namespace));
+        pidl:= CEPathToPIDL(data.CEPath);
+        if assigned(pidl) then
+        begin
+          list.Add(Pointer(TNamespace.Create(pidl, nil)));
+          if AddToCleanList then
+          fCleanList.Add(node);
+        end;
       end
       else if data.ItemType = sitGroup then
       begin
@@ -1198,8 +1352,13 @@ begin
         while assigned(chNode) do
         begin
           chData:= Self.GetNodeData(chNode);
-          if assigned(chData.Namespace) then
-          list.Add(Pointer(chData.Namespace));
+          pidl:= CEPathToPIDL(chData.CEPath);
+          if assigned(pidl) then
+          begin
+            list.Add(Pointer(TNamespace.Create(pidl, nil)));
+            if AddToCleanList then
+            fCleanList.Add(chNode);
+          end;
           chNode:= Self.GetNextSibling(chNode);
         end;
       end;
@@ -1245,6 +1404,157 @@ begin
     n:= Self.GetNextVisible(n);
   end;
   Self.RootNode.TotalHeight:= i;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle WM_Create message
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.WMCreate(var Msg: TMessage);
+begin
+  ShellNotifyManager.RegisterExplorerWnd(Self);
+  ChangeNotifier.RegisterShellChangeNotify(Self);
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle WM_NCDestroy message
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.WMNCDestroy(var Msg: TMessage);
+begin
+  ChangeNotifier.UnRegisterShellChangeNotify(Self);
+  ShellNotifyManager.UnRegisterExplorerWnd(Self);
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle WM_ShellNotify message
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.WMShellNotify(var Msg: TMessage);
+var
+  ShellEventList: TVirtualShellEventList;
+  ShellEvent: TVirtualShellEvent;
+  List: TList;
+  i: Integer;
+  node: PVirtualNode;
+  data: PCEStackItemData;
+  ns: TNamespace;
+begin
+  if not ShellNotifyManager.OkToDispatch then
+  begin
+    ShellNotifyManager.ReDispatchShellNotify(TVirtualShellEventList(Msg.wParam));
+  end
+  else
+  begin
+    ShellEventList:= TVirtualShellEventList(Msg.wParam);
+    List:= ShellEventList.LockList;
+    try
+      List.Sort(ShellEventSort);
+      try
+        for i:= 0 to List.Count - 1 do
+        begin
+          ShellEvent:= TVirtualShellEvent(List.Items[i]);
+          case ShellEvent.ShellNotifyEvent of
+            vsneUpdateDir, vsneUpdateItem: begin
+              LastOfflineCheck:= GetTickCount;
+            end;
+            vsneRenameItem, vsneRenameFolder: begin
+              if assigned(ShellEvent.PIDL1) and assigned(ShellEvent.PIDL2) then
+              begin
+                ns:= TNamespace.Create(ShellEvent.PIDL1, nil);
+                ns.FreePIDLOnDestroy:= false;
+                try
+                  node:= FindByPath(ns.NameForParsing);
+                  if assigned(node) then
+                  begin
+                    data:= Self.GetNodeData(node);
+                    data.CEPath:= PIDLToCEPath(ShellEvent.PIDL2);
+                    data.Caption:= WideExtractFileName(data.CEPath, false);
+                    data.IconIndex:= -1;
+                    data.OverlayIndex:= -1;
+                    data.fLastOfflineCheck:= 0;
+                    data.fLastIconRefresh:= 0;
+                    data.Offline:= true;
+                  end;
+                finally
+                  ns.Free;
+                end;
+              end;
+            end;
+          end;
+        end;
+      except
+      //finally
+      end;
+    finally
+      ShellEventList.UnlockList;
+      ShellEventList.Release;
+      Self.Refresh;
+    end;
+  end;
+end;
+
+{##############################################################################}
+// TCELogicalPerformedDropEffect
+
+{-------------------------------------------------------------------------------
+  GetFormatEtc
+-------------------------------------------------------------------------------}
+function TCELogicalPerformedDropEffect.GetFormatEtc: TFormatEtc;
+begin
+  Result.cfFormat:= CF_LOGICALPERFORMEDDROPEFFECT;
+  Result.ptd:= nil;
+  Result.dwAspect:= DVASPECT_CONTENT;
+  Result.lindex:= -1;
+  Result.tymed:= TYMED_HGLOBAL
+end;
+
+{-------------------------------------------------------------------------------
+  LoadFromDataObject
+-------------------------------------------------------------------------------}
+function TCELogicalPerformedDropEffect.LoadFromDataObject(DataObject: IDataObject): Boolean;
+var
+  Ptr: PCardinal;
+  StgMedium: TStgMedium;
+begin
+  Result:= False;
+  FillChar(StgMedium, SizeOf(StgMedium), #0);
+
+  if Succeeded(DataObject.GetData(GetFormatEtc, StgMedium)) then
+  try
+    Ptr:= GlobalLock(StgMedium.hGlobal);
+    try
+      if Assigned(Ptr) then
+      begin
+        FAction:= Ptr^;
+        Result:= True;
+      end;
+    finally
+      GlobalUnLock(StgMedium.hGlobal);
+    end
+  finally
+    ReleaseStgMedium(StgMedium)
+  end
+end;
+
+{-------------------------------------------------------------------------------
+  SaveToDataObject
+-------------------------------------------------------------------------------}
+function TCELogicalPerformedDropEffect.SaveToDataObject(DataObject: IDataObject): Boolean;
+var
+  Ptr: PCardinal;
+  StgMedium: TStgMedium;
+begin
+  FillChar(StgMedium, SizeOf(StgMedium), #0);
+
+  StgMedium.hGlobal:= GlobalAlloc(GPTR, SizeOf(FAction));
+  Ptr:= GlobalLock(StgMedium.hGlobal);
+  try
+    Ptr^:= FAction;
+    StgMedium.tymed:= TYMED_HGLOBAL;
+    Result:= Succeeded(DataObject.SetData(GetFormatEtc, StgMedium, True))
+  finally
+    GlobalUnLock(StgMedium.hGlobal);
+  end
 end;
 
 end.

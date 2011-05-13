@@ -628,6 +628,13 @@ object CEActions: TCEActions
       OnExecute = ActionExecute
       CanExecute = False
     end
+    object act_filters_clear: TTntAction
+      Tag = 901
+      Category = 'Filters'
+      Caption = 'Clear Filters'
+      ImageIndex = 44
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

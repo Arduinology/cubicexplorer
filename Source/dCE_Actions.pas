@@ -215,6 +215,7 @@ type
     act_focus_addressbar: TTntAction;
     act_filters_menu: TCEToolbarAction;
     act_filters_pattern: TCEToolbarAction;
+    act_filters_clear: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -306,6 +307,10 @@ procedure ExecuteGeneralCategory(ActionID: Integer);
 function FindActionByName(AActionList: TActionList; AName: String): TAction;
 
 procedure ExecuteFocusCategory(ActionID: Integer);
+
+procedure ExecuteMiscCategory(ActionID: Integer);
+
+procedure UpdateMiscCategory(ActionID: Integer; TargetAction: TTntAction);
 
 var
   CEActions: TCEActions;
@@ -414,8 +419,9 @@ begin
     700..799: ExecuteQuickviewCategory(ActionID);
     800..849: ExecuteBookmarksCategory(ActionID);
     850..899: ExecuteSessionsCategory(ActionID);
-    900..949: ExecuteQuickOptionsCategory(ActionID);
+    900..949: ExecuteMiscCategory(ActionID);
     950..999: ExecuteFocusCategory(ActionID);
+    1000..1100: ExecuteQuickOptionsCategory(ActionID);
   end;
 end;
 
@@ -435,7 +441,8 @@ begin
     700..799: UpdateQuickviewCategory(ActionID, TargetAction);
     800..849: UpdateBookmarksCategory(ActionID, TargetAction);
     850..899: UpdateSessionsCategory(ActionID, TargetAction);
-    900..999: UpdateQuickOptionsCategory(ActionID, TargetAction);
+    900..949: UpdateMiscCategory(ActionID, TargetAction);
+    1000..1100: UpdateQuickOptionsCategory(ActionID, TargetAction);
   end;
 end;
 
@@ -767,6 +774,27 @@ end;
   Help Category Update
 -------------------------------------------------------------------------------}
 procedure UpdateHelpCategory(ActionID: Integer; TargetAction: TTntAction);
+begin
+  TargetAction.Enabled:= true;
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Misc Category Execute
+-------------------------------------------------------------------------------}
+procedure ExecuteMiscCategory(ActionID: Integer);
+begin
+  case ActionID of
+    901: CEFiltersPanel.ClearFilters;
+  end;
+end;
+
+
+{-------------------------------------------------------------------------------
+  Update Misc Category
+-------------------------------------------------------------------------------}
+procedure UpdateMiscCategory(ActionID: Integer; TargetAction: TTntAction);
 begin
   TargetAction.Enabled:= true;
 end;

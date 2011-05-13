@@ -31,6 +31,8 @@ uses
   TB2Dock, SpTBXItem, TB2Item, TB2Toolbar, SpTBXEditors,
   // VSTools
   MPCommonObjects, EasyListview, MPCommonUtilities,
+  // Tnt
+  TntClasses,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus;
@@ -57,9 +59,11 @@ type
     procedure sub_savePopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure item_safe_operationsClick(Sender: TObject);
   private
+    ActiveStack: TCEStackItem;
     fSettings: TCEStackPanelSettings;
     { Private declarations }
   protected
+    fStackPaths: TTntStrings;
     procedure HandleSafeOperationsOnlyChange(Sender: TObject);
     procedure HandleStackLoadClick(Sender: TObject);
     procedure HandleStackSaveClick(Sender: TObject);
@@ -73,13 +77,20 @@ type
 
   TCEStackPanelSettings = class(TPersistent)
   private
+    function GetAutoSaveStack: Boolean;
+    function GetMaxHintItemCount: Integer;
     function GetSafeOperationsOnly: Boolean;
     function GetShowWarnings: Boolean;
+    procedure SetAutoSaveStack(const Value: Boolean);
+    procedure SetMaxHintItemCount(const Value: Integer);
     procedure SetSafeOperationsOnly(const Value: Boolean);
     procedure SetShowWarnings(const Value: Boolean);
   public
     StackPanel: TCEStackPanel;
   published
+    property AutoSaveStack: Boolean read GetAutoSaveStack write SetAutoSaveStack;
+    property MaxHintItemCount: Integer read GetMaxHintItemCount write
+        SetMaxHintItemCount;
     property SafeOperationsOnly: Boolean read GetSafeOperationsOnly write
         SetSafeOperationsOnly;
     property ShowWarnings: Boolean read GetShowWarnings write SetShowWarnings;
@@ -130,6 +141,8 @@ begin
   i:= StackToolbar.Items.IndexOf(item_safe_operations);
   if i > 0 then
   StackToolbar.Items.Insert(i, TCEToolbarDynamicSpacerItem.Create(StackToolbar.Items));
+
+  fStackPaths:= TTntStringList.Create;
 end;
 
 {-------------------------------------------------------------------------------
@@ -137,6 +150,12 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEStackPanel.FormDestroy(Sender: TObject);
 begin
+  if assigned(StackTree.ActiveStack) then
+  begin
+    StackTree.ActiveStack.Free;
+    StackTree.ActiveStack:= nil;
+  end;
+  fStackPaths.Free;
   fSettings.Free;
   inherited;
 end;
@@ -148,17 +167,22 @@ procedure TCEStackPanel.sub_loadPopup(Sender: TTBCustomItem; FromLink: Boolean);
 var
   i: Integer;
   item: TSpTBXItem;
+  ws: WideString;
 begin
   Sender.Clear;
-  for i:= 0 to GlobalStacks.Count - 1 do
+
+  FindStacks(StackDirPath, fStackPaths);
+
+  for i:= 0 to fStackPaths.Count - 1 do
   begin
     item:= TSpTBXItem.Create(Sender);
-    item.Caption:= GlobalStacks.Items[i].StackName;
-    item.OnClick:= HandleStackLoadClick;
+    ws:= fStackPaths.Strings[i];
+    item.Caption:= WideExtractFileName(ws, true);
     item.Tag:= i;
-    item.Checked:= StackTree.ActiveStack = GlobalStacks.Items[i];
+    item.OnClick:= HandleStackLoadClick;
+    item.Checked:= assigned(StackTree.ActiveStack) and (StackTree.ActiveStack.StackPath = ws);
     item.Images:= CE_Images.SmallIcons;
-    item.ImageIndex:= 43;    
+    item.ImageIndex:= 43;
     Sender.Add(item);
   end;
 end;
@@ -202,10 +226,6 @@ end;
 procedure TCEStackPanel.HandleSafeOperationsOnlyChange(Sender: TObject);
 begin
   item_safe_operations.Checked:= not StackTree.SafeOperationsOnly;
-  if item_safe_operations.Checked then
-  item_safe_operations.ImageIndex:= 7
-  else
-  item_safe_operations.ImageIndex:= 8;
 end;
 
 {-------------------------------------------------------------------------------
@@ -215,12 +235,23 @@ procedure TCEStackPanel.HandleStackLoadClick(Sender: TObject);
 var
   i: Integer;
   stack: TCEStackItem;
+  ws: WideString;
 begin
   i:= TSpTBXItem(Sender).Tag;
-  if (i > -1) and (i < GlobalStacks.Count) then
+  if (i > -1) and (i < fStackPaths.Count) then
   begin
-    stack:= GlobalStacks.Items[i];
-    StackTree.LoadFromStack(stack);
+    ws:= fStackPaths.Strings[i];
+    // Free previous Stack
+    if assigned(StackTree.ActiveStack) then
+    begin
+      StackTree.ActiveStack.Free;
+      StackTree.ActiveStack:= nil;
+    end;
+    // Create new stack
+    StackTree.ActiveStack:= TCEStackItem.Create;
+    StackTree.ActiveStack.StackName:= WideExtractFileName(ws, true);
+    StackTree.ActiveStack.LoadFromFile(ws);
+    StackTree.LoadFromStack(StackTree.ActiveStack);
   end;
 end;
 
@@ -244,8 +275,8 @@ begin
       dlg.Caption:= _('Save Stack');
       dlg.TntLabel1.Caption:= _('Stack Name');
       dlg.SessionCombo.Clear;
-      for i:= 0 to GlobalStacks.Count - 1 do
-      dlg.SessionCombo.Items.Add(GlobalStacks.Items[i].StackName);
+      for i:= 0 to fStackPaths.Count - 1 do
+      dlg.SessionCombo.Items.Add(WideExtractFileName(fStackPaths.Strings[i], true));
       dlg.SessionCombo.ItemIndex:= -1;
       dlg.SessionCombo.Text:= '';
       dlg.but_save.OnClick:= nil;
@@ -264,12 +295,34 @@ begin
           if (WideMessageBox(Self.Handle, ws, ws2, MB_ICONWARNING or MB_YESNO) <> idYes) then
           Exit;
 
-          stack:= GlobalStacks.Items[dlg.SessionCombo.ItemIndex];
+          if assigned(StackTree.ActiveStack) and
+            (StackTree.ActiveStack.StackPath = fStackPaths.Strings[dlg.SessionCombo.ItemIndex]) then
+          stack:= StackTree.ActiveStack
+          else
+          begin
+            if assigned(StackTree.ActiveStack) then
+            begin
+              StackTree.ActiveStack.Free;
+              StackTree.ActiveStack:= nil;
+            end;
+            stack:= TCEStackItem.Create;
+            stack.StackPath:= fStackPaths.Strings[dlg.SessionCombo.ItemIndex];
+            stack.StackName:= WideExtractFileName(stack.StackPath, true);
+          end;
         end
         else
-        stack:= GlobalStacks.AddStack(dlg.SessionCombo.Text);
-
+        begin
+          if assigned(StackTree.ActiveStack) then
+          begin
+            StackTree.ActiveStack.Free;
+            StackTree.ActiveStack:= nil;
+          end;
+          stack:= TCEStackItem.Create;
+          stack.StackPath:= StackDirPath + dlg.SessionCombo.Text + '.stk';
+          stack.StackName:= dlg.SessionCombo.Text;
+        end;
         StackTree.SaveToStack(stack);
+        stack.SaveToFile(stack.StackPath);
         StackTree.ActiveStack:= stack;
       end;
     finally
@@ -282,15 +335,25 @@ begin
     StackTree.AutoSaveActiveStack:= not StackTree.AutoSaveActiveStack;
   end
   // Save to existing Stack
-  else if (id > -1) and (id < GlobalStacks.Count) then
+  else if (id > -1) and (id < fStackPaths.Count) then
   begin
-    stack:= GlobalStacks.Items[id];
+    
     ws2:= _('You are about to save over existing stack.')+#13+#10+
          _('Are you sure you want to do that?');
     ws:= _('Confirm Stack Save');
     if (WideMessageBox(Self.Handle, ws, ws2, MB_ICONWARNING or MB_YESNO) = idYes) then
     begin
+      ws:= fStackPaths.Strings[id];
+      if assigned(StackTree.ActiveStack) then
+      begin
+        StackTree.ActiveStack.Free;
+        StackTree.ActiveStack:= nil;
+      end;
+      stack:= TCEStackItem.Create;
+      stack.StackPath:= ws;
+      stack.StackName:= WideExtractFileName(ws, true);
       StackTree.SaveToStack(stack);
+      stack.SaveToFile(stack.StackPath);
       StackTree.ActiveStack:= stack;
     end;
   end; 
@@ -312,6 +375,7 @@ procedure TCEStackPanel.PopulateStackSaveMenuItem(AItem: TTBCustomItem;
 var
   i: Integer;
   item: TSpTBXItem;
+  ws: WideString;
 begin
   AItem.Clear;
   // Save As...
@@ -325,18 +389,20 @@ begin
   // Separator
   AItem.Add(TSpTBXSeparatorItem.Create(AItem));
   // Stack Items ->
-  for i:= 0 to GlobalStacks.Count - 1 do
+  FindStacks(StackDirPath, fStackPaths);
+  for i:= 0 to fStackPaths.Count - 1 do
   begin
     item:= TSpTBXItem.Create(AItem);
-    item.Caption:= GlobalStacks.Items[i].StackName;
+    ws:= fStackPaths.Strings[i];
+    item.Caption:= WideExtractFileName(ws, true);
+    item.Checked:= assigned(StackTree.ActiveStack) and (StackTree.ActiveStack.StackPath = ws);
     item.Tag:= i;
-    item.Checked:= StackTree.ActiveStack = GlobalStacks.Items[i];
     item.OnClick:= HandleStackSaveClick;
     item.Images:= CE_Images.SmallIcons;
     item.ImageIndex:= 43;
     AItem.Add(item);
   end;
-
+  // Auto Save Item
   if ShowAutoSaveItem then
   begin
     // Separator
@@ -352,6 +418,30 @@ begin
 end;
 
 {##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Get/Set AutoSaveStack
+-------------------------------------------------------------------------------}
+function TCEStackPanelSettings.GetAutoSaveStack: Boolean;
+begin
+  Result:= StackPanel.StackTree.AutoSaveActiveStack;
+end;
+procedure TCEStackPanelSettings.SetAutoSaveStack(const Value: Boolean);
+begin
+  StackPanel.StackTree.AutoSaveActiveStack:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set MaxHintItemCount
+-------------------------------------------------------------------------------}
+function TCEStackPanelSettings.GetMaxHintItemCount: Integer;
+begin
+  Result:= StackPanel.StackTree.MaxHintItemCount;
+end;
+procedure TCEStackPanelSettings.SetMaxHintItemCount(const Value: Integer);
+begin
+  StackPanel.StackTree.MaxHintItemCount:= Value;
+end;
 
 {-------------------------------------------------------------------------------
   Get/Set SafeOperationsOnly

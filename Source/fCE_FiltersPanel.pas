@@ -27,6 +27,7 @@ uses
   // CE Units
   fCE_DockableForm, CE_FilterPanel, CE_VistaFuncs, CE_GlobalCtrl,
   fCE_FileView, dCE_Images, CE_AppSettings, fCE_SearchPage,
+  dCE_Actions,
   // TB2k, TBX, SpTBX
   TB2Dock, SpTBXItem,
   // Virtual Trees
@@ -91,6 +92,7 @@ type
   public
     Filters: TCEFilterList;
     PatternNotifyList: TObjectList;
+    procedure ClearFilters;
     procedure DoFormHide; override;
     procedure DoFormShow; override;
     procedure PopulateMenuItem(AItem: TSpTBXItem);
@@ -320,13 +322,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFiltersPanel.but_clearClick(Sender: TObject);
 begin
-  combo_filterpattern.Text:= '';
-  FilterTimer.Enabled:= false;
-  Filters.PatternText:= '';
-  Filters.ClearFilters;
-  GlobalFileViewSettings.ClearFilters;
-  Filters.PopulateTree;
-  combo_filterpatternChange(combo_filterpattern);
+
 end;
 
 {-------------------------------------------------------------------------------
@@ -416,6 +412,17 @@ end;
 procedure TCEFiltersPanel.check_resetfiltersClick(Sender: TObject);
 begin
   Settings.AutoResetFilters:= not Settings.AutoResetFilters;
+end;
+
+procedure TCEFiltersPanel.ClearFilters;
+begin
+  combo_filterpattern.Text:= '';
+  FilterTimer.Enabled:= false;
+  Filters.PatternText:= '';
+  Filters.ClearFilters;
+  GlobalFileViewSettings.ClearFilters;
+  Filters.PopulateTree;
+  combo_filterpatternChange(combo_filterpattern);
 end;
 
 {-------------------------------------------------------------------------------

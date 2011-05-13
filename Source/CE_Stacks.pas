@@ -15,6 +15,7 @@ type
   TCEStackItem = class(TObject)
   private
     fStackName: WideString;
+    fStackPath: WideString;
     function GetGroupCount: Integer;
     function GetGroupItems(Index: Integer): TTntStrings;
     function GetGroupName(Index: Integer): WideString;
@@ -36,12 +37,14 @@ type
     property GroupName[Index: Integer]: WideString read GetGroupName write
         SetGroupName;
     property StackName: WideString read fStackName write fStackName;
+    property StackPath: WideString read fStackPath write fStackPath;
   published
   end;
 
   TCEStacks = class(TObject)
   private
     fStackDirPath: WideString;
+    fStackPaths: TTntStrings;
     function GetCount: Integer;
     function GetItems(Index: Integer): TCEStackItem;
   protected
@@ -50,19 +53,51 @@ type
     constructor Create; virtual;
     destructor Destroy; override;
     function AddStack(AName: WideString): TCEStackItem;
+    procedure ClearStacks;
+    function GetStackPaths(ADirPath: WideString = ''): Integer;
     procedure LoadFromDir(ADirPath: WideString);
     procedure SaveToDir(ADirPath: WideString);
     property Count: Integer read GetCount;
     property Items[Index: Integer]: TCEStackItem read GetItems;
     property StackDirPath: WideString read fStackDirPath write fStackDirPath;
+    property StackPaths: TTntStrings read fStackPaths;
   end;
 
+  function FindStacks(ADirPath: WideString; Results: TTntStrings): Integer;
+
 var
-  GlobalStacks: TCEStacks;
+  StackDirPath: WideString;
 
 implementation
 
 uses WideStrings;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  FindStacks
+-------------------------------------------------------------------------------}
+function FindStacks(ADirPath: WideString; Results: TTntStrings): Integer;
+var
+  sr: TSearchRecW;
+begin
+  Result:= 0;
+  if not assigned(Results) then
+  Exit;
+
+  Results.Clear;
+  ADirPath:= WideIncludeTrailingBackslash(ADirPath);
+  if WideFindFirst(ADirPath + '*.stk', faAnyFile, sr) = 0 then
+  begin
+    repeat
+      Results.Add(ADirPath + sr.Name);
+    until WideFindNext(sr) <> 0;
+    WideFindClose(sr);
+    Result:= Results.Count;
+  end;
+end;
+
+{##############################################################################}
 
 {-------------------------------------------------------------------------------
   Create an instance of TCEStackItem
@@ -145,6 +180,7 @@ var
 begin
   list:= TTntStringList.Create;
   try
+    fStackPath:= AFilePath;
     list.LoadFromFile(AFilePath);
     LoadFromList(list);
   finally
@@ -243,6 +279,7 @@ constructor TCEStacks.Create;
 begin
   inherited;
   fItems:= TObjectList.Create(true);
+  fStackPaths:= TTntStringList.Create;
 end;
 
 {-------------------------------------------------------------------------------
@@ -250,18 +287,27 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCEStacks.Destroy;
 begin
+  fStackPaths.Free;
   fItems.Free;
   inherited;
 end;
 
 {-------------------------------------------------------------------------------
-  
+  Add Stack
 -------------------------------------------------------------------------------}
 function TCEStacks.AddStack(AName: WideString): TCEStackItem;
 begin
   Result:= TCEStackItem.Create;
   Result.StackName:= AName;
   fItems.Add(Result);
+end;
+
+{-------------------------------------------------------------------------------
+  Clear Stacks
+-------------------------------------------------------------------------------}
+procedure TCEStacks.ClearStacks;
+begin
+  fItems.Clear;
 end;
 
 {-------------------------------------------------------------------------------
@@ -281,25 +327,49 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Load From Dir
+  Get Stack Paths (Return number of stack files found
 -------------------------------------------------------------------------------}
-procedure TCEStacks.LoadFromDir(ADirPath: WideString);
+function TCEStacks.GetStackPaths(ADirPath: WideString = ''): Integer;
 var
   sr: TSearchRecW;
-  item: TCEStackItem;
 begin
+  Result:= -1;
+  fStackPaths.Clear;
+  if ADirPath = '' then
+  ADirPath:= WideIncludeTrailingBackslash(StackDirPath)
+  else
   ADirPath:= WideIncludeTrailingBackslash(ADirPath);
   if WideFindFirst(ADirPath + '*.stk', faAnyFile, sr) = 0 then
   begin
     repeat
-      item:= AddStack(WideExtractFileName(sr.Name, true));
+      fStackPaths.Add(ADirPath + sr.Name);
+    until WideFindNext(sr) <> 0;
+    WideFindClose(sr);
+    Result:= fStackPaths.Count;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Load From Dir
+-------------------------------------------------------------------------------}
+procedure TCEStacks.LoadFromDir(ADirPath: WideString);
+var
+  i: Integer;
+  item: TCEStackItem;
+  ws: WideString;
+begin
+  if GetStackPaths(ADirPath) > 0 then
+  begin
+    for i:= 0 to fStackPaths.Count - 1 do
+    begin
+      ws:= fStackPaths.Strings[i];
+      item:= AddStack(WideExtractFileName(ws, true));
       try
-        item.LoadFromFile(ADirPath + sr.Name);
+        item.LoadFromFile(ws);
       except
         // catch exceptions
       end;
-    until WideFindNext(sr) <> 0;
-    WideFindClose(sr);
+    end;
   end;
 end;
 
@@ -325,19 +395,12 @@ begin
     item:= Items[i];
     try
       item.SaveToFile(ADirPath + item.StackName + '.stk');
-    //except
-    finally
+    except
       // catch exceptions
     end;
   end;
 end;
 
 {##############################################################################}
-
-initialization
-  GlobalStacks:= TCEStacks.Create;
-
-finalization
-  FreeAndNil(GlobalStacks);
 
 end.

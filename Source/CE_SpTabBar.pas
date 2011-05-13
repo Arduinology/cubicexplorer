@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  fCE_TabPage, CE_Layout, CE_Utils, CE_AppSettings, CE_Toolbar,
+  fCE_TabPage, CE_Layout, CE_Utils, CE_AppSettings, CE_Toolbar, CE_FileUtils,
   // SpTBX
   SpTBXItem, SpTBXTabs, TB2Item, TB2Dock, SpTBXSkins,
   // VSTools

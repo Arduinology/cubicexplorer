@@ -37,8 +37,8 @@ inherited CEStackPanel: TCEStackPanel
       end
       object item_clear_list: TSpTBXItem
         Caption = 'Clear List'
-        ImageIndex = 9
-        Images = CE_Images.MiscImages
+        ImageIndex = 44
+        Images = CE_Images.SmallIcons
         OnClick = but_clearlistClick
       end
       object item_safe_operations: TSpTBXItem

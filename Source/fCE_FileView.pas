@@ -27,7 +27,7 @@ uses
   // CE Units
   fCE_TabPage, CE_FileView, CE_GlobalCtrl, CE_QuickView, CE_Utils,
   dCE_Images, CE_ContextMenu, CE_LanguageEngine, CE_AppSettings,
-  CE_InfoBar,
+  CE_InfoBar, CE_FileUtils,
   // EasyListview
   EasyListview, 
   // VSTools

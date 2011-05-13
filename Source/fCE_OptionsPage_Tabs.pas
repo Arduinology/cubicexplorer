@@ -26,7 +26,7 @@ interface
 uses
   // CE Units
   fCE_OptionsCustomPage, fCE_OptionsDialog, CE_LanguageEngine, CE_Utils,
-  CE_CommonObjects,
+  CE_FileUtils, CE_CommonObjects,
   // Tnt
   TntStdCtrls, TntFileCtrl,
   // VSTools

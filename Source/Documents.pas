@@ -138,10 +138,13 @@ Unit Documents;
 // 854 = Clear History
 // 855 = Auto save history
 
-// **** Quick Options (900) ****
+// **** Misc (900) ****
+// 901 = Clear Filters
 
 // **** Focus (950) ****
 // 951 = Set focus to address bar
+
+// **** Quick Options (1000) ****
 
 
 interface
