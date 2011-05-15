@@ -1,8 +1,8 @@
 #  Doesn't have any letters
 #. CEActions..BackgroundCMItems_up..N1..Caption
-#: dCE_Actions.dfm:466
+#:?dCE_Actions.dfm:466
 #. CEActions..BackgroundCMItems_up..N2..Caption
-#: dCE_Actions.dfm:472
+#:?dCE_Actions.dfm:472
 #. CEActions..BackgroundCMItems_up..N4..Caption
 #: dCE_Actions.dfm:484
 #. CEActions..BackgroundCMItems_down..N3..Caption
@@ -796,4 +796,11 @@ msgstr ""
 #: dCE_Images.dfm:3646
 #: dCE_Images.dfm:6764
 msgid "PngImage43"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3692
+# dCE_Images.dfm:6840
+msgid "PngImage44"
 msgstr ""

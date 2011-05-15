@@ -36,10 +36,10 @@ inherited CEStackPanel: TCEStackPanel
       object SpTBXSeparatorItem1: TSpTBXSeparatorItem
       end
       object item_clear_list: TSpTBXItem
-        Caption = 'Clear List'
+        Caption = 'Clear Filters'
         ImageIndex = 44
         Images = CE_Images.SmallIcons
-        OnClick = but_clearlistClick
+        OnClick = item_clear_listClick
       end
       object item_safe_operations: TSpTBXItem
         Caption = 'Allow Move'
@@ -59,9 +59,9 @@ inherited CEStackPanel: TCEStackPanel
     Top = 48
     object but_clearlist: TSpTBXItem
       Caption = 'Clear List'
-      ImageIndex = 9
-      Images = CE_Images.MiscImages
-      OnClick = but_clearlistClick
+      ImageIndex = 44
+      Images = CE_Images.SmallIcons
+      OnClick = item_clear_listClick
     end
   end
 end

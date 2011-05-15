@@ -17,10 +17,10 @@ type
 
   TCEToolbarEditItemViewer = class(TSpTBXEditItemViewer)
   private
-    fDragSizing: Boolean;
-    fMouseDownOffset: TPoint;
     function GetEditControlText: WideString;
   protected
+    fDragSizing: Boolean;
+    fMouseDownOffset: TPoint;
     procedure GetCursor(const Pt: TPoint; var ACursor: HCURSOR); override;
     function GetIndentAfter: Integer; override;
     procedure InternalDrawFrame(ACanvas: TCanvas; ARect: TRect; ItemInfo:
@@ -151,7 +151,8 @@ begin
   begin
     fDragSizing:= false;
     Self.View.CancelCapture;
-  end;
+  end
+  else
   inherited;
 end;
 

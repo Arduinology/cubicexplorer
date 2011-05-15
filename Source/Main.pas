@@ -347,7 +347,7 @@ var
 implementation
 
 uses
-  madExcept, CE_QuickView, Clipbrd, CE_PaneHost, CE_Stacks;
+  madExcept, CE_QuickView, Clipbrd, CE_PaneHost, CE_Stacks, MPResources;
 
 {$R *.dfm}
 
@@ -1037,6 +1037,14 @@ begin
   STR_GROUPSIZEGIGANTIC:= _('Gigantic');
   STR_GROUPSIZESYSFOLDER:= _('System Folders');
   STR_GROUPSIZEFOLDER:= _('Folders');
+
+  STR_FILE_SIZE_IN_KB:= _('KB');
+  STR_FILE_SIZE_IN_MB:= _('MB');
+  STR_FILE_SIZE_IN_TB:= _('TB');
+  STR_ZERO_KB:= '0 ' + STR_FILE_SIZE_IN_KB;
+  STR_ONE_KB:= '1 ' + STR_FILE_SIZE_IN_KB;
+
+  StatusBar.UpdateLabels(false);
 end;
 
 {*------------------------------------------------------------------------------

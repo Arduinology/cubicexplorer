@@ -26,7 +26,7 @@ interface
 uses
   // CE Units
   fCE_DockableForm, CE_Stacks, CE_StackTree, CE_GlobalCtrl, dCE_Images, CE_VistaFuncs,
-  CE_AppSettings, CE_Toolbar,
+  CE_AppSettings, CE_Toolbar, dCE_Actions,
   // SpTBX
   TB2Dock, SpTBXItem, TB2Item, TB2Toolbar, SpTBXEditors,
   // VSTools
@@ -52,14 +52,13 @@ type
     SpTBXSeparatorItem1: TSpTBXSeparatorItem;
     item_clear_list: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
-    procedure but_clearlistClick(Sender: TObject);
     procedure DropStackPopupPopup(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure sub_loadPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure sub_savePopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure item_safe_operationsClick(Sender: TObject);
+    procedure item_clear_listClick(Sender: TObject);
   private
-    ActiveStack: TCEStackItem;
     fSettings: TCEStackPanelSettings;
     { Private declarations }
   protected
@@ -203,17 +202,6 @@ begin
   //
 end;
 
-{-------------------------------------------------------------------------------
-  Clear List
--------------------------------------------------------------------------------}
-procedure TCEStackPanel.but_clearlistClick(Sender: TObject);
-begin
-  StackTree.Clear;
-end;
-
-{*------------------------------------------------------------------------------
-  Get's called when form gets shown.
--------------------------------------------------------------------------------}
 procedure TCEStackPanel.DoFormShow;
 begin
   inherited;
@@ -234,7 +222,6 @@ end;
 procedure TCEStackPanel.HandleStackLoadClick(Sender: TObject);
 var
   i: Integer;
-  stack: TCEStackItem;
   ws: WideString;
 begin
   i:= TSpTBXItem(Sender).Tag;
@@ -368,6 +355,14 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  On item_clear_list.Click
+-------------------------------------------------------------------------------}
+procedure TCEStackPanel.item_clear_listClick(Sender: TObject);
+begin
+  StackTree.Clear;
+end;
+
+{-------------------------------------------------------------------------------
   Populate Stack Save MenuItem
 -------------------------------------------------------------------------------}
 procedure TCEStackPanel.PopulateStackSaveMenuItem(AItem: TTBCustomItem;
@@ -409,7 +404,7 @@ begin
     AItem.Add(TSpTBXSeparatorItem.Create(AItem));
     // Auto Save
     item:= TSpTBXItem.Create(AItem);
-    item.Caption:= 'Enable Auto Save';
+    item.Caption:= _('Enable Auto Save');
     item.Tag:= -2;
     item.Checked:= StackTree.AutoSaveActiveStack;
     item.OnClick:= HandleStackSaveClick;

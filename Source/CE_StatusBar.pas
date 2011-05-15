@@ -186,6 +186,11 @@ begin
     end;
 
     CurrentItemLabel.Caption:= ws;
+  end
+  else
+  begin
+    SelectionLabel.Caption:= '0/0 ' + _('Selected');
+    SelectionSizeLabel.Caption:= '0/0 ' + _('KB');
   end;
 end;
 

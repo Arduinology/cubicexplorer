@@ -32,7 +32,6 @@ uses
   Messages,
   Windows,
   TntSystem,
-  MPShellUtilities,
   Main in 'Main.pas' {MainForm},
   CE_DockInfo in 'CE_DockInfo.pas',
   CE_Utils in 'CE_Utils.pas',
@@ -125,6 +124,7 @@ uses
   CE_StackTree in 'CE_StackTree.pas',
   TB2Item in 'Components\Tb2K\TB2Item.pas',
   CE_ToolbarEditorItems in 'CE_ToolbarEditorItems.pas',
+  MPShellUtilities in 'Components\Mustangpeak\CommonLibrary\MPShellUtilities.pas',
   EasyListview in 'Components\Mustangpeak\EasyListview\EasyListview.pas',
   VirtualExplorerEasyListview in 'Components\Mustangpeak\VSTools\VirtualExplorerEasyListview.pas';
 

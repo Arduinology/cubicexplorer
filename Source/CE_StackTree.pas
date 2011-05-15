@@ -300,7 +300,6 @@ end;
 procedure TCEStackTree.CleanItems(ClearList: Boolean = false);
 var
   i: Integer;
-  node: PVirtualNode;
   data: PCEStackItemData;
 begin
   i:= 0;
@@ -936,7 +935,7 @@ begin
         ns:= TNamespace.Create(pidl, nil);
         try
           nArray:= SelectedToNamespaceArray;
-          ns.ShowContextMenuMulti(Self, nil,nil,nil, nArray, nil, nil, '', ns);
+          ns.ShowContextMenuMulti(Self, DoContextMenuCmdCallback, DoContextMenuShowCallback, nil, nArray, nil, nil, '', ns);
         finally
           ns.Free;
           FreeNamespaceArray(nArray);
@@ -1085,7 +1084,6 @@ function TCEStackTree.InsertShellNode(ToNode: PVirtualNode; Mode:
     TVTNodeAttachMode; APIDL: PItemIDList): PVirtualNode;
 var
   data: PCEStackItemData;
-  ns: TNamespace;
 begin
   BeginUpdate;
   try

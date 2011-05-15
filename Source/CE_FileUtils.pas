@@ -194,7 +194,6 @@ var
   relativePIDL, pidl: PItemIDList;
   enum: IEnumIDList;
   c: Cardinal;
-  Next: PItemIDList;
 begin
   Result:= false;
   if not assigned(APIDL) then
@@ -277,7 +276,6 @@ function NamespaceToCEPath(ANamespace: TNamespace; out PathType: TCEPathType):
 var
   folderID: Integer;
   pidl: PItemIDList;
-  ns: TNamespace;
 begin
   Result:= '';
   if not assigned(ANamespace) then Exit;

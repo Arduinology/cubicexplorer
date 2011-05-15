@@ -3,7 +3,7 @@ object CreateSymlinkDlg: TCreateSymlinkDlg
   Top = 0
   BorderStyle = bsDialog
   Caption = 'Create Symbolic Link'
-  ClientHeight = 145
+  ClientHeight = 156
   ClientWidth = 329
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -13,66 +13,110 @@ object CreateSymlinkDlg: TCreateSymlinkDlg
   Font.Style = []
   OldCreateOrder = False
   Position = poMainFormCenter
-  DesignSize = (
-    329
-    145)
+  OnCreate = TntFormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object TntLabel1: TTntLabel
-    Left = 8
-    Top = 8
-    Width = 48
-    Height = 13
-    Caption = 'Link Name'
+  object SpTBXTabControl1: TSpTBXTabControl
+    Left = 0
+    Top = 0
+    Width = 329
+    Height = 117
+    Align = alClient
+    ActiveTabIndex = 0
+    TabVisible = False
+    ExplicitLeft = 8
+    ExplicitTop = 54
+    ExplicitWidth = 289
+    ExplicitHeight = 193
+    HiddenItems = <>
+    object SpTBXTabItem1: TSpTBXTabItem
+      Checked = True
+    end
+    object SpTBXTabSheet1: TSpTBXTabSheet
+      Left = 0
+      Top = 10
+      Width = 329
+      Height = 107
+      ImageIndex = -1
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
+      DesignSize = (
+        329
+        107)
+      TabItem = 'SpTBXTabItem1'
+      object edit_linkname: TSpTBXEdit
+        Left = 8
+        Top = 28
+        Width = 313
+        Height = 21
+        Anchors = [akLeft, akTop, akRight]
+        TabOrder = 0
+      end
+      object edit_targetpath: TSpTBXButtonEdit
+        Left = 8
+        Top = 76
+        Width = 313
+        Height = 21
+        Anchors = [akLeft, akTop, akRight]
+        TabOrder = 1
+        EditButton.Left = 290
+        EditButton.Top = 0
+        EditButton.Width = 19
+        EditButton.Height = 17
+        EditButton.Caption = '...'
+        EditButton.Align = alRight
+        EditButton.OnClick = edit_targetpathSubEditButton0Click
+      end
+      object SpTBXLabel1: TSpTBXLabel
+        Left = 8
+        Top = 7
+        Width = 54
+        Height = 19
+        Caption = 'Link Name'
+      end
+      object SpTBXLabel2: TSpTBXLabel
+        Left = 8
+        Top = 55
+        Width = 71
+        Height = 19
+        Caption = 'Target Folder'
+      end
+    end
   end
-  object TntLabel2: TTntLabel
-    Left = 8
-    Top = 56
-    Width = 65
-    Height = 13
-    Caption = 'Target Folder'
-  end
-  object but_cancel: TSpTBXButton
-    Left = 246
-    Top = 112
-    Width = 75
-    Height = 25
-    Caption = 'Cancel'
-    Anchors = [akRight, akBottom]
-    TabOrder = 0
-    ModalResult = 2
-  end
-  object but_create: TSpTBXButton
-    Left = 165
-    Top = 112
-    Width = 75
-    Height = 25
-    Caption = 'Create'
-    Anchors = [akRight, akBottom]
+  object SpTBXPanel1: TSpTBXPanel
+    Left = 0
+    Top = 117
+    Width = 329
+    Height = 39
+    Caption = 'SpTBXPanel1'
+    Align = alBottom
     TabOrder = 1
-    OnClick = but_createClick
-  end
-  object edit_linkname: TSpTBXEdit
-    Left = 8
-    Top = 27
-    Width = 313
-    Height = 21
-    Anchors = [akLeft, akTop, akRight]
-    TabOrder = 2
-  end
-  object edit_targetpath: TSpTBXButtonEdit
-    Left = 8
-    Top = 75
-    Width = 313
-    Height = 21
-    Anchors = [akLeft, akTop, akRight]
-    TabOrder = 3
-    EditButton.Left = 290
-    EditButton.Top = 0
-    EditButton.Width = 19
-    EditButton.Height = 17
-    EditButton.Caption = '...'
-    EditButton.Align = alRight
-    EditButton.OnClick = edit_targetpathSubEditButton0Click
+    Borders = False
+    TBXStyleBackground = True
+    ExplicitTop = 128
+    DesignSize = (
+      329
+      39)
+    object but_cancel: TSpTBXButton
+      Left = 246
+      Top = 6
+      Width = 75
+      Height = 27
+      Caption = 'Cancel'
+      Anchors = [akTop, akRight]
+      TabOrder = 0
+      ModalResult = 2
+    end
+    object but_create: TSpTBXButton
+      Left = 160
+      Top = 6
+      Width = 80
+      Height = 27
+      Caption = 'Create'
+      Anchors = [akTop, akRight]
+      TabOrder = 1
+      OnClick = but_createClick
+    end
   end
 end

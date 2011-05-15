@@ -6,21 +6,26 @@ uses
   // CE Units
   CE_ElevatedActions, CE_FileUtils,
   // Tnt
-  TntStdCtrls, TntSysUtils, TntFileCtrl,
+  TntStdCtrls, TntSysUtils, TntFileCtrl, TntForms,
   // SpTBX
   SpTBXItem, SpTBXControls, SpTBXEditors,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls;
+  Dialogs, StdCtrls, SpTBXTabs, TB2Item;
 
 type
-  TCreateSymlinkDlg = class(TForm)
+  TCreateSymlinkDlg = class(TTntForm)
     but_cancel: TSpTBXButton;
     but_create: TSpTBXButton;
     edit_linkname: TSpTBXEdit;
-    TntLabel1: TTntLabel;
-    TntLabel2: TTntLabel;
     edit_targetpath: TSpTBXButtonEdit;
+    SpTBXTabControl1: TSpTBXTabControl;
+    SpTBXTabItem1: TSpTBXTabItem;
+    SpTBXTabSheet1: TSpTBXTabSheet;
+    SpTBXPanel1: TSpTBXPanel;
+    SpTBXLabel1: TSpTBXLabel;
+    SpTBXLabel2: TSpTBXLabel;
+    procedure TntFormCreate(Sender: TObject);
     procedure but_createClick(Sender: TObject);
     procedure edit_targetpathSubEditButton0Click(Sender: TObject);
   private
@@ -36,7 +41,7 @@ procedure ShowCreateSymlinkDialog(AParentFolderPath: WideString; ALinkName:
 implementation
 
 uses
-  MPCommonUtilities, CE_LanguageEngine;
+  MPCommonUtilities, CE_LanguageEngine, CE_VistaFuncs;
 
 {$R *.dfm}
 
@@ -60,6 +65,15 @@ begin
 end;
 
 {##############################################################################}
+
+{-------------------------------------------------------------------------------
+  On TCreateSymlinkDlg Create
+-------------------------------------------------------------------------------}
+procedure TCreateSymlinkDlg.TntFormCreate(Sender: TObject);
+begin
+  SetVistaFont(Font);
+  CEGlobalTranslator.TranslateComponent(Self);
+end;
 
 {-------------------------------------------------------------------------------
   On Create button click
@@ -112,7 +126,7 @@ begin
   else
   ws:= ParentLinkFolderPath;
   
-  if WideSelectDirectory('Select target folder', '', ws) then
+  if WideSelectDirectory(_('Select target folder'), '', ws) then
   begin
     edit_targetpath.Text:= ws;
   end;
