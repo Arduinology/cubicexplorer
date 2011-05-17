@@ -153,6 +153,11 @@ object MainForm: TMainForm
         object SpTBXItem76: TSpTBXItem
           Action = CEActions.act_edit_newfolder
         end
+        object SpTBXSeparatorItem11: TSpTBXSeparatorItem
+        end
+        object SpTBXItem45: TSpTBXItem
+          Action = CEActions.act_edit_create_symlink
+        end
         object SpTBXSeparatorItem6: TSpTBXSeparatorItem
         end
         object SpTBXItem20: TSpTBXItem
@@ -360,7 +365,7 @@ object MainForm: TMainForm
         object SpTBXItem55: TSpTBXItem
           Action = CEActions.act_tools_disconnectdrive
         end
-        object SpTBXSeparatorItem11: TSpTBXSeparatorItem
+        object SpTBXSeparatorItem28: TSpTBXSeparatorItem
         end
         object SpTBXItem44: TSpTBXItem
           Action = CEActions.act_tools_showcustomizer

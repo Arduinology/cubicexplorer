@@ -106,6 +106,8 @@ type
     procedure CheckOfflineState(ANode: PVirtualNode; AForce: Boolean = false);
     procedure CheckOfflineStates(AForce: Boolean = false);
     procedure CleanItems(ClearList: Boolean = false);
+    procedure Clear; override;
+    procedure DeleteSelectedNodes; override;
     function FindByPath(APath: WideString; Offset: PVirtualNode = nil):
         PVirtualNode;
     function InsertGroupNode(ToNode: PVirtualNode; Mode: TVTNodeAttachMode;
@@ -120,6 +122,8 @@ type
     procedure SaveToStack(AStack: TCEStackItem); virtual;
     function SelectedToNamespaceArray(AddToCleanList: Boolean = false):
         TNamespaceArray;
+    function GroupToNamespaceArray(AGroupNode: PVirtualNode; AddToCleanList:
+        Boolean = false): TNamespaceArray;
     property ActiveStack: TCEStackItem read fActiveStack write fActiveStack;
   published
     property AutoSaveActiveStack: Boolean read fAutoSaveActiveStack write
@@ -324,6 +328,24 @@ begin
   end;
   if ClearList then
   fCleanList.Clear;
+end;
+
+{-------------------------------------------------------------------------------
+  Clear
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.Clear;
+begin
+  inherited;
+  DoAutoSaveActiveStack;
+end;
+
+{-------------------------------------------------------------------------------
+  DeleteSelectedNodes
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.DeleteSelectedNodes;
+begin
+  inherited;
+  DoAutoSaveActiveStack;
 end;
 
 {-------------------------------------------------------------------------------
@@ -806,7 +828,10 @@ begin
   else
   begin
     LineBreakStyle:= hlbForceMultiLine;
-    Result:= data.Caption + ' (' + IntToStr(Self.ChildCount[Node]) + ' items):';
+    if Self.ChildCount[Node] = 1 then
+    Result:= data.Caption + ' (' + IntToStr(Self.ChildCount[Node]) + ' ' + _('item')+ '):'
+    else
+    Result:= data.Caption + ' (' + IntToStr(Self.ChildCount[Node]) + ' ' + _('items')+ '):';
     chNode:= Self.GetFirstChild(Node);
     while assigned(chNode) do
     begin
@@ -940,6 +965,16 @@ begin
           ns.Free;
           FreeNamespaceArray(nArray);
         end;
+      end;
+    end
+    else if data.ItemType = sitGroup then
+    begin
+      nArray:= GroupToNamespaceArray(Node);
+      try
+        if Length(nArray) > 0 then
+        nArray[0].ShowContextMenuMulti(Self, DoContextMenuCmdCallback, DoContextMenuShowCallback, nil, nArray);
+      finally
+        FreeNamespaceArray(nArray);
       end;
     end;
   end
@@ -1361,6 +1396,48 @@ begin
         end;
       end;
       node:= Self.GetNextSelected(node);
+    end;
+    // Create NamespaceArray
+    SetLength(Result, list.Count);
+    for i:= 0 to list.Count - 1 do
+    begin
+      Result[i]:= TNamespace(list.Items[i]);
+    end;
+  finally
+    list.Free;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Selected To NamespaceArray
+-------------------------------------------------------------------------------}
+function TCEStackTree.GroupToNamespaceArray(AGroupNode: PVirtualNode;
+    AddToCleanList: Boolean = false): TNamespaceArray;
+var
+  i: Integer;
+  node: PVirtualNode;
+  data: PCEStackItemData;
+  list: TList;
+  pidl: PItemIDList;
+begin
+  list:= TList.Create;
+  try
+    // Create a list of selected items
+    node:= Self.GetFirstChild(AGroupNode);
+    while assigned(node) do
+    begin
+      data:= Self.GetNodeData(node);
+      if data.ItemType = sitShell then
+      begin
+        pidl:= CEPathToPIDL(data.CEPath);
+        if assigned(pidl) then
+        begin
+          list.Add(Pointer(TNamespace.Create(pidl, nil)));
+          if AddToCleanList then
+          fCleanList.Add(node);
+        end;
+      end;
+      node:= Self.GetNextSibling(node);
     end;
     // Create NamespaceArray
     SetLength(Result, list.Count);

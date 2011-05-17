@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1336\n"
+"CE-POT-Version: 1342\n"
 "CE-Language: German\n"
 "Last-Translator: nefycee <(contact only via CE-support-forum)>\n"
 
@@ -69,7 +69,7 @@ msgid "After Time:"
 msgstr "Nach Zeit:"
 
 msgid "All"
-msgstr "Alle"
+msgstr "Alles"
 
 msgid "Allow Move"
 msgstr "Dateien verschieben"
@@ -210,7 +210,7 @@ msgid "Clear History"
 msgstr "Verlauf bereinigen"
 
 msgid "Clear List"
-msgstr "Ablage leeren"
+msgstr "Liste leeren"
 
 msgid "Clear Results"
 msgstr "Liste bereinigen"
@@ -342,7 +342,7 @@ msgid "Disconnect Network Drive..."
 msgstr "Netzlaufwerk trennen"
 
 msgid "Disk Usage"
-msgstr "Speicherplatzverwendung"
+msgstr "Speicherplatzverbrauch"
 
 msgid "Display"
 msgstr "Darstellung"
@@ -422,6 +422,9 @@ msgstr "Papierkorb leeren"
 msgid "Empty folder"
 msgstr "Ordner leeren"
 
+msgid "Enable Auto Save"
+msgstr "Automatisches Speichern aktivieren"
+
 msgid "English (default)"
 msgstr "Englisch (Standard)"
 
@@ -429,7 +432,7 @@ msgid "Enter each file mask on a separate line."
 msgstr "Jede Datei Maske in seperater Zeile eingeben."
 
 msgid "Exclude File Masks:"
-msgstr "Dateimasken ausschließen:"
+msgstr "Dateimaske ausschließen:"
 
 msgid "Exit"
 msgstr "Beenden"
@@ -453,7 +456,7 @@ msgid "File Search"
 msgstr "Dateisuche"
 
 msgid "File size format:"
-msgstr "Anzeige der Dateigröße"
+msgstr "Anzeige der Dateigröße:"
 
 msgid "Fileview"
 msgstr "Dateiansicht"
@@ -579,10 +582,10 @@ msgid "Image"
 msgstr "Bild"
 
 msgid "Include File Masks:"
-msgstr "Dateimasken einschließen:"
+msgstr "Dateimaske einschließen:"
 
 msgid "Include Subfolders"
-msgstr "Inkl. Unterordner"
+msgstr "Unterordner einbeziehen"
 
 msgid "Info Bar"
 msgstr "Info Leiste"
@@ -953,6 +956,9 @@ msgstr "Erstes Element automatisch auswählen"
 msgid "Select previous folder"
 msgstr "Letzten Ordner auswählen"
 
+msgid "Select target folder"
+msgstr "Zielordner auswählen"
+
 msgid "Selected"
 msgstr "ausgewählt"
 
@@ -1105,6 +1111,9 @@ msgstr "System"
 
 msgid "System Folders"
 msgstr "Systemordner"
+
+msgid "TB"
+msgstr "TB"
 
 msgid "Tabs"
 msgstr "Tabs"
@@ -1266,7 +1275,7 @@ msgid "Zero"
 msgstr "Null"
 
 msgid "already exists. Please choose another name."
-msgstr "Existiert bereits. Bitte wählen sie einen anderen Namen."
+msgstr "Existiert bereits. Bitte wählen sie einen anderen Namen"
 
 msgid "is already assigned to"
 msgstr "ist bereits zugeordnet"

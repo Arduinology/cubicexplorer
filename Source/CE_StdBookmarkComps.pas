@@ -113,7 +113,7 @@ var
 implementation
 
 uses
-  CE_GlobalCtrl, dCE_Images, dCE_Actions, Main, CE_Sessions;
+  CE_GlobalCtrl, dCE_Images, dCE_Actions, Main, CE_Sessions, CE_LanguageEngine;
 
 {*------------------------------------------------------------------------------
   Create an instance of TCECategoryComp object.
@@ -121,7 +121,7 @@ uses
 constructor TCECategoryComp.Create;
 begin
   inherited;
-  fTitle:= 'New Category';
+  fTitle:= _('New Category');
   fSubMenuOnly:= true;
   fImageList:= CE_Images.BookmarkImages;
 end;

@@ -28,14 +28,14 @@ uses
   fCE_DockableForm, CE_Stacks, CE_StackTree, CE_GlobalCtrl, dCE_Images, CE_VistaFuncs,
   CE_AppSettings, CE_Toolbar, dCE_Actions,
   // SpTBX
-  TB2Dock, SpTBXItem, TB2Item, TB2Toolbar, SpTBXEditors,
+  TB2Dock, SpTBXItem, TB2Item, TB2Toolbar, SpTBXEditors, SpTBXSkins,
   // VSTools
   MPCommonObjects, EasyListview, MPCommonUtilities,
   // Tnt
   TntClasses,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Menus;
+  Dialogs, Menus, VirtualTrees, ImgList;
 
 type
   TControlHack = class(TControl);
@@ -51,6 +51,7 @@ type
     item_safe_operations: TSpTBXItem;
     SpTBXSeparatorItem1: TSpTBXSeparatorItem;
     item_clear_list: TSpTBXItem;
+    item_remove: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure DropStackPopupPopup(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -58,6 +59,7 @@ type
     procedure sub_savePopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure item_safe_operationsClick(Sender: TObject);
     procedure item_clear_listClick(Sender: TObject);
+    procedure item_removeClick(Sender: TObject);
   private
     fSettings: TCEStackPanelSettings;
     { Private declarations }
@@ -66,6 +68,9 @@ type
     procedure HandleSafeOperationsOnlyChange(Sender: TObject);
     procedure HandleStackLoadClick(Sender: TObject);
     procedure HandleStackSaveClick(Sender: TObject);
+    procedure HandleStackTreeChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
+    procedure HandleStackTreeStructureChange(Sender: TBaseVirtualTree; Node:
+        PVirtualNode; Reason: TChangeReason);
   public
     StackTree: TCEStackTree;
     procedure DoFormShow; override;
@@ -128,6 +133,8 @@ begin
   StackTree.NotAvailableImageIndex:= 4;
   StackTree.BottomSpace:= 6;
   StackTree.OnSafeOperationsOnlyChange:= HandleSafeOperationsOnlyChange;
+  StackTree.OnChange:= HandleStackTreeChange;
+  StackTree.OnStructureChange:= HandleStackTreeStructureChange;
   HandleSafeOperationsOnlyChange(Self);
   // Focus control
   GlobalFocusCtrl.CtrlList.Add(StackTree);
@@ -202,6 +209,9 @@ begin
   //
 end;
 
+{-------------------------------------------------------------------------------
+  Do Form Show
+-------------------------------------------------------------------------------}
 procedure TCEStackPanel.DoFormShow;
 begin
   inherited;
@@ -347,6 +357,25 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Handle StackTree.OnChange
+-------------------------------------------------------------------------------}
+procedure TCEStackPanel.HandleStackTreeChange(Sender: TBaseVirtualTree; Node:
+    PVirtualNode);
+begin
+  item_remove.Enabled:= StackTree.SelectedCount > 0;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle StackTree.OnStructureChange
+-------------------------------------------------------------------------------}
+procedure TCEStackPanel.HandleStackTreeStructureChange(Sender:
+    TBaseVirtualTree; Node: PVirtualNode; Reason: TChangeReason);
+begin
+  item_clear_list.Enabled:= StackTree.RootNode.ChildCount > 0;
+  item_remove.Enabled:= StackTree.SelectedCount > 0;
+end;
+
+{-------------------------------------------------------------------------------
   On item_safe_operations Click
 -------------------------------------------------------------------------------}
 procedure TCEStackPanel.item_safe_operationsClick(Sender: TObject);
@@ -359,7 +388,28 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEStackPanel.item_clear_listClick(Sender: TObject);
 begin
+  if Settings.ShowWarnings then
+  begin
+    if TaskDialog(Self.Handle,
+                  _('Clear Stack'),
+                  _('Removing all items from Stack!'),
+                  _('Are you sure you want to clear the list?'),
+                  TD_ICON_QUESTION,
+                  TD_BUTTON_YES + TD_BUTTON_NO) = TD_RESULT_YES then
+    begin
+      StackTree.Clear;
+    end;
+  end
+  else
   StackTree.Clear;
+end;
+
+{-------------------------------------------------------------------------------
+  On item_remove.Click
+-------------------------------------------------------------------------------}
+procedure TCEStackPanel.item_removeClick(Sender: TObject);
+begin
+  StackTree.DeleteSelectedNodes;
 end;
 
 {-------------------------------------------------------------------------------

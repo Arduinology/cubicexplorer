@@ -105,7 +105,7 @@ type
 implementation
 
 uses
-  CE_StdBookmarkComps, dCE_Actions;
+  CE_StdBookmarkComps, dCE_Actions, CE_LanguageEngine;
 
 {*------------------------------------------------------------------------------
   Create an instance of TCEBookmarkTree object
@@ -348,9 +348,9 @@ begin
   if (self.HasChildren[self.FocusedNode]) or (self.SelectedCount > 1) then
   begin
     if (TaskDialog(Application.MainFormHandle,
-                   'Confirm',
-                   'Deleting multiple bookmarks!',
-                   'Are you sure you want to delete selected bookmarks?',
+                   _('Confirm'),
+                   _('Deleting multiple bookmarks!'),
+                   _('Are you sure you want to delete selected bookmarks?'),
                    TD_ICON_QUESTION,
                    TD_BUTTON_YES + TD_BUTTON_NO) = TD_RESULT_YES) then
     begin

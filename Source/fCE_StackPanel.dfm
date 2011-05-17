@@ -35,8 +35,16 @@ inherited CEStackPanel: TCEStackPanel
       end
       object SpTBXSeparatorItem1: TSpTBXSeparatorItem
       end
+      object item_remove: TSpTBXItem
+        Caption = 'Remove from Stack'
+        Enabled = False
+        ImageIndex = 4
+        Images = CE_Images.SmallIcons
+        OnClick = item_removeClick
+      end
       object item_clear_list: TSpTBXItem
-        Caption = 'Clear Filters'
+        Caption = 'Clear List'
+        Enabled = False
         ImageIndex = 44
         Images = CE_Images.SmallIcons
         OnClick = item_clear_listClick

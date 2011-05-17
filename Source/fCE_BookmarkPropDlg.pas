@@ -215,6 +215,7 @@ begin
   if fBookmarkComp is TCECategoryComp then
   begin
     TargetPanel.Visible:= false;
+    SessionPanel.Visible:= false;
   end
   else if fBookmarkComp is TCENormalItemComp then
   begin

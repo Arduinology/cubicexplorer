@@ -62,7 +62,7 @@ const
   procedure SetVistaContentFonts(const AFont: TFont);
   procedure SetDesktopIconFonts(const AFont: TFont);
   function TaskDialog(const AHandle: THandle; const ATitle, ADescription,
-    AContent: string; const Icon, Buttons: integer): Integer;
+      AContent: WideString; const Icon, Buttons: integer): Integer;
   procedure SetVistaTreeView(const AHandle: THandle);
   procedure SetVistaFont(const AFont: TFont);
 
@@ -72,7 +72,7 @@ var
 implementation
 
 uses
-  SysUtils, Dialogs, Controls, UxTheme;
+  SysUtils, Dialogs, Controls, UxTheme, MPCommonUtilities;
 
 {*------------------------------------------------------------------------------
   SetVistaTreeView
@@ -162,41 +162,31 @@ end;
   TaskDialog
 -------------------------------------------------------------------------------}
 function TaskDialog(const AHandle: THandle; const ATitle, ADescription,
-  AContent: string; const Icon, Buttons: Integer): Integer;
+    AContent: WideString; const Icon, Buttons: integer): Integer;
 var
   DLLHandle: THandle;
   res: integer;
   S: string;
-  wTitle, wDescription, wContent: array[0..1024] of widechar;
   Btns: Integer;
   DlgIcon: Integer;
   TaskDialogProc: function(HWND: THandle; hInstance: THandle; cTitle,
     cDescription, cContent: pwidechar; Buttons: Integer; Icon: integer;
     ResButton: pinteger): integer; cdecl stdcall;
 begin                          
-  Result := 0;
-  if IsWindowsVista then
+  Result:= 0;
+  if IsUnicode then
   begin
-    DLLHandle := LoadLibrary(comctl32);
+    DLLHandle:= LoadLibrary(comctl32);
     if DLLHandle >= 32 then
     begin
-      @TaskDialogProc := GetProcAddress(DLLHandle, TaskDialogSig);
+      @TaskDialogProc:= GetProcAddress(DLLHandle, TaskDialogSig);
 
       if Assigned(TaskDialogProc) then
       begin
-        StringToWideChar(ATitle, wTitle, SizeOf(wTitle));
-        StringToWideChar(ADescription, wDescription, SizeOf(wDescription));
-
-        //Get rid of line breaks, may be here for backwards compat but not
-        //needed with Task Dialogs
-        S := StringReplace(AContent, #10, '', [rfReplaceAll]);
-        S := StringReplace(S, #13, '', [rfReplaceAll]);
-        StringToWideChar(S, wContent, SizeOf(wContent));
-
-        TaskDialogProc(AHandle, 0, wTitle, wDescription, wContent, Buttons,
+        TaskDialogProc(AHandle, 0, PWideChar(ATitle), PWideChar(ADescription), PWideChar(AContent), Buttons,
           Icon, @res);
 
-        Result := mrOK;
+        Result:= mrOK;
 
         case res of
           TD_RESULT_CANCEL : Result := mrCancel;
@@ -208,7 +198,8 @@ begin
       end;
       FreeLibrary(DLLHandle);
     end;
-  end else
+  end
+  else
   begin
     if Buttons = TD_BUTTON_OK then
     Btns:= MB_OK
@@ -233,7 +224,7 @@ begin
       TD_ICON_INFORMATION: DlgIcon:= MB_ICONINFORMATION;
     end;
 
-    Result:= MessageBox(0, PChar(AContent), PChar(ATitle), DlgIcon or Btns);
+    Result:= WideMessageBox(AHandle, PWideChar(ATitle), PWideChar(AContent), DlgIcon or Btns);
   end;
 end;
 

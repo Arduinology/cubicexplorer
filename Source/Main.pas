@@ -143,7 +143,6 @@ type
     SpTBXSeparatorItem3: TSpTBXSeparatorItem;
     SpTBXItem71: TSpTBXItem;
     SpTBXItem44: TSpTBXItem;
-    SpTBXSeparatorItem11: TSpTBXSeparatorItem;
     SpTBXItem35: TSpTBXItem;
     SpTBXItem50: TSpTBXItem;
     SpTBXItem53: TSpTBXItem;
@@ -207,6 +206,9 @@ type
     sub_closed_tab_list: TSpTBXSubmenuItem;
     SpTBXSeparatorItem19: TSpTBXSeparatorItem;
     SpTBXSubmenuItem1: TSpTBXSubmenuItem;
+    SpTBXSeparatorItem28: TSpTBXSeparatorItem;
+    SpTBXItem45: TSpTBXItem;
+    SpTBXSeparatorItem11: TSpTBXSeparatorItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
