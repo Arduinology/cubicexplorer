@@ -185,7 +185,9 @@ begin
   FolderTree.BrowseToByPIDL(NewPIDL, true, true, false, false);
 
   //if FolderTree.AutoCollapse then
-  FolderTree.ScrollIntoView(FolderTree.FocusedNode,true,true);
+  //FolderTree.ScrollIntoView(FolderTree.FocusedNode,true,true);
+  //FolderTree.ScrollIntoView(FolderTree.FocusedNode,true,false);
+  FolderTree.ScrollToView(FolderTree.FocusedNode);
 end;
 
 {*------------------------------------------------------------------------------

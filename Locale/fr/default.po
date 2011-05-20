@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1336\n"
+"CE-POT-Version: 1342\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
 
@@ -147,7 +147,7 @@ msgid "Auto expand tree"
 msgstr " Développer automatiquement l'arborescence"
 
 msgid "Auto fit tabs"
-msgstr " Ajuster automatiquement la taille des onglets"
+msgstr " Harmoniser la taille des onglets"
 
 msgid "Auto size cells in list view style."
 msgstr " Redimensionner automatiquement les cellules si l'affichage est en mode liste"
@@ -424,6 +424,9 @@ msgstr "Vider la corbeille"
 
 msgid "Empty folder"
 msgstr "Dossier vide"
+
+msgid "Enable Auto Save"
+msgstr "Activer l'enregistrement automatique"
 
 msgid "English (default)"
 msgstr "Anglais (par défaut)"
@@ -956,6 +959,9 @@ msgstr " Sélectionner automatiquement le premier objet"
 msgid "Select previous folder"
 msgstr " Sélectionner le dossier précédent"
 
+msgid "Select target folder"
+msgstr "Sélectionnez le dossier cible"
+
 msgid "Selected"
 msgstr "sélectionné(s)"
 
@@ -1108,6 +1114,9 @@ msgstr "Système"
 
 msgid "System Folders"
 msgstr "Dossiers système"
+
+msgid "TB"
+msgstr "To"
 
 msgid "Tabs"
 msgstr "Onglets"

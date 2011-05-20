@@ -65,6 +65,7 @@ type
     function PasteShortcutFromClipboard: Boolean;
     function Refresh: Boolean;
     procedure ReReadAndRefreshNode(Node: PVirtualNode; SortNode: Boolean); override;
+    procedure ScrollToView(ANode: PVirtualNode);
     procedure SelectedFilesDelete(ShiftKeyState: TExecuteVerbShift = evsCurrent);
         override;
     property AutoCollapse: Boolean read fAutoCollapse write fAutoCollapse;
@@ -103,6 +104,7 @@ begin
   Self.TreeOptions.VETImageOptions:= [toImages,toMarkCutAndCopy];
   Self.TreeOptions.VETMiscOptions:= [toBrowseExecuteFolder, toBrowseExecuteZipFolder, toRemoveContextMenuShortCut,toBrowseExecuteFolderShortcut,toChangeNotifierThread,toTrackChangesInMappedDrives,toExecuteOnDblClk, toNoRebuildIconListOnAssocChange];
   Self.TreeOptions.VETShellOptions:= [toRightAlignSizeColumn,toContextMenus,toDragDrop];
+  //Self.TreeOptions.SelectionOptions:= [toMultiSelect,toRightClickSelect,toSiblingSelectConstraint,toCenterScrollIntoView];
   Self.VETColors.FileTextColor:= clWindowText;
   Self.VETColors.FolderTextColor:= clWindowText;
   Self.VETColors.CompressedTextColor:= clWindowText;
@@ -507,6 +509,38 @@ begin
       DeleteNode(Node)
     end
   end
+end;
+
+{-------------------------------------------------------------------------------
+  Scroll To View
+-------------------------------------------------------------------------------}
+procedure TCEFolderTree.ScrollToView(ANode: PVirtualNode);
+var
+  R: TRect;
+  totalW, W: Integer;
+  run: PVirtualNode;
+begin
+  if not assigned(ANode) then
+  Exit;
+  // Vertically
+  ScrollIntoView(ANode, true);
+  // Horizontally
+  w:= DoGetNodeWidth(ANode, NoColumn);
+  totalW:= w;
+  run:= ANode.Parent;
+  while assigned(run) and (run <> RootNode) do
+  begin
+    totalW:= totalW + DoGetNodeWidth(run, NoColumn);
+    run:= run.Parent;
+  end;
+
+  if totalW > ClientWidth then
+  begin
+    if (totalW-w) > ClientWidth then
+    OffsetX:= ClientWidth - (totalW-w)
+    else
+    OffsetX:= 0;
+  end;
 end;
 
 procedure TCEFolderTree.SelectedFilesDelete(ShiftKeyState: TExecuteVerbShift =

@@ -84,7 +84,7 @@ type
   TReparseMountPointDataBuffer = REPARSE_MOUNTPOINT_DATA_BUFFER;
   PReparseMountPointDataBuffer = ^TReparseMountPointDataBuffer;
 
-  TCEPathType = (ptPath, ptPIDL, ptSpecial);
+  TCEPathType = (ptPath, ptPIDL, ptSpecial, ptUnknown);
 
   function PIDLToCEPath(APIDL: PItemIDList): WideString;
   function CEPathToPIDL(APath: WideString): PItemIDList;
@@ -333,6 +333,8 @@ var
   pidl: PItemIDList;
 begin
   Result:= false;
+  if APathType = ptUnknown then
+  APathType:= GetCEPathType(APath);
   // Path
   if APathType = ptPath then
   begin
