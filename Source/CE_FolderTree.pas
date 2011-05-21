@@ -516,7 +516,6 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFolderTree.ScrollToView(ANode: PVirtualNode);
 var
-  R: TRect;
   totalW, W: Integer;
   run: PVirtualNode;
 begin

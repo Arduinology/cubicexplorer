@@ -336,8 +336,8 @@ begin
   CETextEditorOptions.AssignSettingsTo(self);
 
   CEGlobalTranslator.TranslateComponent(Self);
-  opt_radio.Items.Strings[0]:= _('Forward');
-  opt_radio.Items.Strings[1]:= _('Backward');
+  opt_radio.Items.Strings[0]:= _('Up');
+  opt_radio.Items.Strings[1]:= _('Down');
 end;
 
 {*------------------------------------------------------------------------------
@@ -841,7 +841,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCETextEditorPage.SpTBXButton1Click(Sender: TObject);
 begin
-  DoSearchReplaceText(false, (opt_radio.ItemIndex = 1));
+  DoSearchReplaceText(false, (opt_radio.ItemIndex = 0));
 end;
 
 {*------------------------------------------------------------------------------
@@ -850,7 +850,7 @@ end;
 procedure TCETextEditorPage.SpTBXButton2Click(Sender: TObject);
 begin
   fReplaceAll:= false;
-  DoSearchReplaceText(true, (opt_radio.ItemIndex = 1));
+  DoSearchReplaceText(true, (opt_radio.ItemIndex = 0));
 end;
 
 {*------------------------------------------------------------------------------
@@ -859,7 +859,7 @@ end;
 procedure TCETextEditorPage.SpTBXButton3Click(Sender: TObject);
 begin
   fReplaceAll:= true;
-  DoSearchReplaceText(true, (opt_radio.ItemIndex = 1));
+  DoSearchReplaceText(true, (opt_radio.ItemIndex = 0));
 end;
 
 {*------------------------------------------------------------------------------

@@ -14,12 +14,29 @@
     <AutoSelectFirstItem>False</AutoSelectFirstItem>
     <AutosizeListViewStyle>True</AutosizeListViewStyle>
     <BrowseZipFolders>False</BrowseZipFolders>
+    <CellSizes>
+      <LargeIcons_Height>-1</LargeIcons_Height>
+      <SmallIcons_Height>-1</SmallIcons_Height>
+      <List_Height>-1</List_Height>
+      <Details_Height>-1</Details_Height>
+      <Tiles_Height>-1</Tiles_Height>
+      <Thumbnails_Height>-1</Thumbnails_Height>
+      <Filmstrip_Height>-1</Filmstrip_Height>
+      <LargeIcons_Width>-1</LargeIcons_Width>
+      <SmallIcons_Width>-1</SmallIcons_Width>
+      <List_Width>-1</List_Width>
+      <Details_Width>-1</Details_Width>
+      <Tiles_Width>-1</Tiles_Width>
+      <Thumbnails_Width>-1</Thumbnails_Width>
+      <Filmstrip_Width>-1</Filmstrip_Width>
+    </CellSizes>
     <Columns>
       <ControlPanel>0,0,180,0|1,1,300,0</ControlPanel>
       <Default>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0</Default>
       <MyComputer>0,0,180,0|1,1,120,0|2,2,96,0|3,3,96,0</MyComputer>
       <Network>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0</Network>
     </Columns>
+    <FileSizeFormat>0</FileSizeFormat>
     <Filmstrip>
       <ThumbPos>1</ThumbPos>
       <ThumbSize>120</ThumbSize>
@@ -42,6 +59,7 @@
     <ShowHeaderAlways>False</ShowHeaderAlways>
     <ShowInfoBar>False</ShowInfoBar>
     <SingleClickBrowse>False</SingleClickBrowse>
+    <SingleClickExecute>False</SingleClickExecute>
     <SmoothScroll>False</SmoothScroll>
     <SortFolderFirstAlways>True</SortFolderFirstAlways>
     <ThreadedDetails>False</ThreadedDetails>
@@ -50,16 +68,16 @@
     <Use_JumboIcons_in_InfoBar>False</Use_JumboIcons_in_InfoBar>
     <ViewStyle>0</ViewStyle>
   </FileView>
+  <Sessions>
+    <AutoSaveHistory>False</AutoSaveHistory>
+    <HistoryCount>10</HistoryCount>
+  </Sessions>
   <TextEditor>
     <RememberPanelLayout>False</RememberPanelLayout>
     <RememberInnerToolbarLayout>True</RememberInnerToolbarLayout>
     <RememberOuterToolbarLayout>False</RememberOuterToolbarLayout>
     <WordWrap>True</WordWrap>
   </TextEditor>
-  <Sessions>
-    <AutoSaveHistory>False</AutoSaveHistory>
-    <HistoryCount>10</HistoryCount>
-  </Sessions>
   <FileSearch>
     <Columns>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0</Columns>
     <RememberPanelLayout>False</RememberPanelLayout>
@@ -119,6 +137,7 @@
     <AutoCollapse>True</AutoCollapse>
     <AutoExpand>True</AutoExpand>
     <OpenInNewTab>False</OpenInNewTab>
+    <ShowOpenAllAtTop>False</ShowOpenAllAtTop>
     <SingleClickMode>True</SingleClickMode>
   </BookmarksPanel>
   <FilterPanel>
@@ -129,6 +148,9 @@
     <StrictFilter>False</StrictFilter>
   </FilterPanel>
   <StackPanel>
-    <ViewStyle>2</ViewStyle>
+    <AutoSaveStack>False</AutoSaveStack>
+    <MaxHintItemCount>20</MaxHintItemCount>
+    <SafeOperationsOnly>False</SafeOperationsOnly>
+    <ShowWarnings>False</ShowWarnings>
   </StackPanel>
 </CubicExplorer>

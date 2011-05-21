@@ -349,7 +349,8 @@ var
 implementation
 
 uses
-  madExcept, CE_QuickView, Clipbrd, CE_PaneHost, CE_Stacks, MPResources;
+  madExcept, CE_QuickView, Clipbrd, CE_PaneHost, CE_Stacks, MPResources,
+  fCE_OptionsDialog;
 
 {$R *.dfm}
 
@@ -783,6 +784,12 @@ procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
   fCEIsClosing:= true;
   CEActions.UpdateTimer.Enabled:= false;
+
+  if assigned(CEOptionsDialog) then
+  begin
+    CEOptionsDialog.Release;
+    CEOptionsDialog:= nil;
+  end;
 
   if GlobalPathCtrl.ActivePage is TCEFileViewPage then
   GlobalFileViewSettings.AssignColumnSettingsFrom(TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView);  

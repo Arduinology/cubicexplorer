@@ -163,6 +163,7 @@ type
     fAutoSelectFirstItem: Boolean;
     fAutosizeListViewStyle: Boolean;
     fBrowseZipFolders: Boolean;
+    fCellSizes: TCECellSizeSettings;
     fColumns: TCEColumnSettings;
     fFileSizeFormat: TVirtualFileSizeFormat;
     fFilmstrip: TCEFilmstripSettings;
@@ -229,6 +230,7 @@ type
         SetAutosizeListViewStyle;
     property BrowseZipFolders: Boolean read fBrowseZipFolders write
         SetBrowseZipFolders;
+    property CellSizes: TCECellSizeSettings read fCellSizes write fCellSizes;
     property Columns: TCEColumnSettings read fColumns write fColumns;
     property FileSizeFormat: TVirtualFileSizeFormat read fFileSizeFormat write
         SetFileSizeFormat;
@@ -994,6 +996,7 @@ begin
   NotifyList:= TComponentList.Create(false);
   fColumns:= TCEColumnSettings.Create;
   fGroupBy:= TCEGroupBySettings.Create;
+  fCellSizes:= TCECellSizeSettings.Create;
   fFilmstrip:= TCEFilmstripSettings.Create;
   Filmstrip.ThumbPos:= alBottom;
   Filmstrip.ThumbStyle:= elsFilmstrip;
@@ -1014,6 +1017,7 @@ begin
   NotifyList.Free;
   fColumns.Free;
   fGroupBy.Free;
+  fCellSizes.Free;
   fFilmstrip.Free;
   inherited;
 end;
@@ -1086,6 +1090,42 @@ begin
 
     // Misc
     FileViewPage.FileView.FileSizeFormat:= fFileSizeFormat;
+
+    // Cell Sizes
+    if (CellSizes.LargeIcons_Width < 1) or (CellSizes.LargeIcons_Height < 1) then
+    FileViewPage.FileView.CellSizes.Icon.RestoreDefaults
+    else
+    FileViewPage.FileView.CellSizes.Icon.SetSize(CellSizes.LargeIcons_Width, CellSizes.LargeIcons_Height);
+
+    if (CellSizes.SmallIcons_Width < 1) or (CellSizes.SmallIcons_Height < 1) then
+    FileViewPage.FileView.CellSizes.SmallIcon.RestoreDefaults
+    else
+    FileViewPage.FileView.CellSizes.SmallIcon.SetSize(CellSizes.SmallIcons_Width, CellSizes.SmallIcons_Height);
+
+    if (CellSizes.List_Width < 1) or (CellSizes.List_Height < 1) then
+    FileViewPage.FileView.CellSizes.List.RestoreDefaults
+    else
+    FileViewPage.FileView.CellSizes.List.SetSize(CellSizes.List_Width, CellSizes.List_Height);
+
+    if (CellSizes.Details_Width < 1) or (CellSizes.Details_Height < 1) then
+    FileViewPage.FileView.CellSizes.Report.RestoreDefaults
+    else
+    FileViewPage.FileView.CellSizes.Report.SetSize(CellSizes.Details_Width, CellSizes.Details_Height);
+
+    if (CellSizes.Tiles_Width < 1) or (CellSizes.Tiles_Height < 1) then
+    FileViewPage.FileView.CellSizes.Tile.RestoreDefaults
+    else
+    FileViewPage.FileView.CellSizes.Tile.SetSize(CellSizes.Tiles_Width, CellSizes.Tiles_Height);
+
+    if (CellSizes.Thumbnails_Width < 1) or (CellSizes.Thumbnails_Height < 1) then
+    FileViewPage.FileView.CellSizes.Thumbnail.RestoreDefaults
+    else
+    FileViewPage.FileView.CellSizes.Thumbnail.SetSize(CellSizes.Thumbnails_Width, CellSizes.Thumbnails_Height);
+
+    if (CellSizes.Filmstrip_Width < 1) or (CellSizes.Filmstrip_Height < 1) then
+    FileViewPage.FileView.CellSizes.FilmStrip.RestoreDefaults
+    else
+    FileViewPage.FileView.CellSizes.FilmStrip.SetSize(CellSizes.Filmstrip_Width, CellSizes.Filmstrip_Height);
     
     if AssignColumnSettings then
     AssignColumnSettingsTo(FileViewPage.FileView);
@@ -1201,6 +1241,8 @@ begin
       FileViewPage:= TCEFileViewPage(NotifyList.Items[i]);
       doRebuild:= FileViewPage.FileView.ShowExtension <> ShowExtensions;
       AssignSettingsTo(FileViewPage, false);
+      if CellSizes.IsChanged(FileViewPage.FileView) then
+      FileViewPage.FileView.Groups.Rebuild;
       if doRebuild then
       FileViewPage.FileView.Rebuild;
     end

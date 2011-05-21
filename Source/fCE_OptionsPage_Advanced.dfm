@@ -9,6 +9,7 @@ inherited CEOptionsPage_Advanced: TCEOptionsPage_Advanced
     ItemHeight = 16
     TabStop = True
     TabOrder = 0
+    OnItemValueChanged = InspectorItemValueChanged
   end
   object SpTBXLabel1: TSpTBXLabel
     Left = 3

@@ -46,19 +46,22 @@ type
   TCEOptionsPage_Advanced = class(TCEOptionsCustomPage)
     Inspector: TJvInspector;
     SpTBXLabel1: TSpTBXLabel;
+    procedure InspectorItemValueChanged(Sender: TObject;
+      Item: TJvCustomInspectorItem);
   private
     Painter: TCEInspector_Painter;
     { Private declarations }
   public
     constructor Create(AOwner: TComponent); override;
     procedure AddComponents;
+    procedure ApplySettings; override;
     { Public declarations }
   end;
 
 implementation
 
 uses
-  Main;
+  Main, fCE_FileView;
 
 {$R *.dfm}
 
@@ -79,6 +82,13 @@ begin
   AddComponents;
 end;
 
+procedure TCEOptionsPage_Advanced.InspectorItemValueChanged(Sender: TObject;
+  Item: TJvCustomInspectorItem);
+begin
+  inherited;
+  Self.HandleChange(Self);
+end;
+
 {-------------------------------------------------------------------------------
   Add Components
 -------------------------------------------------------------------------------}
@@ -93,6 +103,14 @@ begin
     item:= GlobalAppSettings.Items[i];
     Inspector.AddComponent(item.ObjectToSave, item.NodeName);
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Apply Settings
+-------------------------------------------------------------------------------}
+procedure TCEOptionsPage_Advanced.ApplySettings;
+begin
+  GlobalFileViewSettings.SendChanges;
 end;
 
 {##############################################################################}

@@ -303,10 +303,10 @@ inherited CETextEditorPage: TCETextEditorPage
       Caption = 'Direction'
       Anchors = [akTop, akRight]
       TabOrder = 8
-      ItemIndex = 0
+      ItemIndex = 1
       Items.Strings = (
-        'Forward'
-        'Backward')
+        'Up'
+        'Down')
     end
   end
   object ActionList: TTntActionList

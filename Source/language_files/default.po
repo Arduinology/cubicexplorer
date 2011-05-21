@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-05-15 15:41\n"
-"PO-Revision-Date: 2011-05-15 15:41\n"
+"POT-Creation-Date: 2011-05-21 14:12\n"
+"PO-Revision-Date: 2011-05-21 14:12\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +37,7 @@ msgstr ""
 #: fCE_SessionManager.dfm:128
 #: fCE_OptionsPage_Tabs.pas:79
 #. Create TabSet
-#: Main.pas:475
+#: Main.pas:478
 msgid "Tabs"
 msgstr ""
 
@@ -127,9 +127,9 @@ msgstr ""
 #. CETextEditorPage..ActionList..text_view_statusbar..Category
 #: fCE_TextEditor.dfm:458
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..Caption
-#: Main.dfm:171
+#: Main.dfm:176
 #. MainForm..TopToolDock..ViewToolbar..Caption
-#: Main.dfm:407
+#: Main.dfm:412
 msgid "View"
 msgstr ""
 
@@ -151,7 +151,7 @@ msgstr ""
 #. CEActions..ActionList..act_help_poedit_form..Category
 #: dCE_Actions.dfm:424
 #. MainForm..TopToolDock..MainToolbar..helpMenuItem..Caption
-#: Main.dfm:375
+#: Main.dfm:380
 msgid "Help"
 msgstr ""
 
@@ -179,15 +179,12 @@ msgstr ""
 #. CEActions..ActionList..act_navi_quickview..Category
 #: dCE_Actions.dfm:519
 #. MainForm..TopToolDock..NavigationToolbar..Caption
-#: Main.dfm:439
+#: Main.dfm:444
 msgid "Navigation"
 msgstr ""
 
 #. CEActions..ActionList..act_navi_forward..Caption
 #: dCE_Actions.dfm:47
-#. CETextEditorPage..FindPanel..opt_radio....Items.Strings
-#: fCE_TextEditor.dfm:308
-#: fCE_TextEditor.pas:339
 msgid "Forward"
 msgstr ""
 
@@ -213,7 +210,7 @@ msgstr ""
 #. CEFolderPanel..Caption
 #: fCE_FolderPanel.dfm:2
 #: fCE_OptionsPage_Display_FolderTree.pas:63
-#: Main.pas:1039
+#: Main.pas:1048
 msgid "Folders"
 msgstr ""
 
@@ -226,10 +223,10 @@ msgstr ""
 #. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..group_loadsave..check_bookmarks..Caption
 #: fCE_SessionManager.dfm:142
 #. MainForm..TopToolDock..MainToolbar..bookmarkMenuItem..Caption
-#: Main.dfm:324
+#: Main.dfm:329
 #: fCE_OptionsPage_Display_Bookmarks.pas:65
 #. Create BookmarkBar
-#: Main.pas:513
+#: Main.pas:516
 msgid "Bookmarks"
 msgstr ""
 
@@ -390,7 +387,7 @@ msgstr ""
 #. MainForm..TopToolDock..MainToolbar..editMenuItem..Caption
 #: Main.dfm:124
 #. MainForm..TopToolDock..EditToolbar..Caption
-#: Main.dfm:477
+#: Main.dfm:482
 msgid "Edit"
 msgstr ""
 
@@ -487,7 +484,7 @@ msgstr ""
 #. CETextEditorPage..TopDock..MainToolbar..highlighterSubmenu..SpTBXItem16..Caption
 #: fCE_TextEditor.dfm:107
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem57..Caption
-#: Main.dfm:239
+#: Main.dfm:244
 msgid "None"
 msgstr ""
 
@@ -556,7 +553,7 @@ msgstr ""
 #. CEActions..ActionList..act_tools_showoptions..Category
 #: dCE_Actions.dfm:430
 #. MainForm..TopToolDock..MainToolbar..toolsMenuItem..Caption
-#: Main.dfm:356
+#: Main.dfm:361
 msgid "Tools"
 msgstr ""
 
@@ -601,7 +598,7 @@ msgstr ""
 
 #. CEActions..ActionList..act_edit_newfolder..Caption
 #: dCE_Actions.dfm:378
-#: CE_FileView.pas:461
+#: CE_FileView.pas:504
 msgid "New Folder"
 msgstr ""
 
@@ -660,9 +657,9 @@ msgstr ""
 #. CEActions..ActionList..act_sessions_enablehistory..Category
 #: dCE_Actions.dfm:569
 #. MainForm..TopToolDock..MainToolbar..sessionsMenuItem..Caption
-#: Main.dfm:327
+#: Main.dfm:332
 #. Create SessionsBar
-#: Main.pas:523
+#: Main.pas:526
 msgid "Sessions"
 msgstr ""
 
@@ -836,8 +833,6 @@ msgstr ""
 
 #. CEActions..ActionList..act_filters_clear..Caption
 #: dCE_Actions.dfm:634
-#. CEStackPanel..TopDock..StackToolbar..item_clear_list..Caption
-#: fCE_StackPanel.dfm:39
 #. Add Clear Filters
 #: fCE_FiltersPanel.pas:546
 msgid "Clear Filters"
@@ -1269,7 +1264,7 @@ msgstr ""
 #. CEOptionsDialog..MainPanel..PageTree..Header.Font.Name
 #: fCE_OptionsDialog.dfm:120
 #. CEOptionsPage_Advanced..SpTBXLabel1..Font.Name
-#: fCE_OptionsPage_Advanced.dfm:22
+#: fCE_OptionsPage_Advanced.dfm:23
 #. TCEOptionsPage_GlobalHotkeys..HotkeyList..Header.Font.Name
 #: fCE_OptionsPage_GlobalHotkeys.dfm:28
 #. TCEOptionsPage_GlobalHotkeys..label_action_name..Font.Name
@@ -1554,7 +1549,7 @@ msgstr ""
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..Caption
 #: fCE_Customizer.dfm:186
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..toolbarsMenuItem..Caption
-#: Main.dfm:190
+#: Main.dfm:195
 msgid "Toolbars"
 msgstr ""
 
@@ -1572,7 +1567,7 @@ msgstr ""
 #. CEOptionsPage_Display..TntLabel1..Caption
 #: fCE_OptionsPage_Display.dfm:7
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem6..Caption
-#: Main.dfm:219
+#: Main.dfm:224
 msgid "Theme"
 msgstr ""
 
@@ -1704,7 +1699,7 @@ msgid "CubicExplorer Options"
 msgstr ""
 
 #. CEOptionsPage_Advanced..SpTBXLabel1..Caption
-#: fCE_OptionsPage_Advanced.dfm:18
+#: fCE_OptionsPage_Advanced.dfm:19
 msgid "Warning: changes are made immediately!"
 msgstr ""
 
@@ -1980,7 +1975,7 @@ msgstr ""
 #. CENewTranslationDlg..TntLabel1..Caption
 #: fCE_PoEditor_NewForm.dfm:37
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..LanguageMenuItem..Caption
-#: Main.dfm:229
+#: Main.dfm:234
 msgid "Language"
 msgstr ""
 
@@ -2235,7 +2230,7 @@ msgstr ""
 #: CE_StatusBar.pas:166
 #: CE_StatusBar.pas:193
 #: fCE_SearchPage.pas:280
-#: Main.pas:1041
+#: Main.pas:1050
 msgid "KB"
 msgstr ""
 
@@ -2257,7 +2252,7 @@ msgstr ""
 #: CE_StatusBar.pas:161
 #: CE_StatusBar.pas:168
 #: fCE_SearchPage.pas:281
-#: Main.pas:1042
+#: Main.pas:1051
 msgid "MB"
 msgstr ""
 
@@ -2404,18 +2399,28 @@ msgstr ""
 
 #. CEStackPanel..TopDock..StackToolbar..sub_load..Caption
 #: fCE_StackPanel.dfm:25
-#: Main.pas:1016
+#: Main.pas:1025
 msgid "Open"
 msgstr ""
 
-#. CEStackPanel..TopDock..StackToolbar..item_safe_operations..Caption
-#: fCE_StackPanel.dfm:45
-msgid "Allow Move"
+#. CEStackPanel..TopDock..StackToolbar..item_remove..Caption
+#: fCE_StackPanel.dfm:39
+#. Add "Remove from Stack" item
+#: CE_StackTree.pas:418
+#: CE_StackTree.pas:420
+msgid "Remove from Stack"
 msgstr ""
 
+#. CEStackPanel..TopDock..StackToolbar..item_clear_list..Caption
+#: fCE_StackPanel.dfm:46
 #. CEStackPanel..DropStackPopup..but_clearlist..Caption
-#: fCE_StackPanel.dfm:61
+#: fCE_StackPanel.dfm:69
 msgid "Clear List"
+msgstr ""
+
+#. CEStackPanel..TopDock..StackToolbar..item_safe_operations..Caption
+#: fCE_StackPanel.dfm:53
+msgid "Allow Move"
 msgstr ""
 
 #. CETextEditorPage..TopDock..MainToolbar..Caption
@@ -2508,9 +2513,15 @@ msgid "Direction"
 msgstr ""
 
 #. CETextEditorPage..FindPanel..opt_radio....Items.Strings
+#: fCE_TextEditor.dfm:308
+#: fCE_TextEditor.pas:339
+msgid "Up"
+msgstr ""
+
+#. CETextEditorPage..FindPanel..opt_radio....Items.Strings
 #: fCE_TextEditor.dfm:309
 #: fCE_TextEditor.pas:340
-msgid "Backward"
+msgid "Down"
 msgstr ""
 
 #. CETextEditorPage..ActionList..text_edit_undo..Caption
@@ -2526,7 +2537,7 @@ msgstr ""
 #. CETextEditorPage..ActionList..text_file_saveas..Caption
 #: fCE_TextEditor.dfm:348
 #. Save As...
-#: fCE_StackPanel.pas:378
+#: fCE_StackPanel.pas:428
 msgid "Save As..."
 msgstr ""
 
@@ -2581,62 +2592,62 @@ msgid "Main Menu"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem9..Caption
-#: Main.dfm:193
+#: Main.dfm:198
 msgid "Panels"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..Caption
-#: Main.dfm:235
+#: Main.dfm:240
 msgid "Transparency"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem58..Caption
-#: Main.dfm:246
+#: Main.dfm:251
 msgid "10%"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem59..Caption
-#: Main.dfm:253
+#: Main.dfm:258
 msgid "20%"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem60..Caption
-#: Main.dfm:260
+#: Main.dfm:265
 msgid "30%"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem61..Caption
-#: Main.dfm:267
+#: Main.dfm:272
 msgid "40%"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem62..Caption
-#: Main.dfm:274
+#: Main.dfm:279
 msgid "50%"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem63..Caption
-#: Main.dfm:281
+#: Main.dfm:286
 msgid "60%"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem64..Caption
-#: Main.dfm:288
+#: Main.dfm:293
 msgid "70%"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem65..Caption
-#: Main.dfm:295
+#: Main.dfm:300
 msgid "80%"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem66..Caption
-#: Main.dfm:302
+#: Main.dfm:307
 msgid "90%"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..sessionsMenuItem..sessionHistoryMenuItem..Caption
-#: Main.dfm:337
+#: Main.dfm:342
 msgid "History"
 msgstr ""
 
@@ -2651,12 +2662,25 @@ msgstr ""
 #. Add "More..." item
 #: CE_BaseFileView.pas:1406
 #. More... item
-#: CE_ToolbarButtons.pas:547
+#: CE_ToolbarButtons.pas:535
 #. More... item
-#: CE_ToolbarButtons.pas:699
+#: CE_ToolbarButtons.pas:687
 #: dCE_Actions.pas:1597
 #: dCE_Actions.pas:1636
 msgid "More..."
+msgstr ""
+
+#: CE_BookmarkTree.pas:351
+msgid "Confirm"
+msgstr ""
+
+#: CE_BookmarkTree.pas:352
+msgid "Deleting multiple bookmarks!"
+msgstr ""
+
+#: CE_BookmarkTree.pas:353
+msgid "Are you sure you want to delete selected "
+"bookmarks?"
 msgstr ""
 
 #: CE_FilterPanel.pas:376
@@ -2716,30 +2740,26 @@ msgstr ""
 msgid "Session at"
 msgstr ""
 
-#. Add "Remove from Stack" item
-#: CE_StackTree.pas:396
-#: CE_StackTree.pas:398
-msgid "Remove from Stack"
-msgstr ""
-
-#: CE_StackTree.pas:396
-#: CE_StackTree.pas:849
+#: CE_StackTree.pas:418
+#: CE_StackTree.pas:834
+#: CE_StackTree.pas:874
 msgid "items"
 msgstr ""
 
 #. Add Warning item
-#: CE_StackTree.pas:437
-#: CE_StackTree.pas:449
+#: CE_StackTree.pas:459
+#: CE_StackTree.pas:471
 msgid "WARNING: Real file operations below"
 msgstr ""
 
-#: CE_StackTree.pas:847
+#: CE_StackTree.pas:832
+#: CE_StackTree.pas:872
 msgid "item"
 msgstr ""
 
 #. Auto create caption
-#: CE_StackTree.pas:1061
-#: CE_StackTree.pas:1070
+#: CE_StackTree.pas:1096
+#: CE_StackTree.pas:1105
 msgid "Group"
 msgstr ""
 
@@ -2747,28 +2767,32 @@ msgstr ""
 msgid "Total Size"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:339
+#: CE_StdBookmarkComps.pas:124
+msgid "New Category"
+msgstr ""
+
+#: CE_ToolbarButtons.pas:327
 msgid "Folder Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:345
+#: CE_ToolbarButtons.pas:333
 msgid "Name Only"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:354
+#: CE_ToolbarButtons.pas:342
 msgid "Short Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:360
+#: CE_ToolbarButtons.pas:348
 msgid "Short Folder Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:366
+#: CE_ToolbarButtons.pas:354
 msgid "Short Name Only"
 msgstr ""
 
 #. Grouped toggle item
-#: CE_ToolbarButtons.pas:673
+#: CE_ToolbarButtons.pas:661
 #. Sho in Groups
 #: dCE_Actions.pas:1606
 msgid "Show in Groups"
@@ -2842,23 +2866,23 @@ msgstr ""
 msgid "Drag buttons to/from toolbars"
 msgstr ""
 
-#: fCE_OptionsDialog.pas:383
+#: fCE_OptionsDialog.pas:385
 msgid "Apply changes now?"
 msgstr ""
 
-#: fCE_OptionsDialog.pas:385
+#: fCE_OptionsDialog.pas:387
 msgid "If not, all changes will be lost."
 msgstr ""
 
-#: fCE_OptionsDialog.pas:386
+#: fCE_OptionsDialog.pas:388
 msgid "Apply Changes"
 msgstr ""
 
-#: fCE_OptionsPage_Advanced.pas:74
+#: fCE_OptionsPage_Advanced.pas:77
 msgid "Advanced"
 msgstr ""
 
-#: fCE_OptionsPage_Advanced.pas:75
+#: fCE_OptionsPage_Advanced.pas:78
 msgid "Advanced Settings"
 msgstr ""
 
@@ -3005,33 +3029,45 @@ msgid "Are you sure you want to delete this "
 msgstr ""
 
 #. Borrow Save Session Dialog
-#: fCE_StackPanel.pas:262
+#: fCE_StackPanel.pas:272
 msgid "Save Stack"
 msgstr ""
 
-#: fCE_StackPanel.pas:263
+#: fCE_StackPanel.pas:273
 msgid "Stack Name"
 msgstr ""
 
 #. Save stack
-#: fCE_StackPanel.pas:279
-#: fCE_StackPanel.pas:328
+#: fCE_StackPanel.pas:289
+#: fCE_StackPanel.pas:338
 msgid "You are about to save over existing "
 "stack."
 msgstr ""
 
-#: fCE_StackPanel.pas:280
-#: fCE_StackPanel.pas:329
+#: fCE_StackPanel.pas:290
+#: fCE_StackPanel.pas:339
 msgid "Are you sure you want to do that?"
 msgstr ""
 
-#: fCE_StackPanel.pas:281
-#: fCE_StackPanel.pas:330
+#: fCE_StackPanel.pas:291
+#: fCE_StackPanel.pas:340
 msgid "Confirm Stack Save"
 msgstr ""
 
+#: fCE_StackPanel.pas:394
+msgid "Clear Stack"
+msgstr ""
+
+#: fCE_StackPanel.pas:395
+msgid "Removing all items from Stack!"
+msgstr ""
+
+#: fCE_StackPanel.pas:396
+msgid "Are you sure you want to clear the list?"
+msgstr ""
+
 #. Auto Save
-#: fCE_StackPanel.pas:407
+#: fCE_StackPanel.pas:457
 msgid "Enable Auto Save"
 msgstr ""
 
@@ -3045,116 +3081,116 @@ msgid "Untitled"
 msgstr ""
 
 #. Create FolderCombo Toolbar
-#: Main.pas:494
+#: Main.pas:497
 msgid "Address Bar"
 msgstr ""
 
 #. Create DriveToolbar
-#: Main.pas:502
+#: Main.pas:505
 msgid "Drives"
 msgstr ""
 
 #. Create BreadcrumbBar
-#: Main.pas:533
+#: Main.pas:536
 msgid "Breadcrumb Navigation"
 msgstr ""
 
 #. Add default menu items
-#: Main.pas:914
+#: Main.pas:923
 msgid "English (default)"
 msgstr ""
 
 #. TabBar Left/Right arrow hints
-#: Main.pas:1011
+#: Main.pas:1020
 msgid "Show more tabs"
 msgstr ""
 
 #. VSTools strings
-#: Main.pas:1015
+#: Main.pas:1024
 msgid "Warning"
 msgstr ""
 
-#: Main.pas:1018
+#: Main.pas:1027
 msgid "Last hour"
 msgstr ""
 
-#: Main.pas:1019
+#: Main.pas:1028
 msgid "Last twenty-four hours"
 msgstr ""
 
-#: Main.pas:1020
+#: Main.pas:1029
 msgid "This week"
 msgstr ""
 
-#: Main.pas:1021
+#: Main.pas:1030
 msgid "Two weeks ago"
 msgstr ""
 
-#: Main.pas:1022
+#: Main.pas:1031
 msgid "Three weeks ago"
 msgstr ""
 
-#: Main.pas:1023
+#: Main.pas:1032
 msgid "A month ago"
 msgstr ""
 
-#: Main.pas:1024
+#: Main.pas:1033
 msgid "Two months ago"
 msgstr ""
 
-#: Main.pas:1025
+#: Main.pas:1034
 msgid "Three months ago"
 msgstr ""
 
-#: Main.pas:1026
+#: Main.pas:1035
 msgid "Four months ago"
 msgstr ""
 
-#: Main.pas:1027
+#: Main.pas:1036
 msgid "Five months ago"
 msgstr ""
 
-#: Main.pas:1028
+#: Main.pas:1037
 msgid "Six months ago"
 msgstr ""
 
-#: Main.pas:1029
+#: Main.pas:1038
 msgid "Earlier this year"
 msgstr ""
 
-#: Main.pas:1030
+#: Main.pas:1039
 msgid "A long time ago"
 msgstr ""
 
-#: Main.pas:1032
+#: Main.pas:1041
 msgid "Zero"
 msgstr ""
 
-#: Main.pas:1033
+#: Main.pas:1042
 msgid "Tiny"
 msgstr ""
 
-#: Main.pas:1034
+#: Main.pas:1043
 msgid "Small"
 msgstr ""
 
-#: Main.pas:1035
+#: Main.pas:1044
 msgid "Medium"
 msgstr ""
 
-#: Main.pas:1036
+#: Main.pas:1045
 msgid "Large"
 msgstr ""
 
-#: Main.pas:1037
+#: Main.pas:1046
 msgid "Gigantic"
 msgstr ""
 
-#: Main.pas:1038
+#: Main.pas:1047
 msgid "System Folders"
 msgstr ""
 
-#: Main.pas:1043
+#: Main.pas:1052
 msgid "TB"
 msgstr ""
 

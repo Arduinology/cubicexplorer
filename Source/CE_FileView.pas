@@ -204,6 +204,49 @@ type
     property ThumbStyle: TEasyListStyle read fThumbStyle write fThumbStyle;
   end;
 
+  TCECellSizeSettings = class(TPersistent)
+  private
+    fLargeIcons_Height: Integer;
+    fSmallIcons_Height: Integer;
+    fList_Height: Integer;
+    fDetails_Height: Integer;
+    fTiles_Height: Integer;
+    fThumbnails_Height: Integer;
+    fFilmstrip_Height: Integer;
+    fLargeIcons_Width: Integer;
+    fSmallIcons_Width: Integer;
+    fList_Width: Integer;
+    fDetails_Width: Integer;
+    fTiles_Width: Integer;
+    fThumbnails_Width: Integer;
+    fFilmstrip_Width: Integer;
+  public
+    constructor Create;
+  published
+    function IsChanged(CompareTo: TCECustomFileView): Boolean;
+    property LargeIcons_Height: Integer read fLargeIcons_Height write
+        fLargeIcons_Height;
+    property SmallIcons_Height: Integer read fSmallIcons_Height write
+        fSmallIcons_Height;
+    property List_Height: Integer read fList_Height write fList_Height;
+    property Details_Height: Integer read fDetails_Height write fDetails_Height;
+    property Tiles_Height: Integer read fTiles_Height write fTiles_Height;
+    property Thumbnails_Height: Integer read fThumbnails_Height write
+        fThumbnails_Height;
+    property Filmstrip_Height: Integer read fFilmstrip_Height write
+        fFilmstrip_Height;
+    property LargeIcons_Width: Integer read fLargeIcons_Width write
+        fLargeIcons_Width;
+    property SmallIcons_Width: Integer read fSmallIcons_Width write
+        fSmallIcons_Width;
+    property List_Width: Integer read fList_Width write fList_Width;
+    property Details_Width: Integer read fDetails_Width write fDetails_Width;
+    property Tiles_Width: Integer read fTiles_Width write fTiles_Width;
+    property Thumbnails_Width: Integer read fThumbnails_Width write
+        fThumbnails_Width;
+    property Filmstrip_Width: Integer read fFilmstrip_Width write fFilmstrip_Width;
+  end;
+
 function ColSettingsToString(ColSettings: TCEColSettings): string;
 
 procedure StringToColSettings(AString: String; var ColSettings: TCEColSettings);
@@ -727,10 +770,12 @@ begin
     if (Button = cmbLeft) and fRightMouseButton_IsDown then
     begin
       GoBackInHistory;
+      Exit;
     end
     else if (Button = cmbRight) and fLeftMouseButton_IsDown then
     begin
       GoForwardInHistory;
+      Exit;
     end;
   end;
 
@@ -1101,6 +1146,61 @@ end;
 procedure TCEGroupBySettings.SetControlPanel(const Value: string);
 begin
   StringToGroupBySettings(Value, ControlPanelGroupBySettings);
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Create an instance of TCECellSizeSettings
+-------------------------------------------------------------------------------}
+constructor TCECellSizeSettings.Create;
+var
+  hdcScreen: hDC;
+begin
+  inherited;
+  hdcScreen := GetDC(GetDesktopWindow);
+  try
+    // Default values
+    fLargeIcons_Width:= Round(DEFAULT_WIDTH_ICON * GetDeviceCaps(hdcScreen, LOGPIXELSX)/DEFAULT_PIXEL_PER_INCH);
+    fLargeIcons_Height:= Round(DEFAULT_HEIGHT_ICON * GetDeviceCaps(hdcScreen, LOGPIXELSY)/DEFAULT_PIXEL_PER_INCH);
+    fSmallIcons_Width:= Round(DEFAULT_WIDTH_SMALLICON * GetDeviceCaps(hdcScreen, LOGPIXELSX)/DEFAULT_PIXEL_PER_INCH);
+    fSmallIcons_Height:= Round(DEFAULT_HEIGHT_SMALLICON * GetDeviceCaps(hdcScreen, LOGPIXELSY)/DEFAULT_PIXEL_PER_INCH);
+    fList_Width:= Round(DEFAULT_WIDTH_LIST * GetDeviceCaps(hdcScreen, LOGPIXELSX)/DEFAULT_PIXEL_PER_INCH);
+    fList_Height:= Round(DEFAULT_HEIGHT_LIST * GetDeviceCaps(hdcScreen, LOGPIXELSY)/DEFAULT_PIXEL_PER_INCH);
+    fDetails_Width:= Round(DEFAULT_WIDTH_REPORT * GetDeviceCaps(hdcScreen, LOGPIXELSX)/DEFAULT_PIXEL_PER_INCH);
+    fDetails_Height:= Round(DEFAULT_HEIGHT_REPORT * GetDeviceCaps(hdcScreen, LOGPIXELSY)/DEFAULT_PIXEL_PER_INCH);
+    fTiles_Width:= Round(DEFAULT_WIDTH_TILE * GetDeviceCaps(hdcScreen, LOGPIXELSX)/DEFAULT_PIXEL_PER_INCH);
+    fTiles_Height:= Round(DEFAULT_HEIGHT_TILE * GetDeviceCaps(hdcScreen, LOGPIXELSY)/DEFAULT_PIXEL_PER_INCH);
+    fThumbnails_Width:= Round(DEFAULT_WIDTH_THUMBNAIL * GetDeviceCaps(hdcScreen, LOGPIXELSX)/DEFAULT_PIXEL_PER_INCH);
+    fThumbnails_Height:= Round(DEFAULT_HEIGHT_THUMBNAIL * GetDeviceCaps(hdcScreen, LOGPIXELSY)/DEFAULT_PIXEL_PER_INCH);
+    fFilmstrip_Width:= Round(DEFAULT_WIDTH_THUMBNAIL * GetDeviceCaps(hdcScreen, LOGPIXELSX)/DEFAULT_PIXEL_PER_INCH);
+    fFilmstrip_Height:= Round(DEFAULT_HEIGHT_THUMBNAIL * GetDeviceCaps(hdcScreen, LOGPIXELSY)/DEFAULT_PIXEL_PER_INCH);
+  finally
+    ReleaseDC(GetDesktopWindow, hdcScreen)
+  end
+end;
+
+function TCECellSizeSettings.IsChanged(CompareTo: TCECustomFileView): Boolean;
+begin
+  if assigned(CompareTo) then
+  begin
+    Result:= LargeIcons_Width <> CompareTo.CellSizes.Icon.Width;
+    if not Result then Result:= LargeIcons_Height <> CompareTo.CellSizes.Icon.Height;
+    if not Result then Result:= SmallIcons_Width <> CompareTo.CellSizes.SmallIcon.Width;
+    if not Result then Result:= SmallIcons_Height <> CompareTo.CellSizes.SmallIcon.Height;
+    if not Result then Result:= List_Width <> CompareTo.CellSizes.List.Width;
+    if not Result then Result:= List_Height <> CompareTo.CellSizes.List.Height;
+    if not Result then Result:= Details_Width <> CompareTo.CellSizes.Report.Width;
+    if not Result then Result:= Details_Height <> CompareTo.CellSizes.Report.Height;
+    if not Result then Result:= Tiles_Width <> CompareTo.CellSizes.Tile.Width;
+    if not Result then Result:= Tiles_Height <> CompareTo.CellSizes.Tile.Height;
+    if not Result then Result:= Thumbnails_Width <> CompareTo.CellSizes.Thumbnail.Width;
+    if not Result then Result:= Thumbnails_Height <> CompareTo.CellSizes.Thumbnail.Height;
+    if not Result then Result:= Filmstrip_Width <> CompareTo.CellSizes.FilmStrip.Width;
+    if not Result then Result:= Filmstrip_Height <> CompareTo.CellSizes.FilmStrip.Height;
+  end
+  else
+  Result:= false;
 end;
 
 end.

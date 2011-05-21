@@ -192,7 +192,9 @@ end;
 procedure TCEOptionsDialog.but_applyClick(Sender: TObject);
 begin
   if not (ActivePage is TCEOptionsPage_Advanced) then
-  ApplyAll;
+  ApplyAll
+  else
+  ActivePage.ApplySettings;
   Modified:= false;
 end;
 
@@ -429,7 +431,9 @@ begin
   data:= Sender.GetNodeData(Node);
   if assigned(data) then
   ActivePage:= data.Page;
-  //PageTree.ReinitChildren(PageTree.RootNode,true);
+
+  //if  then
+  but_ok.Default:= not (ActivePage is TCEOptionsPage_Advanced);
 end;
 
 {-------------------------------------------------------------------------------

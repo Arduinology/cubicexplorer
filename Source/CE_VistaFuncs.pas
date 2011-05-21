@@ -166,7 +166,6 @@ function TaskDialog(const AHandle: THandle; const ATitle, ADescription,
 var
   DLLHandle: THandle;
   res: integer;
-  S: string;
   Btns: Integer;
   DlgIcon: Integer;
   TaskDialogProc: function(HWND: THandle; hInstance: THandle; cTitle,

@@ -144,22 +144,10 @@ type
   TCEFilterPatternItem = class(TCEToolbarEditItem)
   protected
     procedure DoChange(const AText: WideString); override;
-    procedure DoClearButtonClick; virtual;
-    function GetItemViewerClass(AView: TTBView): TTBItemViewerClass; override;
+    procedure DoClearButtonClick(Shift: TShiftState); override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-  end;
-
-  TCEFilterPatternItemViewer = class(TCEToolbarEditItemViewer)
-  protected
-    procedure GetCursor(const Pt: TPoint; var ACursor: HCURSOR); override;
-    function GetIndentAfter: Integer; override;
-    procedure InternalDrawFrame(ACanvas: TCanvas; ARect: TRect; ItemInfo:
-        TSpTBXMenuItemInfo); override;
-    procedure InternalEditControlChange(Sender: TObject); override;
-    procedure MouseDown(Shift: TShiftState; X, Y: Integer; var MouseDownOnMenu:
-        Boolean); override;
   end;
 
 implementation
@@ -846,6 +834,7 @@ constructor TCEFilterPatternItem.Create(AOwner: TComponent);
 begin
   inherited;
   CEFiltersPanel.PatternNotifyList.Add(Self);
+  Self.AutoShowClearButton:= true;
 end;
 
 {-------------------------------------------------------------------------------
@@ -873,125 +862,11 @@ end;
 {-------------------------------------------------------------------------------
   Do ClearButtonClick
 -------------------------------------------------------------------------------}
-procedure TCEFilterPatternItem.DoClearButtonClick;
-begin
-  CEFiltersPanel.ClearFilters;
-end;
-
-{-------------------------------------------------------------------------------
-  Get Item Viewer Class
--------------------------------------------------------------------------------}
-function TCEFilterPatternItem.GetItemViewerClass(AView: TTBView):
-    TTBItemViewerClass;
-begin
-  Result:= TCEFilterPatternItemViewer;
-end;
-
-{##############################################################################}
-
-{-------------------------------------------------------------------------------
-  Get Cursor
--------------------------------------------------------------------------------}
-procedure TCEFilterPatternItemViewer.GetCursor(const Pt: TPoint; var ACursor:
-    HCURSOR);
-var
-  R: TRect;
-begin
-  if not Item.Enabled then
-    Exit;
-  GetEditRect(R);
-  OffsetRect(R, -BoundsRect.Left, -BoundsRect.Top);
-  InflateRect(R, -2, -2);
-  if PtInRect(R, Pt) then
-    ACursor:= LoadCursor(0, IDC_IBEAM) // Text field
-  else
-  begin
-    R.Left:= R.Right;
-    R.Right:= R.Right + 10;
-    if PtInRect(R, Pt) then
-    ACursor:= LoadCursor(0, IDC_ARROW) // Clear button
-    else
-    ACursor:= LoadCursor(0, IDC_SIZEWE); // Drag handle
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  Get Indent After
--------------------------------------------------------------------------------}
-function TCEFilterPatternItemViewer.GetIndentAfter: Integer;
-begin
-  Result:= 16; // 10 pixel for clear button + 6 pixel for drag bar
-end;
-
-{-------------------------------------------------------------------------------
-  Internal Draw Frame
--------------------------------------------------------------------------------}
-procedure TCEFilterPatternItemViewer.InternalDrawFrame(ACanvas: TCanvas; ARect:
-    TRect; ItemInfo: TSpTBXMenuItemInfo);
-var
-  R: TRect;
-begin
-  R:= ARect;
-  
-  // Draw Text field
-  if not (ItemInfo.HotTrack or ItemInfo.Pushed) and (SkinManager.CurrentSkinName = 'Default') and not SpIsWinVistaOrUp then
-    SpFillRect(ACanvas, ARect, clWindow, clBtnFace)
-  else begin
-    SpDrawXPEditFrame(ACanvas, ARect, ItemInfo.Enabled, ItemInfo.HotTrack, sknSkin);
-    InflateRect(ARect, -2, -2);
-    SpFillRect(ACanvas, ARect, clWindow);
-  end;
-
-  // Draw Clear button
-  R.Left:= ARect.Right - 16;
-  R.Right:= R.Right - 6;
-  SpDrawGlyphPattern(ACanvas, R, 0, clGrayText);
-
-  // Draw Drag handle
-  R.Left:= R.Right;
-  R.Right:= R.Right + 6;
-  R:= SpCenterRectVert(R, R.Bottom-R.Top-4);
-  R:= SpCenterRectHoriz(R, 4);
-  SpDrawXPMenuSeparator(ACanvas, R, false, true);
-end;
-
-{-------------------------------------------------------------------------------
-  InternalEditControlChange
--------------------------------------------------------------------------------}
-procedure TCEFilterPatternItemViewer.InternalEditControlChange(Sender: TObject);
+procedure TCEFilterPatternItem.DoClearButtonClick(Shift: TShiftState);
 begin
   inherited;
-end;
-
-{-------------------------------------------------------------------------------
-  Mouse Down
--------------------------------------------------------------------------------}
-procedure TCEFilterPatternItemViewer.MouseDown(Shift: TShiftState; X, Y:
-    Integer; var MouseDownOnMenu: Boolean);
-var
-  w,h: Integer;
-begin
-  w:= BoundsRect.Right-BoundsRect.Left;
-  
-  if (X >= (w-6)) and (Shift = []) then
-  begin
-    h:= BoundsRect.Bottom-BoundsRect.Top;
-    fDragSizing:= true;
-    fMouseDownOffset:= Point(w-X, h-Y);
-    Self.View.Selected:= Self;
-    Self.View.SetCapture;
-  end
-  else
-  begin
-    fDragSizing:= false;
-
-    // Clear button click
-    if (X > w-16) and (X < w-6) then
-    begin
-      TCEFilterPatternItem(Self.Item).DoClearButtonClick;
-    end;
-    inherited;
-  end;
+//  CEFiltersPanel.combo_filterpattern.Text:= '';
+//  CEFiltersPanel.combo_filterpatternChange(Self);
 end;
 
 
