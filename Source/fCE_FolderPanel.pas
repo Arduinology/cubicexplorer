@@ -157,6 +157,9 @@ begin
     OpenFolderInTab(FolderTree, NS.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect)
     else
     GlobalPathCtrl.ChangeGlobalPathPIDL(Self, NS.AbsolutePIDL);
+
+    FolderTree.ScrollToView(Node, false, true);
+    
   end;
 end;
 
@@ -170,8 +173,7 @@ begin
   FolderTree.FullCollapse;
   FolderTree.BrowseTo(NewPath, true, true, false, false);
 
-  //if FolderTree.AutoCollapse then
-  FolderTree.ScrollIntoView(FolderTree.FocusedNode,true,true);
+  FolderTree.ScrollToView(FolderTree.FocusedNode);
 end;
 
 {*------------------------------------------------------------------------------
@@ -184,9 +186,6 @@ begin
   FolderTree.FullCollapse;
   FolderTree.BrowseToByPIDL(NewPIDL, true, true, false, false);
 
-  //if FolderTree.AutoCollapse then
-  //FolderTree.ScrollIntoView(FolderTree.FocusedNode,true,true);
-  //FolderTree.ScrollIntoView(FolderTree.FocusedNode,true,false);
   FolderTree.ScrollToView(FolderTree.FocusedNode);
 end;
 

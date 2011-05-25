@@ -65,7 +65,8 @@ type
     function PasteShortcutFromClipboard: Boolean;
     function Refresh: Boolean;
     procedure ReReadAndRefreshNode(Node: PVirtualNode; SortNode: Boolean); override;
-    procedure ScrollToView(ANode: PVirtualNode);
+    procedure ScrollToView(ANode: PVirtualNode; AVertical: Boolean = true;
+        AHorizontal: Boolean = true);
     procedure SelectedFilesDelete(ShiftKeyState: TExecuteVerbShift = evsCurrent);
         override;
     property AutoCollapse: Boolean read fAutoCollapse write fAutoCollapse;
@@ -514,31 +515,23 @@ end;
 {-------------------------------------------------------------------------------
   Scroll To View
 -------------------------------------------------------------------------------}
-procedure TCEFolderTree.ScrollToView(ANode: PVirtualNode);
+procedure TCEFolderTree.ScrollToView(ANode: PVirtualNode; AVertical: Boolean =
+    true; AHorizontal: Boolean = true);
 var
-  totalW, W: Integer;
+  indentW, level, W: Integer;
   run: PVirtualNode;
 begin
   if not assigned(ANode) then
   Exit;
   // Vertically
+  if AVertical then
   ScrollIntoView(ANode, true);
   // Horizontally
-  w:= DoGetNodeWidth(ANode, NoColumn);
-  totalW:= w;
-  run:= ANode.Parent;
-  while assigned(run) and (run <> RootNode) do
+  if AHorizontal then
   begin
-    totalW:= totalW + DoGetNodeWidth(run, NoColumn);
-    run:= run.Parent;
-  end;
-
-  if totalW > ClientWidth then
-  begin
-    if (totalW-w) > ClientWidth then
-    OffsetX:= ClientWidth - (totalW-w)
-    else
-    OffsetX:= 0;
+    level:= GetNodeLevel(ANode)-1;
+    indentW:= Indent * level;
+    OffsetX:= -indentW;
   end;
 end;
 
