@@ -157,6 +157,7 @@ type
 
   TCEFileViewSettings = class(TPersistent)
   private
+    fArrowBrowse: Boolean;
     fFullRowSelect: Boolean;
     fHiddenFiles: Boolean;
     fSelectPreviousFolder: Boolean;
@@ -184,6 +185,7 @@ type
     fThreadedImages: Boolean;
     fUse_JumboIcons_in_InfoBar: Boolean;
     NotifyList: TComponentList;
+    procedure SetArrowBrowse(const Value: Boolean);
     procedure SetFullRowSelect(const Value: Boolean);
     procedure SetHiddenFiles(const Value: Boolean);
     procedure SetSelectPreviousFolder(const Value: Boolean);
@@ -222,6 +224,7 @@ type
     procedure ClearFilters;
     procedure EndUpdate(ASendChanges: Boolean = false);
   published
+    property ArrowBrowse: Boolean read fArrowBrowse write SetArrowBrowse;
     property SelectPreviousFolder: Boolean read fSelectPreviousFolder write
         SetSelectPreviousFolder;
     property AutoSelectFirstItem: Boolean read fAutoSelectFirstItem write
@@ -1007,6 +1010,7 @@ begin
   fBrowseZipFolders:= false;
   fSingleClickBrowse:= false;
   fFileSizeFormat:= vfsfDefault;
+  fArrowBrowse:= true;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1090,6 +1094,7 @@ begin
 
     // Misc
     FileViewPage.FileView.FileSizeFormat:= fFileSizeFormat;
+    FileViewPage.FileView.ArrowBrowse:= fArrowBrowse;
 
     // Cell Sizes
     if (CellSizes.LargeIcons_Width < 1) or (CellSizes.LargeIcons_Height < 1) then
@@ -1415,6 +1420,15 @@ begin
       end;
     end;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set ArrowBrowse
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetArrowBrowse(const Value: Boolean);
+begin
+  fArrowBrowse:= Value;
+  SendChanges;
 end;
 
 {-------------------------------------------------------------------------------

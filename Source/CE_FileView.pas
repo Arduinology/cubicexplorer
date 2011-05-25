@@ -72,6 +72,7 @@ type
     fRightMouseButton_IsDown: Boolean;
     fLeftMouseButton_IsDown: Boolean;
     fLeftMouseButton_RockerClicks: Integer;
+    fArrowBrowse: Boolean;
     fRightMouseButton_RockerClicks: Integer;
     fSingleClickBrowse: Boolean;
     fSingleClickExecute: Boolean;
@@ -133,6 +134,7 @@ type
   published
     property AutoSelectFirstItem: Boolean read fAutoSelectFirstItem write
         fAutoSelectFirstItem;
+    property ArrowBrowse: Boolean read fArrowBrowse write fArrowBrowse;
     property SelectPreviousFolder: Boolean read fSelectPreviousFolder write
         fSelectPreviousFolder;
     property SingleClickBrowse: Boolean read fSingleClickBrowse write
@@ -353,6 +355,7 @@ begin
   UseMouseRocker:= true;
   fSingleClickBrowse:= false;
   fSingleClickExecute:= false;
+  fArrowBrowse:= true;
 end;
 
 {-------------------------------------------------------------------------------
@@ -611,10 +614,22 @@ begin
         if (Shift = [ssShift,ssCtrl]) or (Shift = [ssCtrl]) then
         DoDefault:= false;
       end;
-      VK_LEFT, VK_RIGHT:
+      VK_LEFT:
       begin
         if Shift = [ssAlt] then
-        DoDefault:= false;
+        DoDefault:= false
+        else if ArrowBrowse and (View = elsReport) then
+        begin
+          GoFolderUp;
+          DoDefault:= false;
+        end;
+      end;
+      VK_RIGHT:
+      begin
+        if Shift = [ssAlt] then
+        DoDefault:= false
+        else if ArrowBrowse and (View = elsReport) then
+        CharCode:= VK_RETURN;
       end;
       VK_INSERT:
       begin
