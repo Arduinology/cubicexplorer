@@ -192,8 +192,11 @@ begin
     SpFillRect(ACanvas, ARect, $f8eadf);
     ACanvas.Pen.Style:= psSolid;
     ACanvas.Pen.Color:= $988270;
-    ACanvas.MoveTo(ARect.Left, ARect.Top);
-    ACanvas.LineTo(ARect.Right, ARect.Top);
+    if Borders then
+    begin
+      ACanvas.MoveTo(ARect.Left, ARect.Top);
+      ACanvas.LineTo(ARect.Right, ARect.Top);
+    end;
   end
   else if Component = skncTabToolbar then
   begin

@@ -35,7 +35,6 @@ type
     SmallIcons: TPngImageList;
     BookmarkImages: TPngImageList;
     MiscImages: TPngImageList;
-    PaneIndicators: TPngImageList;
   private
     { Private declarations }
   public
