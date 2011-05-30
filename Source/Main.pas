@@ -249,6 +249,7 @@ type
     procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
     procedure WMSyscommand(var Message: TWmSysCommand); message WM_SYSCOMMAND;
     procedure CreateParams(var Params: TCreateParams); override;
+    procedure WMAppCommand(var Message: TMessage); message WM_APPCOMMAND;
     procedure WMHotkey(var Message: TMessage); message WM_HOTKEY;
   public
     DockHostForm: TCEDockHostForm;
@@ -421,6 +422,12 @@ begin
   GlobalAppSettings.AddItem('MainForm', Settings, true, true);
 
   StackDirPath:= ExePath + 'Stacks\';
+
+  
+  if Assigned(MP_SHSetInstanceExplorer) then
+  MP_SHSetInstanceExplorer(ExplorerThreadInstance);
+  if Assigned(MP_SHSetThreadRef) then
+  MP_SHSetThreadRef(ExplorerThreadInstance);
 end;
 
 {-------------------------------------------------------------------------------
@@ -1509,6 +1516,14 @@ end;
 procedure TMainForm.TabPopupMenuPopup(Sender: TObject);
 begin
   sub_closed_tab_list.Enabled:= TabSet.CanUndoTabClose;
+end;
+
+{-------------------------------------------------------------------------------
+  On WM_APPCOMMAND message
+-------------------------------------------------------------------------------}
+procedure TMainForm.WMAppCommand(var Message: TMessage);
+begin
+  inherited;
 end;
 
 

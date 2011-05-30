@@ -146,6 +146,9 @@ var
 begin
   if (MessageDlg(_('Are you sure you want to delete this session?'), mtConfirmation, [mbYes, mbNo], 0) = mrYes) then
   begin
+    if GlobalSessions.Sessions.GetSession(list_sessions.ItemIndex) = GlobalSessions.ActiveSession then
+    GlobalSessions.ActiveSession:= nil;
+    
     GlobalSessions.Sessions.DeleteSession(list_sessions.ItemIndex);
     old_index:= list_sessions.ItemIndex;
     list_sessions.Items.Delete(list_sessions.ItemIndex);

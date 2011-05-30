@@ -101,7 +101,7 @@ object CESessionManager: TCESessionManager
       end
       object edit_name: TSpTBXEdit
         Left = 202
-        Top = 32
+        Top = 33
         Width = 185
         Height = 21
         Anchors = [akTop, akRight]
@@ -110,7 +110,7 @@ object CESessionManager: TCESessionManager
       end
       object group_loadsave: TSpTBXGroupBox
         Left = 202
-        Top = 59
+        Top = 60
         Width = 185
         Height = 95
         Caption = 'Save/Load Settings'
@@ -148,7 +148,7 @@ object CESessionManager: TCESessionManager
         end
         object check_layout: TSpTBXCheckBox
           Left = 12
-          Top = 64
+          Top = 66
           Width = 170
           Height = 21
           Caption = 'Layouts'

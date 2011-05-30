@@ -4813,7 +4813,7 @@ begin
         else
           InvokeInfo.cbSize := SizeOf(TCMInvokeCommandInfo);
 
-        InvokeInfo.hWnd := Owner.Handle;
+        InvokeInfo.hWnd:= Owner.Handle;
 
         InvokeInfo.nShow := SW_SHOWNORMAL;
 
