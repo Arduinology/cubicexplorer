@@ -40,6 +40,8 @@ type
     fAutoCollapse: Boolean;
     fAutoExpand: Boolean;
     fBrowseZipFolders: Boolean;
+    fCenterOnBrowse: Boolean;
+    fCenterOnExpand: Boolean;
     fHiddenFiles: Boolean;
     fOnSelectedChange: TCEFolderTreeSelectedChangeEvent;
     fSelectionTimer: TTimer;
@@ -75,6 +77,8 @@ type
         SetBrowseZipFolders;
     property HiddenFiles: Boolean read fHiddenFiles write SetHiddenFiles;
   published
+    property CenterOnBrowse: Boolean read fCenterOnBrowse write fCenterOnBrowse;
+    property CenterOnExpand: Boolean read fCenterOnExpand write fCenterOnExpand;
     property OnSelectedChange: TCEFolderTreeSelectedChangeEvent read
         fOnSelectedChange write fOnSelectedChange;
   end;

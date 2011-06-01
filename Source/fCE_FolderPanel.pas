@@ -49,6 +49,7 @@ type
   private
     fSettings: TCEFolderPanelSettings;
   protected
+    procedure FolderTreeExpanded(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure FolderTreeSelectedChange(Node: PVirtualNode);
 
     procedure FolderTreeMouseDown(Sender: TObject; Button: TMouseButton;
@@ -71,6 +72,8 @@ type
 
   TCEFolderPanelSettings = class(TPersistent)
   private
+    fCenterOnBrowse: Boolean;
+    fCenterOnExpand: Boolean;
     fOpenInNewTab: Boolean;
     function GetAutoCollapse: Boolean;
     function GetAutoExpand: Boolean;
@@ -85,6 +88,8 @@ type
     property AutoExpand: Boolean read GetAutoExpand write SetAutoExpand;
     property BrowseZipFolders: Boolean read GetBrowseZipFolders write
         SetBrowseZipFolders;
+    property CenterOnBrowse: Boolean read fCenterOnBrowse write fCenterOnBrowse;
+    property CenterOnExpand: Boolean read fCenterOnExpand write fCenterOnExpand;
     property OpenInNewTab: Boolean read fOpenInNewTab write fOpenInNewTab;
   end;
 
@@ -97,6 +102,13 @@ uses
   dCE_Actions, Main;
 
 {$R *.dfm}
+
+procedure TCEFolderPanel.FolderTreeExpanded(Sender: TBaseVirtualTree; Node:
+    PVirtualNode);
+begin
+  if Settings.CenterOnExpand then
+  FolderTree.ScrollToView(Node, true, true);
+end;
 
 {*------------------------------------------------------------------------------
   Get's called when TCEFolderPanel is created.
@@ -116,11 +128,17 @@ begin
   FolderTree.IncrementalSearch:= isVisibleOnly;
   FolderTree.Active:= true;
   FolderTree.OnEdited:= OnEdited;
+  FolderTree.OnExpanded:= FolderTreeExpanded;
 
   FolderTree.AutoCollapse:= true;
   FolderTree.AutoExpand:= true;
   FolderTree.Indent:= 24;
   FolderTree.TabOrder:= 1;
+
+  // Default settings
+  fSettings.CenterOnBrowse:= true;
+  fSettings.CenterOnExpand:= true;
+  fSettings.fOpenInNewTab:= false;
   
   SetDesktopIconFonts(FolderTree.Font);
   TopDock.Name:= 'FolderPanel_TopDock';
@@ -158,8 +176,9 @@ begin
     else
     GlobalPathCtrl.ChangeGlobalPathPIDL(Self, NS.AbsolutePIDL);
 
+    if Settings.CenterOnBrowse then
     FolderTree.ScrollToView(Node, false, true);
-    
+
   end;
 end;
 
@@ -173,6 +192,7 @@ begin
   FolderTree.FullCollapse;
   FolderTree.BrowseTo(NewPath, true, true, false, false);
 
+  if Settings.CenterOnBrowse then
   FolderTree.ScrollToView(FolderTree.FocusedNode);
 end;
 
@@ -186,6 +206,7 @@ begin
   FolderTree.FullCollapse;
   FolderTree.BrowseToByPIDL(NewPIDL, true, true, false, false);
 
+  if Settings.CenterOnBrowse then
   FolderTree.ScrollToView(FolderTree.FocusedNode);
 end;
 

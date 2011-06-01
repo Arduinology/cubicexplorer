@@ -622,9 +622,6 @@ begin
     end;
   end;
 
-  if View = elsReport then
-  showM:= (HitInfo.HitInfo * [ehtOnLabel, ehtOnIcon]  <> [])
-  else
   showM:= (HitInfo.HitInfo * [ehtOnText, ehtOnIcon]  <> []);
 
   Handled:= not showM;
@@ -648,7 +645,7 @@ begin
     end
   end;
 
-//  Handled:= showM;
+  Handled:= showM;
 //
 //  if Assigned(OnItemContextMenu) then
 //    OnItemContextMenu(Self, HitInfo, WindowPoint, Menu, Handled);
