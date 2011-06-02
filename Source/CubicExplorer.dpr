@@ -127,7 +127,8 @@ uses
   MPShellUtilities in 'Components\Mustangpeak\CommonLibrary\MPShellUtilities.pas',
   EasyListview in 'Components\Mustangpeak\EasyListview\EasyListview.pas',
   VirtualExplorerEasyListview in 'Components\Mustangpeak\VSTools\VirtualExplorerEasyListview.pas',
-  fCE_OptionsPage_Display_Stack in 'fCE_OptionsPage_Display_Stack.pas' {TCE_OptionsPage_Display_Stack: TFrame};
+  fCE_OptionsPage_Display_Stack in 'fCE_OptionsPage_Display_Stack.pas' {TCE_OptionsPage_Display_Stack: TFrame},
+  AppCommand in 'AppCommand.pas';
 
 {$R *.res}
 {$R 'CE_Resources.res'}

@@ -39,7 +39,7 @@ uses
   TntSysUtils,
   // System Units
   Windows, Messages, SysUtils, Classes, Controls, ExtCtrls, Forms,
-  Graphics, Menus, ShellAPI, ShlObj, Math;
+  Graphics, Menus, ShellAPI, ShlObj, Math, ActiveX;
 
 type
 
@@ -80,6 +80,7 @@ type
     procedure SetAutosizeListViewStyle(const Value: Boolean);
     procedure SetUseKernelNotification(const Value: Boolean);
   protected
+    fDoubleClicking: Boolean;
     procedure DoCustomColumnAdd; override;
     procedure DoEnumFinished; override;
     procedure DoEnumFolder(const Namespace: TNamespace; var AllowAsChild: Boolean);
@@ -395,6 +396,7 @@ var
   HitInfo: TEasyItemHitTestInfoSet;
   GoBack: Boolean;
 begin
+  fDoubleClicking:= true;
   GoBack:= false;
   if Self.EditManager.Editing then
   Exit;
@@ -793,9 +795,96 @@ begin
       Exit;
     end;
   end;
+//
+//  // SingleClickBrowse and SingleClickExecute
+//  if (SingleClickBrowse or SingleClickExecute) and (Msg.Keys = MK_LBUTTON) then
+//  begin
+//    viewPt:= Scrollbars.MapWindowToView(Msg.Pos);
+//    item:= Groups.ItembyPoint(viewPt);
+//    if assigned(item) then
+//    begin
+//      item.HitTestAt(viewPt, itemHitInfo);
+//      if ehtOnClickSelectBounds in itemHitInfo then
+//      begin
+//        if Self.ValidateNamespace(item, ns) then
+//        begin
+//          doBrowse:= false;
+//          doExecute:= false;
+//          if ns.Folder then
+//          begin
+//            // ZIP folders
+//            if IsSameText(ns.Extension, '.zip') then
+//            begin
+//              if (eloBrowseExecuteZipFolder in Options) then
+//              begin
+//                doBrowse:= SingleClickBrowse;
+//                doExecute:= SingleClickExecute;
+//              end
+//              else
+//              doExecute:= SingleClickExecute;
+//            end
+//            // Normal folders
+//            else
+//            doBrowse:= SingleClickBrowse;
+//          end
+//          // Files
+//          else
+//          doExecute:= SingleClickExecute;
+//
+//          // Do Browse
+//          if doBrowse then
+//          begin
+//            PIDL:= PIDLMgr.CopyPIDL(ns.AbsolutePIDL);
+//            try
+//              BrowseToByPIDL(PIDL);
+//              doDefault:= false;
+//            finally
+//              PIDLMgr.FreePIDL(PIDL);
+//            end;
+//          end
+//          // Do Execute
+//          else if doExecute then
+//          begin
+//            Self.DoShellExecute(item);
+//            doDefault:= not item.Selected;
+//          end;
+//        end;
+//      end;
+//    end;
+//  end;
+//
+  if doDefault then
+  Inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle Mouse Up
+-------------------------------------------------------------------------------}
+procedure TCEFileView.HandleMouseUp(Button: TCommonMouseButton; Msg: TWMMouse);
+var
+  doDefault, doBrowse, doExecute: Boolean;
+  viewPt: TPoint;
+  item: TEasyItem;
+  itemHitInfo: TEasyItemHitTestInfoSet;
+  ns: TNamespace;
+  PIDL: PItemIDList;
+begin
+  //Inherited;
+  if Button = cmbLeft then
+  begin
+    fLeftMouseButton_IsDown:= false;
+  end
+  else if Button = cmbRight then
+  begin
+    fRightMouseButton_IsDown:= false;
+  end;
 
   // SingleClickBrowse and SingleClickExecute
-  if (SingleClickBrowse or SingleClickExecute) and (Msg.Keys = MK_LBUTTON) then
+  if (SingleClickBrowse or SingleClickExecute)
+      and (Button = cmbLeft)
+      and not fRightMouseButton_IsDown
+      and not fDoubleClicking
+      and not Self.DragInitiated then
   begin
     viewPt:= Scrollbars.MapWindowToView(Msg.Pos);
     item:= Groups.ItembyPoint(viewPt);
@@ -853,22 +942,7 @@ begin
 
   if doDefault then
   Inherited;
-end;
-
-{-------------------------------------------------------------------------------
-  Handle Mouse Up
--------------------------------------------------------------------------------}
-procedure TCEFileView.HandleMouseUp(Button: TCommonMouseButton; Msg: TWMMouse);
-begin
-  Inherited;
-  if Button = cmbLeft then
-  begin
-    fLeftMouseButton_IsDown:= false;
-  end
-  else if Button = cmbRight then
-  begin
-    fRightMouseButton_IsDown:= false;
-  end;
+  fDoubleClicking:= false;
 end;
 
 {-------------------------------------------------------------------------------

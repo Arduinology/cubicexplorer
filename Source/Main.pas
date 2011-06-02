@@ -51,7 +51,8 @@ uses
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ShellAPI, Menus, ShlObj, XPMan, ActiveX,
-  ImgList, Registry, AppEvnts, ActnList, Math, JvComponentBase, JvTrayIcon;
+  ImgList, Registry, AppEvnts, ActnList, Math, JvComponentBase, JvTrayIcon,
+  AppCommand;
 
 type
   TMainFormSettings = class;
@@ -249,7 +250,7 @@ type
     procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
     procedure WMSyscommand(var Message: TWmSysCommand); message WM_SYSCOMMAND;
     procedure CreateParams(var Params: TCreateParams); override;
-    procedure WMAppCommand(var Message: TMessage); message WM_APPCOMMAND;
+    procedure WMAppCommand(var Message: TWMAppCommand); message WM_APPCOMMAND;
     procedure WMHotkey(var Message: TMessage); message WM_HOTKEY;
   public
     DockHostForm: TCEDockHostForm;
@@ -1521,9 +1522,19 @@ end;
 {-------------------------------------------------------------------------------
   On WM_APPCOMMAND message
 -------------------------------------------------------------------------------}
-procedure TMainForm.WMAppCommand(var Message: TMessage);
+procedure TMainForm.WMAppCommand(var Message: TWMAppCommand);
 begin
-  inherited;
+  Message.Result:= 1;
+  case Message.Cmd of
+    APPCOMMAND_BROWSER_BACKWARD: CEActions.act_navi_back.Execute;
+    APPCOMMAND_BROWSER_FORWARD: CEActions.act_navi_forward.Execute;
+    APPCOMMAND_BROWSER_SEARCH: CEActions.act_navi_filesearch.Execute;
+    else
+    begin
+      Message.Result:= 0;
+      inherited;
+    end;
+  end;
 end;
 
 

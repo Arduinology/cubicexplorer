@@ -1152,15 +1152,18 @@ end;
 procedure MouseAction(var Msg: tagMSG; var Handled: Boolean);
 var
   Shift: Integer;
-begin  
-  if (Msg.message = 523) or (Msg.message = 525) then // Navigation buttons
-  begin
-    Shift:= Lo(Msg.wParam);
-    if Shift = MK_XBUTTON1 then  // back
-    ExecuteNavigationCategory(603)
-    else if Shift = MK_XBUTTON2 then // forward
-    ExecuteNavigationCategory(604);
-  end
+begin
+
+// No need for this anymore, AppCommand is used instead.
+//
+//  if (Msg.message = 523) or (Msg.message = 525) then // Navigation buttons
+//  begin
+//    Shift:= Lo(Msg.wParam);
+//    if Shift = MK_XBUTTON1 then  // back
+//    ExecuteNavigationCategory(603)
+//    else if Shift = MK_XBUTTON2 then // forward
+//    ExecuteNavigationCategory(604);
+//  end
 end;
 
 {*------------------------------------------------------------------------------
@@ -1353,6 +1356,7 @@ var
   path: WideString;
   TabOpened: Boolean;
   IsShortcut: Boolean;
+  IsFile: Boolean;
   NS: TNamespace;
 begin
   Result:= false;
@@ -1365,6 +1369,7 @@ begin
     i:= 0;
     TabOpened:= false;
     IsShortcut:= false;
+    IsFile:= false;
     while i < list.Count do
     begin
       if IsSameText(list.Strings[i], '/idlist') and not TabOpened then
@@ -1381,21 +1386,43 @@ begin
           end;
         end;
         IsShortcut:= false;
+        IsFile:= false;
       end
       else if IsSameText(list.Strings[i], '/n') then
       begin
         TabOpened:= false;
         IsShortcut:= false;
+        IsFile:= false;
       end
       else if IsSameText(list.Strings[i], '/link') then
       begin
         TabOpened:= false;
         IsShortcut:= true;
+        IsFile:= false;
+      end
+      else if IsSameText(list.Strings[i], '/f') then
+      begin
+        TabOpened:= false;
+        IsShortcut:= false;
+        IsFile:= true;
       end
       else
       begin
         path:= list.Strings[i];
-        
+        // Open File
+        if IsFile then
+        begin
+          if not WideFileExists(path) then
+          path:= DecodeRelativePath(path);
+          if WideFileExists(path) then
+          begin
+            OpenFileInTab(path, true, true);
+            Result:= true;
+            TabOpened:= true;
+          end;
+          IsFile:= false;
+        end;
+        // Open Shortcut
         if IsShortcut then
         begin
           if not WideFileExists(path) then
@@ -1416,7 +1443,7 @@ begin
           end;
           IsShortcut:= false;
         end;
-
+        // Open normal folder
         if not TabOpened then
         begin
           ReplaceSystemVariablePath(path);
@@ -1555,9 +1582,10 @@ end;
 procedure TCEActions.ApplicationEventsMessage(var Msg: tagMSG;
   var Handled: Boolean);
 begin
-  case Msg.message of
-    512..525: MouseAction(Msg, Handled);  
-  end;
+  // Do nothing for now
+//  case Msg.message of
+//    512..525: MouseAction(Msg, Handled);
+//  end;
 end;
 
 {##############################################################################}
