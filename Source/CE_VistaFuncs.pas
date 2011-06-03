@@ -223,6 +223,9 @@ begin
       TD_ICON_INFORMATION: DlgIcon:= MB_ICONINFORMATION;
     end;
 
+    if AContent = '' then
+    Result:= WideMessageBox(AHandle, PWideChar(ATitle), PWideChar(ADescription), DlgIcon or Btns)
+    else
     Result:= WideMessageBox(AHandle, PWideChar(ATitle), PWideChar(AContent), DlgIcon or Btns);
   end;
 end;

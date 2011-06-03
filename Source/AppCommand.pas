@@ -138,10 +138,6 @@ const
   FAPPCOMMAND_OEM   = $1000;
   FAPPCOMMAND_MASK  = $F000;
 
-  // Mouse buttons;  remaining ones are declared in Windows.pas
-  MK_XBUTTON1 = $20;
-  MK_XBUTTON2 = $40;
-
   function GET_APPCOMMAND_LPARAM(lParam: LPARAM): Short;
   function GET_DEVICE_LPARAM(lParam: LPARAM): Word;
   function GET_KEYSTATE_LPARAM(lParam: LPARAM): Word;

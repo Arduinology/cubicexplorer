@@ -99,7 +99,12 @@ procedure TCESaveSessionDlg.but_saveClick(Sender: TObject);
 begin
   if SessionCombo.Items.IndexOf(SessionCombo.Text) > -1 then
   begin
-    if WideMessageDlg(_('Do you want to override existing session?'), mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+    if (TaskDialog(Application.MainFormHandle,
+                   _('Confirm'),
+                   _('Override existing session?'),
+                   _('Do you want to override existing session?'),
+                   TD_ICON_QUESTION,
+                   TD_BUTTON_YES + TD_BUTTON_NO) = TD_RESULT_YES) then
     ModalResult:= mrOK;
   end
   else

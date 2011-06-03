@@ -1150,8 +1150,6 @@ end;
   Mouse Input actions
 -------------------------------------------------------------------------------}
 procedure MouseAction(var Msg: tagMSG; var Handled: Boolean);
-var
-  Shift: Integer;
 begin
 
 // No need for this anymore, AppCommand is used instead.

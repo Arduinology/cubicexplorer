@@ -4,7 +4,7 @@ object CEAboutBox: TCEAboutBox
   BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'About CubicExplorer'
-  ClientHeight = 350
+  ClientHeight = 352
   ClientWidth = 450
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,6 +18,9 @@ object CEAboutBox: TCEAboutBox
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
+  DesignSize = (
+    450
+    352)
   PixelsPerInch = 96
   TextHeight = 13
   object Image1: TImage
@@ -957,7 +960,7 @@ object CEAboutBox: TCEAboutBox
     Left = 0
     Top = 94
     Width = 450
-    Height = 219
+    Height = 218
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -1001,12 +1004,13 @@ object CEAboutBox: TCEAboutBox
     Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoNoCaret, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
     ReadOnly = True
     RightEdgeColor = clWindow
+    ExplicitHeight = 219
   end
   object Panel1: TPanel
     Left = 0
-    Top = 313
+    Top = 312
     Width = 450
-    Height = 37
+    Height = 40
     Align = alBottom
     BevelEdges = [beTop]
     BevelKind = bkTile
@@ -1014,20 +1018,20 @@ object CEAboutBox: TCEAboutBox
     TabOrder = 1
     DesignSize = (
       450
-      35)
+      38)
     object but_close: TTntButton
       Left = 367
-      Top = 2
+      Top = 6
       Width = 75
       Height = 25
-      Anchors = [akRight, akBottom]
+      Anchors = [akTop, akRight]
       Caption = 'Close'
       TabOrder = 0
       OnClick = but_closeClick
     end
     object BuildLabel: TSpTBXLabel
-      Left = 4
-      Top = 8
+      Left = 8
+      Top = 10
       Width = 45
       Height = 19
       Caption = 'Version:'
@@ -1041,16 +1045,19 @@ object CEAboutBox: TCEAboutBox
     end
   end
   object VersionLabel: TSpTBXLabel
-    Left = 288
-    Top = 8
-    Width = 6
-    Height = 6
+    Left = 32
+    Top = 16
+    Width = 313
+    Height = 19
+    Anchors = [akLeft, akTop, akRight]
+    AutoSize = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = 14540253
-    Font.Height = -15
+    Font.Height = -13
     Font.Name = 'Arial'
     Font.Style = []
     ParentFont = False
+    Alignment = taRightJustify
     CaptionGlow = gldAll
     CaptionGlowColor = 6710886
   end

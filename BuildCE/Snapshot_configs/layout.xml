@@ -203,20 +203,20 @@
       </Forms>
       <Toolbars>
         <MainToolbar>
-          <DockPos>211</DockPos>
+          <DockPos>0</DockPos>
           <DockRow>0</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>TRUE</Visible>
         </MainToolbar>
         <NavigationToolbar>
           <DockPos>0</DockPos>
-          <DockRow>1</DockRow>
+          <DockRow>3</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>TRUE</Visible>
         </NavigationToolbar>
         <ViewToolbar>
-          <DockPos>331</DockPos>
-          <DockRow>1</DockRow>
+          <DockPos>346</DockPos>
+          <DockRow>3</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>TRUE</Visible>
         </ViewToolbar>
@@ -234,9 +234,9 @@
         </DriveToolbar>
         <BookmarkToolbar>
           <DockPos>0</DockPos>
-          <DockRow>2</DockRow>
+          <DockRow>1</DockRow>
           <Dock>TopToolDock</Dock>
-          <Visible>TRUE</Visible>
+          <Visible>FALSE</Visible>
         </BookmarkToolbar>
         <EditToolbar>
           <DockPos>0</DockPos>
@@ -250,6 +250,18 @@
           <Dock>TopPageToolDock</Dock>
           <Visible>FALSE</Visible>
         </BreadcrumbBar>
+        <SessionsToolbar>
+          <DockPos>0</DockPos>
+          <DockRow>4</DockRow>
+          <Dock>TopToolDock</Dock>
+          <Visible>FALSE</Visible>
+        </SessionsToolbar>
+        <TabBar>
+          <Visible>TRUE</Visible>
+        </TabBar>
+        <StatusBar>
+          <Visible>TRUE</Visible>
+        </StatusBar>
       </Toolbars>
     </FileSearch>
     <TextEditor>
@@ -505,20 +517,20 @@
         </MainToolbar>
         <NavigationToolbar>
           <DockPos>0</DockPos>
-          <DockRow>1</DockRow>
+          <DockRow>3</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>TRUE</Visible>
         </NavigationToolbar>
         <ViewToolbar>
-          <DockPos>331</DockPos>
-          <DockRow>1</DockRow>
+          <DockPos>346</DockPos>
+          <DockRow>3</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>TRUE</Visible>
         </ViewToolbar>
         <AddressBarToolbar>
-          <DockPos>-1</DockPos>
-          <DockRow>0</DockRow>
-          <Dock>TopPageToolDock</Dock>
+          <DockPos>0</DockPos>
+          <DockRow>1</DockRow>
+          <Dock>TopToolDock</Dock>
           <Visible>FALSE</Visible>
         </AddressBarToolbar>
         <DriveToolbar>
@@ -529,13 +541,13 @@
         </DriveToolbar>
         <BookmarkToolbar>
           <DockPos>0</DockPos>
-          <DockRow>2</DockRow>
+          <DockRow>1</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>FALSE</Visible>
         </BookmarkToolbar>
         <SessionsToolbar>
-          <DockPos>-1</DockPos>
-          <DockRow>0</DockRow>
+          <DockPos>0</DockPos>
+          <DockRow>4</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>FALSE</Visible>
         </SessionsToolbar>
@@ -546,9 +558,9 @@
           <Visible>FALSE</Visible>
         </EditToolbar>
         <BreadcrumbBar>
-          <DockPos>-1</DockPos>
-          <DockRow>0</DockRow>
-          <Dock>TopPageToolDock</Dock>
+          <DockPos>0</DockPos>
+          <DockRow>2</DockRow>
+          <Dock>TopToolDock</Dock>
           <Visible>FALSE</Visible>
         </BreadcrumbBar>
         <Visible>TRUE</Visible>
@@ -813,13 +825,13 @@
         </MainToolbar>
         <NavigationToolbar>
           <DockPos>0</DockPos>
-          <DockRow>1</DockRow>
+          <DockRow>3</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>TRUE</Visible>
         </NavigationToolbar>
         <ViewToolbar>
-          <DockPos>331</DockPos>
-          <DockRow>1</DockRow>
+          <DockPos>346</DockPos>
+          <DockRow>3</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>TRUE</Visible>
         </ViewToolbar>
@@ -837,13 +849,13 @@
         </DriveToolbar>
         <BookmarkToolbar>
           <DockPos>0</DockPos>
-          <DockRow>2</DockRow>
+          <DockRow>1</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>FALSE</Visible>
         </BookmarkToolbar>
         <SessionsToolbar>
-          <DockPos>-1</DockPos>
-          <DockRow>0</DockRow>
+          <DockPos>0</DockPos>
+          <DockRow>4</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>FALSE</Visible>
         </SessionsToolbar>
@@ -940,7 +952,7 @@
         <TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0>
           <ParentName>DockHost@LeftDockPanel</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,18,227,174]</DockLoc>
+          <DockLoc>[0,18,227,327]</DockLoc>
           <UnDockRect>[24,140,434,320]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>100</LRDockWidth>
@@ -1121,18 +1133,18 @@
         </MainToolbar>
         <NavigationToolbar>
           <DockPos>0</DockPos>
-          <DockRow>1</DockRow>
+          <DockRow>3</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>TRUE</Visible>
         </NavigationToolbar>
         <ViewToolbar>
-          <DockPos>331</DockPos>
-          <DockRow>1</DockRow>
+          <DockPos>288</DockPos>
+          <DockRow>3</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>TRUE</Visible>
         </ViewToolbar>
         <AddressBarToolbar>
-          <DockPos>179</DockPos>
+          <DockPos>199</DockPos>
           <DockRow>0</DockRow>
           <Dock>TopPageToolDock</Dock>
           <Visible>TRUE</Visible>
@@ -1143,15 +1155,775 @@
           <Dock>FolderPanel_TopDock</Dock>
           <Visible>TRUE</Visible>
         </DriveToolbar>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+  ?     
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <BookmarkToolbar>
           <DockPos>0</DockPos>
-          <DockRow>2</DockRow>
+          <DockRow>1</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>FALSE</Visible>
         </BookmarkToolbar>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+  ?     
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <SessionsToolbar>
-          <DockPos>-1</DockPos>
-          <DockRow>0</DockRow>
+          <DockPos>0</DockPos>
+          <DockRow>4</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>FALSE</Visible>
         </SessionsToolbar>
@@ -1163,8 +1935,8 @@
         </EditToolbar>
         <BreadcrumbBar>
           <DockPos>0</DockPos>
-          <DockRow>1</DockRow>
-          <Dock>TopPageToolDock</Dock>
+          <DockRow>2</DockRow>
+          <Dock>TopToolDock</Dock>
           <Visible>FALSE</Visible>
         </BreadcrumbBar>
         <Visible>TRUE</Visible>
@@ -1186,21 +1958,21 @@
         </MainToolbar>
         <NavigationToolbar>
           <DockPos>0</DockPos>
-          <DockRow>1</DockRow>
+          <DockRow>3</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>TRUE</Visible>
         </NavigationToolbar>
         <ViewToolbar>
-          <DockPos>331</DockPos>
-          <DockRow>1</DockRow>
+          <DockPos>288</DockPos>
+          <DockRow>3</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>TRUE</Visible>
         </ViewToolbar>
         <AddressBarToolbar>
-          <DockPos>179</DockPos>
-          <DockRow>0</DockRow>
-          <Dock>TopPageToolDock</Dock>
-          <Visible>TRUE</Visible>
+          <DockPos>0</DockPos>
+          <DockRow>1</DockRow>
+          <Dock>TopToolDock</Dock>
+          <Visible>FALSE</Visible>
         </AddressBarToolbar>
         <DriveToolbar>
           <DockPos>0</DockPos>
@@ -1210,13 +1982,13 @@
         </DriveToolbar>
         <BookmarkToolbar>
           <DockPos>0</DockPos>
-          <DockRow>2</DockRow>
+          <DockRow>1</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>FALSE</Visible>
         </BookmarkToolbar>
         <SessionsToolbar>
-          <DockPos>-1</DockPos>
-          <DockRow>0</DockRow>
+          <DockPos>0</DockPos>
+          <DockRow>4</DockRow>
           <Dock>TopToolDock</Dock>
           <Visible>FALSE</Visible>
         </SessionsToolbar>
@@ -1228,8 +2000,8 @@
         </EditToolbar>
         <BreadcrumbBar>
           <DockPos>0</DockPos>
-          <DockRow>1</DockRow>
-          <Dock>TopPageToolDock</Dock>
+          <DockRow>2</DockRow>
+          <Dock>TopToolDock</Dock>
           <Visible>FALSE</Visible>
         </BreadcrumbBar>
         <Visible>TRUE</Visible>
@@ -1245,12 +2017,12 @@
         <BookmarkPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,0,227,117]</DockLoc>
+          <DockLoc>[0,0,241,261]</DockLoc>
           <UnDockRect>[24,140,445,331]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>230</LRDockWidth>
           <TBDockHeight>100</TBDockHeight>
-          <VSPaneWidth>255</VSPaneWidth>
+          <VSPaneWidth>254</VSPaneWidth>
           <BorderStyle>0</BorderStyle>
           <FormStyle>3</FormStyle>
           <WindowState>0</WindowState>
@@ -1267,12 +2039,12 @@
         <QuickViewPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,0,227,117]</DockLoc>
+          <DockLoc>[0,0,241,261]</DockLoc>
           <UnDockRect>[24,140,444,330]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>499</LRDockWidth>
           <TBDockHeight>100</TBDockHeight>
-          <VSPaneWidth>255</VSPaneWidth>
+          <VSPaneWidth>254</VSPaneWidth>
           <BorderStyle>0</BorderStyle>
           <FormStyle>3</FormStyle>
           <WindowState>0</WindowState>
@@ -1289,12 +2061,12 @@
         <FiltersPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,0,227,117]</DockLoc>
+          <DockLoc>[0,0,241,261]</DockLoc>
           <UnDockRect>[24,140,441,330]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>100</LRDockWidth>
           <TBDockHeight>100</TBDockHeight>
-          <VSPaneWidth>255</VSPaneWidth>
+          <VSPaneWidth>254</VSPaneWidth>
           <BorderStyle>0</BorderStyle>
           <FormStyle>3</FormStyle>
           <WindowState>0</WindowState>
@@ -1310,11 +2082,11 @@
         </FiltersPanel>
         <StackPanel>
           <ParentName>TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0</ParentName>
-          <LastDockSiteName>DockHost@LeftDockPanel</LastDockSiteName>
-          <DockLoc>[0,0,227,117]</DockLoc>
-          <UnDockRect>[52,140,438,330]</UnDockRect>
-          <Visible>FALSE</Visible>
-          <LRDockWidth>227</LRDockWidth>
+          <LastDockSiteName>Cannot find window</LastDockSiteName>
+          <DockLoc>[0,0,241,261]</DockLoc>
+          <UnDockRect>[461,251,438,330]</UnDockRect>
+          <Visible>TRUE</Visible>
+          <LRDockWidth>254</LRDockWidth>
           <TBDockHeight>100</TBDockHeight>
           <VSPaneWidth>0</VSPaneWidth>
           <BorderStyle>0</BorderStyle>
@@ -1333,10 +2105,10 @@
         <TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0>
           <ParentName>DockHost@LeftDockPanel</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,18,227,158]</DockLoc>
-          <UnDockRect>[24,140,434,320]</UnDockRect>
+          <DockLoc>[0,18,241,302]</DockLoc>
+          <UnDockRect>[-1388,0,434,340]</UnDockRect>
           <Visible>TRUE</Visible>
-          <LRDockWidth>100</LRDockWidth>
+          <LRDockWidth>282</LRDockWidth>
           <TBDockHeight>118</TBDockHeight>
           <VSPaneWidth>0</VSPaneWidth>
           <BorderStyle>0</BorderStyle>
@@ -1350,15 +2122,15 @@
           <RightDocked>TRUE</RightDocked>
           <BottomDocked>TRUE</BottomDocked>
           <CustomDocked>TRUE</CustomDocked>
-          <DockClientData>00000400040000000D000000426F6F6B6D61726B50616E656C010000000E000000517569636B5669657750616E656C010000000C00000046696C7465727350616E656C010000000A000000537461636B50616E656C0000000000000000F6FFFFFF</DockClientData>
+          <DockClientData>00000400040000000D000000426F6F6B6D61726B50616E656C010000000E000000517569636B5669657750616E656C010000000C00000046696C7465727350616E656C010000000A000000537461636B50616E656C0100000000000000F6FFFFFF</DockClientData>
         </TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0>
         <FolderPanel>
           <ParentName>DockHost@LeftDockPanel</ParentName>
           <LastDockSiteName>Cannot find window</LastDockSiteName>
-          <DockLoc>[0,180,227,344]</DockLoc>
+          <DockLoc>[0,324,241,640]</DockLoc>
           <UnDockRect>[-89,301,441,330]</UnDockRect>
           <Visible>TRUE</Visible>
-          <LRDockWidth>100</LRDockWidth>
+          <LRDockWidth>254</LRDockWidth>
           <TBDockHeight>100</TBDockHeight>
           <VSPaneWidth>255</VSPaneWidth>
           <BorderStyle>0</BorderStyle>
@@ -1377,23 +2149,23 @@
         <DockHost_LeftDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,227,344]</DockLoc>
+          <DockLoc>[0,0,241,640]</DockLoc>
           <UnDockRect>[0,0,205,474]</UnDockRect>
           <Visible>TRUE</Visible>
-          <DockClientData>00000400580100000000000001E30000000100000000000100000000010100000000A200000001013C0200000137000000544A76446F636B546162486F7374466F726D5F46696C7465727350616E656C5F517569636B5669657750616E656C5F30304542443542300101000000005801000001013C020000010B000000466F6C64657250616E656C01FFFFFFFF</DockClientData>
+          <DockClientData>00000400800200000000000001F10000000100000000000100000000010100000000320100000101000000000137000000544A76446F636B546162486F7374466F726D5F46696C7465727350616E656C5F517569636B5669657750616E656C5F30304542443542300101000000008002000001013F010000010B000000466F6C64657250616E656C01FFFFFFFF</DockClientData>
         </DockHost_LeftDockPanel>
         <DockHost_LeftDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,191,0]</DockLoc>
+          <DockLoc>[0,0,489,0]</DockLoc>
           <UnDockRect>[0,0,846,311]</UnDockRect>
           <Visible>FALSE</Visible>
-          <DockClientData>00000400FF00000000000000023C020000010000000000010000000001FFFFFFFF</DockClientData>
+          <DockClientData>00000400FE0000000000000002BC010000010000000000010000000001FFFFFFFF</DockClientData>
         </DockHost_LeftDockPanel_PopupPanel>
         <DockHost_RightDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[624,0,624,344]</DockLoc>
+          <DockLoc>[922,0,922,640]</DockLoc>
           <UnDockRect>[0,0,0,474]</UnDockRect>
           <Visible>TRUE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1401,7 +2173,7 @@
         <DockHost_RightDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,191,0]</DockLoc>
+          <DockLoc>[0,0,489,0]</DockLoc>
           <UnDockRect>[0,0,846,311]</UnDockRect>
           <Visible>FALSE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1409,7 +2181,7 @@
         <DockHost_TopDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,392,0]</DockLoc>
+          <DockLoc>[0,0,676,0]</DockLoc>
           <UnDockRect>[0,0,473,0]</UnDockRect>
           <Visible>TRUE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1417,7 +2189,7 @@
         <DockHost_TopDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,191,24]</DockLoc>
+          <DockLoc>[0,0,489,320]</DockLoc>
           <UnDockRect>[0,0,247,154]</UnDockRect>
           <Visible>FALSE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1425,7 +2197,7 @@
         <DockHost_BottomDockPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,344,392,344]</DockLoc>
+          <DockLoc>[0,640,676,640]</DockLoc>
           <UnDockRect>[0,0,473,0]</UnDockRect>
           <Visible>TRUE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1433,7 +2205,7 @@
         <DockHost_BottomDockPanel_PopupPanel>
           <ParentName>DockHost</ParentName>
           <LastDockSiteName/>
-          <DockLoc>[0,0,191,24]</DockLoc>
+          <DockLoc>[0,0,489,320]</DockLoc>
           <UnDockRect>[0,0,247,154]</UnDockRect>
           <Visible>FALSE</Visible>
           <DockClientData>0000040000000000000000000000000000010000000000010000000001FFFFFFFF</DockClientData>
@@ -1441,7 +2213,7 @@
         <DockHost>
           <ParentName/>
           <LastDockSiteName/>
-          <DockLoc>[0,28,624,372]</DockLoc>
+          <DockLoc>[0,28,922,668]</DockLoc>
           <UnDockRect>[0,0,681,474]</UnDockRect>
           <Visible>TRUE</Visible>
           <LRDockWidth>681</LRDockWidth>
@@ -1471,12 +2243,12 @@
         <item action="act_navi_forward"/>
         <item action="act_navi_folderup"/>
         <item action="act_navi_refresh"/>
-        <item action="act_tabs_addtab"/>
-        <item action="act_tabs_closetab"/>
+        <separator/>
         <item action="act_navi_texteditor"/>
         <item action="act_navi_quickview"/>
         <item action="act_navi_filesearch"/>
         <item action="act_tools_emptytrash"/>
+        <separator/>
       </Items>
     </NavigationToolbar>
     <ViewToolbar DisplayMode="0" LargeIcons="-1" Borders="-1" Stretch="0" DragHandle="-1">
@@ -1500,14 +2272,19 @@
         <item action="act_edit_cut"/>
         <item action="act_edit_paste"/>
         <item action="act_edit_delete"/>
+        <separator/>
+        <item action="act_filters_menu"/>
+        <separator/>
         <item action="act_edit_newfile"/>
         <item action="act_edit_newfolder"/>
+        <separator/>
       </Items>
     </EditToolbar>
-    <BreadcrumbBar Borders="-1" Stretch="-1" DragHandle="-1"/>
+    <BreadcrumbBar Borders="0" Stretch="-1" DragHandle="-1"/>
     <TabBar DisplayMode="0" LargeIcons="0" Borders="0" Stretch="-1" DragHandle="0">
       <Items>
         <tabs/>
+        <item action="act_tabs_addtab"/>
       </Items>
     </TabBar>
   </Toolbars>

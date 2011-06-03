@@ -522,8 +522,7 @@ end;
 procedure TCEFolderTree.ScrollToView(ANode: PVirtualNode; AVertical: Boolean =
     true; AHorizontal: Boolean = true);
 var
-  indentW, level, W: Integer;
-  run: PVirtualNode;
+  indentW, level: Integer;
 begin
   if not assigned(ANode) then
   Exit;

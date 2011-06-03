@@ -352,7 +352,7 @@ implementation
 
 uses
   madExcept, CE_QuickView, Clipbrd, CE_PaneHost, CE_Stacks, MPResources,
-  fCE_OptionsDialog;
+  fCE_OptionsDialog, fCE_StackPanel;
 
 {$R *.dfm}
 
@@ -759,6 +759,9 @@ begin
 
   if TrayIcon.Active and Settings.StartInTray then
   TrayIcon.HideApplication;
+
+  // Load Startup Stack
+  CEStackPanel.LoadStartupStack;
 end;
 
 {*------------------------------------------------------------------------------
@@ -809,7 +812,9 @@ begin
   end;
   
   if GlobalSessions.AutoSaveHistory then
-  GlobalSessions.AddHistorySession;
+  GlobalSessions.AddHistorySession
+  else if Settings.StartupType = stLastSession then
+  GlobalSessions.AddHistorySession(true);
 
   if GlobalPathCtrl.ActivePage is TCECustomTabPage then
   Layouts.SaveCurrentLayout;

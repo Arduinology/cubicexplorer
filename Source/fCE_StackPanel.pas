@@ -42,6 +42,8 @@ type
 
   TCEStackPanelSettings = class;
 
+  TCEStackStartupType = (stEmpty, stLastUsed, stUserSelected);
+
   TCEStackPanel = class(TCECustomDockableForm)
     DropStackPopup: TSpTBXPopupMenu;
     but_clearlist: TSpTBXItem;
@@ -74,6 +76,8 @@ type
   public
     StackTree: TCEStackTree;
     procedure DoFormShow; override;
+    function FindStackNames(AList: TTntStrings): Integer;
+    procedure LoadStartupStack;
     procedure PopulateStackSaveMenuItem(AItem: TTBCustomItem; ShowAutoSaveItem:
         Boolean = false);
     property Settings: TCEStackPanelSettings read fSettings write fSettings;
@@ -81,18 +85,32 @@ type
 
   TCEStackPanelSettings = class(TPersistent)
   private
+    fLoadOnStartup: WideString;
+    fStartupType: TCEStackStartupType;
+    function GetAutoCollapse: Boolean;
+    function GetAutoExpand: Boolean;
     function GetAutoSaveStack: Boolean;
+    function GetFullExpandOnLoad: Boolean;
     function GetMaxHintItemCount: Integer;
     function GetSafeOperationsOnly: Boolean;
     function GetShowWarnings: Boolean;
+    procedure SetAutoCollapse(const Value: Boolean);
+    procedure SetAutoExpand(const Value: Boolean);
     procedure SetAutoSaveStack(const Value: Boolean);
+    procedure SetFullExpandOnLoad(const Value: Boolean);
     procedure SetMaxHintItemCount(const Value: Integer);
     procedure SetSafeOperationsOnly(const Value: Boolean);
     procedure SetShowWarnings(const Value: Boolean);
   public
     StackPanel: TCEStackPanel;
   published
+    property AutoCollapse: Boolean read GetAutoCollapse write SetAutoCollapse;
+    property AutoExpand: Boolean read GetAutoExpand write SetAutoExpand;
+    property LoadOnStartup: WideString read fLoadOnStartup write fLoadOnStartup;
     property AutoSaveStack: Boolean read GetAutoSaveStack write SetAutoSaveStack;
+    property FullExpandOnLoad: Boolean read GetFullExpandOnLoad write
+        SetFullExpandOnLoad;
+    property StartupType: TCEStackStartupType read fStartupType write fStartupType;
     property MaxHintItemCount: Integer read GetMaxHintItemCount write
         SetMaxHintItemCount;
     property SafeOperationsOnly: Boolean read GetSafeOperationsOnly write
@@ -219,6 +237,28 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Find Stack Names
+-------------------------------------------------------------------------------}
+function TCEStackPanel.FindStackNames(AList: TTntStrings): Integer;
+var
+  i: Integer;
+begin
+  if not assigned(AList) then
+  begin
+    Result:= -1;
+    Exit;
+  end;
+  
+  FindStacks(StackDirPath, fStackPaths);
+  Result:= fStackPaths.Count;
+  AList.Clear;
+  for i:= 0 to fStackPaths.Count - 1 do
+  begin
+    AList.Add(WideExtractFileName(fStackPaths.Strings[i], true));
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   On OnSafeOperationsOnlyChange
 -------------------------------------------------------------------------------}
 procedure TCEStackPanel.HandleSafeOperationsOnlyChange(Sender: TObject);
@@ -249,6 +289,8 @@ begin
     StackTree.ActiveStack.StackName:= WideExtractFileName(ws, true);
     StackTree.ActiveStack.LoadFromFile(ws);
     StackTree.LoadFromStack(StackTree.ActiveStack);
+    if Settings.StartupType = stLastUsed then
+    Settings.LoadOnStartup:= StackTree.ActiveStack.StackName;
   end;
 end;
 
@@ -413,6 +455,32 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Load Startup Stack
+-------------------------------------------------------------------------------}
+procedure TCEStackPanel.LoadStartupStack;
+var
+  i: integer;
+  ws: WideString;
+begin
+  if (Settings.StartupType <> stEmpty) and (Settings.LoadOnStartup <> '') then
+  begin
+    FindStacks(StackDirPath, fStackPaths);
+    for i:= 0 to fStackPaths.Count - 1 do
+    begin
+      ws:= WideExtractFileName(fStackPaths.Strings[i], true);
+      if ws = Settings.LoadOnStartup then
+      begin
+        StackTree.ActiveStack:= TCEStackItem.Create;
+        StackTree.ActiveStack.StackName:= ws;
+        StackTree.ActiveStack.LoadFromFile(fStackPaths.Strings[i]);
+        StackTree.LoadFromStack(StackTree.ActiveStack);
+        break;
+      end;     
+    end;
+  end;       
+end;
+
+{-------------------------------------------------------------------------------
   Populate Stack Save MenuItem
 -------------------------------------------------------------------------------}
 procedure TCEStackPanel.PopulateStackSaveMenuItem(AItem: TTBCustomItem;
@@ -465,6 +533,30 @@ end;
 {##############################################################################}
 
 {-------------------------------------------------------------------------------
+  Get/Set AutoCollapse
+-------------------------------------------------------------------------------}
+function TCEStackPanelSettings.GetAutoCollapse: Boolean;
+begin
+  Result:= StackPanel.StackTree.AutoCollapse;
+end;
+procedure TCEStackPanelSettings.SetAutoCollapse(const Value: Boolean);
+begin
+  StackPanel.StackTree.AutoCollapse:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set AutoExpand
+-------------------------------------------------------------------------------}
+function TCEStackPanelSettings.GetAutoExpand: Boolean;
+begin
+  Result:= StackPanel.StackTree.AutoExpand;
+end;
+procedure TCEStackPanelSettings.SetAutoExpand(const Value: Boolean);
+begin
+  StackPanel.StackTree.AutoExpand:= Value;
+end;
+
+{-------------------------------------------------------------------------------
   Get/Set AutoSaveStack
 -------------------------------------------------------------------------------}
 function TCEStackPanelSettings.GetAutoSaveStack: Boolean;
@@ -510,6 +602,18 @@ end;
 procedure TCEStackPanelSettings.SetShowWarnings(const Value: Boolean);
 begin
   StackPanel.StackTree.ShowWarnings:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set FullExpandOnLoad
+-------------------------------------------------------------------------------}
+function TCEStackPanelSettings.GetFullExpandOnLoad: Boolean;
+begin
+  Result:= StackPanel.StackTree.FullExpandOnLoad;
+end;
+procedure TCEStackPanelSettings.SetFullExpandOnLoad(const Value: Boolean);
+begin
+  StackPanel.StackTree.FullExpandOnLoad:= Value;
 end;
 
 end.

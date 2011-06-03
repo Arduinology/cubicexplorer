@@ -39,11 +39,14 @@ type
   private
     fActiveDataObject: IDataObject;
     fActiveStack: TCEStackItem;
+    fAutoCollapse: Boolean;
+    fAutoExpand: Boolean;
     fAutoSaveActiveStack: Boolean;
     fBackgroundPopupMenu: TPopupMenu;
     fGroupImageIndex: Integer;
     fGroupOpenImageIndex: Integer;
     fCleanList: TList;
+    fFullExpandOnLoad: Boolean;
     fMaxHintItemCount: Integer;
     fNotAvailableImageIndex: Integer;
     fOnSafeOperationsOnlyChange: TNotifyEvent;
@@ -94,6 +97,10 @@ type
     procedure DragAndDrop(AllowedEffects: Integer; DataObject: IDataObject;
         DragEffect: Integer); override;
     procedure FreeNamespaceArray(NamespaceArray: TNamespaceArray);
+    procedure HandleMouseDblClick(var Message: TWMMouse; const HitInfo: THitInfo);
+        override;
+    procedure HandleMouseDown(var Message: TWMMouse; var HitInfo: THitInfo);
+        override;
     procedure Notify(var Msg: TMessage);
     procedure UpdateScrollbarSize;
     procedure WMCreate(var Msg: TMessage); message WM_CREATE;
@@ -125,11 +132,15 @@ type
     function GroupToNamespaceArray(AGroupNode: PVirtualNode; AddToCleanList:
         Boolean = false): TNamespaceArray;
     property ActiveStack: TCEStackItem read fActiveStack write fActiveStack;
+    property AutoCollapse: Boolean read fAutoCollapse write fAutoCollapse;
+    property AutoExpand: Boolean read fAutoExpand write fAutoExpand;
   published
     property AutoSaveActiveStack: Boolean read fAutoSaveActiveStack write
         fAutoSaveActiveStack;
     property BackgroundPopupMenu: TPopupMenu read fBackgroundPopupMenu write
         fBackgroundPopupMenu;
+    property FullExpandOnLoad: Boolean read fFullExpandOnLoad write
+        fFullExpandOnLoad;
     property GroupImageIndex: Integer read fGroupImageIndex write fGroupImageIndex;
     property GroupOpenImageIndex: Integer read fGroupOpenImageIndex write
         fGroupOpenImageIndex;
@@ -196,6 +207,7 @@ begin
   LastOfflineCheck:= LastIconRefresh;
 
   fCleanList:= TList.Create;
+  Self.Caption:= 'test';
 end;
 
 {-------------------------------------------------------------------------------
@@ -1187,6 +1199,9 @@ begin
       end;
     end;
   finally
+    if FullExpandOnLoad then
+    Self.FullExpand;
+
     EndUpdate;
     l.Free;
     CheckOfflineStates;
@@ -1447,6 +1462,82 @@ begin
     end;
   finally
     list.Free;
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Handle Mouse Dbl Click
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.HandleMouseDblClick(var Message: TWMMouse; const
+    HitInfo: THitInfo);
+begin
+  if not assigned(HitInfo.HitNode) then
+  Exit;
+  
+  if Self.Expanded[HitInfo.HitNode] then
+  begin
+    Self.ToggleNode(HitInfo.HitNode);
+    Exit;
+  end;
+
+  Self.BeginUpdate;
+  try
+    if fAutoCollapse then
+    Self.FullCollapse;
+
+    Self.ClearSelection;
+
+    Self.FullyVisible[HitInfo.HitNode]:= true;
+    Self.ToggleNode(HitInfo.HitNode);
+
+    Self.Selected[HitInfo.HitNode]:= true;
+    Self.FocusedNode:= HitInfo.HitNode;
+    Self.ScrollIntoView(HitInfo.HitNode,false,true);
+  finally
+    Self.EndUpdate;
+  end;
+end;
+
+{*------------------------------------------------------------------------------
+  Handle Mouse Down.
+-------------------------------------------------------------------------------}
+procedure TCEStackTree.HandleMouseDown(var Message: TWMMouse; var HitInfo:
+    THitInfo);
+begin
+  if GetKeyState(VK_MENU) < 0 then
+  Exit;
+
+  if (not assigned(HitInfo.HitNode)) or
+     (hiOnItemButton in HitInfo.HitPositions) or
+     (not fAutoExpand) then
+  begin
+    inherited;
+    Exit;
+  end;
+
+  if HitInfo.HitNode = self.FocusedNode then
+  begin
+    inherited;
+  end
+  else
+  begin
+    Self.BeginUpdate;
+    try
+      if fAutoCollapse then
+      Self.FullCollapse;
+
+      Self.ClearSelection;
+
+      Self.FullyVisible[HitInfo.HitNode]:= true;
+      if not Self.Expanded[HitInfo.HitNode] then
+      Self.ToggleNode(HitInfo.HitNode);
+
+      Self.Selected[HitInfo.HitNode]:= true;
+      Self.FocusedNode:= HitInfo.HitNode;
+      Self.ScrollIntoView(HitInfo.HitNode,false,true);
+    finally
+      Self.EndUpdate;
+    end;
   end;
 end;
 

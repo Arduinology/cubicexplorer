@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1349\n"
+"CE-POT-Version: 1351\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
 
@@ -1099,6 +1099,9 @@ msgstr "Panier"
 
 msgid "Stack Name"
 msgstr "Nom du panier"
+
+msgid "Stack Settings"
+msgstr "Paramètres du panier"
 
 msgid "Start"
 msgstr "Démarrer"

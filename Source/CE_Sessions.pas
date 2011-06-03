@@ -42,11 +42,13 @@ type
   TCESessionItem = class(TPersistent)
   private
     fAutoSave: Boolean;
+    fIsLastTimeSession: Boolean;
     fName: WideString;
     fSaveLoadItems: TCESessionSaveLoadItems;
     fTime: TDateTime;
     function GetTimeStr: string;
     procedure SetAutoSave(const Value: Boolean);
+    procedure SetIsLastTimeSession(const Value: Boolean);
     procedure SetTimeStr(const Value: string);
     procedure SetName(const Value: WideString);
     procedure SetSaveLoadItems(const Value: TCESessionSaveLoadItems);
@@ -56,6 +58,8 @@ type
     property Node: TDOMElement read fNode write fNode;
   published
     property AutoSave: Boolean read fAutoSave write SetAutoSave;
+    property IsLastTimeSession: Boolean read fIsLastTimeSession write
+        SetIsLastTimeSession;
     property TimeStr: string read GetTimeStr write SetTimeStr;
     property Name: WideString read fName write SetName;
     property SaveLoadItems: TCESessionSaveLoadItems read fSaveLoadItems write
@@ -110,7 +114,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    procedure AddHistorySession;
+    procedure AddHistorySession(AIsLastTimeSession: Boolean = false);
     procedure ClearHistory;
     procedure LoadAutoSession;
     procedure LoadLatestHistorySession;
@@ -174,7 +178,8 @@ implementation
 
 uses
   fCE_TabPage, WideSupport, XMLWrite, Main, CE_SpTabBar, fCE_SaveSessionDlg,
-  fCE_SessionManager, CE_LanguageEngine, dCE_Images, fCE_FileView;
+  fCE_SessionManager, CE_LanguageEngine, dCE_Images, fCE_FileView,
+  CE_VistaFuncs, Forms;
 
 {-------------------------------------------------------------------------------
   CompareSessionTime
@@ -226,11 +231,24 @@ end;
 {-------------------------------------------------------------------------------
   Add History Session
 -------------------------------------------------------------------------------}
-procedure TCESessions.AddHistorySession;
+procedure TCESessions.AddHistorySession(AIsLastTimeSession: Boolean = false);
 var
   session: TCESessionItem;
-  c: Integer;
+  i, c: Integer;
 begin
+  // Delete/clear previous LastTimeSession
+  for i:= 0 to SessionHistory.Count - 1 do
+  begin
+    if SessionHistory.Items[i].IsLastTimeSession then
+    begin
+      if AIsLastTimeSession then
+      SessionHistory.DeleteSession(i)
+      else
+      SessionHistory.Items[i].IsLastTimeSession:= false;
+    end;
+  end;
+
+  // Delete oldest sessions
   c:= fSessionHistory.Count;
   while (c > fHistoryCount-1) and (c > 0) do
   begin
@@ -238,7 +256,13 @@ begin
     break;
     c:= fSessionHistory.Count;
   end;
+
+  // Add new session
   session:= SessionHistory.AddSession;
+  if AIsLastTimeSession then
+  session.IsLastTimeSession:= true;
+  
+  // Save session
   SessionHistory.SaveSession(session);
 end;
 
@@ -247,7 +271,12 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCESessions.ClearHistory;
 begin
-  if WideMessageDlg(_('Are you sure you want to clear session history?'), mtConfirmation, [mbYes, mbNo], 0) = mrYes then
+  if (TaskDialog(Application.MainFormHandle,
+                 _('Confirm'),
+                 _('Clear session history?'),
+                 _('Are you sure you want to clear session history?'),
+                 TD_ICON_QUESTION,
+                 TD_BUTTON_YES + TD_BUTTON_NO) = TD_RESULT_YES) then
   begin
     SessionHistory.ClearSessions;
   end;
@@ -613,10 +642,11 @@ begin
     if chNode.NodeName = 'Session' then
     begin
       item:= TCESessionItem.Create;
-      item.Name:= TDOMElement(chNode).AttribStrings['name'];
+      item.fName:= TDOMElement(chNode).AttribStrings['name'];
       item.TimeStr:= TDOMElement(chNode).AttribStrings['time'];
-      item.AutoSave:= StrToBoolDef(TDOMElement(chNode).AttribStrings['autosave'], false);
-      
+      item.fAutoSave:= StrToBoolDef(TDOMElement(chNode).AttribStrings['autosave'], false);
+      item.fIsLastTimeSession:= StrToBoolDef(TDOMElement(chNode).AttribStrings['last'], false);
+
       sli:= [];
       chNode2:= chNode.FirstChild;
       while assigned(chNode2) do
@@ -814,6 +844,21 @@ begin
   fAutoSave:= Value;
   if assigned(fNode) then
   fNode.AttribStrings['autosave']:= BoolToStr(fAutoSave, true);
+end;
+
+{-------------------------------------------------------------------------------
+  Set IsLastTimeSession
+-------------------------------------------------------------------------------}
+procedure TCESessionItem.SetIsLastTimeSession(const Value: Boolean);
+begin
+  fIsLastTimeSession:= Value;
+  if assigned(fNode) then
+  begin
+    if Value then
+    fNode.AttribStrings['last']:= BoolToStr(Value, true)
+    else
+    fNode.Attributes.RemoveNamedItem('last');
+  end;
 end;
 
 {-------------------------------------------------------------------------------

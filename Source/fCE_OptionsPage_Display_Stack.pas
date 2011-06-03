@@ -34,7 +34,16 @@ uses
   Dialogs, StdCtrls;
 
 type
-  TTCE_OptionsPage_Display_Stack = class(TCEOptionsCustomPage)
+  TCE_OptionsPage_Display_Stack = class(TCEOptionsCustomPage)
+    check_autoexpand: TTntCheckBox;
+    check_autocollapse: TTntCheckBox;
+    check_fullexpand: TTntCheckBox;
+    group_startup: TTntGroupBox;
+    radio_empty: TTntRadioButton;
+    radio_lastused: TTntRadioButton;
+    radio_selected: TTntRadioButton;
+    combo_stacks: TTntComboBox;
+    procedure radioClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -45,7 +54,7 @@ type
   end;
 
 var
-  TCE_OptionsPage_Display_Stack: TTCE_OptionsPage_Display_Stack;
+  CE_OptionsPage_Display_Stack: TCE_OptionsPage_Display_Stack;
 
 implementation
 
@@ -57,7 +66,7 @@ uses
 {-------------------------------------------------------------------------------
   Create an instance of TCEOptionsPage_Display
 -------------------------------------------------------------------------------}
-constructor TTCE_OptionsPage_Display_Stack.Create(AOwner: TComponent);
+constructor TCE_OptionsPage_Display_Stack.Create(AOwner: TComponent);
 begin
   inherited;
   PageName:= _('Stack');
@@ -67,28 +76,56 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Apply Settings
+  On radioClick
 -------------------------------------------------------------------------------}
-procedure TTCE_OptionsPage_Display_Stack.ApplySettings;
+procedure TCE_OptionsPage_Display_Stack.radioClick(Sender: TObject);
 begin
-  // Toggles
-//  CEFolderPanel.Settings.AutoExpand:= check_autoexpand.Checked;
-//  CEFolderPanel.Settings.AutoCollapse:= check_autocollapse.Checked;
-//  CEFolderPanel.Settings.OpenInNewTab:= check_newtabdefault.Checked;
+  combo_stacks.Enabled:= radio_selected.Checked;
+  HandleChange(Sender);
 end;
 
-procedure TTCE_OptionsPage_Display_Stack.RefreshSettings;
+{-------------------------------------------------------------------------------
+  Apply Settings
+-------------------------------------------------------------------------------}
+procedure TCE_OptionsPage_Display_Stack.ApplySettings;
 begin
   // Toggles
-//  check_autoexpand.Checked:= CEFolderPanel.Settings.AutoExpand;
-//  check_autocollapse.Checked:= CEFolderPanel.Settings.AutoCollapse;
-//  check_newtabdefault.Checked:= CEFolderPanel.Settings.OpenInNewTab;
+  CEStackPanel.Settings.AutoExpand:= check_autoexpand.Checked;
+  CEStackPanel.Settings.AutoCollapse:= check_autocollapse.Checked;
+  CEStackPanel.Settings.FullExpandOnLoad:= check_fullexpand.Checked;
+  // Startup
+  if radio_selected.Checked then
+  CEStackPanel.Settings.StartupType:= stUserSelected
+  else if radio_lastused.Checked then
+  CEStackPanel.Settings.StartupType:= stLastUsed
+  else
+  CEStackPanel.Settings.StartupType:= stEmpty;
+  CEStackPanel.Settings.LoadOnStartup:= combo_stacks.Text;
+end;
+
+{-------------------------------------------------------------------------------
+  Refresh Settings
+-------------------------------------------------------------------------------}
+procedure TCE_OptionsPage_Display_Stack.RefreshSettings;
+begin
+  // Toggles
+  check_autoexpand.Checked:= CEStackPanel.Settings.AutoExpand;
+  check_autocollapse.Checked:= CEStackPanel.Settings.AutoCollapse;
+  check_fullexpand.Checked:= CEStackPanel.Settings.FullExpandOnLoad;
+  // Startup
+  case CEStackPanel.Settings.StartupType of
+    stEmpty: radio_empty.Checked:= true;
+    stLastUsed: radio_lastused.Checked:= true;
+    stUserSelected: radio_selected.Checked:= true;
+  end;
+  CEStackPanel.FindStackNames(combo_stacks.Items);
+  combo_stacks.ItemIndex:= combo_stacks.Items.IndexOf(CEStackPanel.Settings.LoadOnStartup);
 end;
 
 {##############################################################################}
 
 initialization
-  RegisterOptionsPageClass(TTCE_OptionsPage_Display_Stack);
+  RegisterOptionsPageClass(TCE_OptionsPage_Display_Stack);
 
 finalization
 
