@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1351\n"
+"CE-POT-Version: 1367\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
 
@@ -105,7 +105,7 @@ msgid "Apply changes."
 msgstr "Appliquer les changements"
 
 msgid "Are you sure you want to clear session history?"
-msgstr "Etes-vous sûr(e) de vouloir effacer l'historique de sessions ?"
+msgstr "Etes-vous sûr(e) de vouloir effacer l'historique des sessions ?"
 
 msgid "Are you sure you want to clear the list?"
 msgstr "Etes-vous sûr(e) de vouloir effacer la liste ?"
@@ -232,6 +232,9 @@ msgstr "Effacer l'historique des filtres"
 
 msgid "Clear filters on folder change"
 msgstr "Effacer les filtres lorsque le dossier change"
+
+msgid "Clear session history?"
+msgstr "Nettoyer l'historique des sessions ?"
 
 msgid "Close"
 msgstr "Fermer"
@@ -372,7 +375,7 @@ msgid "Display Settings"
 msgstr "Paramètres visuels"
 
 msgid "Do you want to override existing session?"
-msgstr "Voulez-vous remplacer la session existante ?"
+msgstr "Voulez-vous écraser la session existante portant déjà ce nom ?"
 
 msgid "Do you want to reset all hotkeys for this action?"
 msgstr "Voulez-vous réinitialiser tous les raccourcis clavier pour cette action ?"
@@ -439,6 +442,9 @@ msgstr "Options de l'éditeur..."
 
 msgid "Empty Recycle Bin"
 msgstr "Vider la corbeille"
+
+msgid "Empty Stack"
+msgstr " Panier vide"
 
 msgid "Empty folder"
 msgstr "Dossier vide"
@@ -535,6 +541,9 @@ msgstr "Suivant"
 
 msgid "Four months ago"
 msgstr "Il y a quatre mois"
+
+msgid "Full expand on stack load"
+msgstr " Développer toute l'arborescence au chargement du panier"
 
 msgid "Fullscreen"
 msgstr "Plein écran"
@@ -794,11 +803,17 @@ msgstr " Ouvrir l'onglet par défaut"
 msgid "Open in new tab by default"
 msgstr " Ouvrir dans un nouvel onglet"
 
+msgid "Open last used"
+msgstr " Ouvrir le dernier utilisé"
+
 msgid "Open new tab as"
 msgstr "Chemin à l'ouverture d'un onglet"
 
 msgid "Open new tab next to current"
 msgstr " Ouvrir les nouveaux onglets à côté de l'onglet actif"
+
+msgid "Open selected"
+msgstr " Ouvrir le panier sélectionné :"
 
 msgid "Open..."
 msgstr "Ouvrir..."
@@ -814,6 +829,9 @@ msgstr "Original"
 
 msgid "Override"
 msgstr "Ignorer"
+
+msgid "Override existing session?"
+msgstr "Remplacer la session existante ?"
 
 msgid "Panels"
 msgstr "Volets"

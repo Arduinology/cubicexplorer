@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1349\n"
+"CE-POT-Version: 1367\n"
 "CE-Language: German\n"
 "Last-Translator: nefycee <(contact only via CE-support-forum)>\n"
 
@@ -230,6 +230,9 @@ msgstr "Filterverlauf bereinigen "
 msgid "Clear filters on folder change"
 msgstr "Filter bei Ordner Änderungen bereinigen"
 
+msgid "Clear session history?"
+msgstr "Sitzungsverlauf bereinigen?"
+
 msgid "Close"
 msgstr "Schließen"
 
@@ -437,8 +440,11 @@ msgstr "Editoroptionen"
 msgid "Empty Recycle Bin"
 msgstr "Papierkorb leeren"
 
+msgid "Empty Stack"
+msgstr "Leere Ablage anzeigen"
+
 msgid "Empty folder"
-msgstr "Ordner leeren"
+msgstr "Leerer Ordner"
 
 msgid "Enable Auto Save"
 msgstr "Automatisches Speichern aktivieren"
@@ -532,6 +538,9 @@ msgstr "Vorwärts"
 
 msgid "Four months ago"
 msgstr "Vor 4 Monaten"
+
+msgid "Full expand on stack load"
+msgstr "Verzeichnisbaum expandiert öffnen"
 
 msgid "Fullscreen"
 msgstr "Vollbild"
@@ -636,7 +645,7 @@ msgid "Last hour"
 msgstr "In der letzten Stunde"
 
 msgid "Last twenty-four hours"
-msgstr "Die letzten 24 Stunden"
+msgstr "In den letzten 24 Stunden"
 
 msgid "Launch Files Only"
 msgstr "Nur Dateien ausführen"
@@ -791,11 +800,17 @@ msgstr "Standard Tab öffnen"
 msgid "Open in new tab by default"
 msgstr "Standardmäßig in neuem Tab öffnen"
 
+msgid "Open last used"
+msgstr "Zuletzt genutzte Einstellungen öffnen"
+
 msgid "Open new tab as"
 msgstr "Neu geöffneter Tab ist"
 
 msgid "Open new tab next to current"
 msgstr "Neuen Tab neben aktiven Tab öffnen"
+
+msgid "Open selected"
+msgstr "Gespeicherte Auswahl öffnen"
 
 msgid "Open..."
 msgstr "Öffnen"
@@ -811,6 +826,9 @@ msgstr "Original"
 
 msgid "Override"
 msgstr "Überschreiben"
+
+msgid "Override existing session?"
+msgstr "Existierende Sitzung überschreiben?"
 
 msgid "Panels"
 msgstr "Panele"
@@ -1096,6 +1114,9 @@ msgstr "Ablage"
 
 msgid "Stack Name"
 msgstr "Ablage Name"
+
+msgid "Stack Settings"
+msgstr "Einstellungen der Ablage"
 
 msgid "Start"
 msgstr "Start"

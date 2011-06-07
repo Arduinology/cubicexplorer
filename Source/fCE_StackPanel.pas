@@ -124,7 +124,7 @@ var
 implementation
 
 uses
-  CE_LanguageEngine, fCE_SaveSessionDlg, CE_LanguageUtils;
+  CE_LanguageEngine, CE_LanguageUtils, fCE_ItemSelectSaveDlg;
 
 {$R *.dfm}
 
@@ -300,7 +300,7 @@ end;
 procedure TCEStackPanel.HandleStackSaveClick(Sender: TObject);
 var
   id, i: Integer;
-  dlg: TCESaveSessionDlg;
+  dlg: TCEItemSelectSaveDlg;
   stack: TCEStackItem;
   ws, ws2: WideString;
   p: TPoint;
@@ -309,16 +309,19 @@ begin
   // Save As...
   if id = -1 then
   begin
-    dlg:= TCESaveSessionDlg.Create(Self); // Borrow Save Session Dialog
+    dlg:= TCEItemSelectSaveDlg.Create(Self);
     try
       dlg.Caption:= _('Save Stack');
-      dlg.TntLabel1.Caption:= _('Stack Name');
-      dlg.SessionCombo.Clear;
+      dlg.label_combotitle.Caption:= _('Stack Name');
+      dlg.but_ok.Caption:= _('Save');
+      dlg.ShowExistsWarning:= true;
+      dlg.ExistsWarningTitle:= _('Confirm');
+      dlg.ExistsWarningDescription:= _('Override existing stack?');
+      dlg.ExistsWarningContent:= _('Do you want to override existing stack?');
       for i:= 0 to fStackPaths.Count - 1 do
-      dlg.SessionCombo.Items.Add(WideExtractFileName(fStackPaths.Strings[i], true));
-      dlg.SessionCombo.ItemIndex:= -1;
-      dlg.SessionCombo.Text:= '';
-      dlg.but_save.OnClick:= nil;
+      dlg.combo.Items.Add(WideExtractFileName(fStackPaths.Strings[i], true));
+      dlg.combo.ItemIndex:= -1;
+      dlg.combo.Text:= '';
       dlg.Position:= poDesigned;
       p:= StackTree.ClientToScreen(Point(0,0));
       dlg.Left:= p.X;
@@ -326,16 +329,10 @@ begin
       // Save stack
       if dlg.ShowModal = mrOK then
       begin
-        if dlg.SessionCombo.ItemIndex > -1 then
+        if dlg.combo.ItemIndex > -1 then
         begin
-          ws2:= _('You are about to save over existing stack.')+#13+#10+
-                _('Are you sure you want to do that?');
-          ws:= _('Confirm Stack Save');
-          if (WideMessageBox(Self.Handle, ws, ws2, MB_ICONWARNING or MB_YESNO) <> idYes) then
-          Exit;
-
           if assigned(StackTree.ActiveStack) and
-            (StackTree.ActiveStack.StackPath = fStackPaths.Strings[dlg.SessionCombo.ItemIndex]) then
+            (StackTree.ActiveStack.StackPath = fStackPaths.Strings[dlg.combo.ItemIndex]) then
           stack:= StackTree.ActiveStack
           else
           begin
@@ -345,7 +342,7 @@ begin
               StackTree.ActiveStack:= nil;
             end;
             stack:= TCEStackItem.Create;
-            stack.StackPath:= fStackPaths.Strings[dlg.SessionCombo.ItemIndex];
+            stack.StackPath:= fStackPaths.Strings[dlg.combo.ItemIndex];
             stack.StackName:= WideExtractFileName(stack.StackPath, true);
           end;
         end
@@ -357,8 +354,8 @@ begin
             StackTree.ActiveStack:= nil;
           end;
           stack:= TCEStackItem.Create;
-          stack.StackPath:= StackDirPath + dlg.SessionCombo.Text + '.stk';
-          stack.StackName:= dlg.SessionCombo.Text;
+          stack.StackPath:= StackDirPath + dlg.combo.Text + '.stk';
+          stack.StackName:= dlg.combo.Text;
         end;
         StackTree.SaveToStack(stack);
         stack.SaveToFile(stack.StackPath);
@@ -376,11 +373,12 @@ begin
   // Save to existing Stack
   else if (id > -1) and (id < fStackPaths.Count) then
   begin
-    
-    ws2:= _('You are about to save over existing stack.')+#13+#10+
-         _('Are you sure you want to do that?');
-    ws:= _('Confirm Stack Save');
-    if (WideMessageBox(Self.Handle, ws, ws2, MB_ICONWARNING or MB_YESNO) = idYes) then
+    if (TaskDialog(Self.Handle,
+                   _('Confirm'),
+                   _('Override existing stack?'),
+                   _('Do you want to override existing stack?'),
+                   TD_ICON_QUESTION,
+                   TD_BUTTON_YES + TD_BUTTON_NO) = TD_RESULT_YES) then
     begin
       ws:= fStackPaths.Strings[id];
       if assigned(StackTree.ActiveStack) then

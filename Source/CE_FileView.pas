@@ -420,7 +420,7 @@ begin
   end;
 
   if GoBack then
-  self.BrowseToPrevLevel
+  self.GoFolderUp
   else
   inherited;
 end;

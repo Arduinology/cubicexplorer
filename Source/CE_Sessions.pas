@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  CE_AppSettings, CE_Toolbar,
+  CE_AppSettings, CE_Toolbar, fCE_ItemSelectSaveDlg,
   // fcl-xml
   DOM,
   // SpTBX
@@ -33,7 +33,8 @@ uses
   // Tnt
   TntDialogs,
   // System Units
-  Classes, SysUtils, StrUtils, Windows, Contnrs, Math, Controls, Dialogs;
+  Classes, SysUtils, StrUtils, Windows, Contnrs, Math, Controls, Dialogs,
+  TntClasses;
 
 type
   TCESessionSaveLoadItem = (sliTabs, sliBookmarks, sliLayout);
@@ -171,13 +172,18 @@ type
 
 function CompareSessionTime(Item1, Item2: Pointer): Integer;
 
+function GetSessionNames(AResults: TTntStrings): Integer;
+
+function CreateSaveSessionDlg(SelectActiveSession: Boolean = true):
+    TCEItemSelectSaveDlg;
+
 var
   GlobalSessions: TCESessions;
 
 implementation
 
 uses
-  fCE_TabPage, WideSupport, XMLWrite, Main, CE_SpTabBar, fCE_SaveSessionDlg,
+  fCE_TabPage, WideSupport, XMLWrite, Main, CE_SpTabBar,
   fCE_SessionManager, CE_LanguageEngine, dCE_Images, fCE_FileView,
   CE_VistaFuncs, Forms;
 
@@ -192,6 +198,57 @@ begin
   Result:= 1
   else
   Result:= 0;
+end;
+
+{-------------------------------------------------------------------------------
+  Get Session Names
+-------------------------------------------------------------------------------}
+function GetSessionNames(AResults: TTntStrings): Integer;
+var
+  i: Integer;
+  session: TCESessionItem;
+begin
+  Result:= -1;
+  if assigned(AResults) then
+  begin
+    AResults.Clear;
+    for i:= 0 to GlobalSessions.Sessions.Count - 1 do
+    begin
+      session:= GlobalSessions.Sessions.Items[i];
+      AResults.Add(session.Name);
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Create Save Session Dlg
+-------------------------------------------------------------------------------}
+function CreateSaveSessionDlg(SelectActiveSession: Boolean = true):
+    TCEItemSelectSaveDlg;
+var
+  i: Integer;
+  session: TCESessionItem;
+begin
+  Result:= TCEItemSelectSaveDlg.Create(nil);
+  Result.Caption:= _('Save Session');
+  Result.but_ok.Caption:= _('Save');
+  Result.label_combotitle.Caption:= _('Session Name');
+  Result.ShowExistsWarning:= true;
+  Result.ExistsWarningTitle:= _('Confirm');
+  Result.ExistsWarningDescription:= _('Override existing session?');
+  Result.ExistsWarningContent:= _('Do you want to override existing session?');
+
+  for i:= 0 to GlobalSessions.Sessions.Count - 1 do
+  begin
+    session:= GlobalSessions.Sessions.Items[i];
+    Result.combo.Items.Add(session.Name);
+  end;
+
+  if SelectActiveSession and (GlobalSessions.ActiveSessionIndex > -1) then
+  begin
+    Result.combo.ItemIndex:= GlobalSessions.ActiveSessionIndex;
+  end;
+  Result.AllowEmptyText:= false;
 end;
 
 {##############################################################################}
@@ -328,19 +385,18 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCESessions.SaveSessionDlg;
 var
-  dlg: TCESaveSessionDlg;
+  dlg: TCEItemSelectSaveDlg;
   session: TCESessionItem;
 begin
-  dlg:= TCESaveSessionDlg.Create(nil);
+  dlg:= CreateSaveSessionDlg;
   try
-    dlg.PopupParent:= MainForm;
     if dlg.ShowModal = mrOK then
     begin
-      session:= Sessions.FindSession(dlg.SessionCombo.Text);
+      session:= Sessions.FindSession(dlg.combo.Text);
       if not assigned(session) then
       begin
         session:= Sessions.AddSession;
-        session.Name:= dlg.SessionCombo.Text;
+        session.Name:= dlg.combo.Text;
       end;
       Sessions.SaveSession(session);
       MainForm.SessionsToolbar.Recreate;

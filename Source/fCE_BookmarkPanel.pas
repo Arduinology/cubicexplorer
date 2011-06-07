@@ -115,7 +115,7 @@ implementation
 uses
   dCE_Actions, CE_BookmarkBar, fCE_FileView, CE_VistaFuncs,
   CE_StdBookmarkComps, fCE_BookmarkPropDlg, CE_LanguageEngine,
-  fCE_SaveSessionDlg;
+  fCE_ItemSelectSaveDlg, CE_Sessions;
 
 {$R *.dfm}
 
@@ -216,7 +216,7 @@ var
   apidl: PItemIDList;
   node: PVirtualNode;
   comp: TCECustomBookComp;
-  sessionDlg: TCESaveSessionDlg;
+  sessionDlg: TCEItemSelectSaveDlg;
 begin
   case TSpTBXItem(Sender).Tag of
     1: begin
@@ -247,17 +247,20 @@ begin
        end;
     9: RefreshBookmarks;
     10: begin // Add Session
-      sessionDlg:= TCESaveSessionDlg.Create(nil);
+      sessionDlg:= TCEItemSelectSaveDlg.Create(nil);
       try
         sessionDlg.Caption:= _('Select Session');
-        sessionDlg.but_save.Caption:= _('OK');
-        sessionDlg.but_save.OnClick:= nil;
-        sessionDlg.SessionCombo.ItemIndex:= -1;
-        if (sessionDlg.ShowModal = mrOK) and (sessionDlg.SessionCombo.ItemIndex > -1) then
+        sessionDlg.label_combotitle.Caption:= _('Session');
+        GetSessionNames(sessionDlg.combo.Items);
+        if GlobalSessions.ActiveSessionIndex > -1 then
+        begin
+          sessionDlg.combo.ItemIndex:= GlobalSessions.ActiveSessionIndex;
+        end;
+        if (sessionDlg.ShowModal = mrOK) and (sessionDlg.combo.ItemIndex > -1) then
         begin
           node:= BookmarkTree.AddBookItem('session',BookmarkTree.FocusedNode);
           comp:= BookmarkTree.GetNodeComp(node);
-          TCESessionComp(comp).SessionName:= sessionDlg.SessionCombo.Items.Strings[sessionDlg.SessionCombo.ItemIndex];
+          TCESessionComp(comp).SessionName:= sessionDlg.combo.Items.Strings[sessionDlg.combo.ItemIndex];
           TCESessionComp(comp).Title:= TCESessionComp(comp).SessionName;
           BookmarkTree.BookmarksChange;
         end;

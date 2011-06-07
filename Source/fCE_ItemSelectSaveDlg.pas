@@ -12,14 +12,14 @@
 //  License for the specific language governing rights and limitations                        
 //  under the License.                                                                        
 //                                                                                            
-//  The Original Code is fCE_SaveSessionDlg.pas.                                                            
+//  The Original Code is fCE_ItemSelectSaveDlg.pas.                                                            
 //                                                                                            
 //  The Initial Developer of the Original Code is Marko Savolainen (cubicreality@gmail.com).  
 //  Portions created by Marko Savolainen Copyright (C) Marko Savolainen. All Rights Reserved. 
 //                                                                                            
 //******************************************************************************
 
-unit fCE_SaveSessionDlg;
+unit fCE_ItemSelectSaveDlg;
 
 interface
 
@@ -28,90 +28,105 @@ uses
   TntStdCtrls, TntDialogs, TntForms,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls;
+  Dialogs, StdCtrls, SpTBXItem, SpTBXControls, SpTBXEditors;
+
 
 type
-  TCESaveSessionDlg = class(TTntForm)
-    TntLabel1: TTntLabel;
-    SessionCombo: TTntComboBox;
-    but_save: TTntButton;
-    but_cancel: TTntButton;
-    procedure but_saveClick(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
-    procedure SessionComboChange(Sender: TObject);
+  TCEItemSelectSaveDlg = class(TForm)
+    panel_background: TSpTBXPanel;
+    label_combotitle: TSpTBXLabel;
+    combo: TSpTBXComboBox;
+    but_ok: TSpTBXButton;
+    but_cancel: TSpTBXButton;
+    procedure but_okClick(Sender: TObject);
+    procedure comboChange(Sender: TObject);
   private
+    fAllowEmptyText: Boolean;
+    fExistsWarningContent: WideString;
+    fExistsWarningDescription: WideString;
+    fExistsWarningTitle: WideString;
+    fShowExistsWarning: Boolean;
+    procedure SetAllowEmptyText(const Value: Boolean);
     { Private declarations }
   public
-    procedure PopulateSessionNames;
+    constructor Create(AOwner: TComponent); override;
     { Public declarations }
+  published
+    property AllowEmptyText: Boolean read fAllowEmptyText write SetAllowEmptyText;
+    property ExistsWarningContent: WideString read fExistsWarningContent write
+        fExistsWarningContent;
+    property ExistsWarningDescription: WideString read fExistsWarningDescription
+        write fExistsWarningDescription;
+    property ExistsWarningTitle: WideString read fExistsWarningTitle write
+        fExistsWarningTitle;
+    property ShowExistsWarning: Boolean read fShowExistsWarning write
+        fShowExistsWarning;
   end;
 
 implementation
 
 uses
-  CE_Sessions, CE_LanguageEngine, CE_VistaFuncs;
+  CE_VistaFuncs, CE_LanguageEngine;
 
 {$R *.dfm}
 
 {-------------------------------------------------------------------------------
-  On Form Create
+  Create an instance of TCEItemSelectSaveDlg
 -------------------------------------------------------------------------------}
-procedure TCESaveSessionDlg.FormCreate(Sender: TObject);
+constructor TCEItemSelectSaveDlg.Create(AOwner: TComponent);
 begin
-  PopulateSessionNames;
+  inherited;
   SetVistaFont(Font);
   CEGlobalTranslator.TranslateComponent(Self);
+  AllowEmptyText:= false;
+  PopupParent:= Application.MainForm;
 end;
 
 {-------------------------------------------------------------------------------
-  Populate Session Names
+  On but_ok Click
 -------------------------------------------------------------------------------}
-procedure TCESaveSessionDlg.PopulateSessionNames;
-var
-  i: Integer;
-  session: TCESessionItem;
+procedure TCEItemSelectSaveDlg.but_okClick(Sender: TObject);
 begin
-  SessionCombo.Items.Clear;
-  for i:= 0 to GlobalSessions.Sessions.Count - 1 do
+  if ShowExistsWarning then
   begin
-    session:= GlobalSessions.Sessions.Items[i];
-    SessionCombo.Items.Add(session.Name);
-  end;
-  if GlobalSessions.ActiveSessionIndex > -1 then
-  begin
-    SessionCombo.ItemIndex:= GlobalSessions.ActiveSessionIndex;
-    but_save.Enabled:= SessionCombo.Text <> '';
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  On SessionCombo change
--------------------------------------------------------------------------------}
-procedure TCESaveSessionDlg.SessionComboChange(Sender: TObject);
-begin
-  but_save.Enabled:= SessionCombo.Text <> '';
-end;
-
-{-------------------------------------------------------------------------------
-  Save button click
--------------------------------------------------------------------------------}
-procedure TCESaveSessionDlg.but_saveClick(Sender: TObject);
-begin
-  if SessionCombo.Items.IndexOf(SessionCombo.Text) > -1 then
-  begin
-    if (TaskDialog(Application.MainFormHandle,
-                   _('Confirm'),
-                   _('Override existing session?'),
-                   _('Do you want to override existing session?'),
-                   TD_ICON_QUESTION,
-                   TD_BUTTON_YES + TD_BUTTON_NO) = TD_RESULT_YES) then
+    if combo.Items.IndexOf(combo.Text) > -1 then
+    begin
+      if (TaskDialog(Self.Handle,
+                     ExistsWarningTitle,
+                     ExistsWarningDescription,
+                     ExistsWarningContent,
+                     TD_ICON_QUESTION,
+                     TD_BUTTON_YES + TD_BUTTON_NO) = TD_RESULT_YES) then
+      ModalResult:= mrOK
+      else
+      combo.SetFocus;
+    end
+    else
     ModalResult:= mrOK;
   end
   else
   ModalResult:= mrOK;
+end;
 
-  if ModalResult = mrOK then
-  Self.CloseModal;
+{-------------------------------------------------------------------------------
+  On combo.Change
+-------------------------------------------------------------------------------}
+procedure TCEItemSelectSaveDlg.comboChange(Sender: TObject);
+begin
+  if not fAllowEmptyText then
+  but_ok.Enabled:= combo.Text <> '';
+end;
+
+{-------------------------------------------------------------------------------
+  Set Allo Empty Text
+-------------------------------------------------------------------------------}
+procedure TCEItemSelectSaveDlg.SetAllowEmptyText(const Value: Boolean);
+begin
+  fAllowEmptyText:= Value;
+  if fAllowEmptyText then
+  but_ok.Enabled:= true
+  else
+  but_ok.Enabled:= combo.Text <> '';
 end;
 
 end.
