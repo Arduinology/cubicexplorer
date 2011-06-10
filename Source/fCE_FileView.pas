@@ -1015,6 +1015,7 @@ begin
   fSingleClickBrowse:= false;
   fFileSizeFormat:= vfsfDefault;
   fArrowBrowse:= true;
+  fFontSize:= -1;
 end;
 
 {*------------------------------------------------------------------------------

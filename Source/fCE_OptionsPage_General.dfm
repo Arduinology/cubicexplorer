@@ -48,7 +48,7 @@ inherited CEOptionsPage_General: TCEOptionsPage_General
       Width = 162
       Height = 21
       Style = csDropDownList
-      ItemHeight = 0
+      ItemHeight = 13
       TabOrder = 3
       OnChange = HandleChange
     end

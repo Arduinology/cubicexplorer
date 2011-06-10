@@ -106,6 +106,9 @@ end;
 procedure TCEOptionsPage_General.HandleChange(Sender: TObject);
 begin
   inherited;
+  check_tray_minimize.Enabled:= check_tray_enable.Checked;
+  check_tray_close.Enabled:= check_tray_enable.Checked;
+  check_tray_start.Enabled:= check_tray_enable.Checked;
 end;
 
 {-------------------------------------------------------------------------------
@@ -141,6 +144,10 @@ begin
   check_tray_minimize.Checked:= MainForm.Settings.MinimizeToTray;
   check_tray_close.Checked:= MainForm.Settings.CloseToTray;
   check_tray_start.Checked:= MainForm.Settings.StartInTray;
+
+  check_tray_minimize.Enabled:= check_tray_enable.Checked;
+  check_tray_close.Enabled:= check_tray_enable.Checked;
+  check_tray_start.Enabled:= check_tray_enable.Checked;  
 end;
 
 {-------------------------------------------------------------------------------
