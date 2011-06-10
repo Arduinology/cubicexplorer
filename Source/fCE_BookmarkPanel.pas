@@ -86,6 +86,8 @@ type
 
   TCEBookmarkPanelSettings = class(TPersistent)
   private
+    fFontSize: Integer;
+    fLineHeight: Integer;
     fShowOpenAllAtTop: Boolean;
     function GetAutoCollapse: Boolean;
     function GetAutoExpand: Boolean;
@@ -93,6 +95,8 @@ type
     function GetSingleClickMode: Boolean;
     procedure SetAutoCollapse(const Value: Boolean);
     procedure SetAutoExpand(const Value: Boolean);
+    procedure SetFontSize(const Value: Integer);
+    procedure SetLineHeight(const Value: Integer);
     procedure SetOpenInNewTab(const Value: Boolean);
     procedure SetSingleClickMode(const Value: Boolean);
   public
@@ -100,6 +104,8 @@ type
   published
     property AutoCollapse: Boolean read GetAutoCollapse write SetAutoCollapse;
     property AutoExpand: Boolean read GetAutoExpand write SetAutoExpand;
+    property FontSize: Integer read fFontSize write SetFontSize;
+    property LineHeight: Integer read fLineHeight write SetLineHeight;
     property OpenInNewTab: Boolean read GetOpenInNewTab write SetOpenInNewTab;
     property ShowOpenAllAtTop: Boolean read fShowOpenAllAtTop write
         fShowOpenAllAtTop;
@@ -115,7 +121,7 @@ implementation
 uses
   dCE_Actions, CE_BookmarkBar, fCE_FileView, CE_VistaFuncs,
   CE_StdBookmarkComps, fCE_BookmarkPropDlg, CE_LanguageEngine,
-  fCE_ItemSelectSaveDlg, CE_Sessions;
+  fCE_ItemSelectSaveDlg, CE_Sessions, MPCommonObjects, CE_Utils;
 
 {$R *.dfm}
 
@@ -127,6 +133,10 @@ begin
   inherited;
   fSettings:= TCEBookmarkPanelSettings.Create;
   fSettings.BookmarkPanel:= Self;
+  // Default settings
+  fSettings.fFontSize:= -1;
+  fSettings.fLineHeight:= -1;
+  
   BookmarkMenuItems:= TComponentList.Create(false);
   TopDock.Name:= 'BookmarkPanel_TopDock';
   BottomDock.Name:= 'BookmarkPanel_BottomDock';
@@ -145,6 +155,7 @@ begin
   BookmarkTree.OnBookmarksChange:= OnBookmarksChange;
   //BookmarkTree.PopupMenu:= BookmarkPopupMenu;
   BookmarkTree.OnMouseUp:= DoMouseUp;
+
   GlobalAppSettings.AddItem('BookmarksPanel', fSettings, true);
   ChangeNotifier.RegisterShellChangeNotify(Self);
 end;
@@ -498,6 +509,50 @@ end;
 procedure TCEBookmarkPanelSettings.SetOpenInNewTab(const Value: Boolean);
 begin
   OpenBookmarkInNewTabByDefault:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Set FontSize
+-------------------------------------------------------------------------------}
+procedure TCEBookmarkPanelSettings.SetFontSize(const Value: Integer);
+begin
+  fFontSize:= Value;
+  if fFontSize > 0 then
+  BookmarkPanel.BookmarkTree.Font.Size:= fFontSize
+  else
+  SetDesktopIconFonts(BookmarkPanel.BookmarkTree.Font);
+end;
+
+{-------------------------------------------------------------------------------
+  Set Line Height
+-------------------------------------------------------------------------------}
+procedure TCEBookmarkPanelSettings.SetLineHeight(const Value: Integer);
+var
+  i: Cardinal;
+  node: PVirtualNode;
+begin
+  fLineHeight:= Value;
+  i:= BookmarkPanel.BookmarkTree.DefaultNodeHeight;
+  if fLineHeight > 0 then
+  BookmarkPanel.BookmarkTree.DefaultNodeHeight:= fLineHeight
+  else
+  BookmarkPanel.BookmarkTree.DefaultNodeHeight:= SmallShellIconSize + 1;
+
+  // resize nodes
+  if i <> BookmarkPanel.BookmarkTree.DefaultNodeHeight then
+  begin
+    BookmarkPanel.BookmarkTree.BeginUpdate;
+    try
+      node:= BookmarkPanel.BookmarkTree.GetFirstInitialized;
+      while assigned(node) do
+      begin
+        BookmarkPanel.BookmarkTree.NodeHeight[node]:= BookmarkPanel.BookmarkTree.DefaultNodeHeight;
+        node:= BookmarkPanel.BookmarkTree.GetNextInitialized(node);
+      end;
+    finally
+      BookmarkPanel.BookmarkTree.EndUpdate;
+    end;
+  end;
 end;
 
 end.

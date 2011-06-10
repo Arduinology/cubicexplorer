@@ -168,6 +168,7 @@ type
     fColumns: TCEColumnSettings;
     fFileSizeFormat: TVirtualFileSizeFormat;
     fFilmstrip: TCEFilmstripSettings;
+    fFontSize: Integer;
     fGroupBy: TCEGroupBySettings;
     fInfoBarSize: Integer;
     fShowInfoTips: Boolean;
@@ -193,6 +194,7 @@ type
     procedure SetAutosizeListViewStyle(const Value: Boolean);
     procedure SetBrowseZipFolders(const Value: Boolean);
     procedure SetFileSizeFormat(const Value: TVirtualFileSizeFormat);
+    procedure SetFontSize(const Value: Integer);
     procedure SetShowInfoTips(const Value: Boolean);
     procedure SetShowExtensions(const Value: Boolean);
     procedure SetShowHeaderAlways(const Value: Boolean);
@@ -238,6 +240,7 @@ type
     property FileSizeFormat: TVirtualFileSizeFormat read fFileSizeFormat write
         SetFileSizeFormat;
     property Filmstrip: TCEFilmstripSettings read fFilmstrip write fFilmstrip;
+    property FontSize: Integer read fFontSize write SetFontSize;
     property FullRowSelect: Boolean read fFullRowSelect write SetFullRowSelect;
     property GroupBy: TCEGroupBySettings read fGroupBy write fGroupBy;
     property HiddenFiles: Boolean read fHiddenFiles write SetHiddenFiles;
@@ -330,6 +333,7 @@ begin
   FileView.OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
   GlobalFileViewSettings.RegisterNotify(Self);
   SetDesktopIconFonts(FileView.Font);
+
 
   InfoBar:= TCEInfoBar.Create(nil);
   InfoBar.Parent:= Self;
@@ -1095,6 +1099,10 @@ begin
     // Misc
     FileViewPage.FileView.FileSizeFormat:= fFileSizeFormat;
     FileViewPage.FileView.ArrowBrowse:= fArrowBrowse;
+    if FontSize > 0 then
+    FileViewPage.FileView.Font.Size:= FontSize
+    else
+    SetDesktopIconFonts(FileViewPage.FileView.Font);
 
     // Cell Sizes
     if (CellSizes.LargeIcons_Width < 1) or (CellSizes.LargeIcons_Height < 1) then
@@ -1475,6 +1483,11 @@ procedure TCEFileViewSettings.SetFileSizeFormat(const Value:
 begin
   fFileSizeFormat:= Value;
   SendChanges;
+end;
+
+procedure TCEFileViewSettings.SetFontSize(const Value: Integer);
+begin
+  fFontSize := Value;
 end;
 
 {-------------------------------------------------------------------------------

@@ -103,11 +103,15 @@ type
   TCEFiltersPanelSettings = class(TPersistent)
   private
     fAutoResetFilters: Boolean;
+    fFontSize: Integer;
+    fLineHeight: Integer;
     fSaveFilterHistory: Boolean;
     function GetFilterHistory: WideString;
     function GetShowBkgrd: Boolean;
     function GetStrictFilter: Boolean;
     procedure SetFilterHistory(const Value: WideString);
+    procedure SetFontSize(const Value: Integer);
+    procedure SetLineHeight(const Value: Integer);
     procedure SetSaveFilterHistory(const Value: Boolean);
     procedure SetShowBkgrd(const Value: Boolean);
     procedure SetStrictFilter(const Value: Boolean);
@@ -117,6 +121,8 @@ type
     property AutoResetFilters: Boolean read fAutoResetFilters write
         fAutoResetFilters;
     property FilterHistory: WideString read GetFilterHistory write SetFilterHistory;
+    property FontSize: Integer read fFontSize write SetFontSize;
+    property LineHeight: Integer read fLineHeight write SetLineHeight;
     property SaveFilterHistory: Boolean read fSaveFilterHistory write
         SetSaveFilterHistory;
     property ShowBkgrd: Boolean read GetShowBkgrd write SetShowBkgrd;
@@ -129,7 +135,7 @@ var
 implementation
 
 uses
-  Main, CE_LanguageEngine;
+  Main, CE_LanguageEngine, CE_Utils;
 {$R *.dfm}
 
 {*------------------------------------------------------------------------------
@@ -156,10 +162,14 @@ begin
 
   GlobalAppSettings.AddItem('FilterPanel', fSettings, true);
   combo_filterpattern.Items.Delimiter:= ',';
+
+  // Default settings
   Settings.StrictFilter:= false;
   Settings.SaveFilterHistory:= true;
   Settings.ShowBkgrd:= true;
   Settings.AutoResetFilters:= true;
+  Settings.fFontSize:= -1;
+  Settings.fLineHeight:= -1;
 
   PatternNotifyList:= TObjectList.Create(false);
   fPatternNotifyInProgress:= false;
@@ -594,6 +604,51 @@ function TCEFiltersPanelSettings.GetStrictFilter: Boolean;
 begin
   Result:= FilterPanel.Filters.UseWildcards;
 end;
+
+{-------------------------------------------------------------------------------
+  Set FontSize
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanelSettings.SetFontSize(const Value: Integer);
+begin
+  fFontSize:= Value;
+  if fFontSize > 0 then
+  FilterPanel.Filters.Font.Size:= fFontSize
+  else
+  SetDesktopIconFonts(FilterPanel.Filters.Font);
+end;
+
+{-------------------------------------------------------------------------------
+  Set Line Height
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanelSettings.SetLineHeight(const Value: Integer);
+var
+  i: Cardinal;
+  node: PVirtualNode;
+begin
+  fLineHeight:= Value;
+  i:= FilterPanel.Filters.DefaultNodeHeight;
+  if fLineHeight > 0 then
+  FilterPanel.Filters.DefaultNodeHeight:= fLineHeight
+  else
+  FilterPanel.Filters.DefaultNodeHeight:= SmallShellIconSize + 1;
+
+  // resize nodes
+  if i <> FilterPanel.Filters.DefaultNodeHeight then
+  begin
+    FilterPanel.Filters.BeginUpdate;
+    try
+      node:= FilterPanel.Filters.GetFirstInitialized;
+      while assigned(node) do
+      begin
+        FilterPanel.Filters.NodeHeight[node]:= FilterPanel.Filters.DefaultNodeHeight;
+        node:= FilterPanel.Filters.GetNextInitialized(node);
+      end;
+    finally
+      FilterPanel.Filters.EndUpdate;
+    end;
+  end;
+end;
+
 procedure TCEFiltersPanelSettings.SetStrictFilter(const Value: Boolean);
 begin
   FilterPanel.Filters.UseWildcards:= Value;

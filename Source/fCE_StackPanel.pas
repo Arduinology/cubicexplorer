@@ -85,6 +85,8 @@ type
 
   TCEStackPanelSettings = class(TPersistent)
   private
+    fFontSize: Integer;
+    fLineHeight: Integer;
     fLoadOnStartup: WideString;
     fStartupType: TCEStackStartupType;
     function GetAutoCollapse: Boolean;
@@ -97,7 +99,9 @@ type
     procedure SetAutoCollapse(const Value: Boolean);
     procedure SetAutoExpand(const Value: Boolean);
     procedure SetAutoSaveStack(const Value: Boolean);
+    procedure SetFontSize(const Value: Integer);
     procedure SetFullExpandOnLoad(const Value: Boolean);
+    procedure SetLineHeight(const Value: Integer);
     procedure SetMaxHintItemCount(const Value: Integer);
     procedure SetSafeOperationsOnly(const Value: Boolean);
     procedure SetShowWarnings(const Value: Boolean);
@@ -108,8 +112,10 @@ type
     property AutoExpand: Boolean read GetAutoExpand write SetAutoExpand;
     property LoadOnStartup: WideString read fLoadOnStartup write fLoadOnStartup;
     property AutoSaveStack: Boolean read GetAutoSaveStack write SetAutoSaveStack;
+    property FontSize: Integer read fFontSize write SetFontSize;
     property FullExpandOnLoad: Boolean read GetFullExpandOnLoad write
         SetFullExpandOnLoad;
+    property LineHeight: Integer read fLineHeight write SetLineHeight;
     property StartupType: TCEStackStartupType read fStartupType write fStartupType;
     property MaxHintItemCount: Integer read GetMaxHintItemCount write
         SetMaxHintItemCount;
@@ -124,7 +130,7 @@ var
 implementation
 
 uses
-  CE_LanguageEngine, CE_LanguageUtils, fCE_ItemSelectSaveDlg;
+  CE_LanguageEngine, CE_LanguageUtils, fCE_ItemSelectSaveDlg, CE_Utils;
 
 {$R *.dfm}
 
@@ -160,6 +166,11 @@ begin
   // Settings
   fSettings:= TCEStackPanelSettings.Create;
   fSettings.StackPanel:= Self;
+
+  // Default Settings
+  fSettings.fFontSize:= -1;
+  fSettings.fLineHeight:= -1;
+
   GlobalAppSettings.AddItem('StackPanel', fSettings, true);
   // Add dynamic spacer to toolbar
   i:= StackToolbar.Items.IndexOf(item_safe_operations);
@@ -302,7 +313,7 @@ var
   id, i: Integer;
   dlg: TCEItemSelectSaveDlg;
   stack: TCEStackItem;
-  ws, ws2: WideString;
+  ws: WideString;
   p: TPoint;
 begin
   id:= TSpTBXItem(Sender).Tag;
@@ -612,6 +623,50 @@ end;
 procedure TCEStackPanelSettings.SetFullExpandOnLoad(const Value: Boolean);
 begin
   StackPanel.StackTree.FullExpandOnLoad:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Set FontSize
+-------------------------------------------------------------------------------}
+procedure TCEStackPanelSettings.SetFontSize(const Value: Integer);
+begin
+  fFontSize:= Value;
+  if fFontSize > 0 then
+  StackPanel.StackTree.Font.Size:= fFontSize
+  else
+  SetDesktopIconFonts(StackPanel.StackTree.Font);
+end;
+
+{-------------------------------------------------------------------------------
+  Set Line Height
+-------------------------------------------------------------------------------}
+procedure TCEStackPanelSettings.SetLineHeight(const Value: Integer);
+var
+  i: Integer;
+  node: PVirtualNode;
+begin
+  fLineHeight:= Value;
+  i:= StackPanel.StackTree.DefaultNodeHeight;
+  if fLineHeight > 0 then
+  StackPanel.StackTree.DefaultNodeHeight:= fLineHeight
+  else
+  StackPanel.StackTree.DefaultNodeHeight:= SmallShellIconSize + 1;
+
+  // resize nodes
+  if i <> StackPanel.StackTree.DefaultNodeHeight then
+  begin
+    StackPanel.StackTree.BeginUpdate;
+    try
+      node:= StackPanel.StackTree.GetFirstInitialized;
+      while assigned(node) do
+      begin
+        StackPanel.StackTree.NodeHeight[node]:= StackPanel.StackTree.DefaultNodeHeight;
+        node:= StackPanel.StackTree.GetNextInitialized(node);
+      end;
+    finally
+      StackPanel.StackTree.EndUpdate;
+    end;
+  end;
 end;
 
 end.

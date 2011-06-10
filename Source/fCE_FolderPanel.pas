@@ -49,7 +49,6 @@ type
   private
     fSettings: TCEFolderPanelSettings;
   protected
-    procedure FolderTreeExpanded(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure FolderTreeSelectedChange(Node: PVirtualNode);
 
     procedure FolderTreeMouseDown(Sender: TObject; Button: TMouseButton;
@@ -73,14 +72,19 @@ type
   TCEFolderPanelSettings = class(TPersistent)
   private
     fCenterOnBrowse: Boolean;
-    fCenterOnExpand: Boolean;
+    fFontSize: Integer;
+    fLineHeight: Integer;
     fOpenInNewTab: Boolean;
     function GetAutoCollapse: Boolean;
     function GetAutoExpand: Boolean;
     function GetBrowseZipFolders: Boolean;
+    function GetCenterOnExpand: Boolean;
     procedure SetAutoCollapse(const Value: Boolean);
     procedure SetAutoExpand(const Value: Boolean);
     procedure SetBrowseZipFolders(const Value: Boolean);
+    procedure SetCenterOnExpand(const Value: Boolean);
+    procedure SetFontSize(const Value: Integer);
+    procedure SetLineHeight(const Value: Integer);
   public
     FolderPanel: TCEFolderPanel;
   published
@@ -89,26 +93,22 @@ type
     property BrowseZipFolders: Boolean read GetBrowseZipFolders write
         SetBrowseZipFolders;
     property CenterOnBrowse: Boolean read fCenterOnBrowse write fCenterOnBrowse;
-    property CenterOnExpand: Boolean read fCenterOnExpand write fCenterOnExpand;
+    property CenterOnExpand: Boolean read GetCenterOnExpand write SetCenterOnExpand;
+    property FontSize: Integer read fFontSize write SetFontSize;
+    property LineHeight: Integer read fLineHeight write SetLineHeight;
     property OpenInNewTab: Boolean read fOpenInNewTab write fOpenInNewTab;
   end;
 
 var
   CEFolderPanel: TCEFolderPanel;
+  c: Integer = 0;
 
 implementation
 
 uses
-  dCE_Actions, Main;
+  dCE_Actions, Main, CE_Utils;
 
 {$R *.dfm}
-
-procedure TCEFolderPanel.FolderTreeExpanded(Sender: TBaseVirtualTree; Node:
-    PVirtualNode);
-begin
-  if Settings.CenterOnExpand then
-  FolderTree.ScrollToView(Node, true, true);
-end;
 
 {*------------------------------------------------------------------------------
   Get's called when TCEFolderPanel is created.
@@ -128,7 +128,6 @@ begin
   FolderTree.IncrementalSearch:= isVisibleOnly;
   FolderTree.Active:= true;
   FolderTree.OnEdited:= OnEdited;
-  FolderTree.OnExpanded:= FolderTreeExpanded;
 
   FolderTree.AutoCollapse:= true;
   FolderTree.AutoExpand:= true;
@@ -139,6 +138,8 @@ begin
   fSettings.CenterOnBrowse:= true;
   fSettings.CenterOnExpand:= true;
   fSettings.fOpenInNewTab:= false;
+  fSettings.fFontSize:= -1;
+  fSettings.fLineHeight:= -1;
   
   SetDesktopIconFonts(FolderTree.Font);
   TopDock.Name:= 'FolderPanel_TopDock';
@@ -326,6 +327,62 @@ end;
 procedure TCEFolderPanelSettings.SetBrowseZipFolders(const Value: Boolean);
 begin
   FolderPanel.FolderTree.BrowseZipFolders:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set CenterOnExpand
+-------------------------------------------------------------------------------}
+function TCEFolderPanelSettings.GetCenterOnExpand: Boolean;
+begin
+  Result:= FolderPanel.FolderTree.CenterOnExpand;
+end;
+procedure TCEFolderPanelSettings.SetCenterOnExpand(const Value: Boolean);
+begin
+  FolderPanel.FolderTree.CenterOnExpand:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Set FontSize
+-------------------------------------------------------------------------------}
+procedure TCEFolderPanelSettings.SetFontSize(const Value: Integer);
+begin
+  fFontSize:= Value;
+  if fFontSize > 0 then
+  FolderPanel.FolderTree.Font.Size:= fFontSize
+  else
+  SetDesktopIconFonts(FolderPanel.FolderTree.Font);
+end;
+
+{-------------------------------------------------------------------------------
+  Set Line Height
+-------------------------------------------------------------------------------}
+procedure TCEFolderPanelSettings.SetLineHeight(const Value: Integer);
+var
+  c: Cardinal;
+  node: PVirtualNode;
+begin
+  fLineHeight:= Value;
+  c:= FolderPanel.FolderTree.DefaultNodeHeight;
+  if fLineHeight > 0 then
+  FolderPanel.FolderTree.DefaultNodeHeight:= fLineHeight
+  else
+  FolderPanel.FolderTree.DefaultNodeHeight:= SmallShellIconSize + 1;
+
+  // resize nodes
+  if c <> FolderPanel.FolderTree.DefaultNodeHeight then
+  begin
+    FolderPanel.FolderTree.BeginUpdate;
+    try
+      node:= FolderPanel.FolderTree.GetFirstInitialized;
+      while assigned(node) do
+      begin
+        FolderPanel.FolderTree.NodeHeight[node]:= FolderPanel.FolderTree.DefaultNodeHeight;
+        node:= FolderPanel.FolderTree.GetNextInitialized(node);
+      end;
+    finally
+      FolderPanel.FolderTree.EndUpdate;
+    end;
+  end;
 end;
 
 end.

@@ -81,6 +81,7 @@ type
     procedure SetUseKernelNotification(const Value: Boolean);
   protected
     fDoubleClicking: Boolean;
+    fSingleClickBrowsing: Boolean;
     procedure DoCustomColumnAdd; override;
     procedure DoEnumFinished; override;
     procedure DoEnumFolder(const Namespace: TNamespace; var AllowAsChild: Boolean);
@@ -398,7 +399,7 @@ var
 begin
   fDoubleClicking:= true;
   GoBack:= false;
-  if Self.EditManager.Editing then
+  if Self.EditManager.Editing or fSingleClickBrowsing then
   Exit;
   
   WindowPt:= Self.Scrollbars.MapWindowToView(Msg.Pos);
@@ -411,7 +412,7 @@ begin
     begin
       item.HitTestAt(WindowPt, HitInfo);
       case View of
-        elsReport: GoBack:= HitInfo = [];
+        elsReport: GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnText in HitInfo);
         elsTile: GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnText in HitInfo) and not (ehtOnClickSelectBounds in HitInfo);
         else
         GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnText in HitInfo);
@@ -801,7 +802,9 @@ var
   itemHitInfo: TEasyItemHitTestInfoSet;
   ns: TNamespace;
   PIDL: PItemIDList;
+  KeyState: TCommonKeyStates;
 begin
+  fSingleClickBrowsing:= false;
   doDefault:= true;
   
   if Button = cmbLeft then
@@ -812,10 +815,11 @@ begin
   begin
     fRightMouseButton_IsDown:= false;
   end;
-
+  KeyState := KeyToKeyStates(Msg.Keys);
   // SingleClickBrowse and SingleClickExecute
   if (SingleClickBrowse or SingleClickExecute)
       and (Button = cmbLeft)
+      and not ((cksControl in KeyState) or (cksShift in KeyState))
       and not fRightMouseButton_IsDown
       and not fDoubleClicking
       and not Self.DragInitiated then
@@ -857,6 +861,7 @@ begin
           begin
             PIDL:= PIDLMgr.CopyPIDL(ns.AbsolutePIDL);
             try
+              fSingleClickBrowsing:= true;
               BrowseToByPIDL(PIDL);
               doDefault:= false;
             finally

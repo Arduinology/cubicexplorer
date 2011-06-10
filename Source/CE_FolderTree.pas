@@ -47,6 +47,7 @@ type
     fSelectionTimer: TTimer;
     procedure SetBrowseZipFolders(const Value: Boolean);
     procedure SetHiddenFiles(const Value: Boolean);
+    procedure WMKeyDown(var Message: TWMKeyDown); message WM_KEYDOWN;
   protected
     function DoCreateEditor(Node: PVirtualNode; Column: TColumnIndex): IVTEditLink;
         override;
@@ -264,6 +265,11 @@ begin
     end
     else
     Self.ToggleNode(HitInfo.HitNode);
+
+    if CenterOnExpand and (vsExpanded in HitInfo.HitNode.States) then
+    begin
+      ScrollToView(HitInfo.HitNode, false, true);
+    end;
   end
   else if HitInfo.HitNode = self.FocusedNode then
   begin
@@ -523,6 +529,7 @@ procedure TCEFolderTree.ScrollToView(ANode: PVirtualNode; AVertical: Boolean =
     true; AHorizontal: Boolean = true);
 var
   indentW, level: Integer;
+  r: TRect;
 begin
   if not assigned(ANode) then
   Exit;
@@ -534,6 +541,8 @@ begin
   begin
     level:= GetNodeLevel(ANode)-1;
     indentW:= Indent * level;
+    r:= GetDisplayRect(ANode, NoColumn, false, true);
+    if ((r.Right - r.Left) + indentW) > Self.ClientWidth then
     OffsetX:= -indentW;
   end;
 end;
@@ -599,6 +608,30 @@ begin
   obj:= FileObjects;
   if fHiddenFiles then Include(obj, foHidden) else Exclude(obj, foHidden);
   FileObjects:= obj;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle WM_KeyDown message
+-------------------------------------------------------------------------------}
+procedure TCEFolderTree.WMKeyDown(var Message: TWMKeyDown);
+var
+  Shift: TShiftState;
+begin
+  inherited;
+  if CenterOnExpand and assigned(Self.FocusedNode) then
+  begin
+    if Message.CharCode = VK_RIGHT then
+    begin
+      Shift:= KeyDataToShiftState(Message.KeyData);
+      if Shift = [] then
+      begin
+        if Self.Expanded[Self.FocusedNode] then
+        begin
+          ScrollToView(Self.FocusedNode, false, true);
+        end;
+      end;
+    end;
+  end;
 end;
 
 {##############################################################################}

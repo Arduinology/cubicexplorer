@@ -180,6 +180,8 @@ type
 type
   TCEFileSearchSettings = class(TPersistent)
   private
+    fFontSize: Integer;
+    fLineHeight: Integer;
     fRememberPanelLayout: Boolean;
     fRememberInnerToolbarLayout: Boolean;
     fRememberOuterToolbarLayout: Boolean;
@@ -198,6 +200,8 @@ type
     procedure AssignSettingsTo(FileSearch: TCESearchPage);
   published
     property Columns: string read GetColumns write SetColumns;
+    property FontSize: Integer read fFontSize write fFontSize;
+    property LineHeight: Integer read fLineHeight write fLineHeight;
     property RememberPanelLayout: Boolean read fRememberPanelLayout write
         fRememberPanelLayout;
     property RememberInnerToolbarLayout: Boolean read fRememberInnerToolbarLayout write
@@ -901,6 +905,8 @@ begin
   fShowExtensions:= true;
   fSubFolders:= true;
   fRememberInnerToolbarLayout:= true;
+  fFontSize:= -1;
+  fLineHeight:= -1;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1000,6 +1006,17 @@ begin
   Exit;
 
   FileSearch.check_subfolders.Checked:= fSubFolders;
+  // FontSize
+  if fFontSize > 0 then
+  FileSearch.ResultView.Font.Size:= fFontSize
+  else
+  SetDesktopIconFonts(FileSearch.ResultView.Font);
+  // LineHeight
+  if fLineHeight > 0 then
+  FileSearch.ResultView.CellSizes.Report.Height:= fLineHeight
+  else
+  FileSearch.ResultView.CellSizes.Report.RestoreDefaults;
+
   AssignColumnSettingsTo(FileSearch.ResultView);
 end;
 
