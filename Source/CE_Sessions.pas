@@ -816,12 +816,15 @@ procedure TCESessionList.SaveSession(ASession: TCESessionItem);
       if MainForm.TabSet.Items.Items[i] is TCESpTabItem then
       begin
         tab:= TCESpTabItem(MainForm.TabSet.Items.Items[i]);
-        s:= TabPageClassList.GetName(TCECustomTabPageClass(tab.Page.ClassType));
-        if s <> '' then
+        if assigned(tab.Page) then
         begin
-          chNode:= AStorage.XML.CreateElement(s);
-          ATabsNode.AppendChild(chNode);
-          AStorage.SaveObjectProperties(tab.Page.Settings, chNode);
+          s:= TabPageClassList.GetName(TCECustomTabPageClass(tab.Page.ClassType));
+          if s <> '' then
+          begin
+            chNode:= AStorage.XML.CreateElement(s);
+            ATabsNode.AppendChild(chNode);
+            AStorage.SaveObjectProperties(tab.Page.Settings, chNode);
+          end;
         end;
       end;
     end;
