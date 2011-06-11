@@ -43,6 +43,7 @@
       <ThumbSize>120</ThumbSize>
       <ThumbStyle>7</ThumbStyle>
     </Filmstrip>
+    <FontSize>-1</FontSize>
     <FullRowSelect>False</FullRowSelect>
     <GroupBy>
       <ControlPanel>0,False</ControlPanel>
@@ -81,6 +82,8 @@
   </TextEditor>
   <FileSearch>
     <Columns>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0|284,284,250,2</Columns>
+    <FontSize>-1</FontSize>
+    <LineHeight>-1</LineHeight>
     <RememberPanelLayout>False</RememberPanelLayout>
     <RememberInnerToolbarLayout>True</RememberInnerToolbarLayout>
     <RememberOuterToolbarLayout>False</RememberOuterToolbarLayout>
@@ -90,8 +93,8 @@
   <MainForm>
     <AlphaBlend>255</AlphaBlend>
     <AlwaysOnTop>False</AlwaysOnTop>
-    <Left>112</Left>
-    <Top>104</Top>
+    <Left>46</Left>
+    <Top>38</Top>
     <Width>938</Width>
     <Height>790</Height>
     <Language/>
@@ -134,11 +137,15 @@
     <BrowseZipFolders>False</BrowseZipFolders>
     <CenterOnBrowse>True</CenterOnBrowse>
     <CenterOnExpand>True</CenterOnExpand>
+    <FontSize>-1</FontSize>
+    <LineHeight>-1</LineHeight>
     <OpenInNewTab>False</OpenInNewTab>
   </FolderPanel>
   <BookmarksPanel>
     <AutoCollapse>False</AutoCollapse>
     <AutoExpand>False</AutoExpand>
+    <FontSize>-1</FontSize>
+    <LineHeight>-1</LineHeight>
     <OpenInNewTab>False</OpenInNewTab>
     <ShowOpenAllAtTop>True</ShowOpenAllAtTop>
     <SingleClickMode>True</SingleClickMode>
@@ -146,6 +153,8 @@
   <FilterPanel>
     <AutoResetFilters>True</AutoResetFilters>
     <FilterHistory/>
+    <FontSize>-1</FontSize>
+    <LineHeight>-1</LineHeight>
     <SaveFilterHistory>True</SaveFilterHistory>
     <ShowBkgrd>True</ShowBkgrd>
     <StrictFilter>False</StrictFilter>
@@ -155,7 +164,9 @@
     <AutoExpand>True</AutoExpand>
     <LoadOnStartup/>
     <AutoSaveStack>False</AutoSaveStack>
+    <FontSize>-1</FontSize>
     <FullExpandOnLoad>False</FullExpandOnLoad>
+    <LineHeight>-1</LineHeight>
     <StartupType>0</StartupType>
     <MaxHintItemCount>20</MaxHintItemCount>
     <SafeOperationsOnly>True</SafeOperationsOnly>

@@ -1,5 +1,6 @@
 [Skin]
-Name=OldDays1.1
+Name=OldDays1.2
+Author=badloginname
 ColorBtnFace=clBlack
 OfficeStatusBar=0
 OfficeIcons=0
@@ -56,7 +57,7 @@ Normal.Borders=0
 
 [TabBackground]
 Normal.Body=0, clWhite
-Normal.Borders=0
+Normal.Borders=0, clBlack, clBlack, clBlack, clBlack
 Normal.TextColor=clBlack
 
 [TabToolbar]
@@ -66,7 +67,7 @@ Normal.TextColor=clWhite
 
 [Toolbar]
 Normal.Body=0, clBlack
-Normal.Borders=0, clBlack, clBlack, clWhite, clWhite
+Normal.Borders=0, clWhite
 Normal.TextColor=clWhite
 
 [ToolbarGrip]
@@ -158,22 +159,26 @@ CheckedAndHotTrack.Borders=0, clBlack, clCaptionText
 Normal.Body=0
 Normal.Borders=0, clBlack, clBlack
 Normal.TextColor=clBlack
-Disabled.Body=0, $00EDF0F1
-Disabled.Borders=0, clCaptionText, clBlack
+Disabled.Body=0
+Disabled.Borders=0, $009E9E9E, $009E9E9E
+Disabled.TextColor=$00B0B0B0
 HotTrack.Body=0
-HotTrack.Borders=0, clCaptionText, clBlack
+HotTrack.Borders=0, clBlack, clBlack, clBlack, clBlack
+HotTrack.TextColor=clBlack
 Pushed.Body=0
-Pushed.Borders=0, clCaptionText, clBlack
+Pushed.Borders=0, clBlack, clBlack, clBlack, clBlack
 Pushed.TextColor=clBlack
 Checked.Body=0
-Checked.Borders=0, clCaptionText, clBlack
+Checked.Borders=0, clNone, clNone, clNone, $00B0B0B0
+Checked.TextColor=clBlack
 CheckedAndHotTrack.Body=0
-CheckedAndHotTrack.Borders=0, clBlack, clBlack
+CheckedAndHotTrack.Borders=0
+CheckedAndHotTrack.TextColor=clBlack
 
 [EditFrame]
 Normal.Body=0
 Normal.Borders=0, clBlack, clCaptionText
-Disabled.Body=0, $00DBE0E3
+Disabled.Body=0
 Disabled.Borders=0, $009E9E9E, $009E9E9E
 HotTrack.Body=0
 HotTrack.Borders=0, clBlack, clCaptionText
@@ -197,44 +202,47 @@ Normal.Body=0
 Normal.Borders=0, clBlack
 
 [ListItem]
-HotTrack.Body=0, $00C3AEA7
-HotTrack.Borders=0, clHighlight, clHighlight
+HotTrack.Body=0, clBlack
+HotTrack.Borders=0, clBlack, clBlack
+HotTrack.TextColor=clWhite
 Pushed.Body=0, clBtnFace
 Pushed.Borders=0, clBtnShadow, clBtnShadow
-Checked.Body=0, $00D8D4D4
-Checked.Borders=0, clHighlight, clHighlight
-CheckedAndHotTrack.Body=0, $00C3AEA7
-CheckedAndHotTrack.Borders=0, clHighlight, clHighlight
+Checked.Body=0, clWhite
+Checked.Borders=0, clBlack, clBlack
+Checked.TextColor=clBlack
+CheckedAndHotTrack.Body=0, clWhite
+CheckedAndHotTrack.Borders=0, clBlack, clBlack
+CheckedAndHotTrack.TextColor=clBlack
 
 [ProgressBar]
-Normal.Body=0, clCaptionText
-Normal.Borders=0, clBtnShadow, clCaptionText
-HotTrack.Body=0, clMenuHighlight
-HotTrack.Borders=0, clBtnShadow, clCaptionText
+Normal.Body=0, clWhite
+Normal.Borders=0, clBlack, clCaptionText
+HotTrack.Body=0, clBlack
+HotTrack.Borders=0, clBlack, clCaptionText
 
 [RadioButton]
-Normal.Body=0, clCaptionText
-Normal.Borders=0, clBtnShadow, clCaptionText
-Disabled.Body=0, clCaptionText
-Disabled.Borders=0, clBtnShadow, clBtnShadow
-HotTrack.Body=0, clCaptionText
-HotTrack.Borders=0, clHighlight, clHighlight
-Pushed.Body=0, clCaptionText
-Pushed.Borders=0, clBtnShadow, clBtnShadow
-Checked.Body=0, clCaptionText
-Checked.Borders=0, clHighlight, clHighlight
-CheckedAndHotTrack.Body=0, clCaptionText
-CheckedAndHotTrack.Borders=0, clHighlight, clHighlight
+Normal.Body=0, clWhite
+Normal.Borders=0, clBlack
+Disabled.Body=0, $009E9E9E
+Disabled.Borders=0, clBtnShadow
+HotTrack.Body=0, clWhite
+HotTrack.Borders=0, clBlack
+Pushed.Body=0, clWhite
+Pushed.Borders=0, clBlack
+Checked.Body=0, clWhite
+Checked.Borders=0, clBlack
+CheckedAndHotTrack.Body=0, clWhite
+CheckedAndHotTrack.Borders=0, clBlack
 
 [Tab]
 Normal.Body=0, clBlack
-Normal.Borders=0, clBlack, clBlack, clBlack, clBlack
+Normal.Borders=0, clWhite, clBlack, clBlack, clWhite
 Normal.TextColor=clWhite
 Disabled.Body=0
 Disabled.Borders=0, clBtnShadow
 Disabled.TextColor=clWhite
 HotTrack.Body=0, clWhite
-HotTrack.Borders=0, clBlack, clBlack, clBlack, clBlack
+HotTrack.Borders=0, clWhite, clWhite, clWhite, clWhite
 HotTrack.TextColor=clBlack
 Pushed.Body=0
 Pushed.Borders=0
@@ -248,13 +256,15 @@ CheckedAndHotTrack.TextColor=clBlack
 
 [TrackBar]
 Normal.Body=0, clCaptionText
-Normal.Borders=0, clBtnShadow, clCaptionText
+Normal.Borders=0, clBlack, clCaptionText
 HotTrack.Body=0, clCaptionText
-HotTrack.Borders=0, clBtnShadow, clCaptionText
+HotTrack.Borders=0, clBlack, clCaptionText
 
 [TrackBarButton]
-Normal.Body=0, clScrollBar
-Normal.Borders=0, clCaptionText, clWindowText, $00D4D4D4, $00ADADAD
-Pushed.Body=0, clScrollBar, clWhite
-Pushed.Borders=0, clHighlight, clHighlight
+Normal.Body=0, clWhite
+Normal.Borders=0, clCaptionText, clWindowText
+HotTrack.Body=0
+HotTrack.Borders=0, clWhite
+Pushed.Body=0, clBlack, clWhite
+Pushed.Borders=0, clWhite, clWhite
 

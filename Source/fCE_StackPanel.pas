@@ -368,6 +368,11 @@ begin
           stack.StackPath:= StackDirPath + dlg.combo.Text + '.stk';
           stack.StackName:= dlg.combo.Text;
         end;
+
+        // Create stack dir if it doesn't exist
+        if not WideDirectoryExists(StackDirPath) then
+        WideCreateDir(StackDirPath);
+
         StackTree.SaveToStack(stack);
         stack.SaveToFile(stack.StackPath);
         StackTree.ActiveStack:= stack;
