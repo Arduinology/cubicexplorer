@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1367\n"
+"CE-POT-Version: 1377\n"
 "CE-Language: German\n"
 "Last-Translator: nefycee <(contact only via CE-support-forum)>\n"
 
@@ -373,6 +373,9 @@ msgstr "Einstellungen der Ansicht"
 
 msgid "Do you want to override existing session?"
 msgstr "Wollen sie die existierende Sitzung überschreiben?"
+
+msgid "Do you want to override existing stack?"
+msgstr "Soll die existierende Ablage überschrieben werden?"
 
 msgid "Do you want to reset all hotkeys for this action?"
 msgstr "Wollen sie für diese Aktion die Standard Hotkeys wiederherstellen?"
@@ -797,6 +800,9 @@ msgstr "Öffne beinhaltenden Ordner"
 msgid "Open default tab"
 msgstr "Standard Tab öffnen"
 
+msgid "Open in new tab"
+msgstr "In neuem Tab öffnen"
+
 msgid "Open in new tab by default"
 msgstr "Standardmäßig in neuem Tab öffnen"
 
@@ -829,6 +835,9 @@ msgstr "Überschreiben"
 
 msgid "Override existing session?"
 msgstr "Existierende Sitzung überschreiben?"
+
+msgid "Override existing stack?"
+msgstr "Existierende Ablage überschreiben?"
 
 msgid "Panels"
 msgstr "Panele"
@@ -1012,6 +1021,9 @@ msgstr "Zwischenraum"
 
 msgid "Separators"
 msgstr "Zwischenräume"
+
+msgid "Session"
+msgstr "Sitzung"
 
 msgid "Session Name"
 msgstr "Sitzungsname"

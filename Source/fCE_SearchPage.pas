@@ -727,7 +727,10 @@ procedure TCESearchPage.SelectPage;
 begin
   GlobalPathCtrl.ActivePage:= Self;
   CEFileSearchSettings.AssignColumnSettingsTo(ResultView);
-  edit_wordphrase.SetFocus;  
+  try
+    edit_wordphrase.SetFocus;
+  except
+  end;
 end;
 
 {-------------------------------------------------------------------------------
