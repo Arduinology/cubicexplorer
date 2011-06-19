@@ -102,6 +102,8 @@ type
     Boolean = true): Boolean;
   function FileOrFolderExists(APath: WideString): Boolean;
 
+function IsEmptyFolder(ANamespace: TNamespace): Boolean;
+
 implementation
 
 {-------------------------------------------------------------------------------
@@ -540,6 +542,24 @@ begin
   Result:= WideFindFirst(APath, faAnyFile or faDirectory, sr) = 0;
   if Result then
   WideFindClose(sr);
+end;
+
+{-------------------------------------------------------------------------------
+  IsEmptyFolder
+-------------------------------------------------------------------------------}
+function IsEmptyFolder(ANamespace: TNamespace): Boolean;
+const
+  SHCONTF_INCLUDESUPERHIDDEN = $10000;
+  SHCONTF_CHECKING_FOR_CHILDREN = $10;
+begin
+  if assigned(ANamespace) then
+  Result:= not ANamespace.SubItemsEx(SHCONTF_INCLUDEHIDDEN or
+                                     SHCONTF_NONFOLDERS or
+                                     SHCONTF_FOLDERS or
+                                     SHCONTF_INCLUDESUPERHIDDEN or
+                                     SHCONTF_CHECKING_FOR_CHILDREN)
+  else
+  Result:= true;
 end;
 
 end.

@@ -258,7 +258,7 @@ procedure StringToColSettings(AString: String; var ColSettings: TCEColSettings);
 implementation
 
 uses
-  CE_GlobalCtrl, CE_Utils, dCE_Actions, Main;
+  CE_GlobalCtrl, CE_Utils, dCE_Actions, Main, CE_FileUtils;
 
 {##############################################################################}
 
@@ -358,6 +358,8 @@ begin
   fSingleClickBrowse:= false;
   fSingleClickExecute:= false;
   fArrowBrowse:= true;
+
+  Self.BackGround.CaptionShowOnlyWhenEmpty:= false;
 end;
 
 {-------------------------------------------------------------------------------
@@ -558,6 +560,20 @@ begin
     fCellWidth:= 0;
   end;
 
+  // Show Empty Folder text
+  if Self.Groups.ItemCount = 0 then
+  begin
+    if IsEmptyFolder(Self.RootFolderNamespace) then
+    self.BackGround.Caption:= _('Empty folder')
+    else
+    self.BackGround.Caption:= _('Contains hidden items');
+    Self.BackGround.CaptionShow:= true;
+  end
+  else
+  begin
+    Self.BackGround.CaptionShow:= false;
+  end;
+
   inherited;
 end;
 
@@ -672,6 +688,8 @@ procedure TCEFileView.DoRootChanging(const NewRoot: TRootFolder; Namespace:
 begin
   inherited;
   SetNotifyFolder(Namespace);
+  Self.BackGround.Caption:= _('Opening...');
+  Self.BackGround.CaptionShow:= true;
 end;
 
 {-------------------------------------------------------------------------------

@@ -1,12 +1,24 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.1\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1079\n"
+"CE-POT-Version: 1377\n"
 "CE-Language: Swedish\n"
-"Last-Translator: Tomas S <fomhor@hotmail.com>\n"
+"Last-Translator: Åke Engelbrektson <eson57@gmail.com>\n"
+"Project-Id-Version: 1\n"
+
+msgid "%d folder(s) searched and %d item(s) found in %.3f second(s)"
+msgstr "%d mapp(ar) genomsökta, och %d objekt hittade på %.3f sekund(er)"
+
+msgid "..."
+msgstr "..."
+
+msgid "A long time ago"
+msgstr "För länge sedan"
+
+msgid "A month ago"
+msgstr "En månad sedan"
 
 msgid "About CubicExplorer"
 msgstr "Om CubicExplorer"
@@ -14,101 +26,251 @@ msgstr "Om CubicExplorer"
 msgid "About..."
 msgstr "Om..."
 
+msgid "Accessed"
+msgstr "Senast använd"
+
 msgid "Actions"
-msgstr "Handlingar"
+msgstr "Åtgärder"
+
+msgid "Actual"
+msgstr "Aktuella"
+
+msgid "Add"
+msgstr "Lägg till"
 
 msgid "Add Bookmark"
-msgstr "Nytt bokmärke"
+msgstr "Lägg till favorit"
 
 msgid "Add Category"
-msgstr "Ny kategori"
+msgstr "Lägg till kategori"
+
+msgid "Add History Item"
+msgstr "Lägg till historikobjekt"
+
+msgid "Add Session"
+msgstr "Lägg till session"
 
 msgid "Add Tab"
 msgstr "Ny flik"
 
 msgid "Address Bar"
-msgstr "Adress fält"
+msgstr "Adressfält"
+
+msgid "Advanced"
+msgstr "Avancerat"
+
+msgid "Advanced Settings"
+msgstr "Avancerade inställningar"
+
+msgid "After Date:"
+msgstr "Efter datum:"
+
+msgid "After Time:"
+msgstr "Efter tid:"
+
+msgid "All"
+msgstr "Alla"
+
+msgid "Allow Move"
+msgstr "Tillåt flytt"
 
 msgid "Always On Top"
-msgstr "Alltid ovanpå"
+msgstr "Alltid överst"
 
 msgid "Always Show Sort Columns"
-msgstr "Visa alltid sorterade kolumner"
+msgstr "Visa alltid Sortera kolumner"
+
+msgid "Always sort folders first."
+msgstr "Sortera mappar först."
 
 msgid "And Launch Files"
-msgstr "Och kör filer"
+msgstr "Och starta filer"
 
 msgid "Application Revision:"
-msgstr "Version"
+msgstr "Programrevision:"
 
 msgid "Apply"
 msgstr "Verkställ"
 
+msgid "Apply Changes"
+msgstr "Verkställ"
+
+msgid "Apply changes now?"
+msgstr "Vill du verkställa ändringar nu?"
+
 msgid "Apply changes."
-msgstr "Bekräfta ändringar"
+msgstr "Verkställ"
+
+msgid "Are you sure you want to clear session history?"
+msgstr "Vill du verkligen tömma sessionshistoriken?"
+
+msgid "Are you sure you want to clear the list?"
+msgstr "Vill du verkligen rensa listan?"
+
+msgid "Are you sure you want to delete selected bookmarks?"
+msgstr "Vill du verkligen ta bort markerade favoriter?"
+
+msgid "Are you sure you want to delete this session?"
+msgstr "Vill du verkligen ta bort den här sessionen?"
 
 msgid "Arrange By"
 msgstr "Sortera efter"
 
+msgid "At Least:"
+msgstr "Minst:"
+
+msgid "At Most:"
+msgstr "Mest:"
+
 msgid "Attributes"
 msgstr "Attribut"
+
+msgid "Author"
+msgstr "Författare"
 
 msgid "Auto"
 msgstr "Auto"
 
+msgid "Auto Save History"
+msgstr "Spara historik automatiskt"
+
 msgid "Auto collapse tree"
-msgstr "Auto-kollapsa träd"
+msgstr "Fäll ihop mappträd automatiskt"
 
 msgid "Auto expand tree"
-msgstr "Auto-expandera träd"
+msgstr "Expandera mappträd automatiskt"
+
+msgid "Auto fit tabs"
+msgstr "Anpassa flikar automatiskt"
+
+msgid "Auto size cells in list view style."
+msgstr "Automatisk cellstorlek i listvyn."
 
 msgid "Automatic"
 msgstr "Automatisk"
 
 msgid "Back"
-msgstr "Tillbaka"
+msgstr "Bakåt"
 
 msgid "Backward"
 msgstr "Bakåt"
 
+msgid "Before Date:"
+msgstr "Före datum:"
+
+msgid "Before Time:"
+msgstr "Före tid:"
+
 msgid "Bookmarks"
-msgstr "Bokmärken"
+msgstr "Favoriter"
 
 msgid "Bookmarks Panel Settings"
-msgstr "Bokmärkespanelens inställningar"
+msgstr "Favoritinställningar"
+
+msgid "Borders"
+msgstr "Gränser"
 
 msgid "Bottom"
-msgstr "Nedre"
+msgstr "Botten"
 
 msgid "Breadcrumb Navigation"
-msgstr "Brödsmule navigation"
+msgstr "Sökvägsnavigering"
 
 msgid "Browse..."
-msgstr "Kika..."
+msgstr "Bläddra..."
+
+msgid "Buttons"
+msgstr "Knappar"
 
 msgid "Bytes"
-msgstr "Bytes"
+msgstr "Byte"
 
 msgid "Cancel"
 msgstr "Avbryt"
 
+msgid "Cancelled"
+msgstr "Avbruten"
+
+msgid "Case Sensitive"
+msgstr "Skiftlägeskänslig"
+
 msgid "Case sensitivity"
-msgstr "Bokstavsstil känslig"
+msgstr "Skiftlägeskänslig"
+
+msgid "Change order by dragging"
+msgstr "Ordna genom att dra && släppa"
+
+msgid "Clear Filters"
+msgstr "Ta bort filter"
+
+msgid "Clear History"
+msgstr "Ta bort historik"
 
 msgid "Clear List"
 msgstr "Rensa lista"
 
+msgid "Clear Results"
+msgstr "Ta bort resultat"
+
+msgid "Clear Stack"
+msgstr "Ta bort Stack"
+
+msgid "Clear filter history"
+msgstr "Ta bort filterhistorik"
+
+msgid "Clear filters on folder change"
+msgstr "Ta bort filter vid mappändring"
+
+msgid "Clear session history?"
+msgstr "Vill du ta bort sessionshistorik?"
+
 msgid "Close"
 msgstr "Stäng"
 
+msgid "Close Other Tabs"
+msgstr "Stäng alla andra flikar"
+
 msgid "Close Tab"
 msgstr "Stäng flik"
+
+msgid "Close Tabs on Left"
+msgstr "Stäng flikar till vänster"
+
+msgid "Close Tabs on Right"
+msgstr "Stäng flikar till höger"
+
+msgid "Close tab on double click"
+msgstr "Stäng flik med dubbelklick"
+
+msgid "Close to tray"
+msgstr "Stäng till meddelandefältet"
+
+msgid "Column Settings"
+msgstr "Kolumninställningar"
+
+msgid "Compressed"
+msgstr "Komprimerad"
+
+msgid "Confirm"
+msgstr "Bekräfta"
+
+msgid "Connection error!"
+msgstr "Anslutningsfel!"
+
+msgid "Contact File"
+msgstr "Kontaktfil"
+
+msgid "Content"
+msgstr "Innehåll"
+
+msgid "Continue from last time"
+msgstr "Fortsätt från föregående session"
 
 msgid "Copy"
 msgstr "Kopiera"
 
 msgid "Copy Path"
-msgstr "Kopiera filväg"
+msgstr "Kopiera sökväg"
 
 msgid "Copy of active tab"
 msgstr "Kopia av aktiv flik"
@@ -119,8 +281,14 @@ msgstr "Skapa"
 msgid "Create New Translation"
 msgstr "Skapa ny översättning"
 
+msgid "Create Symbolic Link"
+msgstr "Skapa symbolisk länk"
+
 msgid "Create new translation."
 msgstr "Skapa ny översättning."
+
+msgid "Created"
+msgstr "Skapad"
 
 msgid "CubicExplore Home Page"
 msgstr "CubicExplorers hemsida"
@@ -129,34 +297,43 @@ msgid "CubicExplorer Options"
 msgstr "CubicExplorer Inställningar"
 
 msgid "Custom..."
-msgstr "Förändring..."
+msgstr "Anpassa..."
 
 msgid "Customize"
-msgstr "Förändra"
+msgstr "Anpassa"
 
 msgid "Customizer..."
-msgstr "Förändraren"
+msgstr "Anpassa..."
 
 msgid "Cut"
-msgstr "Klipp"
+msgstr "Klipp ut"
+
+msgid "Date && Time"
+msgstr "Datum && Tid"
 
 msgid "Date Accessed"
-msgstr "Körd den"
+msgstr "Senast använd"
 
 msgid "Date Created"
-msgstr "Skapad den"
+msgstr "Skapad"
 
 msgid "Date Modified"
-msgstr "Modifierad den"
+msgstr "Ändrad den"
 
 msgid "Default"
 msgstr "Standard"
+
+msgid "Default hotkeys become available after restart!"
+msgstr "Standard-snabbtangenter aktiveras efter omstart!"
 
 msgid "Delete"
 msgstr "Ta bort"
 
 msgid "Delete active session."
-msgstr "Ta bort aktiv körning."
+msgstr "Ta bort aktiv session."
+
+msgid "Deleting multiple bookmarks!"
+msgstr "Tar bort favoriter!"
 
 msgid "Desktop"
 msgstr "Skrivbord"
@@ -168,61 +345,136 @@ msgid "Direction"
 msgstr "Riktning"
 
 msgid "Disconnect Network Drive..."
-msgstr "Koppla ifrån nätverksdisk"
+msgstr "Koppla ifrån nätverksenhet..."
+
+msgid "Disk Usage"
+msgstr "Diskanvändning"
 
 msgid "Display"
-msgstr "Skärm"
+msgstr "Fönster"
+
+msgid "Display Mode"
+msgstr "Visningsläge"
 
 msgid "Display Settings"
-msgstr "Skärm inställningar"
+msgstr "Fönsterinställningar"
+
+msgid "Do you want to override existing session?"
+msgstr "Vill du åsidosätta aktuell session?"
+
+msgid "Do you want to override existing stack?"
+msgstr "Vill du åsidosätta aktuell stack?"
+
+msgid "Do you want to reset all hotkeys for this action?"
+msgstr "Vill du återställa alla snabbtangenter för den här åtgärden?"
+
+msgid "Do you want to use it anyway?"
+msgstr "Vill du använda den i alla fall?"
+
+msgid "Donate"
+msgstr "Donera"
+
+msgid "Down"
+msgstr "Ner"
+
+msgid "Drag Handle"
+msgstr "Dra && Släpp"
+
+msgid "Drag and Drop to reorder the columns. "
+msgstr "Dra && släpp för att orda kolumner."
+
+msgid "Drag buttons to/from toolbars"
+msgstr "Dra knappar till/från verktygsfält"
 
 msgid "Drives"
-msgstr "Diskar"
+msgstr "Enheter"
 
 msgid "Drop Stack"
-msgstr "Töm stack"
+msgstr "Släpp stacken"
 
 msgid "Duplicate"
 msgstr "Klona"
 
+msgid "Duplicate Hotkey"
+msgstr "Klona snabbtangent"
+
 msgid "Duplicate Tab"
 msgstr "Klona flik"
 
+msgid "Duplicate name"
+msgstr "Klona namn"
+
+msgid "Dynamic Spacer"
+msgstr "Dynamiskt mellanrum"
+
+msgid "Earlier this year"
+msgstr "Tidigare i år"
+
 msgid "Edit"
-msgstr "Behandla"
+msgstr "Redigera"
 
 msgid "Edit Session"
-msgstr "Behandla körning"
+msgstr "Redigera session"
 
 msgid "Edit session properties."
-msgstr "Behandla körnings-inställningar"
+msgstr "Redigera sessionsegenskaper"
 
 msgid "Editor Options..."
-msgstr "Behandlar-inställningar"
+msgstr "Redigeringsalternativ"
 
 msgid "Empty Recycle Bin"
-msgstr "Töm skräpkorg"
+msgstr "Töm Papperskorgen"
+
+msgid "Empty Stack"
+msgstr "Töm stack"
+
+msgid "Empty folder"
+msgstr "Töm mapp"
+
+msgid "Enable Auto Save"
+msgstr "Aktivera auto-spara"
 
 msgid "English (default)"
 msgstr "Engelska (standard)"
 
+msgid "Enter each file mask on a separate line."
+msgstr "Separera varje filfilter med radbyte"
+
+msgid "Exclude File Masks:"
+msgstr "Undanta filfilter:"
+
 msgid "Exit"
-msgstr "Stäng"
+msgstr "Avsluta"
+
+msgid "Exit program when last tab is closed"
+msgstr "Avsluta programmet när sista fliken stängs"
+
+msgid "Explorer"
+msgstr "Explorer"
 
 msgid "File"
-msgstr "Fil"
+msgstr "Arkiv"
+
+msgid "File Contains:"
+msgstr "Filinnehåll:"
+
+msgid "File Name Mask"
+msgstr "Filnamnsfilter"
 
 msgid "File Search"
-msgstr "Sök fil"
+msgstr "Sök"
+
+msgid "File size format:"
+msgstr "Filstorleksformat:"
 
 msgid "Fileview"
-msgstr "Filvisning"
+msgstr "Visning"
 
 msgid "Fileview Settings"
-msgstr "Filvisnings-inställningar"
+msgstr "Visningsinställningar"
 
 msgid "Filmstrip"
-msgstr "Filmruta"
+msgstr "Filmsekvens"
 
 msgid "Filters"
 msgstr "Filter"
@@ -231,73 +483,151 @@ msgid "Find Next"
 msgstr "Sök nästa"
 
 msgid "Find Previous"
-msgstr "Sök förra"
+msgstr "Sök föregående"
+
+msgid "Finished"
+msgstr "Slutförd"
+
+msgid "Five months ago"
+msgstr "Fem månader sedan"
+
+msgid "Fixed Spacer"
+msgstr "Statiskt mellanrum"
+
+msgid "Focus"
+msgstr "Fokus"
+
+msgid "Folder"
+msgstr "Mapp"
 
 msgid "Folder Path"
-msgstr "Mapp väg"
+msgstr "Mappsökväg"
 
 msgid "Folder Up"
-msgstr "Mapp uppåt"
+msgstr "Upp en nivå"
 
 msgid "Folders"
 msgstr "Mappar"
 
 msgid "Folders Panel Settings"
-msgstr "Mapp-panels inställningar"
+msgstr "Mappinställningar"
 
 msgid "Format"
-msgstr "Formatera"
+msgstr "Format"
 
 msgid "Forward"
 msgstr "Framåt"
 
+msgid "Four months ago"
+msgstr "Fyra månader sedan"
+
+msgid "Full expand on stack load"
+msgstr "Expandera alla vid inläsning"
+
 msgid "Fullscreen"
 msgstr "Helskärm"
 
+msgid "GB"
+msgstr "GB"
+
 msgid "General"
-msgstr "Allmän"
+msgstr "Allmänt"
 
 msgid "General Settings"
 msgstr "Allmänna inställningar"
 
+msgid "Gigantic"
+msgstr "Gigantisk"
+
+msgid "Global"
+msgstr "Övergripande"
+
+msgid "Global Hotkey Settings"
+msgstr "Övergripande snabbtangentinställningar"
+
+msgid "Group"
+msgstr "Grupp"
+
 msgid "Group By"
-msgstr "Gruppera"
+msgstr "Gruppera efter"
 
 msgid "Help"
 msgstr "Hjälp"
 
 msgid "Hex"
-msgstr ""
+msgstr "Hex"
+
+msgid "Hidden"
+msgstr "Dold"
 
 msgid "Highlight row completely"
 msgstr "Markera hela raden"
 
 msgid "Highlighter"
-msgstr "Markeraren"
+msgstr "Markör"
+
+msgid "History"
+msgstr "Historik"
+
+msgid "Hotkey Settings"
+msgstr "Snabbtangentinställningar"
+
+msgid "Hotkeys"
+msgstr "Snabbtangenter"
+
+msgid "Icon above text"
+msgstr "Ikon över text"
+
+msgid "Icon only"
+msgstr "Endast ikon"
+
+msgid "If not, all changes will be lost."
+msgstr "Om inte, kommer alla ändringar att förloras."
 
 msgid "Image"
 msgstr "Bild"
 
+msgid "Include File Masks:"
+msgstr "Inkludera filfilter:"
+
+msgid "Include Subfolders"
+msgstr "Inkludera undermappar"
+
+msgid "Info Bar"
+msgstr "Info-fält"
+
 msgid "Insert"
-msgstr "Klistra in"
+msgstr "Infoga"
 
 msgid "Invert Selection"
-msgstr "Invertera val"
+msgstr "Invertera markering"
+
+msgid "Item(s)"
+msgstr "Objekt"
 
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 msgid "Language"
 msgstr "Språk"
 
 msgid "Language Editor"
-msgstr "Språk editeraren"
+msgstr "Språkredigerare"
+
+msgid "Large"
+msgstr "Stor"
 
 msgid "Large Icons"
 msgstr "Stora ikoner"
 
+msgid "Last hour"
+msgstr "Senaste timmen"
+
+msgid "Last twenty-four hours"
+msgstr "Senaste 24 timmarna"
+
 msgid "Launch Files Only"
-msgstr "Kör enbart filerna"
+msgstr "Starta endast filer"
 
 msgid "Layouts"
 msgstr "Layouter"
@@ -305,89 +635,176 @@ msgstr "Layouter"
 msgid "Left"
 msgstr "Vänster"
 
+msgid "Link Name"
+msgstr "Länknamn"
+
 msgid "List"
 msgstr "Lista"
 
+msgid "Live Update"
+msgstr "Live-uppdatering"
+
 msgid "Load Skin..."
-msgstr "Ladda Skin..."
+msgstr "Hämta tema..."
+
+msgid "Load session"
+msgstr "Läs in session"
 
 msgid "Load skin from file"
-msgstr "Ladda Skin från fil"
+msgstr "Hämta tema från fil"
+
+msgid "Load theme from file"
+msgstr "Läs in tema från fil"
+
+msgid "Load theme from file..."
+msgstr "Läs in tema från fil..."
 
 msgid "Load this session on startup."
-msgstr "Ladda denna session vid start."
+msgstr "Läs in denna session vid uppstart."
 
 msgid "Loading..."
-msgstr "Laddar"
+msgstr "Läser in..."
+
+msgid "Location"
+msgstr "Plats"
 
 msgid "MB"
-msgstr ""
+msgstr "MB"
+
+msgid "Main Menu"
+msgstr "Huvudmeny"
+
+msgid "Manage Sessions"
+msgstr "Hantera sessioner"
+
+msgid "Manage..."
+msgstr "Hantera..."
 
 msgid "Map Network Drive..."
-msgstr "Kartlägg nätverksdisk..."
+msgstr "Anslut nätverksenhet..."
+
+msgid "Max Level:"
+msgstr "Max-nivå:"
+
+msgid "Medium"
+msgstr "Medium"
+
+msgid "Menu"
+msgstr "Meny"
+
+msgid "Min Level:"
+msgstr "Min-nivå:"
+
+msgid "Minimize to tray"
+msgstr "Minimera till meddelandefältet"
 
 msgid "Modified"
-msgstr "Modifierad"
+msgstr "Senast ändrad"
+
+msgid "Modify Hotkey"
+msgstr "Redigera snabbtangent"
 
 msgid "More..."
-msgstr "Mer.."
+msgstr "Mer..."
 
 msgid "Name"
 msgstr "Namn"
 
+msgid "Name && Location"
+msgstr "Namn && Plats"
+
 msgid "Name Only"
-msgstr "Namn enbart"
+msgstr "Endast namn"
 
 msgid "Navigation"
 msgstr "Navigering"
 
 msgid "New"
-msgstr "Ny"
+msgstr "Nytt"
+
+msgid "New Category"
+msgstr "Ny kategori"
 
 msgid "New Folder"
-msgstr "Ny mapp"
+msgstr "Mapp"
 
 msgid "New Session"
-msgstr "Ny körning"
+msgstr "Ny session"
+
+msgid "New Shortcut"
+msgstr "Genväg"
 
 msgid "No Extension"
-msgstr "Ingen ändelse"
+msgstr "Ingen filändelse"
+
+msgid "No Selection"
+msgstr "Inget valt"
 
 msgid "No file loaded."
-msgstr "Filen ej laddad."
+msgstr "Ingen fil inläst."
 
 msgid "None"
 msgstr "Ingen"
 
 msgid "OK"
-msgstr ""
+msgstr "OK"
+
+msgid "On Startup"
+msgstr "Vid uppstart"
+
+msgid "Open"
+msgstr "Öppna"
 
 msgid "Open All in Tabs"
-msgstr "Öppna alla i flikar"
+msgstr "Öppna allt i flikar"
 
 msgid "Open Command Prompt"
-msgstr "Öpnna prompt"
+msgstr "Starta kommandotolken"
+
+msgid "Open Containing Folder"
+msgstr "Öppna målmapp"
+
+msgid "Open default tab"
+msgstr "Öppna standardflik"
+
+msgid "Open in new tab"
+msgstr "Öppna i ny flik"
 
 msgid "Open in new tab by default"
 msgstr "Öppna i ny flik som standard"
 
+msgid "Open last used"
+msgstr "Öppna senast använd"
+
 msgid "Open new tab as"
 msgstr "Öppna ny flik som"
+
+msgid "Open new tab next to current"
+msgstr "Öpna ny flik intill aktuell"
+
+msgid "Open selected"
+msgstr "Öppna markerad"
 
 msgid "Open..."
 msgstr "Öppna..."
 
 msgid "Options"
-msgstr "Inställningar"
+msgstr "Alternativ"
 
 msgid "Options..."
-msgstr "Inställningar..."
+msgstr "Alternativ..."
 
 msgid "Original"
 msgstr "Ursprunglig"
 
 msgid "Override"
-msgstr "Överkör"
+msgstr "Åsidosätt"
+
+msgid "Override existing session?"
+msgstr "Vill du åsidosätta aktuell session?"
+
+msgid "Override existing stack?"
+msgstr "Vill du åsidosätta aktuell stack?"
 
 msgid "Panels"
 msgstr "Paneler"
@@ -399,10 +816,13 @@ msgid "Paste Shortcut"
 msgstr "Klistra in genväg"
 
 msgid "Path"
-msgstr "Filväg"
+msgstr "Sökväg"
 
 msgid "Pause"
 msgstr "Paus"
+
+msgid "Please choose different hotkey."
+msgstr "Välj en annan snabbtangent"
 
 msgid "Properties"
 msgstr "Egenskaper"
@@ -413,38 +833,56 @@ msgstr "Egenskaper..."
 msgid "Publish Translation"
 msgstr "Publicera översättning"
 
+msgid "QuickView"
+msgstr "Förhandsgranskning"
+
 msgid "Quickview"
-msgstr "Snabbtitt"
+msgstr "Förhandsgranskning"
+
+msgid "Read Only"
+msgstr "Skrivskyddad"
 
 msgid "Redo"
-msgstr "Gör om"
+msgstr "Upprepa"
 
 msgid "Refresh"
 msgstr "Uppdatera"
 
 msgid "Regular expression"
-msgstr "Vanligt uttryck"
+msgstr "Regular expression"
 
 msgid "Relative"
-msgstr "Relativt"
+msgstr "Relativ"
 
 msgid "Reload"
-msgstr "Ladda om"
+msgstr "Uppdatera"
 
 msgid "Remember Tabs"
 msgstr "Kom ihåg flikar"
 
+msgid "Remove from Stack"
+msgstr "Ta bort från stacken"
+
+msgid "Removing all items from Stack!"
+msgstr "Ta bort alla poster från stacken!"
+
 msgid "Rename"
-msgstr "Döp om"
+msgstr "Byt namn"
 
 msgid "Replace"
 msgstr "Ersätt"
 
 msgid "Replace All"
-msgstr "ersätt alla"
+msgstr "Ersätt alla"
+
+msgid "Reset hotkeys?"
+msgstr "Vill du återställa snabbtangenter?"
+
+msgid "Reset to default"
+msgstr "Återställ till standard"
 
 msgid "Reuse already open tabs"
-msgstr "Återanvänd redan öppna flikar"
+msgstr "Återanvänd öppna flikar"
 
 msgid "Right"
 msgstr "Höger"
@@ -455,41 +893,50 @@ msgstr "Spara"
 msgid "Save As..."
 msgstr "Spara som..."
 
+msgid "Save Session"
+msgstr "Spara session"
+
+msgid "Save Stack"
+msgstr "Spara stack"
+
 msgid "Save active session with new name."
-msgstr "Spara aktiv körning med nytt namn."
+msgstr "Spara aktiv session med nytt namn."
 
 msgid "Save active session."
-msgstr "Spara aktiv körning."
+msgstr "Spara aktiv session."
 
 msgid "Save changes before closing?"
-msgstr "Spara ändringar innan avslut?"
+msgstr "Vill du spara ändringar innan avslut?"
 
 msgid "Save changes."
 msgstr "Spara ändringar."
 
 msgid "Save changes?"
-msgstr "Spara ändringar?"
+msgstr "Vill du spara ändringar?"
 
 msgid "Save settings automatically."
 msgstr "Spara inställningar automatiskt."
 
+msgid "Save..."
+msgstr "Spara..."
+
 msgid "Save/Load Settings"
-msgstr "Spara/Ladda inställningar"
+msgstr "Spara/Läs in inställningar"
 
 msgid "Scroll Left"
-msgstr "Rulla åt vänster"
+msgstr "Scrolla åt vänster"
 
 msgid "Scroll Right"
-msgstr "Rulla åt höger"
+msgstr "Scrolla åt höger"
 
 msgid "Search"
 msgstr "Sök"
 
 msgid "Search File Mask"
-msgstr "Filsöknings mask"
+msgstr "Filsökningsfilter"
 
 msgid "Search Word or Phrase in File Name"
-msgstr "Sök efter ord eller fras i filnamn"
+msgstr "Sök ord eller fras i filnamn"
 
 msgid "Search and Replace"
 msgstr "Sök och ersätt"
@@ -500,89 +947,161 @@ msgstr "Sök från markören"
 msgid "Search in Directory"
 msgstr "Sök i mapp"
 
+msgid "Searching from"
+msgstr "Söker från"
+
 msgid "Select All"
-msgstr "Välj allt"
+msgstr "Markera alla"
+
+msgid "Select Session"
+msgstr "Välj session"
 
 msgid "Select default folder for new tabs."
-msgstr "Välj standardmapp för nya flikar"
+msgstr "Välj standardmapp för ny flik."
+
+msgid "Select existing translation or create new."
+msgstr "Välj en befintlig översättning eller skapa en ny"
+
+msgid "Select first item automatically"
+msgstr "Markera första posten automatiskt"
 
 msgid "Select previous folder"
 msgstr "Välj föregående mapp"
 
+msgid "Select target folder"
+msgstr "Välj målmapp"
+
 msgid "Selected"
-msgstr "Vald(a)"
+msgstr "Markerad(e)"
 
 msgid "Selected text only"
-msgstr "Vald text enbart"
+msgstr "Endast markerad text"
 
 msgid "Separator"
-msgstr ""
+msgstr "Separator"
+
+msgid "Separators"
+msgstr "Separatorer"
+
+msgid "Session"
+msgstr "Session"
 
 msgid "Session Name"
-msgstr "Körnings-namn"
+msgstr "Sessionsnamn"
+
+msgid "Session at"
+msgstr "Session den"
 
 msgid "Sessions"
-msgstr "Körningar"
+msgstr "Sessioner"
+
+msgid "Set focus to address bar"
+msgstr "Sätt fokus på adressfältet"
 
 msgid "Short Folder Path"
-msgstr "Kort mappväg"
+msgstr "Kort mappsökväg"
 
 msgid "Short Name Only"
-msgstr "Kort namn enbart"
+msgstr "Endast nam"
 
 msgid "Short Path"
-msgstr "Kort filväg"
+msgstr "Kort sökväg"
+
+msgid "Shortcut"
+msgstr "Genväg"
+
+msgid "Show"
+msgstr "Visa"
 
 msgid "Show All Files"
 msgstr "Visa alla filer"
 
 msgid "Show Extensions"
-msgstr "Visa fil-ändelser"
+msgstr "Visa filändelser"
 
 msgid "Show Folders"
 msgstr "Visa mappar"
 
 msgid "Show Hidden Files"
-msgstr "Visa gömda filer"
+msgstr "Visa dolda filer"
 
 msgid "Show Hints"
-msgstr "Visa hjälp"
+msgstr "Visa tips"
+
+msgid "Show InfoTips"
+msgstr "Visa info-tips"
 
 msgid "Show Path in Title bar"
-msgstr "Visa filväg i titelraden"
+msgstr "Visa sökväg i titelfältet"
+
+msgid "Show Session Manager"
+msgstr "Visa Sessionshanteraren"
 
 msgid "Show Statusbar"
-msgstr "Visa statusraden"
+msgstr "Visa statusfältet"
 
 msgid "Show Toolbar"
-msgstr "Visa verktygsraden"
+msgstr "Visa verktygsfältet"
 
 msgid "Show in Groups"
-msgstr "Visa i gruppering"
+msgstr "Visa i grupper"
+
+msgid "Show more tabs"
+msgstr "Visa fler flikar"
+
+msgid "Show/Hide"
+msgstr "Visa/Dölj"
 
 msgid "Single Instance Only"
-msgstr "Enbart en instans"
+msgstr "Tillåt endast en instans"
+
+msgid "Single click browsing"
+msgstr "Navigera med enkelklick"
 
 msgid "Single click mode"
-msgstr "Enkelklicks läge"
+msgstr "Enkelklickläge"
+
+msgid "Six months ago"
+msgstr "Sex månader sedan"
 
 msgid "Size"
 msgstr "Storlek"
+
+msgid "Size && Attributes"
+msgstr "Storlek && Attribut"
+
+msgid "Small"
+msgstr "Liten"
 
 msgid "Small Icons"
 msgstr "Små ikoner"
 
 msgid "Stack"
-msgstr ""
+msgstr "Stack"
+
+msgid "Stack Name"
+msgstr "Stacknamn"
+
+msgid "Stack Settings"
+msgstr "Stackinställningar"
 
 msgid "Start"
 msgstr "Starta"
 
+msgid "Start minimized to tray"
+msgstr "Starta minimerad"
+
 msgid "Status Bar"
-msgstr "Status rad"
+msgstr "Statusfält"
 
 msgid "Stop"
 msgstr "Stopp"
+
+msgid "Stretch"
+msgstr "Sträck ut"
+
+msgid "Strict"
+msgstr "Strikt"
 
 msgid "Subdirectories"
 msgstr "Undermappar"
@@ -590,41 +1109,80 @@ msgstr "Undermappar"
 msgid "Support Forum"
 msgstr "Hjälpforum"
 
+msgid "Switch to Next Tab"
+msgstr "Växla till nästa flik"
+
 msgid "Switch to a new tab immediately"
 msgstr "Byt till ny flik omedelbart"
+
+msgid "Swith to Previous Tab"
+msgstr "Växla till föregående flik"
+
+msgid "System"
+msgstr "System"
+
+msgid "System Folders"
+msgstr "Systemmappar"
+
+msgid "TB"
+msgstr "TB"
 
 msgid "Tabs"
 msgstr "Flikar"
 
 msgid "Tabs Settings"
-msgstr "Flik inställningar"
+msgstr "Flikinställningar"
 
 msgid "Target"
 msgstr "Mål"
 
+msgid "Target Folder"
+msgstr "Målmapp"
+
 msgid "Text"
 msgstr "Text"
 
+msgid "Text Document"
+msgstr "Textdokument"
+
 msgid "Text Editor"
-msgstr "Text behandlaren"
+msgstr "Textredigerare"
+
+msgid "Text Filter"
+msgstr "Textfilter"
+
+msgid "Text only"
+msgstr "Endast text"
 
 msgid "Theme"
 msgstr "Tema"
 
+msgid "This week"
+msgstr "Denna vecka"
+
+msgid "Three months ago"
+msgstr "Tre månader sedan"
+
+msgid "Three weeks ago"
+msgstr "Tre veckor sedan"
+
 msgid "Thumbnails"
-msgstr "Tummisar"
+msgstr "Miniatyrer"
 
 msgid "Thumbs Position"
-msgstr "Tummis position"
+msgstr "Miniatyrposition"
 
 msgid "Thumbs View Style"
-msgstr "Tummis stil"
+msgstr "Miniatyrvisning"
 
 msgid "Tiles"
 msgstr "Sammanfattning"
 
+msgid "Tiny"
+msgstr "Mini"
+
 msgid "Toolbars"
-msgstr "Verktygsrader"
+msgstr "Verktygsfält"
 
 msgid "Tools"
 msgstr "Verktyg"
@@ -642,10 +1200,10 @@ msgid "Translation"
 msgstr "Översättning"
 
 msgid "Translation Revision:"
-msgstr "Översättnings revision:"
+msgstr "Översättningsrevision:"
 
 msgid "Translation Version"
-msgstr "Översättnings version"
+msgstr "Översättningsversion"
 
 msgid "Translator's Email"
 msgstr "Översättarens e-post adress"
@@ -654,19 +1212,37 @@ msgid "Translator's Name"
 msgstr "Översättarens namn"
 
 msgid "Transparency"
-msgstr "Genomskinlighet"
+msgstr "Transparens"
+
+msgid "Tray Icon"
+msgstr "Meddelandefältsikon"
+
+msgid "Two months ago"
+msgstr "Två månader sedan"
+
+msgid "Two weeks ago"
+msgstr "Två veckor sedan"
 
 msgid "Type"
-msgstr "Skriv"
+msgstr "Typ"
 
 msgid "Undo"
 msgstr "Ångra"
 
+msgid "Undo Tab Close"
+msgstr "Ångra flikstängning"
+
 msgid "Untitled"
-msgstr "Ej namngiven"
+msgstr "Okänd"
+
+msgid "Up"
+msgstr "Upp"
+
+msgid "Use strict filtering (wildcards are ? and *)"
+msgstr "Använd strikt filtrering (jokertecken är ? och *)"
 
 msgid "Version:"
-msgstr ""
+msgstr "Version:"
 
 msgid "View"
 msgstr "Visa"
@@ -674,15 +1250,51 @@ msgstr "Visa"
 msgid "View Style"
 msgstr "Visningsstil"
 
+msgid "WARNING: Real file operations below"
+msgstr "VARNING! Verkliga filoperationer här under."
+
+msgid "Warning"
+msgstr "Varning"
+
+msgid "Warning: changes are made immediately!"
+msgstr "Varning! Ändringar verkställes omedelbart!"
+
 msgid "When I open folder/file in a new tab, switch to it immediately "
-msgstr "När jag öppnar mappar/filer i en ny flik..."
+msgstr "Byt till ny flik när jag öppnar en ny fil/mapp"
+
+msgid "Whole Word"
+msgstr "Helt ord"
 
 msgid "Whole words only"
-msgstr "Hela ord enbart"
+msgstr "Hela ord"
+
+msgid "Width of the selected column"
+msgstr "Bredd på markerad kolumn"
 
 msgid "Word List"
 msgstr "Ordlista"
 
 msgid "Word Wrap"
-msgstr "Ordbrytning"
+msgstr "Radbrytning"
+
+msgid "Word or Phrase in File Name"
+msgstr "Ord eller fras i filnamn"
+
+msgid "Zero"
+msgstr "Noll"
+
+msgid "already exists. Please choose another name."
+msgstr "finns redan. Välj ett annat namn."
+
+msgid "is already assigned to"
+msgstr "är redan tilldelad"
+
+msgid "is already in use!"
+msgstr "används redan!"
+
+msgid "item"
+msgstr "objekt"
+
+msgid "items"
+msgstr "objekt"
 
