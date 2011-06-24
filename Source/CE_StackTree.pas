@@ -172,7 +172,7 @@ type
 implementation
 
 uses
-  CE_LanguageEngine;
+  CE_LanguageEngine, dCE_Actions;
 
 {##############################################################################}
 
@@ -412,6 +412,9 @@ begin
     DoAutoSaveActiveStack;
     Handled:= true;
   end;
+
+  if not Handled then
+  DoGlobalContextMenuCmd(Self, Namespace, Verb, MenuItemID, Handled);
 end;
 
 {-------------------------------------------------------------------------------
@@ -425,6 +428,8 @@ var
   ws: WideString;
   s: String;
 begin
+  DoGlobalContextMenuShow(Self, Namespace, Menu, Allow);
+  
   // Add "Remove from Stack" item
   if Self.SelectedCount > 1 then
   ws:= _('Remove from Stack') + ' (' + IntToStr(Self.SelectedCount) + ' ' + _('items') + ')'

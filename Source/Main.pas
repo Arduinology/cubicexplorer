@@ -364,7 +364,7 @@ begin
   fUpdatingCount:= fUpdatingCount + 1;
   if fUpdatingCount > 1 then
   Exit;
-  LockWindowUpdate(GetDesktopWindow); // TODO: this should not be used
+  //LockWindowUpdate(GetDesktopWindow); // this should be used for drag operations only!
   SendMessage(MainForm.DockHostForm.Handle, WM_SETREDRAW, 0,0);
   Self.TopToolDock.BeginUpdate;
   Self.RightToolDock.BeginUpdate;
@@ -394,7 +394,7 @@ begin
   Self.BottomToolDock.EndUpdate;
   Self.LeftToolDock.EndUpdate;
   Self.MainToolbar.EndUpdate;
-  LockWindowUpdate(0);
+  //LockWindowUpdate(0);
   SendMessage(MainForm.DockHostForm.Handle, WM_SETREDRAW, 1,0);
   RedrawWindow(MainForm.Handle, nil, 0, RDW_ERASE or RDW_FRAME or RDW_INVALIDATE or RDW_ALLCHILDREN);
 end;

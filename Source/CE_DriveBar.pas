@@ -77,6 +77,10 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    procedure HandleContextMenuCmd(Namespace: TNamespace; Verb: WideString;
+        MenuItemID: Integer;  var Handled: Boolean);
+    procedure HandleContextMenuShow(Namespace: TNamespace; Menu: hMenu; var Allow:
+        Boolean);
     procedure Populate;
   end;
 
@@ -226,9 +230,27 @@ begin
     begin
       shitem:= TCEShellToolbarItem(Item);
       if assigned(shitem.Namespace) then
-      shitem.Namespace.ShowContextMenu(Self,nil,nil,nil);
+      shitem.Namespace.ShowContextMenu(Self, HandleContextMenuCmd, HandleContextMenuShow,nil);
     end;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle ContextMenuCmd
+-------------------------------------------------------------------------------}
+procedure TCEDriveToolbar.HandleContextMenuCmd(Namespace: TNamespace; Verb:
+    WideString; MenuItemID: Integer;  var Handled: Boolean);
+begin
+  DoGlobalContextMenuCmd(Self, Namespace, Verb, MenuItemID, Handled);
+end;
+
+{-------------------------------------------------------------------------------
+  Handle ContextMenuShow
+-------------------------------------------------------------------------------}
+procedure TCEDriveToolbar.HandleContextMenuShow(Namespace: TNamespace; Menu:
+    hMenu; var Allow: Boolean);
+begin
+  DoGlobalContextMenuShow(Self, Namespace, Menu, Allow);
 end;
 
 {*------------------------------------------------------------------------------

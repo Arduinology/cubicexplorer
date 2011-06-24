@@ -22,6 +22,11 @@ inherited CEBookmarkPanel: TCEBookmarkPanel
     OnPopup = BookmarkPopupMenuPopup
     Left = 376
     Top = 84
+    object but_open_new_tab: TSpTBXItem
+      Tag = 11
+      Caption = 'Open in new tab'
+      OnClick = PopupMenuClick
+    end
     object but_openAll: TSpTBXSubmenuItem
       Tag = 5
       Caption = 'Open All in Tabs'

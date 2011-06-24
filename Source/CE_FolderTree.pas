@@ -49,6 +49,10 @@ type
     procedure SetHiddenFiles(const Value: Boolean);
     procedure WMKeyDown(var Message: TWMKeyDown); message WM_KEYDOWN;
   protected
+    function DoContextMenuCmd(Namespace: TNamespace; Verb: WideString; MenuItemID:
+        Integer): Boolean; override;
+    function DoContextMenuShow(Namespace: TNamespace; Menu: hMenu): Boolean;
+        override;
     function DoCreateEditor(Node: PVirtualNode; Column: TColumnIndex): IVTEditLink;
         override;
     procedure DoEnumFolder(const Namespace: TNamespace; var AllowAsChild: Boolean);
@@ -97,6 +101,9 @@ type
 
 implementation
 
+uses
+  dCE_Actions;
+
 {*------------------------------------------------------------------------------
   Create an instance of TCEFolderTree
 -------------------------------------------------------------------------------}
@@ -124,6 +131,30 @@ begin
   Self.DefaultNodeHeight:= SmallShellIconSize + 1;
 end;
 
+{-------------------------------------------------------------------------------
+  Do ContextMenuCmd
+-------------------------------------------------------------------------------}
+function TCEFolderTree.DoContextMenuCmd(Namespace: TNamespace; Verb:
+    WideString; MenuItemID: Integer): Boolean;
+begin
+  Result:= inherited DoContextMenuCmd(Namespace, Verb, MenuItemID);
+  if not Result then
+  DoGlobalContextMenuCmd(Self, Namespace, Verb, MenuItemID, Result);
+end;
+
+{-------------------------------------------------------------------------------
+  Do ContextMenuShow
+-------------------------------------------------------------------------------}
+function TCEFolderTree.DoContextMenuShow(Namespace: TNamespace; Menu: hMenu):
+    Boolean;
+begin
+  Result:= inherited DoContextMenuShow(Namespace, Menu);
+  if Result then
+  begin
+    DoGlobalContextMenuShow(Self, Namespace, Menu, Result);
+  end;
+end;
+
 {*------------------------------------------------------------------------------
   Create custom editor
 -------------------------------------------------------------------------------}
@@ -133,6 +164,9 @@ begin
   Result:= TCE_StringEditLink.Create;
 end;
 
+{-------------------------------------------------------------------------------
+  Do EnumFolder
+-------------------------------------------------------------------------------}
 procedure TCEFolderTree.DoEnumFolder(const Namespace: TNamespace; var
     AllowAsChild: Boolean);
 begin

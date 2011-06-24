@@ -60,6 +60,7 @@ type
     but_refresh: TSpTBXItem;
     SpTBXSeparatorItem3: TSpTBXSeparatorItem;
     but_addSession: TSpTBXItem;
+    but_open_new_tab: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure BookmarkPopupMenuPopup(Sender: TObject);
@@ -217,6 +218,11 @@ begin
     but_openAll.Enabled:= false;
     but_properties.Enabled:= false;
   end;
+
+  if Assigned(BookmarkTree.FocusedNode) then
+  begin
+    but_open_new_tab.Visible:= BookmarkTree.GetNodeComp(BookmarkTree.FocusedNode) is TCENormalItemComp;
+  end;
 end;
 
 {*------------------------------------------------------------------------------
@@ -277,7 +283,15 @@ begin
         end;
       finally
         sessionDlg.Free;
-      end;      
+      end;
+    end;
+    // Open in new tab
+    11: begin
+      if assigned(BookmarkTree.FocusedNode) then
+      begin
+        comp:= BookmarkTree.GetNodeComp(BookmarkTree.FocusedNode);
+        comp.MouseClick([ssMiddle], mbMiddle);
+      end;
     end;
   end;
 end;
@@ -378,6 +392,9 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Do MouseUp
+-------------------------------------------------------------------------------}
 procedure TCEBookmarkPanel.DoMouseUp(Sender: TObject; Button: TMouseButton;
     Shift: TShiftState; X, Y: Integer);
 var

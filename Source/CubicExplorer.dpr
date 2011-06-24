@@ -106,7 +106,6 @@ uses
   CE_Sessions in 'CE_Sessions.pas',
   fCE_OptionsPage_Advanced in 'fCE_OptionsPage_Advanced.pas' {CEOptionsPage_Advanced: TFrame},
   fCE_SessionManager in 'fCE_SessionManager.pas' {CESessionManager},
-  CE_DualView in 'CE_DualView.pas',
   CE_PaneHost in 'CE_PaneHost.pas',
   fCE_SearchPage in 'fCE_SearchPage.pas' {CESearchPage: TFrame},
   CE_InfoBar in 'CE_InfoBar.pas',
@@ -128,7 +127,8 @@ uses
   VirtualExplorerEasyListview in 'Components\Mustangpeak\VSTools\VirtualExplorerEasyListview.pas',
   fCE_OptionsPage_Display_Stack in 'fCE_OptionsPage_Display_Stack.pas' {CE_OptionsPage_Display_Stack: TFrame},
   AppCommand in 'AppCommand.pas',
-  fCE_ItemSelectSaveDlg in 'fCE_ItemSelectSaveDlg.pas' {CEItemSelectSaveDlg};
+  fCE_ItemSelectSaveDlg in 'fCE_ItemSelectSaveDlg.pas' {CEItemSelectSaveDlg},
+  VirtualExplorerTree in 'Components\Mustangpeak\VSTools\VirtualExplorerTree.pas';
 
 {$R *.res}
 {$R 'CE_Resources.res'}

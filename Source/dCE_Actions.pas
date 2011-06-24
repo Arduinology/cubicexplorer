@@ -312,6 +312,12 @@ procedure ExecuteMiscCategory(ActionID: Integer);
 
 procedure UpdateMiscCategory(ActionID: Integer; TargetAction: TTntAction);
 
+procedure DoGlobalContextMenuShow(Sender: TObject; Namespace: TNamespace; Menu:
+    hMenu; var Allow: Boolean);
+
+procedure DoGlobalContextMenuCmd(Sender: TObject; Namespace: TNamespace; Verb:
+    WideString; MenuItemID: Integer; var Handled: Boolean);
+
 var
   CEActions: TCEActions;
 
@@ -1561,6 +1567,69 @@ begin
       Result:= TAction(AActionList.Actions[i]);
       break;
     end;
+  end;
+end;
+
+{##############################################################################}
+// Global context menu items
+
+{-------------------------------------------------------------------------------
+  Do GlobalContextMenuShow
+-------------------------------------------------------------------------------}
+procedure DoGlobalContextMenuShow(Sender: TObject; Namespace: TNamespace; Menu:
+    hMenu; var Allow: Boolean);
+
+var
+  infoA: TMenuItemInfoA;
+  infoW: TMenuItemInfoW;
+  ws: WideString;
+begin
+  // Add "Open in new tab" item
+  if Namespace.Folder then
+  begin
+    ws:= _('Open in new tab');
+    if IsUnicode then
+    begin
+      FillChar(infoW, SizeOf(infoW), #0);
+      infoW.cbSize:= SizeOf(infoW);
+      infoW.fMask:= MIIM_TYPE or MIIM_ID or MIIM_STATE;
+      infoW.fType:= MFT_STRING;
+      infoW.dwTypeData:= PWideChar(ws);
+      infoW.cch:= Length(ws) + 1;
+      infoW.wID:= 664;
+      InsertMenuItemW(Menu, 0, true, infoW);
+    end
+    else
+    begin
+      FillChar(infoA, SizeOf(infoA), #0);
+      infoA.cbSize:= SizeOf(infoA);
+      infoA.fMask:= MIIM_TYPE or MIIM_ID or MIIM_STATE;
+      infoA.fType:= MFT_STRING;
+      infoA.dwTypeData:= PChar(String(ws));
+      infoA.cch:= Length(ws) + 1;
+      infoA.wID:= 664;
+      InsertMenuItemA(Menu, 0, true, infoA);
+    end;
+
+    // Add Separator
+    FillChar(infoA, SizeOf(infoA), #0);
+    infoA.cbSize:= SizeOf(infoA);
+    infoA.fMask:= MIIM_TYPE or MIIM_ID;
+    infoA.fType:= MFT_SEPARATOR;
+    InsertMenuItemA(Menu, 1, true, infoA);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Do GlobalContextMenuCmd
+-------------------------------------------------------------------------------}
+procedure DoGlobalContextMenuCmd(Sender: TObject; Namespace: TNamespace; Verb:
+    WideString; MenuItemID: Integer; var Handled: Boolean);
+begin
+  // Handle "Open in new tab"
+  if MenuItemID = 664 then
+  begin
+    OpenFolderInTab(Sender, Namespace.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect);
   end;
 end;
 

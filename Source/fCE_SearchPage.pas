@@ -295,6 +295,7 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCESearchPage.Destroy;
 begin
+  SkinManager.RemoveSkinNotification(Self);
   CEFileSearchSettings.AssignSettingsFrom(Self);
   Find.Free;
   inherited;

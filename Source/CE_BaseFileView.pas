@@ -1176,16 +1176,13 @@ end;
 procedure TCECustomFileView.HandleContextMenuCmdCallback(Namespace: TNamespace;
     Verb: WideString; MenuItemID: Integer; var Handled: Boolean);
 begin
-  // Handle "Open in new tab"
-  if MenuItemID = 664 then
-  begin
-    OpenFolderInTab(Self, Namespace.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect);
-  end;
-  
   if Assigned(Parent) then
-    Handled := DoContextMenuCmd(Namespace, Verb, MenuItemID)
+  Handled:= DoContextMenuCmd(Namespace, Verb, MenuItemID)
   else
-    Handled := False
+  Handled:= False;
+
+  if not Handled then
+  DoGlobalContextMenuCmd(Self, Namespace, Verb, MenuItemID, Handled);
 end;
 
 {-------------------------------------------------------------------------------
@@ -1236,40 +1233,7 @@ begin
       end
     end;
 
-    // Add "Open in new tab" item
-    if Namespace.Folder then
-    begin
-      ws:= _('Open in new tab');
-      if IsUnicode then
-      begin
-        FillChar(infoW, SizeOf(infoW), #0);
-        infoW.cbSize:= SizeOf(infoW);
-        infoW.fMask:= MIIM_TYPE or MIIM_ID or MIIM_STATE;
-        infoW.fType:= MFT_STRING;
-        infoW.dwTypeData:= PWideChar(ws);
-        infoW.cch:= Length(ws) + 1;
-        infoW.wID:= 664;
-        InsertMenuItemW(Menu, 0, true, infoW);
-      end
-      else
-      begin
-        FillChar(infoA, SizeOf(infoA), #0);
-        infoA.cbSize:= SizeOf(infoA);
-        infoA.fMask:= MIIM_TYPE or MIIM_ID or MIIM_STATE;
-        infoA.fType:= MFT_STRING;
-        infoA.dwTypeData:= PChar(String(ws));
-        infoA.cch:= Length(ws) + 1;
-        infoA.wID:= 664;
-        InsertMenuItemA(Menu, 0, true, infoA);
-      end;
-
-      // Add Separator
-      FillChar(infoA, SizeOf(infoA), #0);
-      infoA.cbSize:= SizeOf(infoA);
-      infoA.fMask:= MIIM_TYPE or MIIM_ID;
-      infoA.fType:= MFT_SEPARATOR;
-      InsertMenuItemA(Menu, 1, true, infoA);
-    end;
+    DoGlobalContextMenuShow(Self, Namespace, Menu, Allow);
 
     Allow:= DoContextMenuShow(Namespace, Menu);
   end

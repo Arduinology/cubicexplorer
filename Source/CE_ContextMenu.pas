@@ -416,6 +416,96 @@ end;
 -------------------------------------------------------------------------------}
 function TCEBackContextMenu.ShowMenu(Pos: TPoint; RootFolder: TNamespace;
     Browser: IShellBrowser = nil): Boolean;
+
+  procedure RemoveDuplicateSeparators(AMenu: hMenu);
+  var
+    infoA: TMenuItemInfoA;
+    infoW: TMenuItemInfoW;
+    b: Boolean;
+    i, i2: Integer;
+  begin
+    // In Windows XP there is a crash in this procedure for some reason.
+    // Trying unicode support to see if it helps.
+    if IsUnicode then
+    begin
+      // Remove dublicate separators
+      b:= false;
+      i:= 0;
+      i2:= GetMenuItemCount(AMenu);
+      while i < i2 do
+      begin
+        FillChar(infoW, SizeOf(infoW), #0);
+        infoW.cbSize := SizeOf(infoW);
+        infoW.fMask := MIIM_TYPE;
+        if GetMenuItemInfoW(AMenu, i, true, infoW) then
+        begin
+          if (infoW.fType = MFT_SEPARATOR) then
+          begin
+            if b then
+            begin
+              DeleteMenu(AMenu, i, MF_BYPOSITION);
+              i2:= GetMenuItemCount(AMenu);
+            end
+            else
+            begin
+              b:= true;
+              i:= i + 1;
+            end;
+          end
+          else
+          begin
+            b:= false;
+            i:= i + 1;
+          end;
+        end
+        else
+        begin
+          i:= i + 1;
+          i2:= GetMenuItemCount(AMenu);
+        end;
+      end;
+    end
+    else
+    begin
+      // Remove dublicate separators
+      b:= false;
+      i:= 0;
+      i2:= GetMenuItemCount(AMenu);
+      while i < i2 do
+      begin
+        FillChar(infoA, SizeOf(infoA), #0);
+        infoA.cbSize := SizeOf(infoA);
+        infoA.fMask := MIIM_TYPE;
+        if GetMenuItemInfoA(AMenu, i, true, infoA) then
+        begin
+          if (infoA.fType = MFT_SEPARATOR) then
+          begin
+            if b then
+            begin
+              DeleteMenu(AMenu, i, MF_BYPOSITION);
+              i2:= GetMenuItemCount(AMenu);
+            end
+            else
+            begin
+              b:= true;
+              i:= i + 1;
+            end;
+          end
+          else
+          begin
+            b:= false;
+            i:= i + 1;
+          end;
+        end
+        else
+        begin
+          i:= i + 1;
+          i2:= GetMenuItemCount(AMenu);
+        end;
+      end;
+    end;
+  end;
+
 var
   g: TGUID;
   menu: hMenu;
@@ -531,41 +621,7 @@ begin
     AddMenuItems(menu);
 
     // Remove dublicate separators
-    FillChar(info, SizeOf(info), #0);
-    info.cbSize := SizeOf(info);
-    info.fMask := MIIM_TYPE;
-    b:= false;
-    i:= 0;
-    i2:= GetMenuItemCount(Menu);
-    while i < i2 do
-    begin
-      if GetMenuItemInfo(Menu, i, true, info) then
-      begin
-        if (info.fType = MFT_SEPARATOR) then
-        begin
-          if b then
-          begin
-            DeleteMenu(Menu, i, MF_BYPOSITION);
-            i2:= GetMenuItemCount(Menu);
-          end
-          else
-          begin
-            b:= true;
-            i:= i + 1;
-          end;
-        end
-        else
-        begin
-          b:= false;
-          i:= i + 1;
-        end;
-      end
-      else
-      begin
-        i:= i + 1;
-        i2:= GetMenuItemCount(Menu);
-      end;
-    end;
+    RemoveDuplicateSeparators(menu);
 
     // Show popup menu
     PopupFlags:= TPM_LEFTALIGN or TPM_RETURNCMD or TPM_RIGHTBUTTON;
