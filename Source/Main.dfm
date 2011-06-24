@@ -324,6 +324,9 @@ object MainForm: TMainForm
         object SpTBXItem50: TSpTBXItem
           Action = CEActions.act_view_showheaderalways
         end
+        object SpTBXItem46: TSpTBXItem
+          Action = CEActions.act_view_checkbox_selection
+        end
       end
       object bookmarkMenuItem: TSpTBXSubmenuItem
         Caption = 'Bookmarks'

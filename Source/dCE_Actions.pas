@@ -216,6 +216,7 @@ type
     act_filters_menu: TCEToolbarAction;
     act_filters_pattern: TCEToolbarAction;
     act_filters_clear: TTntAction;
+    act_view_checkbox_selection: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -660,6 +661,7 @@ begin
          else
          MainForm.FormStyle:= fsStayOnTop;
     336: GlobalFileViewSettings.ShowInfoBar:= not GlobalFileViewSettings.ShowInfoBar;
+    337: GlobalFileViewSettings.CheckBoxSelection:= not GlobalFileViewSettings.CheckBoxSelection;
     351..358: if GlobalPathCtrl.ActivePage is TCEFileViewPage then
               begin
                 TCEFileViewPage(GlobalPathCtrl.ActivePage).ViewStyle:= TEasyListStyle(Ord(ActionID - 351));
@@ -688,6 +690,7 @@ begin
     334: TargetAction.Checked:= GlobalFileViewSettings.ShowExtensions;
     335: TargetAction.Checked:= MainForm.FormStyle = fsStayOnTop;
     336: TargetAction.Checked:= GlobalFileViewSettings.ShowInfoBar;
+    337: TargetAction.Checked:= GlobalFileViewSettings.CheckBoxSelection;
     351..358: if GlobalPathCtrl.ActivePage is TCEFileViewPage then
               begin
                 if ActionID = (Ord(TCEFileViewPage(GlobalPathCtrl.ActivePage).ViewStyle) + 351) then

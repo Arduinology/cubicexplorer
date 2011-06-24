@@ -47,7 +47,7 @@ interface
 {.$DEFINE GXDEBUG_SHELLNOTIFY}
 
 
-{$I AddIns.inc}
+{$I ..\Include\Addins.inc}
 {$include Compilers.inc}
 
 {$ifdef COMPILER_12_UP}

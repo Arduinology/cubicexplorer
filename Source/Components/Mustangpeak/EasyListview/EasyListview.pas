@@ -901,6 +901,7 @@ type
   TEasyGenericCallback = procedure(Sender: TCustomEasyListview; Data: Pointer) of object;
   TEasyGestureEvent = procedure(Sender: TCustomEasyListview; Button: TCommonMouseButton; KeyState: TCommonKeyStates; Gesture: WideString; var DoDefaultMouseAction: Boolean) of object;
   TGetDragImageEvent = procedure(Sender: TCustomEasyListview; Image: TBitmap; DragStartPt: TPoint; var HotSpot: TPoint; var TransparentColor: TColor; var Handled: Boolean) of object;
+  TGroupCheckChangedEvent = procedure(Sender: TCustomEasyListview; Group: TEasyGroup) of object;
   TGroupClickEvent = procedure(Sender: TCustomEasyListview; Group: TEasyGroup; KeyStates: TCommonKeyStates; HitTest: TEasyGroupHitTestInfoSet) of object;
   TGroupCollapseEvent = procedure(Sender: TCustomEasyListview; Group: TEasyGroup) of object;
   TGroupCollapsingEvent = procedure(Sender: TCustomEasyListview;  Group: TEasyGroup; var Allow: Boolean) of object;
@@ -4922,6 +4923,7 @@ type
     FWheelMouseDefaultScroll: TEasyDefaultWheelScroll;
     FWheelMouseScrollModifierEnabled: Boolean;
     FOnAfterPaint: TAfterPaintEvent;
+    fOnGroupCheckChanged: TGroupCheckChangedEvent;
     function GetGroupCollapseImage: TBitmap;
     function GetGroupExpandImage: TBitmap;
     function GetHintType: TEasyHintType;
@@ -5150,6 +5152,7 @@ type
     procedure DoUpdate; override;
     procedure DoViewChange; virtual;
     procedure DestroyWnd; override;
+    procedure DoGroupCheckChanged(Group: TEasyGroup); virtual;
     function DragInitiated: Boolean;
     procedure FinalizeDrag(WindowPoint: TPoint; KeyState: TCommonKeyStates);
     procedure GroupFontChange(Sender: TObject);
@@ -5282,6 +5285,8 @@ type
     property OnDragInsertDrop: TDragInsertDropEvent read FOnDragInsertDrop write FOnDragInsertDrop;
     property OnGenericCallback: TEasyGenericCallback read FOnGenericCallback write FOnGenericCallback;
     property OnGetDragImage: TGetDragImageEvent read FOnGetDragImage write FOnGetDragImage;
+    property OnGroupCheckChanged: TGroupCheckChangedEvent read fOnGroupCheckChanged
+        write fOnGroupCheckChanged;
     property OnGroupClick: TGroupClickEvent read FOnGroupClick write FOnGroupClick;
     property OnGroupCollapse: TGroupCollapseEvent read FOnGroupCollapse write FOnGroupCollapse;
     property OnGroupCollapsing: TGroupCollapsingEvent read FOnGroupCollapsing write FOnGroupCollapsing;
@@ -8408,7 +8413,7 @@ begin
   if Assigned(OwnerListview.Accessible) and (not (csDesigning in OwnerListview.ComponentState)) then
     Accessible := TEasyGroupAccessibleManager.Create(Self);
   FVisibleItems := TList.Create;
-  Checked := True;
+  Checked:= false; // TODO: Edited! Why was this True by default?
 end;
 
 destructor TEasyGroup.Destroy;
@@ -8838,12 +8843,18 @@ procedure TEasyGroup.GainingCheck;
 var
   i: Integer;
 begin
-  for i := 0 to Items.Count - 1 do
-    if Items[i].Visible then
-      Items[i].Checked := True;
-  if Visible then
-    Include(FState, esosChecked);
-  Invalidate(False)
+  // TODO: Edited! Added BeginUpdate/EndUpdate
+  OwnerListview.BeginUpdate;
+  try
+    for i := 0 to Items.Count - 1 do
+      if Items[i].Visible then
+        Items[i].Checked := True;
+    if Visible then
+      Include(FState, esosChecked);
+  finally
+    OwnerListview.EndUpdate(true);
+    OwnerListview.DoGroupCheckChanged(Self);
+  end;
 end;
 
 procedure TEasyGroup.GainingEnable;
@@ -8922,10 +8933,16 @@ procedure TEasyGroup.LosingCheck;
 var
   i: Integer;
 begin
-  for i := 0 to Items.Count - 1 do
-    Items[i].Checked := False;
-  Exclude(FState, esosChecked);
-  Invalidate(False)
+  // TODO: Edited! Added BeginUpdate/EndUpdate
+  OwnerListview.BeginUpdate;
+  try
+    for i := 0 to Items.Count - 1 do
+      Items[i].Checked := False;
+    Exclude(FState, esosChecked);
+  finally
+    OwnerListview.EndUpdate(true);
+    OwnerListview.DoGroupCheckChanged(Self);
+  end;
 end;
 
 procedure TEasyGroup.LosingEnable;
@@ -15431,6 +15448,12 @@ procedure TCustomEasyListview.DoItemCheckChanged(Item: TEasyItem);
 begin
   if Assigned(OnItemCheckChange) and not (csDestroying in ComponentState) then
     OnItemCheckChange(Self, Item)
+end;
+
+procedure TCustomEasyListview.DoGroupCheckChanged(Group: TEasyGroup);
+begin
+  if Assigned(OnGroupCheckChanged) and not (csDestroying in ComponentState) then
+    OnGroupCheckChanged(Self, Group)
 end;
 
 procedure TCustomEasyListview.DoItemCheckChanging(Item: TEasyItem;

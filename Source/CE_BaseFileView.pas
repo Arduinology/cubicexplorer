@@ -65,6 +65,8 @@ type
 
   TCECustomFileView = class(TVirtualExplorerEasyListview, IShellBrowser, IOleWindow)
   private
+    fCheckBoxSelection: Boolean;
+    fCheckChanging: Boolean;
     fExtColumnIndex: Integer;
     FContextMenuItem: TEasyItem;
     TmpScrollStep,TmpScrollSize, TmpScrollCountSize: Integer;
@@ -76,6 +78,7 @@ type
     fShowExtension: Boolean;
     fSmoothScroll: Boolean;
     fUsePNGAlpha: Boolean;
+    procedure SetCheckBoxSelection(const Value: Boolean);
     procedure SetFullSizeColumn(const Value: Integer);
     procedure SpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
@@ -99,6 +102,8 @@ type
     procedure DoCustomColumnAdd; override;
     procedure DoCustomColumnGetCaption(Column: TExplorerColumn; Item:
         TExplorerItem; var Caption: WideString); override;
+    procedure DoGroupCheckChanged(Group: TEasyGroup); override;
+    procedure DoItemCheckChanged(Item: TEasyItem); override;
     function DoItemCompare(Column: TEasyColumn; Group: TEasyGroup; Item1:
         TEasyItem; Item2: TEasyItem): Integer; override;
     procedure DoItemContextMenu(HitInfo: TEasyHitInfoItem; WindowPoint: TPoint; var
@@ -115,6 +120,7 @@ type
         Caption: WideString); override;
     procedure DoItemPaintText(Item: TEasyItem; Position: Integer; ACanvas:
         TCanvas); override;
+    procedure DoItemSelectionsChanged; override;
     procedure DoItemSetCaption(Item: TEasyItem; Column: Integer; const Caption:
         WideString); override;
     procedure DoItemThumbnailDraw(Item: TEasyItem; ACanvas: TCanvas; ARect: TRect;
@@ -160,6 +166,8 @@ type
     procedure ResizeColumns(ChangingColumn: TEasyColumn = nil; NewSize: Integer =
         0);
     procedure ShowHeaderSelector;
+    property CheckBoxSelection: Boolean read fCheckBoxSelection write
+        SetCheckBoxSelection;
     property FullSizeColumn: Integer read fFullSizeColumn write SetFullSizeColumn;
     property ScrollSize: Integer read fScrollSize write fScrollSize;
     property ScrollStep: Integer read fScrollStep write fScrollStep;
@@ -326,6 +334,7 @@ begin
   fScrollSize:= 80;
   fScrollStep:= 10;
   fSmoothScroll:= false;
+  CheckBoxSelection:= true;
   
   ScrollAnimTimer:= TTimer.Create(Self);
   ScrollAnimTimer.Enabled:= false;
@@ -1456,6 +1465,28 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Do GroupCheckChanged
+-------------------------------------------------------------------------------}
+procedure TCECustomFileView.DoGroupCheckChanged(Group: TEasyGroup);
+begin
+  inherited;
+  if CheckBoxSelection then
+  Self.DoItemSelectionsChanged;
+end;
+
+{-------------------------------------------------------------------------------
+  Do ItemCheckChanged
+-------------------------------------------------------------------------------}
+procedure TCECustomFileView.DoItemCheckChanged(Item: TEasyItem);
+begin
+  inherited;
+  if CheckBoxSelection then
+  begin
+    Item.Selected:= Item.Checked;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   Do ItemCompare
 -------------------------------------------------------------------------------}
 function TCECustomFileView.DoItemCompare(Column: TEasyColumn; Group:
@@ -1532,6 +1563,35 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Do ItemSelectionsChanged
+-------------------------------------------------------------------------------}
+procedure TCECustomFileView.DoItemSelectionsChanged;
+var
+  item: TEasyItem;
+begin
+  inherited;
+  if CheckBoxSelection and (Self.UpdateCount = 0) then
+  begin
+    Self.BeginUpdate;
+    fCheckChanging:= true;
+    try
+      item:= Self.Groups.FirstItem;
+      while assigned(item) do
+      begin
+        item.Checked:= item.Selected;
+        item:= Self.Groups.NextItem(item);
+      end;
+    finally
+      Self.EndUpdate(false);
+      fCheckChanging:= false;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Do Scroll
+-------------------------------------------------------------------------------}
 procedure TCECustomFileView.DoScroll(DeltaX, DeltaY: Integer);
 begin
   if EditManager.Editing then
@@ -1539,6 +1599,9 @@ begin
   inherited;
 end;
 
+{-------------------------------------------------------------------------------
+  Do ShellNotify
+-------------------------------------------------------------------------------}
 procedure TCECustomFileView.DoShellNotify(ShellEvent: TVirtualShellEvent);
 begin
   inherited;
@@ -1551,6 +1614,35 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Set CheckBoxSelection
+-------------------------------------------------------------------------------}
+procedure TCECustomFileView.SetCheckBoxSelection(const Value: Boolean);
+begin
+  if fCheckBoxSelection <> Value then
+  begin
+    fCheckBoxSelection:= Value;
+    Self.Groups.BeginUpdate(False);
+    try
+      if fCheckBoxSelection then
+      begin
+        Self.PaintInfoItem.CheckType:= ectBox;
+        Self.PaintInfoGroup.CheckType:= ectBox;
+      end
+      else
+      begin
+        Self.PaintInfoItem.CheckType:= ectNone;
+        Self.PaintInfoGroup.CheckType:= ectNone;
+      end;
+    finally
+      Self.Groups.EndUpdate;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  ShowHeaderSelector
+-------------------------------------------------------------------------------}
 procedure TCECustomFileView.ShowHeaderSelector;
 
   function IsDuplicate(VST: TVirtualStringTree; Text: WideString): Boolean;

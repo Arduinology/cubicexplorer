@@ -180,6 +180,12 @@ object CEActions: TCEActions
       ImageIndex = 17
       OnExecute = ActionExecute
     end
+    object act_view_checkbox_selection: TTntAction
+      Tag = 337
+      Category = 'View'
+      Caption = 'Checkbox Selection'
+      OnExecute = ActionExecute
+    end
     object act_edit_copy: TTntAction
       Tag = 201
       Category = 'Edit'

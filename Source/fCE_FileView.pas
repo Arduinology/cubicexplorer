@@ -165,6 +165,7 @@ type
     fAutosizeListViewStyle: Boolean;
     fBrowseZipFolders: Boolean;
     fCellSizes: TCECellSizeSettings;
+    fCheckBoxSelection: Boolean;
     fColumns: TCEColumnSettings;
     fFileSizeFormat: TVirtualFileSizeFormat;
     fFilmstrip: TCEFilmstripSettings;
@@ -193,6 +194,7 @@ type
     procedure SetAutoSelectFirstItem(const Value: Boolean);
     procedure SetAutosizeListViewStyle(const Value: Boolean);
     procedure SetBrowseZipFolders(const Value: Boolean);
+    procedure SetCheckBoxSelection(const Value: Boolean);
     procedure SetFileSizeFormat(const Value: TVirtualFileSizeFormat);
     procedure SetFontSize(const Value: Integer);
     procedure SetShowInfoTips(const Value: Boolean);
@@ -236,6 +238,8 @@ type
     property BrowseZipFolders: Boolean read fBrowseZipFolders write
         SetBrowseZipFolders;
     property CellSizes: TCECellSizeSettings read fCellSizes write fCellSizes;
+    property CheckBoxSelection: Boolean read fCheckBoxSelection write
+        SetCheckBoxSelection;
     property Columns: TCEColumnSettings read fColumns write fColumns;
     property FileSizeFormat: TVirtualFileSizeFormat read fFileSizeFormat write
         SetFileSizeFormat;
@@ -433,6 +437,9 @@ var
   Item: TEasyItem;
   lastItem, tmpItem: TEasyItem;
 begin
+  if FileView.UpdateCount > 0 then
+  Exit;
+  
   if assigned(FileView.Selection.FocusedItem) and (FileView.Selection.Count > 0) then
   Item:= FileView.Selection.FocusedItem
   else
@@ -1087,6 +1094,7 @@ begin
     FileViewPage.InfoBar.UseJumboIcons:= fUse_JumboIcons_in_InfoBar;
     FileViewPage.FileView.SingleClickBrowse:= fSingleClickBrowse;
     FileViewPage.FileView.SingleClickExecute:= fSingleClickExecute;
+    FileViewPage.FileView.CheckBoxSelection:= fCheckBoxSelection;
     // Options
     options:= FileViewPage.FileView.Options;
     if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
@@ -1473,6 +1481,15 @@ end;
 procedure TCEFileViewSettings.SetBrowseZipFolders(const Value: Boolean);
 begin
   fBrowseZipFolders:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set CheckBoxSelection
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetCheckBoxSelection(const Value: Boolean);
+begin
+  fCheckBoxSelection:= Value;
   SendChanges;
 end;
 

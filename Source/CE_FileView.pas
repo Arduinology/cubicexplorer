@@ -710,6 +710,9 @@ var
   oldIndex: Integer;
   item: TExplorerItem;
 begin
+  if Self.EditManager.Editing then
+  Self.EditManager.EndEdit;
+
   if SelectPreviousFolder then
   begin
     oldIndex:= History.ItemIndex;
@@ -746,6 +749,9 @@ var
   oldPIDL: PItemIDList;
   item: TExplorerItem;
 begin
+  if Self.EditManager.Editing then
+  Self.EditManager.EndEdit;
+
   if SelectPreviousFolder then
   begin
     oldPIDL:= PIDLMgr.CopyPIDL(Self.RootFolderNamespace.AbsolutePIDL);
@@ -777,6 +783,9 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFileView.GoForwardInHistory;
 begin
+  if Self.EditManager.Editing then
+  Self.EditManager.EndEdit;
+  
   History.Next;
 end;
 

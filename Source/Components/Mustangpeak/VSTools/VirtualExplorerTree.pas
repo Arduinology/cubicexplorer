@@ -117,7 +117,7 @@ interface
   {$ENDIF}
 
 {$include Compilers.inc}
-{$include AddIns.inc}
+{$I ..\Include\Addins.inc}
 {$B-}
 {.$DEFINE GXDEBUG}
 {.$DEFINE ALWAYS_SHOW_ALL_COLUMNS}  // If enabled all shell columns will be shown in report view by default
