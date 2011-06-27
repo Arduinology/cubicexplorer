@@ -69,6 +69,7 @@ type
     fCheckChanging: Boolean;
     fExtColumnIndex: Integer;
     FContextMenuItem: TEasyItem;
+    fContextMenuShowing: Boolean;
     TmpScrollStep,TmpScrollSize, TmpScrollCountSize: Integer;
     ScrollDown: Boolean;
     ScrollAnimTimer: TTimer;
@@ -168,6 +169,7 @@ type
     procedure ShowHeaderSelector;
     property CheckBoxSelection: Boolean read fCheckBoxSelection write
         SetCheckBoxSelection;
+    property ContextMenuShowing: Boolean read fContextMenuShowing;
     property FullSizeColumn: Integer read fFullSizeColumn write SetFullSizeColumn;
     property ScrollSize: Integer read fScrollSize write fScrollSize;
     property ScrollStep: Integer read fScrollStep write fScrollStep;
@@ -644,12 +646,14 @@ begin
     ShellNotifySuspended:= True;
     FContextMenuItem := HitInfo.Item;
     try
+      fContextMenuShowing:= true;
       TExplorerItem(HitInfo.Item).Namespace.ShowContextMenuMulti(Self, HandleContextMenuCmdCallback,
         HandleContextMenuShowCallback, HandleContextMenuAfterCmdCallback, SelectedToNamespaceArray, @WindowPoint,
         nil, '', TExplorerItem(HitInfo.Item).Namespace);
       Handled:= True
     finally
       FContextMenuItem := nil;
+      fContextMenuShowing:= false;
       ShellNotifySuspended:= b;
     end
   end;

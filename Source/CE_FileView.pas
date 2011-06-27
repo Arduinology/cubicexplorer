@@ -73,6 +73,7 @@ type
     fLeftMouseButton_IsDown: Boolean;
     fLeftMouseButton_RockerClicks: Integer;
     fArrowBrowse: Boolean;
+    fOldHistoryIndex: Integer;
     fRightMouseButton_RockerClicks: Integer;
     fSingleClickBrowse: Boolean;
     fSingleClickExecute: Boolean;
@@ -94,6 +95,7 @@ type
     procedure DoRootChanging(const NewRoot: TRootFolder; Namespace: TNamespace; var
         Allow: Boolean); override;
     procedure DoRootRebuild; override;
+    procedure DoShellNotify(ShellEvent: TVirtualShellEvent); override;
     procedure HandleDblClick(Button: TCommonMouseButton; Msg: TWMMouse); override;
     procedure HandleMouseDown(Button: TCommonMouseButton; Msg: TWMMouse); override;
     procedure HandleMouseUp(Button: TCommonMouseButton; Msg: TWMMouse); override;
@@ -335,6 +337,7 @@ begin
   //History.ItemIndex:= -1;
   History.OnChange:= HistoryChange;
   fChangeHistory:= true;
+  fOldHistoryIndex:= -1;
 
   ShellNewMenu:= TVirtualShellNewMenu.Create(self);
   ShellNewMenu.NewFolderItem:= true;
@@ -550,6 +553,8 @@ end;
   DoEnumFinished
 -------------------------------------------------------------------------------}
 procedure TCEFileView.DoEnumFinished;
+var
+  item: TExplorerItem;
 begin
   if (View = elsList) and AutosizeListViewStyle then
   begin
@@ -572,6 +577,22 @@ begin
   else
   begin
     Self.BackGround.CaptionShow:= false;
+  end;
+
+  // Select previous folder
+  if SelectPreviousFolder then
+  begin
+    if (fOldHistoryIndex > History.ItemIndex) and (fOldHistoryIndex > -1) and (fOldHistoryIndex < History.Count) then
+    begin
+      Selection.ClearAll;
+      item:= FindItemByPIDL(History.Items[fOldHistoryIndex].AbsolutePIDL);
+      if assigned(item) then
+      begin
+        item.MakeVisible(emvTop);
+        item.Focused:= true;
+        item.Selected:= true;
+      end;
+    end;
   end;
 
   inherited;
@@ -703,6 +724,27 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Do ShellNotify
+-------------------------------------------------------------------------------}
+procedure TCEFileView.DoShellNotify(ShellEvent: TVirtualShellEvent);
+begin
+  inherited;
+  // Show Empty Folder text
+  if Self.Groups.ItemCount = 0 then
+  begin
+    if IsEmptyFolder(Self.RootFolderNamespace) then
+    self.BackGround.Caption:= _('Empty folder')
+    else
+    self.BackGround.Caption:= _('Contains hidden items');
+    Self.BackGround.CaptionShow:= true;
+  end
+  else
+  begin
+    Self.BackGround.CaptionShow:= false;
+  end;  
+end;
+
+{-------------------------------------------------------------------------------
   Go Back In History
 -------------------------------------------------------------------------------}
 procedure TCEFileView.GoBackInHistory;
@@ -710,35 +752,14 @@ var
   oldIndex: Integer;
   item: TExplorerItem;
 begin
+  if Self.ContextMenuShowing then
+  Exit;
+
   if Self.EditManager.Editing then
   Self.EditManager.EndEdit;
 
-  if SelectPreviousFolder then
-  begin
-    oldIndex:= History.ItemIndex;
-    BeginUpdate;
-    try
-      History.Back;
-      Application.ProcessMessages;
-      if (oldIndex > History.ItemIndex) and (oldIndex > -1) and (oldIndex < History.Count) then
-      begin
-        Selection.ClearAll;
-        item:= FindItemByPIDL(History.Items[oldIndex].AbsolutePIDL);
-        if assigned(item) then
-        begin
-          item.MakeVisible(emvTop);
-          item.Focused:= true;
-          item.Selected:= true;
-        end;
-      end;
-    finally
-      EndUpdate;
-    end;
-  end
-  else
-  begin
-    History.Back;
-  end;
+  fOldHistoryIndex:= History.ItemIndex;
+  History.Back;
 end;
 
 {-------------------------------------------------------------------------------
@@ -749,6 +770,9 @@ var
   oldPIDL: PItemIDList;
   item: TExplorerItem;
 begin
+  if Self.ContextMenuShowing then
+  Exit;
+  
   if Self.EditManager.Editing then
   Self.EditManager.EndEdit;
 
@@ -783,6 +807,9 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFileView.GoForwardInHistory;
 begin
+  if Self.ContextMenuShowing then
+  Exit;
+  
   if Self.EditManager.Editing then
   Self.EditManager.EndEdit;
   

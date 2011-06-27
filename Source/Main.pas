@@ -28,7 +28,7 @@ uses
   fCE_ExtAppPage, fCE_FiltersPanel, fCE_BookmarkPropDlg,
   fCE_DockHostForm, fCE_DockableForm, fCE_TabPage, fCE_FileView,
   fCE_FolderPanel, fCE_QuickViewPanel, fCE_BookmarkPanel, fCE_Customizer,
-  fCE_PoEditor, fCE_MultiViewPage,
+  fCE_PoEditor,
   // CE Data Modules
   dCE_Actions, dCE_Images, dCE_Input,
   // CE Units

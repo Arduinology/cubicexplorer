@@ -116,7 +116,6 @@ uses
   SpTBXChromeSkin in 'Components\SpSkins\SpTBXChromeSkin.pas',
   fCE_OptionsPage_Hotkeys in 'fCE_OptionsPage_Hotkeys.pas' {TCEOptionsPage_Hotkeys: TFrame},
   fCE_OptionsPage_GlobalHotkeys in 'fCE_OptionsPage_GlobalHotkeys.pas' {TCEOptionsPage_GlobalHotkeys: TFrame},
-  fCE_MultiViewPage in 'fCE_MultiViewPage.pas' {CEMultiViewPage: TFrame},
   fCE_ColumnFormSpTBX in 'fCE_ColumnFormSpTBX.pas' {CEFormColumnSettings: TTntForm},
   CE_Stacks in 'CE_Stacks.pas',
   CE_StackTree in 'CE_StackTree.pas',
