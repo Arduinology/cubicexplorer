@@ -142,6 +142,7 @@ type
 
   TCETabSettings = class(TPersistent)
   private
+    fAllowDropToTab: Boolean;
     fClosedTabHistory: Boolean;
     fDblClickCloseTab: Boolean;
     fNewTabNamespace: TNamespace;
@@ -151,6 +152,7 @@ type
     fOpenNextToCurrent: Boolean;
     fOpenTabSelect: Boolean;
     fReuseTabs: Boolean;
+    fSwitchTabOnDragHover: Boolean;
     fUndoCount: Integer;
     function GetAutoFit: Boolean;
     function GetAutoFitMaxSize: Integer;
@@ -168,6 +170,7 @@ type
     property NewTabNamespace: TNamespace read fNewTabNamespace write
         fNewTabNamespace;
   published
+    property AllowDropToTab: Boolean read fAllowDropToTab write fAllowDropToTab;
     property NewTabPath: WideString read fNewTabPath write SetNewTabPath;
     property NewTabSelect: Boolean read fNewTabSelect write fNewTabSelect;
     property NewTabType: Integer read fNewTabType write fNewTabType;
@@ -184,6 +187,8 @@ type
     property MaxTabSize: Integer read GetMaxTabSize write SetMaxTabSize;
     property OpenNextToCurrent: Boolean read fOpenNextToCurrent write
         fOpenNextToCurrent;
+    property SwitchTabOnDragHover: Boolean read fSwitchTabOnDragHover write
+        fSwitchTabOnDragHover;
     property UndoCount: Integer read fUndoCount write fUndoCount;
   end;
 
@@ -192,6 +197,7 @@ type
   private
     fActivePopupTab: TCESpTabItem;
     fClosingTab: TCESpTabItem;
+    fDataObj: IDataObject;
     fDropTab: TCESpTabItem;
     fDropTimer: TTimer;
     fEnableClosedTabHistory: Boolean;
@@ -832,8 +838,27 @@ end;
 -------------------------------------------------------------------------------}
 function TCESpTabSet.DragEnter(const dataObj: IDataObject; grfKeyState:
     Longint; pt: TPoint; var dwEffect: Longint): HResult;
+var
+  p: TPoint;
 begin
   Result:= S_OK;
+  fDataObj:= dataObj;
+
+  p:= Self.ScreenToClient(pt);
+  fDropTab:= GetTabAt(p.X, p.Y);
+  dwEffect:= DROPEFFECT_NONE;
+  if assigned(fDropTab) then
+  begin
+    if Settings.AllowDropToTab then
+    begin
+      // Send DragEnter to new drop tab
+      if assigned(fDropTab) and assigned(fDropTab.Page) then
+      TCECustomTabPageAccess(fDropTab.Page).DragEnter(dataObj, grfKeyState, pt, dwEffect);
+    end;
+
+    if Settings.SwitchTabOnDragHover then
+    fDropTimer.Enabled:= true;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -841,9 +866,16 @@ end;
 -------------------------------------------------------------------------------}
 function TCESpTabSet.DragLeave: HResult;
 begin
-  Result:= S_OK;
-  fDropTab:= nil;
   fDropTimer.Enabled:= false;
+  Result:= S_OK;
+  if Settings.AllowDropToTab then
+  begin
+    // Send DragLeave to drop tab
+    if assigned(fDropTab) and assigned(fDropTab.Page) then
+    TCECustomTabPageAccess(fDropTab.Page).DragLeave;
+  end;
+  fDropTab:= nil;
+  fDataObj:= nil;
 end;
 
 {-------------------------------------------------------------------------------
@@ -863,29 +895,41 @@ begin
   if tab <> fDropTab then
   begin
     fDropTimer.Enabled:= false;
+    if Settings.AllowDropToTab then
+    begin
+      // Send DragLeave to previous drop tab
+      if assigned(fDropTab) and assigned(fDropTab.Page) then
+      TCECustomTabPageAccess(fDropTab.Page).DragLeave;
+      // Send DragEnter to new drop tab
+      if assigned(tab) and assigned(tab.Page) then
+      TCECustomTabPageAccess(tab.Page).DragEnter(fDataObj, grfKeyState, pt, dwEffect);
+    end;
     fDropTab:= tab;
   end;
 
+
+
   if fDropTab <> nil then
   begin
-    Shift:= KeysToShiftState(grfKeyState);
-    if Shift = [ssLeft] then
-    dwEffect:= DROPEFFECT_MOVE
-    else if Shift = [ssLeft, ssCtrl] then
-    dwEffect:= DROPEFFECT_COPY
-    else if Shift = [ssLeft, ssCtrl, ssShift] then
-    dwEffect:= DROPEFFECT_LINK
+    if Settings.AllowDropToTab then
+    begin
+      // Send DragOver to new drop tab
+      if assigned(fDropTab) and assigned(fDropTab.Page) then
+      Result:= TCECustomTabPageAccess(fDropTab.Page).DragOver(grfKeyState, pt, dwEffect);
+    end
     else
-    fDropTab:= nil;
-  end;
+    begin
+      dwEffect:= DROPEFFECT_NONE;
+    end;
 
-  if fDropTab = nil then
+    if Settings.SwitchTabOnDragHover then
+    fDropTimer.Enabled:= true;
+  end
+  else
   begin
     dwEffect:= DROPEFFECT_NONE;
     fDropTimer.Enabled:= false;
-  end
-  else
-  fDropTimer.Enabled:= true;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -895,8 +939,14 @@ function TCESpTabSet.Drop(const dataObj: IDataObject; grfKeyState: Longint; pt:
     TPoint; var dwEffect: Longint): HResult;
 begin
   Result:= S_OK;
-  fDropTab:= nil;
   fDropTimer.Enabled:= false;
+  if Settings.AllowDropToTab then
+  begin
+    // Send Drop to drop tab
+    if assigned(fDropTab) and assigned(fDropTab.Page) then
+    Result:= TCECustomTabPageAccess(fDropTab.Page).Drop(dataObj, grfKeyState, pt, dwEffect);
+  end;
+  fDropTab:= nil;
 end;
 
 {-------------------------------------------------------------------------------
@@ -2403,6 +2453,7 @@ begin
   fReuseTabs:= false;
   fUndoCount:= 15;
   fDblClickCloseTab:= false;
+  fSwitchTabOnDragHover:= true;
 end;
 
 {-------------------------------------------------------------------------------

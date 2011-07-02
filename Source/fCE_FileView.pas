@@ -44,7 +44,7 @@ uses
   TntSysUtils,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ShlObj, Menus, JvAppStorage, Contnrs, StrUtils, ExtCtrls;
+  Dialogs, ShlObj, Menus, JvAppStorage, Contnrs, StrUtils, ExtCtrls, ActiveX;
 
 type
   TEasyEditManagerHack = class(TEasyEditManager);
@@ -86,6 +86,13 @@ type
     procedure SetThumbViewStyle(const Value: TEasyListStyle);
   protected
     fQuickView: TCEQuickView;
+    function DragEnter(const dataObj: IDataObject; grfKeyState: Longint; pt:
+        TPoint; var dwEffect: Longint): HResult; override; stdcall;
+    function DragLeave: HResult; override; stdcall;
+    function DragOver(grfKeyState: Longint; pt: TPoint; var dwEffect: Longint):
+        HResult; override; stdcall;
+    function Drop(const dataObj: IDataObject; grfKeyState: Longint; pt: TPoint; var
+        dwEffect: Longint): HResult; override; stdcall;
     function GetSettingsClass: TCECustomTabPageSettingsClass; override;
     procedure GlobalFocusChanged(Sender: TObject; NewPath: WideString); override;
         stdcall;
@@ -374,6 +381,43 @@ begin
   InfoBar.Free;
   InfoBarSplitter.Free;
   inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  DragEnter
+-------------------------------------------------------------------------------}
+function TCEFileViewPage.DragEnter(const dataObj: IDataObject; grfKeyState:
+    Longint; pt: TPoint; var dwEffect: Longint): HResult;
+var
+  p: TPoint;
+begin
+  Result:= TCEFileViewHack(FileView).DropTarget.DragEnter(dataObj, grfKeyState, pt, dwEffect);
+end;
+
+{-------------------------------------------------------------------------------
+  DragLeave
+-------------------------------------------------------------------------------}
+function TCEFileViewPage.DragLeave: HResult;
+begin
+  Result:= TCEFileViewHack(FileView).DropTarget.DragLeave;
+end;
+
+{-------------------------------------------------------------------------------
+  DragOver
+-------------------------------------------------------------------------------}
+function TCEFileViewPage.DragOver(grfKeyState: Longint; pt: TPoint; var
+    dwEffect: Longint): HResult;
+begin
+  Result:= TCEFileViewHack(FileView).DropTarget.DragOver(grfKeyState, pt, dwEffect);
+end;
+
+{-------------------------------------------------------------------------------
+  Drop
+-------------------------------------------------------------------------------}
+function TCEFileViewPage.Drop(const dataObj: IDataObject; grfKeyState: Longint;
+    pt: TPoint; var dwEffect: Longint): HResult;
+begin
+  Result:= TCEFileViewHack(FileView).DropTarget.Drop(dataObj, grfKeyState, pt, dwEffect);
 end;
 
 {*------------------------------------------------------------------------------

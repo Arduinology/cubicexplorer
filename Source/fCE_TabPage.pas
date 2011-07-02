@@ -30,7 +30,7 @@ uses
   SpTBXTabs,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ShlObj, Contnrs, ActnList;
+  Dialogs, ShlObj, Contnrs, ActnList, ActiveX;
 
 type
   TCECustomTabPageSettings = class(TPersistent)
@@ -55,7 +55,7 @@ type
   TCECustomTabPageSettingsClass = class of TCECustomTabPageSettings;
 
   TCECustomTabPageClass = class of TCECustomTabPage;
-  TCECustomTabPage = class(TFrame, ICEPathChangeHandler)
+  TCECustomTabPage = class(TFrame, ICEPathChangeHandler, IDropTarget)
   private
     fActive: Boolean;
     fImageIndex: Integer;
@@ -67,6 +67,13 @@ type
     procedure SetTabCaption(const Value: WideString);
   protected
     fTabItem: TSpTBXTabItem;
+    function DragEnter(const dataObj: IDataObject; grfKeyState: Longint; pt:
+        TPoint; var dwEffect: Longint): HResult; virtual; stdcall;
+    function DragLeave: HResult; virtual; stdcall;
+    function DragOver(grfKeyState: Longint; pt: TPoint; var dwEffect: Longint):
+        HResult; virtual; stdcall;
+    function Drop(const dataObj: IDataObject; grfKeyState: Longint; pt: TPoint; var
+        dwEffect: Longint): HResult; virtual; stdcall;
     function GetPageActionList: TActionList; virtual;
     function GetSettingsClass: TCECustomTabPageSettingsClass; virtual;
     procedure GlobalActivePageChange(OldPage, NewPage: TComponent); virtual;
@@ -159,6 +166,41 @@ destructor TCECustomTabPage.Destroy;
 begin
   fSettings.Free;
   inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  DragEnter
+-------------------------------------------------------------------------------}
+function TCECustomTabPage.DragEnter(const dataObj: IDataObject; grfKeyState:
+    Longint; pt: TPoint; var dwEffect: Longint): HResult;
+begin
+  Result:= S_OK;
+end;
+
+{-------------------------------------------------------------------------------
+  DragLeave
+-------------------------------------------------------------------------------}
+function TCECustomTabPage.DragLeave: HResult;
+begin
+  Result:= S_OK;
+end;
+
+{-------------------------------------------------------------------------------
+  DragOver
+-------------------------------------------------------------------------------}
+function TCECustomTabPage.DragOver(grfKeyState: Longint; pt: TPoint; var
+    dwEffect: Longint): HResult;
+begin
+  Result:= S_OK;
+end;
+
+{-------------------------------------------------------------------------------
+  Drop
+-------------------------------------------------------------------------------}
+function TCECustomTabPage.Drop(const dataObj: IDataObject; grfKeyState:
+    Longint; pt: TPoint; var dwEffect: Longint): HResult;
+begin
+  Result:= S_OK;
 end;
 
 {-------------------------------------------------------------------------------
