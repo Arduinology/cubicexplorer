@@ -178,6 +178,8 @@ begin
   StackToolbar.Items.Insert(i, TCEToolbarDynamicSpacerItem.Create(StackToolbar.Items));
 
   fStackPaths:= TTntStringList.Create;
+
+  sub_save.Enabled:= not ReadOnlySettings;
 end;
 
 {-------------------------------------------------------------------------------
@@ -316,6 +318,9 @@ var
   ws: WideString;
   p: TPoint;
 begin
+  if ReadOnlySettings then
+  Exit;
+  
   id:= TSpTBXItem(Sender).Tag;
   // Save As...
   if id = -1 then
@@ -540,6 +545,7 @@ begin
     item.Tag:= -2;
     item.Checked:= StackTree.AutoSaveActiveStack;
     item.OnClick:= HandleStackSaveClick;
+    item.Enabled:= not ReadOnlySettings;
     AItem.Add(item);
   end;
 end;

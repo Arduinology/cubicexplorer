@@ -115,6 +115,7 @@ Section "Install"
   File "..\Snapshot\CubicExplorer_dev\layout.xml"
   File "..\Snapshot\CubicExplorer_dev\settings.xml"
   File "..\Snapshot\CubicExplorer_dev\sessions.xml"
+  File "..\Snapshot_configs\Installer\settings.path"
 
   ;---Create uninstaller---
   WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -149,6 +150,7 @@ Section "Uninstall"
   Delete "$INSTDIR\layout.xml"
   Delete "$INSTDIR\Readme.txt"
   Delete "$INSTDIR\License.txt"
+  Delete "$INSTDIR\settings.path"
 
   RMDir "$INSTDIR"
 

@@ -531,7 +531,6 @@ var
   PIDLList: TCommonPIDLList;
   HDrop: TCommonHDrop;
   FileList: TTntStringList;
-  b: Boolean;
 begin
   Result:= false;
   MenuItems.Clear;

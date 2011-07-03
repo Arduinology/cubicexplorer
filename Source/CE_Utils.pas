@@ -27,7 +27,7 @@ uses
   // JCL
   JclFileUtils, JclMime,
   // TNT Controls
-  TntActnList, TntSysUtils, TntSystem, TntWindows,
+  TntActnList, TntSysUtils, TntSystem, TntWindows, TntClasses,
   // VSTools
   MPCommonUtilities, MPCommonObjects, MPShellUtilities,
   // System Units
@@ -79,6 +79,8 @@ function GetSpecialName(ShortCut: TShortCut): string;
 
 var
   ExePath: WideString;
+  SettingsDirPath: WideString;
+  ReadOnlySettings: Boolean;
   LargeShellIconSize, SmallShellIconSize: Integer;
   CE_SHLockShared: function(Handle: THandle; DWord: DWord): Pointer; stdcall;
   CE_SHUnlockShared: function (Pnt: Pointer): BOOL; stdcall;
@@ -93,6 +95,9 @@ function ShiftState2Modifier(const Shift: TShiftState):Word;
 function GetShortCutKey(ShortCut: TShortCut):Word;
 
 function GetShortCutModifier(ShortCut: TShortCut):Word;
+
+function GetSettingsFolderPath(var IsReadOnly: Boolean; ACreate: Boolean):
+    WideString;
 
 var
   MenuKeyCaps: array[TMenuKeyCap] of string = (
@@ -806,10 +811,76 @@ begin
   Result := ShiftState2Modifier(shift);
 end; 
 
+{-------------------------------------------------------------------------------
+  Get SettingsFolderPath
+-------------------------------------------------------------------------------}
+function GetSettingsFolderPath(var IsReadOnly: Boolean; ACreate: Boolean):
+    WideString;
+var
+  list: TTntStrings;
+  i, p: Integer;
+  ws: WideString;
+begin
+  Result:= '';
+  IsReadOnly:= false;
+  if WideFileExists(exePath + 'settings.path') then
+  begin
+    list:= TTntStringList.Create;
+    try
+      list.LoadFromFile(exePath + 'settings.path');
+      for i:= 0 to list.Count - 1 do
+      begin
+        ws:= Trim(list.Strings[i]);
+        if Length(ws) > 0 then
+        begin
+          if ws[1] <> ';' then
+          begin
+            p:= Pos('[READONLY]', ws);
+            IsReadOnly:= p = 1;
+            if not IsReadOnly then
+            begin
+              ReplaceSystemVariablePath(ws);
+              Result:= DecodeRelativePath(ws);
+              if ACreate then
+              begin
+                if not WideDirectoryExists(Result) then
+                begin
+                  if not WideCreateDir(Result) then
+                  Result:= '';
+                end;
+              end;
+            end
+            else
+            begin
+              if Length(ws) > 10 then
+              begin
+                ws:= Copy(ws, 11, Length(ws) - 11);
+                ReplaceSystemVariablePath(ws);
+                Result:= DecodeRelativePath(ws);
+              end
+              else
+              Result:= '';
+            end;
+            Break;
+          end;
+        end;
+      end;
+    finally
+      list.Free;
+    end;
+  end;
+
+  if Result = '' then
+  Result:= ExePath;
+
+  Result:= WideIncludeTrailingBackslash(Result);
+end;
+
 {##############################################################################}
 
 initialization
   ExePath:= WideExtractFilePath(WideParamStr(0));
+  SettingsDirPath:= GetSettingsFolderPath(ReadOnlySettings, true);
   LargeShellIconSize:= GetLargeShellIconSize;
   SmallShellIconSize:= GetSmallShellIconSize;
   CELoadShellProcs;

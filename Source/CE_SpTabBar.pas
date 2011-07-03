@@ -884,7 +884,6 @@ end;
 function TCESpTabSet.DragOver(grfKeyState: Longint; pt: TPoint; var dwEffect:
     Longint): HResult;
 var
-  Shift: TShiftState;
   p: TPoint;
   tab: TCESpTabItem;
 begin
@@ -2454,6 +2453,7 @@ begin
   fUndoCount:= 15;
   fDblClickCloseTab:= false;
   fSwitchTabOnDragHover:= true;
+  fAllowDropToTab:= true;
 end;
 
 {-------------------------------------------------------------------------------

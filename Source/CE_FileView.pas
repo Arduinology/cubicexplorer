@@ -748,9 +748,6 @@ end;
   Go Back In History
 -------------------------------------------------------------------------------}
 procedure TCEFileView.GoBackInHistory;
-var
-  oldIndex: Integer;
-  item: TExplorerItem;
 begin
   if Self.ContextMenuShowing then
   Exit;

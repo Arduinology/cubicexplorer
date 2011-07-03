@@ -1219,9 +1219,6 @@ var
   i: Integer;
   S: AnsiString;
   Done: Boolean;
-  infoA: TMenuItemInfoA;
-  infoW: TMenuItemInfoW;
-  ws: WideString;
 begin
   if Assigned(Parent) then
   begin

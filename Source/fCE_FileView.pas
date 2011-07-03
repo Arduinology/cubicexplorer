@@ -388,8 +388,6 @@ end;
 -------------------------------------------------------------------------------}
 function TCEFileViewPage.DragEnter(const dataObj: IDataObject; grfKeyState:
     Longint; pt: TPoint; var dwEffect: Longint): HResult;
-var
-  p: TPoint;
 begin
   Result:= TCEFileViewHack(FileView).DropTarget.DragEnter(dataObj, grfKeyState, pt, dwEffect);
 end;

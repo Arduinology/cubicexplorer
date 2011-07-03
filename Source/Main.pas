@@ -348,7 +348,7 @@ type
 
 var
   MainForm: TMainForm;
-  
+
 implementation
 
 uses
@@ -423,8 +423,7 @@ begin
   Settings.Form:= Self;
   GlobalAppSettings.AddItem('MainForm', Settings, true, true);
 
-  StackDirPath:= ExePath + 'Stacks\';
-
+  StackDirPath:= SettingsDirPath + 'Stacks\';
   
   if Assigned(MP_SHSetInstanceExplorer) then
   MP_SHSetInstanceExplorer(ExplorerThreadInstance);
@@ -676,31 +675,42 @@ begin
   //Wow64Enabled:= IsWindows64;
 
   // Load skins
-  GetSkinsFromFolder(ExePath + 'Skins\');
+  GetSkinsFromFolder(exePath + 'Skins\');
   SkinGroupItem.Recreate;
 
   // Load Sessions
+  if WideFileExists(SettingsDirPath + 'sessions.xml') then
+  GlobalSessions.LoadFromFile(SettingsDirPath + 'sessions.xml')
+  else
   GlobalSessions.LoadFromFile(exePath + 'sessions.xml');
   SessionsToolbar.Recreate;
   // Load Settings
+  if WideFileExists(SettingsDirPath + 'settings.xml') then
+  GlobalAppSettings.LoadFromFile(SettingsDirPath + 'settings.xml')
+  else
   GlobalAppSettings.LoadFromFile(exePath + 'settings.xml');
   Settings.ApplyPositionInfo(Settings.StartInTray);
   if not Settings.StartInTray then
   MainForm.Show;
 
   // Load Bookmarks
-  CEBookmarkPanel.BookmarksPath:= ExePath + 'bookmarks.xml';
   CEBookmarkPanel.BookmarkMenuItems.Add(BookmarkToolbar.Items);
   CEBookmarkPanel.BookmarkMenuItems.Add(bookmarkMenuItem);
+  if WideFileExists(SettingsDirPath + 'bookmarks.xml') then
+  CEBookmarkPanel.BookmarksPath:= SettingsDirPath + 'bookmarks.xml'
+  else
+  CEBookmarkPanel.BookmarksPath:= exePath + 'bookmarks.xml';
   CEBookmarkPanel.LoadBookmarks;
+  CEBookmarkPanel.BookmarksPath:= SettingsDirPath + 'bookmarks.xml';
 
   // Load Layouts
   Layouts.AutoSave:= false;
-  Layouts.LoadFromFile(ExePath + 'layout.xml');
+  if WideFileExists(SettingsDirPath + 'layout.xml') then
+  Layouts.LoadFromFile(SettingsDirPath + 'layout.xml')
+  else
+  Layouts.LoadFromFile(exePath + 'layout.xml');
   Layouts.LoadSettingsForToolbars;
-
-  // Load Stacks
-  //GlobalStacks.LoadFromDir(GlobalStacks.StackDirPath);
+  Layouts.FilePath:= SettingsDirPath + 'layout.xml';
 
   TabsOpened:= false;
   if WideParamCount > 0 then
@@ -770,15 +780,16 @@ end;
 -------------------------------------------------------------------------------}
 procedure TMainForm.Shutdown;
 begin
-  //GlobalStacks.SaveToDir(GlobalStacks.StackDirPath);
+  if not ReadOnlySettings then
+  begin
+    GlobalSessions.SaveToFile(SettingsDirPath + 'sessions.xml');
 
-  GlobalSessions.SaveToFile(exePath + 'sessions.xml');
+    Settings.UpdatePositionInfo;
+    GlobalAppSettings.SaveToFile(SettingsDirPath + 'settings.xml');
 
-  Settings.UpdatePositionInfo;
-  GlobalAppSettings.SaveToFile(exePath + 'settings.xml');
-
-  Layouts.SaveSettingsForToolbars;
-  Layouts.SaveToFile(ExePath + 'layout.xml');
+    Layouts.SaveSettingsForToolbars;
+    Layouts.SaveToFile(SettingsDirPath + 'layout.xml');
+  end;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1157,7 +1168,7 @@ var
   i: Integer;
 begin
   open:= TTntOpenDialog.Create(nil);
-  open.InitialDir:= exePath;
+  open.InitialDir:= exePath + 'Skins\';
   open.Filter:= 'Skin File|*.skn|All Files|*.*';
   try
     if open.Execute then
@@ -1206,7 +1217,7 @@ begin
     PBT_APMSUSPEND: begin
       Layouts.SaveSettingsForToolbars;
       Layouts.SaveCurrentLayout;
-      Layouts.SaveToFile(ExePath + 'layout.xml');
+      Layouts.SaveToFile(SettingsDirPath + 'layout.xml');
     end;
   end;
   Message.Result:= 1;
@@ -1732,11 +1743,13 @@ begin
   exceptIntf.BugReportHeader['registered owner']:= '';   // for privacy
   exceptIntf.BugReportHeader['computer name']:= '';      // for privacy
   exceptIntf.BugReportHeader['system up time']:= '';     // for privacy
+  exceptIntf.BugReportHeader['free disk space']:= '';    // for privacy
   exceptIntf.BugReportHeader['compiled with']:= '';
 end;
 
 initialization
   RegisterExceptionHandler(LayoutExceptHandler, stDontSync);
+  
 {$ENDIF}
 
 end.

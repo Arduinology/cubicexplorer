@@ -365,7 +365,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEStackTree.DoAutoSaveActiveStack;
 begin
-  if AutoSaveActiveStack and (UpdateCount = 0) then
+  if not ReadOnlySettings and AutoSaveActiveStack and (UpdateCount = 0) then
   SaveActiveStack;
 end;
 

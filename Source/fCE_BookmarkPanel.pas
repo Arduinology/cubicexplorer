@@ -383,7 +383,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEBookmarkPanel.SaveBookmarks;
 begin
-  if BookmarksPath <> '' then
+  if not ReadOnlySettings and (BookmarksPath <> '') then
   begin
     try
       BookmarkTree.SaveToXmlFile(BookmarksPath);

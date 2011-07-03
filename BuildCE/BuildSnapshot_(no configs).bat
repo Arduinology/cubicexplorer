@@ -7,6 +7,7 @@ copy Snapshot_configs\settings.xml Snapshot\CubicExplorer_dev
 copy Snapshot_configs\layout.xml Snapshot\CubicExplorer_dev
 copy Snapshot_configs\sessions.xml Snapshot\CubicExplorer_dev
 copy Snapshot_configs\bookmarks.xml Snapshot\CubicExplorer_dev
+copy Snapshot_configs\Portable\settings.path Snapshot\CubicExplorer_dev
 
 copy ..\Documents\Readme.txt Snapshot\CubicExplorer_dev
 copy ..\Documents\License.txt Snapshot\CubicExplorer_dev
