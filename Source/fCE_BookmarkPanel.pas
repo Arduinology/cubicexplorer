@@ -221,6 +221,10 @@ begin
 
   if Assigned(BookmarkTree.FocusedNode) then
   begin
+    if Settings.OpenInNewTab then
+    but_open_new_tab.Caption:= _('Open in current tab')
+    else
+    but_open_new_tab.Caption:= _('Open in new tab');
     but_open_new_tab.Visible:= BookmarkTree.GetNodeComp(BookmarkTree.FocusedNode) is TCENormalItemComp;
   end;
 end;
@@ -290,6 +294,9 @@ begin
       if assigned(BookmarkTree.FocusedNode) then
       begin
         comp:= BookmarkTree.GetNodeComp(BookmarkTree.FocusedNode);
+        if Settings.OpenInNewTab then
+        comp.MouseClick([ssAlt,ssLeft], mbLeft)
+        else
         comp.MouseClick([ssMiddle], mbMiddle);
       end;
     end;
