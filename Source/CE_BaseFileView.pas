@@ -79,7 +79,6 @@ type
     fShowExtension: Boolean;
     fSmoothScroll: Boolean;
     fUsePNGAlpha: Boolean;
-    procedure SetCheckBoxSelection(const Value: Boolean);
     procedure SetFullSizeColumn(const Value: Integer);
     procedure SpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
@@ -150,6 +149,7 @@ type
     function RemoveMenusSB(hMenuShared: HMENU): HResult; stdcall;
     function SendControlMsg(ID, Msg: UINT; wParm: WPARAM; lParm: LPARAM; var Rslt:
         LResult): HResult; stdcall;
+    procedure SetCheckBoxSelection(const Value: Boolean); virtual;
     function SetMenuSB(hMenuShared: HMENU; hOleMenuReserved: HOLEMENU;
         hwndActiveObject: HWND): HResult; stdcall;
     function SetStatusTextSB(StatusText: POleStr): HResult; stdcall;
@@ -336,7 +336,7 @@ begin
   fScrollSize:= 80;
   fScrollStep:= 10;
   fSmoothScroll:= false;
-  CheckBoxSelection:= true;
+  CheckBoxSelection:= false;
   
   ScrollAnimTimer:= TTimer.Create(Self);
   ScrollAnimTimer.Enabled:= false;

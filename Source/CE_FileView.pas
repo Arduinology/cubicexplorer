@@ -487,6 +487,8 @@ begin
       begin
         fCellWidth:= Max(fCellWidth, Canvas.TextWidth(Self.Items.Items[i].Caption));
       end;
+      if CheckBoxSelection then
+      fCellWidth:= fCellWidth + Self.PaintInfoItem.CheckSize;
       if fCellWidth > 0 then
       Self.CellSizes.List.Width:= fCellWidth + 32;
       fCellWidth:= 0;
@@ -559,7 +561,11 @@ begin
   if (View = elsList) and AutosizeListViewStyle then
   begin
     if fCellWidth > 0 then
-    CellSizes.List.Width:= fCellWidth + 32
+    begin
+      if CheckBoxSelection then
+      fCellWidth:= fCellWidth + Self.PaintInfoItem.CheckSize;
+      CellSizes.List.Width:= fCellWidth + 32
+    end
     else
     CellSizes.List.RestoreDefaults;
     fCellWidth:= 0;
@@ -1014,6 +1020,8 @@ begin
         for i:= 0 to Self.ItemCount - 1 do
         begin
           fCellWidth:= Max(fCellWidth, Canvas.TextWidth(Self.Items.Items[i].Caption));
+          if Self.CheckBoxSelection then
+          fCellWidth:= Self.PaintInfoItem.CheckSize + fCellWidth;
         end;
         if fCellWidth > 0 then
         Self.CellSizes.List.Width:= fCellWidth + 32;
