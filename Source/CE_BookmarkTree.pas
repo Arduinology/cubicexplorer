@@ -90,6 +90,7 @@ type
     procedure LoadFromXmlFile(AFilePath: WideString);
     procedure LoadFromXmlString(S: String);
     procedure PopulateXmlDoc(XmlDoc: TJvSimpleXml); virtual;
+    procedure RefreshIcons;
     procedure SafeDeleteSelectedNodes;
     procedure SaveToXmlFile(AFilePath: WideString);
     procedure SaveToXmlStream(S: TStream);
@@ -128,6 +129,7 @@ begin
   Self.Images:= SmallSysImages;
   Self.IncrementalSearch:= isAll;
   Self.DefaultNodeHeight:= SmallShellIconSize + 1;
+  LastBookmarkIconRefresh:= GetTickCount;
 end;
 
 {*------------------------------------------------------------------------------
@@ -839,6 +841,15 @@ begin
   end;
   fDropNode:= nil;
   fDropNodeAcceptsDrop:= false;
+end;
+
+{-------------------------------------------------------------------------------
+  RefreshIcons
+-------------------------------------------------------------------------------}
+procedure TCEBookmarkTree.RefreshIcons;
+begin
+  LastBookmarkIconRefresh:= GetTickCount;
+  Self.Refresh;
 end;
 
 

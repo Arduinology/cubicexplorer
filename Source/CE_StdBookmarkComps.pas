@@ -56,6 +56,7 @@ type
     fIsSpecial: Boolean;
     fIsPath: Boolean;
     fIsPIDL: Boolean;
+    fLastIconRefresh: Integer;
     fPIDL: string;
     fSupportsDragDrop: Boolean;
   public
@@ -113,6 +114,7 @@ type
 
 var
   OpenBookmarkInNewTabByDefault: Boolean = false;  
+  LastBookmarkIconRefresh: Integer = 0;
 
 implementation
 
@@ -156,6 +158,7 @@ begin
   fIsPath:= false;
   fIsSpecial:= false;
   fSpecialFolderID:= -1;
+  fLastIconRefresh:= GetTickCount;
 end;
 
 {*------------------------------------------------------------------------------
@@ -330,6 +333,12 @@ function TCENormalItemComp.GetImageIndex(Open: Boolean = false; Overlay: Boolean
 begin
   if assigned(Namespace) then
   begin
+    if LastBookmarkIconRefresh > fLastIconRefresh then
+    begin
+      fLastIconRefresh:= GetTickCount;
+      Namespace.InvalidateCache;
+    end;
+
     if Overlay then
     Result:= Namespace.OverlayIconIndex
     else
@@ -470,7 +479,8 @@ begin
       ImageList:= SmallSysImages;
     end;
   end;
-  fSupportsDragDrop:= IsExecutable;  
+  fSupportsDragDrop:= IsExecutable;
+  fLastIconRefresh:= GetTickCount; 
 end;
 
 {*------------------------------------------------------------------------------
@@ -511,6 +521,7 @@ begin
     end;
   end;
   fSupportsDragDrop:= IsExecutable;
+  fLastIconRefresh:= GetTickCount;
 end;
 
 {*------------------------------------------------------------------------------
@@ -567,6 +578,7 @@ begin
     end;
   end;
   fSupportsDragDrop:= IsExecutable;
+  fLastIconRefresh:= GetTickCount;
 end;
 
 {*------------------------------------------------------------------------------
@@ -697,7 +709,7 @@ begin
     begin
       Exit;
     end;
-    
+
     FreeAndNil(Namespace);
   end;
 
@@ -737,6 +749,7 @@ begin
       fGhosted:= false;
     end;
   end;
+  fLastIconRefresh:= GetTickCount;
 end;
 
 {*------------------------------------------------------------------------------

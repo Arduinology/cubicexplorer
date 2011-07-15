@@ -40,12 +40,12 @@ uses
   TntSysUtils,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ShlObj, ImgList, Contnrs, Menus;
+  Dialogs, ImgList, Contnrs, Menus;
 
 type
   TCEBookmarkPanelSettings = class;
-  
-  TCEBookmarkPanel = class(TCECustomDockableForm)
+
+  TCEBookmarkPanel = class(TCECustomDockableForm, IVirtualShellNotify)
     BookmarkPopupMenu: TSpTBXPopupMenu;
     but_addCat: TSpTBXItem;
     but_addBookmark: TSpTBXItem;
@@ -67,12 +67,17 @@ type
     procedure PopupMenuClick(Sender: TObject);
   private
     fSettings: TCEBookmarkPanelSettings;
+    function GetOkToShellNotifyDispatch: Boolean;
     { Private declarations }
   protected
     procedure DoMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState;
         X, Y: Integer);
+    procedure Notify(var Msg: TMessage);
     procedure RefreshBookmarks(OnlyIfLocal: Boolean = false);
+    procedure WMCreate(var Msg: TMessage); message WM_CREATE;
+    procedure WMNCDestroy(var Msg: TMessage); message WM_NCDESTROY;
     procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
+    property OkToShellNotifyDispatch: Boolean read GetOkToShellNotifyDispatch;
   public
     BookmarkMenuItems: TComponentList;
     BookmarksPath: WideString;
@@ -131,7 +136,7 @@ implementation
 uses
   dCE_Actions, CE_BookmarkBar, fCE_FileView, CE_VistaFuncs,
   CE_StdBookmarkComps, fCE_BookmarkPropDlg, CE_LanguageEngine,
-  fCE_ItemSelectSaveDlg, CE_Sessions, MPCommonObjects, CE_Utils;
+  fCE_ItemSelectSaveDlg, CE_Sessions, MPCommonObjects, CE_Utils, ShlObj;
 
 {$R *.dfm}
 
@@ -168,7 +173,6 @@ begin
   BookmarkTree.OnMouseUp:= DoMouseUp;
 
   GlobalAppSettings.AddItem('BookmarksPanel', fSettings, true);
-  ChangeNotifier.RegisterShellChangeNotify(Self);
 end;
 
 {*------------------------------------------------------------------------------
@@ -176,7 +180,6 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEBookmarkPanel.FormDestroy(Sender: TObject);
 begin
-  ChangeNotifier.UnRegisterShellChangeNotify(Self);
   BookmarkMenuItems.Free;
   BookmarkTree.Free;
   fSettings.Free;
@@ -429,6 +432,23 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Get OkToShellNotifyDispatch
+-------------------------------------------------------------------------------}
+function TCEBookmarkPanel.GetOkToShellNotifyDispatch: Boolean;
+begin
+  Result:= not BookmarkTree.Dragging;
+end;
+
+{-------------------------------------------------------------------------------
+  Notify (on Shell Notify)
+-------------------------------------------------------------------------------}
+procedure TCEBookmarkPanel.Notify(var Msg: TMessage);
+begin
+  if HandleAllocated then
+  WMShellNotify(Msg)
+end;
+
+{-------------------------------------------------------------------------------
   Refresh Bookmarks
 -------------------------------------------------------------------------------}
 procedure TCEBookmarkPanel.RefreshBookmarks(OnlyIfLocal: Boolean = false);
@@ -472,6 +492,26 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Handle WM_Create message
+-------------------------------------------------------------------------------}
+procedure TCEBookmarkPanel.WMCreate(var Msg: TMessage);
+begin
+  ShellNotifyManager.RegisterExplorerWnd(Self);
+  ChangeNotifier.RegisterShellChangeNotify(Self);
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle WM_NCDestroy message
+-------------------------------------------------------------------------------}
+procedure TCEBookmarkPanel.WMNCDestroy(var Msg: TMessage);
+begin
+  ChangeNotifier.UnRegisterShellChangeNotify(Self);
+  ShellNotifyManager.UnRegisterExplorerWnd(Self);
+  inherited;
+end;
+
 {*------------------------------------------------------------------------------
   Handle WMShellNotify messages
 -------------------------------------------------------------------------------}
@@ -480,26 +520,50 @@ var
   ShellEventList: TVirtualShellEventList;
   ShellEvent: TVirtualShellEvent;
   List: TList;
-  i, Count: Integer;
+  i: Integer;
+  b1, b2: Boolean;
 begin
-  ShellEventList:= TVirtualShellEventList(Msg.wParam);
-  List:= ShellEventList.LockList;
-  try
-    Count:= List.Count;
-    for i:= 0 to Count - 1 do
-    begin
-      ShellEvent:= TVirtualShellEvent(List.Items[i]);
-      case ShellEvent.ShellNotifyEvent of
-        vsneDriveAddGUI,
-        vsneDriveRemoved,
-        vsneUpdateImage,
-        vsneDriveAdd: RefreshBookmarks(false);
-        //vsneUpdateImage, vsneUpdateDir: RefreshBookmarks(true);
+  if not ShellNotifyManager.OkToDispatch then
+  begin
+    ShellNotifyManager.ReDispatchShellNotify(TVirtualShellEventList(Msg.wParam));
+  end
+  else
+  begin
+    ShellEventList:= TVirtualShellEventList(Msg.wParam);
+    List:= ShellEventList.LockList;
+    try
+      List.Sort(ShellEventSort);
+      try
+        b1:= false;
+        b2:= false;
+        for i:= 0 to List.Count - 1 do
+        begin
+          ShellEvent:= TVirtualShellEvent(List.Items[i]);
+          case ShellEvent.ShellNotifyEvent of
+            vsneDriveAddGUI,
+            vsneDriveRemoved,
+            vsneMediaRemoved,
+            vsneMediaInserted,
+            vsneDriveAdd: if not b1 then
+            begin
+              RefreshBookmarks(false);
+              b1:= true;
+            end;
+            vsneUpdateDir, vsneUpdateItem, vsneUpdateImage, vsneAssoccChanged: if not b2 then
+            begin
+              BookmarkTree.RefreshIcons;
+              b2:= true;
+            end;
+          end;
+        end;
+      except
+      //finally
       end;
+    finally
+      ShellEventList.UnlockList;
+      ShellEventList.Release;
+      Self.Refresh;
     end;
-  finally
-    ShellEventList.UnlockList;
-    ShellEventList.Release;
   end;
 end;
 
