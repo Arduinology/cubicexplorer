@@ -56,7 +56,8 @@ type
         var Effect: Integer): Boolean; virtual;
     procedure DoDragLeave; virtual;
     function DoPopup(X, Y: Integer): Boolean; virtual;
-    function GetImageIndex(Open: Boolean = false): Integer; virtual;
+    function GetImageIndex(Open: Boolean = false; Overlay: Boolean = false):
+        Integer; virtual;
     procedure KeyAction(CharCode: Word; Shift: TShiftState); virtual;
     procedure LoadFromXmlNode(XmlNode: TJvSimpleXmlElem); virtual;
     procedure MouseClick(Shift: TShiftState; Button: TMouseButton; SingleClickMode:
@@ -217,7 +218,8 @@ end;
 {*------------------------------------------------------------------------------
   Get ImageIndex
 -------------------------------------------------------------------------------}
-function TCECustomBookComp.GetImageIndex(Open: Boolean = false): Integer;
+function TCECustomBookComp.GetImageIndex(Open: Boolean = false; Overlay:
+    Boolean = false): Integer;
 begin
   Result:= -1;
 end;

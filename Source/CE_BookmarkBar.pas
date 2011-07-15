@@ -95,6 +95,9 @@ procedure PopulateBookmarkItem(RootItem: TTBCustomItem; BookmarkTree:
     TCEBookmarkTree; OpenAllToRoot: Boolean = false; LargeIcons: Boolean =
     false);
 
+var
+  UpdatingBookmarkItems: Boolean = false;
+
 implementation
 
 uses
@@ -185,31 +188,36 @@ var
   sep: TSpTBXSeparatorItem;
   openAll: TCEOpenAllBookmarksItem;
 begin
-  RootItem.Clear;
+  UpdatingBookmarkItems:= true;
+  try
+    RootItem.Clear;
 
-  if not assigned(BookmarkTree) then
-  Exit;
+    if not assigned(BookmarkTree) then
+    Exit;
 
-  // Show "Open All in Tabs" at top of the menu (Opera style)
-  if CEBookmarkPanel.Settings.ShowOpenAllItem and OpenAllToRoot and CEBookmarkPanel.Settings.ShowOpenAllAtTop then
-  begin
-    openAll:= TCEOpenAllBookmarksItem.Create(RootItem);
-    openAll.CustomHeight:= 24;
-    RootItem.Add(openAll);
-    sep:= TSpTBXSeparatorItem.Create(RootItem);
-    RootItem.Add(sep);
-  end;
+    // Show "Open All in Tabs" at top of the menu (Opera style)
+    if CEBookmarkPanel.Settings.ShowOpenAllItem and OpenAllToRoot and CEBookmarkPanel.Settings.ShowOpenAllAtTop then
+    begin
+      openAll:= TCEOpenAllBookmarksItem.Create(RootItem);
+      openAll.CustomHeight:= 24;
+      RootItem.Add(openAll);
+      sep:= TSpTBXSeparatorItem.Create(RootItem);
+      RootItem.Add(sep);
+    end;
 
-  EnumNode(BookmarkTree.RootNode, RootItem);
+    EnumNode(BookmarkTree.RootNode, RootItem);
 
-  // Show "Open All in Tabs" at bottom of the menu (Firefox style)
-  if CEBookmarkPanel.Settings.ShowOpenAllItem and OpenAllToRoot and not CEBookmarkPanel.Settings.ShowOpenAllAtTop then
-  begin
-    sep:= TSpTBXSeparatorItem.Create(RootItem);
-    RootItem.Add(sep);
-    openAll:= TCEOpenAllBookmarksItem.Create(RootItem);
-    openAll.CustomHeight:= 24;
-    RootItem.Add(openAll);
+    // Show "Open All in Tabs" at bottom of the menu (Firefox style)
+    if CEBookmarkPanel.Settings.ShowOpenAllItem and OpenAllToRoot and not CEBookmarkPanel.Settings.ShowOpenAllAtTop then
+    begin
+      sep:= TSpTBXSeparatorItem.Create(RootItem);
+      RootItem.Add(sep);
+      openAll:= TCEOpenAllBookmarksItem.Create(RootItem);
+      openAll.CustomHeight:= 24;
+      RootItem.Add(openAll);
+    end;
+  finally
+    UpdatingBookmarkItems:= false;
   end;
 end;
 
@@ -251,6 +259,9 @@ procedure TCEBookmarkItem.Click;
 var
   ss: TShiftState;
 begin
+  if UpdatingBookmarkItems then
+  Exit;
+  
   ss:= GetShiftState;
   Include(ss, ssLeft);
   BookmarkData.BookComp.MouseClick(ss, mbLeft, true);
@@ -291,7 +302,7 @@ procedure TCEBookmarkItem.DoDrawImage(ACanvas: TCanvas; State:
     PaintDefault: Boolean);
 begin
   inherited;
-  if assigned(BookmarkData) then
+  if not UpdatingBookmarkItems and assigned(BookmarkData) then
   begin
     if assigned(BookmarkData.BookComp) then
     begin
@@ -309,6 +320,9 @@ procedure TCEBookmarkSubItem.Click;
 var
   ss: TShiftState;
 begin
+  if UpdatingBookmarkItems then
+  Exit;
+  
   ss:= GetShiftState;
   Include(ss, ssLeft);
   BookmarkData.BookComp.MouseClick(ss, mbLeft, true);

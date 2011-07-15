@@ -420,15 +420,16 @@ var
   data: PCEBookData;
 begin
   Result:= inherited DoGetImageIndex(Node, Kind, Column, Ghosted, Index);
-  if (Kind = ikOverlay) or (Column > 0) then
+  if (Column > 0) then
   begin
     Index:= -1;
     Exit;
   end;
+
   data:= GetNodeData(Node);
   if assigned(data.BookComp) then
   begin
-    Index:= data.BookComp.GetImageIndex(Expanded[Node]);
+    Index:= data.BookComp.GetImageIndex(Expanded[Node], (Kind = ikOverlay));
     Ghosted:= data.BookComp.Ghosted;
     Result:= data.BookComp.ImageList;
   end;

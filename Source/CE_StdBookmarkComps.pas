@@ -40,7 +40,8 @@ type
   TCECategoryComp = class(TCECustomBookComp)
   public
     constructor Create; override;
-    function GetImageIndex(Open: Boolean = false): Integer; override;
+    function GetImageIndex(Open: Boolean = false; Overlay: Boolean = false):
+        Integer; override;
   end;
 
   TCENormalItemComp = class(TCECustomBookComp)
@@ -71,7 +72,8 @@ type
     function DoDragDrop(DataObject: IDataObject; Shift: TShiftState; Pt: TPoint;
         var Effect: Integer): Boolean; override;
     function DoPopup(X, Y: Integer): Boolean; override;
-    function GetImageIndex(Open: Boolean = false): Integer; override;
+    function GetImageIndex(Open: Boolean = false; Overlay: Boolean = false):
+        Integer; override;
     function IsExecutable: Boolean;
     function IsFile: Boolean;
     function IsFolder: Boolean;
@@ -99,7 +101,8 @@ type
     constructor Create; override;
     procedure Assign(From: TCECustomBookComp); override;
     procedure AssignTo(ToComp: TCECustomBookComp); override;
-    function GetImageIndex(Open: Boolean = false): Integer; override;
+    function GetImageIndex(Open: Boolean = false; Overlay: Boolean = false):
+        Integer; override;
     procedure LoadFromXmlNode(XmlNode: TJvSimpleXmlElem); override;
     procedure MouseClick(Shift: TShiftState; Button: TMouseButton; SingleClickMode:
         Boolean = false); override;
@@ -130,9 +133,12 @@ end;
 {*------------------------------------------------------------------------------
   Get ImageIndex
 -------------------------------------------------------------------------------}
-function TCECategoryComp.GetImageIndex(Open: Boolean = false): Integer;
+function TCECategoryComp.GetImageIndex(Open: Boolean = false; Overlay: Boolean
+    = false): Integer;
 begin
-  if Open then
+  if Overlay then
+  Result:= -1
+  else if Open then
   Result:= 1
   else
   Result:= 0;
@@ -319,10 +325,16 @@ end;
 {*------------------------------------------------------------------------------
   Get ImageIndex
 -------------------------------------------------------------------------------}
-function TCENormalItemComp.GetImageIndex(Open: Boolean = false): Integer;
+function TCENormalItemComp.GetImageIndex(Open: Boolean = false; Overlay: Boolean
+    = false): Integer;
 begin
   if assigned(Namespace) then
-  Result:= Namespace.GetIconIndex(Open,icSmall)
+  begin
+    if Overlay then
+    Result:= Namespace.OverlayIconIndex
+    else
+    Result:= Namespace.GetIconIndex(Open,icSmall)
+  end
   else
   Result:= 4;
 end;
@@ -783,8 +795,12 @@ end;
 {*------------------------------------------------------------------------------
   Get ImageIndex
 -------------------------------------------------------------------------------}
-function TCESessionComp.GetImageIndex(Open: Boolean = false): Integer;
+function TCESessionComp.GetImageIndex(Open: Boolean = false; Overlay: Boolean
+    = false): Integer;
 begin
+  if Overlay then
+  Result:= -1
+  else
   Result:= 41;
 end;
 
