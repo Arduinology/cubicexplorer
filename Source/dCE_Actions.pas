@@ -217,6 +217,8 @@ type
     act_filters_pattern: TCEToolbarAction;
     act_filters_clear: TTntAction;
     act_view_checkbox_selection: TTntAction;
+    act_help_versionmgr: TTntAction;
+    act_view_archiver: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -234,6 +236,10 @@ type
     GlobalHotkeys: TCEGlobalHotkeys;
     HotkeySettings: TCEHotkeySettings;
     procedure AssignCustomToolbarActions;
+    procedure DoGlobalContextMenuCmd(Namespace: TNamespace; Verb: WideString;
+        MenuItemID: Integer;  var Handled: Boolean);
+    procedure DoGlobalContextMenuShow(Namespace: TNamespace; Menu: hMenu; var
+        Allow: Boolean);
     procedure UpdateAll;
     property PageActionList: TTntActionList read fPageActionList write
         fPageActionList;
@@ -332,7 +338,8 @@ uses
   CE_Bookmarks, CE_BookmarkTree, fCE_AboutBox,
   CE_ToolbarButtons, fCE_Customizer, fCE_TabPage, fCE_FiltersPanel,
   fCE_PoEditor, fCE_OptionsDialog, CE_Sessions, fCE_StackPanel,
-  CE_BaseFileView, fCE_QuickViewTab, fCE_SearchPage, fCE_CreateSymlink;
+  CE_BaseFileView, fCE_QuickViewTab, fCE_SearchPage, fCE_CreateSymlink,
+  fCE_VersionMgrForm, fCE_ArchivePanel;
 
 {##############################################################################}
 
@@ -649,6 +656,7 @@ begin
     303: if GetFormVisible(CEQuickviewPanel) then HideDockForm(CEQuickviewPanel) else ShowDockForm(CEQuickviewPanel);
     304: if GetFormVisible(CEFiltersPanel) then HideDockForm(CEFiltersPanel) else ShowDockForm(CEFiltersPanel);
     305: if GetFormVisible(CEStackPanel) then HideDockForm(CEStackPanel) else ShowDockForm(CEStackPanel);
+    306: if GetFormVisible(CEArchiverPanel) then HideDockForm(CEArchiverPanel) else ShowDockForm(CEArchiverPanel);
     330: MainForm.ShowHint:= not MainForm.ShowHint;
     332: begin
       GlobalFileViewSettings.HiddenFiles:= not GlobalFileViewSettings.HiddenFiles;
@@ -684,6 +692,7 @@ begin
     303: TargetAction.Checked:= CEQuickviewPanel.IsVisible;
     304: TargetAction.Checked:= CEFiltersPanel.IsVisible;
     305: TargetAction.Checked:= CEStackPanel.IsVisible;
+    306: TargetAction.Checked:= CEArchiverPanel.IsVisible;
     330: TargetAction.Checked:= MainForm.ShowHint;
     332: TargetAction.Checked:= GlobalFileViewSettings.HiddenFiles;
     333: TargetAction.Checked:= GlobalFileViewSettings.ShowHeaderAlways;
@@ -776,6 +785,7 @@ begin
       form.Show;
     end;
     505: ShellExecute(0,'open','http://www.cubicreality.com/donate/','','',SW_NORMAL);
+    506: ShowVersionManager;
   end;
 end;
 
@@ -1774,6 +1784,25 @@ begin
       view.EndUpdate(true);
     end;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Do GlobalContextMenuCmd
+-------------------------------------------------------------------------------}
+procedure TCEActions.DoGlobalContextMenuCmd(Namespace: TNamespace; Verb:
+    WideString; MenuItemID: Integer;  var Handled: Boolean);
+begin
+  dCE_Actions.DoGlobalContextMenuCmd(MainForm, Namespace, Verb, MenuItemID, Handled);
+end;
+
+
+{-------------------------------------------------------------------------------
+  Do GlobalContextMenuShow
+-------------------------------------------------------------------------------}
+procedure TCEActions.DoGlobalContextMenuShow(Namespace: TNamespace; Menu:
+    hMenu; var Allow: Boolean);
+begin
+  dCE_Actions.DoGlobalContextMenuShow(MainForm, Namespace, Menu, Allow);
 end;
 
 {-------------------------------------------------------------------------------

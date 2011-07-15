@@ -55,6 +55,7 @@ Unit Documents;
 // 303 = Quickview, toggle visibility.
 // 304 = Filters, toggle visibility.
 // 305 = Drop Stack, toggle visibility.
+// 306 = Archiver, toggle visibility.
 // 330 = Show Hints
 // 331 = Smooth Scroll
 // 332 = Show Hidden files
@@ -91,6 +92,7 @@ Unit Documents;
 // 503 = About box
 // 504 = Translate CE
 // 505 = Go to Donate page
+// 506 = Version Manager
 
 // **** Navigation (600) ****
 // 601 = Add new tab (FileView)

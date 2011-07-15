@@ -641,6 +641,18 @@ object CEActions: TCEActions
       ImageIndex = 44
       OnExecute = ActionExecute
     end
+    object act_help_versionmgr: TTntAction
+      Tag = 506
+      Category = 'Help'
+      Caption = 'Version Manager'
+      OnExecute = ActionExecute
+    end
+    object act_view_archiver: TTntAction
+      Tag = 306
+      Category = 'View'
+      Caption = 'Archiver'
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

@@ -127,7 +127,15 @@ uses
   fCE_OptionsPage_Display_Stack in 'fCE_OptionsPage_Display_Stack.pas' {CE_OptionsPage_Display_Stack: TFrame},
   AppCommand in 'AppCommand.pas',
   fCE_ItemSelectSaveDlg in 'fCE_ItemSelectSaveDlg.pas' {CEItemSelectSaveDlg},
-  VirtualExplorerTree in 'Components\Mustangpeak\VSTools\VirtualExplorerTree.pas';
+  VirtualExplorerTree in 'Components\Mustangpeak\VSTools\VirtualExplorerTree.pas',
+  CE_VersionUpdater in 'CE_VersionUpdater.pas',
+  CE_XmlUtils in 'CE_XmlUtils.pas',
+  fCE_UpdateDlg in 'fCE_UpdateDlg.pas' {CEUpdateDlg},
+  fCE_VersionMgrForm in 'fCE_VersionMgrForm.pas' {CEVersionMgrForm: TTntForm},
+  CC_Threads in 'Components\CubicCore\CC_Threads.pas',
+  CE_ArchiveTree in 'CE_ArchiveTree.pas',
+  JclCompressionWide in 'Components\jcl\JclCompressionWide.pas',
+  fCE_ArchivePanel in 'fCE_ArchivePanel.pas' {CEArchiverPanel};
 
 {$R *.res}
 {$R 'CE_Resources.res'}
@@ -203,6 +211,10 @@ begin
   // Create DropStack Panel
   CEStackPanel:= TCEStackPanel.Create(MainForm);
   CEStackPanel.Name:= 'StackPanel';
+
+  // Create Archiver Panel
+  CEArchiverPanel:= TCEArchiverPanel.Create(MainForm);
+  CEArchiverPanel.Name:= 'ArchiverPanel';
 
   // Run Start up code.
   MainForm.StartUp;

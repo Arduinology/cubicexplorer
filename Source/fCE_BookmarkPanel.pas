@@ -80,6 +80,7 @@ type
     procedure LoadBookmarks;
     procedure OnBookmarksChange(Sender: TObject);
     procedure OpenAll(Mode: Integer = 0);
+    procedure RePopulateBookmarkItems;
     procedure SaveBookmarks;
   published
     property Settings: TCEBookmarkPanelSettings read fSettings write fSettings;
@@ -90,6 +91,8 @@ type
     fFontSize: Integer;
     fLineHeight: Integer;
     fShowOpenAllAtTop: Boolean;
+    fShowOpenAllItem: Boolean;
+    fUseSystemPopupMenu: Boolean;
     function GetAutoCollapse: Boolean;
     function GetAutoExpand: Boolean;
     function GetOpenInNewTab: Boolean;
@@ -99,6 +102,8 @@ type
     procedure SetFontSize(const Value: Integer);
     procedure SetLineHeight(const Value: Integer);
     procedure SetOpenInNewTab(const Value: Boolean);
+    procedure SetShowOpenAllAtTop(const Value: Boolean);
+    procedure SetShowOpenAllItem(const Value: Boolean);
     procedure SetSingleClickMode(const Value: Boolean);
   public
     BookmarkPanel: TCEBookmarkPanel;
@@ -109,9 +114,13 @@ type
     property LineHeight: Integer read fLineHeight write SetLineHeight;
     property OpenInNewTab: Boolean read GetOpenInNewTab write SetOpenInNewTab;
     property ShowOpenAllAtTop: Boolean read fShowOpenAllAtTop write
-        fShowOpenAllAtTop;
+        SetShowOpenAllAtTop;
+    property ShowOpenAllItem: Boolean read fShowOpenAllItem write
+        SetShowOpenAllItem;
     property SingleClickMode: Boolean read GetSingleClickMode write
         SetSingleClickMode;
+    property UseSystemPopupMenu: Boolean read fUseSystemPopupMenu write
+        fUseSystemPopupMenu;
   end;
 
 var
@@ -137,6 +146,7 @@ begin
   // Default settings
   fSettings.fFontSize:= -1;
   fSettings.fLineHeight:= -1;
+  fSettings.fShowOpenAllItem:= true;
   
   BookmarkMenuItems:= TComponentList.Create(false);
   TopDock.Name:= 'BookmarkPanel_TopDock';
@@ -177,17 +187,8 @@ end;
   Get's called when bookmarks have changed
 -------------------------------------------------------------------------------}
 procedure TCEBookmarkPanel.OnBookmarksChange(Sender: TObject);
-var
-  i: Integer;
-  item: TTBCustomItem;
 begin
-  for i:= 0 to BookmarkMenuItems.Count - 1 do
-  begin
-    item:= TTBCustomItem(BookmarkMenuItems.Items[i]);
-    item.ViewBeginUpdate;
-    PopulateBookmarkItem(item, BookmarkTree, item is TSpTBXSubmenuItem);
-    item.ViewEndUpdate;
-  end;
+  RePopulateBookmarkItems;
   SaveBookmarks;
 end;
 
@@ -196,6 +197,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEBookmarkPanel.BookmarkPopupMenuPopup(Sender: TObject);
 begin
+  but_openAll.Visible:= Settings.ShowOpenAllItem;
   if BookmarkTree.SelectedCount > 0 then
   begin
     but_properties.Enabled:= true;
@@ -361,11 +363,7 @@ end;
   Load Bookmarks
 -------------------------------------------------------------------------------}
 procedure TCEBookmarkPanel.LoadBookmarks;
-var
-  i: Integer;
-  item: TTBCustomItem;
 begin
-
   if WideFileExists(BookmarksPath) then
   begin
     BookmarkTree.BeginUpdate;
@@ -373,14 +371,7 @@ begin
       BookmarkTree.LoadFromXmlFile(BookmarksPath);
     finally
       BookmarkTree.EndUpdate;
-      for i:= 0 to BookmarkMenuItems.Count - 1 do
-      begin
-        item:= TTBCustomItem(BookmarkMenuItems.Items[i]);
-        //item.ViewBeginUpdate;
-        PopulateBookmarkItem(item, BookmarkTree, item is TSpTBXSubmenuItem);
-        //item.ViewEndUpdate;
-
-      end;
+      RePopulateBookmarkItems;
     end;
   end;
 end;
@@ -405,15 +396,34 @@ end;
 procedure TCEBookmarkPanel.DoMouseUp(Sender: TObject; Button: TMouseButton;
     Shift: TShiftState; X, Y: Integer);
 var
-  b: Boolean;
+  b, defaultPopup: Boolean;
   p: TPoint;
+  info: THitInfo;
+  node: PVirtualNode;
+  data: PCEBookData;
 begin
   if Button = mbRight then
   begin
+    defaultPopup:= true;
     GetCursorPos(p);
+
     b:= CEDockStyle.ChannelOption.MouseleaveHide;
     CEDockStyle.ChannelOption.MouseleaveHide:= false;
+
+    if Settings.UseSystemPopupMenu then
+    begin
+      BookmarkTree.GetHitTestInfoAt(X, Y, true, info);
+      if assigned(info.HitNode) and ((hiOnItemLabel in info.HitPositions) or (hiOnNormalIcon in info.HitPositions)) then
+      begin
+        data:= BookmarkTree.GetNodeData(info.HitNode);
+        if assigned(data.BookComp) then
+        defaultPopup:= not data.BookComp.DoPopup(p.X, p.Y);
+      end;
+    end;
+
+    if defaultPopup then
     BookmarkPopupMenu.Popup(p.X, p.Y);
+
     CEDockStyle.ChannelOption.MouseleaveHide:= b;
   end;
 end;
@@ -423,8 +433,6 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEBookmarkPanel.RefreshBookmarks(OnlyIfLocal: Boolean = false);
 var
-  i: Integer;
-  item: TTBCustomItem;
   node: PVirtualNode;
   data: PCEBookData;
 begin
@@ -446,11 +454,21 @@ begin
   finally
     BookmarkTree.EndUpdate;
     BookmarkTree.Refresh;
-    for i:= 0 to BookmarkMenuItems.Count - 1 do
-    begin
-      item:= TTBCustomItem(BookmarkMenuItems.Items[i]);
-      PopulateBookmarkItem(item, BookmarkTree, item is TSpTBXSubmenuItem);
-    end;
+    RePopulateBookmarkItems;
+  end;
+end;
+
+procedure TCEBookmarkPanel.RePopulateBookmarkItems;
+var
+  i: Integer;
+  item: TTBCustomItem;
+begin
+  for i:= 0 to BookmarkMenuItems.Count - 1 do
+  begin
+    item:= TTBCustomItem(BookmarkMenuItems.Items[i]);
+    item.ViewBeginUpdate;
+    PopulateBookmarkItem(item, BookmarkTree, item is TSpTBXSubmenuItem);
+    item.ViewEndUpdate;
   end;
 end;
 
@@ -576,6 +594,30 @@ begin
     finally
       BookmarkPanel.BookmarkTree.EndUpdate;
     end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set ShowOpenAllAtTop
+-------------------------------------------------------------------------------}
+procedure TCEBookmarkPanelSettings.SetShowOpenAllAtTop(const Value: Boolean);
+begin
+  if fShowOpenAllAtTop <> Value then
+  begin
+    fShowOpenAllAtTop:= Value;
+    BookmarkPanel.RePopulateBookmarkItems;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set ShowOpenAllItem
+-------------------------------------------------------------------------------}
+procedure TCEBookmarkPanelSettings.SetShowOpenAllItem(const Value: Boolean);
+begin
+  if fShowOpenAllItem <> Value then
+  begin
+    fShowOpenAllItem:= Value;
+    BookmarkPanel.RePopulateBookmarkItems;
   end;
 end;
 

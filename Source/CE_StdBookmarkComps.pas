@@ -70,6 +70,7 @@ type
         Boolean; override;
     function DoDragDrop(DataObject: IDataObject; Shift: TShiftState; Pt: TPoint;
         var Effect: Integer): Boolean; override;
+    function DoPopup(X, Y: Integer): Boolean; override;
     function GetImageIndex(Open: Boolean = false): Integer; override;
     function IsExecutable: Boolean;
     function IsFile: Boolean;
@@ -299,6 +300,19 @@ begin
     Namespace.DragOver(keystate, pt, effect);
     effect:= DROPEFFECT_COPY or DROPEFFECT_MOVE or DROPEFFECT_LINK;
     Result:= Namespace.Drop(DataObject, keyState, pt, effect) = S_OK;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Do Popup (Return true if handled)
+-------------------------------------------------------------------------------}
+function TCENormalItemComp.DoPopup(X, Y: Integer): Boolean;
+begin
+  Result:= false;
+  if assigned(Namespace) then
+  begin
+    Result:= true;
+    Namespace.ShowContextMenu(MainForm, CEActions.DoGlobalContextMenuCmd, CEActions.DoGlobalContextMenuShow, nil);
   end;
 end;
 

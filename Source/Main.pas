@@ -211,6 +211,9 @@ type
     SpTBXItem45: TSpTBXItem;
     SpTBXSeparatorItem11: TSpTBXSeparatorItem;
     SpTBXItem46: TSpTBXItem;
+    SpTBXSeparatorItem29: TSpTBXSeparatorItem;
+    SpTBXItem75: TSpTBXItem;
+    SpTBXItem80: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -307,6 +310,7 @@ type
     function GetSingleInstance: Boolean;
     function GetSkin: string;
     function GetAutoLoadSession: WideString;
+    function GetLastUpdateCheck: TDateTime;
     function GetShowTray: Boolean;
     procedure SetAlphaBlend(const Value: Integer);
     procedure SetAlwaysOnTop(const Value: Boolean);
@@ -316,6 +320,7 @@ type
     procedure SetSingleInstance(const Value: Boolean);
     procedure SetSkin(const Value: string);
     procedure SetAutoLoadSession(const Value: WideString);
+    procedure SetLastUpdateCheck(const Value: TDateTime);
     procedure SetShowTray(const Value: Boolean);
   public
     Form: TMainForm;
@@ -340,6 +345,8 @@ type
     property CloseToTray: Boolean read fCloseToTray write fCloseToTray;
     property ExitOnLastTabClose: Boolean read fExitOnLastTabClose write
         fExitOnLastTabClose;
+    property LastUpdateCheck: TDateTime read GetLastUpdateCheck write
+        SetLastUpdateCheck;
     property MinimizeToTray: Boolean read fMinimizeToTray write fMinimizeToTray;
     property ShowTray: Boolean read GetShowTray write SetShowTray;
     property StartInTray: Boolean read fStartInTray write fStartInTray;
@@ -353,7 +360,7 @@ implementation
 
 uses
   madExcept, CE_QuickView, Clipbrd, CE_PaneHost, CE_Stacks, MPResources,
-  fCE_OptionsDialog, fCE_StackPanel;
+  fCE_OptionsDialog, fCE_StackPanel, CE_VersionUpdater;
 
 {$R *.dfm}
 
@@ -1713,6 +1720,7 @@ begin
   else
   Result:= '';
 end;
+
 procedure TMainFormSettings.SetAutoLoadSession(const Value: WideString);
 begin
   GlobalSessions.AutoLoadSession:= GlobalSessions.Sessions.FindSession(Value);
@@ -1733,6 +1741,17 @@ begin
   MainForm.TrayIcon.Active:= Value;
 end;
 
+{-------------------------------------------------------------------------------
+  Get/Set LastUpdateCheck
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetLastUpdateCheck: TDateTime;
+begin
+  Result:= CELastVersionCheck;
+end;
+procedure TMainFormSettings.SetLastUpdateCheck(const Value: TDateTime);
+begin
+  CELastVersionCheck:= Value;
+end;
 
 {##############################################################################}
 

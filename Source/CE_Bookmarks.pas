@@ -55,6 +55,7 @@ type
     function DoDragEnter(DataObject: IDataObject; Shift: TShiftState; Pt: TPoint;
         var Effect: Integer): Boolean; virtual;
     procedure DoDragLeave; virtual;
+    function DoPopup(X, Y: Integer): Boolean; virtual;
     function GetImageIndex(Open: Boolean = false): Integer; virtual;
     procedure KeyAction(CharCode: Word; Shift: TShiftState); virtual;
     procedure LoadFromXmlNode(XmlNode: TJvSimpleXmlElem); virtual;
@@ -167,6 +168,14 @@ end;
 procedure TCECustomBookComp.DoDragLeave;
 begin
   // nothing to do
+end;
+
+{-------------------------------------------------------------------------------
+  Do Popup (Return true if handled)
+-------------------------------------------------------------------------------}
+function TCECustomBookComp.DoPopup(X, Y: Integer): Boolean;
+begin
+  Result:= false;
 end;
 
 {*------------------------------------------------------------------------------

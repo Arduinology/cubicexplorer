@@ -98,7 +98,7 @@ procedure PopulateBookmarkItem(RootItem: TTBCustomItem; BookmarkTree:
 implementation
 
 uses
-  CE_StdBookmarkComps;
+  CE_StdBookmarkComps, CE_Utils;
 
 {*------------------------------------------------------------------------------
   Populate BookmarkItem
@@ -116,7 +116,7 @@ procedure PopulateBookmarkItem(RootItem: TTBCustomItem; BookmarkTree:
     openAll: TCEOpenAllBookmarksItem;
   begin
     // Show "Open All in Tabs" at top of the menu (Opera style)
-    if CEBookmarkPanel.Settings.ShowOpenAllAtTop then
+    if CEBookmarkPanel.Settings.ShowOpenAllItem and CEBookmarkPanel.Settings.ShowOpenAllAtTop then
     begin
       if (SubItem is TCEBookmarkSubItem) then
       begin
@@ -169,7 +169,7 @@ procedure PopulateBookmarkItem(RootItem: TTBCustomItem; BookmarkTree:
     end;
     
     // Show "Open All in Tabs" at bottom of the menu (Firefox style)
-    if not CEBookmarkPanel.Settings.ShowOpenAllAtTop then
+    if CEBookmarkPanel.Settings.ShowOpenAllItem and not CEBookmarkPanel.Settings.ShowOpenAllAtTop then
     begin
       if (SubItem is TCEBookmarkSubItem) then
       begin
@@ -191,7 +191,7 @@ begin
   Exit;
 
   // Show "Open All in Tabs" at top of the menu (Opera style)
-  if OpenAllToRoot and CEBookmarkPanel.Settings.ShowOpenAllAtTop then
+  if CEBookmarkPanel.Settings.ShowOpenAllItem and OpenAllToRoot and CEBookmarkPanel.Settings.ShowOpenAllAtTop then
   begin
     openAll:= TCEOpenAllBookmarksItem.Create(RootItem);
     openAll.CustomHeight:= 24;
@@ -203,7 +203,7 @@ begin
   EnumNode(BookmarkTree.RootNode, RootItem);
 
   // Show "Open All in Tabs" at bottom of the menu (Firefox style)
-  if OpenAllToRoot and not CEBookmarkPanel.Settings.ShowOpenAllAtTop then
+  if CEBookmarkPanel.Settings.ShowOpenAllItem and OpenAllToRoot and not CEBookmarkPanel.Settings.ShowOpenAllAtTop then
   begin
     sep:= TSpTBXSeparatorItem.Create(RootItem);
     RootItem.Add(sep);
@@ -248,8 +248,12 @@ end;
   Handle Click
 -------------------------------------------------------------------------------}
 procedure TCEBookmarkItem.Click;
+var
+  ss: TShiftState;
 begin
-  BookmarkData.BookComp.MouseClick([ssDouble, ssLeft],mbLeft);
+  ss:= GetShiftState;
+  Include(ss, ssLeft);
+  BookmarkData.BookComp.MouseClick(ss, mbLeft, true);
 end;
 
 {*------------------------------------------------------------------------------
@@ -302,8 +306,12 @@ end;
   Handle Click
 -------------------------------------------------------------------------------}
 procedure TCEBookmarkSubItem.Click;
+var
+  ss: TShiftState;
 begin
-  BookmarkData.BookComp.MouseClick([ssDouble, ssLeft],mbLeft);
+  ss:= GetShiftState;
+  Include(ss, ssLeft);
+  BookmarkData.BookComp.MouseClick(ss, mbLeft, true);
 end;
 
 {*------------------------------------------------------------------------------

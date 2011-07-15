@@ -99,6 +99,10 @@ function GetShortCutModifier(ShortCut: TShortCut):Word;
 function GetSettingsFolderPath(var IsReadOnly: Boolean; ACreate: Boolean):
     WideString;
 
+function GetAppVersionStr: string;
+
+function GetShiftState: TShiftState;
+
 var
   MenuKeyCaps: array[TMenuKeyCap] of string = (
     SmkcBkSp, SmkcTab, SmkcEsc, SmkcEnter, SmkcSpace, SmkcPgUp,
@@ -874,6 +878,35 @@ begin
   Result:= ExePath;
 
   Result:= WideIncludeTrailingBackslash(Result);
+end;
+
+{-------------------------------------------------------------------------------
+  Get AppVersionStr
+-------------------------------------------------------------------------------}
+function GetAppVersionStr: string;
+var
+  ver: TJclFileVersionInfo;
+begin
+  ver:= TJclFileVersionInfo.Create(Application.ExeName);
+  try
+    Result:= ver.FileVersion;
+  finally
+    ver.Free;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Get ShiftState
+-------------------------------------------------------------------------------}
+function GetShiftState: TShiftState;
+begin
+  Result := [];
+  if GetAsyncKeyState(VK_SHIFT) < 0 then
+  Include(Result, ssShift);
+  if GetAsyncKeyState(VK_CONTROL) < 0 then
+  Include(Result, ssCtrl);
+  if GetAsyncKeyState(VK_MENU) < 0 then
+  Include(Result, ssAlt);
 end;
 
 {##############################################################################}

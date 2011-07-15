@@ -50,6 +50,7 @@ type
   TCEPathCtrl = class(TObject)
   private
     fActivePage: TComponent;
+    fCurrentPath: WideString;
     fFocusChanging: Boolean;
     fGlobalPathCaption: WideString;
     fPathChanging: Boolean;
@@ -66,6 +67,7 @@ type
     procedure RegisterNotify(ReceiverCtrl: TComponent);
     procedure ChangeGlobalContent(Sender: TObject);
     property ActivePage: TComponent read fActivePage write SetActivePage;
+    property CurrentPath: WideString read fCurrentPath;
     property GlobalPathCaption: WideString read fGlobalPathCaption write
         SetGlobalPathCaption;
   published
@@ -89,7 +91,7 @@ var
 implementation
 
 uses
-  Main, dCE_Actions, fCE_FileView, fCE_TextEditor;
+  Main, dCE_Actions, fCE_FileView, fCE_TextEditor, CE_FileUtils;
 
 {##############################################################################}
 
@@ -140,6 +142,7 @@ begin
     PathHandler.GlobalPathChanged(Sender, NewPath);
   end;
 
+  fCurrentPath:= NewPath;
   fPathChanging:= false;
 end;
 
@@ -178,6 +181,7 @@ begin
     PathHandler.GlobalPIDLChanged(Sender, APIDL);
   end;
 
+  fCurrentPath:= PIDLToCEPath(APIDL);
   fPathChanging:= false;
 end;
 

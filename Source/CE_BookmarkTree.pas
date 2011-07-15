@@ -37,7 +37,7 @@ uses
   // Tnt
   TntClasses, TntSysUtils,
   // System Units
-  Classes, SysUtils, Windows, Messages, ImgList, Controls, Contnrs, Forms,
+  Classes, SysUtils, Windows, Messages, ImgList, Controls, Contnrs,
   ActiveX, Graphics, Dialogs;
 
 type
@@ -105,7 +105,7 @@ type
 implementation
 
 uses
-  CE_StdBookmarkComps, dCE_Actions, CE_LanguageEngine;
+  CE_StdBookmarkComps, dCE_Actions, CE_LanguageEngine, Forms;
 
 {*------------------------------------------------------------------------------
   Create an instance of TCEBookmarkTree object

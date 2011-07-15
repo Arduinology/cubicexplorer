@@ -172,7 +172,7 @@ type
 implementation
 
 uses
-  CE_LanguageEngine, dCE_Actions;
+  CE_LanguageEngine, dCE_Actions, CE_GlobalCtrl;
 
 {##############################################################################}
 
@@ -1475,6 +1475,10 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEStackTree.HandleMouseDblClick(var Message: TWMMouse; const
     HitInfo: THitInfo);
+var
+  data: PCEStackItemData;
+  ns: TNamespace;
+  pidl: PItemIDList;
 begin
   if not assigned(HitInfo.HitNode) then
   Exit;
@@ -1500,6 +1504,24 @@ begin
     Self.ScrollIntoView(HitInfo.HitNode,false,true);
   finally
     Self.EndUpdate;
+  end;
+
+  data:= Self.GetNodeData(HitInfo.HitNode);
+  if data.ItemType = sitShell then
+  begin
+    pidl:= CEPathToPIDL(data.CEPath);
+    if assigned(pidl) then
+    begin
+      ns:= TNamespace.Create(pidl, nil);
+      try
+        if ns.Folder and (WideStrIComp(PWideChar(ns.Extension), '.zip') <> 0) then
+        GlobalPathCtrl.ChangeGlobalPathPIDL(Self, ns.AbsolutePIDL)
+        else
+        ns.ShellExecuteNamespace(GlobalPathCtrl.CurrentPath, '', true, true, MP_ThreadedShellExecute);
+      finally
+        ns.Free;
+      end;
+    end;
   end;
 end;
 

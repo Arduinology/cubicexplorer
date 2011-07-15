@@ -211,6 +211,9 @@ object MainForm: TMainForm
           object SpTBXItem51: TSpTBXItem
             Action = CEActions.act_view_dropstack
           end
+          object SpTBXItem80: TSpTBXItem
+            Action = CEActions.act_view_archiver
+          end
         end
         object SpTBXItem87: TSpTBXItem
           Action = CEActions.act_view_infobar
@@ -394,6 +397,11 @@ object MainForm: TMainForm
         end
         object SpTBXItem83: TSpTBXItem
           Action = CEActions.act_help_poedit_form
+        end
+        object SpTBXSeparatorItem29: TSpTBXSeparatorItem
+        end
+        object SpTBXItem75: TSpTBXItem
+          Action = CEActions.act_help_versionmgr
         end
         object SpTBXSeparatorItem20: TSpTBXSeparatorItem
         end
