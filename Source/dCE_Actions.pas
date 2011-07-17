@@ -51,6 +51,7 @@ const
 
   WM_SingleInstance = WM_USER + 1;
   WM_MakeVisible = WM_USER + 100;
+  WM_ExecuteAction = WM_USER + 101;
 
 type
   TCustomVirtualExplorerEasyListviewHack = class(TCustomVirtualExplorerEasyListview);
@@ -219,6 +220,7 @@ type
     act_view_checkbox_selection: TTntAction;
     act_help_versionmgr: TTntAction;
     act_view_archiver: TTntAction;
+    act_gen_new_instance: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -327,6 +329,7 @@ procedure DoGlobalContextMenuCmd(Sender: TObject; Namespace: TNamespace; Verb:
 
 var
   CEActions: TCEActions;
+  fDisableSingleInstanceTemporarily: Integer = 0;
 
 implementation
 
@@ -472,6 +475,21 @@ begin
       Application.MainForm.Close; // Exit
     end;
     101: MainForm.ToggleVisibility;
+    102: begin
+      if Application.MainForm.CloseQuery then
+      begin
+        MainForm.Shutdown;
+        MainForm.SaveSettingsOnClose:= false;
+        fDisableSingleInstanceTemporarily:= GetTickCount;
+        WideShellExecute(0, 'open', WideParamStr(0), '', '', SW_SHOWNORMAL);
+        Sleep(1000);
+        Application.MainForm.Close;
+      end;
+    end;
+    103: begin
+      fDisableSingleInstanceTemporarily:= GetTickCount;
+      WideShellExecute(0, 'open', WideParamStr(0), '', '', SW_SHOWNORMAL);
+    end;
   end;
 end;
 
@@ -1503,7 +1521,7 @@ begin
   case msg.Msg of
     // Single instance question
     WM_SingleInstance: begin
-      if IsSingleInstance then
+      if ((GetTickCount - fDisableSingleInstanceTemporarily) > 30000) and IsSingleInstance then
       Msg.Result:= 0
       else
       Msg.Result:= -1;
@@ -1518,6 +1536,10 @@ begin
     // Make CE Visible
     WM_MakeVisible: begin
       MainForm.MakeVisible(true);
+    end;
+    // Execute Action
+    WM_ExecuteAction: begin
+      ExecuteCEAction(Msg.WParam);
     end;
   end;
 end;

@@ -104,6 +104,8 @@ type
 
 function IsEmptyFolder(ANamespace: TNamespace): Boolean;
 
+function GetRedirectedPath(APath: WideString): WideString;
+
 implementation
 
 {-------------------------------------------------------------------------------
@@ -560,6 +562,32 @@ begin
                                      SHCONTF_CHECKING_FOR_CHILDREN)
   else
   Result:= true;
+end;
+
+{-------------------------------------------------------------------------------
+  Get RedirectedPath
+-------------------------------------------------------------------------------}
+function GetRedirectedPath(APath: WideString): WideString;
+var
+  prog, vstore: WideString;
+  subPath: WideString;
+  c, c2: Integer;
+begin
+  Result:= APath;
+
+  prog:= WideIncludeTrailingBackslash(WideExpandEnviromentString('%ProgramFiles%'));
+  if Pos(prog, APath) = 1 then
+  begin
+    c:= Length(prog);
+    c2:= Length(APath);
+    subPath:= Copy(APath, c+1, c2 - c);
+    if subPath <> '' then
+    begin
+      vstore:= WideExpandEnviromentString('%LocalAppData%' + '\VirtualStore\Program Files\' + subPath);
+      if WideFileExists(vstore) then
+      Result:= vstore;
+    end;
+  end;
 end;
 
 end.

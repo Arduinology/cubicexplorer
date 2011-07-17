@@ -48,6 +48,7 @@ type
     but_close: TSpTBXButton;
     but_download: TSpTBXButton;
     panel_bottom: TSpTBXPanel;
+    label_current_version: TSpTBXLabel;
     procedure but_checkClick(Sender: TObject);
     procedure but_closeClick(Sender: TObject);
     procedure but_downloadClick(Sender: TObject);
@@ -91,7 +92,8 @@ var
 implementation
 
 uses
-  CE_XmlUtils, CE_VistaFuncs, httpsend, TypInfo, Math, TntSysUtils, CE_Utils;
+  CE_XmlUtils, CE_VistaFuncs, httpsend, TypInfo, Math, TntSysUtils, CE_Utils,
+  CE_LanguageEngine;
 
 {$R *.dfm}
 
@@ -150,7 +152,9 @@ begin
   if CELastVersionCheck = 0 then
   label_lastcheck.Caption:= ''
   else
-  label_lastcheck.Caption:= 'Last check: ' + DateTimeToStr(CELastVersionCheck);
+  label_lastcheck.Caption:= _('Last check:') + ' ' + DateTimeToStr(CELastVersionCheck);
+
+  label_current_version.Caption:= _('Current version:') + ' ' + Updater.CurrentVersionStr;
   // Load Offline UpdateConf
   if Updater.LoadUpdateConfFromFile(Updater.VersionFolder + 'updates.xml') then
   PopulateItems;
@@ -211,9 +215,9 @@ begin
     if Updater.ValidateVersion(data.Node) then
     Updater.UseVersion(data.Version)
     else if TaskDialog(Self.Handle,
-                       'Invalid update!',
-                       'One or more file is missing!',
-                       'Do you really wan''t to update?',
+                       _('Invalid update!'),
+                       _('One or more files are missing!'),
+                       _('Do you really wan''t to update?'),
                        TD_ICON_WARNING,
                        TD_BUTTON_YES or TD_BUTTON_NO) = mrYes then
     Updater.UseVersion(data.Version);
@@ -242,7 +246,7 @@ begin
       if Data.IsValidDocument and (Data.HTTP.ResultCode = 200) then
       begin
         CELastVersionCheck:= Now;
-        label_lastcheck.Caption:= 'Last check: ' + DateTimeToStr(CELastVersionCheck);
+        label_lastcheck.Caption:= _('Last check:') + ' ' + DateTimeToStr(CELastVersionCheck);
         PopulateItems;
       end
       else // Error
@@ -272,11 +276,11 @@ procedure TCEVersionMgrForm.HandleDownloadVersionDone(Sender: TObject; Data:
 begin
   if Data.Current = Data.FileCount then
   begin
-    but_download.Caption:= 'Re-Download';
+    but_download.Caption:= _('Re-Download');
     but_download.Enabled:= true;
 
     if Data.Failed > 0 then
-    TaskDialog(Self.Handle, 'Download failed!', IntToStr(Data.Failed) + ' file(s) failed to download!', '', TD_ICON_WARNING, TD_BUTTON_OK);
+    TaskDialog(Self.Handle, _('Download failed!'), WideFormat(_('%d file(s) failed to download!'), [IntToStr(Data.Failed)]), '', TD_ICON_WARNING, TD_BUTTON_OK);
   end;
 end;
 
@@ -441,7 +445,7 @@ begin
     begin
       data:= ItemList.GetNodeData(fSelectedItem);
       label_version.Caption:= data.Caption;
-      label_datetime.Caption:= 'Published: ' + DateTimeToStr(data.Date);
+      label_datetime.Caption:= _('Published:') + ' ' + DateTimeToStr(data.Date);
       label_type.Caption:= data.BuildTypeStr;
       // Get notes
       memo_notes.Lines.Clear;
@@ -451,10 +455,11 @@ begin
         memo_notes.Lines.Text:= notesNode.TextContent;
       end;
       but_use.Enabled:= not data.IsCurrentVersion;
+      but_download.Enabled:= true;
       if not Updater.VersionFolderExists(data.Version) then
-      but_download.Caption:= 'Download'
+      but_download.Caption:= _('Download')
       else
-      but_download.Caption:= 'Re-Download';
+      but_download.Caption:= _('Re-Download');
     end
     else
     begin

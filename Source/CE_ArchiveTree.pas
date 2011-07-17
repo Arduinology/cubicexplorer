@@ -7,8 +7,10 @@ uses
   VirtualTrees,
   // JCL
   JclCompressionWide,
+  // TNT
+  TntClasses,
   // System Units
-  Classes, SysUtils, Windows, Forms, ImgList, Messages;
+  Classes, SysUtils, Windows, Forms, ImgList, Messages, Graphics;
 
 type
   PItemData = ^AItemData;
@@ -27,6 +29,7 @@ type
   TCEArchiveTree = class;
 
   TCEArchivePathChangeEvent = procedure(Sender: TCEArchiveTree; Path: WideString) of object;
+  TCEArchiveProgressEvent = procedure(Sender: TObject; const Value, MaxValue: Int64) of Object;
 
   TCEArchiveTree = class(TVirtualStringTree)
   private
@@ -34,7 +37,9 @@ type
     fCheckBoxSelection: Boolean;
     fCurrentFolderNode: PVirtualNode;
     fLastIconRefresh: Integer;
+    fLibraryMissing: Boolean;
     fOnCurrentFolderChange: TCEArchivePathChangeEvent;
+    fOnProgress: TCEArchiveProgressEvent;
     fShowFilePathInFlat: Boolean;
     fShowFolderUpNode: Boolean;
     fSingleFolderMode: Boolean;
@@ -49,6 +54,7 @@ type
     fDestDir: WideString;
     fFolderIconIndex: Integer;
     procedure AddColumns; virtual;
+    procedure DoAfterPaint(Canvas: TCanvas); override;
     function DoCompare(Node1, Node2: PVirtualNode; Column: TColumnIndex): Integer;
         override;
     procedure DoFreeNode(Node: PVirtualNode); override;
@@ -76,10 +82,15 @@ type
         virtual;
     procedure PopulateAsFlat; virtual;
     procedure PopulateAsTree; virtual;
+    procedure RefreshItemSelection;
+    function VerifyExtract(ADestinationDir: WideString; AConflictingPaths:
+        TTntStrings; AOverridesOnly: Boolean = true; AIgnorePathNotFound: Boolean =
+        true; ACheckedOnly: Boolean = false): Integer;
     property Archive: TJclCompressionArchive read fArchive;
     property CurrentFolder: WideString read GetCurrentFolder write SetCurrentFolder;
     property CurrentFolderNode: PVirtualNode read fCurrentFolderNode write
         SetCurrentFolderNode;
+    property LibraryMissing: Boolean read fLibraryMissing;
   published
     property CheckBoxSelection: Boolean read fCheckBoxSelection write
         SetCheckBoxSelection;
@@ -91,6 +102,7 @@ type
         SetSingleFolderMode;
     property OnCurrentFolderChange: TCEArchivePathChangeEvent read
         fOnCurrentFolderChange write fOnCurrentFolderChange;
+    property OnProgress: TCEArchiveProgressEvent read fOnProgress write fOnProgress;
   end;
 
   function FileAttributeToStr(AFileAttr: Cardinal): String;
@@ -99,7 +111,7 @@ type
 implementation
 
 uses
-  MPCommonUtilities, ShellAPI, MPCommonObjects, TntClasses;
+  MPCommonUtilities, ShellAPI, MPCommonObjects, TntSysUtils;
 
 {-------------------------------------------------------------------------------
   FileTime To DateTime
@@ -172,6 +184,7 @@ begin
   Self.TreeOptions.SelectionOptions:= [toMultiSelect];
   fShowFilePathInFlat:= false;
   fSingleFolderMode:= false;
+  fLibraryMissing:= not WideFileExists('7z.dll');
 end;
 
 {-------------------------------------------------------------------------------
@@ -352,6 +365,24 @@ begin
   Self.Clear;
   if assigned(Archive) then
   FreeAndNil(fArchive);
+end;
+
+{-------------------------------------------------------------------------------
+  Do AfterPaint
+-------------------------------------------------------------------------------}
+procedure TCEArchiveTree.DoAfterPaint(Canvas: TCanvas);
+var
+  s: String;
+  r: TRect;
+begin
+  inherited;
+  if fLibraryMissing then
+  begin
+    s:= '7z.dll is missing!';
+    r:= Self.ClientRect;
+    Canvas.Font.Color:= clGrayText;
+    Canvas.TextRect(r, s, [tfCenter, tfSingleLine, tfVerticalCenter]);
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -544,17 +575,11 @@ var
   node: PVirtualNode;
   data: PItemData;
 begin
-  node:= Self.GetFirst;
-  while assigned(node) do
+  if assigned(fArchive) then
   begin
-    data:= Self.GetNodeData(node);
-    if assigned(data.Item) then
-    begin
-      data.Item.Selected:= Self.CheckState[node] = csCheckedNormal;
-    end;
-    node:= Self.GetNext(node);
+    RefreshItemSelection;
+    TJclDecompressArchive(fArchive).ExtractSelected(ADestDir, ACreateSubDirs);
   end;
-  TJclDecompressArchive(fArchive).ExtractSelected(ADestDir, ACreateSubDirs);
 end;
 
 {-------------------------------------------------------------------------------
@@ -645,7 +670,13 @@ function TCEArchiveTree.OpenArchive(AFilePath: WideString; AsFlat: Boolean =
 var
   archiveClass: TJclDecompressArchiveClass;
 begin
+  if fLibraryMissing then
+  fLibraryMissing:= not WideFileExists('7z.dll');
+  
   Result:= false;
+
+  if fLibraryMissing then
+  Exit;
 
   archiveClass:= GetArchiveFormats.FindDecompressFormat(AFilePath);
   if assigned(archiveClass) then
@@ -653,12 +684,15 @@ begin
     CloseArchive;
 
     fArchive:= archiveClass.Create(AFilePath);
+    fArchive.OnProgress:= fOnProgress;
 
     TJclDecompressArchive(fArchive).ListFiles;
     if AsFlat then
     PopulateAsFlat
     else
     PopulateAsTree;
+
+    Result:= true;
   end;
 end;
 
@@ -828,6 +862,26 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Refresh Item Selection
+-------------------------------------------------------------------------------}
+procedure TCEArchiveTree.RefreshItemSelection;
+var
+  node: PVirtualNode;
+  data: PItemData;
+begin
+  node:= Self.GetFirst;
+  while assigned(node) do
+  begin
+    data:= Self.GetNodeData(node);
+    if assigned(data.Item) then
+    begin
+      data.Item.Selected:= Self.CheckState[node] = csCheckedNormal;
+    end;
+    node:= Self.GetNext(node);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   Set CheckBoxSelection
 -------------------------------------------------------------------------------}
 procedure TCEArchiveTree.SetCheckBoxSelection(const Value: Boolean);
@@ -992,6 +1046,70 @@ begin
     node:= Self.GetNextVisible(node);
   end;
   Self.RootNode.TotalHeight:= h;
+end;
+
+{-------------------------------------------------------------------------------
+  VerifyExtract (Returns number of conflicting paths. -1 is returned when destination dir doesn't exist)
+-------------------------------------------------------------------------------}
+function TCEArchiveTree.VerifyExtract(ADestinationDir: WideString;
+    AConflictingPaths: TTntStrings; AOverridesOnly: Boolean = true;
+    AIgnorePathNotFound: Boolean = true; ACheckedOnly: Boolean = false):
+    Integer;
+var
+  i: Integer;
+  item: TJclCompressionItem;
+  path: WideString;
+  h: Integer;
+  err: Integer;
+begin
+  Result:= -1;
+  
+  if not assigned(AConflictingPaths) then
+  raise Exception.Create('AConflictingPaths has to be assigned!');
+
+  ADestinationDir:= WideIncludeTrailingBackslash(ADestinationDir);
+  if WideDirectoryExists(ADestinationDir) then
+  begin
+    AConflictingPaths.Clear;
+    if assigned(fArchive) then
+    begin
+      if ACheckedOnly then
+      RefreshItemSelection;
+
+      for i:= 0 to fArchive.ItemCount - 1 do
+      begin
+        item:= fArchive.Items[i];
+        if (item.Kind = ikFile) and (not ACheckedOnly or (ACheckedOnly and item.Selected)) then
+        begin
+          path:= ADestinationDir + item.PackedName;
+          if WideFileExists(path) then
+          begin
+            h:= WideFileOpen(path, fmOpenReadWrite);
+            err:= GetLastError;
+            if h < 0 then
+            AConflictingPaths.AddObject(path, TObject(err))
+            else
+            FileClose(h);
+          end
+          else if not AOverridesOnly then
+          begin
+            h:= WideFileCreate(path);
+            err:= GetLastError;
+            if h < 0 then
+            begin
+              if err <> ERROR_PATH_NOT_FOUND then
+              AConflictingPaths.AddObject(path, TObject(err))
+            end
+            else
+            FileClose(h);
+            if WideFileExists(path) then
+            WideDeleteFile(path);
+          end;
+        end;
+      end;
+      Result:= AConflictingPaths.Count;
+    end;
+  end
 end;
 
 end.

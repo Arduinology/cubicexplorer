@@ -804,3 +804,13 @@ msgstr ""
 # dCE_Images.dfm:6840
 msgid "PngImage44"
 msgstr ""
+
+#. CEVersionMgrForm..TabControl..sheet_backups..TabItem
+#: fCE_VersionMgrForm.dfm:45
+msgid "tab_backups"
+msgstr ""
+
+#. CEVersionMgrForm..TabControl..sheet_versions..TabItem
+#: fCE_VersionMgrForm.dfm:57
+msgid "tab_versions"
+msgstr ""

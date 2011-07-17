@@ -60,7 +60,6 @@ object CEVersionMgrForm: TCEVersionMgrForm
         Top = 33
         Width = 102
         Height = 19
-        Caption = 'Snapshot'
         Anchors = [akTop, akRight]
         AutoSize = False
         Alignment = taRightJustify
@@ -90,7 +89,7 @@ object CEVersionMgrForm: TCEVersionMgrForm
         Columns = <
           item
             Position = 0
-            Width = 118
+            Width = 114
             WideText = 'Version'
           end
           item
@@ -107,9 +106,8 @@ object CEVersionMgrForm: TCEVersionMgrForm
       object label_version: TSpTBXLabel
         Left = 316
         Top = 8
-        Width = 66
-        Height = 19
-        Caption = '0.94.0.1376'
+        Width = 6
+        Height = 6
       end
       object memo_notes: TTntMemo
         Left = 316
@@ -125,9 +123,8 @@ object CEVersionMgrForm: TCEVersionMgrForm
       object label_datetime: TSpTBXLabel
         Left = 316
         Top = 33
-        Width = 58
-        Height = 19
-        Caption = 'Published: '
+        Width = 6
+        Height = 6
       end
       object but_check: TSpTBXButton
         Left = 8
@@ -142,9 +139,8 @@ object CEVersionMgrForm: TCEVersionMgrForm
       object label_lastcheck: TSpTBXLabel
         Left = 151
         Top = 272
-        Width = 63
-        Height = 19
-        Caption = 'Last check: '
+        Width = 6
+        Height = 6
         Anchors = [akLeft, akBottom]
         Enabled = False
       end
@@ -155,6 +151,7 @@ object CEVersionMgrForm: TCEVersionMgrForm
         Height = 30
         Caption = 'Use this version'
         Anchors = [akLeft, akBottom]
+        Enabled = False
         TabOrder = 7
         OnClick = but_useClick
       end
@@ -165,6 +162,7 @@ object CEVersionMgrForm: TCEVersionMgrForm
         Height = 30
         Caption = 'Download'
         Anchors = [akLeft, akBottom]
+        Enabled = False
         TabOrder = 8
         OnClick = but_downloadClick
       end
@@ -191,6 +189,14 @@ object CEVersionMgrForm: TCEVersionMgrForm
       Anchors = [akTop, akRight]
       TabOrder = 0
       OnClick = but_closeClick
+    end
+    object label_current_version: TSpTBXLabel
+      Left = 8
+      Top = 12
+      Width = 6
+      Height = 6
+      Anchors = [akLeft, akBottom]
+      Enabled = False
     end
   end
 end

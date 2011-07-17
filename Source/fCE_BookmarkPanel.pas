@@ -402,7 +402,6 @@ var
   b, defaultPopup: Boolean;
   p: TPoint;
   info: THitInfo;
-  node: PVirtualNode;
   data: PCEBookData;
 begin
   if Button = mbRight then

@@ -106,7 +106,8 @@ procedure ClearFolder(AFolder: WideString; ARecursive: Boolean = true);
 
 function NeedElevation(AFolder: WideString = ''): Boolean;
 
-function UpdateCEFromZip(AZipPath: WideString; ADestFolderPath: WideString):
+function UpdateCEFromZip(AZipPath: WideString; ADestFolderPath: WideString;
+    OldApplicationHandle: Integer = 0; CheckElevationNeed: Boolean = false):
     Boolean;
 
 var
@@ -116,7 +117,8 @@ implementation
 
 uses
   CE_XmlUtils, Math, MPCommonUtilities, TntClasses, TntSysUtils, TntSystem,
-  TntWindows, fCE_UpdateDlg, Controls;
+  TntWindows, fCE_UpdateDlg, Controls, CE_VistaFuncs, Messages, dCE_Input,
+  Forms, CE_FileUtils, CE_LanguageEngine;
 
 {-------------------------------------------------------------------------------
   Compare Version (Result < 0 if Ver1 is smaller,
@@ -270,48 +272,59 @@ end;
 -------------------------------------------------------------------------------}
 function NeedElevation(AFolder: WideString = ''): Boolean;
 var
-  stream: TFileStream;
   dir, tmpFile: WideString;
+  h: Integer;
 begin
   Result:= false;
-  stream:= nil;
   if (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6) then
   begin
-    try
-      if AFolder <> '' then
-      dir:= WideIncludeTrailingPathDelimiter(AFolder)
-      else
-      dir:= WideExtractFilePath(WideParamStr(0));
-      // Generate random file name
-      Randomize;
+    if AFolder <> '' then
+    dir:= WideIncludeTrailingPathDelimiter(AFolder)
+    else
+    dir:= WideExtractFilePath(WideParamStr(0));
+    // Generate random file name
+    Randomize;
+    tmpFile:= 'tmp' + IntToStr(Random($FFFFFF)) + '.exe';
+    while WideFileExists(dir + tmpFile) do
+    begin
       tmpFile:= 'tmp' + IntToStr(Random($FFFFFF)) + '.exe';
-      while WideFileExists(dir + tmpFile) do
-      begin
-        tmpFile:= 'tmp' + IntToStr(Random($FFFFFF)) + '.exe';
-      end;
-      tmpFile:= dir + tmpFile;
-      // Try to create a file
-      stream:= TFileStream.Create(tmpFile, fmCreate);
-    except
-      Result:= true;
     end;
-    
-    if assigned(stream) then
-    stream.Free;
-    // Delete created file
-    if WideFileExists(tmpFile) then
-    WideDeleteFile(tmpFile);
+    tmpFile:= dir + tmpFile;
+    // Try to create a file
+    h:= WideFileCreate(tmpFile);
+    if GetLastError = ERROR_ACCESS_DENIED then
+    Result:= true;
+    if h > -1 then
+    begin
+      FileClose(h);
+      // Delete created file
+      if WideFileExists(tmpFile) then
+      WideDeleteFile(tmpFile);
+    end;
   end;
 end;
 
 {-------------------------------------------------------------------------------
   Extract Zip Tp
 -------------------------------------------------------------------------------}
-function UpdateCEFromZip(AZipPath: WideString; ADestFolderPath: WideString):
+function UpdateCEFromZip(AZipPath: WideString; ADestFolderPath: WideString;
+    OldApplicationHandle: Integer = 0; CheckElevationNeed: Boolean = false):
     Boolean;
 var
   dlg: TCEUpdateDlg;
 begin
+  Result:= false;
+  if CheckElevationNeed and NeedElevation then
+  begin
+    AZipPath:= GetRedirectedPath(AZipPath);
+    WideShellExecute(0,
+                     'runas',
+                     WideParamStr(0),
+                     '/update ' + '"' + AZipPath + '" "' + ADestFolderPath + '" ' + IntToStr(OldApplicationHandle),
+                     ADestFolderPath);
+    Exit;
+  end;
+
   dlg:= TCEUpdateDlg.Create(nil);
   try
     try
@@ -322,6 +335,20 @@ begin
     Result:= dlg.ShowModal = mrOk;
   finally
     dlg.Free;
+
+    if Result then
+    begin
+      if TaskDialog(GetActiveWindow,
+                   _('Restart needed!'),
+                   _('Restart CubicExplorer Now?'),
+                   '',
+                   TD_ICON_QUESTION,
+                   TD_BUTTON_YES+TD_BUTTON_NO) = mrYes then
+      begin
+        if OldApplicationHandle <> 0 then
+        PostMessage(OldApplicationHandle, WM_USER + 101, 102, 0); // Post restart message
+      end;
+    end;
   end;
 end;
 
@@ -768,7 +795,7 @@ begin
           op:= TDOMElement(fileNode).AttribStrings['operation'];
           if op = 'extract' then
           begin
-            UpdateCEFromZip(path, OutputFolder);
+            UpdateCEFromZip(path, OutputFolder, CEInput.MsgInput.Handle, true);
           end;
         end;
         fileNode:= FindNextSiblingDOMNode(fileNode, 'File');

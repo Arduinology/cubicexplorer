@@ -1,15 +1,24 @@
-﻿msgid ""
+msgid ""
 msgstr ""
-"Project-Id-Version: 1.1+\n"
+"Project-Id-Version: 1.2\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1253\n"
+"CE-POT-Version: 1388\n"
 "CE-Language: Russian\n"
 "Last-Translator: buddah (+updated by lzsaver) <i-do@bk.ru>\n"
 
 msgid "%d folder(s) searched and %d item(s) found in %.3f second(s)"
 msgstr "%d папок проверено и %d объектов найдено за %.3f секунд(ы)"
+
+msgid "..."
+msgstr "..."
+
+msgid "A long time ago"
+msgstr "Давным-давно"
+
+msgid "A month ago"
+msgstr "Месяц назад"
 
 msgid "About CubicExplorer"
 msgstr "О программе CubicExplorer"
@@ -23,6 +32,12 @@ msgstr "Открыт"
 msgid "Actions"
 msgstr "Выберите кнопки панели"
 
+msgid "Actual"
+msgstr "Актуально"
+
+msgid "Add"
+msgstr "Добавить"
+
 msgid "Add Bookmark"
 msgstr "Добавить закладку"
 
@@ -31,6 +46,9 @@ msgstr "Добавить категорию"
 
 msgid "Add History Item"
 msgstr "Добавить в историю"
+
+msgid "Add Session"
+msgstr "Добавить сессию"
 
 msgid "Add Tab"
 msgstr "Добавить вкладку"
@@ -53,6 +71,9 @@ msgstr "После времени:"
 msgid "All"
 msgstr "Все"
 
+msgid "Allow Move"
+msgstr "Разрешить перемещение"
+
 msgid "Always On Top"
 msgstr "Поверх всех окон"
 
@@ -71,11 +92,23 @@ msgstr "Ревизия программы:"
 msgid "Apply"
 msgstr "Применить"
 
+msgid "Apply Changes"
+msgstr "Применить изменения"
+
+msgid "Apply changes now?"
+msgstr "Применить изменения сейчас?"
+
 msgid "Apply changes."
 msgstr "Принять изменения"
 
 msgid "Are you sure you want to clear session history?"
 msgstr "Вы действительно хотите очистить историю сессий?"
+
+msgid "Are you sure you want to clear the list?"
+msgstr "Вы уверены, что хотите очистить список?"
+
+msgid "Are you sure you want to delete selected bookmarks?"
+msgstr "Вы уверены, что хотите удалить выбранные закладки?"
 
 msgid "Are you sure you want to delete this session?"
 msgstr "Вы правда хотите удалить эту сессию?"
@@ -92,14 +125,23 @@ msgstr "Как максимум:"
 msgid "Attributes"
 msgstr "Атрибуты"
 
+msgid "Author"
+msgstr "Автор"
+
 msgid "Auto"
 msgstr "Авто"
+
+msgid "Auto Save History"
+msgstr "Автосохранение истории"
 
 msgid "Auto collapse tree"
 msgstr "Автосворачивание"
 
 msgid "Auto expand tree"
 msgstr "Авторазворачивание"
+
+msgid "Auto fit tabs"
+msgstr "Автоподгонка табов"
 
 msgid "Auto size cells in list view style."
 msgstr "Авторазмер ячеек при просмотре списком"
@@ -125,6 +167,9 @@ msgstr "Закладки"
 msgid "Bookmarks Panel Settings"
 msgstr "Настройки закладок"
 
+msgid "Borders"
+msgstr "Бордюры"
+
 msgid "Bottom"
 msgstr "Низ"
 
@@ -133,6 +178,9 @@ msgstr "Навигация"
 
 msgid "Browse..."
 msgstr "Обзор..."
+
+msgid "Buttons"
+msgstr "Кнопки"
 
 msgid "Bytes"
 msgstr "Байт"
@@ -149,6 +197,12 @@ msgstr "Чувствительно к регистру"
 msgid "Case sensitivity"
 msgstr "Чувствительность к регистру"
 
+msgid "Change order by dragging"
+msgstr "Изменить порядок перетаскиванием"
+
+msgid "Checkbox Selection"
+msgstr "Выбор чекбоксами"
+
 msgid "Clear Filters"
 msgstr "Очистить фильтры"
 
@@ -161,11 +215,17 @@ msgstr "Очистить список"
 msgid "Clear Results"
 msgstr "Очистить результаты"
 
+msgid "Clear Stack"
+msgstr "Очистить стэк"
+
 msgid "Clear filter history"
 msgstr "Очистить фильтр истории"
 
 msgid "Clear filters on folder change"
 msgstr "Очищать фильтр при смене папки"
+
+msgid "Clear session history?"
+msgstr "Очистить историю сессий?"
 
 msgid "Close"
 msgstr "Закрыть"
@@ -182,8 +242,29 @@ msgstr "Закрыть вкладки слева"
 msgid "Close Tabs on Right"
 msgstr "Закрыть вкладки справа"
 
+msgid "Close tab on double click"
+msgstr "Закрыть вкладку по двойному клику"
+
+msgid "Close to tray"
+msgstr "Закрывать в трей"
+
+msgid "Column Settings"
+msgstr "Настройки колонок"
+
 msgid "Compressed"
 msgstr "Сжатый"
+
+msgid "Confirm"
+msgstr "Подтвердить"
+
+msgid "Connection error!"
+msgstr "Ошибка соединения!"
+
+msgid "Contact File"
+msgstr "Файл контактов"
+
+msgid "Contains hidden items"
+msgstr "Содержит скрытые элементы"
 
 msgid "Content"
 msgstr "Содержимое"
@@ -205,6 +286,9 @@ msgstr "Создать"
 
 msgid "Create New Translation"
 msgstr "Сделать перевод на другой язык"
+
+msgid "Create Symbolic Link"
+msgstr "Создать символическую ссылку"
 
 msgid "Create new translation."
 msgstr "Сделать перевод на другой язык"
@@ -245,11 +329,17 @@ msgstr "Дата изменения"
 msgid "Default"
 msgstr "По умолчанию"
 
+msgid "Default hotkeys become available after restart!"
+msgstr "Управление горячими кнопками по умолчанию заработает после рестарта программы!"
+
 msgid "Delete"
 msgstr "Удалить"
 
 msgid "Delete active session."
 msgstr "Удалить активную сессию"
+
+msgid "Deleting multiple bookmarks!"
+msgstr "Удаление множества закладок!"
 
 msgid "Desktop"
 msgstr "Рабочий стол"
@@ -263,8 +353,14 @@ msgstr "Направление"
 msgid "Disconnect Network Drive..."
 msgstr "Отключить сетевой диск..."
 
+msgid "Disk Usage"
+msgstr "Использование диска"
+
 msgid "Display"
 msgstr "Показать"
+
+msgid "Display Mode"
+msgstr "Отображение"
 
 msgid "Display Settings"
 msgstr "Показать настройки"
@@ -272,8 +368,29 @@ msgstr "Показать настройки"
 msgid "Do you want to override existing session?"
 msgstr "Хотите перезаписать текущую сессию?"
 
+msgid "Do you want to override existing stack?"
+msgstr "Хотите пересохранить текущий стэк?"
+
+msgid "Do you want to reset all hotkeys for this action?"
+msgstr "Хотите сбросить все горячие кнопки для этого действия?"
+
+msgid "Do you want to use it anyway?"
+msgstr "Все равно хотите это использовать?"
+
 msgid "Donate"
 msgstr "Пожертвования"
+
+msgid "Down"
+msgstr "Вниз"
+
+msgid "Drag Handle"
+msgstr "Таскалка"
+
+msgid "Drag and Drop to reorder the columns. "
+msgstr "Драг-н-дроп для измения порядка колонок."
+
+msgid "Drag buttons to/from toolbars"
+msgstr "Потаскать/убрать кнопки на панели"
 
 msgid "Drives"
 msgstr "Диски"
@@ -287,8 +404,20 @@ msgstr "Две панели папок"
 msgid "Duplicate"
 msgstr "Дублировать"
 
+msgid "Duplicate Hotkey"
+msgstr "Продублировать сочетание"
+
 msgid "Duplicate Tab"
 msgstr "Дублировать вкладку"
+
+msgid "Duplicate name"
+msgstr "Продублировать имя"
+
+msgid "Dynamic Spacer"
+msgstr "Динамический разделитель"
+
+msgid "Earlier this year"
+msgstr "Раньше в этом году"
 
 msgid "Edit"
 msgstr "Редактировать"
@@ -305,6 +434,15 @@ msgstr "Настройки редактора..."
 msgid "Empty Recycle Bin"
 msgstr "Очистить корзину"
 
+msgid "Empty Stack"
+msgstr "Очистить стэк"
+
+msgid "Empty folder"
+msgstr "Очистить папку"
+
+msgid "Enable Auto Save"
+msgstr "Включить автосохранение"
+
 msgid "English (default)"
 msgstr "English (по умолчанию)"
 
@@ -317,6 +455,12 @@ msgstr "Исключить маски файлов:"
 msgid "Exit"
 msgstr "Выход"
 
+msgid "Exit program when last tab is closed"
+msgstr "Выйти из программы при закрытии последнего таба"
+
+msgid "Explorer"
+msgstr "Проводник"
+
 msgid "File"
 msgstr "Файл"
 
@@ -328,6 +472,9 @@ msgstr "Маска файла:"
 
 msgid "File Search"
 msgstr "Поиск файлов"
+
+msgid "File size format:"
+msgstr "Формат размера файла:"
 
 msgid "Fileview"
 msgstr "Просмотр файлов"
@@ -349,6 +496,12 @@ msgstr "Предыдущий"
 
 msgid "Finished"
 msgstr "Завершено"
+
+msgid "Five months ago"
+msgstr "Пять месяцев назад"
+
+msgid "Fixed Spacer"
+msgstr "Фиксированный разделитель"
 
 msgid "Focus"
 msgstr "Фокус"
@@ -377,6 +530,12 @@ msgstr "Формат"
 msgid "Forward"
 msgstr "Вперед"
 
+msgid "Four months ago"
+msgstr "Четыре месяца назад"
+
+msgid "Full expand on stack load"
+msgstr "Развернуть все при загрузке стэка"
+
 msgid "Fullscreen"
 msgstr "Полный экран"
 
@@ -388,6 +547,18 @@ msgstr "Общие"
 
 msgid "General Settings"
 msgstr "Общие настройки"
+
+msgid "Gigantic"
+msgstr "Огромный"
+
+msgid "Global"
+msgstr "Глобальные"
+
+msgid "Global Hotkey Settings"
+msgstr "Глобальные настройки горячих кнопок"
+
+msgid "Group"
+msgstr "Группа"
 
 msgid "Group By"
 msgstr "Группировать по"
@@ -409,6 +580,21 @@ msgstr "Подсветка"
 
 msgid "History"
 msgstr "История"
+
+msgid "Hotkey Settings"
+msgstr "Настройки горячих кнопок"
+
+msgid "Hotkeys"
+msgstr "Горячие кнопки"
+
+msgid "Icon above text"
+msgstr "Иконка над текстом"
+
+msgid "Icon only"
+msgstr "Только иконка"
+
+msgid "If not, all changes will be lost."
+msgstr "Если нет, то все изменения будут потеряны."
 
 msgid "Image"
 msgstr "Картинка"
@@ -440,8 +626,17 @@ msgstr "Язык"
 msgid "Language Editor"
 msgstr "Редактор перевода"
 
+msgid "Large"
+msgstr "Большие"
+
 msgid "Large Icons"
 msgstr "Крупные значки"
+
+msgid "Last hour"
+msgstr "Последний час"
+
+msgid "Last twenty-four hours"
+msgstr "Последние сутки"
 
 msgid "Launch Files Only"
 msgstr "Запускать только файлы"
@@ -455,8 +650,14 @@ msgstr "Расположение"
 msgid "Left"
 msgstr "Влево"
 
+msgid "Link Name"
+msgstr "Имя ссылки"
+
 msgid "List"
 msgstr "Список"
+
+msgid "Live Update"
+msgstr "Обновление в реальном времени"
 
 msgid "Load Skin..."
 msgstr "Загрузить оформление..."
@@ -466,6 +667,12 @@ msgstr "Загрузить сессию"
 
 msgid "Load skin from file"
 msgstr "Загрузить оформление из файла"
+
+msgid "Load theme from file"
+msgstr "Загрузить тему из файла"
+
+msgid "Load theme from file..."
+msgstr "Загрузить тему из файла.."
 
 msgid "Load this session on startup."
 msgstr "Загружать эту сессию при запуске"
@@ -494,14 +701,23 @@ msgstr "Подключить сетевой диск..."
 msgid "Max Level:"
 msgstr "Макс.:"
 
+msgid "Medium"
+msgstr "Средние"
+
 msgid "Menu"
 msgstr "Меню"
 
 msgid "Min Level:"
 msgstr "Мин.:"
 
+msgid "Minimize to tray"
+msgstr "Сворачивать в трей"
+
 msgid "Modified"
 msgstr "Изменен"
+
+msgid "Modify Hotkey"
+msgstr "Изменить горячие кнопки"
 
 msgid "More..."
 msgstr "Еще..."
@@ -521,11 +737,17 @@ msgstr "Навигация"
 msgid "New"
 msgstr "Новый"
 
+msgid "New Category"
+msgstr "Новая категория"
+
 msgid "New Folder"
 msgstr "Новая папка"
 
 msgid "New Session"
 msgstr "Новая сессия"
+
+msgid "New Shortcut"
+msgstr "Новая ссылка"
 
 msgid "No Extension"
 msgstr "Без расширения"
@@ -534,7 +756,7 @@ msgid "No Selection"
 msgstr "Отменить выбор"
 
 msgid "No file loaded."
-msgstr "Файл не загружен"
+msgstr "Файл не загружен."
 
 msgid "None"
 msgstr "Нет"
@@ -544,6 +766,9 @@ msgstr "OK"
 
 msgid "On Startup"
 msgstr "При загрузке"
+
+msgid "Open"
+msgstr "Открыть"
 
 msgid "Open All in Tabs"
 msgstr "Открыть объекты во вкладках"
@@ -557,14 +782,29 @@ msgstr "Открыть местоположение"
 msgid "Open default tab"
 msgstr "Открыть вкладку по умолчанию"
 
+msgid "Open in new tab"
+msgstr "Открыть в новой вкладке"
+
 msgid "Open in new tab by default"
 msgstr "Открывать в новой вкладке"
+
+msgid "Open last used"
+msgstr "Открыть последнюю"
 
 msgid "Open new tab as"
 msgstr "Открыть новую вкладку"
 
+msgid "Open new tab next to current"
+msgstr "Открыть следующую вкладку после этой"
+
+msgid "Open selected"
+msgstr "Открыть выбранное"
+
 msgid "Open..."
 msgstr "Открыть..."
+
+msgid "Opening..."
+msgstr "Открываю..."
 
 msgid "Options"
 msgstr "Настройки"
@@ -577,6 +817,12 @@ msgstr "Оригинальный"
 
 msgid "Override"
 msgstr "Замена"
+
+msgid "Override existing session?"
+msgstr "Заменить текущую сессию?"
+
+msgid "Override existing stack?"
+msgstr "Заменить текущий стэк?"
 
 msgid "Panels"
 msgstr "Панели"
@@ -595,6 +841,9 @@ msgstr "Шаблон панели"
 
 msgid "Pause"
 msgstr "Пауза"
+
+msgid "Please choose different hotkey."
+msgstr "Пожалуйста, выберите разные горячие кнопки."
 
 msgid "PngImage41"
 msgstr "PngImage41"
@@ -635,6 +884,12 @@ msgstr "Перезагрузить"
 msgid "Remember Tabs"
 msgstr "Запоминать вкладки"
 
+msgid "Remove from Stack"
+msgstr "Удалить из стэка"
+
+msgid "Removing all items from Stack!"
+msgstr "Удаляю всё-всё-всё из стэка!"
+
 msgid "Rename"
 msgstr "Переименовать"
 
@@ -643,6 +898,12 @@ msgstr "Заменить"
 
 msgid "Replace All"
 msgstr "Заменить все"
+
+msgid "Reset hotkeys?"
+msgstr "Сбросить горячие кнопки?"
+
+msgid "Reset to default"
+msgstr "Сбросить на значения по умолчанию"
 
 msgid "Reuse already open tabs"
 msgstr "Использовать уже открытые вкладки"
@@ -658,6 +919,9 @@ msgstr "Сохранить как..."
 
 msgid "Save Session"
 msgstr "Сохранить сессию"
+
+msgid "Save Stack"
+msgstr "Сохранить стэк"
 
 msgid "Save active session with new name."
 msgstr "Сохранить активную сессию с новым именем"
@@ -713,6 +977,9 @@ msgstr "Начать поиск с"
 msgid "Select All"
 msgstr "Выделить все"
 
+msgid "Select Session"
+msgstr "Выбрать сессию"
+
 msgid "Select default folder for new tabs."
 msgstr "Выбрать папки по умолчанию для новых вкладок"
 
@@ -725,6 +992,9 @@ msgstr "Выбрать первый объект автоматически"
 msgid "Select previous folder"
 msgstr "Выбрать предыдущую папку"
 
+msgid "Select target folder"
+msgstr "Выбрать папку назначения"
+
 msgid "Selected"
 msgstr "файл(ов) выбран(о)"
 
@@ -734,11 +1004,23 @@ msgstr "Только выбранный текст"
 msgid "Separator"
 msgstr "Разделитель"
 
+msgid "Separators"
+msgstr "Разделители"
+
+msgid "Session"
+msgstr "Сессия"
+
 msgid "Session Name"
 msgstr "Имя сессии"
 
+msgid "Session at"
+msgstr "Сессий в"
+
 msgid "Sessions"
 msgstr "Сессии"
+
+msgid "Set focus to address bar"
+msgstr "Установить фокус адресбар"
 
 msgid "Short Folder Path"
 msgstr "Короткий путь до папки"
@@ -748,6 +1030,12 @@ msgstr "Только короткое имя"
 
 msgid "Short Path"
 msgstr "Короткий путь"
+
+msgid "Shortcut"
+msgstr "Ярлык"
+
+msgid "Show"
+msgstr "Показать"
 
 msgid "Show All Files"
 msgstr "Показывать все файлы"
@@ -764,6 +1052,9 @@ msgstr "Показывать скрытые файлы"
 msgid "Show Hints"
 msgstr "Показывать подсказки"
 
+msgid "Show InfoTips"
+msgstr "Показывать советы"
+
 msgid "Show Path in Title bar"
 msgstr "Показывать путь в заголовке"
 
@@ -779,11 +1070,23 @@ msgstr "Показывать панель инструментов"
 msgid "Show in Groups"
 msgstr "Показывать в группах"
 
+msgid "Show more tabs"
+msgstr "Показать еще вкладки"
+
+msgid "Show/Hide"
+msgstr "Показать/спрятать"
+
 msgid "Single Instance Only"
 msgstr "Запускать только одну копию"
 
+msgid "Single click browsing"
+msgstr "Перемещение по одиночному клику"
+
 msgid "Single click mode"
 msgstr "Запускать одним щелчком"
+
+msgid "Six months ago"
+msgstr "Шесть месяцев назад"
 
 msgid "Size"
 msgstr "Размер"
@@ -791,20 +1094,35 @@ msgstr "Размер"
 msgid "Size && Attributes"
 msgstr "Размер и аттрибуты"
 
+msgid "Small"
+msgstr "Маленькие"
+
 msgid "Small Icons"
 msgstr "Мелкие значки"
 
 msgid "Stack"
 msgstr "Стэк"
 
+msgid "Stack Name"
+msgstr "Имя стэка"
+
+msgid "Stack Settings"
+msgstr "Настройки стэка"
+
 msgid "Start"
 msgstr "Старт"
+
+msgid "Start minimized to tray"
+msgstr "Запускать свернутым в трей"
 
 msgid "Status Bar"
 msgstr "Строка состояния"
 
 msgid "Stop"
 msgstr "Стоп"
+
+msgid "Stretch"
+msgstr "Растянуть"
 
 msgid "Strict"
 msgstr "Точный"
@@ -827,6 +1145,12 @@ msgstr "Предыдыдущая вкладка"
 msgid "System"
 msgstr "Система"
 
+msgid "System Folders"
+msgstr "Системные папки"
+
+msgid "TB"
+msgstr "ТВ"
+
 msgid "Tabs"
 msgstr "Вкладки"
 
@@ -836,14 +1160,35 @@ msgstr "Настройки вкладок"
 msgid "Target"
 msgstr "Цель"
 
+msgid "Target Folder"
+msgstr "Папка назначения"
+
 msgid "Text"
 msgstr "Текст"
+
+msgid "Text Document"
+msgstr "Текстовый документ"
 
 msgid "Text Editor"
 msgstr "Редактор текста"
 
+msgid "Text Filter"
+msgstr "Текстовый фильтр"
+
+msgid "Text only"
+msgstr "Только текст"
+
 msgid "Theme"
 msgstr "Тема оформления"
+
+msgid "This week"
+msgstr "На этой неделе"
+
+msgid "Three months ago"
+msgstr "Три месяца назад"
+
+msgid "Three weeks ago"
+msgstr "Три недели назад"
 
 msgid "Thumbnails"
 msgstr "Эскизы"
@@ -856,6 +1201,9 @@ msgstr "Стиль просмотра эскизов"
 
 msgid "Tiles"
 msgstr "Плитка"
+
+msgid "Tiny"
+msgstr "Маленькие"
 
 msgid "Toolbars"
 msgstr "Панели инструментов"
@@ -890,14 +1238,29 @@ msgstr "Имя переводчика"
 msgid "Transparency"
 msgstr "Прозрачность"
 
+msgid "Tray Icon"
+msgstr "Иконка в трее"
+
+msgid "Two months ago"
+msgstr "Два месяца назад"
+
+msgid "Two weeks ago"
+msgstr "Две недели назад"
+
 msgid "Type"
 msgstr "Тип"
 
 msgid "Undo"
 msgstr "Отмена"
 
+msgid "Undo Tab Close"
+msgstr "Отменить закрытие вкладки"
+
 msgid "Untitled"
 msgstr "Без имени"
+
+msgid "Up"
+msgstr "Наверх"
 
 msgid "Use strict filtering (wildcards are ? and *)"
 msgstr "Использовать точный поиск (работают * и ?)"
@@ -911,6 +1274,15 @@ msgstr "Вид"
 msgid "View Style"
 msgstr "Стиль"
 
+msgid "WARNING: Real file operations below"
+msgstr "ВНИМАНИЕ: Операция над реальными файлами"
+
+msgid "Warning"
+msgstr "Внимание"
+
+msgid "Warning: changes are made immediately!"
+msgstr "Внимание: изменнеия будут внесены сразу же!"
+
 msgid "When I open folder/file in a new tab, switch to it immediately "
 msgstr "Переключаться на открываемую вкладку"
 
@@ -920,6 +1292,9 @@ msgstr "Целое слово"
 msgid "Whole words only"
 msgstr "Целые слова"
 
+msgid "Width of the selected column"
+msgstr "Ширина выбранных колонок"
+
 msgid "Word List"
 msgstr "Список слов"
 
@@ -928,3 +1303,22 @@ msgstr "Перенос по словам"
 
 msgid "Word or Phrase in File Name"
 msgstr "Слово или фраза в имени файла"
+
+msgid "Zero"
+msgstr "Ноль"
+
+msgid "already exists. Please choose another name."
+msgstr "уже существует. Выберите другое имя."
+
+msgid "is already assigned to"
+msgstr "уже присвоено к"
+
+msgid "is already in use!"
+msgstr "уже используется!"
+
+msgid "item"
+msgstr "Штука"
+
+msgid "items"
+msgstr "Штук"
+

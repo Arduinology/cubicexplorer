@@ -173,7 +173,7 @@ var
     ResButton: pinteger): integer; cdecl stdcall;
 begin                          
   Result:= 0;
-  if IsUnicode then
+  if IsWindowsVista then
   begin
     DLLHandle:= LoadLibrary(comctl32);
     if DLLHandle >= 32 then

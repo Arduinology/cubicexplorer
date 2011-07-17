@@ -29,7 +29,7 @@ object CEUpdateDlg: TCEUpdateDlg
     Left = 8
     Top = 27
     Width = 338
-    Height = 232
+    Height = 209
     Anchors = [akLeft, akTop, akRight, akBottom]
     BevelOuter = bvLowered
     TabOrder = 0
@@ -39,7 +39,7 @@ object CEUpdateDlg: TCEUpdateDlg
     Top = 265
     Width = 95
     Height = 29
-    Anchors = [akTop, akRight]
+    Anchors = [akRight, akBottom]
     Caption = 'Cancel'
     ModalResult = 2
     TabOrder = 1
@@ -49,10 +49,23 @@ object CEUpdateDlg: TCEUpdateDlg
     Top = 265
     Width = 126
     Height = 29
-    Anchors = [akTop, akRight]
+    Anchors = [akRight, akBottom]
     Caption = 'Update'
     Enabled = False
     TabOrder = 2
     OnClick = but_updateClick
+  end
+  object progressbar: TProgressBar
+    Left = 8
+    Top = 242
+    Width = 338
+    Height = 17
+    TabOrder = 3
+  end
+  object timer_close_dlg: TTimer
+    Enabled = False
+    OnTimer = timer_close_dlgTimer
+    Left = 12
+    Top = 268
   end
 end

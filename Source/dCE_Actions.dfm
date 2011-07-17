@@ -653,6 +653,12 @@ object CEActions: TCEActions
       Caption = 'Archiver'
       OnExecute = ActionExecute
     end
+    object act_gen_new_instance: TTntAction
+      Tag = 103
+      Category = 'General'
+      Caption = 'New Window'
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

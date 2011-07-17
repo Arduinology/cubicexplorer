@@ -214,6 +214,7 @@ type
     SpTBXSeparatorItem29: TSpTBXSeparatorItem;
     SpTBXItem75: TSpTBXItem;
     SpTBXItem80: TSpTBXItem;
+    SpTBXItem96: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -235,6 +236,7 @@ type
     fLanguageList: TTntStrings;
     fOldWindowState: TWindowState;
     fPathInTitle: Boolean;
+    fSaveSettingsOnClose: Boolean;
     fSingleInstance: Boolean;
     fUpdatingCount: Integer;
     procedure SetFullscreen(const Value: Boolean);
@@ -283,6 +285,8 @@ type
     property ActiveLanguage: WideString read fActiveLanguage write
         SetActiveLanguage;
     property PathInTitle: Boolean read fPathInTitle write SetPathInTitle;
+    property SaveSettingsOnClose: Boolean read fSaveSettingsOnClose write
+        fSaveSettingsOnClose;
     property SingleInstance: Boolean read fSingleInstance write SetSingleInstance;
   published
     property CEIsClosing: Boolean read fCEIsClosing;
@@ -425,6 +429,7 @@ begin
   fUpdatingCount:= 0;
   fCEIsClosing:= false;
   fPathInTitle:= false;
+  fSaveSettingsOnClose:= true;
   SetVistaFont(Self.Font);
   Settings:= TMainFormSettings.Create;
   Settings.Form:= Self;
@@ -436,6 +441,13 @@ begin
   MP_SHSetInstanceExplorer(ExplorerThreadInstance);
   if Assigned(MP_SHSetThreadRef) then
   MP_SHSetThreadRef(ExplorerThreadInstance);
+
+  // Fix date formating bug in Delphi
+  if IsWindowsVista then
+  begin
+    SetThreadLocale(LOCALE_USER_DEFAULT);
+    GetFormatSettings;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -787,7 +799,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TMainForm.Shutdown;
 begin
-  if not ReadOnlySettings then
+  if not ReadOnlySettings and SaveSettingsOnClose then
   begin
     GlobalSessions.SaveToFile(SettingsDirPath + 'sessions.xml');
 

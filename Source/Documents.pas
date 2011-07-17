@@ -31,6 +31,8 @@ Unit Documents;
 // **** General (100) ****
 // 100 = Terminate Application
 // 101 = Show/Hide Application
+// 102 = Restart Application
+// 103 = New instance
 
 // **** Edit (200) ****
 // 201 = Copy items to clipboard

@@ -17,21 +17,28 @@ function Elevated_CreateJunction(ALink: WideString; ATarget: WideString;
 
 implementation
 
+uses
+  CE_VersionUpdater;
+
 {-------------------------------------------------------------------------------
   Handle Elevated Commands
 -------------------------------------------------------------------------------}
 function HandleElevatedCommands: Boolean;
 var
-  i: Integer;
+  i, c: Integer;
   doAdmin: Boolean;
+  doUpdate: Boolean;
   action: String;
   param1, param2: WideString;
+  paramI: Integer;
 begin
   Result:= false;
   doAdmin:= false;
+  doUpdate:= false;
   i:= 1;
+  c:= ParamCount;
   // Loop through cmd params.
-  while i <= ParamCount do
+  while i <= c do
   begin
     if doAdmin then
     begin
@@ -40,24 +47,53 @@ begin
       // Create Junction
       if action = 'create_symlink' then
       begin
-        if i + 1 < ParamCount then // make sure we have all needed params present
+        if i + 1 < c then // make sure we have all needed params present
         begin
-          param1:= ParamStr(i + 1);
-          param2:= ParamStr(i + 2);
+          param1:= WideParamStr(i + 1);
+          param2:= WideParamStr(i + 2);
           i:= i + 2;
 
           //ShowMessage(action + ': ' + '"'+ param1 + '", "' + param2 + '"');
           CreateJunction(param1, param2);
         end;
-      end;
+      end
+      else
+      i:= i + 1;
 
       doAdmin:= false;
+    end
+    else if doUpdate then
+    begin
+      if i + 1 < c then
+      begin
+        param1:= WideParamStr(i); // zip path
+        param2:= WideParamStr(i + 1); // dest folder
+        i:= i + 2;
+        if i <= c then
+        begin
+          paramI:= StrToIntDef(WideParamStr(i), 0); // Handle to old app
+          i:= i + 1;
+        end
+        else
+        paramI:= 0;
+        
+        UpdateCEFromZip(param1, param2, paramI, false);
+        doUpdate:= false;
+      end
+      else
+      i:= i + 1;
     end
     else
     begin
       doAdmin:= (ParamStr(i) = '/admin') and (i < ParamCount); // Check if /admin switch is present
       if doAdmin then
-      Result:= true;
+      Result:= true
+      else
+      begin
+        doUpdate:= (ParamStr(i) = '/update') and (i < ParamCount);
+        if doUpdate then
+        Result:= true;
+      end;
       i:= i + 1;
     end;
   end;
