@@ -278,6 +278,7 @@ begin
   begin
     but_download.Caption:= _('Re-Download');
     but_download.Enabled:= true;
+    but_use.Enabled:= true;
 
     if Data.Failed > 0 then
     TaskDialog(Self.Handle, _('Download failed!'), WideFormat(_('%d file(s) failed to download!'), [IntToStr(Data.Failed)]), '', TD_ICON_WARNING, TD_BUTTON_OK);
@@ -453,13 +454,18 @@ begin
       if assigned(notesNode) then
       begin
         memo_notes.Lines.Text:= notesNode.TextContent;
-      end;
-      but_use.Enabled:= not data.IsCurrentVersion;
+      end;      
       but_download.Enabled:= true;
       if not Updater.VersionFolderExists(data.Version) then
-      but_download.Caption:= _('Download')
+      begin
+        but_download.Caption:= _('Download');
+        but_use.Enabled:= false;
+      end
       else
-      but_download.Caption:= _('Re-Download');
+      begin
+        but_download.Caption:= _('Re-Download');
+        but_use.Enabled:= not data.IsCurrentVersion;
+      end;
     end
     else
     begin

@@ -2,6 +2,7 @@ RD /Q /S Snapshot\CubicExplorer
 MD Snapshot\CubicExplorer
 
 copy ..\CubicExplorer.exe Snapshot\CubicExplorer
+copy ..\7z.dll Snapshot\CubicExplorer
 
 copy Snapshot_configs\settings.xml Snapshot\CubicExplorer
 copy Snapshot_configs\layout.xml Snapshot\CubicExplorer

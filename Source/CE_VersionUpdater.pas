@@ -638,16 +638,15 @@ begin
               TCEDownloadData(Msg).IsValidDocument:= true;
               // save UpdateConf to disk for offline use
               if not WideDirectoryExists(VersionFolder) then
+              WideCreateDir(VersionFolder);
+              if WideDirectoryExists(VersionFolder) then
               begin
-                if WideCreateDir(VersionFolder) then
-                begin
-                  fs:= TTntFileStream.Create(VersionFolder + 'updates.xml', fmCreate);
-                  try
-                    fs.Seek(0, soFromBeginning);
-                    fs.CopyFrom(stream, 0);
-                  finally
-                    fs.Free;
-                  end;
+                fs:= TTntFileStream.Create(VersionFolder + 'updates.xml', fmCreate);
+                try
+                  fs.Seek(0, soFromBeginning);
+                  fs.CopyFrom(stream, 0);
+                finally
+                  fs.Free;
                 end;
               end;
             end;

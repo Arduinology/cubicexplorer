@@ -78,6 +78,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEUpdateDlg.but_updateClick(Sender: TObject);
 begin
+  but_update.Enabled:= false;
   RenameOpenFiles(true);
   ArchiveTree.ExtractCheckedTo(DestinationDir, true);
   timer_close_dlg.Enabled:= true;
