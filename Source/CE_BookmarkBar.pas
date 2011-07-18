@@ -264,7 +264,13 @@ begin
   
   ss:= GetShiftState;
   Include(ss, ssLeft);
-  BookmarkData.BookComp.MouseClick(ss, mbLeft, true);
+  
+  if ss = [ssLeft] then
+  BookmarkData.BookComp.MouseClick([ssLeft, ssDouble], mbLeft)
+  else if (ss = [ssLeft, ssAlt]) or (ss = [ssLeft, ssCtrl]) then
+  BookmarkData.BookComp.MouseClick([ssMiddle], mbMiddle)
+  else if (ss = [ssLeft, ssAlt, ssShift]) or (ss = [ssLeft, ssCtrl, ssShift]) then
+  BookmarkData.BookComp.MouseClick([ssMiddle, ssShift], mbMiddle);
 end;
 
 {*------------------------------------------------------------------------------
@@ -325,7 +331,13 @@ begin
   
   ss:= GetShiftState;
   Include(ss, ssLeft);
-  BookmarkData.BookComp.MouseClick(ss, mbLeft, true);
+  
+  if ss = [ssLeft] then
+  BookmarkData.BookComp.MouseClick([ssLeft, ssDouble], mbLeft)
+  else if (ss = [ssLeft, ssAlt]) or (ss = [ssLeft, ssCtrl]) then
+  BookmarkData.BookComp.MouseClick([ssMiddle], mbMiddle)
+  else if (ss = [ssLeft, ssAlt, ssShift]) or (ss = [ssLeft, ssCtrl, ssShift]) then
+  BookmarkData.BookComp.MouseClick([ssMiddle, ssShift], mbMiddle);
 end;
 
 {*------------------------------------------------------------------------------

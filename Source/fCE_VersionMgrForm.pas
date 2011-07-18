@@ -13,9 +13,9 @@ uses
   SpTBXItem, SpTBXControls, TntStdCtrls, CE_VersionUpdater, blcksock;
 
 type
-  TCEBuildType = (btSnapshot, btOfficial, btUpdate, btUrgent);
+  TCEBuildType = (btSnapshot, btOfficial, btUpdate, btUrgent, btTest);
 const
-  CEBuildTypeStr: array[TCEBuildType] of String = ('snapshot', 'official', 'update', 'urgent');
+  CEBuildTypeStr: array[TCEBuildType] of String = ('snapshot', 'official', 'update', 'urgent', 'test');
 
 type
   PItemData = ^AItemData;
@@ -410,10 +410,11 @@ begin
               data.Date:= XMLTimeToDateTime(TDOMElement(buildNode).AttribStrings['date'], false);
               data.BuildType:= GetBuildType(TDOMElement(buildNode).AttribStrings['type']);
               case data.BuildType of
-                btSnapshot: data.BuildTypeStr:= 'Snapshot';
-                btOfficial: data.BuildTypeStr:= 'Official';
-                btUpdate: data.BuildTypeStr:= 'Update';
-                btUrgent: data.BuildTypeStr:= 'Urgent';
+                btSnapshot: data.BuildTypeStr:= _('Snapshot');
+                btOfficial: data.BuildTypeStr:= _('Official');
+                btUpdate: data.BuildTypeStr:= _('Update');
+                btUrgent: data.BuildTypeStr:= _('Urgent');
+                btTest: data.BuildTypeStr:= _('For Testing');
               end;
               data.IsCurrentVersion:= Updater.CurrentVersionStr = data.Caption;
               data.Node:= buildNode;
