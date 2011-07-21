@@ -1,5 +1,6 @@
 [Skin]
-Name=gBW v1.0
+Name=gBW v1.1
+Author=g..
 ColorBtnFace=$00333333
 OfficeStatusBar=0
 OfficeIcons=0
@@ -166,7 +167,7 @@ CheckedAndHotTrack.TextColor=clWhite
 
 [CheckBox]
 Normal.Body=0
-Normal.Borders=1, clWhite, clWhite
+Normal.Borders=1, clWhite, clWhite, $00CCCCCC, $00CCCCCC
 Normal.TextColor=clWhite
 Disabled.Body=0
 Disabled.Borders=1, clWhite, clWhite
