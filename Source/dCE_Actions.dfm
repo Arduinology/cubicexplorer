@@ -645,18 +645,27 @@ object CEActions: TCEActions
       Tag = 506
       Category = 'Help'
       Caption = 'Version Manager'
+      ImageIndex = 46
       OnExecute = ActionExecute
     end
     object act_view_archiver: TTntAction
       Tag = 306
       Category = 'View'
       Caption = 'Archiver'
+      Visible = False
       OnExecute = ActionExecute
     end
     object act_gen_new_instance: TTntAction
       Tag = 103
       Category = 'General'
       Caption = 'New Window'
+      OnExecute = ActionExecute
+    end
+    object act_help_checkupdates: TTntAction
+      Tag = 507
+      Category = 'Help'
+      Caption = 'Check For Updates'
+      ImageIndex = 45
       OnExecute = ActionExecute
     end
   end

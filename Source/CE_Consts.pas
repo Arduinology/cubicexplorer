@@ -62,6 +62,11 @@ const
   CE_text_exts = 'text_exts';
   CE_hex_exts = 'hex_exts';
 
+var
+  CE_ProxyAddress: String = '';
+  CE_UseProxy: Boolean = false;
+  CE_UseSystemProxy: Boolean = true;
+
 implementation
 
 end.

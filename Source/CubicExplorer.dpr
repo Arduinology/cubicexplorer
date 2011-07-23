@@ -135,7 +135,8 @@ uses
   CC_Threads in 'Components\CubicCore\CC_Threads.pas',
   CE_ArchiveTree in 'CE_ArchiveTree.pas',
   JclCompressionWide in 'Components\jcl\JclCompressionWide.pas',
-  fCE_ArchivePanel in 'fCE_ArchivePanel.pas' {CEArchiverPanel};
+  fCE_ArchivePanel in 'fCE_ArchivePanel.pas' {CEArchiverPanel},
+  fCE_OptionsPage_General_Updates in 'fCE_OptionsPage_General_Updates.pas' {CE_OptionsPage_General_Updates: TFrame};
 
 {$R *.res}
 {$R 'CE_Resources.res'}

@@ -814,3 +814,17 @@ msgstr ""
 #: fCE_VersionMgrForm.dfm:57
 msgid "tab_versions"
 msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3752
+#: dCE_Images.dfm:6983
+msgid "PngImage45"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3799
+#: dCE_Images.dfm:7015
+msgid "PngImage46"
+msgstr ""

@@ -221,6 +221,7 @@ type
     act_help_versionmgr: TTntAction;
     act_view_archiver: TTntAction;
     act_gen_new_instance: TTntAction;
+    act_help_checkupdates: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -481,7 +482,7 @@ begin
         MainForm.Shutdown;
         MainForm.SaveSettingsOnClose:= false;
         fDisableSingleInstanceTemporarily:= GetTickCount;
-        WideShellExecute(0, 'open', WideParamStr(0), '', '', SW_SHOWNORMAL);
+        ExecShellEx(WideParamStr(0), '', '', SW_SHOWNORMAL, false, false, true);
         Sleep(1000);
         Application.MainForm.Close;
       end;
@@ -804,6 +805,7 @@ begin
     end;
     505: ShellExecute(0,'open','http://www.cubicreality.com/donate/','','',SW_NORMAL);
     506: ShowVersionManager;
+    507: MainForm.AutoUpdater.CheckForUpdates;
   end;
 end;
 

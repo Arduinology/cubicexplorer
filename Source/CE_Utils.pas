@@ -103,6 +103,10 @@ function GetAppVersionStr: string;
 
 function GetShiftState: TShiftState;
 
+function GetSystemProxyServer(Protocol: String = 'http'): String;
+
+function ExtractUrlPort(Address: String; var Port: Integer): String;
+
 var
   MenuKeyCaps: array[TMenuKeyCap] of string = (
     SmkcBkSp, SmkcTab, SmkcEsc, SmkcEnter, SmkcSpace, SmkcPgUp,
@@ -907,6 +911,71 @@ begin
   Include(Result, ssCtrl);
   if GetAsyncKeyState(VK_MENU) < 0 then
   Include(Result, ssAlt);
+end;
+
+{-------------------------------------------------------------------------------
+  Get SystemProxyServer
+-------------------------------------------------------------------------------}
+function GetSystemProxyServer(Protocol: String = 'http'): String;
+var
+  i, j: Integer;
+  Handle: HKey;
+  Buffer: array[0..256] of Char;
+  BufSize: Integer;
+  DataType: Integer;
+  ProxyServer: String;
+begin
+  ProxyServer:= '';
+
+  // Get ProxyServer
+  if RegOpenKeyEx(HKEY_CURRENT_USER,
+                  'SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings',
+                  0, KEY_READ, Handle) = ERROR_SUCCESS then
+  begin
+    BufSize := SizeOf(Buffer);
+    DataType := reg_sz;
+    if RegQueryValueEx(Handle, 'ProxyServer', nil, @DataType, @Buffer, @BufSize) = ERROR_SUCCESS then
+    ProxyServer:= Buffer;
+
+    RegCloseKey(Handle);
+  end;
+
+  // Extract address by protocol
+  if ProxyServer <> '' then
+  begin
+    i:= Pos(Protocol + '=', ProxyServer);
+    if (i > 0) then
+    begin
+      Delete(ProxyServer, 1, i+Length(Protocol));
+      j:= Pos(';', ProxyServer);
+      if (j > 0) then
+      ProxyServer:= Copy(ProxyServer, 1, j-1);
+    end;
+  end;
+  Result:= ProxyServer;
+end;
+
+{-------------------------------------------------------------------------------
+  ExtractUrlPort
+-------------------------------------------------------------------------------}
+function ExtractUrlPort(Address: String; var Port: Integer): String;
+var
+  i: Integer;
+begin
+  i:= Pos('://', Address);
+  if i > 0 then
+  i:= i + 3
+  else
+  i:= 1;
+  
+  i:= PosEx(':', Address, i);
+  if (i > 0) then
+  begin
+    Port:= StrToIntDef(Copy(Address, i+1, Length(Address)-i), 0);
+    Result:= Copy(Address, 1, i-1);
+  end
+  else
+  Result:= Address;
 end;
 
 {##############################################################################}

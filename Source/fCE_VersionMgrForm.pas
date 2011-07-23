@@ -3,19 +3,17 @@ unit fCE_VersionMgrForm;
 interface
 
 uses
+  // CE Units
+  CE_VersionUpdater, dCE_Images,
   // fcl-xml
   XMLRead, DOM, XMLWrite,
   // Tnt
-  TntForms,
+  TntForms, TntStdCtrls,
+  // SpTBX
+  SpTBXTabs, TB2Item, SpTBXItem, SpTBXControls, 
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, VirtualTrees, StdCtrls, XSBuiltIns, ExtCtrls, SpTBXTabs, TB2Item,
-  SpTBXItem, SpTBXControls, TntStdCtrls, CE_VersionUpdater, blcksock;
-
-type
-  TCEBuildType = (btSnapshot, btOfficial, btUpdate, btUrgent, btTest);
-const
-  CEBuildTypeStr: array[TCEBuildType] of String = ('snapshot', 'official', 'update', 'urgent', 'test');
+  Dialogs, VirtualTrees, StdCtrls, XSBuiltIns, ExtCtrls;
 
 type
   PItemData = ^AItemData;
@@ -28,6 +26,7 @@ type
     Node: TDOMNode;
     IsCurrentVersion: Boolean;
     IsValid: Boolean;
+    IsOffline: Boolean;
     fDownloadThread: Integer;
   end;
   
@@ -60,6 +59,9 @@ type
     procedure ItemListFocusChanged(Sender: TBaseVirtualTree; Node: PVirtualNode;
         Column: TColumnIndex);
     procedure ItemListFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
+    procedure ItemListGetImageIndex(Sender: TBaseVirtualTree; Node: PVirtualNode;
+        Kind: TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var
+        ImageIndex: Integer);
     procedure ItemListGetText(Sender: TBaseVirtualTree; Node: PVirtualNode; Column:
         TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
     procedure ItemListPaintText(Sender: TBaseVirtualTree; const TargetCanvas:
@@ -72,6 +74,7 @@ type
   protected
   public
     Updater: TCEVersionUpdater;
+    procedure CheckOfflineStates;
     procedure HandleDownloadProgress(Sender: TObject; Percent: Integer; Current:
         Integer; FileCount: Integer);
     procedure HandleDownloadUpdateConfDone(Sender: TObject; Data: TCEDownloadData);
@@ -81,35 +84,18 @@ type
     { Public declarations }
   end;
 
-function GetBuildType(AFrom: String): TCEBuildType;
-
 procedure ShowVersionManager;
 
 var
   CEVersionMgrForm: TCEVersionMgrForm;
-  UpdateConfURL: String = 'http://cubicreality.pp.fi/ce/updates/updates.xml';
   
 implementation
 
 uses
   CE_XmlUtils, CE_VistaFuncs, httpsend, TypInfo, Math, TntSysUtils, CE_Utils,
-  CE_LanguageEngine;
+  CE_LanguageEngine, MPCommonUtilities;
 
 {$R *.dfm}
-
-{-------------------------------------------------------------------------------
-  Get BuildType from string
--------------------------------------------------------------------------------}
-function GetBuildType(AFrom: String): TCEBuildType;
-begin
-  for Result:= Low(Result) to High(Result) do
-  begin
-    if AFrom = CEBuildTypeStr[Result] then
-    Exit; // ->
-  end;
-  // Raise exception if invalid string was used
-  raise Exception.Create('Invalid BuildType string used!');
-end;
 
 {-------------------------------------------------------------------------------
   Show Version Manager
@@ -158,6 +144,15 @@ begin
   // Load Offline UpdateConf
   if Updater.LoadUpdateConfFromFile(Updater.VersionFolder + 'updates.xml') then
   PopulateItems;
+
+  // Translate
+  CEGlobalTranslator.TranslateComponent(Self);
+  if ItemList.Header.Columns.Count = 3 then
+  begin
+    ItemList.Header.Columns.Items[0].Text:= _('Version');
+    ItemList.Header.Columns.Items[1].Text:= _('Type');
+    ItemList.Header.Columns.Items[2].Text:= _('Date');
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -191,14 +186,31 @@ end;
 procedure TCEVersionMgrForm.but_downloadClick(Sender: TObject);
 var
   data: PItemData;
+  path: WideString;
 begin
   data:= ItemList.GetNodeData(SelectedItem);
   if assigned(data) then
   begin
-    but_download.Enabled:= false;
-    data.fDownloadThread:= Updater.DownloadVersion(data.Version);
-    if data.fDownloadThread = 0 then
-    but_download.Enabled:= true;
+    if but_download.Tag = 0 then
+    begin
+      but_download.Enabled:= false;
+      data.fDownloadThread:= Updater.DownloadVersion(data.Version);
+      if data.fDownloadThread = 0 then
+      but_download.Enabled:= true;
+    end
+    else if but_download.Tag = 1 then
+    begin
+      path:= WideIncludeTrailingPathDelimiter(Updater.VersionFolder) + VersionNumberToStr(data.Version);
+      if WideDirectoryExists(path) then
+      begin
+        WideDeleteDirEx(path);
+        data.IsOffline:= false;
+        but_download.Tag:= 0;
+        but_download.Caption:= _('Download');
+        but_use.Enabled:= false;
+        ItemList.Repaint;
+      end;
+    end;
   end;
 end;
 
@@ -225,11 +237,33 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Check Offline States
+-------------------------------------------------------------------------------}
+procedure TCEVersionMgrForm.CheckOfflineStates;
+var
+  node: PVirtualNode;
+  data: PItemData;
+begin
+  node:= ItemList.GetFirst;
+  while assigned(node) do
+  begin
+    data:= ItemList.GetNodeData(node);
+    data.IsOffline:= Updater.VersionFolderExists(data.Version);
+    node:= ItemList.GetNext(node);
+  end;
+  ItemList.Repaint;
+end;
+
+{-------------------------------------------------------------------------------
   HandleDownloadProgress
 -------------------------------------------------------------------------------}
 procedure TCEVersionMgrForm.HandleDownloadProgress(Sender: TObject; Percent:
     Integer; Current: Integer; FileCount: Integer);
+var
+  data: PItemData;
 begin
+  data:= ItemList.GetNodeData(SelectedItem);
+  if assigned(data) and (data.fDownloadThread = Integer(Sender)) then
   but_download.Caption:= IntToStr(Percent) + '% (' + IntToStr(Current) + ' of ' + IntToStr(FileCount) + ')'; 
 end;
 
@@ -257,6 +291,8 @@ begin
           label_lastcheck.Caption:= 'Error: Invalid XML document';
           ItemList.Clear;
         end
+        else if Data.HTTP.ResultCode = 500 then
+        label_lastcheck.Caption:= 'Error: Could not connect!'
         else if Data.HTTP.ResultString <> '' then
         label_lastcheck.Caption:= 'Error: ' + IntToStr(Data.HTTP.ResultCode) + ' - ' + Data.HTTP.ResultString
         else
@@ -273,15 +309,37 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEVersionMgrForm.HandleDownloadVersionDone(Sender: TObject; Data:
     TCEDownloadData);
+var
+  node: PVirtualNode;
+  selData: PItemData;
 begin
   if Data.Current = Data.FileCount then
   begin
-    but_download.Caption:= _('Re-Download');
-    but_download.Enabled:= true;
-    but_use.Enabled:= true;
+    selData:= ItemList.GetNodeData(SelectedItem);
+    if assigned(selData) and (selData.fDownloadThread = Data.ThreadID) then
+    begin
+      selData.fDownloadThread:= 0;
+      but_download.Caption:= _('Delete');
+      but_download.Tag:= 1;
+      but_download.Enabled:= true;
+      but_use.Enabled:= true;
+    end
+    else
+    begin
+      node:= ItemList.GetFirst;
+      while assigned(node) do
+      begin
+        selData:= ItemList.GetNodeData(node);
+        if selData.fDownloadThread = Integer(Data.ThreadID) then
+        selData.fDownloadThread:= 0;
+        node:= ItemList.GetNext(node);
+      end;
+    end;
 
     if Data.Failed > 0 then
     TaskDialog(Self.Handle, _('Download failed!'), WideFormat(_('%d file(s) failed to download!'), [IntToStr(Data.Failed)]), '', TD_ICON_WARNING, TD_BUTTON_OK);
+
+    CheckOfflineStates;
   end;
 end;
 
@@ -340,6 +398,25 @@ begin
   data:= Sender.GetNodeData(Node);
   data.Caption:= '';
   data.BuildTypeStr:= '';
+end;
+
+{-------------------------------------------------------------------------------
+  On ItemList.GetImageIndex
+-------------------------------------------------------------------------------}
+procedure TCEVersionMgrForm.ItemListGetImageIndex(Sender: TBaseVirtualTree;
+    Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex; var Ghosted:
+    Boolean; var ImageIndex: Integer);
+var
+  data: PItemData;
+begin
+  if (Column = 0) and (Kind <> ikOverlay) then
+  begin
+    data:= Sender.GetNodeData(Node);
+    if data.IsOffline then
+    ImageIndex:= 8
+    else
+    ImageIndex:= 9;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -417,6 +494,7 @@ begin
                 btTest: data.BuildTypeStr:= _('For Testing');
               end;
               data.IsCurrentVersion:= Updater.CurrentVersionStr = data.Caption;
+              data.IsOffline:= Updater.VersionFolderExists(data.Version);
               data.Node:= buildNode;
             except
               ItemList.DeleteNode(node);
@@ -455,16 +533,19 @@ begin
       if assigned(notesNode) then
       begin
         memo_notes.Lines.Text:= notesNode.TextContent;
-      end;      
-      but_download.Enabled:= true;
-      if not Updater.VersionFolderExists(data.Version) then
+      end;
+
+      but_download.Enabled:= data.fDownloadThread = 0;
+      if not data.IsOffline then
       begin
         but_download.Caption:= _('Download');
+        but_download.Tag:= 0;
         but_use.Enabled:= false;
       end
       else
       begin
-        but_download.Caption:= _('Re-Download');
+        but_download.Caption:= _('Delete');
+        but_download.Tag:= 1;
         but_use.Enabled:= not data.IsCurrentVersion;
       end;
     end

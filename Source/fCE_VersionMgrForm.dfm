@@ -3,7 +3,7 @@ object CEVersionMgrForm: TCEVersionMgrForm
   Top = 0
   Caption = 'Version Manager'
   ClientHeight = 373
-  ClientWidth = 584
+  ClientWidth = 639
   Color = clBtnFace
   Constraints.MinHeight = 320
   Constraints.MinWidth = 600
@@ -23,7 +23,7 @@ object CEVersionMgrForm: TCEVersionMgrForm
   object TabControl: TSpTBXTabControl
     Left = 0
     Top = 0
-    Width = 584
+    Width = 639
     Height = 330
     Align = alClient
     ActiveTabIndex = 0
@@ -39,7 +39,7 @@ object CEVersionMgrForm: TCEVersionMgrForm
     object sheet_backups: TSpTBXTabSheet
       Left = 0
       Top = 25
-      Width = 584
+      Width = 639
       Height = 305
       Caption = 'Backups'
       ImageIndex = -1
@@ -48,16 +48,16 @@ object CEVersionMgrForm: TCEVersionMgrForm
     object sheet_versions: TSpTBXTabSheet
       Left = 0
       Top = 25
-      Width = 584
+      Width = 639
       Height = 305
       Caption = 'Versions'
       ImageIndex = -1
       DesignSize = (
-        584
+        639
         305)
       TabItem = 'tab_versions'
       object label_type: TSpTBXLabel
-        Left = 468
+        Left = 523
         Top = 33
         Width = 102
         Height = 19
@@ -79,6 +79,7 @@ object CEVersionMgrForm: TCEVersionMgrForm
         Header.Font.Name = 'Tahoma'
         Header.Font.Style = []
         Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
+        Images = CE_Images.MiscImages
         TabOrder = 0
         TreeOptions.PaintOptions = [toShowButtons, toShowDropmark, toShowTreeLines, toThemeAware, toUseBlendedImages]
         TreeOptions.SelectionOptions = [toFullRowSelect]
@@ -87,6 +88,7 @@ object CEVersionMgrForm: TCEVersionMgrForm
         OnFreeNode = ItemListFreeNode
         OnGetText = ItemListGetText
         OnPaintText = ItemListPaintText
+        OnGetImageIndex = ItemListGetImageIndex
         Columns = <
           item
             Position = 0
@@ -113,7 +115,7 @@ object CEVersionMgrForm: TCEVersionMgrForm
       object memo_notes: TTntMemo
         Left = 316
         Top = 58
-        Width = 254
+        Width = 309
         Height = 165
         Anchors = [akLeft, akTop, akRight, akBottom]
         ReadOnly = True
@@ -146,12 +148,12 @@ object CEVersionMgrForm: TCEVersionMgrForm
         Enabled = False
       end
       object but_use: TSpTBXButton
-        Left = 431
+        Left = 486
         Top = 229
         Width = 139
         Height = 30
         Caption = 'Use this version'
-        Anchors = [akLeft, akBottom]
+        Anchors = [akRight, akBottom]
         Enabled = False
         TabOrder = 7
         OnClick = but_useClick
@@ -172,17 +174,17 @@ object CEVersionMgrForm: TCEVersionMgrForm
   object panel_bottom: TSpTBXPanel
     Left = 0
     Top = 330
-    Width = 584
+    Width = 639
     Height = 43
     Align = alBottom
     TabOrder = 1
     Borders = False
     TBXStyleBackground = True
     DesignSize = (
-      584
+      639
       43)
     object but_close: TSpTBXButton
-      Left = 476
+      Left = 531
       Top = 6
       Width = 99
       Height = 30

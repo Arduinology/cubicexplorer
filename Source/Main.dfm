@@ -406,6 +406,9 @@ object MainForm: TMainForm
         object SpTBXItem75: TSpTBXItem
           Action = CEActions.act_help_versionmgr
         end
+        object SpTBXItem97: TSpTBXItem
+          Action = CEActions.act_help_checkupdates
+        end
         object SpTBXSeparatorItem20: TSpTBXSeparatorItem
         end
         object SpTBXItem1: TSpTBXItem
@@ -585,5 +588,12 @@ object MainForm: TMainForm
     object SpTBXItem92: TSpTBXItem
       Action = CEActions.act_gen_exit
     end
+  end
+  object AutoUpdateTimer: TTimer
+    Enabled = False
+    Interval = 2000
+    OnTimer = AutoUpdateTimerTimer
+    Left = 48
+    Top = 96
   end
 end

@@ -8,11 +8,17 @@ uses
   // Synapse
   HTTPSend, blcksock, 
   // fcl-xml
-  XMLRead, DOM,
+  XMLRead, XMLWrite, DOM,
   // System Units
-  SysUtils, Classes, Windows, XMLWrite;
+  SysUtils, Classes, Windows, ExtCtrls;
 
 type
+  TCEBuildType = (btSnapshot, btOfficial, btUpdate, btUrgent, btTest);
+  TCEBuildTypes = set of TCEBuildType;
+const
+  CEBuildTypeStr: array[TCEBuildType] of String = ('snapshot', 'official', 'update', 'urgent', 'test');
+
+type  
   TCEVersionNumber = record
     Major: Integer;
     Minor: Integer;
@@ -33,6 +39,8 @@ type
     Current: Integer;
     DestDir: WideString;
     Failed: Integer;
+    ThreadID: Integer;
+    Version: TCEVersionNumber;
     destructor Destroy; override;
   end;
 
@@ -70,8 +78,12 @@ type
     function CheckForNewerVersion: Boolean; virtual;
     procedure DownloadUpdateConf; virtual;
     function DownloadVersion(Version: TCEVersionNumber): Integer; virtual;
-    function FindBuildNode(Version: TCEVersionNumber): TDOMNode; virtual;
+    function FindBuildNode(Version: String): TDOMNode; overload; virtual;
+    function FindBuildNode(Version: TCEVersionNumber): TDOMNode; overload; virtual;
+    function FindNewestVersion(OnlyNewerThanCurrent: Boolean = true; BuildTypes:
+        TCEBuildTypes = []): TDOMNode; virtual;
     function LoadUpdateConfFromFile(AFilePath: WideString): Boolean; virtual;
+    procedure MergeUpdateConf(XmlToMerge: TXMLDocument); virtual;
     function VersionFolderExists(Version: TCEVersionNumber): Boolean;
     procedure UseVersion(Version: TCEVersionNumber); virtual;
     function ValidateVersion(Node: TDOMNode): Boolean;
@@ -92,33 +104,66 @@ type
         fOnDownloadVersionDone write fOnDownloadVersionDone;
   end;
 
-function CompareVersion(Ver1, Ver2: TCEVersionNumber): Integer;
+  TCEUpdateFoundEvent = procedure(Sender: TObject; BuildType: TCEBuildType; Version: TCEVersionNumber; Notes: WideString; var DoUpdate: Boolean) of object;
 
-function StrToVersionNumber(Str: String): TCEversionNumber;
+  TCEAutoUpdater = class(TObject)
+  private
+    fBuildTypes: TCEBuildTypes;
+    fCheckingUpdate: Boolean;
+    fCloseUpdaterTimer: TTimer;
+    fCurrentVersion: TCEVersionNumber;
+    fCurrentVersionStr: string;
+    fOnUpdateFound: TCEUpdateFoundEvent;
+    fOutputFolder: WideString;
+    fUpdateConfURL: WideString;
+    fVersionFolder: WideString;
+    procedure SetCurrentVersionStr(const Value: string);
+  protected
+    fUpdater: TCEVersionUpdater;
+    procedure HandleCloseUpdaterTimer(Sender: TObject); virtual;
+    procedure HandleDownloadUpdateConfDone(Sender: TObject; Data: TCEDownloadData);
+        virtual;
+    procedure HandleDownloadVersionDone(Sender: TObject; Data: TCEDownloadData);
+        virtual;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure CheckForUpdates;
+    property BuildTypes: TCEBuildTypes read fBuildTypes write fBuildTypes;
+    property CurrentVersion: TCEVersionNumber read fCurrentVersion;
+    property CurrentVersionStr: string read fCurrentVersionStr write
+        SetCurrentVersionStr;
+    property UpdateConfURL: WideString read fUpdateConfURL write fUpdateConfURL;
+    property VersionFolder: WideString read fVersionFolder write fVersionFolder;
+  published
+    property OutputFolder: WideString read fOutputFolder write fOutputFolder;
+    property OnUpdateFound: TCEUpdateFoundEvent read fOnUpdateFound write fOnUpdateFound;
+  end;
 
-function VersionNumberToStr(Version: TCEVersionNumber): String;
+  function CompareVersion(Ver1, Ver2: TCEVersionNumber): Integer;
+  function StrToVersionNumber(Str: String): TCEversionNumber;
+  function VersionNumberToStr(Version: TCEVersionNumber): String;
+  function ExtractUrlFileName(const AUrl: string): string;
+  procedure UpdateFiles(ADestFolder: WideString; ASrcFolder: WideString );
+  procedure ClearFolder(AFolder: WideString; ARecursive: Boolean = true);
+  function NeedElevation(AFolder: WideString = ''): Boolean;
+  function UpdateCEFromZip(AZipPath: WideString; ADestFolderPath: WideString;
+      OldApplicationHandle: Integer = 0; CheckElevationNeed: Boolean = false):
+      Boolean;
 
-function ExtractUrlFileName(const AUrl: string): string;
-
-procedure UpdateFiles(ADestFolder: WideString; ASrcFolder: WideString );
-
-procedure ClearFolder(AFolder: WideString; ARecursive: Boolean = true);
-
-function NeedElevation(AFolder: WideString = ''): Boolean;
-
-function UpdateCEFromZip(AZipPath: WideString; ADestFolderPath: WideString;
-    OldApplicationHandle: Integer = 0; CheckElevationNeed: Boolean = false):
-    Boolean;
+  function GetBuildType(AFrom: String): TCEBuildType;
 
 var
   CELastVersionCheck: TDateTime;
+  UpdateConfURL: String = 'http://cubicreality.pp.fi/ce/updates/updates_test.xml';
+
 
 implementation
 
 uses
   CE_XmlUtils, Math, MPCommonUtilities, TntClasses, TntSysUtils, TntSystem,
   TntWindows, fCE_UpdateDlg, Controls, CE_VistaFuncs, Messages, dCE_Input,
-  Forms, CE_FileUtils, CE_LanguageEngine;
+  Forms, CE_FileUtils, CE_LanguageEngine, CE_Consts, CE_Utils;
 
 {-------------------------------------------------------------------------------
   Compare Version (Result < 0 if Ver1 is smaller,
@@ -133,7 +178,7 @@ begin
   if Result = 0 then
   Result:= Ver1.Release - Ver2.Release;
   if Result = 0 then
-  Result:= Ver1.Build - Ver1.Build;
+  Result:= Ver1.Build - Ver2.Build;
 end;
 
 {-------------------------------------------------------------------------------
@@ -352,6 +397,20 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Get BuildType from string
+-------------------------------------------------------------------------------}
+function GetBuildType(AFrom: String): TCEBuildType;
+begin
+  for Result:= Low(Result) to High(Result) do
+  begin
+    if AFrom = CEBuildTypeStr[Result] then
+    Exit; // ->
+  end;
+  // Raise exception if invalid string was used
+  raise Exception.Create('Invalid BuildType string used!');
+end;
+
 {##############################################################################}
 
 {-------------------------------------------------------------------------------
@@ -412,6 +471,8 @@ procedure TCEVersionUpdater.DownloadUpdateConf;
 var
   thread: TCCBaseThread;
   data: TCEDownloadData;
+  proxy: String;
+  port: Integer;
 begin
   thread:= TCCBaseThread.Create(true);
   thread.FreeOnTerminate:= true;
@@ -423,6 +484,21 @@ begin
   data.URL:= UpdateConfURL;
   data.DownloadType:= dtUpdateConf;
   data.HTTP:= THTTPSend.Create;
+  if CE_UseProxy then
+  begin
+    if CE_UseSystemProxy then
+    begin
+      proxy:= GetSystemProxyServer('http');
+      data.HTTP.ProxyHost:= ExtractUrlPort(proxy, port);
+      data.HTTP.ProxyPort:= IntToStr(port);
+    end
+    else
+    begin
+      data.HTTP.ProxyHost:= ExtractUrlPort(CE_ProxyAddress, port);
+      data.HTTP.ProxyPort:= IntToStr(port);
+    end;
+  end;
+  data.ThreadID:= Integer(thread);
   thread.Data:= data;
   thread.FreeDataOnDestroy:= true;
   // Start
@@ -440,6 +516,8 @@ var
   list: TStrings;
   dir: WideString;
   rootURL: String;
+  proxy: String;
+  port: Integer;
 begin
   Result:= 0;
   list:= TStringList.Create;
@@ -497,11 +575,27 @@ begin
         data.DestDir:= dir;
         data.DownloadType:= dtPayload;
         data.HTTP:= THTTPSend.Create;
+        if CE_UseProxy then
+        begin
+          if CE_UseSystemProxy then
+          begin
+            proxy:= GetSystemProxyServer('http');
+            data.HTTP.ProxyHost:= ExtractUrlPort(proxy, port);
+            data.HTTP.ProxyPort:= IntToStr(port);
+          end
+          else
+          begin
+            data.HTTP.ProxyHost:= ExtractUrlPort(CE_ProxyAddress, port);
+            data.HTTP.ProxyPort:= IntToStr(port);
+          end;
+        end;
         data.HTTP.Sock.OnStatus:= HandleSockStatus;
         data.FileCount:= list.Count;
         data.Current:= 0;
         data.fLastProgress:= 0;
         data.Failed:= 0;
+        data.ThreadID:= Result;
+        data.Version:= Version;
         thread.Data:= data;
         thread.FreeDataOnDestroy:= true;
         // Start
@@ -616,6 +710,7 @@ procedure TCEVersionUpdater.HandleSyncedMessage(Sender: TCCBaseThread; Msg:
 var
   stream: TStream;
   fs: TTntFileStream;
+  tmpXML: TXMLDocument;
 begin
   if Msg is TCEDownloadData then
   begin
@@ -628,40 +723,20 @@ begin
           stream:= TCEDownloadData(Msg).HTTP.Document;
           try
             stream.Position:= 0;
-            if assigned(fXML) then
-            FreeAndNil(fXML);
 
-            ReadXMLFile(fXML, stream);
-            // Check if valid xml file
-            if assigned(FindFirstChildDOMNode(fXML.DocumentElement, 'Updates')) then
-            begin
-              TCEDownloadData(Msg).IsValidDocument:= true;
-              // save UpdateConf to disk for offline use
-              if not WideDirectoryExists(VersionFolder) then
-              WideCreateDir(VersionFolder);
-              if WideDirectoryExists(VersionFolder) then
+            ReadXMLFile(tmpXML, stream);
+            try
+              // Check if valid xml file
+              if assigned(FindFirstChildDOMNode(tmpXML.DocumentElement, 'Updates')) then
               begin
-                fs:= TTntFileStream.Create(VersionFolder + 'updates.xml', fmCreate);
-                try
-                  fs.Seek(0, soFromBeginning);
-                  fs.CopyFrom(stream, 0);
-                finally
-                  fs.Free;
-                end;
+                TCEDownloadData(Msg).IsValidDocument:= true;
+                MergeUpdateConf(tmpXml);
               end;
+            finally
+              tmpXML.Free;
             end;
           except on EXMLReadError do
-            begin
-              if not assigned(fXML) then
-              begin
-                fXML:= TXMLDocument.Create;
-                fXML.AppendChild(fXML.CreateElement('CubicExplorer'));
-              end
-              else if not assigned(fXML.DocumentElement) then
-              begin
-                fXML.AppendChild(fXML.CreateElement('CubicExplorer'));
-              end;
-            end;
+
           end;
         end;
       finally
@@ -713,6 +788,80 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Find Build Node
+-------------------------------------------------------------------------------}
+function TCEVersionUpdater.FindBuildNode(Version: String): TDOMNode;
+var
+  rootNode: TDOMNode;
+  s: String;
+begin
+  if assigned(Xml.DocumentElement) then
+  begin
+    rootNode:= FindFirstChildDOMNode(Xml.DocumentElement, 'Updates');
+    if assigned(rootNode) then
+    begin
+      Result:= FindFirstChildDOMNode(rootNode, 'Build');
+      while assigned(Result) do
+      begin
+        if TDOMElement(Result).AttribStrings['version'] = Version then
+        Exit; // -->
+        Result:= FindNextSiblingDOMNode(Result, 'Build');
+      end;
+    end;
+  end;
+  Result:= nil;
+end;
+
+{-------------------------------------------------------------------------------
+  Find Newest version
+-------------------------------------------------------------------------------}
+function TCEVersionUpdater.FindNewestVersion(OnlyNewerThanCurrent: Boolean =
+    true; BuildTypes: TCEBuildTypes = []): TDOMNode;
+var
+  rootNode, buildNode: TDOMNode;
+  ver, highVer: TCEVersionNumber;
+  buildType: TCEBuildType;
+begin
+  Result:= nil;
+  if OnlyNewerThanCurrent then
+  highVer:= CurrentVersion
+  else
+  begin
+    highVer.Major:= 0;
+    highVer.Minor:= 0;
+    highVer.Release:= 0;
+    highVer.Build:= 0;
+  end;
+  if assigned(fXML.DocumentElement) then
+  begin
+    rootNode:= FindFirstChildDOMNode(fXML.DocumentElement, 'Updates');
+    if assigned(rootNode) then
+    begin
+      buildNode:= FindFirstChildDOMNode(rootNode, 'Build');
+      while assigned(buildNode) and (buildNode is TDOMElement) do
+      begin
+        try
+          if BuildTypes <> [] then
+          buildType:= GetBuildType(TDOMElement(buildNode).AttribStrings['type']);
+          
+          if (BuildTypes = []) or (buildType in BuildTypes) then
+          begin
+            ver:= StrToVersionNumber(TDOMElement(buildNode).AttribStrings['version']);
+            if CompareVersion(highVer, ver) < 0  then
+            begin
+              Result:= buildNode;
+              highVer:= ver;
+            end;
+          end;
+        except
+        end;
+        buildNode:= FindNextSiblingDOMNode(buildNode, 'Build');
+      end;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   Load UpdateConf From File
 -------------------------------------------------------------------------------}
 function TCEVersionUpdater.LoadUpdateConfFromFile(AFilePath: WideString):
@@ -743,6 +892,80 @@ begin
           fXML.AppendChild(fXML.CreateElement('CubicExplorer'));
         end;
       end;
+    finally
+      fs.Free;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Merge Update Conf
+-------------------------------------------------------------------------------}
+procedure TCEVersionUpdater.MergeUpdateConf(XmlToMerge: TXMLDocument);
+var
+  fs: TTntFileStream;
+  updNode, buildNode, tmpNode: TDOMNode;
+  newUpdNode, newBuildNode: TDOMNode;
+begin
+  if not assigned(XMLToMerge) and not assigned(XmlToMerge.DocumentElement) then
+  Exit;
+  
+  // Create Base XML
+  if not assigned(fXML) then
+  begin
+    fXML:= TXMLDocument.Create;
+    fXML.AppendChild(fXML.CreateElement('CubicExplorer'));
+  end
+  else if not assigned(fXML.DocumentElement) then
+  begin
+    fXML.AppendChild(fXML.CreateElement('CubicExplorer'));
+  end;
+  // Get/Create Updates node
+  updNode:= FindFirstChildDOMNode(fXML.DocumentElement, 'Updates');
+  if not assigned(updNode) then
+  begin
+    updNode:= fXML.CreateElement('Updates');
+    fXML.DocumentElement.AppendChild(updNode);
+  end;
+
+  // Remove non offline build nodes
+  buildNode:= FindFirstChildDOMNode(updNode, 'Build');
+  while assigned(buildNode) do
+  begin
+    tmpNode:= buildNode;
+    buildNode:= FindNextSiblingDOMNode(buildNode, 'Build');
+    if not WideDirectoryExists(WideIncludeTrailingPathDelimiter(VersionFolder) +
+                               TDOMElement(tmpNode).AttribStrings['version']) then
+    begin
+      updNode.RemoveChild(tmpNode);
+    end;
+  end;
+
+  // Merge build nodes
+  newUpdNode:= FindFirstChildDOMNode(XmlToMerge.DocumentElement, 'Updates');
+  if assigned(newUpdNode) then
+  begin
+    newBuildNode:= FindFirstChildDOMNode(newUpdNode, 'Build');
+    while assigned(newBuildNode) do
+    begin
+      if not assigned(FindBuildNode(TDOMElement(newBuildNode).AttribStrings['version'])) then
+      begin
+        buildNode:= newBuildNode.CloneNode(true, fXML);
+        updNode.AppendChild(buildNode);
+      end;
+      newBuildNode:= FindNextSiblingDOMNode(newBuildNode, 'Build');
+    end;
+  end;
+
+  // save UpdateConf to disk for offline use
+  if not WideDirectoryExists(VersionFolder) then
+  WideCreateDir(VersionFolder);
+  if WideDirectoryExists(VersionFolder) then
+  begin
+    fs:= TTntFileStream.Create(VersionFolder + 'updates.xml', fmCreate);
+    try
+      fs.Seek(0, soFromBeginning);
+      WriteXMLFile(fXML, fs);
     finally
       fs.Free;
     end;
@@ -842,6 +1065,141 @@ destructor TCEDownloadData.Destroy;
 begin
   if assigned(HTTP) then HTTP.Free;
   inherited;
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Create TCEAutoUpdater
+-------------------------------------------------------------------------------}
+constructor TCEAutoUpdater.Create;
+begin
+  inherited;
+  fBuildTypes:= [];
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy TCEAutoUpdater
+-------------------------------------------------------------------------------}
+destructor TCEAutoUpdater.Destroy;
+begin
+  if assigned(fCloseUpdaterTimer) then
+  FreeAndNil(fCloseUpdaterTimer);
+
+  if assigned(fUpdater) then
+  FreeAndNil(fUpdater);
+
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Check For Updates
+-------------------------------------------------------------------------------}
+procedure TCEAutoUpdater.CheckForUpdates;
+begin
+  if fCheckingUpdate then
+  Exit;
+
+  if assigned(fCloseUpdaterTimer) then
+  fCloseUpdaterTimer.Enabled:= false;
+
+  if not assigned(fUpdater) then
+  begin
+    fUpdater:= TCEVersionUpdater.Create;
+    fUpdater.CurrentVersionStr:= CurrentVersionStr;
+    fUpdater.UpdateConfURL:= UpdateConfURL;
+    fUpdater.VersionFolder:= VersionFolder;
+    fUpdater.OutputFolder:= OutputFolder;
+    fUpdater.OnDownloadUpdateConfDone:= HandleDownloadUpdateConfDone;
+    fUpdater.OnDownloadVersionDone:= HandleDownloadVersionDone;
+    fUpdater.LoadUpdateConfFromFile(VersionFolder + 'updates.xml');
+  end;
+  fUpdater.DownloadUpdateConf;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle CloseUpdaterTimer
+-------------------------------------------------------------------------------}
+procedure TCEAutoUpdater.HandleCloseUpdaterTimer(Sender: TObject);
+begin
+  fCloseUpdaterTimer.Enabled:= false;
+  FreeAndNil(fUpdater);
+end;
+
+{-------------------------------------------------------------------------------
+  HandleDownloadUpdateConfDone
+-------------------------------------------------------------------------------}
+procedure TCEAutoUpdater.HandleDownloadUpdateConfDone(Sender: TObject; Data:
+    TCEDownloadData);
+var
+  newBuild: TDOMNode;
+  notesNode: TDOMNode;
+  ver: TCEVersionNumber;
+  buildType: TCEBuildType;
+  doUpdate: Boolean;
+  notes: WideString;
+begin
+  newBuild:= fUpdater.FindNewestVersion(true, BuildTypes);
+  if assigned(newBuild) then
+  begin
+    if assigned(fOnUpdateFound) then
+    begin
+      ver:= StrToVersionNumber(TDOMElement(newBuild).AttribStrings['version']);
+      buildType:= GetBuildType(TDOMElement(newBuild).AttribStrings['type']);
+      doUpdate:= false;
+      notesNode:= FindFirstChildDOMNode(newBuild, 'Notes');
+      if assigned(notesNode) then
+      notes:= notesNode.TextContent;
+
+      fOnUpdateFound(Self, buildType, ver, Notes, doUpdate);
+      if doUpdate then
+      begin
+        fUpdater.DownloadVersion(ver);
+      end;
+    end;
+  end;
+
+  // Create timer to free fUpdater after 5 secounds
+  if not doUpdate then
+  begin
+    if not assigned(fCloseUpdaterTimer) then
+    begin
+      fCloseUpdaterTimer:= TTimer.Create(nil);
+      fCloseUpdaterTimer.Enabled:= false;
+      fCloseUpdaterTimer.Interval:= 5000;
+      fCloseUpdaterTimer.OnTimer:= HandleCloseUpdaterTimer;
+    end;
+    fCloseUpdaterTimer.Enabled:= true;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle DownloadVersionDone
+-------------------------------------------------------------------------------}
+procedure TCEAutoUpdater.HandleDownloadVersionDone(Sender: TObject; Data:
+    TCEDownloadData);
+begin
+  if Data.Current = Data.FileCount then
+  begin
+    fUpdater.UseVersion(Data.Version);
+    if not assigned(fCloseUpdaterTimer) then
+    begin
+      fCloseUpdaterTimer:= TTimer.Create(nil);
+      fCloseUpdaterTimer.Enabled:= false;
+      fCloseUpdaterTimer.Interval:= 5000;
+      fCloseUpdaterTimer.OnTimer:= HandleCloseUpdaterTimer;
+    end;
+    fCloseUpdaterTimer.Enabled:= true;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set CurrentVersionStr
+-------------------------------------------------------------------------------}
+procedure TCEAutoUpdater.SetCurrentVersionStr(const Value: string);
+begin
+  fCurrentVersionStr:= Value;
+  fCurrentVersion:= StrToVersionNumber(fCurrentVersionStr);
 end;
 
 end.

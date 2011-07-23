@@ -34,6 +34,7 @@ Unit Documents;
 // 102 = Restart Application
 // 103 = New instance
 
+
 // **** Edit (200) ****
 // 201 = Copy items to clipboard
 // 202 = Cut items to clipboard
@@ -95,6 +96,7 @@ Unit Documents;
 // 504 = Translate CE
 // 505 = Go to Donate page
 // 506 = Version Manager
+// 507 = Check For Updates
 
 // **** Navigation (600) ****
 // 601 = Add new tab (FileView)

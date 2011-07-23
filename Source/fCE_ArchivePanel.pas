@@ -54,14 +54,14 @@ end;
 procedure TCEArchiverPanel.GlobalFocusChanged(Sender: TObject; NewPath:
     WideString);
 begin
-  if not Self.IsVisible then
-  Exit;
-  
-  try
-    if WideFileExists(NewPath) then
-    Browser.OpenArchive(NewPath);
-  except
-  end;
+//  if not Self.IsVisible then
+//  Exit;
+//  
+//  try
+//    if WideFileExists(NewPath) then
+//    Browser.OpenArchive(NewPath);
+//  except
+//  end;
 end;
 
 end.

@@ -28,7 +28,7 @@ uses
   fCE_ExtAppPage, fCE_FiltersPanel, fCE_BookmarkPropDlg,
   fCE_DockHostForm, fCE_DockableForm, fCE_TabPage, fCE_FileView,
   fCE_FolderPanel, fCE_QuickViewPanel, fCE_BookmarkPanel, fCE_Customizer,
-  fCE_PoEditor,
+  fCE_PoEditor, CE_VersionUpdater,
   // CE Data Modules
   dCE_Actions, dCE_Images, dCE_Input,
   // CE Units
@@ -215,6 +215,9 @@ type
     SpTBXItem75: TSpTBXItem;
     SpTBXItem80: TSpTBXItem;
     SpTBXItem96: TSpTBXItem;
+    AutoUpdateTimer: TTimer;
+    SpTBXItem97: TSpTBXItem;
+    procedure AutoUpdateTimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -256,6 +259,8 @@ type
     procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
     procedure WMSyscommand(var Message: TWmSysCommand); message WM_SYSCOMMAND;
     procedure CreateParams(var Params: TCreateParams); override;
+    procedure HandleUpdateFound(Sender: TObject; BuildType: TCEBuildType; Version:
+        TCEVersionNumber; Notes: WideString; var DoUpdate: Boolean);
     procedure WMAppCommand(var Message: TWMAppCommand); message WM_APPCOMMAND;
     procedure WMHotkey(var Message: TMessage); message WM_HOTKEY;
   public
@@ -263,6 +268,7 @@ type
     Layouts: TCELayoutController;
     TabSet: TCESpTabSet;
     AddressBarToolbar: TCEAddressBarToolbar;
+    AutoUpdater: TCEAutoUpdater;
     BreadcrumbBar: TCEBreadcrumbBar;
     DriveToolbar: TCEDriveToolbar;
     BookmarkToolbar: TCEBookmarkToolbar;
@@ -296,6 +302,7 @@ type
 
   TMainFormSettings = class(TPersistent)
   private
+    fAutoCheckUpdates: Boolean;
     fCloseToTray: Boolean;
     fExitOnLastTabClose: Boolean;
     fHeight: Integer;
@@ -314,8 +321,12 @@ type
     function GetSingleInstance: Boolean;
     function GetSkin: string;
     function GetAutoLoadSession: WideString;
+    function GetCheckForUpdateTypes: TCEBuildTypes;
     function GetLastUpdateCheck: TDateTime;
+    function GetProxyAddress: WideString;
     function GetShowTray: Boolean;
+    function GetUseProxy: Boolean;
+    function GetUseSystemProxy: Boolean;
     procedure SetAlphaBlend(const Value: Integer);
     procedure SetAlwaysOnTop(const Value: Boolean);
     procedure SetLanguage(const Value: WideString);
@@ -324,8 +335,12 @@ type
     procedure SetSingleInstance(const Value: Boolean);
     procedure SetSkin(const Value: string);
     procedure SetAutoLoadSession(const Value: WideString);
+    procedure SetCheckForUpdateTypes(const Value: TCEBuildTypes);
     procedure SetLastUpdateCheck(const Value: TDateTime);
+    procedure SetProxyAddress(const Value: WideString);
     procedure SetShowTray(const Value: Boolean);
+    procedure SetUseProxy(const Value: Boolean);
+    procedure SetUseSystemProxy(const Value: Boolean);
   public
     Form: TMainForm;
     constructor Create;
@@ -334,6 +349,8 @@ type
   published
     property AlphaBlend: Integer read GetAlphaBlend write SetAlphaBlend;
     property AlwaysOnTop: Boolean read GetAlwaysOnTop write SetAlwaysOnTop;
+    property AutoCheckUpdates: Boolean read fAutoCheckUpdates write
+        fAutoCheckUpdates;
     property Left: Integer read fLeft write fLeft;
     property Top: Integer read fTop write fTop;
     property Width: Integer read fWidth write fWidth;
@@ -346,15 +363,20 @@ type
     property Skin: string read GetSkin write SetSkin;
     property AutoLoadSession: WideString read GetAutoLoadSession write
         SetAutoLoadSession;
+    property CheckForUpdateTypes: TCEBuildTypes read GetCheckForUpdateTypes write
+        SetCheckForUpdateTypes;
     property CloseToTray: Boolean read fCloseToTray write fCloseToTray;
     property ExitOnLastTabClose: Boolean read fExitOnLastTabClose write
         fExitOnLastTabClose;
     property LastUpdateCheck: TDateTime read GetLastUpdateCheck write
         SetLastUpdateCheck;
     property MinimizeToTray: Boolean read fMinimizeToTray write fMinimizeToTray;
+    property ProxyAddress: WideString read GetProxyAddress write SetProxyAddress;
     property ShowTray: Boolean read GetShowTray write SetShowTray;
     property StartInTray: Boolean read fStartInTray write fStartInTray;
     property StartupType: TCEStartupType read fStartupType write fStartupType;
+    property UseProxy: Boolean read GetUseProxy write SetUseProxy;
+    property UseSystemProxy: Boolean read GetUseSystemProxy write SetUseSystemProxy;
   end;
 
 var
@@ -364,7 +386,7 @@ implementation
 
 uses
   madExcept, CE_QuickView, Clipbrd, CE_PaneHost, CE_Stacks, MPResources,
-  fCE_OptionsDialog, fCE_StackPanel, CE_VersionUpdater;
+  fCE_OptionsDialog, fCE_StackPanel, CE_Consts;
 
 {$R *.dfm}
 
@@ -617,6 +639,14 @@ begin
   end;
 
   InitLanguage;
+
+  // Create Auto Updater
+  AutoUpdater:= TCEAutoUpdater.Create;
+  AutoUpdater.UpdateConfURL:= UpdateConfURL;
+  AutoUpdater.CurrentVersionStr:= GetAppVersionStr;
+  AutoUpdater.VersionFolder:= SettingsDirPath + 'Versions\';
+  AutoUpdater.OutputFolder:= exePath;
+  AutoUpdater.OnUpdateFound:= HandleUpdateFound;
 end;
 
 {*------------------------------------------------------------------------------
@@ -624,6 +654,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TMainForm.FinalizeUI;
 begin
+  AutoUpdater.Free;
   TabSet.Free;
   Layouts.Free;
   DockHostForm.Free;
@@ -792,6 +823,18 @@ begin
 
   // Load Startup Stack
   CEStackPanel.LoadStartupStack;
+
+  if Settings.AutoCheckUpdates then
+  AutoUpdateTimer.Enabled:= true;
+end;
+
+{-------------------------------------------------------------------------------
+  On AutoUpdateTimer.Timer
+-------------------------------------------------------------------------------}
+procedure TMainForm.AutoUpdateTimerTimer(Sender: TObject);
+begin
+  AutoUpdateTimer.Enabled:= false;
+  AutoUpdater.CheckForUpdates;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1492,6 +1535,23 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Handle UpdateFound
+-------------------------------------------------------------------------------}
+procedure TMainForm.HandleUpdateFound(Sender: TObject; BuildType: TCEBuildType;
+    Version: TCEVersionNumber; Notes: WideString; var DoUpdate: Boolean);
+begin
+  if TaskDialog(Self.Handle,
+                'New Version Available',
+                'Do you want to update?',
+                WideFormat('New version (%s) is available. Do you want to update now?', [VersionNumberToStr(Version)]),
+                TD_ICON_QUESTION,
+                TD_BUTTON_YES+TD_BUTTON_NO) = mrYes then
+  begin
+    DoUpdate:= true;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   Toggle Visibility (Restore/Minimize)
 -------------------------------------------------------------------------------}
 procedure TMainForm.ToggleVisibility;
@@ -1732,7 +1792,6 @@ begin
   else
   Result:= '';
 end;
-
 procedure TMainFormSettings.SetAutoLoadSession(const Value: WideString);
 begin
   GlobalSessions.AutoLoadSession:= GlobalSessions.Sessions.FindSession(Value);
@@ -1765,6 +1824,54 @@ begin
   CELastVersionCheck:= Value;
 end;
 
+{-------------------------------------------------------------------------------
+  Get/Set CheckForUpdateTypes
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetCheckForUpdateTypes: TCEBuildTypes;
+begin
+  Result:= MainForm.AutoUpdater.BuildTypes;
+end;
+procedure TMainFormSettings.SetCheckForUpdateTypes(const Value: TCEBuildTypes);
+begin
+  MainForm.AutoUpdater.BuildTypes:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set ProxyAddress
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetProxyAddress: WideString;
+begin
+  Result:= CE_ProxyAddress;
+end;
+procedure TMainFormSettings.SetProxyAddress(const Value: WideString);
+begin
+  CE_ProxyAddress:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set UseProxy
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetUseProxy: Boolean;
+begin
+  Result:= CE_UseProxy;
+end;
+procedure TMainFormSettings.SetUseProxy(const Value: Boolean);
+begin
+  CE_UseProxy:= Value
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set UseSystemProxy
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetUseSystemProxy: Boolean;
+begin
+  Result:= CE_UseSystemProxy;
+end;
+procedure TMainFormSettings.SetUseSystemProxy(const Value: Boolean);
+begin
+  CE_UseSystemProxy:= Value;
+end;
+
 {##############################################################################}
 
 {$IFDEF madExcept}
@@ -1780,7 +1887,7 @@ end;
 
 initialization
   RegisterExceptionHandler(LayoutExceptHandler, stDontSync);
-  
+
 {$ENDIF}
 
 end.

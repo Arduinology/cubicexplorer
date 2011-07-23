@@ -72,7 +72,6 @@ type
       ARect: TRect; ItemInfo: TSpTBXMenuItemInfo;
       const PaintStage: TSpTBXPaintStage; var PaintDefault: Boolean);
     procedure but_clear_filterhistoryClick(Sender: TObject);
-    procedure but_clearClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
   private
     fPatternNotifyInProgress: Boolean;
@@ -328,14 +327,6 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  On but_clear Click
--------------------------------------------------------------------------------}
-procedure TCEFiltersPanel.but_clearClick(Sender: TObject);
-begin
-
-end;
-
-{-------------------------------------------------------------------------------
   On but_clear_filterhistory Click
 -------------------------------------------------------------------------------}
 procedure TCEFiltersPanel.but_clear_filterhistoryClick(Sender: TObject);
@@ -455,7 +446,7 @@ begin
   // Clear Filters
   if TSpTBXItem(Sender).Tag = -1 then
   begin
-    but_clearClick(Sender);
+    CEActions.act_filters_clear.Execute;
   end
   // Other items
   else
