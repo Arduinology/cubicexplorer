@@ -1122,7 +1122,8 @@ type
     function IsChildByPIDL(TestPIDL: PItemIDList; Immediate: Boolean): Boolean;  virtual;
     function IsChildOfRemovableDrive: Boolean;  virtual;
     function IsControlPanel: Boolean;  virtual;
-    function IsControlPanelChildFolder: Boolean;  virtual;
+    function IsControlPanelChildFolder(ImmidiateParent: Boolean = true): Boolean;
+        virtual;
     function IsDesktop: Boolean; virtual;
 
     function IsMyComputer: Boolean;  virtual;
@@ -2134,6 +2135,9 @@ var
 
 begin
   Result := False;
+  if not assigned(APIDL) then
+  Exit;
+  
   Flags := SFGAO_FOLDER;
   if PIDLMgr.IsDesktopFolder(APIDL) then
     Result := True
@@ -7523,10 +7527,14 @@ begin
     Result := False
 end;
 
-function TNamespace.IsControlPanelChildFolder: Boolean;
+function TNamespace.IsControlPanelChildFolder(ImmidiateParent: Boolean = true):
+    Boolean;
 begin
+  if Assigned(ControlPanelFolderEx) then
+    Result := ILIsParent(ControlPanelFolderEx.AbsolutePIDL, AbsolutePIDL, ImmidiateParent)
+  else
   if Assigned(ControlPanelFolder) then
-    Result := ILIsParent(ControlPanelFolder.AbsolutePIDL, AbsolutePIDL, True)
+    Result := ILIsParent(ControlPanelFolder.AbsolutePIDL, AbsolutePIDL, ImmidiateParent)
   else
     Result := False
 end;

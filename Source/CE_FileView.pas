@@ -417,7 +417,12 @@ begin
     begin
       item.HitTestAt(WindowPt, HitInfo);
       case View of
-        elsReport: GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnText in HitInfo);
+        elsReport: begin
+          if Self.Selection.FullRowSelect then
+          GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnLabel in HitInfo)
+          else
+          GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnText in HitInfo);
+        end;
         elsTile: GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnText in HitInfo) and not (ehtOnClickSelectBounds in HitInfo);
         else
         GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnText in HitInfo);
@@ -588,7 +593,7 @@ begin
   // Select previous folder
   if SelectPreviousFolder then
   begin
-    if (fOldHistoryIndex > History.ItemIndex) and (fOldHistoryIndex > -1) and (fOldHistoryIndex < History.Count) then
+    if (fOldHistoryIndex > -1) and (fOldHistoryIndex < History.Count) then
     begin
       Selection.ClearAll;
       item:= FindItemByPIDL(History.Items[fOldHistoryIndex].AbsolutePIDL);
@@ -598,6 +603,7 @@ begin
         item.Focused:= true;
         item.Selected:= true;
       end;
+      fOldHistoryIndex:= -1;
     end;
   end;
 
@@ -779,30 +785,8 @@ begin
   if Self.EditManager.Editing then
   Self.EditManager.EndEdit;
 
-  if SelectPreviousFolder then
-  begin
-    oldPIDL:= PIDLMgr.CopyPIDL(Self.RootFolderNamespace.AbsolutePIDL);
-    BeginUpdate;
-    try
-      BrowseToPrevLevel;
-      Application.ProcessMessages;
-      Selection.ClearAll;
-      item:= FindItemByPIDL(oldPIDL);
-      if assigned(item) then
-      begin
-        item.MakeVisible(emvTop);
-        item.Focused:= true;
-        item.Selected:= true;
-      end;
-    finally
-      PIDLMgr.FreeAndNilPIDL(oldPIDL);
-      EndUpdate;
-    end;
-  end
-  else
-  begin
-    BrowseToPrevLevel;
-  end;
+  fOldHistoryIndex:= History.ItemIndex;
+  BrowseToPrevLevel;
 end;
 
 {-------------------------------------------------------------------------------

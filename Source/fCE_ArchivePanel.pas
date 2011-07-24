@@ -41,11 +41,11 @@ uses
 procedure TCEArchiverPanel.FormCreate(Sender: TObject);
 begin
   inherited;
-  Browser:= TCEArchiveTree.Create(Self);
-  Browser.Parent:= Self;
-  Browser.Align:= alClient;
-  
-  GlobalPathCtrl.RegisterNotify(self);
+//  Browser:= TCEArchiveTree.Create(Self);
+//  Browser.Parent:= Self;
+//  Browser.Align:= alClient;
+//  
+//  GlobalPathCtrl.RegisterNotify(self);
 end;
 
 {*------------------------------------------------------------------------------

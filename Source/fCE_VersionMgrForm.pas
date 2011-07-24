@@ -322,7 +322,7 @@ begin
       but_download.Caption:= _('Delete');
       but_download.Tag:= 1;
       but_download.Enabled:= true;
-      but_use.Enabled:= true;
+      but_use.Enabled:= not selData.IsCurrentVersion;
     end
     else
     begin

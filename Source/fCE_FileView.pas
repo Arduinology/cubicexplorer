@@ -1238,7 +1238,7 @@ begin
     settings:= @Columns.MyComputerColSettings;
     grouping:= @GroupBy.MyComputerGroupBySettings;
   end
-  else if FileView.RootFolderNamespace.IsControlPanel then
+  else if FileView.RootFolderNamespace.IsControlPanel or FileView.RootFolderNamespace.IsControlPanelChildFolder(false) then
   begin
     settings:= @Columns.ControlPanelColSettings;
     grouping:= @GroupBy.ControlPanelGroupBySettings;
@@ -1390,7 +1390,7 @@ begin
     settings:= @Columns.MyComputerColSettings;
     grouping:= @GroupBy.MyComputerGroupBySettings;
   end
-  else if FileView.RootFolderNamespace.IsControlPanel then
+  else if FileView.RootFolderNamespace.IsControlPanel or FileView.RootFolderNamespace.IsControlPanelChildFolder(false) then
   begin
     settings:= @Columns.ControlPanelColSettings;
     grouping:= @GroupBy.ControlPanelGroupBySettings;

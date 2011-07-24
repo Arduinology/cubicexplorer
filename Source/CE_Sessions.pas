@@ -732,19 +732,23 @@ procedure TCESessionList.LoadSession(ASession: TCESessionItem);
   procedure LoadTabs(ATabsNode: TDOMNode);
   var
     chNode: TDOMNode;
-    tabClass: TCECustomTabPageClass;
-    tab: TCECustomTabPage;
+    pageClass: TCECustomTabPageClass;
+    page: TCECustomTabPage;
   begin
     chNode:= ATabsNode.FirstChild;
     while assigned(chNode) do
     begin
-      tabClass:= TabPageClassList.GetClass(chNode.NodeName);
-      if tabClass <> nil then
+      pageClass:= TabPageClassList.GetClass(chNode.NodeName);
+      if pageClass <> nil then
       begin
-        tab:= MainForm.TabSet.AddTab(tabClass).Page;
-        //if tabClass = TCEFileViewPage then
-        //tab.SelectPage; //TODO: This is a hack around a bug. TCustomEasyListview.Destroy will eventually cause crash without this for some unknown reason.
-        AStorage.LoadObjectProperties(tab.Settings, chNode);
+        page:= MainForm.TabSet.AddTab(pageClass, false, false).Page;
+
+        AStorage.LoadObjectProperties(page.Settings, chNode);
+
+        if pageClass = TCEFileViewPage then
+        page.SelectPage; //TODO: This is a hack around a bug. TCustomEasyListview.Destroy will eventually cause crash without this for some unknown reason.
+
+        page.Active:= true;
       end;
       chNode:= chNode.NextSibling;
     end;

@@ -511,6 +511,7 @@ procedure ExecuteEditCategory(ActionID: Integer);
 var
   fileview: TCEFileView;
   NS: TNamespace;
+  s: String;
 begin
   fileview:= nil;
   if GlobalPathCtrl.ActivePage is TCEFileViewPage then
@@ -560,12 +561,17 @@ begin
              fileview.RootFolderNamespace.ShowPropertySheet(MainForm);
            end;
       211: begin
-             if fileview.Selection.Count > 1 then
-             TntClipboard.AsText:= fileview.SelectedPaths.Text
-             else if fileview.Selection.Count = 1 then
-             TntClipboard.AsText:= fileview.SelectedPath
-             else
-             TntClipboard.AsText:= IncludeTrailingBackslashW(fileview.RootFolderNamespace.NameForParsing);
+             try
+               if fileview.Selection.Count > 1 then
+               TntClipboard.AsText:= fileview.SelectedPaths.Text
+               else if fileview.Selection.Count = 1 then
+               TntClipboard.AsText:= fileview.SelectedPath
+               else
+               TntClipboard.AsText:= IncludeTrailingBackslashW(fileview.RootFolderNamespace.NameForParsing);
+             except
+               s:= SysErrorMessage(GetLastError);
+               MessageBox(0, PChar(s), 'Clipboard error!', MB_ICONERROR or MB_OK);
+             end;
            end;
       212: begin
              fileview.CreateNewFolder;

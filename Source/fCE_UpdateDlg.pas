@@ -80,7 +80,11 @@ procedure TCEUpdateDlg.but_updateClick(Sender: TObject);
 begin
   but_update.Enabled:= false;
   RenameOpenFiles(true);
-  ArchiveTree.ExtractCheckedTo(DestinationDir, true);
+  try
+    ArchiveTree.ExtractCheckedTo(DestinationDir, true);
+  except
+    MessageBox(0, 'There was an error during update! Try to re-download the update.', 'Error', MB_ICONERROR or MB_OK);
+  end;
   timer_close_dlg.Enabled:= true;
 end;
 

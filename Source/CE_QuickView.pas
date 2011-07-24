@@ -310,8 +310,8 @@ begin
 
   fImage.Bitmap.BeginUpdate;
   try
-    ext:= WideExtractFileExt(AFilePath);
-    if (ext = '.png') or (ext = '.PNG') then
+    ext:= WideLowerCase(WideExtractFileExt(AFilePath));
+    if (ext = '.png') then
     begin
       png:= TPNGGraphic.Create;
       s:= TTntFileStream.Create(AFilePath, fmOpenRead or fmShareDenyWrite);
@@ -330,7 +330,7 @@ begin
     end
     else
     begin
-      if fUseThumbImage then
+      if fUseThumbImage or (ext = '.ico') then
       begin
         B:= TBitmap.Create;
         B.Canvas.Lock;

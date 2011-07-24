@@ -77,6 +77,7 @@ begin
   Viewer:= TCEQuickView.Create(nil);
   Viewer.Parent:= Self;
   Viewer.Align:= alClient;
+  Viewer.Active:= true;
   Layout:= 'QuickView';
 end;
 
@@ -119,7 +120,7 @@ begin
     ActiveFile:= AFilePath;
     UpdateCaption;
     Application.ProcessMessages;
-    Viewer.AutoLoadFile(AFilePath);
+    Viewer.LoadFile(AFilePath);
   end
   else
   begin

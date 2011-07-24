@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-07-23 13:28\n"
-"PO-Revision-Date: 2011-07-23 13:28\n"
+"POT-Creation-Date: 2011-07-24 14:56\n"
+"PO-Revision-Date: 2011-07-24 14:56\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -616,7 +616,7 @@ msgstr ""
 
 #. CEActions..ActionList..act_edit_newfolder..Caption
 #: dCE_Actions.dfm:384
-#: CE_FileView.pas:517
+#: CE_FileView.pas:522
 msgid "New Folder"
 msgstr ""
 
@@ -766,7 +766,7 @@ msgstr ""
 
 #. CEActions..ActionList..act_navi_quickview..Caption
 #: dCE_Actions.dfm:526
-#: fCE_QuickViewTab.pas:165
+#: fCE_QuickViewTab.pas:166
 msgid "QuickView"
 msgstr ""
 
@@ -1439,7 +1439,7 @@ msgstr ""
 #. CEBookmarkPanel..BookmarkPopupMenu..but_open_new_tab..Caption
 #: fCE_BookmarkPanel.dfm:27
 #. Add "Open in new tab" item
-#: dCE_Actions.pas:1627
+#: dCE_Actions.pas:1633
 #: fCE_BookmarkPanel.pas:232
 msgid "Open in new tab"
 msgstr ""
@@ -2868,9 +2868,9 @@ msgstr ""
 
 #: CE_BaseFileView.pas:317
 #. Show Empty Folder text
-#: CE_FileView.pas:578
+#: CE_FileView.pas:583
 #. Show Empty Folder text
-#: CE_FileView.pas:742
+#: CE_FileView.pas:748
 msgid "Empty folder"
 msgstr ""
 
@@ -2880,8 +2880,8 @@ msgstr ""
 #: CE_ToolbarButtons.pas:535
 #. More... item
 #: CE_ToolbarButtons.pas:687
-#: dCE_Actions.pas:1729
-#: dCE_Actions.pas:1768
+#: dCE_Actions.pas:1735
+#: dCE_Actions.pas:1774
 msgid "More..."
 msgstr ""
 
@@ -2903,12 +2903,12 @@ msgid "Are you sure you want to delete selected "
 "bookmarks?"
 msgstr ""
 
-#: CE_FileView.pas:580
-#: CE_FileView.pas:744
+#: CE_FileView.pas:585
+#: CE_FileView.pas:750
 msgid "Contains hidden items"
 msgstr ""
 
-#: CE_FileView.pas:718
+#: CE_FileView.pas:724
 msgid "Opening..."
 msgstr ""
 
@@ -2981,7 +2981,7 @@ msgid "Are you sure you want to clear session "
 "history?"
 msgstr ""
 
-#: CE_Sessions.pas:1045
+#: CE_Sessions.pas:1049
 msgid "Session at"
 msgstr ""
 
@@ -3039,7 +3039,7 @@ msgstr ""
 #. Grouped toggle item
 #: CE_ToolbarButtons.pas:661
 #. Sho in Groups
-#: dCE_Actions.pas:1738
+#: dCE_Actions.pas:1744
 msgid "Show in Groups"
 msgstr ""
 
