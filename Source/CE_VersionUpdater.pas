@@ -13,10 +13,10 @@ uses
   SysUtils, Classes, Windows, ExtCtrls;
 
 type
-  TCEBuildType = (btSnapshot, btOfficial, btUpdate, btUrgent, btTest);
+  TCEBuildType = (btOfficial, btSnapshot, btWeeklySnapshot, btDailySnapshot, btTest);
   TCEBuildTypes = set of TCEBuildType;
 const
-  CEBuildTypeStr: array[TCEBuildType] of String = ('snapshot', 'official', 'update', 'urgent', 'test');
+  CEBuildTypeStr: array[TCEBuildType] of String = ('official', 'snapshot', 'weekly', 'daily', 'test');
 
 type  
   TCEVersionNumber = record
@@ -115,7 +115,6 @@ type
     fCurrentVersionStr: string;
     fOnUpdateFound: TCEUpdateFoundEvent;
     fOutputFolder: WideString;
-    fUpdateConfURL: WideString;
     fVersionFolder: WideString;
     procedure SetCurrentVersionStr(const Value: string);
   protected
@@ -133,7 +132,6 @@ type
     property CurrentVersion: TCEVersionNumber read fCurrentVersion;
     property CurrentVersionStr: string read fCurrentVersionStr write
         SetCurrentVersionStr;
-    property UpdateConfURL: WideString read fUpdateConfURL write fUpdateConfURL;
     property VersionFolder: WideString read fVersionFolder write fVersionFolder;
   published
     property OutputFolder: WideString read fOutputFolder write fOutputFolder;
@@ -153,9 +151,11 @@ type
 
   function GetBuildType(AFrom: String): TCEBuildType;
 
+function GetBuildTypeDescription(ABuildType: TCEBuildType): WideString;
+
 var
   CELastVersionCheck: TDateTime;
-  UpdateConfURL: String = 'http://cubicreality.pp.fi/ce/updates/updates_test.xml';
+  UpdateConfURL: String = 'http://cubicreality.pp.fi/ce/updates/updates.xml';
 
 
 implementation
@@ -409,6 +409,21 @@ begin
   end;
   // Raise exception if invalid string was used
   raise Exception.Create('Invalid BuildType string used!');
+end;
+
+{-------------------------------------------------------------------------------
+  Get BuildType Description
+-------------------------------------------------------------------------------}
+function GetBuildTypeDescription(ABuildType: TCEBuildType): WideString;
+begin
+  Result:= '';
+  case ABuildType of
+    btOfficial: Result:= _('Official');
+    btSnapshot: Result:= _('Weekly'); // btSnapshot is depricated
+    btWeeklySnapshot: Result:= _('Weekly');
+    btDailySnapshot: Result:= _('Daily');
+    btTest: Result:= _('Test');
+  end;
 end;
 
 {##############################################################################}
@@ -709,7 +724,6 @@ procedure TCEVersionUpdater.HandleSyncedMessage(Sender: TCCBaseThread; Msg:
     TObject);
 var
   stream: TStream;
-  fs: TTntFileStream;
   tmpXML: TXMLDocument;
 begin
   if Msg is TCEDownloadData then
@@ -793,7 +807,6 @@ end;
 function TCEVersionUpdater.FindBuildNode(Version: String): TDOMNode;
 var
   rootNode: TDOMNode;
-  s: String;
 begin
   if assigned(Xml.DocumentElement) then
   begin
@@ -843,8 +856,8 @@ begin
         try
           if BuildTypes <> [] then
           buildType:= GetBuildType(TDOMElement(buildNode).AttribStrings['type']);
-          
-          if (BuildTypes = []) or (buildType in BuildTypes) then
+
+          if (BuildTypes = []) or (buildType in BuildTypes) or ((buildType = btSnapshot) and (btWeeklySnapshot in BuildTypes)) then
           begin
             ver:= StrToVersionNumber(TDOMElement(buildNode).AttribStrings['version']);
             if CompareVersion(highVer, ver) < 0  then
@@ -1157,6 +1170,15 @@ begin
         fUpdater.DownloadVersion(ver);
       end;
     end;
+  end
+  else
+  begin
+    TaskDialog(Application.MainFormHandle,
+               _('Check For Updates'),
+               _('No new updates'),
+               '',
+               TD_ICON_INFORMATION,
+               TD_BUTTON_OK);
   end;
 
   // Create timer to free fUpdater after 5 secounds

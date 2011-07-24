@@ -75,11 +75,10 @@ begin
   PagePath:= 'General/Updates';
   ImageIndex:= 8;
   // update types
-  list_update_types.Items.AddObject(_('Snapshot'), TObject(btSnapshot));
-  list_update_types.Items.AddObject(_('Official'), TObject(btOfficial));
-  list_update_types.Items.AddObject(_('Update'), TObject(btUpdate));
-  list_update_types.Items.AddObject(_('Urgent'), TObject(btUrgent));
-  list_update_types.Items.AddObject(_('For Testing'), TObject(btTest));
+  list_update_types.Items.AddObject(GetBuildTypeDescription(btOfficial), TObject(btOfficial));
+  list_update_types.Items.AddObject(GetBuildTypeDescription(btWeeklySnapshot), TObject(btWeeklySnapshot));
+  list_update_types.Items.AddObject(GetBuildTypeDescription(btDailySnapshot), TObject(btDailySnapshot));
+  list_update_types.Items.AddObject(GetBuildTypeDescription(btTest), TObject(btTest));
 end;
 
 {-------------------------------------------------------------------------------
@@ -88,6 +87,7 @@ end;
 procedure TCE_OptionsPage_General_Updates.ApplySettings;
 var
   i: Integer;
+  bt: TCEBuildType;
   bts: TCEBuildTypes;
 begin
   // Auto check
@@ -99,7 +99,8 @@ begin
     begin
       if list_update_types.Checked[i] then
       begin
-        Include(bts, TCEBuildType(list_update_types.Items.Objects[i]));
+        bt:= TCEBuildType(list_update_types.Items.Objects[i]);
+        Include(bts, bt);
       end;
     end;
   end;

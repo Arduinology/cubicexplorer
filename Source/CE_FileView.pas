@@ -775,9 +775,6 @@ end;
   Go folder up
 -------------------------------------------------------------------------------}
 procedure TCEFileView.GoFolderUp;
-var
-  oldPIDL: PItemIDList;
-  item: TExplorerItem;
 begin
   if Self.ContextMenuShowing then
   Exit;

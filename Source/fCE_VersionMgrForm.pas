@@ -448,6 +448,8 @@ begin
   data:= Sender.GetNodeData(Node);
   if data.IsCurrentVersion then
   TargetCanvas.Font.Style:= [fsBold]
+  else if (Column = 1) and (data.BuildType = btOfficial) then
+  TargetCanvas.Font.Style:= [fsBold]
   else
   TargetCanvas.Font.Style:= [];
 end;
@@ -486,13 +488,7 @@ begin
               data.Version:= StrToVersionNumber(data.Caption);
               data.Date:= XMLTimeToDateTime(TDOMElement(buildNode).AttribStrings['date'], false);
               data.BuildType:= GetBuildType(TDOMElement(buildNode).AttribStrings['type']);
-              case data.BuildType of
-                btSnapshot: data.BuildTypeStr:= _('Snapshot');
-                btOfficial: data.BuildTypeStr:= _('Official');
-                btUpdate: data.BuildTypeStr:= _('Update');
-                btUrgent: data.BuildTypeStr:= _('Urgent');
-                btTest: data.BuildTypeStr:= _('For Testing');
-              end;
+              data.BuildTypeStr:= GetBuildTypeDescription(data.BuildType);
               data.IsCurrentVersion:= Updater.CurrentVersionStr = data.Caption;
               data.IsOffline:= Updater.VersionFolderExists(data.Version);
               data.Node:= buildNode;

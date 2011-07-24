@@ -92,17 +92,17 @@ object CEVersionMgrForm: TCEVersionMgrForm
         Columns = <
           item
             Position = 0
-            Width = 114
+            Width = 119
             WideText = 'Version'
           end
           item
             Position = 1
-            Width = 75
+            Width = 80
             WideText = 'Type'
           end
           item
             Position = 2
-            Width = 100
+            Width = 90
             WideText = 'Date'
           end>
       end

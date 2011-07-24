@@ -571,9 +571,6 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEArchiveTree.ExtractCheckedTo(ADestDir: WideString; ACreateSubDirs:
     Boolean = true);
-var
-  node: PVirtualNode;
-  data: PItemData;
 begin
   if assigned(fArchive) then
   begin

@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-07-24 14:56\n"
-"PO-Revision-Date: 2011-07-24 14:56\n"
+"POT-Creation-Date: 2011-07-24 17:35\n"
+"PO-Revision-Date: 2011-07-24 17:35\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +29,7 @@ msgstr ""
 #: dCE_Actions.dfm:13  dCE_Actions.dfm:477 dCE_Actions.dfm:485
 #: dCE_Actions.dfm:494 dCE_Actions.dfm:502 dCE_Actions.dfm:510
 #: dCE_Actions.dfm:588 dCE_Actions.dfm:597 dCE_Actions.dfm:606
-#: fCE_SessionManager.dfm:128 fCE_OptionsPage_Tabs.pas:79 Main.pas:527
+#: fCE_SessionManager.dfm:128 fCE_OptionsPage_Tabs.pas:79 Main.pas:530
 msgid "Tabs"
 msgstr ""
 
@@ -167,7 +167,7 @@ msgstr ""
 #. CEActions..ActionList..act_view_folders..Caption
 #. CEFolderPanel..Caption
 #: dCE_Actions.dfm:78  fCE_FolderPanel.dfm:2
-#: fCE_OptionsPage_Display_FolderTree.pas:63 Main.pas:1135
+#: fCE_OptionsPage_Display_FolderTree.pas:63 Main.pas:1137
 msgid "Folders"
 msgstr ""
 
@@ -179,7 +179,7 @@ msgstr ""
 #. Create BookmarkBar
 #: dCE_Actions.dfm:86  dCE_Actions.dfm:547 dCE_Actions.dfm:548
 #: fCE_SessionManager.dfm:142 Main.dfm:338
-#: fCE_OptionsPage_Display_Bookmarks.pas:65 Main.pas:565
+#: fCE_OptionsPage_Display_Bookmarks.pas:65 Main.pas:568
 msgid "Bookmarks"
 msgstr ""
 
@@ -343,7 +343,7 @@ msgstr ""
 #: dCE_Actions.dfm:220  fCE_BookmarkPanel.dfm:77
 #: fCE_OptionsPage_GlobalHotkeys.dfm:123 fCE_OptionsPage_Hotkeys.dfm:127
 #: fCE_SessionManager.dfm:85 fCE_TextEditor.dfm:391 fCE_VersionMgrForm.pas:322
-#: fCE_VersionMgrForm.pas:547
+#: fCE_VersionMgrForm.pas:543
 msgid "Delete"
 msgstr ""
 
@@ -544,7 +544,7 @@ msgstr ""
 #. Create SessionsBar
 #: dCE_Actions.dfm:443  dCE_Actions.dfm:450 dCE_Actions.dfm:533
 #: dCE_Actions.dfm:540 dCE_Actions.dfm:555 dCE_Actions.dfm:556
-#: dCE_Actions.dfm:575 Main.dfm:341 Main.pas:575
+#: dCE_Actions.dfm:575 Main.dfm:341 Main.pas:578
 msgid "Sessions"
 msgstr ""
 
@@ -714,7 +714,7 @@ msgid "New Window"
 msgstr ""
 
 #. CEActions..ActionList..act_help_checkupdates..Caption
-#: dCE_Actions.dfm:667 
+#: dCE_Actions.dfm:667  CE_VersionUpdater.pas:1177
 msgid "Check For Updates"
 msgstr ""
 
@@ -1436,7 +1436,7 @@ msgstr ""
 #: fCE_SearchPage.dfm:235  fCE_SearchPage.dfm:238 fCE_SearchPage.dfm:274
 #: fCE_SearchPage.dfm:277 CE_StatusBar.pas:78 CE_StatusBar.pas:159
 #: CE_StatusBar.pas:166 CE_StatusBar.pas:193 fCE_SearchPage.pas:284
-#: Main.pas:1137
+#: Main.pas:1139
 msgid "KB"
 msgstr ""
 
@@ -1451,7 +1451,7 @@ msgstr ""
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_size_attributes..group_size..combo_size_atleast....Items.Strings
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_size_attributes..group_size..combo_size_atmost....Items.Strings
 #: fCE_SearchPage.dfm:239  fCE_SearchPage.dfm:278 CE_StatusBar.pas:161
-#: CE_StatusBar.pas:168 fCE_SearchPage.pas:285 Main.pas:1138
+#: CE_StatusBar.pas:168 fCE_SearchPage.pas:285 Main.pas:1140
 msgid "MB"
 msgstr ""
 
@@ -1630,7 +1630,7 @@ msgid "Layouts"
 msgstr ""
 
 #. CEStackPanel..TopDock..StackToolbar..sub_load..Caption
-#: fCE_StackPanel.dfm:25  Main.pas:1112
+#: fCE_StackPanel.dfm:25  Main.pas:1114
 msgid "Open"
 msgstr ""
 
@@ -1804,8 +1804,7 @@ msgid "Files to update"
 msgstr ""
 
 #. CEUpdateDlg..but_update..Caption
-#: fCE_UpdateDlg.dfm:54  fCE_OptionsPage_General_Updates.pas:80
-#: fCE_VersionMgrForm.pas:492
+#: fCE_UpdateDlg.dfm:54 
 msgid "Update"
 msgstr ""
 
@@ -1850,7 +1849,7 @@ msgstr ""
 
 #. CEVersionMgrForm..TabControl..sheet_versions..but_download..Caption
 #: fCE_VersionMgrForm.dfm:166  fCE_VersionMgrForm.pas:209
-#: fCE_VersionMgrForm.pas:541
+#: fCE_VersionMgrForm.pas:537
 msgid "Download"
 msgstr ""
 
@@ -2035,6 +2034,27 @@ msgstr ""
 msgid "Restart CubicExplorer Now?"
 msgstr ""
 
+#: CE_VersionUpdater.pas:421 
+msgid "Official"
+msgstr ""
+
+#. btSnapshot is depricated
+#: CE_VersionUpdater.pas:422  CE_VersionUpdater.pas:423
+msgid "Weekly"
+msgstr ""
+
+#: CE_VersionUpdater.pas:424 
+msgid "Daily"
+msgstr ""
+
+#: CE_VersionUpdater.pas:425 
+msgid "Test"
+msgstr ""
+
+#: CE_VersionUpdater.pas:1178 
+msgid "No new updates"
+msgstr ""
+
 #: fCE_BookmarkPanel.pas:230 
 msgid "Open in current tab"
 msgstr ""
@@ -2177,23 +2197,6 @@ msgstr ""
 
 #: fCE_OptionsPage_General_Updates.pas:74 
 msgid "Updates Settings"
-msgstr ""
-
-#. update types
-#: fCE_OptionsPage_General_Updates.pas:78  fCE_VersionMgrForm.pas:490
-msgid "Snapshot"
-msgstr ""
-
-#: fCE_OptionsPage_General_Updates.pas:79  fCE_VersionMgrForm.pas:491
-msgid "Official"
-msgstr ""
-
-#: fCE_OptionsPage_General_Updates.pas:81  fCE_VersionMgrForm.pas:493
-msgid "Urgent"
-msgstr ""
-
-#: fCE_OptionsPage_General_Updates.pas:82  fCE_VersionMgrForm.pas:494
-msgid "For Testing"
 msgstr ""
 
 #: fCE_OptionsPage_GlobalHotkeys.pas:140 
@@ -2361,122 +2364,134 @@ msgstr ""
 msgid "%d file(s) failed to download!"
 msgstr ""
 
-#: fCE_VersionMgrForm.pas:528 
+#: fCE_VersionMgrForm.pas:524 
 msgid "Published:"
 msgstr ""
 
 #. Create FolderCombo Toolbar
-#: Main.pas:546 
+#: Main.pas:549 
 msgid "Address Bar"
 msgstr ""
 
 #. Create DriveToolbar
-#: Main.pas:554 
+#: Main.pas:557 
 msgid "Drives"
 msgstr ""
 
 #. Create BreadcrumbBar
-#: Main.pas:585 
+#: Main.pas:588 
 msgid "Breadcrumb Navigation"
 msgstr ""
 
 #. Add default menu items
-#: Main.pas:1010 
+#: Main.pas:1012 
 msgid "English (default)"
 msgstr ""
 
 #. TabBar Left/Right arrow hints
-#: Main.pas:1107 
+#: Main.pas:1109 
 msgid "Show more tabs"
 msgstr ""
 
 #. VSTools strings
-#: Main.pas:1111 
+#: Main.pas:1113 
 msgid "Warning"
 msgstr ""
 
-#: Main.pas:1114 
+#: Main.pas:1116 
 msgid "Last hour"
 msgstr ""
 
-#: Main.pas:1115 
+#: Main.pas:1117 
 msgid "Last twenty-four hours"
 msgstr ""
 
-#: Main.pas:1116 
+#: Main.pas:1118 
 msgid "This week"
 msgstr ""
 
-#: Main.pas:1117 
+#: Main.pas:1119 
 msgid "Two weeks ago"
 msgstr ""
 
-#: Main.pas:1118 
+#: Main.pas:1120 
 msgid "Three weeks ago"
 msgstr ""
 
-#: Main.pas:1119 
+#: Main.pas:1121 
 msgid "A month ago"
 msgstr ""
 
-#: Main.pas:1120 
+#: Main.pas:1122 
 msgid "Two months ago"
 msgstr ""
 
-#: Main.pas:1121 
+#: Main.pas:1123 
 msgid "Three months ago"
 msgstr ""
 
-#: Main.pas:1122 
+#: Main.pas:1124 
 msgid "Four months ago"
 msgstr ""
 
-#: Main.pas:1123 
+#: Main.pas:1125 
 msgid "Five months ago"
 msgstr ""
 
-#: Main.pas:1124 
+#: Main.pas:1126 
 msgid "Six months ago"
 msgstr ""
 
-#: Main.pas:1125 
+#: Main.pas:1127 
 msgid "Earlier this year"
 msgstr ""
 
-#: Main.pas:1126 
+#: Main.pas:1128 
 msgid "A long time ago"
 msgstr ""
 
-#: Main.pas:1128 
+#: Main.pas:1130 
 msgid "Zero"
 msgstr ""
 
-#: Main.pas:1129 
+#: Main.pas:1131 
 msgid "Tiny"
 msgstr ""
 
-#: Main.pas:1130 
+#: Main.pas:1132 
 msgid "Small"
 msgstr ""
 
-#: Main.pas:1131 
+#: Main.pas:1133 
 msgid "Medium"
 msgstr ""
 
-#: Main.pas:1132 
+#: Main.pas:1134 
 msgid "Large"
 msgstr ""
 
-#: Main.pas:1133 
+#: Main.pas:1135 
 msgid "Gigantic"
 msgstr ""
 
-#: Main.pas:1134 
+#: Main.pas:1136 
 msgid "System Folders"
 msgstr ""
 
-#: Main.pas:1139 
+#: Main.pas:1141 
 msgid "TB"
+msgstr ""
+
+#: Main.pas:1546 
+msgid "New Version Available"
+msgstr ""
+
+#: Main.pas:1547 
+msgid "Do you want to update?"
+msgstr ""
+
+#: Main.pas:1548 
+msgid "New version (%s) is available. Do you want to update now?"
 msgstr ""
 
 msgid "Date Modified"

@@ -26,32 +26,18 @@ unit fCE_ColumnFormSpTBX;
 
 interface
 
-{$include Compilers.inc}
-{$include ..\Include\AddIns.inc}
-
-{$ifdef COMPILER_12_UP}
- {$WARN IMPLICIT_STRING_CAST       OFF}
- {$WARN IMPLICIT_STRING_CAST_LOSS  OFF}
-{$endif COMPILER_12_UP}
-
 uses
   Windows, SysUtils, Classes, Controls, Forms,
   StdCtrls, ExtCtrls, VirtualTrees, ActiveX,
-  {$IFNDEF UNICODE}
-  TntForms,
-  {$ENDIF}
-  SpTBXDkPanels, SpTBXControls, SpTBXEditors, SpTBXItem, SpTBXTabs, TB2Item;
+  SpTBXDkPanels, SpTBXControls, SpTBXEditors, SpTBXItem, SpTBXTabs, TB2Item,
+  TntForms;
 
 
-{$IFDEF UNICODE}
-type
-  TTntForm = TForm;
-{$ENDIF}
 
 type
   TVETUpdate = procedure(Sender: TObject) of object;
 
-  TCEFormColumnSettings = class({$IFDEF COMPILER_12_UP}TForm{$ELSE}TTntForm{$ENDIF})
+  TCEFormColumnSettings = class(TTntForm) 
     SpTBXPanel1: TSpTBXPanel;
     Label2: TSpTBXLabel;
     CheckBoxLiveUpdate: TSpTBXCheckBox;
@@ -122,7 +108,7 @@ type
 implementation
 
 // < FR added 11-28-05 >
-uses VirtualResources, CE_LanguageEngine;
+uses VirtualResources, CE_LanguageEngine, CE_VistaFuncs;
 // </ FR added 11-28-05 >
 
 {$R *.DFM}
@@ -130,6 +116,7 @@ uses VirtualResources, CE_LanguageEngine;
 procedure TCEFormColumnSettings.FormCreate(Sender: TObject);
 begin
   VSTColumnNames.NodeDataSize := SizeOf(TColumnData);
+  SetVistaFont(Font);
   CEGlobalTranslator.TranslateComponent(Self);
 end;
 

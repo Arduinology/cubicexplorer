@@ -325,6 +325,7 @@ type
     function GetLastUpdateCheck: TDateTime;
     function GetProxyAddress: WideString;
     function GetShowTray: Boolean;
+    function GetUpdateURL: WideString;
     function GetUseProxy: Boolean;
     function GetUseSystemProxy: Boolean;
     procedure SetAlphaBlend(const Value: Integer);
@@ -339,6 +340,7 @@ type
     procedure SetLastUpdateCheck(const Value: TDateTime);
     procedure SetProxyAddress(const Value: WideString);
     procedure SetShowTray(const Value: Boolean);
+    procedure SetUpdateURL(const Value: WideString);
     procedure SetUseProxy(const Value: Boolean);
     procedure SetUseSystemProxy(const Value: Boolean);
   public
@@ -375,6 +377,7 @@ type
     property ShowTray: Boolean read GetShowTray write SetShowTray;
     property StartInTray: Boolean read fStartInTray write fStartInTray;
     property StartupType: TCEStartupType read fStartupType write fStartupType;
+    property UpdateURL: WideString read GetUpdateURL write SetUpdateURL;
     property UseProxy: Boolean read GetUseProxy write SetUseProxy;
     property UseSystemProxy: Boolean read GetUseSystemProxy write SetUseSystemProxy;
   end;
@@ -642,7 +645,6 @@ begin
 
   // Create Auto Updater
   AutoUpdater:= TCEAutoUpdater.Create;
-  AutoUpdater.UpdateConfURL:= UpdateConfURL;
   AutoUpdater.CurrentVersionStr:= GetAppVersionStr;
   AutoUpdater.VersionFolder:= SettingsDirPath + 'Versions\';
   AutoUpdater.OutputFolder:= exePath;
@@ -1541,9 +1543,9 @@ procedure TMainForm.HandleUpdateFound(Sender: TObject; BuildType: TCEBuildType;
     Version: TCEVersionNumber; Notes: WideString; var DoUpdate: Boolean);
 begin
   if TaskDialog(Self.Handle,
-                'New Version Available',
-                'Do you want to update?',
-                WideFormat('New version (%s) is available. Do you want to update now?', [VersionNumberToStr(Version)]),
+                _('New Version Available'),
+                _('Do you want to update?'),
+                WideFormat(_('New version (%s) is available. Do you want to update now?'), [VersionNumberToStr(Version)]),
                 TD_ICON_QUESTION,
                 TD_BUTTON_YES+TD_BUTTON_NO) = mrYes then
   begin
@@ -1652,6 +1654,7 @@ begin
   fCloseToTray:= false;
   fStartInTray:= false;
   fExitOnLastTabClose:= false;
+  fAutoCheckUpdates:= false;
 end;
 {-------------------------------------------------------------------------------
   Get PositionInfo
@@ -1870,6 +1873,21 @@ end;
 procedure TMainFormSettings.SetUseSystemProxy(const Value: Boolean);
 begin
   CE_UseSystemProxy:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set UpdateURL
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetUpdateURL: WideString;
+begin
+  Result:= UpdateConfURL;
+end;
+procedure TMainFormSettings.SetUpdateURL(const Value: WideString);
+begin
+  if Value <> '' then
+  begin
+    UpdateConfURL:= Value;
+  end;
 end;
 
 {##############################################################################}

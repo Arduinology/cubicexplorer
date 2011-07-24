@@ -1,10 +1,10 @@
 object CEFormColumnSettings: TCEFormColumnSettings
   Left = 364
   Top = 252
-  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
   Caption = 'Column Settings'
-  ClientHeight = 332
-  ClientWidth = 287
+  ClientHeight = 342
+  ClientWidth = 297
   Color = clBtnFace
   Constraints.MinHeight = 370
   Constraints.MinWidth = 295
@@ -15,7 +15,7 @@ object CEFormColumnSettings: TCEFormColumnSettings
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
-  Position = poScreenCenter
+  Position = poMainFormCenter
   OnCreate = FormCreate
   OnKeyPress = FormKeyPress
   OnResize = FormResize
@@ -24,15 +24,15 @@ object CEFormColumnSettings: TCEFormColumnSettings
   TextHeight = 13
   object SpTBXPanel1: TSpTBXPanel
     Left = 0
-    Top = 294
-    Width = 287
+    Top = 304
+    Width = 297
     Height = 38
     Caption = 'SpTBXPanel1'
     Align = alBottom
     TabOrder = 0
     TBXStyleBackground = True
     DesignSize = (
-      287
+      297
       38)
     object CheckBoxLiveUpdate: TSpTBXCheckBox
       Left = 8
@@ -45,7 +45,7 @@ object CEFormColumnSettings: TCEFormColumnSettings
       OnClick = CheckBoxLiveUpdateClick
     end
     object ButtonOk: TSpTBXButton
-      Left = 123
+      Left = 133
       Top = 6
       Width = 75
       Height = 25
@@ -55,7 +55,7 @@ object CEFormColumnSettings: TCEFormColumnSettings
       ModalResult = 1
     end
     object ButtonCancel: TSpTBXButton
-      Left = 204
+      Left = 214
       Top = 6
       Width = 75
       Height = 25
@@ -68,8 +68,8 @@ object CEFormColumnSettings: TCEFormColumnSettings
   object SpTBXTabControl1: TSpTBXTabControl
     Left = 0
     Top = 0
-    Width = 287
-    Height = 294
+    Width = 297
+    Height = 304
     Align = alClient
     ActiveTabIndex = 0
     TabVisible = False
@@ -80,16 +80,16 @@ object CEFormColumnSettings: TCEFormColumnSettings
     object SpTBXTabSheet1: TSpTBXTabSheet
       Left = 0
       Top = 10
-      Width = 287
-      Height = 284
+      Width = 297
+      Height = 294
       ImageIndex = -1
       DesignSize = (
-        287
-        284)
+        297
+        294)
       TabItem = 'SpTBXTabItem1'
       object EditPixelWidth: TSpTBXEdit
         Left = 8
-        Top = 251
+        Top = 261
         Width = 35
         Height = 21
         Anchors = [akLeft, akBottom]
@@ -100,7 +100,7 @@ object CEFormColumnSettings: TCEFormColumnSettings
       object Label1: TSpTBXLabel
         Left = 2
         Top = 0
-        Width = 281
+        Width = 291
         Height = 27
         Caption = 'Drag and Drop to reorder the columns. '
         Align = alTop
@@ -116,8 +116,8 @@ object CEFormColumnSettings: TCEFormColumnSettings
       end
       object Label2: TSpTBXLabel
         Left = 49
-        Top = 251
-        Width = 230
+        Top = 261
+        Width = 240
         Height = 19
         Caption = 'Width of the selected column'
         Anchors = [akLeft, akRight, akBottom]
@@ -127,8 +127,8 @@ object CEFormColumnSettings: TCEFormColumnSettings
       object VSTColumnNames: TVirtualStringTree
         Left = 8
         Top = 27
-        Width = 271
-        Height = 214
+        Width = 281
+        Height = 224
         Anchors = [akLeft, akTop, akRight, akBottom]
         CheckImageKind = ckXP
         Header.AutoSizeIndex = 0
