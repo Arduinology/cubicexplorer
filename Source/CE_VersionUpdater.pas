@@ -115,6 +115,7 @@ type
     fCurrentVersionStr: string;
     fOnUpdateFound: TCEUpdateFoundEvent;
     fOutputFolder: WideString;
+    fShowNoNewUpdatesMsg: Boolean;
     fVersionFolder: WideString;
     procedure SetCurrentVersionStr(const Value: string);
   protected
@@ -127,13 +128,14 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-    procedure CheckForUpdates;
+    procedure CheckForUpdates(ShowNoUpdatesMsg: Boolean = false);
     property BuildTypes: TCEBuildTypes read fBuildTypes write fBuildTypes;
     property CurrentVersion: TCEVersionNumber read fCurrentVersion;
     property CurrentVersionStr: string read fCurrentVersionStr write
         SetCurrentVersionStr;
     property VersionFolder: WideString read fVersionFolder write fVersionFolder;
   published
+    property CheckingUpdate: Boolean read fCheckingUpdate;
     property OutputFolder: WideString read fOutputFolder write fOutputFolder;
     property OnUpdateFound: TCEUpdateFoundEvent read fOnUpdateFound write fOnUpdateFound;
   end;
@@ -435,6 +437,9 @@ constructor TCEVersionUpdater.Create;
 begin
   inherited;
   fXML:= TXMLDocument.Create;
+  fOnDownloadProgress:= nil;
+  fOnDownloadUpdateConfDone:= nil;
+  fOnDownloadVersionDone:= nil;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1108,26 +1113,32 @@ end;
 {-------------------------------------------------------------------------------
   Check For Updates
 -------------------------------------------------------------------------------}
-procedure TCEAutoUpdater.CheckForUpdates;
+procedure TCEAutoUpdater.CheckForUpdates(ShowNoUpdatesMsg: Boolean = false);
 begin
   if fCheckingUpdate then
   Exit;
 
-  if assigned(fCloseUpdaterTimer) then
-  fCloseUpdaterTimer.Enabled:= false;
+  fShowNoNewUpdatesMsg:= ShowNoUpdatesMsg;
+  fCheckingUpdate:= true;
+  try
+    if assigned(fCloseUpdaterTimer) then
+    fCloseUpdaterTimer.Enabled:= false;
 
-  if not assigned(fUpdater) then
-  begin
-    fUpdater:= TCEVersionUpdater.Create;
-    fUpdater.CurrentVersionStr:= CurrentVersionStr;
-    fUpdater.UpdateConfURL:= UpdateConfURL;
-    fUpdater.VersionFolder:= VersionFolder;
-    fUpdater.OutputFolder:= OutputFolder;
-    fUpdater.OnDownloadUpdateConfDone:= HandleDownloadUpdateConfDone;
-    fUpdater.OnDownloadVersionDone:= HandleDownloadVersionDone;
-    fUpdater.LoadUpdateConfFromFile(VersionFolder + 'updates.xml');
+    if not assigned(fUpdater) then
+    begin
+      fUpdater:= TCEVersionUpdater.Create;
+      fUpdater.CurrentVersionStr:= CurrentVersionStr;
+      fUpdater.UpdateConfURL:= UpdateConfURL;
+      fUpdater.VersionFolder:= VersionFolder;
+      fUpdater.OutputFolder:= OutputFolder;
+      fUpdater.OnDownloadUpdateConfDone:= HandleDownloadUpdateConfDone;
+      fUpdater.OnDownloadVersionDone:= HandleDownloadVersionDone;
+      fUpdater.LoadUpdateConfFromFile(VersionFolder + 'updates.xml');
+    end;
+    fUpdater.DownloadUpdateConf;
+  except
+    fCheckingUpdate:= false;
   end;
-  fUpdater.DownloadUpdateConf;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1137,6 +1148,7 @@ procedure TCEAutoUpdater.HandleCloseUpdaterTimer(Sender: TObject);
 begin
   fCloseUpdaterTimer.Enabled:= false;
   FreeAndNil(fUpdater);
+  fCheckingUpdate:= false;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1171,7 +1183,7 @@ begin
       end;
     end;
   end
-  else
+  else if fShowNoNewUpdatesMsg then
   begin
     TaskDialog(Application.MainFormHandle,
                _('Check For Updates'),
@@ -1188,7 +1200,7 @@ begin
     begin
       fCloseUpdaterTimer:= TTimer.Create(nil);
       fCloseUpdaterTimer.Enabled:= false;
-      fCloseUpdaterTimer.Interval:= 5000;
+      fCloseUpdaterTimer.Interval:= 1000;
       fCloseUpdaterTimer.OnTimer:= HandleCloseUpdaterTimer;
     end;
     fCloseUpdaterTimer.Enabled:= true;
@@ -1208,7 +1220,7 @@ begin
     begin
       fCloseUpdaterTimer:= TTimer.Create(nil);
       fCloseUpdaterTimer.Enabled:= false;
-      fCloseUpdaterTimer.Interval:= 5000;
+      fCloseUpdaterTimer.Interval:= 1000;
       fCloseUpdaterTimer.OnTimer:= HandleCloseUpdaterTimer;
     end;
     fCloseUpdaterTimer.Enabled:= true;

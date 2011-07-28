@@ -39,6 +39,7 @@ object CEActions: TCEActions
       Tag = 505
       Category = 'Help'
       Caption = 'Donate'
+      ImageIndex = 47
       OnExecute = ActionExecute
     end
     object act_navi_forward: TCEToolbarAction
@@ -285,19 +286,22 @@ object CEActions: TCEActions
     object act_help_home: TTntAction
       Tag = 501
       Category = 'Help'
-      Caption = 'CubicExplore Home Page'
+      Caption = 'CubicExplorer Home Page'
+      ImageIndex = 47
       OnExecute = ActionExecute
     end
     object act_help_forum: TTntAction
       Tag = 502
       Category = 'Help'
       Caption = 'Support Forum'
+      ImageIndex = 47
       OnExecute = ActionExecute
     end
     object act_help_about: TTntAction
       Tag = 503
       Category = 'Help'
       Caption = 'About...'
+      ImageIndex = 48
       OnExecute = ActionExecute
     end
     object act_view_quickview: TTntAction
@@ -356,6 +360,7 @@ object CEActions: TCEActions
       Tag = 211
       Category = 'Edit'
       Caption = 'Copy Path'
+      ImageIndex = 50
       ShortCut = 16466
       OnExecute = ActionExecute
     end
@@ -517,6 +522,7 @@ object CEActions: TCEActions
       Tag = -1
       Category = 'General'
       Caption = 'Menu'
+      ImageIndex = 49
       OnExecute = ActionExecute
       CanExecute = False
     end

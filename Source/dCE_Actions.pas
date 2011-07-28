@@ -811,7 +811,7 @@ begin
     end;
     505: ShellExecute(0,'open','http://www.cubicreality.com/donate/','','',SW_NORMAL);
     506: ShowVersionManager;
-    507: MainForm.AutoUpdater.CheckForUpdates;
+    507: MainForm.AutoUpdater.CheckForUpdates(true);
   end;
 end;
 
@@ -820,7 +820,11 @@ end;
 -------------------------------------------------------------------------------}
 procedure UpdateHelpCategory(ActionID: Integer; TargetAction: TTntAction);
 begin
-  TargetAction.Enabled:= true;
+  case ActionID of
+    507: TargetAction.Enabled:= not MainForm.AutoUpdater.CheckingUpdate;
+    else
+    TargetAction.Enabled:= true;
+  end;
 end;
 
 {##############################################################################}
