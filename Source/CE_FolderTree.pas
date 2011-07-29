@@ -102,7 +102,7 @@ type
 implementation
 
 uses
-  dCE_Actions;
+  dCE_Actions, MPCommonUtilities;
 
 {*------------------------------------------------------------------------------
   Create an instance of TCEFolderTree
@@ -115,7 +115,7 @@ begin
   Self.TreeOptions.MiscOptions:= [toAcceptOLEDrop,toEditable,toFullRepaintOnResize,toInitOnSave,toToggleOnDblClick];
   Self.TreeOptions.PaintOptions:= [toShowButtons,toShowTreeLines,toUseBlendedImages,toGhostedIfUnfocused];
   Self.TreeOptions.VETImageOptions:= [toImages,toMarkCutAndCopy];
-  Self.TreeOptions.VETMiscOptions:= [toBrowseExecuteFolder, toBrowseExecuteZipFolder, toRemoveContextMenuShortCut,toBrowseExecuteFolderShortcut,toChangeNotifierThread,toTrackChangesInMappedDrives,toExecuteOnDblClk, toNoRebuildIconListOnAssocChange];
+  Self.TreeOptions.VETMiscOptions:= [toBrowseExecuteFolder, toRemoveContextMenuShortCut,toBrowseExecuteFolderShortcut,toChangeNotifierThread,toTrackChangesInMappedDrives,toExecuteOnDblClk, toNoRebuildIconListOnAssocChange];
   Self.TreeOptions.VETShellOptions:= [toRightAlignSizeColumn,toContextMenus,toDragDrop];
   //Self.TreeOptions.SelectionOptions:= [toMultiSelect,toRightClickSelect,toSiblingSelectConstraint,toCenterScrollIntoView];
   Self.VETColors.FileTextColor:= clWindowText;
@@ -170,7 +170,11 @@ end;
 procedure TCEFolderTree.DoEnumFolder(const Namespace: TNamespace; var
     AllowAsChild: Boolean);
 begin
-  AllowAsChild:= Namespace.Folder;
+  if fBrowseZipFolders then
+  AllowAsChild:= Namespace.Folder
+  else
+  AllowAsChild:= Namespace.Folder and (WideStrIComp(PWideChar(Namespace.Extension), '.zip') <> 0);
+  
   inherited;
 end;
 
@@ -623,12 +627,22 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFolderTree.SetBrowseZipFolders(const Value: Boolean);
 var
-  obj: TFileObjects;
+  opts: TVETMiscOptions;
 begin
   fBrowseZipFolders:= Value;
-  obj:= FileObjects;
-  if fBrowseZipFolders then Include(obj, foNonFolders) else Exclude(obj, foNonFolders);
-  FileObjects:= obj;
+  opts:= Self.TreeOptions.VETMiscOptions;
+  if fBrowseZipFolders then
+  Include(opts, toBrowseExecuteZipFolder)
+  else
+  Exclude(opts, toBrowseExecuteZipFolder);
+  Self.TreeOptions.VETMiscOptions:= opts;
+//  obj:= FileObjects;
+//  if fBrowseZipFolders then
+//  Include(obj, foNonFolders)
+//  else
+//  Exclude(obj, foNonFolders);
+//  FileObjects:= obj;
+
 end;
 
 {-------------------------------------------------------------------------------

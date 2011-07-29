@@ -264,7 +264,7 @@ var
 begin
   data:= ItemList.GetNodeData(SelectedItem);
   if assigned(data) and (data.fDownloadThread = Integer(Sender)) then
-  but_download.Caption:= IntToStr(Percent) + '% (' + IntToStr(Current) + ' of ' + IntToStr(FileCount) + ')'; 
+  but_download.Caption:= IntToStr(Percent) + '% (' + WideFormat('%d of %d', [IntToStr(Current), IntToStr(FileCount)]) + ')'; 
 end;
 
 {-------------------------------------------------------------------------------

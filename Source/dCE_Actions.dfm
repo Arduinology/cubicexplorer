@@ -421,6 +421,7 @@ object CEActions: TCEActions
       Tag = 370
       Category = 'View'
       Caption = 'Fullscreen'
+      ImageIndex = 51
       ShortCut = 122
       OnExecute = ActionExecute
     end
@@ -434,6 +435,7 @@ object CEActions: TCEActions
       Tag = 504
       Category = 'Help'
       Caption = 'Translate CubicExplorer'
+      ImageIndex = 52
       OnExecute = ActionExecute
     end
     object act_tools_showoptions: TTntAction

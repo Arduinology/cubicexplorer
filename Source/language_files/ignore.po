@@ -828,3 +828,50 @@ msgstr ""
 #: dCE_Images.dfm:7015
 msgid "PngImage46"
 msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3854
+#: dCE_Images.dfm:7330
+msgid "PngImage47"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3906
+#: dCE_Images.dfm:7365
+msgid "PngImage48"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:3952
+#: dCE_Images.dfm:7397
+msgid "PngImage49"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4000
+#: dCE_Images.dfm:7423
+msgid "PngImage50"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4038
+#: dCE_Images.dfm:7453
+msgid "PngImage51"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4082
+#: dCE_Images.dfm:7488
+msgid "PngImage52"
+msgstr ""
+
+#. CELoginPromptDlg..edit_password..PasswordChar
+#: fCE_LoginPromptDlg.dfm:58
+msgid "*"
+msgstr ""

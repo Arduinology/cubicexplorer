@@ -66,6 +66,8 @@ var
   CE_ProxyAddress: String = '';
   CE_UseProxy: Boolean = false;
   CE_UseSystemProxy: Boolean = true;
+  CE_ProxyUsername: String = '';
+  CE_ProxyPassword: String = '';
 
 implementation
 

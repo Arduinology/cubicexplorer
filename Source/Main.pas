@@ -324,6 +324,8 @@ type
     function GetCheckForUpdateTypes: TCEBuildTypes;
     function GetLastUpdateCheck: TDateTime;
     function GetProxyAddress: WideString;
+    function GetProxyPassword: String;
+    function GetProxyUsername: String;
     function GetShowTray: Boolean;
     function GetUpdateURL: WideString;
     function GetUseProxy: Boolean;
@@ -339,6 +341,8 @@ type
     procedure SetCheckForUpdateTypes(const Value: TCEBuildTypes);
     procedure SetLastUpdateCheck(const Value: TDateTime);
     procedure SetProxyAddress(const Value: WideString);
+    procedure SetProxyPassword(const Value: String);
+    procedure SetProxyUsername(const Value: String);
     procedure SetShowTray(const Value: Boolean);
     procedure SetUpdateURL(const Value: WideString);
     procedure SetUseProxy(const Value: Boolean);
@@ -374,6 +378,8 @@ type
         SetLastUpdateCheck;
     property MinimizeToTray: Boolean read fMinimizeToTray write fMinimizeToTray;
     property ProxyAddress: WideString read GetProxyAddress write SetProxyAddress;
+    property ProxyPassword: String read GetProxyPassword write SetProxyPassword;
+    property ProxyUsername: String read GetProxyUsername write SetProxyUsername;
     property ShowTray: Boolean read GetShowTray write SetShowTray;
     property StartInTray: Boolean read fStartInTray write fStartInTray;
     property StartupType: TCEStartupType read fStartupType write fStartupType;
@@ -1888,6 +1894,30 @@ begin
   begin
     UpdateConfURL:= Value;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set ProxyUsername
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetProxyUsername: String;
+begin
+  Result:= CE_ProxyUsername;
+end;
+procedure TMainFormSettings.SetProxyUsername(const Value: String);
+begin
+  CE_ProxyUsername:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set ProxyPassword
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetProxyPassword: String;
+begin
+  Result:= CE_ProxyPassword;
+end;
+procedure TMainFormSettings.SetProxyPassword(const Value: String);
+begin
+  CE_ProxyPassword:= Value;
 end;
 
 {##############################################################################}

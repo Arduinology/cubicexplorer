@@ -228,6 +228,7 @@ object MainForm: TMainForm
         end
         object SpTBXSubmenuItem6: TSpTBXSubmenuItem
           Caption = 'Theme'
+          ImageIndex = 40
           object SkinGroupItem: TSpTBXSkinGroupItem
           end
           object SpTBXSeparatorItem21: TSpTBXSeparatorItem
@@ -238,6 +239,7 @@ object MainForm: TMainForm
         end
         object LanguageMenuItem: TSpTBXSubmenuItem
           Caption = 'Language'
+          ImageIndex = 52
           OnPopup = LanguageMenuItemPopup
         end
         object SpTBXSeparatorItem16: TSpTBXSeparatorItem
@@ -379,6 +381,9 @@ object MainForm: TMainForm
         object SpTBXItem44: TSpTBXItem
           Action = CEActions.act_tools_showcustomizer
         end
+        object SpTBXItem75: TSpTBXItem
+          Action = CEActions.act_help_versionmgr
+        end
         object SpTBXSeparatorItem15: TSpTBXSeparatorItem
         end
         object SpTBXItem84: TSpTBXItem
@@ -402,9 +407,6 @@ object MainForm: TMainForm
           Action = CEActions.act_help_poedit_form
         end
         object SpTBXSeparatorItem29: TSpTBXSeparatorItem
-        end
-        object SpTBXItem75: TSpTBXItem
-          Action = CEActions.act_help_versionmgr
         end
         object SpTBXItem97: TSpTBXItem
           Action = CEActions.act_help_checkupdates

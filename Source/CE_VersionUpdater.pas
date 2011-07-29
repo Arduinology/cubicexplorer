@@ -51,6 +51,14 @@ type
     Current: Integer;
   end;
 
+  TCEProxyLoginPromptMsg = class
+  public
+    Username: String;
+    Password: String;
+    Remember: Boolean;
+    Result: Integer;
+  end;
+
   TCEDownloadDoneEvent = procedure(Sender: TObject; Data: TCEDownloadData) of object;
   TCEDownloadProgressEvent = procedure(Sender: TObject; Percent: Integer; Current: Integer; FileCount: Integer) of object;
 
@@ -165,7 +173,8 @@ implementation
 uses
   CE_XmlUtils, Math, MPCommonUtilities, TntClasses, TntSysUtils, TntSystem,
   TntWindows, fCE_UpdateDlg, Controls, CE_VistaFuncs, Messages, dCE_Input,
-  Forms, CE_FileUtils, CE_LanguageEngine, CE_Consts, CE_Utils;
+  Forms, CE_FileUtils, CE_LanguageEngine, CE_Consts, CE_Utils,
+  fCE_LoginPromptDlg;
 
 {-------------------------------------------------------------------------------
   Compare Version (Result < 0 if Ver1 is smaller,
@@ -517,6 +526,8 @@ begin
       data.HTTP.ProxyHost:= ExtractUrlPort(CE_ProxyAddress, port);
       data.HTTP.ProxyPort:= IntToStr(port);
     end;
+    data.HTTP.ProxyUser:= CE_ProxyUsername;
+    data.HTTP.ProxyPass:= CE_ProxyPassword;
   end;
   data.ThreadID:= Integer(thread);
   thread.Data:= data;
@@ -637,11 +648,34 @@ var
   i: Integer;
   fs: TTntFileStream;
   fileName: String;
+  loginMsg: TCEProxyLoginPromptMsg;
 begin
   data:= TCEDownloadData(Sender.Data);
   try
     if data.DownloadType = dtUpdateConf then
-    data.HTTP.HTTPMethod('GET', data.URL)
+    begin
+      data.HTTP.HTTPMethod('GET', data.URL);
+      if data.HTTP.ResultCode = 407 then
+      begin
+        loginMsg:= TCEProxyLoginPromptMsg.Create;
+        try
+          Sender.SendSyncedMessage(loginMsg);
+          if loginMsg.Result = mrOK then
+          begin
+            data.HTTP.ProxyUser:= loginMsg.Username;
+            data.HTTP.ProxyPass:= loginMsg.Password;
+            data.HTTP.HTTPMethod('GET', data.URL);
+            if not loginMsg.Remember then
+            begin
+              data.HTTP.ProxyUser:= '';
+              data.HTTP.ProxyPass:= '';
+            end;
+          end;
+        finally
+          loginMsg.Free;
+        end;
+      end;
+    end
     else
     begin
       list:= TStringList.Create;
@@ -730,6 +764,7 @@ procedure TCEVersionUpdater.HandleSyncedMessage(Sender: TCCBaseThread; Msg:
 var
   stream: TStream;
   tmpXML: TXMLDocument;
+  dlg: TCELoginPromptDlg;
 begin
   if Msg is TCEDownloadData then
   begin
@@ -758,6 +793,11 @@ begin
 
           end;
         end;
+        if CE_UseProxy then
+        begin
+          CE_ProxyUsername:= TCEDownloadData(Msg).HTTP.ProxyUser;
+          CE_ProxyPassword:= TCEDownloadData(Msg).HTTP.ProxyPass;
+        end;    
       finally
         if assigned(fOnDownloadUpdateConfDone) then
         fOnDownloadUpdateConfDone(Self, TCEDownloadData(Msg));
@@ -777,6 +817,18 @@ begin
                         TCEDownloadProgressMsg(Msg).Percent,
                         TCEDownloadProgressMsg(Msg).Current,
                         TCEDownloadProgressMsg(Msg).FileCount);
+  end
+  else if Msg is TCEProxyLoginPromptMsg then
+  begin
+    dlg:= TCELoginPromptDlg.Create(nil);
+    try
+      TCEProxyLoginPromptMsg(Msg).Result:= dlg.ShowModal;
+      TCEProxyLoginPromptMsg(Msg).Username:= dlg.edit_username.Text;
+      TCEProxyLoginPromptMsg(Msg).Password:= dlg.edit_password.Text;
+      TCEProxyLoginPromptMsg(Msg).Remember:= dlg.check_save.Checked;
+    finally
+      dlg.Free;
+    end;
   end;
 end;
 

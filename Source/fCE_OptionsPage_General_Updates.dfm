@@ -59,7 +59,6 @@ inherited CE_OptionsPage_General_Updates: TCE_OptionsPage_General_Updates
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 0
-      ExplicitWidth = 296
     end
     object edit_proxy_port: TTntEdit
       Left = 327
@@ -68,12 +67,11 @@ inherited CE_OptionsPage_General_Updates: TCE_OptionsPage_General_Updates
       Height = 21
       Anchors = [akTop, akRight]
       TabOrder = 1
-      ExplicitLeft = 331
     end
     object check_proxy_system: TTntCheckBox
       Left = 29
       Top = 98
-      Width = 392
+      Width = 364
       Height = 17
       Caption = 'Use system settings'
       TabOrder = 2

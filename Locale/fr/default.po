@@ -4,9 +4,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1382\n"
+"CE-POT-Version: 1412\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
+
+msgid "%d file(s) failed to download!"
+msgstr "Echec du téléchargement de %d fichier(s) !"
 
 msgid "%d folder(s) searched and %d file(s) found in %.3f second(s)"
 msgstr "%d dossier(s) examiné(s) et %d fichier(s) trouvé(s), en %.3f seconde(s)"
@@ -56,6 +59,9 @@ msgstr "Ajouter une session"
 msgid "Add Tab"
 msgstr "Ajouter un onglet"
 
+msgid "Address"
+msgstr "Adresse :"
+
 msgid "Address Bar"
 msgstr "Barre d'adresse"
 
@@ -103,6 +109,9 @@ msgstr "Appliquer les modifications maintenant ?"
 
 msgid "Apply changes."
 msgstr "Appliquer les changements"
+
+msgid "Archiver"
+msgstr "Archiveur"
 
 msgid "Are you sure you want to clear session history?"
 msgstr "Etes-vous sûr(e) de vouloir effacer l'historique des sessions ?"
@@ -164,6 +173,9 @@ msgstr "Automatique"
 msgid "Back"
 msgstr "Précédent"
 
+msgid "Backups"
+msgstr "Sauvegardes"
+
 msgid "Backward"
 msgstr "Reculer"
 
@@ -211,6 +223,15 @@ msgstr "Respecter la casse"
 
 msgid "Change order by dragging"
 msgstr "Changez l'ordre en faisant glisser les sessions"
+
+msgid "Check For Updates"
+msgstr "Vérifier l'existence de mises à jour"
+
+msgid "Check for updates"
+msgstr "Vérifier les mises à jour"
+
+msgid "Check for updates on startup"
+msgstr " Vérifier l'existence de mises à jour au démarrage de CubicExplorer"
 
 msgid "Checkbox Selection"
 msgstr "Sélection par cases à cocher"
@@ -317,6 +338,9 @@ msgstr "Page d'acceuil de CubicExplorer"
 msgid "CubicExplorer Options"
 msgstr "Options de CubicExplorer"
 
+msgid "Current version:"
+msgstr "Version actuelle :"
+
 msgid "Custom..."
 msgstr " Personnalisé..."
 
@@ -328,6 +352,12 @@ msgstr "Fenêtre de personnalisation... "
 
 msgid "Cut"
 msgstr "Couper"
+
+msgid "Daily"
+msgstr "Quotidienne"
+
+msgid "Date"
+msgstr "Date"
 
 msgid "Date && Time"
 msgstr "Date && Heure"
@@ -380,6 +410,9 @@ msgstr "Mode d'affichage "
 msgid "Display Settings"
 msgstr "Paramètres visuels"
 
+msgid "Do you really wan't to update?"
+msgstr "Désirez-vous vraiment ne pas mettre à jour ?"
+
 msgid "Do you want to override existing session?"
 msgstr "Voulez-vous remplacer la session qui porte déjà ce nom?"
 
@@ -389,6 +422,9 @@ msgstr "Voulez-vous remplacer le panier qui porte déjà ce nom ?"
 msgid "Do you want to reset all hotkeys for this action?"
 msgstr "Voulez-vous réinitialiser tous les raccourcis clavier pour cette action ?"
 
+msgid "Do you want to update?"
+msgstr "Voulez-vous mettre à jour ?"
+
 msgid "Do you want to use it anyway?"
 msgstr "Voulez-vous quand même l'utiliser ?"
 
@@ -397,6 +433,12 @@ msgstr "Faire un don"
 
 msgid "Down"
 msgstr "Bas"
+
+msgid "Download"
+msgstr "Télécharger"
+
+msgid "Download failed!"
+msgstr "Le téléchargement a échoué !"
 
 msgid "Drag Handle"
 msgstr "Poignées de redimensionnement"
@@ -458,6 +500,9 @@ msgstr " Panier vide"
 msgid "Empty folder"
 msgstr "Dossier vide"
 
+msgid "Enable"
+msgstr " Activer"
+
 msgid "Enable Auto Save"
 msgstr "Activer l'enregistrement automatique"
 
@@ -493,6 +538,9 @@ msgstr "Recherche de fichiers"
 
 msgid "File size format:"
 msgstr "Format pour la taille des fichiers :"
+
+msgid "Files to update"
+msgstr "Fichiers à mettre à jour"
 
 msgid "Fileview"
 msgstr "Fenêtre principale"
@@ -606,7 +654,7 @@ msgid "Hotkey Settings"
 msgstr "Paramètres des raccourcis clavier"
 
 msgid "Hotkeys"
-msgstr "Raccourcis"
+msgstr "Raccourcis :"
 
 msgid "Icon above text"
 msgstr "Icônes au-dessus du texte"
@@ -632,6 +680,9 @@ msgstr "Barre d'informations"
 msgid "Insert"
 msgstr "Insérer"
 
+msgid "Invalid update!"
+msgstr "Mise à jour invalide !"
+
 msgid "Invert Selection"
 msgstr "Inverser la sélection"
 
@@ -652,6 +703,9 @@ msgstr "Gros"
 
 msgid "Large Icons"
 msgstr "Grandes icônes"
+
+msgid "Last check:"
+msgstr "Dernière vérification le :"
 
 msgid "Last hour"
 msgstr "L'heure passée"
@@ -773,6 +827,15 @@ msgstr "Nouvelle session"
 msgid "New Shortcut"
 msgstr "Nouveau raccourci"
 
+msgid "New Version Available"
+msgstr "Nouvelle version disponible"
+
+msgid "New Window"
+msgstr "Nouvelle fenêtre"
+
+msgid "New version (%s) is available. Do you want to update now?"
+msgstr "Une nouvelle version (%s) est disponible. Souhaitez-vous mettre à jour maintenant ?"
+
 msgid "No Extension"
 msgstr "Pas d'extension"
 
@@ -782,17 +845,29 @@ msgstr "Aucune sélection"
 msgid "No file loaded."
 msgstr "Aucun fichier chargé"
 
+msgid "No new updates"
+msgstr "Aucune mise à jour n'est disponible"
+
 msgid "None"
 msgstr "Aucun(e)"
 
 msgid "Not yet ready, coming soon"
 msgstr "Pas encore prêt, à venir prochainement"
 
+msgid "Notify only about following update types"
+msgstr " Signaler uniquement les mises à jour de types suivants :"
+
 msgid "OK"
 msgstr "OK"
 
+msgid "Official"
+msgstr "Officielle"
+
 msgid "On Startup"
 msgstr "Au démarrage"
+
+msgid "One or more files are missing!"
+msgstr "Un ou plusieurs fichiers sont manquants !"
 
 msgid "Open"
 msgstr "Ouvrir"
@@ -808,6 +883,9 @@ msgstr "Ouvrir le dossier contenant"
 
 msgid "Open default tab"
 msgstr " Ouvrir l'onglet par défaut"
+
+msgid "Open in current tab"
+msgstr "Ouvrir dans l'onglet actif"
 
 msgid "Open in new tab"
 msgstr "Ouvrir dans un nouvel onglet"
@@ -869,14 +947,23 @@ msgstr "Pause"
 msgid "Please choose different hotkey."
 msgstr "S'il vous plaît, choisissez un raccourci clavier différent."
 
+msgid "Port"
+msgstr "Port :"
+
 msgid "Properties"
 msgstr "Propriétés"
 
 msgid "Properties..."
 msgstr "Propriétés..."
 
+msgid "Proxy Settings"
+msgstr "Paramètres du proxy"
+
 msgid "Publish Translation"
 msgstr "Publier la traduction"
+
+msgid "Published:"
+msgstr "Publiée le :"
 
 msgid "Quick Options"
 msgstr "Options rapides"
@@ -928,6 +1015,12 @@ msgstr "Restaurer les raccourcis clavier ?"
 
 msgid "Reset to default"
 msgstr "Restaurer par défaut"
+
+msgid "Restart CubicExplorer Now?"
+msgstr "Redémarrer CubicExplorer maintenant ?"
+
+msgid "Restart needed!"
+msgstr "Redémarrage requis !"
 
 msgid "Reuse already open tabs"
 msgstr " Réutiliser les onglets déjà ouverts"
@@ -1196,6 +1289,9 @@ msgstr "Cible"
 msgid "Target Folder"
 msgstr "Dossier cible"
 
+msgid "Test"
+msgstr "Test"
+
 msgid "Text"
 msgstr "Texte"
 
@@ -1298,11 +1394,38 @@ msgstr "Sans titre"
 msgid "Up"
 msgstr "Haut"
 
+msgid "Update"
+msgstr "Mettre à jour"
+
+msgid "Update CubicExplorer"
+msgstr "Mettre à jour CubicExplorer"
+
+msgid "Updates"
+msgstr "Mises à jour"
+
+msgid "Updates Settings"
+msgstr "Paramètres des mises à jour"
+
 msgid "Use strict filtering (wildcards are ? and *)"
 msgstr "Filtrage strict (les jokers sont ? et *)"
 
+msgid "Use system settings"
+msgstr " Utiliser les paramètres système"
+
+msgid "Use this version"
+msgstr "Utiliser cette version"
+
+msgid "Version"
+msgstr "Version"
+
+msgid "Version Manager"
+msgstr "Gestionnaire de versions"
+
 msgid "Version:"
 msgstr "Version :"
+
+msgid "Versions"
+msgstr "Versions"
 
 msgid "View"
 msgstr "Affichage"
@@ -1318,6 +1441,9 @@ msgstr "Avertissement"
 
 msgid "Warning: changes are made immediately!"
 msgstr "Avertissement : les changements sont effectués immédiatement !"
+
+msgid "Weekly"
+msgstr "Hebdomadaire"
 
 msgid "When I open folder/file in a new tab, switch to it immediately "
 msgstr " Quand j'ouvre un dossier/fichier dans un nouvel onglet, basculer aussitôt dessus"
