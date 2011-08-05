@@ -1215,6 +1215,7 @@ var
   buildType: TCEBuildType;
   doUpdate: Boolean;
   notes: WideString;
+  msg: WideString;
 begin
   newBuild:= fUpdater.FindNewestVersion(true, BuildTypes);
   if assigned(newBuild) then
@@ -1237,9 +1238,19 @@ begin
   end
   else if fShowNoNewUpdatesMsg then
   begin
+    // Show error message
+    if Data.HTTP.ResultCode = 200 then
+    msg:= _('No new updates')
+    else if Data.HTTP.ResultCode = 500 then
+    msg:= 'Error: Could not connect!'
+    else if Data.HTTP.ResultString <> '' then
+    msg:= 'Error: ' + IntToStr(Data.HTTP.ResultCode) + ' - ' + Data.HTTP.ResultString
+    else
+    msg:= 'Error: ' + IntToStr(Data.HTTP.ResultCode);
+
     TaskDialog(Application.MainFormHandle,
                _('Check For Updates'),
-               _('No new updates'),
+               msg,
                '',
                TD_ICON_INFORMATION,
                TD_BUTTON_OK);
