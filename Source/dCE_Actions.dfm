@@ -381,6 +381,7 @@ object CEActions: TCEActions
       Tag = 332
       Category = 'View'
       Caption = 'Show Hidden Files'
+      ImageIndex = 53
       OnExecute = ActionExecute
     end
     object act_edit_newfolder: TTntAction
@@ -429,6 +430,7 @@ object CEActions: TCEActions
       Tag = 334
       Category = 'View'
       Caption = 'Show Extensions'
+      ImageIndex = 54
       OnExecute = ActionExecute
     end
     object act_help_poedit_form: TTntAction

@@ -1,14 +1,14 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.7\n"
-"POT-Creation-Date:                                       \n"
+"Project-Id-Version: 1.8\n"
+"POT-Creation-Date:                                        \n"
 "PO-Revision-Date: 2007-11-01 00:00+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Portugues\n"
 "X-Poedit-Country: PORTUGAL\n"
-"CE-POT-Version: 1400\n"
+"CE-POT-Version: 1414\n"
 "CE-Language: Portuguese\n"
 "Last-Translator: Mário F. Gonçalves <mail.mario.goncalves@gmail.com>\n"
 
@@ -59,6 +59,9 @@ msgstr "Adicionada Sessão"
 
 msgid "Add Tab"
 msgstr "Adicionar Tabulador"
+
+msgid "Address"
+msgstr "Endereço"
 
 msgid "Address Bar"
 msgstr "Barra de Endereços"
@@ -219,8 +222,14 @@ msgstr "Sensível a caixa (maiúsculas/minúsculas)"
 msgid "Change order by dragging"
 msgstr "Mudar a ordem por arrasto"
 
+msgid "Check For Updates"
+msgstr "Procurar atualizações"
+
 msgid "Check for updates"
 msgstr "Verificar atualizações"
+
+msgid "Check for updates on startup"
+msgstr "Procurar acutalizações ao iniciar"
 
 msgid "Checkbox Selection"
 msgstr "Caixa de Seleção"
@@ -321,6 +330,9 @@ msgstr "Criado"
 msgid "CubicExplore Home Page"
 msgstr "Sítio do Cubic Explorer"
 
+msgid "CubicExplorer Home Page"
+msgstr "Página Inicial do CubicExplorer"
+
 msgid "CubicExplorer Options"
 msgstr "Opções do CubicExplorer"
 
@@ -338,6 +350,9 @@ msgstr "Personalizar ... "
 
 msgid "Cut"
 msgstr "Cortar"
+
+msgid "Daily"
+msgstr "Diariamente"
 
 msgid "Date"
 msgstr "Data"
@@ -404,6 +419,9 @@ msgstr "Quer sobrepor a pilha existente?"
 
 msgid "Do you want to reset all hotkeys for this action?"
 msgstr "Quer reiniciar todas as teclas de atalho para esta ação?"
+
+msgid "Do you want to update?"
+msgstr "Quer atualizar?"
 
 msgid "Do you want to use it anyway?"
 msgstr "Quer utilizá-lo mesmo assim?"
@@ -476,6 +494,9 @@ msgstr "Esvaziar pilha"
 
 msgid "Empty folder"
 msgstr "Esvaziar pasta"
+
+msgid "Enable"
+msgstr "Ativar"
 
 msgid "Enable Auto Save"
 msgstr "Ativar gravação automática"
@@ -789,8 +810,14 @@ msgstr "Nova Sessão"
 msgid "New Shortcut"
 msgstr "Nova Tecla de Atalho"
 
+msgid "New Version Available"
+msgstr "Disponível Nova Versão"
+
 msgid "New Window"
 msgstr "Nova Janela"
+
+msgid "New version (%s) is available. Do you want to update now?"
+msgstr "Nova versão (%s) está disponível. Quer atualizar agora?"
 
 msgid "No Extension"
 msgstr "Sem Extensão"
@@ -801,11 +828,20 @@ msgstr "Sem Seleção"
 msgid "No file loaded."
 msgstr "Não foi carregado nenhum ficheiro"
 
+msgid "No new updates"
+msgstr "Não há novas atualizações"
+
 msgid "None"
 msgstr "Nenhuma"
 
+msgid "Notify only about following update types"
+msgstr "Notificar só os seguintes tipos de atualizações"
+
 msgid "OK"
 msgstr "OK"
+
+msgid "Official"
+msgstr "Oficial"
 
 msgid "On Startup"
 msgstr "No Arranque"
@@ -879,6 +915,9 @@ msgstr "Título da Página"
 msgid "Panels"
 msgstr "Paineis"
 
+msgid "Password"
+msgstr "Palavra passe"
+
 msgid "Paste"
 msgstr "Colar"
 
@@ -897,11 +936,20 @@ msgstr "Por favor escolha outra tecla de atalho."
 msgid "PngImage31"
 msgstr "PngImage31"
 
+msgid "Port"
+msgstr "Porta"
+
 msgid "Properties"
 msgstr "Propriedades"
 
 msgid "Properties..."
 msgstr "Propriedades..."
+
+msgid "Proxy Login"
+msgstr "Proxy Login"
+
+msgid "Proxy Settings"
+msgstr "Configurações Proxy"
 
 msgid "Publish Translation"
 msgstr "Publicar a Tradução"
@@ -938,6 +986,9 @@ msgstr "Relativa"
 
 msgid "Reload"
 msgstr "Recarregar"
+
+msgid "Remember"
+msgstr "Lembrar"
 
 msgid "Remember Tabs"
 msgstr "Recordar os Tabuladores"
@@ -1239,6 +1290,9 @@ msgstr "Alvo"
 msgid "Target Folder"
 msgstr "Pasta de Destino"
 
+msgid "Test"
+msgstr "Teste"
+
 msgid "Text"
 msgstr "Texto"
 
@@ -1344,11 +1398,23 @@ msgstr "Atualizar"
 msgid "Update CubicExplorer"
 msgstr "Atualizar CubicExplorer"
 
+msgid "Updates"
+msgstr "Atualizações"
+
+msgid "Updates Settings"
+msgstr "Configurações de Atualizações"
+
 msgid "Use strict filtering (wildcards are ? and *)"
 msgstr "Utilizar filtragem restrita (jockers são ? e *)"
 
+msgid "Use system settings"
+msgstr "Utilizar as configurações do sistema"
+
 msgid "Use this version"
 msgstr "Utilizar esta versão"
+
+msgid "Username"
+msgstr "Utilizador"
 
 msgid "Version"
 msgstr "Versão"
@@ -1376,6 +1442,12 @@ msgstr "Aviso"
 
 msgid "Warning: changes are made immediately!"
 msgstr "Aviso: alterações serão executadas de imediato!"
+
+msgid "Warning: password will be saved in clear text!"
+msgstr "Aviso: a palavra passe será gravada em texto simples"
+
+msgid "Weekly"
+msgstr "Semanalmente"
 
 msgid "When I open folder/file in a new tab, switch to it immediately "
 msgstr "Quando abro uma nova pasta/ficheiro num novo tabulador, assumi-lo de imediato"

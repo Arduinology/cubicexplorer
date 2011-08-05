@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1412\n"
+"CE-POT-Version: 1414\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
 
@@ -334,6 +334,9 @@ msgstr "Créé le"
 
 msgid "CubicExplore Home Page"
 msgstr "Page d'acceuil de CubicExplorer"
+
+msgid "CubicExplorer Home Page"
+msgstr "Page d'accueil de CubicExplorer"
 
 msgid "CubicExplorer Options"
 msgstr "Options de CubicExplorer"
@@ -932,6 +935,9 @@ msgstr "Remplacer le panier existant ?"
 msgid "Panels"
 msgstr "Volets"
 
+msgid "Password"
+msgstr "Mot de passe"
+
 msgid "Paste"
 msgstr "Coller"
 
@@ -955,6 +961,9 @@ msgstr "Propriétés"
 
 msgid "Properties..."
 msgstr "Propriétés..."
+
+msgid "Proxy Login"
+msgstr "Identifiant proxy"
 
 msgid "Proxy Settings"
 msgstr "Paramètres du proxy"
@@ -991,6 +1000,9 @@ msgstr "Relatif"
 
 msgid "Reload"
 msgstr "Recharger"
+
+msgid "Remember"
+msgstr "Mémoriser"
 
 msgid "Remember Tabs"
 msgstr "Mémoriser les onglets"
@@ -1415,6 +1427,9 @@ msgstr " Utiliser les paramètres système"
 msgid "Use this version"
 msgstr "Utiliser cette version"
 
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
 msgid "Version"
 msgstr "Version"
 
@@ -1441,6 +1456,9 @@ msgstr "Avertissement"
 
 msgid "Warning: changes are made immediately!"
 msgstr "Avertissement : les changements sont effectués immédiatement !"
+
+msgid "Warning: password will be saved in clear text!"
+msgstr "Attention : le mot de passe sera sauvegardé en texte clair !"
 
 msgid "Weekly"
 msgstr "Hebdomadaire"

@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1401\n"
+"CE-POT-Version: 1414\n"
 "CE-Language: German\n"
 "Last-Translator: nefycee <(contact only via CE-support-forum)>\n"
 
@@ -55,6 +55,9 @@ msgstr "Sitzung hinzufügen"
 
 msgid "Add Tab"
 msgstr "Neuer Tab"
+
+msgid "Address"
+msgstr "Adresse"
 
 msgid "Address Bar"
 msgstr "Adressleiste"
@@ -218,8 +221,14 @@ msgstr "Groß-/Kleinschreibung"
 msgid "Change order by dragging"
 msgstr "Reihenfolge per Drag & Drop ändern"
 
+msgid "Check For Updates"
+msgstr "Nach Update suchen"
+
 msgid "Check for updates"
 msgstr "Nach Updates suchen"
+
+msgid "Check for updates on startup"
+msgstr "Bei Programmstart nach Aktualisierung suchen"
 
 msgid "Checkbox Selection"
 msgstr "Auswahlkästchen anzeigen"
@@ -323,6 +332,9 @@ msgstr "Erstellt"
 msgid "CubicExplore Home Page"
 msgstr "Homepage von CubicExplorer"
 
+msgid "CubicExplorer Home Page"
+msgstr "CubicExplorer Home Page"
+
 msgid "CubicExplorer Options"
 msgstr "Optionen"
 
@@ -330,7 +342,7 @@ msgid "Current version:"
 msgstr "Aktuelle Version:"
 
 msgid "Custom..."
-msgstr "selbst definiertes Verzeichnis"
+msgstr "Selbst definiertes Verzeichnis"
 
 msgid "Customize"
 msgstr "Anpassen"
@@ -340,6 +352,9 @@ msgstr "Anpassungen"
 
 msgid "Cut"
 msgstr "Ausschneiden"
+
+msgid "Daily"
+msgstr "Täglich"
 
 msgid "Date"
 msgstr "Datum"
@@ -406,6 +421,9 @@ msgstr "Soll die existierende Ablage überschrieben werden?"
 
 msgid "Do you want to reset all hotkeys for this action?"
 msgstr "Wollen sie für diese Aktion die Standard Hotkeys wiederherstellen?"
+
+msgid "Do you want to update?"
+msgstr "Wollen sie aktualisieren?"
 
 msgid "Do you want to use it anyway?"
 msgstr "Wollen sie diese dennoch nutzen?"
@@ -481,6 +499,9 @@ msgstr "Leere Ablage anzeigen"
 
 msgid "Empty folder"
 msgstr "Leerer Ordner"
+
+msgid "Enable"
+msgstr "Aktiviert"
 
 msgid "Enable Auto Save"
 msgstr "Automatisches Speichern aktivieren"
@@ -624,7 +645,7 @@ msgid "Highlight row completely"
 msgstr "Komplette Zeile hervorheben"
 
 msgid "Highlighter"
-msgstr "Highlighter"
+msgstr "Marker"
 
 msgid "History"
 msgstr "Verlauf"
@@ -806,8 +827,14 @@ msgstr "Neue Session"
 msgid "New Shortcut"
 msgstr "Neue Verknüpfung"
 
+msgid "New Version Available"
+msgstr "Neue Version verfügbar"
+
 msgid "New Window"
 msgstr "Neues Fenster"
+
+msgid "New version (%s) is available. Do you want to update now?"
+msgstr "Die neue Version (%s) ist verfügbar. Jetzt aktualisieren? "
 
 msgid "No Extension"
 msgstr "Keine Dateierweiterung"
@@ -818,14 +845,23 @@ msgstr "Keine Auswahl"
 msgid "No file loaded."
 msgstr "Keine Datei geladen."
 
+msgid "No new updates"
+msgstr "Keine Aktualisierung verfügbar"
+
 msgid "None"
 msgstr "Keine"
 
 msgid "Not yet ready, coming soon"
 msgstr "Kommt in Kürze"
 
+msgid "Notify only about following update types"
+msgstr "Über folgende Aktualisierungen informieren"
+
 msgid "OK"
 msgstr "OK"
+
+msgid "Official"
+msgstr "Offiziell"
 
 msgid "On Startup"
 msgstr "Bei Programmstart"
@@ -896,6 +932,9 @@ msgstr "Existierende Ablage überschreiben?"
 msgid "Panels"
 msgstr "Panele"
 
+msgid "Password"
+msgstr "Passwort"
+
 msgid "Paste"
 msgstr "Einfügen"
 
@@ -911,11 +950,20 @@ msgstr "Pause"
 msgid "Please choose different hotkey."
 msgstr "Bitte eine andere Kombination wählen."
 
+msgid "Port"
+msgstr "Port"
+
 msgid "Properties"
 msgstr "Eigenschaften"
 
 msgid "Properties..."
 msgstr "Eigenschaften"
+
+msgid "Proxy Login"
+msgstr "Proxy Login"
+
+msgid "Proxy Settings"
+msgstr "Proxy Einstellungen"
 
 msgid "Publish Translation"
 msgstr "Übersetz. veröffentl."
@@ -953,6 +1001,9 @@ msgstr "Relativ"
 msgid "Reload"
 msgstr "Neu laden"
 
+msgid "Remember"
+msgstr "Erinnerung"
+
 msgid "Remember Tabs"
 msgstr "Merke Tabs"
 
@@ -981,7 +1032,7 @@ msgid "Restart CubicExplorer Now?"
 msgstr "CE jetzt neu starten?"
 
 msgid "Restart needed!"
-msgstr "Neustart nötig!"
+msgstr "Neustart notwendig!"
 
 msgid "Reuse already open tabs"
 msgstr "Bereits geöffnete Tabs wiederverwenden"
@@ -1250,6 +1301,9 @@ msgstr "Ziel"
 msgid "Target Folder"
 msgstr "Zielordner"
 
+msgid "Test"
+msgstr "Test Version"
+
 msgid "Text"
 msgstr "Text"
 
@@ -1358,17 +1412,29 @@ msgstr "Update"
 msgid "Update CubicExplorer"
 msgstr "CubicExplorer updaten"
 
+msgid "Updates"
+msgstr "Updates"
+
+msgid "Updates Settings"
+msgstr "Einstellungen der Programm-Aktualisierung"
+
 msgid "Use strict filtering (wildcards are ? and *)"
 msgstr "Benutze eindeutigen Filte(Platzhalter sind ? und *)"
 
+msgid "Use system settings"
+msgstr "Systemeinstellung nutzen"
+
 msgid "Use this version"
 msgstr "Version nutzen"
+
+msgid "Username"
+msgstr "Benutzername"
 
 msgid "Version"
 msgstr "Version"
 
 msgid "Version Manager"
-msgstr "Version Manager"
+msgstr "Update Manager"
 
 msgid "Version:"
 msgstr "Version:"
@@ -1390,6 +1456,12 @@ msgstr "Warnung"
 
 msgid "Warning: changes are made immediately!"
 msgstr "Warnung: Änderungen werden sofort aktiv!"
+
+msgid "Warning: password will be saved in clear text!"
+msgstr "Achtung: Das Passwort wird in Klartext gespeichert!"
+
+msgid "Weekly"
+msgstr "Wöchentlich"
 
 msgid "When I open folder/file in a new tab, switch to it immediately "
 msgstr "Zu neuem Tab springen wenn  Ordner oder Datei geöffnet wird"

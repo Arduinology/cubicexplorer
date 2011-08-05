@@ -861,16 +861,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCECustomFileView.DoKeyAction(var CharCode: Word; var Shift:
     TShiftState; var DoDefault: Boolean);
-var
-  NS: TNamespace;
 begin
-  if (CharCode = VK_RETURN) and (Selection.Count > 1) then
-  begin
-    Self.ValidateNamespace(Self.Selection.First, NS);
-    NS.ExecuteContextMenuVerb(MainForm, 'open', NamespaceToRelativePIDLArray(Self.SelectedToNamespaceArray));
-    DoDefault:= false;
-  end;
-
   case CharCode of
     VK_F5: DoDefault:= false;  
   end;

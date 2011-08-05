@@ -61,6 +61,8 @@ type
         override;
     procedure DoSelectedChange(Node: PVirtualNode);
     procedure DoShellNotify(ShellEvent: TVirtualShellEvent); override;
+    procedure HandleEnumFolder(Sender: TCustomVirtualExplorerTree; Namespace:
+        TNamespace; var AllowAsChild: Boolean);
     procedure HandleMouseDblClick(var Message: TWMMouse; const HitInfo: THitInfo);
         override;
     procedure HandleMouseDown(var Message: TWMMouse; var HitInfo: THitInfo);
@@ -71,7 +73,6 @@ type
     constructor Create(AOwner: TComponent); override;
     function PasteShortcutFromClipboard: Boolean;
     function Refresh: Boolean;
-    procedure ReReadAndRefreshNode(Node: PVirtualNode; SortNode: Boolean); override;
     procedure ScrollToView(ANode: PVirtualNode; AVertical: Boolean = true;
         AHorizontal: Boolean = true);
     procedure SelectedFilesDelete(ShiftKeyState: TExecuteVerbShift = evsCurrent);
@@ -122,6 +123,7 @@ begin
   Self.VETColors.FolderTextColor:= clWindowText;
   Self.VETColors.CompressedTextColor:= clWindowText;
   Self.VETColors.EncryptedTextColor:= clWindowText;
+  Self.OnEnumFolder:= HandleEnumFolder;
   HiddenFiles:= false;
 
   fSelectionTimer:= TTimer.Create(Self);
@@ -170,12 +172,12 @@ end;
 procedure TCEFolderTree.DoEnumFolder(const Namespace: TNamespace; var
     AllowAsChild: Boolean);
 begin
+  inherited;
+
   if fBrowseZipFolders then
   AllowAsChild:= Namespace.Folder
   else
   AllowAsChild:= Namespace.Folder and (WideStrIComp(PWideChar(Namespace.Extension), '.zip') <> 0);
-  
-  inherited;
 end;
 
 {*------------------------------------------------------------------------------
@@ -267,6 +269,18 @@ begin
       ShellEvent.Handled:= true;
     end;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle Enum Folder
+-------------------------------------------------------------------------------}
+procedure TCEFolderTree.HandleEnumFolder(Sender: TCustomVirtualExplorerTree;
+    Namespace: TNamespace; var AllowAsChild: Boolean);
+begin
+  if fBrowseZipFolders then
+  AllowAsChild:= Namespace.Folder
+  else
+  AllowAsChild:= Namespace.Folder and (WideStrIComp(PWideChar(Namespace.Extension), '.zip') <> 0);
 end;
 
 {*------------------------------------------------------------------------------
@@ -426,140 +440,6 @@ begin
   Result:= RefreshTree(true);
 end;
 
-procedure TCEFolderTree.ReReadAndRefreshNode(Node: PVirtualNode; SortNode:
-    Boolean);
-///
-/// NOTE:  Make sure any changes to this method are reflected in both VirtualExplorerTree.pas
-//         and VirtualExplorerListview.pas
-///
-var
-  i, j, PIDLsRead, NodesRead, PIDLArrayLen, NodeArrayLen: Integer;
-  PIDLArray: TPIDLArray;
-  NS, NewNS: TNamespace;
-  NodeArray: TNodeSearchArray;
-  Compare: ShortInt;
-  Allow: Boolean;
-  CheckSupport: Boolean;
-  ResultIsParent: Boolean;
-begin
-  // TODO: Not sure why this was overrided.
-  inherited;
-  Exit;
-  
-  if ValidateNamespace(Node, NS) then
-  begin
-    // First see if the namespace is valid
-    if NS.Valid then
-    begin
-      BeginUpdate;  //TODO: Testing a fix for bugs #146 and #174
-      
-      // Smarter to read child nodes that are currently cached in the tree
-      // first so ReadFolder does not trigger more events
-      ReadChildNodes(Node, NodeArray, True, NodesRead);
-
-      // Need to invalidate namespace as if a new item is added it may not be recognized by
-      // the cached IShellFolder!
-      NS.InvalidateNamespace(True);
-
-      ReadFolder(NS.ShellFolder, FileObjectsToFlags(FileObjects), PIDLArray, True, PIDLsRead);
-      CheckSupport := toCheckSupport in TreeOptions.MiscOptions;  // Local variable for speed
-
-      //BeginUpdate;  //TODO: Testing a fix for bugs #146 and #174
-      try
-        PIDLArrayLen := PIDLsRead;
-        NodeArrayLen := NodesRead;
-        j := 0;
-        i := 0;
-        // Run the current nodes in the tree with the nodes read from the folder in
-        // parallel to see what is missing/added
-        while (i < PIDLArrayLen) and (j < NodeArrayLen) do
-        begin
-          Compare := ShortInt(NS.ShellFolder.CompareIDs(0, PIDLArray[i], NodeArray[j].NS.RelativePIDL));
-          if Compare = 0 then
-          begin
-            Inc(j);  // Node exists move on
-            Inc(i)
-          end else
-          if Compare < 0 then
-          begin
-            // Must be a new node, don't Inc j
-            Allow := True;
-            NewNS := TNamespace.Create(PIDLMgr.CopyPIDL(PIDLArray[i]), NS);
-            // Need to make sure any additions are ok'ed by the application
-            if Assigned(OnEnumFolder) then
-              OnEnumFolder(Self, NewNS, Allow);
-            // Add it to the bottom of the list
-            if Allow then
-              AddCustomNode(Node, NewNS, CheckSupport)
-            else
-              NewNS.Free;
-            Inc(i)
-          end else
-          begin
-            GlobalThreadManager.FlushAllMessageCache(Self, NodeArray[j].Node);
-            // Must be a removed node, don't Inc i
-            if ValidateNamespace(NodeArray[j].Node, NewNS) then
-            begin
-              if CheckSupport then
-                Storage.Delete(NewNS.AbsolutePIDL, [], True);
-              DoNamespaceStructureChange(NodeArray[j].Node, NewNS, nscDelete);
-            end;
-            DeleteNode(NodeArray[j].Node);
-            Inc(j)
-          end
-        end;
-
-        // Add any new items
-        while i < PIDLArrayLen do
-        begin
-          Allow := True;
-          NewNS := TNamespace.Create(PIDLMgr.CopyPIDL(PIDLArray[i]), NS);
-          { Need to make sure any additions are ok'ed by the application }
-          if Assigned(OnEnumFolder) then
-            OnEnumFolder(Self, NewNS, Allow);
-          if Allow then
-            AddCustomNode(Node, NewNS, CheckSupport)
-          else
-            NewNS.Free;
-          Inc(i)
-        end;
-
-        while j < NodeArrayLen do
-        begin
-          GlobalThreadManager.FlushAllMessageCache(Self, NodeArray[j].Node);
-          // Must be a removed node, don't Inc i
-          if ValidateNamespace(NodeArray[j].Node, NewNS) then
-          begin
-            if CheckSupport then
-              Storage.Delete(NewNS.AbsolutePIDL, [], True);
-            DoNamespaceStructureChange(NodeArray[j].Node, NewNS, nscDelete);
-          end;
-          DeleteNode(NodeArray[j].Node);
-          Inc(j)
-        end;
-
-        for i := 0 to Length(PIDLArray) - 1 do
-          PIDLMgr.FreePIDL(PIDLArray[i])
-      finally
-        EndUpdate
-      end;
-
-      if SortNode then
-        Sort(Node, Header.SortColumn, Header.SortDirection, False);
-
-      if (Node.ChildCount > 0) and (toFoldersExpandable in TreeOptions.VETFolderOptions) then
-        HasChildren[Node] := True;
-    end else
-    begin
-      // The passed node is invalid itself
-      if ValidateNamespace(Node, NS) then
-        DoNamespaceStructureChange(Node, NS, nscDelete);
-      NextSelectedNode(Node, True, ResultIsParent);
-      DeleteNode(Node)
-    end
-  end
-end;
-
 {-------------------------------------------------------------------------------
   Scroll To View
 -------------------------------------------------------------------------------}
@@ -628,6 +508,7 @@ end;
 procedure TCEFolderTree.SetBrowseZipFolders(const Value: Boolean);
 var
   opts: TVETMiscOptions;
+  obj: TFileObjects;
 begin
   fBrowseZipFolders:= Value;
   opts:= Self.TreeOptions.VETMiscOptions;
@@ -636,12 +517,13 @@ begin
   else
   Exclude(opts, toBrowseExecuteZipFolder);
   Self.TreeOptions.VETMiscOptions:= opts;
-//  obj:= FileObjects;
-//  if fBrowseZipFolders then
-//  Include(obj, foNonFolders)
-//  else
-//  Exclude(obj, foNonFolders);
-//  FileObjects:= obj;
+
+  obj:= FileObjects;
+  if fBrowseZipFolders then
+  Include(obj, foNonFolders)
+  else
+  Exclude(obj, foNonFolders);
+  FileObjects:= obj;
 
 end;
 
