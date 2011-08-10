@@ -875,3 +875,17 @@ msgstr ""
 #: fCE_LoginPromptDlg.dfm:58
 msgid "*"
 msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4106
+#: dCE_Images.dfm:7562
+msgid "PngImage53"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4135
+#: dCE_Images.dfm:7582
+msgid "PngImage54"
+msgstr ""
