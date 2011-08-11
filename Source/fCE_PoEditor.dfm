@@ -158,7 +158,7 @@ object CEPoEditor: TCEPoEditor
           Width = 145
           Height = 21
           Style = csDropDownList
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 0
           OnChange = LanguageListChange
         end
@@ -370,10 +370,6 @@ object CEPoEditor: TCEPoEditor
     TabOrder = 2
     Borders = False
     TBXStyleBackground = True
-    ExplicitLeft = 2
-    ExplicitTop = 2
-    ExplicitWidth = 409
-    ExplicitHeight = 367
     object label_startup: TSpTBXLabel
       Left = 0
       Top = 0
@@ -383,10 +379,6 @@ object CEPoEditor: TCEPoEditor
       Align = alClient
       AutoSize = False
       Alignment = taCenter
-      ExplicitLeft = 159
-      ExplicitTop = 78
-      ExplicitWidth = 67
-      ExplicitHeight = 19
     end
   end
   object ActionList: TTntActionList

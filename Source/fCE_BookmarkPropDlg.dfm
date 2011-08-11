@@ -12,11 +12,13 @@ object BookmarkPropDlg: TBookmarkPropDlg
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsStayOnTop
+  KeyPreview = True
   OldCreateOrder = False
   Position = poMainFormCenter
   OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnKeyPress = TntFormKeyPress
   DesignSize = (
     359
     261)
@@ -136,6 +138,7 @@ object BookmarkPropDlg: TBookmarkPropDlg
     Height = 25
     Anchors = [akRight, akBottom]
     Caption = 'OK'
+    Default = True
     ModalResult = 1
     TabOrder = 1
     OnClick = but_OKClick

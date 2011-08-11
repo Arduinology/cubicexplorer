@@ -28,6 +28,7 @@ type
     procedure TntFormCreate(Sender: TObject);
     procedure but_createClick(Sender: TObject);
     procedure edit_targetpathSubEditButton0Click(Sender: TObject);
+    procedure TntFormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -130,6 +131,15 @@ begin
   begin
     edit_targetpath.Text:= ws;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  On Form KeyPress
+-------------------------------------------------------------------------------}
+procedure TCreateSymlinkDlg.TntFormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = #27) then
+  but_cancel.Click;
 end;
 
 end.

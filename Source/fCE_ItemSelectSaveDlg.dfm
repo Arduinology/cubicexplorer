@@ -10,8 +10,10 @@ object CEItemSelectSaveDlg: TCEItemSelectSaveDlg
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   Position = poMainFormCenter
+  OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
   object panel_background: TSpTBXPanel
@@ -39,7 +41,7 @@ object CEItemSelectSaveDlg: TCEItemSelectSaveDlg
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       ItemHeight = 13
-      TabOrder = 1
+      TabOrder = 0
       OnChange = comboChange
     end
     object but_ok: TSpTBXButton
@@ -49,7 +51,7 @@ object CEItemSelectSaveDlg: TCEItemSelectSaveDlg
       Height = 29
       Caption = 'OK'
       Anchors = [akTop, akRight]
-      TabOrder = 2
+      TabOrder = 1
       OnClick = but_okClick
       Default = True
     end
@@ -60,7 +62,7 @@ object CEItemSelectSaveDlg: TCEItemSelectSaveDlg
       Height = 29
       Caption = 'Cancel'
       Anchors = [akTop, akRight]
-      TabOrder = 3
+      TabOrder = 2
       ModalResult = 2
     end
   end

@@ -11,9 +11,11 @@ object CreateSymlinkDlg: TCreateSymlinkDlg
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   Position = poMainFormCenter
   OnCreate = TntFormCreate
+  OnKeyPress = TntFormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXTabControl1: TSpTBXTabControl
@@ -24,10 +26,6 @@ object CreateSymlinkDlg: TCreateSymlinkDlg
     Align = alClient
     ActiveTabIndex = 0
     TabVisible = False
-    ExplicitLeft = 8
-    ExplicitTop = 54
-    ExplicitWidth = 289
-    ExplicitHeight = 193
     HiddenItems = <>
     object SpTBXTabItem1: TSpTBXTabItem
       Checked = True
@@ -38,9 +36,6 @@ object CreateSymlinkDlg: TCreateSymlinkDlg
       Width = 329
       Height = 107
       ImageIndex = -1
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         329
         107)
@@ -94,7 +89,6 @@ object CreateSymlinkDlg: TCreateSymlinkDlg
     TabOrder = 1
     Borders = False
     TBXStyleBackground = True
-    ExplicitTop = 128
     DesignSize = (
       329
       39)
@@ -105,7 +99,7 @@ object CreateSymlinkDlg: TCreateSymlinkDlg
       Height = 27
       Caption = 'Cancel'
       Anchors = [akTop, akRight]
-      TabOrder = 0
+      TabOrder = 1
       ModalResult = 2
     end
     object but_create: TSpTBXButton
@@ -115,8 +109,9 @@ object CreateSymlinkDlg: TCreateSymlinkDlg
       Height = 27
       Caption = 'Create'
       Anchors = [akTop, akRight]
-      TabOrder = 1
+      TabOrder = 0
       OnClick = but_createClick
+      Default = True
     end
   end
 end

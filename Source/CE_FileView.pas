@@ -607,6 +607,18 @@ begin
     end;
   end;
 
+  // Select first item
+  if AutoSelectFirstItem and (Selection.Count = 0) then
+  begin
+    item:= TExplorerItem(Self.Groups.FirstItemInRect(Self.ClientInViewportCoords));
+    if assigned(item) then
+    begin
+      item.MakeVisible(emvTop);
+      item.Focused:= true;
+      item.Selected:= true;
+    end;
+  end;
+  
   inherited;
 end;
 
@@ -731,8 +743,6 @@ end;
 procedure TCEFileView.DoRootRebuild;
 begin
   inherited;
-  if AutoSelectFirstItem then
-  Selection.SelectFirst;
 end;
 
 {-------------------------------------------------------------------------------

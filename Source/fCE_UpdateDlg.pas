@@ -22,6 +22,7 @@ type
     timer_close_dlg: TTimer;
     procedure but_updateClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure timer_close_dlgTimer(Sender: TObject);
   private
     fDestinationDir: WideString;
@@ -86,6 +87,15 @@ begin
     MessageBox(0, 'There was an error during update! Try to re-download the update.', 'Error', MB_ICONERROR or MB_OK);
   end;
   timer_close_dlg.Enabled:= true;
+end;
+
+{-------------------------------------------------------------------------------
+  On Form KeyPress
+-------------------------------------------------------------------------------}
+procedure TCEUpdateDlg.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = #27) then
+  but_cancel.Click;
 end;
 
 {-------------------------------------------------------------------------------

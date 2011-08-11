@@ -32,7 +32,7 @@ uses
 
 
 type
-  TCEItemSelectSaveDlg = class(TForm)
+  TCEItemSelectSaveDlg = class(TTntForm)
     panel_background: TSpTBXPanel;
     label_combotitle: TSpTBXLabel;
     combo: TSpTBXComboBox;
@@ -40,6 +40,7 @@ type
     but_cancel: TSpTBXButton;
     procedure but_okClick(Sender: TObject);
     procedure comboChange(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     fAllowEmptyText: Boolean;
     fExistsWarningContent: WideString;
@@ -118,7 +119,16 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Set Allo Empty Text
+  On Form KeyPress
+-------------------------------------------------------------------------------}
+procedure TCEItemSelectSaveDlg.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = #27) then
+  but_cancel.Click;
+end;
+
+{-------------------------------------------------------------------------------
+  Set Allow Empty Text
 -------------------------------------------------------------------------------}
 procedure TCEItemSelectSaveDlg.SetAllowEmptyText(const Value: Boolean);
 begin

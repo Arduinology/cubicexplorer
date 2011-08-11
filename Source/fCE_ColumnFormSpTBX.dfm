@@ -41,7 +41,7 @@ object CEFormColumnSettings: TCEFormColumnSettings
       Height = 21
       Caption = 'Live Update'
       Anchors = [akLeft, akBottom]
-      TabOrder = 0
+      TabOrder = 2
       OnClick = CheckBoxLiveUpdateClick
     end
     object ButtonOk: TSpTBXButton
@@ -51,7 +51,8 @@ object CEFormColumnSettings: TCEFormColumnSettings
       Height = 25
       Caption = 'OK'
       Anchors = [akRight, akBottom]
-      TabOrder = 1
+      TabOrder = 0
+      Default = True
       ModalResult = 1
     end
     object ButtonCancel: TSpTBXButton
@@ -61,7 +62,7 @@ object CEFormColumnSettings: TCEFormColumnSettings
       Height = 25
       Caption = 'Cancel'
       Anchors = [akRight, akBottom]
-      TabOrder = 2
+      TabOrder = 1
       ModalResult = 2
     end
   end
@@ -76,26 +77,32 @@ object CEFormColumnSettings: TCEFormColumnSettings
     HiddenItems = <>
     object SpTBXTabItem1: TSpTBXTabItem
       Checked = True
+      Visible = False
     end
     object SpTBXTabSheet1: TSpTBXTabSheet
       Left = 0
-      Top = 10
+      Top = 26
       Width = 297
-      Height = 294
+      Height = 278
       ImageIndex = -1
+      TabVisible = False
+      ExplicitTop = 10
+      ExplicitHeight = 294
       DesignSize = (
         297
-        294)
+        278)
       TabItem = 'SpTBXTabItem1'
       object EditPixelWidth: TSpTBXEdit
         Left = 8
-        Top = 261
+        Top = 245
         Width = 35
         Height = 21
         Anchors = [akLeft, akBottom]
+        AutoSize = False
         TabOrder = 0
         OnExit = EditPixelWidthExit
         OnKeyPress = EditPixelWidthKeyPress
+        ExplicitTop = 261
       end
       object Label1: TSpTBXLabel
         Left = 2
@@ -116,19 +123,20 @@ object CEFormColumnSettings: TCEFormColumnSettings
       end
       object Label2: TSpTBXLabel
         Left = 49
-        Top = 261
+        Top = 245
         Width = 240
         Height = 19
         Caption = 'Width of the selected column'
         Anchors = [akLeft, akRight, akBottom]
         AutoSize = False
         OnClick = FormCreate
+        ExplicitTop = 261
       end
       object VSTColumnNames: TVirtualStringTree
         Left = 8
         Top = 27
         Width = 281
-        Height = 224
+        Height = 208
         Anchors = [akLeft, akTop, akRight, akBottom]
         CheckImageKind = ckXP
         Header.AutoSizeIndex = 0
@@ -153,6 +161,7 @@ object CEFormColumnSettings: TCEFormColumnSettings
         OnFreeNode = VSTColumnNamesFreeNode
         OnGetText = VSTColumnNamesGetText
         OnInitNode = VSTColumnNamesInitNode
+        ExplicitHeight = 224
         Columns = <>
       end
     end

@@ -13,11 +13,13 @@ object CEVersionMgrForm: TCEVersionMgrForm
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsStayOnTop
+  KeyPreview = True
   OldCreateOrder = False
   Position = poMainFormCenter
   OnClose = TntFormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnKeyPress = TntFormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
   object TabControl: TSpTBXTabControl
@@ -120,7 +122,7 @@ object CEVersionMgrForm: TCEVersionMgrForm
         Anchors = [akLeft, akTop, akRight, akBottom]
         ReadOnly = True
         ScrollBars = ssBoth
-        TabOrder = 4
+        TabOrder = 1
         WordWrap = False
       end
       object label_datetime: TSpTBXLabel
@@ -136,7 +138,7 @@ object CEVersionMgrForm: TCEVersionMgrForm
         Height = 30
         Caption = 'Check for updates'
         Anchors = [akLeft, akBottom]
-        TabOrder = 5
+        TabOrder = 4
         OnClick = but_checkClick
       end
       object label_lastcheck: TSpTBXLabel
@@ -155,7 +157,7 @@ object CEVersionMgrForm: TCEVersionMgrForm
         Caption = 'Use this version'
         Anchors = [akRight, akBottom]
         Enabled = False
-        TabOrder = 7
+        TabOrder = 3
         OnClick = but_useClick
       end
       object but_download: TSpTBXButton
@@ -166,7 +168,7 @@ object CEVersionMgrForm: TCEVersionMgrForm
         Caption = 'Download'
         Anchors = [akLeft, akBottom]
         Enabled = False
-        TabOrder = 8
+        TabOrder = 2
         OnClick = but_downloadClick
       end
     end
@@ -192,6 +194,7 @@ object CEVersionMgrForm: TCEVersionMgrForm
       Anchors = [akTop, akRight]
       TabOrder = 0
       OnClick = but_closeClick
+      Default = True
     end
     object label_current_version: TSpTBXLabel
       Left = 8

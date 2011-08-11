@@ -67,6 +67,7 @@ type
     procedure ItemListPaintText(Sender: TBaseVirtualTree; const TargetCanvas:
         TCanvas; Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType);
     procedure TntFormClose(Sender: TObject; var Action: TCloseAction);
+    procedure TntFormKeyPress(Sender: TObject; var Key: Char);
   private
     fSelectedItem: PVirtualNode;
     procedure SetSelectedItem(const Value: PVirtualNode);
@@ -564,6 +565,15 @@ procedure TCEVersionMgrForm.TntFormClose(Sender: TObject; var Action:
 begin
   Action:= caFree;
   CEVersionMgrForm:= nil;
+end;
+
+{-------------------------------------------------------------------------------
+  On Form KeyPress
+-------------------------------------------------------------------------------}
+procedure TCEVersionMgrForm.TntFormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = #27) then
+  but_close.Click;
 end;
 
 end.

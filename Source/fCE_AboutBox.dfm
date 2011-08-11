@@ -1004,7 +1004,6 @@ object CEAboutBox: TCEAboutBox
     Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoNoCaret, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
     ReadOnly = True
     RightEdgeColor = clWindow
-    ExplicitHeight = 219
   end
   object Panel1: TPanel
     Left = 0
@@ -1026,6 +1025,7 @@ object CEAboutBox: TCEAboutBox
       Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Close'
+      Default = True
       TabOrder = 0
       OnClick = but_closeClick
     end

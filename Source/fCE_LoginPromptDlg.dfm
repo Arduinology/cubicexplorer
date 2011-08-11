@@ -11,9 +11,11 @@ object CELoginPromptDlg: TCELoginPromptDlg
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsStayOnTop
+  KeyPreview = True
   OldCreateOrder = False
   Position = poMainFormCenter
   OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
   DesignSize = (
     321
     140)
@@ -73,6 +75,7 @@ object CELoginPromptDlg: TCELoginPromptDlg
     Height = 25
     Anchors = [akRight, akBottom]
     Caption = 'OK'
+    Default = True
     ModalResult = 1
     TabOrder = 3
   end

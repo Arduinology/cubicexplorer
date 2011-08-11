@@ -44,7 +44,7 @@ type
     check_autosave: TSpTBXCheckBox;
     but_delete: TSpTBXButton;
     SpTBXPanel2: TSpTBXPanel;
-    SpTBXButton1: TSpTBXButton;
+    but_close: TSpTBXButton;
     SpTBXTabControl1: TSpTBXTabControl;
     SpTBXTabItem1: TSpTBXTabItem;
     SpTBXTabSheet1: TSpTBXTabSheet;
@@ -60,6 +60,7 @@ type
         TDragState; var Accept: Boolean);
     procedure list_sessionsMouseDown(Sender: TObject; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer);
+    procedure TntFormKeyPress(Sender: TObject; var Key: Char);
   private
     flist_mousedown: TPoint;
     fSessionPropertiesEnabled: Boolean;
@@ -250,6 +251,15 @@ begin
   TListBox(Source).Items.Move(StartPosition, DropPosition);
   GlobalSessions.Sessions.MoveSession(StartPosition, DropPosition);
   TListBox(Source).ItemIndex:= DropPosition;
+end;
+
+{-------------------------------------------------------------------------------
+  On Form KeyPress
+-------------------------------------------------------------------------------}
+procedure TCESessionManager.TntFormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = #27) then
+  but_close.Click;
 end;
 
 

@@ -69,6 +69,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormPopupMenuClosePopup(Sender: TObject; Selected: Boolean);
     procedure FormPopupMenuPopup(Sender: TObject);
+    procedure TntFormKeyPress(Sender: TObject; var Key: Char);
   private
     tmpBookComp: TCECustomBookComp;
     fBookmarkComp: TCECustomBookComp;
@@ -398,6 +399,15 @@ procedure TBookmarkPropDlg.SetModified(const Value: Boolean);
 begin
   fModified:= Value;
   but_Apply.Enabled:= fModified;
+end;
+
+{-------------------------------------------------------------------------------
+  On TBookmarkPropDlg.KeyPress
+-------------------------------------------------------------------------------}
+procedure TBookmarkPropDlg.TntFormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = #27) then
+  but_cancel.Click;
 end;
 
 end.

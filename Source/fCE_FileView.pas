@@ -184,6 +184,7 @@ type
     fRememberInnerToolbarLayout: Boolean;
     fRememberOuterToolbarLayout: Boolean;
     fShowExtensions: Boolean;
+    fShowGridLines: Boolean;
     fShowHeaderAlways: Boolean;
     fShowInfoBar: Boolean;
     fSingleClickBrowse: Boolean;
@@ -206,6 +207,7 @@ type
     procedure SetFontSize(const Value: Integer);
     procedure SetShowInfoTips(const Value: Boolean);
     procedure SetShowExtensions(const Value: Boolean);
+    procedure SetShowGridLines(const Value: Boolean);
     procedure SetShowHeaderAlways(const Value: Boolean);
     procedure SetShowInfoBar(const Value: Boolean);
     procedure SetSingleClickBrowse(const Value: Boolean);
@@ -264,6 +266,7 @@ type
     property RememberOuterToolbarLayout: Boolean read fRememberOuterToolbarLayout
         write fRememberOuterToolbarLayout;
     property ShowExtensions: Boolean read fShowExtensions write SetShowExtensions;
+    property ShowGridLines: Boolean read fShowGridLines write SetShowGridLines;
     property ShowHeaderAlways: Boolean read fShowHeaderAlways write
         SetShowHeaderAlways;
     property ShowInfoBar: Boolean read fShowInfoBar write SetShowInfoBar;
@@ -1137,6 +1140,7 @@ begin
     FileViewPage.FileView.SingleClickBrowse:= fSingleClickBrowse;
     FileViewPage.FileView.SingleClickExecute:= fSingleClickExecute;
     FileViewPage.FileView.CheckBoxSelection:= fCheckBoxSelection;
+    FileViewPage.FileView.PaintInfoItem.GridLines:= fShowGridLines;
     // Options
     options:= FileViewPage.FileView.Options;
     if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
@@ -1545,9 +1549,21 @@ begin
   SendChanges;
 end;
 
+{-------------------------------------------------------------------------------
+  Set FontSize
+-------------------------------------------------------------------------------}
 procedure TCEFileViewSettings.SetFontSize(const Value: Integer);
 begin
-  fFontSize := Value;
+  fFontSize:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Set ShowGridLines
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetShowGridLines(const Value: Boolean);
+begin
+  fShowGridLines:= Value;
+  SendChanges;
 end;
 
 {-------------------------------------------------------------------------------

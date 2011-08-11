@@ -12,9 +12,11 @@ object CENewTranslationDlg: TCENewTranslationDlg
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsStayOnTop
+  KeyPreview = True
   OldCreateOrder = False
   Position = poMainFormCenter
   OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
   DesignSize = (
     358
     168)
@@ -49,7 +51,7 @@ object CENewTranslationDlg: TCENewTranslationDlg
     Width = 242
     Height = 21
     Anchors = [akLeft, akTop, akRight]
-    TabOrder = 0
+    TabOrder = 1
   end
   object but_browser: TTntButton
     Left = 268
@@ -58,7 +60,7 @@ object CENewTranslationDlg: TCENewTranslationDlg
     Height = 21
     Anchors = [akTop, akRight]
     Caption = 'Browse...'
-    TabOrder = 1
+    TabOrder = 2
     OnClick = but_browserClick
   end
   object but_create: TTntButton
@@ -68,8 +70,9 @@ object CENewTranslationDlg: TCENewTranslationDlg
     Height = 25
     Anchors = [akRight, akBottom]
     Caption = 'Create'
+    Default = True
     ModalResult = 1
-    TabOrder = 2
+    TabOrder = 3
   end
   object but_cancel: TTntButton
     Left = 275
@@ -79,7 +82,7 @@ object CENewTranslationDlg: TCENewTranslationDlg
     Anchors = [akRight, akBottom]
     Caption = 'Cancel'
     ModalResult = 2
-    TabOrder = 3
+    TabOrder = 4
   end
   object LanguageList: TComboBox
     Left = 20
@@ -87,8 +90,8 @@ object CENewTranslationDlg: TCENewTranslationDlg
     Width = 145
     Height = 21
     Style = csDropDownList
-    ItemHeight = 0
-    TabOrder = 4
+    ItemHeight = 13
+    TabOrder = 0
     OnChange = LanguageListChange
   end
 end

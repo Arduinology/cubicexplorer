@@ -11,9 +11,11 @@ object CEUpdateDlg: TCEUpdateDlg
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsStayOnTop
+  KeyPreview = True
   OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
   DesignSize = (
     354
     302)
@@ -33,7 +35,7 @@ object CEUpdateDlg: TCEUpdateDlg
     Height = 209
     Anchors = [akLeft, akTop, akRight, akBottom]
     BevelOuter = bvLowered
-    TabOrder = 0
+    TabOrder = 2
   end
   object but_cancel: TTntButton
     Left = 251
@@ -52,8 +54,9 @@ object CEUpdateDlg: TCEUpdateDlg
     Height = 29
     Anchors = [akRight, akBottom]
     Caption = 'Update'
+    Default = True
     Enabled = False
-    TabOrder = 2
+    TabOrder = 0
     OnClick = but_updateClick
   end
   object progressbar: TProgressBar

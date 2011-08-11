@@ -33,6 +33,7 @@ uses
   VirtualTrees,
   // TNT
   TntSysUtils, TntComCtrls, TntClasses, TntActnList, TntStdCtrls, TntButtons,
+  TntForms,
   // SpTBX, TBX, TB2000
   SpTBXTabs, SpTBXControls, SpTBXDkPanels,
   SpTBXItem, TB2Item, TB2ExtItems, SpTBXEditors, TB2Dock, TB2Toolbar,
@@ -165,9 +166,10 @@ type
     property OnTranslateUI: TNotifyEvent read fOnTranslateUI write fOnTranslateUI;
   end;
 
-  TCEPoEditorForm = class(TForm)
+  TCEPoEditorForm = class(TTntForm)
   protected
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure HandleKeyPress(Sender: TObject; var Key: Char);
   public
     PoEditor: TCEPoEditor;
     constructor CreateNew(AOwner: TComponent; Dummy: Integer); override;
@@ -841,6 +843,8 @@ begin
   inherited;
   Self.OnClose:= FormClose;
   Self.OnCloseQuery:= FormCloseQuery;
+  Self.OnKeyPress:= HandleKeyPress;
+  Self.KeyPreview:= true;
   Self.Caption:= _('Language Editor');
   Self.Position:= poMainFormCenter;
   Self.Width:= 420;
@@ -874,6 +878,15 @@ begin
     else if res = idCancel then
     CanClose:= false;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  On Form KeyPress
+-------------------------------------------------------------------------------}
+procedure TCEPoEditorForm.HandleKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = #27) then
+  Self.Close;
 end;
 
 end.

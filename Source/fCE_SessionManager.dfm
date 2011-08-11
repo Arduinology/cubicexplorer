@@ -11,9 +11,11 @@ object CESessionManager: TCESessionManager
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   Position = poMainFormCenter
   OnCreate = FormCreate
+  OnKeyPress = TntFormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXPanel2: TSpTBXPanel
@@ -29,7 +31,7 @@ object CESessionManager: TCESessionManager
     DesignSize = (
       403
       43)
-    object SpTBXButton1: TSpTBXButton
+    object but_close: TSpTBXButton
       Left = 302
       Top = 6
       Width = 91
@@ -37,6 +39,7 @@ object CESessionManager: TCESessionManager
       Caption = 'Close'
       Anchors = [akTop, akRight]
       TabOrder = 0
+      Default = True
       ModalResult = 1
     end
     object SpTBXLabel2: TSpTBXLabel
@@ -84,7 +87,7 @@ object CESessionManager: TCESessionManager
         Height = 25
         Caption = 'Delete'
         Anchors = [akRight, akBottom]
-        TabOrder = 0
+        TabOrder = 4
         OnClick = but_deleteClick
       end
       object check_autosave: TSpTBXCheckBox
@@ -95,7 +98,7 @@ object CESessionManager: TCESessionManager
         Caption = 'Save settings automatically.'
         Anchors = [akTop, akRight]
         AutoSize = False
-        TabOrder = 1
+        TabOrder = 3
         Wrapping = twWrap
         OnClick = check_autosaveClick
       end
@@ -105,7 +108,7 @@ object CESessionManager: TCESessionManager
         Width = 185
         Height = 21
         Anchors = [akTop, akRight]
-        TabOrder = 2
+        TabOrder = 1
         OnClick = edit_nameChange
       end
       object group_loadsave: TSpTBXGroupBox
@@ -116,7 +119,7 @@ object CESessionManager: TCESessionManager
         Caption = 'Save/Load Settings'
         Anchors = [akTop, akRight]
         Enabled = False
-        TabOrder = 3
+        TabOrder = 2
         DesignSize = (
           185
           95)
@@ -175,7 +178,7 @@ object CESessionManager: TCESessionManager
         Anchors = [akLeft, akTop, akRight, akBottom]
         DragMode = dmAutomatic
         ItemHeight = 16
-        TabOrder = 5
+        TabOrder = 0
         OnClick = list_sessionsClick
         OnDragDrop = list_sessionsDragDrop
         OnDragOver = list_sessionsDragOver

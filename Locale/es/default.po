@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.5\n"
+"Project-Id-Version: 0.95.0.1415\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1414\n"
+"CE-POT-Version: 1415\n"
 "CE-Language: Spanish\n"
-"Last-Translator: Tito2000x <tito2000x@gmail.com>\n"
+"Last-Translator: Javier Gutiérrez <guti.bitacoras.com@gmail.com>\n"
 
 msgid "%d file(s) failed to download!"
 msgstr "¡%d archivo(s) fallidos al descargar!"
@@ -17,8 +17,11 @@ msgstr "%d carpeta(s) buscadas y %d archivo(s) encontrados en %.3f segundo(s)"
 msgid "%d folder(s) searched and %d item(s) found in %.3f second(s)"
 msgstr "%d carpeta(s) encontradas y %d archivos(s) encontrados en %.3f segundo(s) "
 
+msgid "%d of %d"
+msgstr "%d de %d"
+
 msgid "..."
-msgstr ""
+msgstr "..."
 
 msgid "A long time ago"
 msgstr "Un largo tiempo atrás"
@@ -39,7 +42,7 @@ msgid "Actions"
 msgstr "Acciones"
 
 msgid "Actual"
-msgstr ""
+msgstr "Actual"
 
 msgid "Add"
 msgstr "Agregar"
@@ -111,7 +114,7 @@ msgid "Apply changes."
 msgstr "Aplicar cambios."
 
 msgid "Archiver"
-msgstr ""
+msgstr "Compresor"
 
 msgid "Are you sure you want to clear session history?"
 msgstr "¿estas seguro que quieres Limpiar el Historial de Sesiones?"
@@ -129,10 +132,10 @@ msgid "Arrange By"
 msgstr "Organizar Iconos"
 
 msgid "At Least:"
-msgstr ""
+msgstr "Como Mínimo:"
 
 msgid "At Most:"
-msgstr ""
+msgstr "Como Máximo:"
 
 msgid "Attributes"
 msgstr "Atributos"
@@ -153,7 +156,7 @@ msgid "Auto expand tree"
 msgstr "Auto Expander árbol"
 
 msgid "Auto fit tabs"
-msgstr ""
+msgstr "Auto encajar en pestañas"
 
 msgid "Auto size cells in list view style."
 msgstr "Auto dimensionar celdas en estilo de vista"
@@ -171,10 +174,10 @@ msgid "Backward"
 msgstr "Atrás"
 
 msgid "Before Date:"
-msgstr ""
+msgstr "Anterior a Fecha:"
 
 msgid "Before Time:"
-msgstr ""
+msgstr "Anterior a Hora:"
 
 msgid "Bookmarks"
 msgstr "Marcadores"
@@ -213,19 +216,19 @@ msgid "Case sensitivity"
 msgstr "Sensitivo a mayúsculas y minúsculas"
 
 msgid "Change order by dragging"
-msgstr ""
+msgstr "Cambiar orden mientras se arrastra"
 
 msgid "Check For Updates"
-msgstr "Revisar actualizaciones"
+msgstr "Comprobar Actualizaciones"
 
 msgid "Check for updates"
 msgstr "Revisar actualizaciones"
 
 msgid "Check for updates on startup"
-msgstr "Revisar actualizaciones al iniciar"
+msgstr "Comprobaractualizaciones al inicio"
 
 msgid "Checkbox Selection"
-msgstr ""
+msgstr "Selección por Casillas de verificación"
 
 msgid "Clear Filters"
 msgstr "Quitar filtros"
@@ -240,7 +243,7 @@ msgid "Clear Results"
 msgstr "Limpiar resultados"
 
 msgid "Clear Stack"
-msgstr ""
+msgstr "Vaciar Pila"
 
 msgid "Clear filter history"
 msgstr "Limpiar filtro del historial"
@@ -249,7 +252,7 @@ msgid "Clear filters on folder change"
 msgstr "Borrar filtros al cambiar carpeta"
 
 msgid "Clear session history?"
-msgstr ""
+msgstr "¿Vaciar historial de sesión?"
 
 msgid "Close"
 msgstr "Cerrar"
@@ -273,7 +276,7 @@ msgid "Close to tray"
 msgstr "Cerrar a la bandeja"
 
 msgid "Column Settings"
-msgstr ""
+msgstr "Ajustes de Columna"
 
 msgid "Compressed"
 msgstr "Comprimido"
@@ -312,7 +315,7 @@ msgid "Create New Translation"
 msgstr "Crear Nueva Traducción"
 
 msgid "Create Symbolic Link"
-msgstr ""
+msgstr "Crear Enlace Simbólico"
 
 msgid "Create new translation."
 msgstr "Crear nueva traducción."
@@ -324,7 +327,7 @@ msgid "CubicExplore Home Page"
 msgstr "Página principal de CubicExplorer "
 
 msgid "CubicExplorer Home Page"
-msgstr "Página web de CubicExplorer"
+msgstr "Página Web de CubicExplorer"
 
 msgid "CubicExplorer Options"
 msgstr "Opciones de CubicExplorer"
@@ -345,7 +348,7 @@ msgid "Cut"
 msgstr "Cortar"
 
 msgid "Daily"
-msgstr "Diario"
+msgstr "Diariamente"
 
 msgid "Date"
 msgstr "Fecha"
@@ -366,7 +369,7 @@ msgid "Default"
 msgstr "Predeterminado"
 
 msgid "Default hotkeys become available after restart!"
-msgstr ""
+msgstr "¡Las teclas de acceso rápido por defecto estarán disponibles tras reiniciar!"
 
 msgid "Delete"
 msgstr "Eliminar"
@@ -375,7 +378,7 @@ msgid "Delete active session."
 msgstr "Eliminar sesión activa"
 
 msgid "Deleting multiple bookmarks!"
-msgstr ""
+msgstr "¡Borrando varios favoritos!"
 
 msgid "Desktop"
 msgstr "Escritorio"
@@ -387,7 +390,7 @@ msgid "Direction"
 msgstr "Dirección"
 
 msgid "Disconnect Network Drive..."
-msgstr "Desconectar unidad de red..."
+msgstr "Desconectar Unidad De Red..."
 
 msgid "Disk Usage"
 msgstr "Disco en uso"
@@ -396,7 +399,7 @@ msgid "Display"
 msgstr "Pantalla"
 
 msgid "Display Mode"
-msgstr ""
+msgstr "Modo de Visualización"
 
 msgid "Display Settings"
 msgstr "Mostrar ajustes"
@@ -408,16 +411,16 @@ msgid "Do you want to override existing session?"
 msgstr "¿Quiere sobreescribir la actual sesión?"
 
 msgid "Do you want to override existing stack?"
-msgstr ""
+msgstr "¿Quiéres sobreescribir una pila existente?"
 
 msgid "Do you want to reset all hotkeys for this action?"
-msgstr ""
+msgstr "¿Quiéres reiniciar todas las teclas de acceso rápido para esta acción?"
 
 msgid "Do you want to update?"
-msgstr ""
+msgstr "¿Quiéres actualizar?"
 
 msgid "Do you want to use it anyway?"
-msgstr ""
+msgstr "¿Quiéres usarlo de todos modos?"
 
 msgid "Donate"
 msgstr "Donar"
@@ -432,10 +435,10 @@ msgid "Download failed!"
 msgstr "¡Descarga fallida!"
 
 msgid "Drag Handle"
-msgstr ""
+msgstr "Gestor de Arrastre"
 
 msgid "Drag and Drop to reorder the columns. "
-msgstr ""
+msgstr "Arrastrar y Soltar reordenan las columnas"
 
 msgid "Drag buttons to/from toolbars"
 msgstr "Arrastrar botones a/desde la barra de herramientas"
@@ -456,7 +459,7 @@ msgid "Duplicate"
 msgstr "Duplicar"
 
 msgid "Duplicate Hotkey"
-msgstr ""
+msgstr "Tecla de acceso rápido duplicada"
 
 msgid "Duplicate Tab"
 msgstr "Duplicar Pestaña"
@@ -465,10 +468,10 @@ msgid "Duplicate name"
 msgstr "Nombre duplicado"
 
 msgid "Dynamic Spacer"
-msgstr ""
+msgstr "Espaciador dinámico"
 
 msgid "Earlier this year"
-msgstr ""
+msgstr "Anterior a este año"
 
 msgid "Edit"
 msgstr "Editar"
@@ -486,7 +489,7 @@ msgid "Empty Recycle Bin"
 msgstr "Vaciar Papelera de Reciclaje"
 
 msgid "Empty Stack"
-msgstr ""
+msgstr "Pila Vacía"
 
 msgid "Empty folder"
 msgstr "Carpeta vacía"
@@ -501,10 +504,10 @@ msgid "English (default)"
 msgstr "Inglés (por defecto)"
 
 msgid "Enter each file mask on a separate line."
-msgstr ""
+msgstr "Introduce cada máscara de archivo en una linea separada."
 
 msgid "Exclude File Masks:"
-msgstr ""
+msgstr "Excluir Máscaras de Archivo:"
 
 msgid "Exit"
 msgstr "Salir"
@@ -513,25 +516,25 @@ msgid "Exit program when last tab is closed"
 msgstr "Salir del programa cuando la última pestaña sea cerrada"
 
 msgid "Explorer"
-msgstr ""
+msgstr "Explorador"
 
 msgid "File"
 msgstr "Archivo"
 
 msgid "File Contains:"
-msgstr ""
+msgstr "Archivo Contiene"
 
 msgid "File Name Mask"
-msgstr ""
+msgstr "Máscara de Nombre de Archivo"
 
 msgid "File Search"
 msgstr "Buscar Archivo"
 
 msgid "File size format:"
-msgstr ""
+msgstr "Formato de tamaño de archivo"
 
 msgid "Files to update"
-msgstr ""
+msgstr "Ficheros a actualizar"
 
 msgid "Fileview"
 msgstr "Vista de Archivo"
@@ -558,7 +561,7 @@ msgid "Five months ago"
 msgstr "Cinco meses atrás"
 
 msgid "Fixed Spacer"
-msgstr ""
+msgstr "Espaciador Fijo"
 
 msgid "Focus"
 msgstr "Enfoque"
@@ -591,7 +594,7 @@ msgid "Four months ago"
 msgstr "Cuatro meses atrás"
 
 msgid "Full expand on stack load"
-msgstr ""
+msgstr "Expandir pila al cargar"
 
 msgid "Fullscreen"
 msgstr "Pantalla completa"
@@ -606,13 +609,13 @@ msgid "General Settings"
 msgstr "Opciones Generales"
 
 msgid "Gigantic"
-msgstr ""
+msgstr "Gigantesco"
 
 msgid "Global"
 msgstr "Global"
 
 msgid "Global Hotkey Settings"
-msgstr ""
+msgstr "Ajustes de Teclas Globales"
 
 msgid "Group"
 msgstr "Grupo"
@@ -639,37 +642,37 @@ msgid "History"
 msgstr "Historial"
 
 msgid "Hotkey Settings"
-msgstr ""
+msgstr "Ajustes de Teclas"
 
 msgid "Hotkeys"
-msgstr ""
+msgstr "Teclas"
 
 msgid "Icon above text"
-msgstr ""
+msgstr "Inonos encima del texto"
 
 msgid "Icon only"
-msgstr ""
+msgstr "Iconos solamente"
 
 msgid "If not, all changes will be lost."
-msgstr ""
+msgstr "Si no, todos los cambios se perderán."
 
 msgid "Image"
 msgstr "Imagen"
 
 msgid "Include File Masks:"
-msgstr ""
+msgstr "Incluir Máscaras de Archivo:"
 
 msgid "Include Subfolders"
 msgstr "Incluir subcarpetas"
 
 msgid "Info Bar"
-msgstr "Barra de información"
+msgstr "Info Bar"
 
 msgid "Insert"
 msgstr "Insertar"
 
 msgid "Invalid update!"
-msgstr "¡Actualización inválida!"
+msgstr "Actialización inválida!"
 
 msgid "Invert Selection"
 msgstr "Invertir Selección"
@@ -687,7 +690,7 @@ msgid "Language Editor"
 msgstr "Editor de Idioma"
 
 msgid "Large"
-msgstr ""
+msgstr "Grande"
 
 msgid "Large Icons"
 msgstr "Iconos"
@@ -720,7 +723,7 @@ msgid "List"
 msgstr "Lista"
 
 msgid "Live Update"
-msgstr "Actualizar"
+msgstr "Actualización Automática"
 
 msgid "Load Skin..."
 msgstr "Cargar piel..."
@@ -780,7 +783,7 @@ msgid "Modified"
 msgstr "Modificado"
 
 msgid "Modify Hotkey"
-msgstr ""
+msgstr "Modificar Tecla"
 
 msgid "More..."
 msgstr "Más..."
@@ -813,13 +816,13 @@ msgid "New Shortcut"
 msgstr "Nuevo acceso directo"
 
 msgid "New Version Available"
-msgstr "Nueva versión disponible"
+msgstr "Nueva Versión Disponible"
 
 msgid "New Window"
 msgstr "Nueva ventana"
 
 msgid "New version (%s) is available. Do you want to update now?"
-msgstr "Nueva versión (%s) está disponible, ¿desea descargarla ahora?"
+msgstr "Disponible nueva versión (%s). ¿Quieres actualizar ahora?"
 
 msgid "No Extension"
 msgstr "Sin extensión"
@@ -837,7 +840,7 @@ msgid "None"
 msgstr "Ninguna"
 
 msgid "Notify only about following update types"
-msgstr "Notificar solo acerca de los siguientes tipos de actualizaciones"
+msgstr "Notificar solamente sobre actualizaciones de estos tipos"
 
 msgid "OK"
 msgstr "OK"
@@ -909,7 +912,7 @@ msgid "Override existing session?"
 msgstr "¿Sobreescribir sesión existente?"
 
 msgid "Override existing stack?"
-msgstr "¿Sobreescribir pila existente?"
+msgstr "¿Sobreescribir la pila existente?"
 
 msgid "Panels"
 msgstr "Paneles"
@@ -927,16 +930,16 @@ msgid "Path"
 msgstr "Ruta"
 
 msgid "PatternToolbar"
-msgstr ""
+msgstr "PatternToolbar"
 
 msgid "Pause"
 msgstr "Pausa"
 
 msgid "Please choose different hotkey."
-msgstr ""
+msgstr "Por favor escoje una tecla diferente."
 
 msgid "PngImage41"
-msgstr ""
+msgstr "PngImage41"
 
 msgid "Port"
 msgstr "Puerto"
@@ -948,16 +951,16 @@ msgid "Properties..."
 msgstr "Propiedades..."
 
 msgid "Proxy Login"
-msgstr "Conectar a proxy"
+msgstr "Login del Proxy"
 
 msgid "Proxy Settings"
-msgstr "Configuración del proxy"
+msgstr "Opciones del Proxy"
 
 msgid "Publish Translation"
 msgstr "Publicar traducción"
 
 msgid "Published:"
-msgstr ""
+msgstr "Publicado:"
 
 msgid "QuickView"
 msgstr "Vista rápida"
@@ -993,10 +996,10 @@ msgid "Remember Tabs"
 msgstr "Recordar pestañas"
 
 msgid "Remove from Stack"
-msgstr "Borrar de la pila"
+msgstr "Eliminar de la Pila"
 
 msgid "Removing all items from Stack!"
-msgstr "¡Borrando todos los elementos de la pila!"
+msgstr "¡Eliminando todos los elementos de la Pila! "
 
 msgid "Rename"
 msgstr "Renombrar"
@@ -1008,7 +1011,7 @@ msgid "Replace All"
 msgstr "Reemplazar todo"
 
 msgid "Reset hotkeys?"
-msgstr ""
+msgstr "¿Reiniciar teclas?"
 
 msgid "Reset to default"
 msgstr "Reiniciar a predeterminado"
@@ -1035,7 +1038,7 @@ msgid "Save Session"
 msgstr "Guardar sesión"
 
 msgid "Save Stack"
-msgstr "Guardar pila"
+msgstr "Guardar Pila"
 
 msgid "Save active session with new name."
 msgstr "Guardar la sesión activa con un nuevo nombre"
@@ -1167,7 +1170,7 @@ msgid "Show Hints"
 msgstr "Mostrar Sugerencias"
 
 msgid "Show InfoTips"
-msgstr "Mostrar tips de información"
+msgstr "Mostrar InfoTips"
 
 msgid "Show Path in Title bar"
 msgstr "Mostrar la Ruta en la Barra de Titulo"
@@ -1194,7 +1197,7 @@ msgid "Single Instance Only"
 msgstr "Solo una instancia"
 
 msgid "Single click browsing"
-msgstr "Navegar con un solo click"
+msgstr "Navegación con un sólo click"
 
 msgid "Single click mode"
 msgstr "Modo de un click"
@@ -1218,10 +1221,10 @@ msgid "Stack"
 msgstr "Pila"
 
 msgid "Stack Name"
-msgstr "Nombre de la pila"
+msgstr "Nombre de la Pila"
 
 msgid "Stack Settings"
-msgstr "Configuración de la pila"
+msgstr "Ajustes de la Pila"
 
 msgid "Start"
 msgstr "Inicio"
@@ -1263,7 +1266,7 @@ msgid "System Folders"
 msgstr "Carpetas del sistema"
 
 msgid "TB"
-msgstr ""
+msgstr "TB"
 
 msgid "Tabs"
 msgstr "Pestañas"
@@ -1272,10 +1275,10 @@ msgid "Tabs Settings"
 msgstr "Opciones de pestañas"
 
 msgid "Target"
-msgstr "Destino"
+msgstr "Objetivo"
 
 msgid "Target Folder"
-msgstr "Carpeta destino"
+msgstr "Carpeta de Destino"
 
 msgid "Test"
 msgstr "Prueba"
@@ -1284,16 +1287,16 @@ msgid "Text"
 msgstr "Texto"
 
 msgid "Text Document"
-msgstr ""
+msgstr "Documento de Texto"
 
 msgid "Text Editor"
 msgstr "Editor de Texto"
 
 msgid "Text Filter"
-msgstr "Filtrar texto"
+msgstr "Filtro de Texto"
 
 msgid "Text only"
-msgstr "Solo texto"
+msgstr "Sólo texto"
 
 msgid "Theme"
 msgstr "Tema"
@@ -1311,7 +1314,7 @@ msgid "Thumbnails"
 msgstr "Vistas en miniatura"
 
 msgid "Thumbnails.album"
-msgstr "Vistas en miniatura.album"
+msgstr "Thumbnails.album"
 
 msgid "Thumbs Position"
 msgstr "Posición de la miniatura"
@@ -1323,7 +1326,7 @@ msgid "Tiles"
 msgstr "Mosaicos"
 
 msgid "Tiny"
-msgstr ""
+msgstr "Diminuto"
 
 msgid "Toolbars"
 msgstr "Barra de herramientas"
@@ -1392,19 +1395,19 @@ msgid "Updates"
 msgstr "Actualizaciones"
 
 msgid "Updates Settings"
-msgstr "Configurar actualizaciones"
+msgstr "Ajustes de Actualizaciones"
 
 msgid "Use strict filtering (wildcards are ? and *)"
-msgstr ""
+msgstr "Usa filtrado estricto (las máscaras son ? y *)"
 
 msgid "Use system settings"
-msgstr "Usar configuración del sistema"
+msgstr "Usar opciones del sistema"
 
 msgid "Use this version"
 msgstr "Usar ésta versión"
 
 msgid "Username"
-msgstr "Nombre de usuario"
+msgstr "Usuario"
 
 msgid "Version"
 msgstr "Versión"
@@ -1425,31 +1428,31 @@ msgid "View Style"
 msgstr "Vistas"
 
 msgid "WARNING: Real file operations below"
-msgstr ""
+msgstr "ATENCIÓN: Operaciones reales sobre archivos debajo"
 
 msgid "Warning"
 msgstr "Advertencia"
 
 msgid "Warning: changes are made immediately!"
-msgstr "¡Aviso: los cambios realizados se efectuarán de inmediato!"
+msgstr "¡Atención: los cambios se aplicarán inmediatamente!"
 
 msgid "Warning: password will be saved in clear text!"
-msgstr ""
+msgstr "¡Atención: la contraseña se guardará en texto plano!"
 
 msgid "Weekly"
-msgstr "En la semana"
+msgstr "Semanalmente"
 
 msgid "When I open folder/file in a new tab, switch to it immediately "
 msgstr "Al abrir la carpeta/archivo en una nueva pestaña, Cambiar inmediatamente a la pestaña"
 
 msgid "Whole Word"
-msgstr ""
+msgstr "Palabra Completa"
 
 msgid "Whole words only"
 msgstr "Solo palabas completas"
 
 msgid "Width of the selected column"
-msgstr ""
+msgstr "Ancho de la columna seleccionada"
 
 msgid "Word List"
 msgstr "Lista de Palabras"
@@ -1464,10 +1467,10 @@ msgid "Zero"
 msgstr "Cero"
 
 msgid "already exists. Please choose another name."
-msgstr ""
+msgstr "ya existe. Por favor escoje otro nombre."
 
 msgid "is already assigned to"
-msgstr ""
+msgstr "ya está asignada a"
 
 msgid "is already in use!"
 msgstr "está actualmente en uso!"
@@ -1479,5 +1482,5 @@ msgid "items"
 msgstr "Elementos"
 
 msgid "testtest"
-msgstr ""
+msgstr "pruebaprueba"
 

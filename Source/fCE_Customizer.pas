@@ -110,6 +110,7 @@ type
     procedure group_displayModeClick(Sender: TObject);
     procedure TabControlActiveTabChange(Sender: TObject; TabIndex: Integer);
     procedure ThemeListClick(Sender: TObject);
+    procedure TntFormKeyPress(Sender: TObject; var Key: Char);
     procedure ToolbarListClick(Sender: TObject);
   private
     fselectedToolbar: TObject;
@@ -731,6 +732,15 @@ begin
     else
     TTBCustomDockableWindowHack(selectedToolbar).DragHandleStyle:= dhNone;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  On Form Key Press
+-------------------------------------------------------------------------------}
+procedure TCEToolbarCustomizer.TntFormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = #27) then
+  but_close.Click;
 end;
 
 end.

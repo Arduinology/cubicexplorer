@@ -27,13 +27,13 @@ uses
   // CE Units
   CE_LanguageCodes, CE_LanguageEngine,
   // Tnt
-  TntFileCtrl, TntStdCtrls, 
+  TntFileCtrl, TntStdCtrls, TntForms,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls;
 
 type
-  TCENewTranslationDlg = class(TForm)
+  TCENewTranslationDlg = class(TTntForm)
     TntLabel1: TTntLabel;
     edit_path: TTntEdit;
     Path: TTntLabel;
@@ -44,6 +44,7 @@ type
     LanguageList: TComboBox;
     procedure FormCreate(Sender: TObject);
     procedure but_browserClick(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure LanguageListChange(Sender: TObject);
   private
     { Private declarations }
@@ -114,6 +115,15 @@ begin
   begin
     edit_path.Text:= ws;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  On Form KeyPress
+-------------------------------------------------------------------------------}
+procedure TCENewTranslationDlg.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = #27) then
+  but_cancel.Click;
 end;
 
 {*------------------------------------------------------------------------------
