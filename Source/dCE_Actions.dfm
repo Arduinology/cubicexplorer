@@ -81,6 +81,13 @@ object CEActions: TCEActions
       ShortCut = 16433
       OnExecute = ActionExecute
     end
+    object act_edit_undo_delete: TCEToolbarAction
+      Tag = 215
+      Category = 'Edit'
+      Caption = 'Undo Delete'
+      OnExecute = ActionExecute
+      CanExecute = False
+    end
     object act_view_bookmark: TTntAction
       Tag = 302
       Category = 'View'

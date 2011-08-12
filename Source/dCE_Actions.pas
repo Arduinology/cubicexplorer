@@ -222,6 +222,7 @@ type
     act_view_archiver: TTntAction;
     act_gen_new_instance: TTntAction;
     act_help_checkupdates: TTntAction;
+    act_edit_undo_delete: TCEToolbarAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -392,6 +393,7 @@ begin
   act_tabs_undo.ItemClass:= TCEClosedTabsListButton;
   act_filters_menu.ItemClass:= TCEFiltersMenuButton;
   act_filters_pattern.ItemClass:= TCEFilterPatternItem;
+  act_edit_undo_delete.ItemClass:= TCEUndoDeleteButton;
 end;
 
 {##############################################################################}
@@ -640,7 +642,7 @@ begin
   if assigned(fileview) then
   begin
     case ActionID of
-      205,206,207,210,211,212: TargetAction.Enabled:= true;
+      205,206,207,210,211,212,215: TargetAction.Enabled:= true;
       214: TargetAction.Enabled:= (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion > 4);
     end;
   end;

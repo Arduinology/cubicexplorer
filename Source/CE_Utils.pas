@@ -107,6 +107,8 @@ function GetSystemProxyServer(Protocol: String = 'http'): String;
 
 function ExtractUrlPort(Address: String; var Port: Integer): String;
 
+  function CleanDateTimeStr(AStr: WideString): String;
+
 var
   MenuKeyCaps: array[TMenuKeyCap] of string = (
     SmkcBkSp, SmkcTab, SmkcEsc, SmkcEnter, SmkcSpace, SmkcPgUp,
@@ -976,6 +978,21 @@ begin
   end
   else
   Result:= Address;
+end;
+
+{-------------------------------------------------------------------------------
+  Clean DateTime String
+-------------------------------------------------------------------------------}
+function CleanDateTimeStr(AStr: WideString): String;
+var
+  i: Integer;
+begin
+  Result:= '';
+  for i:= 1 to Length(AStr) do
+  begin
+    if (Ord(AStr[i]) > 31) and (Ord(AStr[i]) < 127) then
+    Result:= Result + AStr[i];
+  end;
 end;
 
 {##############################################################################}

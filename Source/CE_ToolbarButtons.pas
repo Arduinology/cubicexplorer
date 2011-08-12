@@ -150,11 +150,28 @@ type
     destructor Destroy; override;
   end;
 
+  TCEUndoDeleteButton = class(TCEToolbarSubmenuItem)
+  protected
+    itemNSList: TVirtualNameSpaceList;
+    RecycleBinNS: TNamespace;
+    procedure DoPopup(Sender: TTBCustomItem; FromLink: Boolean); override;
+  public
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+    procedure ClearItems;
+    procedure OnSubClick(Sender: TObject);
+    procedure Populate(AItem: TTBCustomItem);
+  end;
+
+var
+  CE_UndoDeleteItemCount: Integer = 20;
+  CE_UndoDeleteSortColumn: Integer = 2; 
+
 implementation
 
 uses
   CE_FileView, fCE_FileView, CE_BaseFileView, dCE_Actions, dCE_Images, Main,
-  CE_Sessions, fCE_FiltersPanel;
+  CE_Sessions, fCE_FiltersPanel, CE_Utils;
 
 {##############################################################################}
 
@@ -867,6 +884,173 @@ begin
   inherited;
 //  CEFiltersPanel.combo_filterpattern.Text:= '';
 //  CEFiltersPanel.combo_filterpatternChange(Self);
+end;
+
+{##############################################################################}
+// TCEUndoDeleteButton
+
+{*------------------------------------------------------------------------------
+  Create an instance of TCEUndoDeleteButton
+-------------------------------------------------------------------------------}
+constructor TCEUndoDeleteButton.Create(AOwner: TComponent);
+begin
+  inherited;
+  Self.DropdownCombo:= false;
+  Self.Options:= [tboDropdownArrow];
+  RecycleBinNS:= CreateSpecialNamespace(CSIDL_BITBUCKET);
+  Self.Enabled:= assigned(RecycleBinNS);
+  itemNSList:= TVirtualNameSpaceList.Create(true);
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy TCEUndoDeleteButton
+-------------------------------------------------------------------------------}
+destructor TCEUndoDeleteButton.Destroy;
+begin
+  ClearItems;
+  itemNSList.Free;
+
+  if assigned(RecycleBinNS) then
+  RecycleBinNS.Free;
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Clear Items
+-------------------------------------------------------------------------------}
+procedure TCEUndoDeleteButton.ClearItems;
+begin
+  Self.Clear;
+  itemNSList.Clear;
+end;
+
+{*------------------------------------------------------------------------------
+  Do Popup
+-------------------------------------------------------------------------------}
+procedure TCEUndoDeleteButton.DoPopup(Sender: TTBCustomItem; FromLink: Boolean);
+begin
+  if assigned(RecycleBinNS) and not FromLink then
+  Populate(Sender);
+end;
+
+{*------------------------------------------------------------------------------
+  On Submenu item Click
+-------------------------------------------------------------------------------}
+procedure TCEUndoDeleteButton.OnSubClick(Sender: TObject);
+var
+  item: TSpTBXItem;
+  itemNS: TNamespace;
+begin
+  item:= TSpTBXItem(Sender);
+  itemNS:= TNamespace(item.Tag);
+  if itemNSList.IndexOf(itemNS) > -1 then // make sure the item is still in the list.
+  begin
+    itemNS.ExecuteContextMenuVerb(MainForm, 'undelete', nil);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Populate items
+-------------------------------------------------------------------------------}
+procedure TCEUndoDeleteButton.Populate(AItem: TTBCustomItem);
+
+  function FindSortIndex(ADate: TDateTime): Integer;
+  begin
+    for Result:= 0 to itemNSList.Count - 1 do
+    begin
+      if ADate >= PDateTime(itemNSList.Items[Result].Tag)^ then
+      Exit;
+    end;
+    Result:= -1;
+  end;
+
+var
+  itemNS: TNamespace;
+  enum: IEnumIDList;
+  pidl: PItemIDList;
+  flags, fetched: Cardinal;
+  ws: WideString;
+  d: TDateTime;
+  index: Integer;
+  itemDate: PDateTime;
+  item: TSpTBXItem;
+begin
+  if not assigned(RecycleBinNS) or (CE_UndoDeleteItemCount <= 0) then
+  Exit;
+
+  ClearItems;
+  try
+    if assigned(RecycleBinNS.ShellFolder) then
+    begin
+      flags:= SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_INCLUDEHIDDEN;
+      if RecycleBinNS.ShellFolder.EnumObjects(0, flags, enum) = S_OK then
+      begin
+        try
+          ////////////////////////////////////////////////////////////////////
+          // Enumerate child items
+          while enum.Next(1, pidl, fetched) = S_OK do
+          begin
+            // Create item
+            itemNS:= TNamespace.Create(pidl, RecycleBinNS);
+
+            // Allocate memory for sort value
+            New(itemDate);
+            itemNS.Tag:= Integer(itemDate);
+
+            // Get sort value
+            d:= 0;
+            try
+              ws:= itemNS.DetailsOf(CE_UndoDeleteSortColumn);
+              d:= StrToDateTime(CleanDateTimeStr(ws));
+            except
+              d:= 0;
+            end;
+            PDateTime(itemNS.Tag)^:= d;
+
+            // Find sort index
+            if d > 0 then
+            index:= FindSortIndex(d)
+            else
+            index:= -1;
+
+            // Add item to list
+            if index > -1 then
+            itemNSList.Insert(index, itemNS)
+            else
+            itemNSList.Add(itemNS);
+
+            // Delete too many items
+            while itemNSList.Count > CE_UndoDeleteItemCount do
+            begin
+              Dispose(PDateTime(itemNSList.Items[itemNSList.Count - 1].Tag));
+              itemNSList.Delete(itemNSList.Count - 1);
+            end;
+          end;
+          ////////////////////////////////////////////////////////////////////
+        finally
+          // Free sort values
+          for index:= 0 to itemNSList.Count - 1 do
+          Dispose(PDateTime(itemNSList.Items[index].Tag));
+          // Free enumerator
+          enum:= nil;
+        end;
+      end;
+    end;
+  finally
+    // Populate items
+    for index:= 0 to itemNSList.Count - 1 do
+    begin
+      itemNS:= itemNSList.Items[index];
+      item:= TSpTBXItem.Create(Self);
+      item.Tag:= Integer(itemNS);
+      ws:= itemNS.NameInFolder + ' - (' + itemNS.DetailsOf(CE_UndoDeleteSortColumn) + ')';
+      item.Caption:= ws;
+      item.Images:= SmallSysImages;
+      item.ImageIndex:= itemNS.GetIconIndex(false, icSmall);
+      item.OnClick:= OnSubClick;
+      AItem.Add(item);            
+    end;
+  end;
 end;
 
 

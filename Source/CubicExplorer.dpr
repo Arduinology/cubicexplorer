@@ -184,7 +184,7 @@ begin
   //////////////////////////////////////////////////////
   
   // Enable memory leak reporting if run on Debugger
-  ReportMemoryLeaksOnShutdown := DebugHook <> 0;
+  ReportMemoryLeaksOnShutdown:= DebugHook <> 0;
 
   Application.Initialize;
   Application.Title := 'CubicExplorer';

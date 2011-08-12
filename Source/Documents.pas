@@ -50,6 +50,7 @@ Unit Documents;
 // 212 = New Folder
 // 213 = Paste to shortcut
 // 214 = Create Symbolic Link
+// 215 = Undo Delete
 
 // **** View (300) ****
 // 300 = Statusbar, toggle visibility

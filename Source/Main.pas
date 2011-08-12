@@ -327,6 +327,7 @@ type
     function GetProxyPassword: String;
     function GetProxyUsername: String;
     function GetShowTray: Boolean;
+    function GetUndoDeleteItemCount: Integer;
     function GetUpdateURL: WideString;
     function GetUseProxy: Boolean;
     function GetUseSystemProxy: Boolean;
@@ -344,6 +345,7 @@ type
     procedure SetProxyPassword(const Value: String);
     procedure SetProxyUsername(const Value: String);
     procedure SetShowTray(const Value: Boolean);
+    procedure SetUndoDeleteItemCount(const Value: Integer);
     procedure SetUpdateURL(const Value: WideString);
     procedure SetUseProxy(const Value: Boolean);
     procedure SetUseSystemProxy(const Value: Boolean);
@@ -352,6 +354,8 @@ type
     constructor Create;
     procedure UpdatePositionInfo;
     procedure ApplyPositionInfo(AHideForm: Boolean = false);
+    property UndoDeleteItemCount: Integer read GetUndoDeleteItemCount write
+        SetUndoDeleteItemCount;
   published
     property AlphaBlend: Integer read GetAlphaBlend write SetAlphaBlend;
     property AlwaysOnTop: Boolean read GetAlwaysOnTop write SetAlwaysOnTop;
@@ -1547,15 +1551,36 @@ end;
 -------------------------------------------------------------------------------}
 procedure TMainForm.HandleUpdateFound(Sender: TObject; BuildType: TCEBuildType;
     Version: TCEVersionNumber; Notes: WideString; var DoUpdate: Boolean);
+var
+  ws: WideString;
+  list: TTntStrings;
 begin
-  if TaskDialog(Self.Handle,
-                _('New Version Available'),
-                _('Do you want to update?'),
-                WideFormat(_('New version (%s) is available. Do you want to update now?'), [VersionNumberToStr(Version)]),
-                TD_ICON_QUESTION,
-                TD_BUTTON_YES+TD_BUTTON_NO) = mrYes then
+  list:= TTntStringList.Create;
+  list.Text:= Notes;
+  if list.Count > 10 then
   begin
-    DoUpdate:= true;
+    while list.Count > 10 do
+    list.Delete(list.Count - 1);
+    list.Add('...');
+  end;
+
+  try
+    ws:= WideFormat(_('New version (%s) is available. Do you want to update now?'), [VersionNumberToStr(Version)]);
+    ws:= ws + #13#10 + '____________________' + #13#10;
+    ws:= ws + _('Build:') + ' ' + VersionNumberToStr(Version) + #13#10;
+    ws:= ws + _('Update type:') + ' ' + GetBuildTypeDescription(BuildType) + #13#10#13#10;
+    ws:= ws + list.Text;
+    if TaskDialog(Self.Handle,
+                  _('New Version Available'),
+                  _('Do you want to update?'),
+                  ws,
+                  TD_ICON_QUESTION,
+                  TD_BUTTON_YES+TD_BUTTON_NO) = mrYes then
+    begin
+      DoUpdate:= true;
+    end;
+  finally
+
   end;
 end;
 
@@ -1918,6 +1943,18 @@ end;
 procedure TMainFormSettings.SetProxyPassword(const Value: String);
 begin
   CE_ProxyPassword:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set UndoDeleteItemCount
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetUndoDeleteItemCount: Integer;
+begin
+  Result:= CE_UndoDeleteItemCount;
+end;
+procedure TMainFormSettings.SetUndoDeleteItemCount(const Value: Integer);
+begin
+  CE_UndoDeleteItemCount:= Value;
 end;
 
 {##############################################################################}
