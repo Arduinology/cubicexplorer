@@ -217,6 +217,8 @@ type
     SpTBXItem96: TSpTBXItem;
     AutoUpdateTimer: TTimer;
     SpTBXItem97: TSpTBXItem;
+    SpTBXSeparatorItem30: TSpTBXSeparatorItem;
+    SpTBXItem98: TSpTBXItem;
     procedure AutoUpdateTimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -327,7 +329,6 @@ type
     function GetProxyPassword: String;
     function GetProxyUsername: String;
     function GetShowTray: Boolean;
-    function GetUndoDeleteItemCount: Integer;
     function GetUpdateURL: WideString;
     function GetUseProxy: Boolean;
     function GetUseSystemProxy: Boolean;
@@ -345,7 +346,6 @@ type
     procedure SetProxyPassword(const Value: String);
     procedure SetProxyUsername(const Value: String);
     procedure SetShowTray(const Value: Boolean);
-    procedure SetUndoDeleteItemCount(const Value: Integer);
     procedure SetUpdateURL(const Value: WideString);
     procedure SetUseProxy(const Value: Boolean);
     procedure SetUseSystemProxy(const Value: Boolean);
@@ -354,8 +354,6 @@ type
     constructor Create;
     procedure UpdatePositionInfo;
     procedure ApplyPositionInfo(AHideForm: Boolean = false);
-    property UndoDeleteItemCount: Integer read GetUndoDeleteItemCount write
-        SetUndoDeleteItemCount;
   published
     property AlphaBlend: Integer read GetAlphaBlend write SetAlphaBlend;
     property AlwaysOnTop: Boolean read GetAlwaysOnTop write SetAlwaysOnTop;
@@ -1943,18 +1941,6 @@ end;
 procedure TMainFormSettings.SetProxyPassword(const Value: String);
 begin
   CE_ProxyPassword:= Value;
-end;
-
-{-------------------------------------------------------------------------------
-  Get/Set UndoDeleteItemCount
--------------------------------------------------------------------------------}
-function TMainFormSettings.GetUndoDeleteItemCount: Integer;
-begin
-  Result:= CE_UndoDeleteItemCount;
-end;
-procedure TMainFormSettings.SetUndoDeleteItemCount(const Value: Integer);
-begin
-  CE_UndoDeleteItemCount:= Value;
 end;
 
 {##############################################################################}

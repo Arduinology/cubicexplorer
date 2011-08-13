@@ -344,7 +344,7 @@ uses
   CE_ToolbarButtons, fCE_Customizer, fCE_TabPage, fCE_FiltersPanel,
   fCE_PoEditor, fCE_OptionsDialog, CE_Sessions, fCE_StackPanel,
   CE_BaseFileView, fCE_QuickViewTab, fCE_SearchPage, fCE_CreateSymlink,
-  fCE_VersionMgrForm, fCE_ArchivePanel;
+  fCE_VersionMgrForm, fCE_ArchivePanel, CE_CommonObjects;
 
 {##############################################################################}
 
@@ -578,10 +578,8 @@ begin
       212: begin
              fileview.CreateNewFolder;
            end;
-      214: if assigned(fileview) then
-        begin
-          ShowCreateSymlinkDialog(fileview.RootFolderNamespace.NameForParsing, '');
-        end;           
+      214: ShowCreateSymlinkDialog(fileview.RootFolderNamespace.NameForParsing, '');
+      215: CERecycleBinCtrl.RestoreLastDeleted;
     end;
   end;
 
@@ -642,8 +640,9 @@ begin
   if assigned(fileview) then
   begin
     case ActionID of
-      205,206,207,210,211,212,215: TargetAction.Enabled:= true;
+      205,206,207,210,211,212: TargetAction.Enabled:= true;
       214: TargetAction.Enabled:= (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion > 4);
+      215: TargetAction.Enabled:= not CERecycleBinCtrl.IsRecycleBinEmpty;
     end;
   end;
 end;
@@ -781,9 +780,7 @@ procedure UpdateToolsCategory(ActionID: Integer; TargetAction: TTntAction);
 begin
   TargetAction.Enabled:= true;
   case ActionID of
-    453: begin
-
-         end;
+    453: TargetAction.Enabled:= not CERecycleBinCtrl.IsRecycleBinEmpty;
   end;
 end;
 

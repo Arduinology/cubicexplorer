@@ -86,7 +86,6 @@ object CEActions: TCEActions
       Category = 'Edit'
       Caption = 'Undo Delete'
       OnExecute = ActionExecute
-      CanExecute = False
     end
     object act_view_bookmark: TTntAction
       Tag = 302

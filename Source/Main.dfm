@@ -148,6 +148,11 @@ object MainForm: TMainForm
         object SpTBXItem21: TSpTBXItem
           Action = CEActions.act_edit_rename
         end
+        object SpTBXSeparatorItem30: TSpTBXSeparatorItem
+        end
+        object SpTBXItem98: TSpTBXItem
+          Action = CEActions.act_edit_undo_delete
+        end
         object SpTBXSeparatorItem8: TSpTBXSeparatorItem
         end
         object SpTBXItem77: TSpTBXItem

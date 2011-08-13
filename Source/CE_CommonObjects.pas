@@ -10,7 +10,7 @@
 //  Software distributed under the License is distributed on an "AS IS"
 //  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
 //  License for the specific language governing rights and limitations                        
-//  under the License.                                                                        
+//  under the License.
 //                                                                                            
 //  The Original Code is CE_CommonObjects.pas.                                                            
 //                                                                                            
@@ -42,10 +42,52 @@ type
     function GetSpecialID(APIDL: PItemIDList): Integer;
   end;
 
+  TCERecycleBinCtrl = class(TObject)
+  private
+    fIsEmptyCache: Boolean;
+    fItemNumberLimit: Integer;
+    fLastIsEmptyCheck: Integer;
+    fSortColumn: Integer;
+  protected
+  public
+    fItems: TVirtualNameSpaceList;
+    RecycleBinNS: TNamespace;
+    constructor Create;
+    destructor Destroy; override;
+    procedure Clear;
+    function IsRecycleBinEmpty: Boolean;
+    procedure RefreshList;
+    procedure Restore(NS: TNamespace);
+    procedure RestoreLastDeleted;
+    property ItemNumberLimit: Integer read fItemNumberLimit write fItemNumberLimit;
+    property Items: TVirtualNameSpaceList read fItems;
+    property SortColumn: Integer read fSortColumn write fSortColumn;
+  end;
+
+function CERecycleBinCtrl: TCERecycleBinCtrl;
+
 var
   CE_SpecialNamespaces: TCESpecialNamespaces;
 
 implementation
+
+uses
+  MPShellTypes, Variants, CE_Utils, Forms;
+
+var
+  fCERecycleBinCtrl: TCERecycleBinCtrl = nil;
+
+{-------------------------------------------------------------------------------
+  CERecycleBinCtrl
+-------------------------------------------------------------------------------}
+function CERecycleBinCtrl: TCERecycleBinCtrl;
+begin
+  if not assigned(fCERecycleBinCtrl) then
+  fCERecycleBinCtrl:= TCERecycleBinCtrl.Create;
+  Result:= fCERecycleBinCtrl;
+end;
+
+{##############################################################################}
 
 {*------------------------------------------------------------------------------
    Create an instance of TCESpecialNamespaces
@@ -123,10 +165,229 @@ end;
 
 {##############################################################################}
 
+{-------------------------------------------------------------------------------
+  Create an instance of TCERecycleBinCtrl
+-------------------------------------------------------------------------------}
+constructor TCERecycleBinCtrl.Create;
+begin
+  inherited;
+  fItemNumberLimit:= 20;
+  fSortColumn:= 2;
+  RecycleBinNS:= CreateSpecialNamespace(CSIDL_BITBUCKET);
+  fItems:= TVirtualNameSpaceList.Create(true);
+
+  
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy TCERecycleBinCtrl
+-------------------------------------------------------------------------------}
+destructor TCERecycleBinCtrl.Destroy;
+begin
+  Clear;
+  fItems.Free;
+
+  if assigned(RecycleBinNS) then
+  RecycleBinNS.Free;
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Clear
+-------------------------------------------------------------------------------}
+procedure TCERecycleBinCtrl.Clear;
+begin
+  fItems.Clear;
+end;
+
+{-------------------------------------------------------------------------------
+  Is RecycleBin Empty
+-------------------------------------------------------------------------------}
+function TCERecycleBinCtrl.IsRecycleBinEmpty: Boolean;
+var
+  enum: IEnumIDList;
+  pidl: PItemIDList;
+  fetched, t: Cardinal;
+begin
+  t:= GetTickCount;
+  if (t - fLastIsEmptyCheck) > 500 then // limit checks to happen at minimum of 500ms intervals.
+  begin
+    Result:= true;
+    if assigned(RecycleBinNS) and assigned(RecycleBinNS.ShellFolder) then
+    begin
+      if RecycleBinNS.ShellFolder.EnumObjects(0, SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_INCLUDEHIDDEN, enum) = S_OK then
+      begin
+        try
+          if enum.Next(1, pidl, fetched) = S_OK then
+          begin
+            PIDLMgr.FreePIDL(pidl);
+            Result:= false;
+          end;
+        finally
+          enum:= nil;
+        end;
+      end;
+    end;
+    fLastIsEmptyCheck:= t;
+    fIsEmptyCache:= Result;
+  end
+  else
+  Result:= fIsEmptyCache;
+end;
+
+{-------------------------------------------------------------------------------
+  Refresh List
+-------------------------------------------------------------------------------}
+procedure TCERecycleBinCtrl.RefreshList;
+
+  function FindSortIndex(NS: TNamespace): Integer;
+  begin
+    for Result:= 0 to fItems.Count - 1 do
+    begin
+      if PDateTime(NS.Tag)^ > PDateTime(fItems.Items[Result].Tag)^ then
+      Exit
+      else if PDateTime(NS.Tag)^ = PDateTime(fItems.Items[Result].Tag)^ then
+      begin
+        if WideCompareText(NS.NameInFolder, fItems.Items[Result].NameInFolder) < 0  then
+        Exit;
+      end;
+    end;
+    Result:= -1;
+  end;
+    
+var
+  itemNS: TNamespace;
+  enum: IEnumIDList;
+  pidl: PItemIDList;
+  flags, fetched: Cardinal;
+  ws: WideString;
+  d: TDateTime;
+  index: Integer;
+  itemDate: PDateTime;
+  pscid: TSHColumnID;
+  v: OleVariant;
+begin
+  if not assigned(RecycleBinNS) or (fItemNumberLimit = 0) then
+  Exit;
+
+  if fItemNumberLimit < -1 then
+  fItemNumberLimit:= -1;
+
+  Clear;
+
+  if assigned(RecycleBinNS.ShellFolder) then
+  begin
+    flags:= SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_INCLUDEHIDDEN;
+    if RecycleBinNS.ShellFolder.EnumObjects(0, flags, enum) = S_OK then
+    begin
+      try
+        ////////////////////////////////////////////////////////////////////
+        // Enumerate child fItems
+        while enum.Next(1, pidl, fetched) = S_OK do
+        begin
+          // Create item
+          itemNS:= TNamespace.Create(pidl, RecycleBinNS);
+
+          // Allocate memory for sort value
+          New(itemDate);
+          itemNS.Tag:= Integer(itemDate);
+
+          // Get sort value
+          d:= 0;
+          try
+            // 1. Get date value (using GetDetailsEx)
+            if assigned(RecycleBinNS.ShellFolder2) then
+            begin
+              pscid.fmtid:= FMTID_Displaced;
+              pscid.pid:= PID_DISPLACED_DATE;
+              if RecycleBinNS.ShellFolder2.GetDetailsEx(itemNS.RelativePIDL, pscid, v) = S_OK then
+              begin
+                try
+                  d:= VarToDateTime(v);
+                except
+                  try
+                    ws:= v;
+                    d:= StrToDateTime(CleanDateTimeStr(ws));
+                  except
+                  end;
+                end;
+              end;
+            end;
+            // 2. Fallback to less acurate date value (using DetailsOf)
+            if d = 0 then
+            begin
+              ws:= itemNS.DetailsOf(fSortColumn);
+              d:= StrToDateTime(CleanDateTimeStr(ws));
+            end;
+          except
+            d:= 0;
+          end;
+          PDateTime(itemNS.Tag)^:= d;
+
+          // Find sort index
+          if d > 0 then
+          index:= FindSortIndex(itemNS)
+          else
+          index:= -1;
+
+          // Add item to list
+          if index > -1 then
+          fItems.Insert(index, itemNS)
+          else
+          fItems.Add(itemNS);
+
+          // Delete too many fItems
+          if fItemNumberLimit > -1 then
+          begin
+            while fItems.Count > fItemNumberLimit do
+            begin
+              Dispose(PDateTime(fItems.Items[fItems.Count - 1].Tag));
+              fItems.Delete(fItems.Count - 1);
+            end;
+          end;
+        end;
+        ////////////////////////////////////////////////////////////////////
+      finally
+        // Free sort values
+        for index:= 0 to fItems.Count - 1 do
+        Dispose(PDateTime(fItems.Items[index].Tag));
+        // Free enumerator
+        enum:= nil;
+      end;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Restore
+-------------------------------------------------------------------------------}
+procedure TCERecycleBinCtrl.Restore(NS: TNamespace);
+begin
+  if assigned(NS) then
+  NS.ExecuteContextMenuVerb(Application.MainForm, 'undelete', nil);
+end;
+
+{-------------------------------------------------------------------------------
+  Restore Last Deleted
+-------------------------------------------------------------------------------}
+procedure TCERecycleBinCtrl.RestoreLastDeleted;
+begin
+  RefreshList;
+  if fItems.Count > 0 then
+  begin
+    fItems.Items[0].ExecuteContextMenuVerb(Application.MainForm, 'undelete', nil);
+  end;
+  Clear;
+end;
+
+{##############################################################################}
+
 initialization
   CE_SpecialNamespaces:= TCESpecialNamespaces.Create;
 
 finalization
+  if assigned(fCERecycleBinCtrl) then
+  FreeAndNil(fCERecycleBinCtrl);
   FreeAndNil(CE_SpecialNamespaces);
 
 end.

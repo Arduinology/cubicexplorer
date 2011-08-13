@@ -115,6 +115,10 @@ var
     SmkcPgDn, SmkcEnd, SmkcHome, SmkcLeft, SmkcUp, SmkcRight,
     SmkcDown, SmkcIns, SmkcDel, SmkcShift, SmkcCtrl, SmkcAlt);
 
+const
+  FMTID_Displaced: TGUID = '{9B174B33-40FF-11D2-A27E-00C04FC30871}';
+  PID_DISPLACED_DATE = 3;
+
 implementation
 
 var

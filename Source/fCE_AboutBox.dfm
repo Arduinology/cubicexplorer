@@ -13,10 +13,12 @@ object CEAboutBox: TCEAboutBox
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsStayOnTop
+  KeyPreview = True
   OldCreateOrder = False
   Position = poMainFormCenter
   OnClose = FormClose
   OnCreate = FormCreate
+  OnKeyPress = TntFormKeyPress
   OnShow = FormShow
   DesignSize = (
     450

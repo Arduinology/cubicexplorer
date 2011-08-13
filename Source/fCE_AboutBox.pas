@@ -50,6 +50,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure but_closeClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure TntFormKeyPress(Sender: TObject; var Key: Char);
   public
 
   end;
@@ -113,6 +114,15 @@ end;
 procedure TCEAboutBox.FormShow(Sender: TObject);
 begin
   SynMemo1.SetFocus;
+end;
+
+{-------------------------------------------------------------------------------
+  On Form KeyPress
+-------------------------------------------------------------------------------}
+procedure TCEAboutBox.TntFormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (Key = #27) or (Key = #13) then
+  but_close.Click;
 end;
 
 end.
