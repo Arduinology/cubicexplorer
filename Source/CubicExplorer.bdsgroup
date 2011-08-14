@@ -10,7 +10,7 @@
 	</PersonalityInfo>
 	<Default.Personality>  <Projects>
       <Projects Name="CubicExplorer.exe">CubicExplorer.bdsproj</Projects>
-      <Projects Name="Project2.exe">..\..\Prototypes\UndoDelete\Project2.bdsproj</Projects>
+      <Projects Name="Project2.exe">..\..\Tests\VirtualList_memoryleak\Project2.bdsproj</Projects>
       <Projects Name="Targets">CubicExplorer.exe Project2.exe</Projects>
     </Projects>
     <Dependencies/>

@@ -480,8 +480,8 @@ begin
   Exit;
 
   if (not assigned(HitInfo.HitNode)) or
-     (hiOnItemButton in HitInfo.HitPositions) or
-     (not fAutoExpand) then
+     (not fAutoExpand) or
+     (not ((hiOnNormalIcon in HitInfo.HitPositions) or (hiOnItemLabel in HitInfo.HitPositions))) then
   begin
     inherited;
     Exit;

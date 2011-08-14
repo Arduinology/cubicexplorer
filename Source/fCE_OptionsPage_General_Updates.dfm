@@ -1,4 +1,11 @@
 inherited CE_OptionsPage_General_Updates: TCE_OptionsPage_General_Updates
+  object TntLabel1: TTntLabel
+    Left = 16
+    Top = 47
+    Width = 195
+    Height = 13
+    Caption = 'Notify only about following update types'
+  end
   object check_autoupdates: TTntCheckBox
     Left = 16
     Top = 16
@@ -9,21 +16,12 @@ inherited CE_OptionsPage_General_Updates: TCE_OptionsPage_General_Updates
     OnClick = HandleChange
   end
   object list_update_types: TTntCheckListBox
-    Left = 32
-    Top = 62
-    Width = 197
-    Height = 87
+    Left = 16
+    Top = 66
+    Width = 152
+    Height = 75
     ItemHeight = 13
     TabOrder = 1
-    OnClick = HandleChange
-  end
-  object check_buildtypes: TTntCheckBox
-    Left = 16
-    Top = 39
-    Width = 413
-    Height = 17
-    Caption = 'Notify only about following update types'
-    TabOrder = 2
     OnClick = HandleChange
   end
   object group_proxy: TTntGroupBox
@@ -32,7 +30,7 @@ inherited CE_OptionsPage_General_Updates: TCE_OptionsPage_General_Updates
     Width = 409
     Height = 130
     Caption = 'Proxy Settings'
-    TabOrder = 3
+    TabOrder = 2
     DesignSize = (
       409
       130)

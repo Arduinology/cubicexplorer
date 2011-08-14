@@ -893,6 +893,9 @@ var
   buildType: TCEBuildType;
 begin
   Result:= nil;
+  if BuildTypes = [] then
+  Exit;
+
   if OnlyNewerThanCurrent then
   highVer:= CurrentVersion
   else
@@ -911,10 +914,9 @@ begin
       while assigned(buildNode) and (buildNode is TDOMElement) do
       begin
         try
-          if BuildTypes <> [] then
           buildType:= GetBuildType(TDOMElement(buildNode).AttribStrings['type']);
 
-          if (BuildTypes = []) or (buildType in BuildTypes) or ((buildType = btSnapshot) and (btWeeklySnapshot in BuildTypes)) then
+          if (buildType in BuildTypes) or ((buildType = btSnapshot) and (btWeeklySnapshot in BuildTypes)) then
           begin
             ver:= StrToVersionNumber(TDOMElement(buildNode).AttribStrings['version']);
             if CompareVersion(highVer, ver) < 0  then
@@ -1145,7 +1147,7 @@ end;
 constructor TCEAutoUpdater.Create;
 begin
   inherited;
-  fBuildTypes:= [];
+  fBuildTypes:= [btOfficial, btWeeklySnapshot];
 end;
 
 {-------------------------------------------------------------------------------
@@ -1169,6 +1171,18 @@ procedure TCEAutoUpdater.CheckForUpdates(ShowNoUpdatesMsg: Boolean = false);
 begin
   if fCheckingUpdate then
   Exit;
+
+  if BuildTypes = [] then
+  begin
+    if ShowNoUpdatesMsg then
+    begin
+      WideMessageBox(Application.MainFormHandle,
+                     _('Check For Updates'),
+                     _('You have no update type notifications selected.')+#13#10+_('Use Options->Updates to change them.'),
+                     MB_ICONINFORMATION or MB_OK);
+    end;
+    Exit;
+  end;
 
   fShowNoNewUpdatesMsg:= ShowNoUpdatesMsg;
   fCheckingUpdate:= true;

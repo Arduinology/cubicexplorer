@@ -36,7 +36,6 @@ type
   TCE_OptionsPage_General_Updates = class(TCEOptionsCustomPage)
     check_autoupdates: TTntCheckBox;
     list_update_types: TTntCheckListBox;
-    check_buildtypes: TTntCheckBox;
     group_proxy: TTntGroupBox;
     edit_proxy_address: TTntEdit;
     label_proxy_address: TTntLabel;
@@ -44,6 +43,7 @@ type
     edit_proxy_port: TTntEdit;
     check_proxy_system: TTntCheckBox;
     check_proxy: TTntCheckBox;
+    TntLabel1: TTntLabel;
     procedure HandleChange(Sender: TObject);
   private
     { Private declarations }
@@ -93,15 +93,12 @@ begin
   // Auto check
   MainForm.Settings.AutoCheckUpdates:= check_autoupdates.Checked;
   bts:= [];
-  if check_buildtypes.Checked then
+  for i:= 0 to list_update_types.Items.Count - 1 do
   begin
-    for i:= 0 to list_update_types.Items.Count - 1 do
+    if list_update_types.Checked[i] then
     begin
-      if list_update_types.Checked[i] then
-      begin
-        bt:= TCEBuildType(list_update_types.Items.Objects[i]);
-        Include(bts, bt);
-      end;
+      bt:= TCEBuildType(list_update_types.Items.Objects[i]);
+      Include(bts, bt);
     end;
   end;
   MainForm.Settings.CheckForUpdateTypes:= bts;
@@ -121,15 +118,10 @@ var
 begin
   // Auto Check
   check_autoupdates.Checked:= MainForm.Settings.AutoCheckUpdates;
-  check_buildtypes.Checked:= MainForm.Settings.CheckForUpdateTypes <> [];
   for i:= 0 to list_update_types.Items.Count - 1 do
   begin
-    if TCEBuildType(list_update_types.Items.Objects[i]) in MainForm.Settings.CheckForUpdateTypes then
-    list_update_types.Checked[i]:= true
-    else
-    list_update_types.Checked[i]:= not check_buildtypes.Checked;
+    list_update_types.Checked[i]:= TCEBuildType(list_update_types.Items.Objects[i]) in MainForm.Settings.CheckForUpdateTypes;
   end;
-  list_update_types.Enabled:= check_buildtypes.Checked;
   // Proxy
   edit_proxy_address.Text:= ExtractUrlPort(CE_ProxyAddress, port);
   edit_proxy_port.Text:= IntToStr(port);
@@ -148,8 +140,6 @@ end;
 procedure TCE_OptionsPage_General_Updates.HandleChange(Sender: TObject);
 begin
   inherited;
-  if Sender = check_buildtypes then
-  list_update_types.Enabled:= check_buildtypes.Checked;
 
   if (Sender = check_proxy_system) or (Sender = check_proxy) then
   begin

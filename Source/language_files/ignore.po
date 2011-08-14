@@ -889,3 +889,11 @@ msgstr ""
 #: dCE_Images.dfm:7582
 msgid "PngImage54"
 msgstr ""
+
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4194
+# dCE_Images.dfm:7680
+msgid "PngImage55"
+msgstr ""

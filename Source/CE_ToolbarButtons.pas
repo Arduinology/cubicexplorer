@@ -67,21 +67,6 @@ type
     procedure OnSubClick(Sender: TObject);
   end;
 
-  TCEEmptyTrashButton = class(TCEToolbarItem)
-  private
-    fIconIndex: Integer;
-  protected
-    procedure DoDrawImage(ACanvas: TCanvas; State: TSpTBXSkinStatesType; const
-        PaintStage: TSpTBXPaintStage; var AImageList: TCustomImageList; var
-        AImageIndex: Integer; var ARect: TRect; var PaintDefault: Boolean);
-        override;
-    procedure UpdateProps; override;
-  public
-    constructor Create(AOwner: TComponent); override;
-    destructor Destroy; override;
-    procedure Click; override;
-  end;
-
   TCEArrangeByButton = class(TCEToolbarSubmenuItem)
   protected
     procedure DoPopup(Sender: TTBCustomItem; FromLink: Boolean); override;
@@ -159,11 +144,30 @@ type
     procedure OnSubClick(Sender: TObject);
   end;
 
+  TCEButtonSettings = class(TPersistent)
+  private
+    function GetUndoDelete_ConfirmRestore: Boolean;
+    function GetUndoDelete_ItemCount: Integer;
+    procedure SetUndoDelete_ConfirmRestore(const Value: Boolean);
+    procedure SetUndoDelete_ItemCount(const Value: Integer);
+  public
+    constructor Create;
+  published
+    property UndoDelete_ConfirmRestore: Boolean read GetUndoDelete_ConfirmRestore
+        write SetUndoDelete_ConfirmRestore;
+    property UndoDelete_ItemCount: Integer read GetUndoDelete_ItemCount write
+        SetUndoDelete_ItemCount;
+  end;
+
+var
+  GlobalButtonSettings: TCEButtonSettings;
+
 implementation
 
 uses
   CE_FileView, fCE_FileView, CE_BaseFileView, dCE_Actions, dCE_Images, Main,
-  CE_Sessions, fCE_FiltersPanel, CE_Utils, MPShellTypes, CE_CommonObjects;
+  CE_Sessions, fCE_FiltersPanel, CE_Utils, MPShellTypes, CE_CommonObjects,
+  CE_AppSettings;
 
 {##############################################################################}
 
@@ -427,66 +431,6 @@ begin
          end;
     end;
   end;
-end;
-
-{##############################################################################}
-
-{*------------------------------------------------------------------------------
-  Create an instance of TCEEmptyTrashButton
--------------------------------------------------------------------------------}
-constructor TCEEmptyTrashButton.Create(AOwner: TComponent);
-begin
-  inherited;
-end;
-
-{*------------------------------------------------------------------------------
-  Destroy TCEEmptyTrashButton
--------------------------------------------------------------------------------}
-destructor TCEEmptyTrashButton.Destroy;
-begin
-  inherited;
-end;
-
-{*------------------------------------------------------------------------------
-  Called on Click
--------------------------------------------------------------------------------}
-procedure TCEEmptyTrashButton.Click;
-begin
-  inherited;
-  Self.Invalidate;
-end;
-
-{*------------------------------------------------------------------------------
-  Set the Icon index
--------------------------------------------------------------------------------}
-procedure TCEEmptyTrashButton.DoDrawImage(ACanvas: TCanvas; State:
-    TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage; var AImageList:
-    TCustomImageList; var AImageIndex: Integer; var ARect: TRect; var
-    PaintDefault: Boolean);
-begin
-  if assigned(CERecycleBinCtrl.RecycleBinNS) then
-  begin
-    // TODO, might not work in all systems
-    fIconIndex:= CERecycleBinCtrl.RecycleBinNS.GetIconIndex(false, icSmall);
-    if fIconIndex = 31 then
-    AImageIndex:= 23
-    else
-    AImageIndex:= 24;
-  end;
-  inherited;
-end;
-
-{*------------------------------------------------------------------------------
-  UpdateProps
--------------------------------------------------------------------------------}
-procedure TCEEmptyTrashButton.UpdateProps;
-begin
-  inherited;
-//  if assigned(Namespace) then
-//  begin
-//    if Namespace.GetIconIndex(false, icSmall) <> fIconIndex then
-//    //Invalidate;
-//  end;
 end;
 
 {##############################################################################}
@@ -901,7 +845,6 @@ end;
 procedure TCEUndoDeleteButton.DoPopup(Sender: TTBCustomItem; FromLink: Boolean);
 var
   item: TSpTBXItem;
-  labelItem: TSpTBXLabelItem;
   i: Integer;
   ws: WideString;
   ns: TNamespace;
@@ -911,9 +854,8 @@ begin
 
   // Add Empty Recycle Bin item
   item:= TSpTBXItem.Create(Self);
-  item.Tag:= -1;
-  item.Caption:= _('Empty Recycle Bin');
-  item.OnClick:= OnSubClick;
+  item.Action:= CEActions.act_tools_emptytrash;
+  item.Images:= CE_Images.SmallIcons;
   Sender.Add(item);
   // Add Separator
   Sender.Add(TSpTBXSeparatorItem.Create(Self));
@@ -923,7 +865,8 @@ begin
     ns:= CERecycleBinCtrl.Items.Items[i];
     item:= TSpTBXItem.Create(Self);
     item.Tag:= Integer(ns);
-    ws:= ns.NameInFolder + ' - (' + ns.DetailsOf(CERecycleBinCtrl.SortColumn) + ')';
+    //ws:= '(' + ns.DetailsOf(CERecycleBinCtrl.SortColumn) + ') ' + ns.NameInFolder;
+    ws:= ns.NameInFolder + #9 + ns.DetailsOf(CERecycleBinCtrl.SortColumn);
     item.Caption:= ws;
     item.Images:= SmallSysImages;
     item.ImageIndex:= ns.GetIconIndex(false, icSmall);
@@ -941,11 +884,7 @@ var
   itemNS: TNamespace;
 begin
   item:= TSpTBXItem(Sender);
-  if item.Tag = -1 then
-  begin
-    EmptyRecycleBin;
-  end
-  else if item.Tag > 0 then
+  if item.Tag > 0 then
   begin
     itemNS:= TNamespace(item.Tag);
     if CERecycleBinCtrl.Items.IndexOf(itemNS) > -1 then // make sure the item is still in the list.
@@ -956,6 +895,50 @@ begin
   ClearItems;
   CERecycleBinCtrl.Clear;
 end;
+
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Create an instance of TCEButtonSettings
+-------------------------------------------------------------------------------}
+constructor TCEButtonSettings.Create;
+begin
+  inherited Create;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set UndoDelete_ItemCount
+-------------------------------------------------------------------------------}
+function TCEButtonSettings.GetUndoDelete_ItemCount: Integer;
+begin
+  Result:= CERecycleBinCtrl.ItemNumberLimit;
+end;
+procedure TCEButtonSettings.SetUndoDelete_ItemCount(const Value: Integer);
+begin
+  CERecycleBinCtrl.ItemNumberLimit:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set UndoDelete_ConfirmRestore
+-------------------------------------------------------------------------------}
+function TCEButtonSettings.GetUndoDelete_ConfirmRestore: Boolean;
+begin
+  Result:= CERecycleBinCtrl.ConfirmRestore;
+end;
+procedure TCEButtonSettings.SetUndoDelete_ConfirmRestore(const Value: Boolean);
+begin
+  CERecycleBinCtrl.ConfirmRestore:= Value;
+end;
+
+{##############################################################################}
+
+initialization
+  GlobalButtonSettings:= TCEButtonSettings.Create;
+  GlobalAppSettings.AddItem('Buttons', GlobalButtonSettings, true);
+
+finalization
+  FreeAndNil(GlobalButtonSettings);
 
 
 end.

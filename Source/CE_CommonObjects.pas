@@ -44,6 +44,7 @@ type
 
   TCERecycleBinCtrl = class(TObject)
   private
+    fConfirmRestore: Boolean;
     fIsEmptyCache: Boolean;
     fItemNumberLimit: Integer;
     fLastIsEmptyCheck: Integer;
@@ -55,10 +56,12 @@ type
     constructor Create;
     destructor Destroy; override;
     procedure Clear;
+    function GetLocation(NS: TNamespace): WideString;
     function IsRecycleBinEmpty: Boolean;
     procedure RefreshList;
     procedure Restore(NS: TNamespace);
     procedure RestoreLastDeleted;
+    property ConfirmRestore: Boolean read fConfirmRestore write fConfirmRestore;
     property ItemNumberLimit: Integer read fItemNumberLimit write fItemNumberLimit;
     property Items: TVirtualNameSpaceList read fItems;
     property SortColumn: Integer read fSortColumn write fSortColumn;
@@ -72,7 +75,8 @@ var
 implementation
 
 uses
-  MPShellTypes, Variants, CE_Utils, Forms;
+  MPShellTypes, Variants, CE_Utils, Forms, MPCommonUtilities, TntSysUtils,
+  CE_LanguageEngine;
 
 var
   fCERecycleBinCtrl: TCERecycleBinCtrl = nil;
@@ -172,11 +176,10 @@ constructor TCERecycleBinCtrl.Create;
 begin
   inherited;
   fItemNumberLimit:= 20;
+  fConfirmRestore:= true;
   fSortColumn:= 2;
   RecycleBinNS:= CreateSpecialNamespace(CSIDL_BITBUCKET);
   fItems:= TVirtualNameSpaceList.Create(true);
-
-  
 end;
 
 {-------------------------------------------------------------------------------
@@ -198,6 +201,29 @@ end;
 procedure TCERecycleBinCtrl.Clear;
 begin
   fItems.Clear;
+end;
+
+{-------------------------------------------------------------------------------
+  Get Location
+-------------------------------------------------------------------------------}
+function TCERecycleBinCtrl.GetLocation(NS: TNamespace): WideString;
+var
+  pscid: TSHColumnID;
+  v: OleVariant;
+begin
+  Result:= '';
+  if assigned(NS) and assigned(RecycleBinNS.ShellFolder2) then
+  begin
+    pscid.fmtid:= FMTID_Displaced;
+    pscid.pid:= PID_DISPLACED_FROM;
+    if RecycleBinNS.ShellFolder2.GetDetailsEx(NS.RelativePIDL, pscid, v) = S_OK then
+    begin
+      try
+        Result:= VarToWideStr(v);
+      except
+      end;
+    end;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -362,9 +388,28 @@ end;
   Restore
 -------------------------------------------------------------------------------}
 procedure TCERecycleBinCtrl.Restore(NS: TNamespace);
+var
+  ws: WideString;
 begin
   if assigned(NS) then
-  NS.ExecuteContextMenuVerb(Application.MainForm, 'undelete', nil);
+  begin
+    if ConfirmRestore then
+    begin
+      ws:= CERecycleBinCtrl.GetLocation(NS);
+      if ws <> '' then
+      ws:= WideIncludeTrailingPathDelimiter(ws) + NS.NameInFolder
+      else
+      ws:= NS.NameInFolder;
+      ws:= _('Are you sure you want to restore?') + #13#10#13#10 + ws;
+
+      if WideMessageBox(Application.MainFormHandle, _('Restore'), ws, MB_ICONQUESTION or MB_YESNO) = idYes then
+      NS.ExecuteContextMenuVerb(Application.MainForm, 'undelete', nil);
+    end
+    else
+    begin
+      NS.ExecuteContextMenuVerb(Application.MainForm, 'undelete', nil);
+    end;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -375,7 +420,7 @@ begin
   RefreshList;
   if fItems.Count > 0 then
   begin
-    fItems.Items[0].ExecuteContextMenuVerb(Application.MainForm, 'undelete', nil);
+    Restore(fItems.Items[0]);
   end;
   Clear;
 end;

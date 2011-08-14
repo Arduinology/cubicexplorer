@@ -151,7 +151,6 @@ type
     act_view_hiddenfiles: TTntAction;
     act_edit_newfolder: TTntAction;
     act_view_showheaderalways: TTntAction;
-    act_tools_emptytrash: TCEToolbarAction;
     act_tools_cmd: TTntAction;
     act_view_filters: TTntAction;
     act_view_statusbar: TTntAction;
@@ -223,6 +222,7 @@ type
     act_gen_new_instance: TTntAction;
     act_help_checkupdates: TTntAction;
     act_edit_undo_delete: TCEToolbarAction;
+    act_tools_emptytrash: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -383,7 +383,6 @@ begin
   act_navi_forward.ItemClass:= TCEFileViewForwardButton;
   act_edit_newfile.ItemClass:= TCENewFileButton;
   act_edit_copypath.ItemClass:= TCEFileViewCopyPathButton;
-  act_tools_emptytrash.ItemClass:= TCEEmptyTrashButton;
   act_view_arrangeby.ItemClass:= TCEArrangeByButton;
   act_view_viewstyle.ItemClass:= TCEViewStyleButton;
   act_view_groupby.ItemClass:= TCEGroupByButton;
@@ -780,7 +779,13 @@ procedure UpdateToolsCategory(ActionID: Integer; TargetAction: TTntAction);
 begin
   TargetAction.Enabled:= true;
   case ActionID of
-    453: TargetAction.Enabled:= not CERecycleBinCtrl.IsRecycleBinEmpty;
+    453: begin
+      TargetAction.Enabled:= not CERecycleBinCtrl.IsRecycleBinEmpty;
+      if TargetAction.Enabled then
+      TargetAction.ImageIndex:= 24
+      else
+      TargetAction.ImageIndex:= 23;
+    end;
   end;
 end;
 

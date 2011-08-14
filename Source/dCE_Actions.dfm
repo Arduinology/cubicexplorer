@@ -85,6 +85,8 @@ object CEActions: TCEActions
       Tag = 215
       Category = 'Edit'
       Caption = 'Undo Delete'
+      ImageIndex = 55
+      ShortCut = 16474
       OnExecute = ActionExecute
     end
     object act_view_bookmark: TTntAction
@@ -404,13 +406,6 @@ object CEActions: TCEActions
       Caption = 'Paste Shortcut'
       OnExecute = ActionExecute
     end
-    object act_tools_emptytrash: TCEToolbarAction
-      Tag = 453
-      Category = 'Tools'
-      Caption = 'Empty Recycle Bin'
-      ImageIndex = 24
-      OnExecute = ActionExecute
-    end
     object act_tools_cmd: TTntAction
       Tag = 454
       Category = 'Tools'
@@ -682,6 +677,13 @@ object CEActions: TCEActions
       Category = 'Help'
       Caption = 'Check For Updates'
       ImageIndex = 45
+      OnExecute = ActionExecute
+    end
+    object act_tools_emptytrash: TTntAction
+      Tag = 453
+      Category = 'Tools'
+      Caption = 'Empty Recycle Bin'
+      ImageIndex = 24
       OnExecute = ActionExecute
     end
   end

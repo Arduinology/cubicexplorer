@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1414\n"
+"CE-POT-Version: 1415\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
 
@@ -16,6 +16,9 @@ msgstr "%d dossier(s) examiné(s) et %d fichier(s) trouvé(s), en %.3f seconde(s
 
 msgid "%d folder(s) searched and %d item(s) found in %.3f second(s)"
 msgstr "%d dossier(s) examiné(s) et %d objet(s) trouvé(s), en %.3f seconde(s)"
+
+msgid "%d of %d"
+msgstr "%d sur %d"
 
 msgid "..."
 msgstr "..."
