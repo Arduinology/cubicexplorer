@@ -17,8 +17,8 @@
 ;=== Initialize =================================================
 
 ;---Version info---
-  !define VERSION "0.94"
-  !define VERSION_STR "0.94"
+  !define VERSION "0.95"
+  !define VERSION_STR "0.95"
 
 ;---Reserved Files---
   ReserveFile "ShortcutPage.ini"
@@ -115,6 +115,7 @@ Section "Install"
   File "..\Snapshot\CubicExplorer\layout.xml"
   File "..\Snapshot\CubicExplorer\settings.xml"
   File "..\Snapshot\CubicExplorer\sessions.xml"
+  File "..\Snapshot_configs\Installer\settings.path"
 
   ;---Create uninstaller---
   WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -150,6 +151,7 @@ Section "Uninstall"
   Delete "$INSTDIR\layout.xml"
   Delete "$INSTDIR\Readme.txt"
   Delete "$INSTDIR\License.txt"
+  Delete "$INSTDIR\settings.path"
 
   RMDir /r "$INSTDIR"
 
