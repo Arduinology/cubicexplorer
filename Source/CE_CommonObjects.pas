@@ -27,7 +27,7 @@ uses
   // VSTools
   MPShellUtilities, MPCommonObjects,
   // System Units
-  ShlObj, ShellAPI, Windows, Contnrs, Classes, SysUtils;
+  ShlObj, ShellAPI, Windows, Contnrs, Classes, SysUtils, Controls, Messages;
 
 type
   TCESpecialNamespaces = class(TObject)  
@@ -48,7 +48,9 @@ type
     fIsEmptyCache: Boolean;
     fItemNumberLimit: Integer;
     fLastIsEmptyCheck: Integer;
+    fQuedIsEmptyCheck: Integer;
     fSortColumn: Integer;
+    function GetIsRecycleBinEmpty: Boolean;
   protected
   public
     fItems: TVirtualNameSpaceList;
@@ -57,11 +59,13 @@ type
     destructor Destroy; override;
     procedure Clear;
     function GetLocation(NS: TNamespace): WideString;
-    function IsRecycleBinEmpty: Boolean;
+    function CheckRecycleBinEmpty: Boolean;
+    procedure QueIsEmptyCheck;
     procedure RefreshList;
     procedure Restore(NS: TNamespace);
     procedure RestoreLastDeleted;
     property ConfirmRestore: Boolean read fConfirmRestore write fConfirmRestore;
+    property IsRecycleBinEmpty: Boolean read GetIsRecycleBinEmpty;
     property ItemNumberLimit: Integer read fItemNumberLimit write fItemNumberLimit;
     property Items: TVirtualNameSpaceList read fItems;
     property SortColumn: Integer read fSortColumn write fSortColumn;
@@ -174,7 +178,10 @@ end;
 -------------------------------------------------------------------------------}
 constructor TCERecycleBinCtrl.Create;
 begin
-  inherited;
+  inherited Create;
+  fIsEmptyCache:= true;
+  fLastIsEmptyCheck:= 0;
+  fQuedIsEmptyCheck:= GetTickCount;
   fItemNumberLimit:= 20;
   fConfirmRestore:= true;
   fSortColumn:= 2;
@@ -229,36 +236,57 @@ end;
 {-------------------------------------------------------------------------------
   Is RecycleBin Empty
 -------------------------------------------------------------------------------}
-function TCERecycleBinCtrl.IsRecycleBinEmpty: Boolean;
+function TCERecycleBinCtrl.CheckRecycleBinEmpty: Boolean;
 var
   enum: IEnumIDList;
   pidl: PItemIDList;
-  fetched, t: Cardinal;
+  fetched: Cardinal;
 begin
-  t:= GetTickCount;
-  if (t - fLastIsEmptyCheck) > 500 then // limit checks to happen at minimum of 500ms intervals.
+  Result:= true;
+  if assigned(RecycleBinNS) and assigned(RecycleBinNS.ShellFolder) then
   begin
-    Result:= true;
-    if assigned(RecycleBinNS) and assigned(RecycleBinNS.ShellFolder) then
+    if RecycleBinNS.ShellFolder.EnumObjects(0, SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_INCLUDEHIDDEN, enum) = S_OK then
     begin
-      if RecycleBinNS.ShellFolder.EnumObjects(0, SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_INCLUDEHIDDEN, enum) = S_OK then
-      begin
-        try
-          if enum.Next(1, pidl, fetched) = S_OK then
-          begin
-            PIDLMgr.FreePIDL(pidl);
-            Result:= false;
-          end;
-        finally
-          enum:= nil;
+      try
+        if enum.Next(1, pidl, fetched) = S_OK then
+        begin
+          PIDLMgr.FreePIDL(pidl);
+          Result:= false;
         end;
+      finally
+        enum:= nil;
       end;
     end;
-    fLastIsEmptyCheck:= t;
-    fIsEmptyCache:= Result;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Get IsRecycleBinEmpty
+-------------------------------------------------------------------------------}
+function TCERecycleBinCtrl.GetIsRecycleBinEmpty: Boolean;
+begin
+  if assigned(RecycleBinNS) then
+  begin
+    if fQuedIsEmptyCheck > fLastIsEmptyCheck then
+    begin
+      fIsEmptyCache:= CheckRecycleBinEmpty;
+      fLastIsEmptyCheck:= GetTickCount;
+    end;
+    Result:= fIsEmptyCache;
   end
   else
-  Result:= fIsEmptyCache;
+  Result:= false;
+
+//      // TODO, might not work in all systems
+//      Result:= CERecycleBinCtrl.RecycleBinNS.GetIconIndex(false, icSmall) = 31;
+end;
+
+{-------------------------------------------------------------------------------
+  Que IsEmpty Check
+-------------------------------------------------------------------------------}
+procedure TCERecycleBinCtrl.QueIsEmptyCheck;
+begin
+  fQuedIsEmptyCheck:= GetTickCount;
 end;
 
 {-------------------------------------------------------------------------------
@@ -307,10 +335,13 @@ begin
     if RecycleBinNS.ShellFolder.EnumObjects(0, flags, enum) = S_OK then
     begin
       try
+        fLastIsEmptyCheck:= GetTickCount;
+        fIsEmptyCache:= true;
         ////////////////////////////////////////////////////////////////////
         // Enumerate child fItems
         while enum.Next(1, pidl, fetched) = S_OK do
         begin
+          fIsEmptyCache:= false;
           // Create item
           itemNS:= TNamespace.Create(pidl, RecycleBinNS);
 

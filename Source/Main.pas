@@ -397,7 +397,7 @@ implementation
 
 uses
   madExcept, CE_QuickView, Clipbrd, CE_PaneHost, CE_Stacks, MPResources,
-  fCE_OptionsDialog, fCE_StackPanel, CE_Consts;
+  fCE_OptionsDialog, fCE_StackPanel, CE_Consts, CE_CommonObjects;
 
 {$R *.dfm}
 
@@ -1448,6 +1448,11 @@ begin
             end;            
             i2:= i2 + 1;
           end;
+        end;
+
+        vsneUpdateDir: begin
+          // refresh recycle bin empty state
+          CERecycleBinCtrl.QueIsEmptyCheck;
         end;
       end;
     end;
