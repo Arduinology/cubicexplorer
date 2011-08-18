@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1414\n"
+"CE-POT-Version: 1420\n"
 "CE-Language: German\n"
 "Last-Translator: nefycee <(contact only via CE-support-forum)>\n"
 
@@ -13,6 +13,9 @@ msgstr "%d Datei(en) wurden nicht heruntergeladen"
 
 msgid "%d folder(s) searched and %d item(s) found in %.3f second(s)"
 msgstr "%d Ordner durchsucht und %d Element(e) gefunden in %.3f second(s)"
+
+msgid "%d of %d"
+msgstr "%d von %d"
 
 msgid "..."
 msgstr "..."
@@ -125,6 +128,9 @@ msgstr "Sind sie sicher das sie die Sitzung löschen wollen?"
 msgid "Are you sure you want to do that?"
 msgstr "Möchten die dennoch forfahren?"
 
+msgid "Are you sure you want to restore?"
+msgstr "Sicher wiederherstellen?"
+
 msgid "Arrange By"
 msgstr "Sortieren nach"
 
@@ -199,6 +205,9 @@ msgstr "Brotkrumennavigation"
 
 msgid "Browse..."
 msgstr "Durchsuchen"
+
+msgid "Build:"
+msgstr "Build:"
 
 msgid "Buttons"
 msgstr "Schaltflächen"
@@ -1034,6 +1043,9 @@ msgstr "CE jetzt neu starten?"
 msgid "Restart needed!"
 msgstr "Neustart notwendig!"
 
+msgid "Restore"
+msgstr "Wiederherstellen"
+
 msgid "Reuse already open tabs"
 msgstr "Bereits geöffnete Tabs wiederverwenden"
 
@@ -1397,6 +1409,9 @@ msgstr "Rückgängig"
 msgid "Undo Close Tab"
 msgstr "Geschlossenen Tab wiederherstellen"
 
+msgid "Undo Delete"
+msgstr "Löchen Rückgängig machen"
+
 msgid "Undo Tab Close"
 msgstr "Tab wiederherstellen"
 
@@ -1412,11 +1427,17 @@ msgstr "Update"
 msgid "Update CubicExplorer"
 msgstr "CubicExplorer updaten"
 
+msgid "Update type:"
+msgstr "Update-Typ"
+
 msgid "Updates"
 msgstr "Updates"
 
 msgid "Updates Settings"
 msgstr "Einstellungen der Programm-Aktualisierung"
+
+msgid "Use Options->Updates to change them."
+msgstr "Ändern sie das über Optionen ->  Allgemein -> Updates"
 
 msgid "Use strict filtering (wildcards are ? and *)"
 msgstr "Benutze eindeutigen Filte(Platzhalter sind ? und *)"
@@ -1486,6 +1507,9 @@ msgstr "Wort oder Begriff im Dateinamen"
 
 msgid "You are about to save over existing stack."
 msgstr "Sie sind im Begriff eine gespeicherte Ablage zu überschreiben."
+
+msgid "You have no update type notifications selected."
+msgstr "Sie haben keinen Typ der Aktualisierungen für eine Benachrichtigung vorgemerkt."
 
 msgid "Zero"
 msgstr "Null"

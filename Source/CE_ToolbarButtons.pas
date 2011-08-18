@@ -844,7 +844,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEUndoDeleteButton.DoPopup(Sender: TTBCustomItem; FromLink: Boolean);
 var
-  item: TSpTBXItem;
+  item, subItem: TSpTBXItem;
   i: Integer;
   ws: WideString;
   ns: TNamespace;
@@ -852,11 +852,41 @@ begin
   ClearItems;
   CERecycleBinCtrl.RefreshList;
 
-  // Add Empty Recycle Bin item
-  item:= TSpTBXItem.Create(Self);
-  item.Action:= CEActions.act_tools_emptytrash;
-  item.Images:= CE_Images.SmallIcons;
-  Sender.Add(item);
+
+  // Add Recycle Bin Item
+  subItem:= TCEToolbarSubmenuItem.Create(Self);
+  subItem.Images:= CE_Images.SmallIcons;
+  subItem.Caption:= _('Recycle Bin');
+  subItem.Tag:= -1;
+  subItem.OnClick:= OnSubClick;
+  if CERecycleBinCtrl.IsRecycleBinEmpty then
+  subItem.ImageIndex:= 23
+  else
+  subItem.ImageIndex:= 24;
+  Sender.Add(subItem);
+
+    // Add Empty Recycle Bin item
+    item:= TSpTBXItem.Create(subItem);
+    item.Action:= CEActions.act_tools_emptytrash;
+    item.Images:= CE_Images.SmallIcons;
+    subItem.Add(item);
+    // Add Separator
+    subItem.Add(TSpTBXSeparatorItem.Create(subItem));
+    // Add Restore List
+    item:= TSpTBXItem.Create(subItem);
+    item.Caption:= 'Restore List' + ' (' + IntToStr(CERecycleBinCtrl.Items.Count) + ')';
+    item.Images:= CE_Images.SmallIcons;
+    item.Tag:= -2;
+    item.OnClick:= OnSubClick;
+    subItem.Add(item);
+    // Add Restore All
+    item:= TSpTBXItem.Create(subItem);
+    item.Caption:= 'Restore All' + ' (' + IntToStr(CERecycleBinCtrl.TotalItemCount) + ')';
+    item.Images:= CE_Images.SmallIcons;
+    item.Tag:= -3;
+    item.OnClick:= OnSubClick;
+    subItem.Add(item);
+
   // Add Separator
   Sender.Add(TSpTBXSeparatorItem.Create(Self));
   // Populate items
@@ -884,6 +914,7 @@ var
   itemNS: TNamespace;
 begin
   item:= TSpTBXItem(Sender);
+  // Restore item
   if item.Tag > 0 then
   begin
     itemNS:= TNamespace(item.Tag);
@@ -891,6 +922,21 @@ begin
     begin
       CERecycleBinCtrl.Restore(itemNS);
     end;
+  end
+  // Open Recycle Bin
+  else if item.Tag = -1 then
+  begin
+    OpenFolderInTab(Self, CERecycleBinCtrl.RecycleBinNS.AbsolutePIDL);
+  end
+  // Restore List
+  else if item.Tag = -2 then
+  begin
+    CERecycleBinCtrl.RestoreList;
+  end
+  // Restore All
+  else if item.Tag = -3 then
+  begin
+    CERecycleBinCtrl.RestoreAll;
   end;
   ClearItems;
   CERecycleBinCtrl.Clear;

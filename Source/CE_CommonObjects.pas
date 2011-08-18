@@ -50,8 +50,10 @@ type
     fLastIsEmptyCheck: Integer;
     fQuedIsEmptyCheck: Integer;
     fSortColumn: Integer;
+    fTotalItemCount: Integer;
     function GetIsRecycleBinEmpty: Boolean;
   protected
+    function ConfirmMultipleRestore(ItemNumber: Integer): Boolean;
   public
     fItems: TVirtualNameSpaceList;
     RecycleBinNS: TNamespace;
@@ -63,12 +65,15 @@ type
     procedure QueIsEmptyCheck;
     procedure RefreshList;
     procedure Restore(NS: TNamespace);
+    procedure RestoreAll;
     procedure RestoreLastDeleted;
+    procedure RestoreList;
     property ConfirmRestore: Boolean read fConfirmRestore write fConfirmRestore;
     property IsRecycleBinEmpty: Boolean read GetIsRecycleBinEmpty;
     property ItemNumberLimit: Integer read fItemNumberLimit write fItemNumberLimit;
     property Items: TVirtualNameSpaceList read fItems;
     property SortColumn: Integer read fSortColumn write fSortColumn;
+    property TotalItemCount: Integer read fTotalItemCount;
   end;
 
 function CERecycleBinCtrl: TCERecycleBinCtrl;
@@ -185,6 +190,7 @@ begin
   fItemNumberLimit:= 20;
   fConfirmRestore:= true;
   fSortColumn:= 2;
+  fTotalItemCount:= 0;
   RecycleBinNS:= CreateSpecialNamespace(CSIDL_BITBUCKET);
   fItems:= TVirtualNameSpaceList.Create(true);
 end;
@@ -258,6 +264,15 @@ begin
       end;
     end;
   end;
+end;
+
+function TCERecycleBinCtrl.ConfirmMultipleRestore(ItemNumber: Integer): Boolean;
+var
+  ws: WideString;
+begin
+  ws:= Format(_('WARNING! You are about to restore %d items.'), [ItemNumber]) + #13#10#13#10;
+  ws:= ws + _('Are you sure you want to do that?');
+  Result:= WideMessageBox(Application.MainFormHandle, _('Restoring multiple items!'), ws, MB_ICONWARNING or MB_YESNO) = idYes;
 end;
 
 {-------------------------------------------------------------------------------
@@ -337,10 +352,12 @@ begin
       try
         fLastIsEmptyCheck:= GetTickCount;
         fIsEmptyCache:= true;
+        fTotalItemCount:= 0;
         ////////////////////////////////////////////////////////////////////
         // Enumerate child fItems
         while enum.Next(1, pidl, fetched) = S_OK do
         begin
+          fTotalItemCount:= fTotalItemCount + 1;
           fIsEmptyCache:= false;
           // Create item
           itemNS:= TNamespace.Create(pidl, RecycleBinNS);
@@ -370,7 +387,7 @@ begin
                 end;
               end;
             end;
-            // 2. Fallback to less acurate date value (using DetailsOf)
+            // 2. Fallback to less accurate date value (using DetailsOf)
             if d = 0 then
             begin
               ws:= itemNS.DetailsOf(fSortColumn);
@@ -444,6 +461,50 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Restore All
+-------------------------------------------------------------------------------}
+procedure TCERecycleBinCtrl.RestoreAll;
+var
+  pidlArray: TRelativePIDLArray;
+  enum: IEnumIDList;
+  pidl: PItemIDList;
+  i: Integer;
+  fetched: Cardinal;
+  ns: TNamespace;
+  list: TVirtualNameSpaceList;
+begin
+  if assigned(RecycleBinNS) and assigned(RecycleBinNS.ShellFolder) and ConfirmMultipleRestore(TotalItemCount) then
+  begin
+    if RecycleBinNS.ShellFolder.EnumObjects(0, SHCONTF_FOLDERS or SHCONTF_NONFOLDERS or SHCONTF_INCLUDEHIDDEN, enum) = S_OK then
+    begin
+      list:= TVirtualNameSpaceList.Create(true);
+      try
+        // Get namespace list
+        while enum.Next(1, pidl, fetched) = S_OK do
+        begin
+          ns:= TNamespace.Create(pidl, RecycleBinNS);
+          list.Add(ns);
+        end;
+
+        // Restore items
+        if list.Count > 0 then
+        begin
+          SetLength(pidlArray, list.Count);
+          for i:= 0 to list.Count - 1 do
+          begin
+            pidlArray[i]:= list.Items[i].RelativePIDL;
+          end;
+          list.Items[0].ExecuteContextMenuVerb(Application.MainForm, 'undelete', pidlArray);
+        end;
+      finally
+        list.Free;
+        Clear;
+      end;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   Restore Last Deleted
 -------------------------------------------------------------------------------}
 procedure TCERecycleBinCtrl.RestoreLastDeleted;
@@ -454,6 +515,29 @@ begin
     Restore(fItems.Items[0]);
   end;
   Clear;
+end;
+
+{-------------------------------------------------------------------------------
+  Restore List
+-------------------------------------------------------------------------------}
+procedure TCERecycleBinCtrl.RestoreList;
+var
+  pidlArray: TRelativePIDLArray;
+  i: Integer;
+begin
+  if (Items.Count > 0) and ConfirmMultipleRestore(Items.Count) then
+  begin
+    SetLength(pidlArray, Items.Count);
+    for i:= 0 to Items.Count - 1 do
+    begin
+      pidlArray[i]:= Items.Items[i].RelativePIDL;
+    end;
+    try
+      Items.Items[0].ExecuteContextMenuVerb(Application.MainForm, 'undelete', pidlArray);
+    finally
+      Clear;
+    end;
+  end;
 end;
 
 {##############################################################################}
