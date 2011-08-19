@@ -138,9 +138,12 @@ type
   TCEUndoDeleteButton = class(TCEToolbarSubmenuItem)
   protected
     procedure DoPopup(Sender: TTBCustomItem; FromLink: Boolean); override;
+    procedure HandleItemCountValueChange(Sender: TObject);
+    procedure HandleDayLimitValueChange(Sender: TObject);
+    procedure RefreshItems;
   public
     destructor Destroy; override;
-    procedure ClearItems;
+    procedure ClearItems(OnlyTrashItems: Boolean = false);
     procedure OnSubClick(Sender: TObject);
   end;
 
@@ -833,11 +836,29 @@ end;
 {-------------------------------------------------------------------------------
   Clear Items
 -------------------------------------------------------------------------------}
-procedure TCEUndoDeleteButton.ClearItems;
+procedure TCEUndoDeleteButton.ClearItems(OnlyTrashItems: Boolean = false);
+var
+  i: Integer;
+  item: TTBCustomItem;
 begin
   Self.ViewBeginUpdate;
   try
-    Self.Clear;
+    if not OnlyTrashItems then
+    Self.Clear
+    else
+    begin
+      i:= 0;
+      while i < Self.Count do
+      begin
+        item:= Self.Items[i];
+        if (item is TSpTBXItem) and (item.Tag > 0) then
+        begin
+          Self.Delete(i);
+        end
+        else
+        i:= i + 1;
+      end;
+    end;
   finally
     Self.ViewEndUpdate;
   end;
@@ -849,6 +870,7 @@ end;
 procedure TCEUndoDeleteButton.DoPopup(Sender: TTBCustomItem; FromLink: Boolean);
 var
   item, subItem: TSpTBXItem;
+  edit: TSpTBXSpinEditItem;
   i: Integer;
   ws: WideString;
   ns: TNamespace;
@@ -878,18 +900,31 @@ begin
     subItem.Add(TSpTBXSeparatorItem.Create(subItem));
     // Add Restore List
     item:= TSpTBXItem.Create(subItem);
-    item.Caption:= 'Restore List' + ' (' + IntToStr(CERecycleBinCtrl.Items.Count) + ')';
+    item.Caption:= _('Restore List') + ' (' + IntToStr(CERecycleBinCtrl.Items.Count) + ')';
     item.Images:= CE_Images.SmallIcons;
     item.Tag:= -2;
     item.OnClick:= OnSubClick;
     subItem.Add(item);
     // Add Restore All
     item:= TSpTBXItem.Create(subItem);
-    item.Caption:= 'Restore All' + ' (' + IntToStr(CERecycleBinCtrl.TotalItemCount) + ')';
+    item.Caption:= _('Restore All') + ' (' + IntToStr(CERecycleBinCtrl.TotalItemCount) + ')';
     item.Images:= CE_Images.SmallIcons;
     item.Tag:= -3;
     item.OnClick:= OnSubClick;
     subItem.Add(item);
+    // Add Separator
+    subItem.Add(TSpTBXSeparatorItem.Create(subItem));
+    // Add Item Count edit
+    edit:= TSpTBXSpinEditItem.Create(subItem);
+    edit.EditCaption:= _('Item Count');
+    edit.Value:= CERecycleBinCtrl.ItemNumberLimit;
+    edit.OnValueChanged:= HandleItemCountValueChange;
+    subItem.Add(edit);
+    // Add Day limit edit
+    edit:= TSpTBXSpinEditItem.Create(subItem);
+    edit.EditCaption:= _('Day Limit');
+    edit.Value:= CERecycleBinCtrl.DayLimit;
+    subItem.Add(edit);
 
   // Add Separator
   Sender.Add(TSpTBXSeparatorItem.Create(Self));
@@ -905,6 +940,40 @@ begin
     item.ImageIndex:= ns.GetIconIndex(false, icSmall);
     item.OnClick:= OnSubClick;
     Sender.Add(item);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle Item Count Value Change
+-------------------------------------------------------------------------------}
+procedure TCEUndoDeleteButton.HandleItemCountValueChange(Sender: TObject);
+var
+  item: TSpTBXItem;
+  ns: TNamespace;
+  i: Integer;
+  ws: WideString;
+begin
+  if Sender is TSpTBXSpinEditOptions then
+  begin
+    CERecycleBinCtrl.ItemNumberLimit:= Round(TSpTBXSpinEditOptions(Sender).Value);
+    RefreshItems;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle Item Count Value Change
+-------------------------------------------------------------------------------}
+procedure TCEUndoDeleteButton.HandleDayLimitValueChange(Sender: TObject);
+var
+  item: TSpTBXItem;
+  ns: TNamespace;
+  i: Integer;
+  ws: WideString;
+begin
+  if Sender is TSpTBXSpinEditOptions then
+  begin
+    CERecycleBinCtrl.DayLimit:= Round(TSpTBXSpinEditOptions(Sender).Value);
+    RefreshItems;
   end;
 end;
 
@@ -943,6 +1012,38 @@ begin
   end;
   ClearItems;
   CERecycleBinCtrl.Clear;
+end;
+
+{-------------------------------------------------------------------------------
+  Refresh Items
+-------------------------------------------------------------------------------}
+procedure TCEUndoDeleteButton.RefreshItems;
+var
+  item: TSpTBXItem;
+  ns: TNamespace;
+  i: Integer;
+  ws: WideString;
+begin
+  Self.ViewBeginUpdate;
+  try
+    ClearItems(true);
+    CERecycleBinCtrl.RefreshList;
+    // Populate items
+    for i:= 0 to CERecycleBinCtrl.Items.Count - 1 do
+    begin
+      ns:= CERecycleBinCtrl.Items.Items[i];
+      item:= TSpTBXItem.Create(Self);
+      item.Tag:= Integer(ns);
+      ws:= ns.NameInFolder + #9 + ns.DetailsOf(CERecycleBinCtrl.SortColumn);
+      item.Caption:= ws;
+      item.Images:= SmallSysImages;
+      item.ImageIndex:= ns.GetIconIndex(false, icSmall);
+      item.OnClick:= OnSubClick;
+      Self.Add(item);
+    end;
+  finally
+    Self.ViewEndUpdate;
+  end;
 end;
 
 
