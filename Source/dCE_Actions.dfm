@@ -193,6 +193,7 @@ object CEActions: TCEActions
       Tag = 337
       Category = 'View'
       Caption = 'Checkbox Selection'
+      ImageIndex = 56
       OnExecute = ActionExecute
     end
     object act_edit_copy: TTntAction
@@ -235,6 +236,7 @@ object CEActions: TCEActions
       Tag = 205
       Category = 'Edit'
       Caption = 'Select All'
+      ImageIndex = 57
       ShortCut = 16449
       OnExecute = ActionExecute
     end
@@ -242,6 +244,7 @@ object CEActions: TCEActions
       Tag = 206
       Category = 'Edit'
       Caption = 'Invert Selection'
+      ImageIndex = 58
       ShortCut = 24641
       OnExecute = ActionExecute
     end

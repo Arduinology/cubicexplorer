@@ -147,14 +147,18 @@ type
   TCEButtonSettings = class(TPersistent)
   private
     function GetUndoDelete_ConfirmRestore: Boolean;
+    function GetUndoDelete_DayLimit: Integer;
     function GetUndoDelete_ItemCount: Integer;
     procedure SetUndoDelete_ConfirmRestore(const Value: Boolean);
+    procedure SetUndoDelete_DayLimit(const Value: Integer);
     procedure SetUndoDelete_ItemCount(const Value: Integer);
   public
     constructor Create;
   published
     property UndoDelete_ConfirmRestore: Boolean read GetUndoDelete_ConfirmRestore
         write SetUndoDelete_ConfirmRestore;
+    property UndoDelete_DayLimit: Integer read GetUndoDelete_DayLimit write
+        SetUndoDelete_DayLimit;
     property UndoDelete_ItemCount: Integer read GetUndoDelete_ItemCount write
         SetUndoDelete_ItemCount;
   end;
@@ -895,7 +899,6 @@ begin
     ns:= CERecycleBinCtrl.Items.Items[i];
     item:= TSpTBXItem.Create(Self);
     item.Tag:= Integer(ns);
-    //ws:= '(' + ns.DetailsOf(CERecycleBinCtrl.SortColumn) + ') ' + ns.NameInFolder;
     ws:= ns.NameInFolder + #9 + ns.DetailsOf(CERecycleBinCtrl.SortColumn);
     item.Caption:= ws;
     item.Images:= SmallSysImages;
@@ -975,6 +978,18 @@ end;
 procedure TCEButtonSettings.SetUndoDelete_ConfirmRestore(const Value: Boolean);
 begin
   CERecycleBinCtrl.ConfirmRestore:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set UndoDelete_DayLimit
+-------------------------------------------------------------------------------}
+function TCEButtonSettings.GetUndoDelete_DayLimit: Integer;
+begin
+  Result:= CERecycleBinCtrl.DayLimit;
+end;
+procedure TCEButtonSettings.SetUndoDelete_DayLimit(const Value: Integer);
+begin
+  CERecycleBinCtrl.DayLimit:= Value;
 end;
 
 {##############################################################################}

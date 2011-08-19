@@ -45,6 +45,7 @@ type
   TCERecycleBinCtrl = class(TObject)
   private
     fConfirmRestore: Boolean;
+    fDayLimit: Integer;
     fIsEmptyCache: Boolean;
     fItemNumberLimit: Integer;
     fLastIsEmptyCheck: Integer;
@@ -69,6 +70,7 @@ type
     procedure RestoreLastDeleted;
     procedure RestoreList;
     property ConfirmRestore: Boolean read fConfirmRestore write fConfirmRestore;
+    property DayLimit: Integer read fDayLimit write fDayLimit;
     property IsRecycleBinEmpty: Boolean read GetIsRecycleBinEmpty;
     property ItemNumberLimit: Integer read fItemNumberLimit write fItemNumberLimit;
     property Items: TVirtualNameSpaceList read fItems;
@@ -85,7 +87,7 @@ implementation
 
 uses
   MPShellTypes, Variants, CE_Utils, Forms, MPCommonUtilities, TntSysUtils,
-  CE_LanguageEngine;
+  CE_LanguageEngine, DateUtils;
 
 var
   fCERecycleBinCtrl: TCERecycleBinCtrl = nil;
@@ -191,6 +193,7 @@ begin
   fConfirmRestore:= true;
   fSortColumn:= 2;
   fTotalItemCount:= 0;
+  fDayLimit:= -1;
   RecycleBinNS:= CreateSpecialNamespace(CSIDL_BITBUCKET);
   fItems:= TVirtualNameSpaceList.Create(true);
 end;
@@ -309,6 +312,16 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCERecycleBinCtrl.RefreshList;
 
+  function GMTToLocalTime(GMTTime: TDateTime): TDateTime;
+  var
+    GMTST: Windows.TSystemTime;
+    LocalST: Windows.TSystemTime;
+  begin
+     SysUtils.DateTimeToSystemTime(GMTTime, GMTST);
+     SysUtils.Win32Check(Windows.SystemTimeToTzSpecificLocalTime(nil, GMTST, LocalST));
+     Result:= SysUtils.SystemTimeToDateTime(LocalST);
+  end;
+
   function FindSortIndex(NS: TNamespace): Integer;
   begin
     for Result:= 0 to fItems.Count - 1 do
@@ -330,7 +343,7 @@ var
   pidl: PItemIDList;
   flags, fetched: Cardinal;
   ws: WideString;
-  d: TDateTime;
+  d, limit: TDateTime;
   index: Integer;
   itemDate: PDateTime;
   pscid: TSHColumnID;
@@ -353,6 +366,7 @@ begin
         fLastIsEmptyCheck:= GetTickCount;
         fIsEmptyCache:= true;
         fTotalItemCount:= 0;
+        limit:= Now - DayLimit;
         ////////////////////////////////////////////////////////////////////
         // Enumerate child fItems
         while enum.Next(1, pidl, fetched) = S_OK do
@@ -377,11 +391,12 @@ begin
               if RecycleBinNS.ShellFolder2.GetDetailsEx(itemNS.RelativePIDL, pscid, v) = S_OK then
               begin
                 try
-                  d:= VarToDateTime(v);
+                  // Returned date seems to be in GMT time. Not sure if that's the case in all systems!
+                  d:= GMTToLocalTime(VarToDateTime(v));
                 except
                   try
                     ws:= v;
-                    d:= StrToDateTime(CleanDateTimeStr(ws));
+                    d:= GMTToLocalTime(StrToDateTime(CleanDateTimeStr(ws)));
                   except
                   end;
                 end;
@@ -398,26 +413,35 @@ begin
           end;
           PDateTime(itemNS.Tag)^:= d;
 
-          // Find sort index
-          if d > 0 then
-          index:= FindSortIndex(itemNS)
-          else
-          index:= -1;
-
-          // Add item to list
-          if index > -1 then
-          fItems.Insert(index, itemNS)
-          else
-          fItems.Add(itemNS);
-
-          // Delete too many fItems
-          if fItemNumberLimit > -1 then
+          // Add item to list if it's within day limit.
+          if not ((DayLimit > 0) and (d < limit)) then
           begin
-            while fItems.Count > fItemNumberLimit do
+            // Find sort index
+            if d > 0 then
+            index:= FindSortIndex(itemNS)
+            else
+            index:= -1;
+
+            // Add item to list
+            if index > -1 then
+            fItems.Insert(index, itemNS)
+            else
+            fItems.Add(itemNS);
+
+            // Delete too many fItems
+            if fItemNumberLimit > -1 then
             begin
-              Dispose(PDateTime(fItems.Items[fItems.Count - 1].Tag));
-              fItems.Delete(fItems.Count - 1);
+              while fItems.Count > fItemNumberLimit do
+              begin
+                Dispose(PDateTime(fItems.Items[fItems.Count - 1].Tag));
+                fItems.Delete(fItems.Count - 1);
+              end;
             end;
+          end
+          else
+          begin
+            Dispose(PDateTime(itemNS.Tag));
+            itemNS.Free;
           end;
         end;
         ////////////////////////////////////////////////////////////////////
