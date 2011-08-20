@@ -136,6 +136,8 @@ type
   end;
 
   TCEUndoDeleteButton = class(TCEToolbarSubmenuItem)
+  private
+    fRestoreListItem: TSpTBXItem;
   protected
     procedure DoPopup(Sender: TTBCustomItem; FromLink: Boolean); override;
     procedure HandleItemCountValueChange(Sender: TObject);
@@ -844,7 +846,10 @@ begin
   Self.ViewBeginUpdate;
   try
     if not OnlyTrashItems then
-    Self.Clear
+    begin
+      fRestoreListItem:= nil;
+      Self.Clear;
+    end
     else
     begin
       i:= 0;
@@ -905,6 +910,7 @@ begin
     item.Tag:= -2;
     item.OnClick:= OnSubClick;
     subItem.Add(item);
+    fRestoreListItem:= item;
     // Add Restore All
     item:= TSpTBXItem.Create(subItem);
     item.Caption:= _('Restore All') + ' (' + IntToStr(CERecycleBinCtrl.TotalItemCount) + ')';
@@ -924,6 +930,7 @@ begin
     edit:= TSpTBXSpinEditItem.Create(subItem);
     edit.EditCaption:= _('Day Limit');
     edit.Value:= CERecycleBinCtrl.DayLimit;
+    edit.OnValueChanged:= HandleDayLimitValueChange;
     subItem.Add(edit);
 
   // Add Separator
@@ -1042,6 +1049,10 @@ begin
       Self.Add(item);
     end;
   finally
+    if assigned(fRestoreListItem) then
+    begin
+      fRestoreListItem.Caption:= _('Restore List') + ' (' + IntToStr(CERecycleBinCtrl.Items.Count) + ')';
+    end;
     Self.ViewEndUpdate;
   end;
 end;

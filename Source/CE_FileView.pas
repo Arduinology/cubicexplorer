@@ -419,9 +419,9 @@ begin
       case View of
         elsReport: begin
           if Self.Selection.FullRowSelect then
-          GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnLabel in HitInfo)
+          GoBack:= HitInfo = []
           else
-          GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnText in HitInfo);
+          GoBack:= not (ehtOnClickSelectBounds in HitInfo);
         end;
         elsTile: GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnText in HitInfo) and not (ehtOnClickSelectBounds in HitInfo);
         else

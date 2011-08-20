@@ -1,4 +1,4 @@
-Copyright 2006-2009 Marko Savolainen.
+Copyright 2006-2011 Marko Savolainen.
 
 Homepage - http://www.cubicreality.com
 Support - http://www.cubicreality.com/forum
@@ -7,35 +7,39 @@ Support - http://www.cubicreality.com/forum
    CubicExplorer uses the following 3rd party Delphi components
 ==================================================================
 
--VirtualShellTools and EasyListview
+- VirtualShellTools and EasyListview
 http://www.mustangpeak.net
 
--Virtual Treeview and GraphicEx
+- Virtual Treeview and GraphicEx
 http://www.soft-gems.net
 
--TNT Unicode Controls
+- TNT Unicode Controls
 http://www.tntware.com/delphicontrols/unicode/
 
--PngComponents
+- PngComponents
 http://www.thany.org/article/32/PngComponents
 
--Toolbar2000
+- Toolbar2000
 http://www.jrsoftware.org
 
--SpTBXLib
+- SpTBXLib
 http://club.telepolis.com/silverpointdev/sptbxlib/index.htm
 
--Graphics32
+- Graphics32
 http://www.graphics32.org
 
--ATBinHex
+- ATBinHex
 http://atorg.net.ru/other/atbinhex.htm
 
--JVCL
+- JVCL
 http://jvcl.sourceforge.net
 
--Unicode SynEdit
+- Unicode SynEdit
 http://mh-nexus.de/unisynedit.htm
+
+-7-zip library (7z.dll). Licensed under the GNU LGPL.
+http://www.7-zip.org
+
 
 ==================================================================
   Many thanks to all developers of those great components.
@@ -43,12 +47,6 @@ http://mh-nexus.de/unisynedit.htm
   A special thanks goes to Jim Kueneman for his great work on
   VirtualShellTools and EasyListview. Without VirtualShellTools,
   CubicExplorer would not exist.
-
-  Also thanks to Stas Lebedev for the Vista icons which are
-  used in CubicExplorer.
-
-  -Vista Icons Pack 3
-  http://kudesnick.blogspot.com/
 ==================================================================
 
 
