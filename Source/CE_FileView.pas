@@ -73,6 +73,8 @@ type
     fLeftMouseButton_IsDown: Boolean;
     fLeftMouseButton_RockerClicks: Integer;
     fArrowBrowse: Boolean;
+    fFolderUpOnDblClick: Boolean;
+    fFullRowDblClick: Boolean;
     fOldHistoryIndex: Integer;
     fRightMouseButton_RockerClicks: Integer;
     fSingleClickBrowse: Boolean;
@@ -127,6 +129,8 @@ type
     procedure SetFocus; override;
     property AutosizeListViewStyle: Boolean read fAutosizeListViewStyle write
         SetAutosizeListViewStyle;
+    property FolderUpOnDblClick: Boolean read fFolderUpOnDblClick write
+        fFolderUpOnDblClick;
     property TranslateHeader: Boolean read fTranslateHeader write fTranslateHeader;
     property UseMouseRocker: Boolean read fUseMouseRocker write fUseMouseRocker;
     property LeftMouseButton_IsDown: Boolean read fLeftMouseButton_IsDown;
@@ -139,6 +143,7 @@ type
     property AutoSelectFirstItem: Boolean read fAutoSelectFirstItem write
         fAutoSelectFirstItem;
     property ArrowBrowse: Boolean read fArrowBrowse write fArrowBrowse;
+    property FullRowDblClick: Boolean read fFullRowDblClick write fFullRowDblClick;
     property SelectPreviousFolder: Boolean read fSelectPreviousFolder write
         fSelectPreviousFolder;
     property SingleClickBrowse: Boolean read fSingleClickBrowse write
@@ -361,6 +366,8 @@ begin
   fSingleClickBrowse:= false;
   fSingleClickExecute:= false;
   fArrowBrowse:= true;
+  fFolderUpOnDblClick:= true;
+  fFullRowDblClick:= false;
 
   Self.BackGround.CaptionShowOnlyWhenEmpty:= false;
 end;
@@ -406,32 +413,37 @@ begin
   GoBack:= false;
   if Self.EditManager.Editing or fSingleClickBrowsing then
   Exit;
-  
-  WindowPt:= Self.Scrollbars.MapWindowToView(Msg.Pos);
-  if (Button = cmbLeft) and (WindowPt.Y >= 0) then
-  begin
-    item:= self.Groups.ItemByPoint(WindowPt);
-    GoBack:= item = nil;
 
-    if not GoBack then
+  if FolderUpOnDblClick then
+  begin
+    WindowPt:= Self.Scrollbars.MapWindowToView(Msg.Pos);
+    if (Button = cmbLeft) and (WindowPt.Y >= 0) then
     begin
-      item.HitTestAt(WindowPt, HitInfo);
-      case View of
-        elsReport: begin
-          if Self.Selection.FullRowSelect then
-          GoBack:= HitInfo = []
+      item:= self.Groups.ItemByPoint(WindowPt);
+      GoBack:= item = nil;
+
+      if not GoBack then
+      begin
+        item.HitTestAt(WindowPt, HitInfo);
+        case View of
+          elsReport: begin
+            if Self.Selection.FullRowSelect then
+            GoBack:= not FullRowDblClick and (HitInfo = [])
+            else
+            GoBack:= not (ehtOnClickSelectBounds in HitInfo);
+          end;
+          elsTile: GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnText in HitInfo) and not (ehtOnClickSelectBounds in HitInfo);
           else
-          GoBack:= not (ehtOnClickSelectBounds in HitInfo);
+          GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnText in HitInfo);
         end;
-        elsTile: GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnText in HitInfo) and not (ehtOnClickSelectBounds in HitInfo);
-        else
-        GoBack:= not (ehtOnIcon in HitInfo) and not (ehtOnText in HitInfo);
       end;
     end;
-  end;
 
-  if GoBack then
-  self.GoFolderUp
+    if GoBack then
+    self.GoFolderUp
+    else
+    inherited;
+  end
   else
   inherited;
 end;

@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1415\n"
+"CE-POT-Version: 1420\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
 
@@ -131,6 +131,9 @@ msgstr "Etes-vous sûr(e) de vouloir supprimer cette session ?"
 msgid "Are you sure you want to do that?"
 msgstr "Etes-vous certain(e) de vouloir faire cela ?"
 
+msgid "Are you sure you want to restore?"
+msgstr "Etes-vous sûr(e) de vouloir restaurer ?"
+
 msgid "Arrange By"
 msgstr "Trier par"
 
@@ -205,6 +208,9 @@ msgstr "Fil d'Ariane"
 
 msgid "Browse..."
 msgstr "Parcourir..."
+
+msgid "Build:"
+msgstr "Construction (build) :"
 
 msgid "Buttons"
 msgstr "Boutons"
@@ -861,7 +867,7 @@ msgid "Not yet ready, coming soon"
 msgstr "Pas encore prêt, à venir prochainement"
 
 msgid "Notify only about following update types"
-msgstr " Signaler uniquement les mises à jour de types suivants :"
+msgstr " Rechercher uniquement les mises à jour de types suivants :"
 
 msgid "OK"
 msgstr "OK"
@@ -1036,6 +1042,9 @@ msgstr "Redémarrer CubicExplorer maintenant ?"
 
 msgid "Restart needed!"
 msgstr "Redémarrage requis !"
+
+msgid "Restore"
+msgstr "Restaurer"
 
 msgid "Reuse already open tabs"
 msgstr " Réutiliser les onglets déjà ouverts"
@@ -1400,6 +1409,9 @@ msgstr "Annuler"
 msgid "Undo Close Tab"
 msgstr "Annuler la fermeture de l'onglet"
 
+msgid "Undo Delete"
+msgstr "Annuler la suppression"
+
 msgid "Undo Tab Close"
 msgstr "Annuler la fermeture d'un onglet"
 
@@ -1415,11 +1427,17 @@ msgstr "Mettre à jour"
 msgid "Update CubicExplorer"
 msgstr "Mettre à jour CubicExplorer"
 
+msgid "Update type:"
+msgstr "Type de mise à jour :"
+
 msgid "Updates"
 msgstr "Mises à jour"
 
 msgid "Updates Settings"
 msgstr "Paramètres des mises à jour"
+
+msgid "Use Options->Updates to change them."
+msgstr "Allez dans "Options"->"Mises à jour" pour faire votre choix."
 
 msgid "Use strict filtering (wildcards are ? and *)"
 msgstr "Filtrage strict (les jokers sont ? et *)"
@@ -1489,6 +1507,9 @@ msgstr "Mot ou phrase dans le nom du fichier :"
 
 msgid "You are about to save over existing stack."
 msgstr "Vous êtes sur le point de remplacer un panier existant ! "
+
+msgid "You have no update type notifications selected."
+msgstr "Vous n'avez pas sélectionné les types de mise à jour à rechercher."
 
 msgid "Zero"
 msgstr "Zéro"

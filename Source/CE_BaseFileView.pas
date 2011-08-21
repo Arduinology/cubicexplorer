@@ -647,9 +647,12 @@ begin
     FContextMenuItem := HitInfo.Item;
     try
       fContextMenuShowing:= true;
-      TExplorerItem(HitInfo.Item).Namespace.ShowContextMenuMulti(Self, HandleContextMenuCmdCallback,
-        HandleContextMenuShowCallback, HandleContextMenuAfterCmdCallback, SelectedToNamespaceArray, @WindowPoint,
-        nil, '', TExplorerItem(HitInfo.Item).Namespace);
+      try
+        TExplorerItem(HitInfo.Item).Namespace.ShowContextMenuMulti(Self, HandleContextMenuCmdCallback,
+          HandleContextMenuShowCallback, HandleContextMenuAfterCmdCallback, SelectedToNamespaceArray, @WindowPoint,
+          nil, '', TExplorerItem(HitInfo.Item).Namespace);
+      except
+      end;
       Handled:= True
     finally
       FContextMenuItem := nil;

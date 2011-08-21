@@ -17336,6 +17336,7 @@ begin
   begin
     Handled := False;
     MenuKey := False;
+    Menu:= nil;
     if not (ebcsCancelContextMenu in States) then
     begin
       SkipHitTest := False;

@@ -45,6 +45,8 @@ object MainForm: TMainForm
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
+    ExplicitLeft = 10
+    ExplicitTop = 60
   end
   object RightToolDock: TSpTBXDock
     Left = 619
@@ -429,7 +431,6 @@ object MainForm: TMainForm
       ChevronMoveItems = False
       DockPos = 266
       DockRow = 1
-      DragHandleStyle = dhNone
       Images = CE_Images.MediumIcons
       PopupMenu = ToolbarPopupMenu
       TabOrder = 1

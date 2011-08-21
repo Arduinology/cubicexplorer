@@ -159,6 +159,7 @@ begin
   fIsSpecial:= false;
   fSpecialFolderID:= -1;
   fLastIconRefresh:= GetTickCount;
+  Namespace:= nil;
 end;
 
 {*------------------------------------------------------------------------------

@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2011-08-14 16:14\n"
-"PO-Revision-Date: 2011-08-14 16:14\n"
+"POT-Creation-Date: 2011-08-21 14:48\n"
+"PO-Revision-Date: 2011-08-21 14:48\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,9 +26,9 @@ msgstr ""
 #. CEActions..ActionList..act_tabs_prev..Category
 #. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..group_loadsave..check_tabs..Caption
 #. Create TabSet
-#: dCE_Actions.dfm:13  dCE_Actions.dfm:487 dCE_Actions.dfm:495
-#: dCE_Actions.dfm:504 dCE_Actions.dfm:512 dCE_Actions.dfm:520
-#: dCE_Actions.dfm:599 dCE_Actions.dfm:608 dCE_Actions.dfm:617
+#: dCE_Actions.dfm:13  dCE_Actions.dfm:490 dCE_Actions.dfm:498
+#: dCE_Actions.dfm:507 dCE_Actions.dfm:515 dCE_Actions.dfm:523
+#: dCE_Actions.dfm:602 dCE_Actions.dfm:611 dCE_Actions.dfm:620
 #: fCE_SessionManager.dfm:131 fCE_OptionsPage_Tabs.pas:79 Main.pas:538
 msgid "Tabs"
 msgstr ""
@@ -44,8 +44,8 @@ msgstr ""
 #. CEActions..ActionList..act_gen_showhide..Category
 #. CEActions..ActionList..act_gen_new_instance..Category
 #. BookmarkPropDlg..PageControl..GeneralSheet..Caption
-#: dCE_Actions.dfm:24  dCE_Actions.dfm:528 dCE_Actions.dfm:593
-#: dCE_Actions.dfm:671 fCE_BookmarkPropDlg.dfm:36
+#: dCE_Actions.dfm:24  dCE_Actions.dfm:531 dCE_Actions.dfm:596
+#: dCE_Actions.dfm:674 fCE_BookmarkPropDlg.dfm:36
 #: fCE_OptionsPage_General.pas:72
 msgid "General"
 msgstr ""
@@ -92,10 +92,10 @@ msgstr ""
 #: dCE_Actions.dfm:123 dCE_Actions.dfm:129 dCE_Actions.dfm:137
 #: dCE_Actions.dfm:144 dCE_Actions.dfm:151 dCE_Actions.dfm:158
 #: dCE_Actions.dfm:165 dCE_Actions.dfm:171 dCE_Actions.dfm:179
-#: dCE_Actions.dfm:187 dCE_Actions.dfm:194 dCE_Actions.dfm:317
-#: dCE_Actions.dfm:377 dCE_Actions.dfm:390 dCE_Actions.dfm:418
-#: dCE_Actions.dfm:424 dCE_Actions.dfm:432 dCE_Actions.dfm:467
-#: dCE_Actions.dfm:574 dCE_Actions.dfm:664 dCE_Actions.dfm:708
+#: dCE_Actions.dfm:187 dCE_Actions.dfm:194 dCE_Actions.dfm:320
+#: dCE_Actions.dfm:380 dCE_Actions.dfm:393 dCE_Actions.dfm:421
+#: dCE_Actions.dfm:427 dCE_Actions.dfm:435 dCE_Actions.dfm:470
+#: dCE_Actions.dfm:577 dCE_Actions.dfm:667 dCE_Actions.dfm:711
 #: fCE_TextEditor.dfm:95 fCE_TextEditor.dfm:442 fCE_TextEditor.dfm:458
 #: Main.dfm:184 Main.dfm:436
 msgid "View"
@@ -116,9 +116,9 @@ msgstr ""
 #. CEActions..ActionList..act_help_versionmgr..Category
 #. CEActions..ActionList..act_help_checkupdates..Category
 #. MainForm..TopToolDock..MainToolbar..helpMenuItem..Caption
-#: dCE_Actions.dfm:40  dCE_Actions.dfm:296 dCE_Actions.dfm:303
-#: dCE_Actions.dfm:310 dCE_Actions.dfm:439 dCE_Actions.dfm:657
-#: dCE_Actions.dfm:677 Main.dfm:399
+#: dCE_Actions.dfm:40  dCE_Actions.dfm:299 dCE_Actions.dfm:306
+#: dCE_Actions.dfm:313 dCE_Actions.dfm:442 dCE_Actions.dfm:660
+#: dCE_Actions.dfm:680 Main.dfm:399
 msgid "Help"
 msgstr ""
 
@@ -138,8 +138,8 @@ msgstr ""
 #. CEActions..ActionList..act_navi_quickview..Category
 #. MainForm..TopToolDock..NavigationToolbar..Caption
 #: dCE_Actions.dfm:47  dCE_Actions.dfm:55 dCE_Actions.dfm:63
-#: dCE_Actions.dfm:70 dCE_Actions.dfm:333 dCE_Actions.dfm:341
-#: dCE_Actions.dfm:475 dCE_Actions.dfm:481 dCE_Actions.dfm:536 Main.dfm:468
+#: dCE_Actions.dfm:70 dCE_Actions.dfm:336 dCE_Actions.dfm:344
+#: dCE_Actions.dfm:478 dCE_Actions.dfm:484 dCE_Actions.dfm:539 Main.dfm:468
 msgid "Navigation"
 msgstr ""
 
@@ -199,11 +199,11 @@ msgstr ""
 #. CETextEditorPage..ActionList..text_edit_findprev..Category
 #. MainForm..TopToolDock..MainToolbar..editMenuItem..Caption
 #. MainForm..TopToolDock..EditToolbar..Caption
-#: dCE_Actions.dfm:86  dCE_Actions.dfm:200 dCE_Actions.dfm:210
-#: dCE_Actions.dfm:218 dCE_Actions.dfm:228 dCE_Actions.dfm:236
-#: dCE_Actions.dfm:243 dCE_Actions.dfm:250 dCE_Actions.dfm:258
-#: dCE_Actions.dfm:325 dCE_Actions.dfm:361 dCE_Actions.dfm:369
-#: dCE_Actions.dfm:397 dCE_Actions.dfm:405 dCE_Actions.dfm:580
+#: dCE_Actions.dfm:86  dCE_Actions.dfm:201 dCE_Actions.dfm:211
+#: dCE_Actions.dfm:219 dCE_Actions.dfm:229 dCE_Actions.dfm:237
+#: dCE_Actions.dfm:245 dCE_Actions.dfm:253 dCE_Actions.dfm:261
+#: dCE_Actions.dfm:328 dCE_Actions.dfm:364 dCE_Actions.dfm:372
+#: dCE_Actions.dfm:400 dCE_Actions.dfm:408 dCE_Actions.dfm:583
 #: fCE_TextEditor.dfm:45 fCE_TextEditor.dfm:324 fCE_TextEditor.dfm:362
 #: fCE_TextEditor.dfm:369 fCE_TextEditor.dfm:376 fCE_TextEditor.dfm:383
 #: fCE_TextEditor.dfm:390 fCE_TextEditor.dfm:397 fCE_TextEditor.dfm:404
@@ -222,7 +222,7 @@ msgstr ""
 #. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..group_loadsave..check_bookmarks..Caption
 #. MainForm..TopToolDock..MainToolbar..bookmarkMenuItem..Caption
 #. Create BookmarkBar
-#: dCE_Actions.dfm:95  dCE_Actions.dfm:558 dCE_Actions.dfm:559
+#: dCE_Actions.dfm:95  dCE_Actions.dfm:561 dCE_Actions.dfm:562
 #: fCE_SessionManager.dfm:145 Main.dfm:345
 #: fCE_OptionsPage_Display_Bookmarks.pas:65 Main.pas:576
 msgid "Bookmarks"
@@ -260,8 +260,8 @@ msgstr ""
 #. CEFiltersPanel..Caption
 #. CESearchPage..SearchPanel..CriteriaTabControl..SpTBXTabItem8..Caption
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_filters..Caption
-#: dCE_Actions.dfm:130  dCE_Actions.dfm:635 dCE_Actions.dfm:636
-#: dCE_Actions.dfm:642 dCE_Actions.dfm:650 fCE_FiltersPanel.dfm:2
+#: dCE_Actions.dfm:130  dCE_Actions.dfm:638 dCE_Actions.dfm:639
+#: dCE_Actions.dfm:645 dCE_Actions.dfm:653 fCE_FiltersPanel.dfm:2
 #: fCE_SearchPage.dfm:136 fCE_SearchPage.dfm:144
 msgid "Filters"
 msgstr ""
@@ -302,7 +302,7 @@ msgstr ""
 
 #. CEActions..ActionList..act_view_groupby..Caption
 #. CEActions..BackgroundCMItems_up..MenuItem_GroupBy..Caption
-#: dCE_Actions.dfm:172  dCE_Actions.dfm:745
+#: dCE_Actions.dfm:172  dCE_Actions.dfm:748
 msgid "Group By"
 msgstr ""
 
@@ -324,19 +324,19 @@ msgstr ""
 
 #. CEActions..ActionList..act_edit_copy..Caption
 #. CETextEditorPage..ActionList..text_edit_copy..Caption
-#: dCE_Actions.dfm:201  fCE_TextEditor.dfm:370
+#: dCE_Actions.dfm:202  fCE_TextEditor.dfm:370
 msgid "Copy"
 msgstr ""
 
 #. CEActions..ActionList..act_edit_cut..Caption
 #. CETextEditorPage..ActionList..text_edit_cut..Caption
-#: dCE_Actions.dfm:211  fCE_TextEditor.dfm:377
+#: dCE_Actions.dfm:212  fCE_TextEditor.dfm:377
 msgid "Cut"
 msgstr ""
 
 #. CEActions..ActionList..act_edit_paste..Caption
 #. CETextEditorPage..ActionList..text_edit_paste..Caption
-#: dCE_Actions.dfm:219  fCE_TextEditor.dfm:384
+#: dCE_Actions.dfm:220  fCE_TextEditor.dfm:384
 msgid "Paste"
 msgstr ""
 
@@ -346,7 +346,7 @@ msgstr ""
 #. TCEOptionsPage_Hotkeys..TntGroupBox1..but_delete..Caption
 #. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..but_delete..Caption
 #. CETextEditorPage..ActionList..text_edit_delete..Caption
-#: dCE_Actions.dfm:229  fCE_BookmarkPanel.dfm:77
+#: dCE_Actions.dfm:230  fCE_BookmarkPanel.dfm:77
 #: fCE_OptionsPage_GlobalHotkeys.dfm:123 fCE_OptionsPage_Hotkeys.dfm:127
 #: fCE_SessionManager.dfm:88 fCE_TextEditor.dfm:391 fCE_VersionMgrForm.pas:323
 #: fCE_VersionMgrForm.pas:544
@@ -355,24 +355,24 @@ msgstr ""
 
 #. CEActions..ActionList..act_edit_selall..Caption
 #. CETextEditorPage..ActionList..text_edit_selall..Caption
-#: dCE_Actions.dfm:237  fCE_TextEditor.dfm:398
+#: dCE_Actions.dfm:238  fCE_TextEditor.dfm:398
 msgid "Select All"
 msgstr ""
 
 #. CEActions..ActionList..act_edit_invertsel..Caption
-#: dCE_Actions.dfm:244 
+#: dCE_Actions.dfm:246 
 msgid "Invert Selection"
 msgstr ""
 
 #. CEActions..ActionList..act_edit_properties..Caption
 #. CEBookmarkPanel..BookmarkPopupMenu..but_properties..Caption
-#: dCE_Actions.dfm:251  fCE_BookmarkPanel.dfm:67
+#: dCE_Actions.dfm:254  fCE_BookmarkPanel.dfm:67
 msgid "Properties..."
 msgstr ""
 
 #. CEActions..ActionList..act_edit_rename..Caption
 #. CEBookmarkPanel..BookmarkPopupMenu..but_rename..Caption
-#: dCE_Actions.dfm:259  fCE_BookmarkPanel.dfm:72
+#: dCE_Actions.dfm:262  fCE_BookmarkPanel.dfm:72
 msgid "Rename"
 msgstr ""
 
@@ -382,8 +382,8 @@ msgstr ""
 #. CEActions..ActionList..act_quick_image..Category
 #. CEActions..ActionList..act_quick_hex..Category
 #. CEActions..ActionList..act_view_quickview..Caption
-#: dCE_Actions.dfm:266  dCE_Actions.dfm:272 dCE_Actions.dfm:278
-#: dCE_Actions.dfm:284 dCE_Actions.dfm:290 dCE_Actions.dfm:318
+#: dCE_Actions.dfm:269  dCE_Actions.dfm:275 dCE_Actions.dfm:281
+#: dCE_Actions.dfm:287 dCE_Actions.dfm:293 dCE_Actions.dfm:321
 #: fCE_QuickViewPanel.pas:79
 msgid "Quickview"
 msgstr ""
@@ -391,57 +391,57 @@ msgstr ""
 #. CEActions..ActionList..act_quick_none..Caption
 #. CETextEditorPage..TopDock..MainToolbar..highlighterSubmenu..SpTBXItem16..Caption
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem57..Caption
-#: dCE_Actions.dfm:267  fCE_TextEditor.dfm:107 Main.dfm:257
+#: dCE_Actions.dfm:270  fCE_TextEditor.dfm:107 Main.dfm:257
 msgid "None"
 msgstr ""
 
 #. CEActions..ActionList..act_quick_auto..Caption
-#: dCE_Actions.dfm:273 
+#: dCE_Actions.dfm:276 
 msgid "Auto"
 msgstr ""
 
 #. CEActions..ActionList..act_quick_text..Caption
-#: dCE_Actions.dfm:279  fCE_OptionsPage_Display_FileView.pas:80
+#: dCE_Actions.dfm:282  fCE_OptionsPage_Display_FileView.pas:80
 msgid "Text"
 msgstr ""
 
 #. CEActions..ActionList..act_quick_image..Caption
-#: dCE_Actions.dfm:285 
+#: dCE_Actions.dfm:288 
 msgid "Image"
 msgstr ""
 
 #. CEActions..ActionList..act_quick_hex..Caption
-#: dCE_Actions.dfm:291 
+#: dCE_Actions.dfm:294 
 msgid "Hex"
 msgstr ""
 
 #. CEActions..ActionList..act_help_home..Caption
-#: dCE_Actions.dfm:297 
+#: dCE_Actions.dfm:300 
 msgid "CubicExplorer Home Page"
 msgstr ""
 
 #. CEActions..ActionList..act_help_forum..Caption
-#: dCE_Actions.dfm:304 
+#: dCE_Actions.dfm:307 
 msgid "Support Forum"
 msgstr ""
 
 #. CEActions..ActionList..act_help_about..Caption
-#: dCE_Actions.dfm:311 
+#: dCE_Actions.dfm:314 
 msgid "About..."
 msgstr ""
 
 #. CEActions..ActionList..act_edit_duplicate..Caption
-#: dCE_Actions.dfm:326 
+#: dCE_Actions.dfm:329 
 msgid "Duplicate"
 msgstr ""
 
 #. CEActions..ActionList..act_navi_texteditor..Caption
-#: dCE_Actions.dfm:334 
+#: dCE_Actions.dfm:337 
 msgid "Text Editor"
 msgstr ""
 
 #. CEActions..ActionList..act_navi_filesearch..Caption
-#: dCE_Actions.dfm:342  fCE_SearchPage.pas:875
+#: dCE_Actions.dfm:345  fCE_SearchPage.pas:875
 msgid "File Search"
 msgstr ""
 
@@ -452,85 +452,85 @@ msgstr ""
 #. CEActions..ActionList..act_tools_showoptions..Category
 #. CEActions..ActionList..act_tools_emptytrash..Category
 #. MainForm..TopToolDock..MainToolbar..toolsMenuItem..Caption
-#: dCE_Actions.dfm:349  dCE_Actions.dfm:355 dCE_Actions.dfm:383
-#: dCE_Actions.dfm:411 dCE_Actions.dfm:446 dCE_Actions.dfm:684 Main.dfm:377
+#: dCE_Actions.dfm:352  dCE_Actions.dfm:358 dCE_Actions.dfm:386
+#: dCE_Actions.dfm:414 dCE_Actions.dfm:449 dCE_Actions.dfm:687 Main.dfm:377
 msgid "Tools"
 msgstr ""
 
 #. CEActions..ActionList..act_tools_mapdrive..Caption
-#: dCE_Actions.dfm:350 
+#: dCE_Actions.dfm:353 
 msgid "Map Network Drive..."
 msgstr ""
 
 #. CEActions..ActionList..act_tools_disconnectdrive..Caption
-#: dCE_Actions.dfm:356 
+#: dCE_Actions.dfm:359 
 msgid "Disconnect Network Drive..."
 msgstr ""
 
 #. CEActions..ActionList..act_edit_newfile..Caption
 #. CEPoEditor..ActionList..act_new..Caption
 #. CETextEditorPage..ActionList..text_file_new..Caption
-#: dCE_Actions.dfm:362  fCE_PoEditor.dfm:394 fCE_TextEditor.dfm:318
+#: dCE_Actions.dfm:365  fCE_PoEditor.dfm:394 fCE_TextEditor.dfm:318
 msgid "New"
 msgstr ""
 
 #. CEActions..ActionList..act_edit_copypath..Caption
-#: dCE_Actions.dfm:370 
+#: dCE_Actions.dfm:373 
 msgid "Copy Path"
 msgstr ""
 
 #. CEActions..ActionList..act_view_showhints..Caption
-#: dCE_Actions.dfm:378 
+#: dCE_Actions.dfm:381 
 msgid "Show Hints"
 msgstr ""
 
 #. CEActions..ActionList..act_tools_showcustomizer..Caption
-#: dCE_Actions.dfm:384 
+#: dCE_Actions.dfm:387 
 msgid "Customizer..."
 msgstr ""
 
 #. CEActions..ActionList..act_view_hiddenfiles..Caption
-#: dCE_Actions.dfm:391 
+#: dCE_Actions.dfm:394 
 msgid "Show Hidden Files"
 msgstr ""
 
 #. CEActions..ActionList..act_edit_newfolder..Caption
-#: dCE_Actions.dfm:398  CE_FileView.pas:522
+#: dCE_Actions.dfm:401  CE_FileView.pas:534
 msgid "New Folder"
 msgstr ""
 
 #. CEActions..ActionList..act_edit_paste_shortcut..Caption
-#: dCE_Actions.dfm:406 
+#: dCE_Actions.dfm:409 
 msgid "Paste Shortcut"
 msgstr ""
 
 #. CEActions..ActionList..act_tools_cmd..Caption
-#: dCE_Actions.dfm:412 
+#: dCE_Actions.dfm:415 
 msgid "Open Command Prompt"
 msgstr ""
 
 #. CEActions..ActionList..act_view_statusbar..Caption
-#: dCE_Actions.dfm:419 
+#: dCE_Actions.dfm:422 
 msgid "Status Bar"
 msgstr ""
 
 #. CEActions..ActionList..act_view_fullscreen..Caption
-#: dCE_Actions.dfm:425 
+#: dCE_Actions.dfm:428 
 msgid "Fullscreen"
 msgstr ""
 
 #. CEActions..ActionList..act_view_showextensions..Caption
-#: dCE_Actions.dfm:433 
+#: dCE_Actions.dfm:436 
 msgid "Show Extensions"
 msgstr ""
 
 #. CEActions..ActionList..act_help_poedit_form..Caption
-#: dCE_Actions.dfm:440 
+#: dCE_Actions.dfm:443 
 msgid "Translate CubicExplorer"
 msgstr ""
 
 #. CEActions..ActionList..act_tools_showoptions..Caption
-#: dCE_Actions.dfm:447 
+#: dCE_Actions.dfm:450 
 msgid "Options..."
 msgstr ""
 
@@ -543,24 +543,24 @@ msgstr ""
 #. CEActions..ActionList..act_sessions_enablehistory..Category
 #. MainForm..TopToolDock..MainToolbar..sessionsMenuItem..Caption
 #. Create SessionsBar
-#: dCE_Actions.dfm:453  dCE_Actions.dfm:460 dCE_Actions.dfm:544
-#: dCE_Actions.dfm:551 dCE_Actions.dfm:566 dCE_Actions.dfm:567
-#: dCE_Actions.dfm:586 Main.dfm:348 Main.pas:586
+#: dCE_Actions.dfm:456  dCE_Actions.dfm:463 dCE_Actions.dfm:547
+#: dCE_Actions.dfm:554 dCE_Actions.dfm:569 dCE_Actions.dfm:570
+#: dCE_Actions.dfm:589 Main.dfm:348 Main.pas:586
 msgid "Sessions"
 msgstr ""
 
 #. CEActions..ActionList..act_sessions_save..Caption
-#: dCE_Actions.dfm:454 
+#: dCE_Actions.dfm:457 
 msgid "Save..."
 msgstr ""
 
 #. CEActions..ActionList..act_sessions_save..Hint
-#: dCE_Actions.dfm:455 
+#: dCE_Actions.dfm:458 
 msgid "Save active session."
 msgstr ""
 
 #. CEActions..ActionList..act_sessions_manage..Caption
-#: dCE_Actions.dfm:461 
+#: dCE_Actions.dfm:464 
 msgid "Manage..."
 msgstr ""
 
@@ -568,159 +568,159 @@ msgstr ""
 #. CEActions..ActionList..act_sessions_addhistoryitem..Hint
 #. CEActions..ActionList..act_sessions_clearhistory..Hint
 #. CEActions..ActionList..act_sessions_enablehistory..Hint
-#: dCE_Actions.dfm:462  dCE_Actions.dfm:546 dCE_Actions.dfm:553
-#: dCE_Actions.dfm:588
+#: dCE_Actions.dfm:465  dCE_Actions.dfm:549 dCE_Actions.dfm:556
+#: dCE_Actions.dfm:591
 msgid "Show Session Manager"
 msgstr ""
 
 #. CEActions..ActionList..act_view_arrangeby..Caption
 #. CEActions..BackgroundCMItems_up..MenuItem_ArragneBy..Caption
-#: dCE_Actions.dfm:468  dCE_Actions.dfm:742
+#: dCE_Actions.dfm:471  dCE_Actions.dfm:745
 msgid "Arrange By"
 msgstr ""
 
 #. CEActions..ActionList..act_navi_scrollleft..Caption
-#: dCE_Actions.dfm:476 
+#: dCE_Actions.dfm:479 
 msgid "Scroll Left"
 msgstr ""
 
 #. CEActions..ActionList..act_navi_scrollright..Caption
-#: dCE_Actions.dfm:482 
+#: dCE_Actions.dfm:485 
 msgid "Scroll Right"
 msgstr ""
 
 #. CEActions..ActionList..act_tabs_closeothertabs..Caption
 #. CEActions..ActionList..act_tabs_closeothertabs..Hint
-#: dCE_Actions.dfm:488  dCE_Actions.dfm:489
+#: dCE_Actions.dfm:491  dCE_Actions.dfm:492
 msgid "Close Other Tabs"
 msgstr ""
 
 #. CEActions..ActionList..act_tabs_addtab..Caption
 #. CEActions..ActionList..act_tabs_addtab..Hint
-#: dCE_Actions.dfm:496  dCE_Actions.dfm:497
+#: dCE_Actions.dfm:499  dCE_Actions.dfm:500
 msgid "Add Tab"
 msgstr ""
 
 #. CEActions..ActionList..act_tabs_duplicatetab..Caption
 #. CEActions..ActionList..act_tabs_duplicatetab..Hint
-#: dCE_Actions.dfm:505  dCE_Actions.dfm:506
+#: dCE_Actions.dfm:508  dCE_Actions.dfm:509
 msgid "Duplicate Tab"
 msgstr ""
 
 #. CEActions..ActionList..act_tabs_closeonleft..Caption
 #. CEActions..ActionList..act_tabs_closeonleft..Hint
-#: dCE_Actions.dfm:513  dCE_Actions.dfm:514
+#: dCE_Actions.dfm:516  dCE_Actions.dfm:517
 msgid "Close Tabs on Left"
 msgstr ""
 
 #. CEActions..ActionList..act_tabs_closeonright..Caption
 #. CEActions..ActionList..act_tabs_closeonright..Hint
-#: dCE_Actions.dfm:521  dCE_Actions.dfm:522
+#: dCE_Actions.dfm:524  dCE_Actions.dfm:525
 msgid "Close Tabs on Right"
 msgstr ""
 
 #. CEActions..ActionList..act_gen_menu..Caption
-#: dCE_Actions.dfm:529 
+#: dCE_Actions.dfm:532 
 msgid "Menu"
 msgstr ""
 
 #. CEActions..ActionList..act_navi_quickview..Caption
-#: dCE_Actions.dfm:537  fCE_QuickViewTab.pas:166
+#: dCE_Actions.dfm:540  fCE_QuickViewTab.pas:166
 msgid "QuickView"
 msgstr ""
 
 #. CEActions..ActionList..act_sessions_addhistoryitem..Caption
-#: dCE_Actions.dfm:545 
+#: dCE_Actions.dfm:548 
 msgid "Add History Item"
 msgstr ""
 
 #. CEActions..ActionList..act_sessions_clearhistory..Caption
-#: dCE_Actions.dfm:552 
+#: dCE_Actions.dfm:555 
 msgid "Clear History"
 msgstr ""
 
 #. CEActions..ActionList..act_view_infobar..Caption
-#: dCE_Actions.dfm:575 
+#: dCE_Actions.dfm:578 
 msgid "Info Bar"
 msgstr ""
 
 #. CEActions..ActionList..act_edit_create_symlink..Caption
 #. CreateSymlinkDlg..Caption
-#: dCE_Actions.dfm:581  fCE_CreateSymlink.dfm:5
+#: dCE_Actions.dfm:584  fCE_CreateSymlink.dfm:5
 msgid "Create Symbolic Link"
 msgstr ""
 
 #. CEActions..ActionList..act_sessions_enablehistory..Caption
-#: dCE_Actions.dfm:587 
+#: dCE_Actions.dfm:590 
 msgid "Auto Save History"
 msgstr ""
 
 #. CEActions..ActionList..act_gen_showhide..Caption
-#: dCE_Actions.dfm:594 
+#: dCE_Actions.dfm:597 
 msgid "Show/Hide"
 msgstr ""
 
 #. CEActions..ActionList..act_tabs_undo..Caption
 #. CEActions..ActionList..act_tabs_undo..Hint
-#: dCE_Actions.dfm:600  dCE_Actions.dfm:601
+#: dCE_Actions.dfm:603  dCE_Actions.dfm:604
 msgid "Undo Tab Close"
 msgstr ""
 
 #. CEActions..ActionList..act_tabs_next..Caption
-#: dCE_Actions.dfm:609 
+#: dCE_Actions.dfm:612 
 msgid "Switch to Next Tab"
 msgstr ""
 
 #. CEActions..ActionList..act_tabs_prev..Caption
-#: dCE_Actions.dfm:618 
+#: dCE_Actions.dfm:621 
 msgid "Swith to Previous Tab"
 msgstr ""
 
 #. CEActions..ActionList..act_focus_addressbar..Category
-#: dCE_Actions.dfm:626 
+#: dCE_Actions.dfm:629 
 msgid "Focus"
 msgstr ""
 
 #. CEActions..ActionList..act_focus_addressbar..Caption
-#: dCE_Actions.dfm:627 
+#: dCE_Actions.dfm:630 
 msgid "Set focus to address bar"
 msgstr ""
 
 #. CEActions..ActionList..act_filters_pattern..Caption
-#: dCE_Actions.dfm:643 
+#: dCE_Actions.dfm:646 
 msgid "Text Filter"
 msgstr ""
 
 #. CEActions..ActionList..act_filters_clear..Caption
 #. Add Clear Filters
-#: dCE_Actions.dfm:651  fCE_FiltersPanel.pas:547
+#: dCE_Actions.dfm:654  fCE_FiltersPanel.pas:547
 msgid "Clear Filters"
 msgstr ""
 
 #. CEActions..ActionList..act_help_versionmgr..Caption
 #. CEVersionMgrForm..Caption
-#: dCE_Actions.dfm:658  fCE_VersionMgrForm.dfm:4
+#: dCE_Actions.dfm:661  fCE_VersionMgrForm.dfm:4
 msgid "Version Manager"
 msgstr ""
 
 #. CEActions..ActionList..act_view_archiver..Caption
 #. CEArchiverPanel..Caption
-#: dCE_Actions.dfm:665  fCE_ArchivePanel.dfm:2
+#: dCE_Actions.dfm:668  fCE_ArchivePanel.dfm:2
 msgid "Archiver"
 msgstr ""
 
 #. CEActions..ActionList..act_gen_new_instance..Caption
-#: dCE_Actions.dfm:672 
+#: dCE_Actions.dfm:675 
 msgid "New Window"
 msgstr ""
 
 #. CEActions..ActionList..act_help_checkupdates..Caption
-#: dCE_Actions.dfm:678  CE_VersionUpdater.pas:1180 CE_VersionUpdater.pas:1266
+#: dCE_Actions.dfm:681  CE_VersionUpdater.pas:1218 CE_VersionUpdater.pas:1304
 msgid "Check For Updates"
 msgstr ""
 
 #. CEActions..ActionList..act_tools_emptytrash..Caption
-#: dCE_Actions.dfm:685 
+#: dCE_Actions.dfm:688 
 msgid "Empty Recycle Bin"
 msgstr ""
 
@@ -1914,15 +1914,15 @@ msgstr ""
 
 #. Show Empty Folder text
 #. Show Empty Folder text
-#: CE_BaseFileView.pas:317  CE_FileView.pas:583 CE_FileView.pas:758
+#: CE_BaseFileView.pas:317  CE_FileView.pas:595 CE_FileView.pas:770
 msgid "Empty folder"
 msgstr ""
 
 #. Add "More..." item
 #. More... item
 #. More... item
-#: CE_BaseFileView.pas:1413  CE_ToolbarButtons.pas:480
-#: CE_ToolbarButtons.pas:632 dCE_Actions.pas:1743 dCE_Actions.pas:1782
+#: CE_BaseFileView.pas:1416  CE_ToolbarButtons.pas:489
+#: CE_ToolbarButtons.pas:641 dCE_Actions.pas:1743 dCE_Actions.pas:1782
 msgid "More..."
 msgstr ""
 
@@ -1940,19 +1940,31 @@ msgstr ""
 msgid "Are you sure you want to delete selected bookmarks?"
 msgstr ""
 
-#: CE_CommonObjects.pas:403 
+#: CE_CommonObjects.pas:276 
+msgid "WARNING! You are about to restore %d items."
+msgstr ""
+
+#: CE_CommonObjects.pas:277 
+msgid "Are you sure you want to do that?"
+msgstr ""
+
+#: CE_CommonObjects.pas:278 
+msgid "Restoring multiple items!"
+msgstr ""
+
+#: CE_CommonObjects.pas:475 
 msgid "Are you sure you want to restore?"
 msgstr ""
 
-#: CE_CommonObjects.pas:405 
+#: CE_CommonObjects.pas:477 
 msgid "Restore"
 msgstr ""
 
-#: CE_FileView.pas:585  CE_FileView.pas:760
+#: CE_FileView.pas:597  CE_FileView.pas:772
 msgid "Contains hidden items"
 msgstr ""
 
-#: CE_FileView.pas:736 
+#: CE_FileView.pas:748 
 msgid "Opening..."
 msgstr ""
 
@@ -2043,67 +2055,93 @@ msgstr ""
 msgid "New Category"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:340 
+#: CE_ToolbarButtons.pas:349 
 msgid "Folder Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:346 
+#: CE_ToolbarButtons.pas:355 
 msgid "Name Only"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:355 
+#: CE_ToolbarButtons.pas:364 
 msgid "Short Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:361 
+#: CE_ToolbarButtons.pas:370 
 msgid "Short Folder Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:367 
+#: CE_ToolbarButtons.pas:376 
 msgid "Short Name Only"
 msgstr ""
 
 #. Grouped toggle item
 #. Sho in Groups
-#: CE_ToolbarButtons.pas:606  dCE_Actions.pas:1752
+#: CE_ToolbarButtons.pas:615  dCE_Actions.pas:1752
 msgid "Show in Groups"
 msgstr ""
 
-#: CE_VersionUpdater.pas:398 
+#. Add Recycle Bin Item
+#: CE_ToolbarButtons.pas:890 
+msgid "Recycle Bin"
+msgstr ""
+
+#. Add Restore List
+#. Populate items
+#: CE_ToolbarButtons.pas:908  CE_ToolbarButtons.pas:1054
+msgid "Restore List"
+msgstr ""
+
+#. Add Restore All
+#: CE_ToolbarButtons.pas:916 
+msgid "Restore All"
+msgstr ""
+
+#. Add Item Count edit
+#: CE_ToolbarButtons.pas:925 
+msgid "Item Count"
+msgstr ""
+
+#. Add Day limit edit
+#: CE_ToolbarButtons.pas:931 
+msgid "Day Limit"
+msgstr ""
+
+#: CE_VersionUpdater.pas:401 
 msgid "Restart needed!"
 msgstr ""
 
-#: CE_VersionUpdater.pas:399 
+#: CE_VersionUpdater.pas:402 
 msgid "Restart CubicExplorer Now?"
 msgstr ""
 
-#: CE_VersionUpdater.pas:432 
+#: CE_VersionUpdater.pas:435 
 msgid "Official"
 msgstr ""
 
 #. btSnapshot is depricated
-#: CE_VersionUpdater.pas:433  CE_VersionUpdater.pas:434
+#: CE_VersionUpdater.pas:436  CE_VersionUpdater.pas:437
 msgid "Weekly"
 msgstr ""
 
-#: CE_VersionUpdater.pas:435 
+#: CE_VersionUpdater.pas:438 
 msgid "Daily"
 msgstr ""
 
-#: CE_VersionUpdater.pas:436 
+#: CE_VersionUpdater.pas:439 
 msgid "Test"
 msgstr ""
 
-#: CE_VersionUpdater.pas:1181 
+#: CE_VersionUpdater.pas:1219 
 msgid "You have no update type notifications selected."
 msgstr ""
 
-#: CE_VersionUpdater.pas:1181 
+#: CE_VersionUpdater.pas:1219 
 msgid "Use Options->Updates to change them."
 msgstr ""
 
 #. Show error message
-#: CE_VersionUpdater.pas:1257 
+#: CE_VersionUpdater.pas:1295 
 msgid "No new updates"
 msgstr ""
 
@@ -2538,23 +2576,23 @@ msgstr ""
 msgid "TB"
 msgstr ""
 
-#: Main.pas:1566 
+#: Main.pas:1571 
 msgid "New version (%s) is available. Do you want to update now?"
 msgstr ""
 
-#: Main.pas:1568 
+#: Main.pas:1573 
 msgid "Build:"
 msgstr ""
 
-#: Main.pas:1569 
+#: Main.pas:1574 
 msgid "Update type:"
 msgstr ""
 
-#: Main.pas:1572 
+#: Main.pas:1577 
 msgid "New Version Available"
 msgstr ""
 
-#: Main.pas:1573 
+#: Main.pas:1578 
 msgid "Do you want to update?"
 msgstr ""
 

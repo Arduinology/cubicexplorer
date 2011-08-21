@@ -10,7 +10,7 @@ uses
   // fcl-xml
   XMLRead, XMLWrite, DOM,
   // System Units
-  SysUtils, Classes, Windows, ExtCtrls;
+  SysUtils, Classes, Windows, ExtCtrls, Contnrs;
 
 type
   TCEBuildType = (btOfficial, btSnapshot, btWeeklySnapshot, btDailySnapshot, btTest);
@@ -68,6 +68,7 @@ type
     fBackupFolder: WideString;
     fCurrentVersion: TCEVersionNumber;
     fCurrentVersionStr: string;
+    fDestroying: Boolean;
     fOnDownloadProgress: TCEDownloadProgressEvent;
     fOnDownloadUpdateConfDone: TCEDownloadDoneEvent;
     fOnDownloadVersionDone: TCEDownloadDoneEvent;
@@ -76,10 +77,12 @@ type
     fXML: TXMLDocument;
     procedure SetCurrentVersionStr(const Value: string);
   protected
+    fThreadList: TObjectList;
     procedure ExecuteDownload(Sender: TCCBaseThread); virtual;
     procedure HandleSockStatus(Sender: TObject; Reason: THookSocketReason; const
         Value: String); virtual;
     procedure HandleSyncedMessage(Sender: TCCBaseThread; Msg: TObject); virtual;
+    procedure HandleThreadTerminate(Sender: TObject); virtual;
   public
     constructor Create;
     destructor Destroy; override;
@@ -449,13 +452,29 @@ begin
   fOnDownloadProgress:= nil;
   fOnDownloadUpdateConfDone:= nil;
   fOnDownloadVersionDone:= nil;
+  fThreadList:= TObjectList.Create(false);
+  fDestroying:= false;
 end;
 
 {-------------------------------------------------------------------------------
   Destroy TCEVersionUpdater
 -------------------------------------------------------------------------------}
 destructor TCEVersionUpdater.Destroy;
+var
+  i: Integer;
+  thread: TThread;
 begin
+  fDestroying:= true;
+  // Terminate threads
+  for i:= 0 to fThreadList.Count - 1 do
+  begin
+    thread:= TThread(fThreadList.Items[i]);
+    thread.OnTerminate:= nil;
+    thread.Terminate;
+  end;
+
+  FreeAndNil(fThreadList);
+
   if assigned(fXML) then
   FreeAndNil(fXML);
   inherited;
@@ -504,10 +523,12 @@ var
   port: Integer;
 begin
   thread:= TCCBaseThread.Create(true);
+  fThreadList.Add(thread);
   thread.FreeOnTerminate:= true;
   thread.OnExecute:= ExecuteDownload;
   thread.OnSyncedMessage:= HandleSyncedMessage;
   thread.Name:= 'Downloader_UpdateConf';
+  thread.OnTerminate:= HandleThreadTerminate;
   // Create data
   data:= TCEDownloadData.Create;
   data.URL:= UpdateConfURL;
@@ -595,10 +616,12 @@ begin
       if WideDirectoryExists(dir) then
       begin
         thread:= TCCBaseThread.Create(true);
+        fThreadList.Add(thread);
         Result:= Integer(thread);
         thread.FreeOnTerminate:= true;
         thread.OnExecute:= ExecuteDownload;
         thread.OnSyncedMessage:= HandleSyncedMessage;
+        thread.OnTerminate:= HandleThreadTerminate;
         thread.Name:= 'Downloader_Payload';
         // Create data
         data:= TCEDownloadData.Create;
@@ -712,6 +735,7 @@ begin
     end;
   finally
     // Send Synced "Done" message
+    if not Sender.Terminated then
     Sender.SendSyncedMessage(Sender.Data);
   end;
 end;
@@ -746,7 +770,9 @@ begin
 
           msg.FileCount:= data.FileCount;
           msg.Current:= data.Current;
-
+          if thread.Terminated then
+          http.Abort
+          else
           thread.SendSyncedMessage(msg);
         finally
           msg.Free;
@@ -766,6 +792,9 @@ var
   tmpXML: TXMLDocument;
   dlg: TCELoginPromptDlg;
 begin
+  if Sender.Terminated then
+  Exit;
+  
   if Msg is TCEDownloadData then
   begin
     // UpdateConf download done. Load XML from receive stream.
@@ -931,6 +960,15 @@ begin
       end;
     end;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle ThreadTerminate
+-------------------------------------------------------------------------------}
+procedure TCEVersionUpdater.HandleThreadTerminate(Sender: TObject);
+begin
+  if not fDestroying then
+  fThreadList.Remove(Sender);
 end;
 
 {-------------------------------------------------------------------------------

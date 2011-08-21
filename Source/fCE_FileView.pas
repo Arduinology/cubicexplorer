@@ -176,7 +176,9 @@ type
     fColumns: TCEColumnSettings;
     fFileSizeFormat: TVirtualFileSizeFormat;
     fFilmstrip: TCEFilmstripSettings;
+    fFolderUpOnDblClick: Boolean;
     fFontSize: Integer;
+    fFullRowDblClick: Boolean;
     fGroupBy: TCEGroupBySettings;
     fInfoBarSize: Integer;
     fShowInfoTips: Boolean;
@@ -204,7 +206,9 @@ type
     procedure SetBrowseZipFolders(const Value: Boolean);
     procedure SetCheckBoxSelection(const Value: Boolean);
     procedure SetFileSizeFormat(const Value: TVirtualFileSizeFormat);
+    procedure SetFolderUpOnDblClick(const Value: Boolean);
     procedure SetFontSize(const Value: Integer);
+    procedure SetFullRowDblClick(const Value: Boolean);
     procedure SetShowInfoTips(const Value: Boolean);
     procedure SetShowExtensions(const Value: Boolean);
     procedure SetShowGridLines(const Value: Boolean);
@@ -253,7 +257,11 @@ type
     property FileSizeFormat: TVirtualFileSizeFormat read fFileSizeFormat write
         SetFileSizeFormat;
     property Filmstrip: TCEFilmstripSettings read fFilmstrip write fFilmstrip;
+    property FolderUpOnDblClick: Boolean read fFolderUpOnDblClick write
+        SetFolderUpOnDblClick;
     property FontSize: Integer read fFontSize write SetFontSize;
+    property FullRowDblClick: Boolean read fFullRowDblClick write
+        SetFullRowDblClick;
     property FullRowSelect: Boolean read fFullRowSelect write SetFullRowSelect;
     property GroupBy: TCEGroupBySettings read fGroupBy write fGroupBy;
     property HiddenFiles: Boolean read fHiddenFiles write SetHiddenFiles;
@@ -369,6 +377,7 @@ begin
   ShowInfoBar:= false;
 
   GlobalFileViewSettings.AssignSettingsTo(Self);
+  fShowItemContextMenu:= true;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1068,6 +1077,8 @@ begin
   fFileSizeFormat:= vfsfDefault;
   fArrowBrowse:= true;
   fFontSize:= -1;
+  fFolderUpOnDblClick:= true;
+  fFullRowDblClick:= false;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1141,6 +1152,8 @@ begin
     FileViewPage.FileView.SingleClickExecute:= fSingleClickExecute;
     FileViewPage.FileView.CheckBoxSelection:= fCheckBoxSelection;
     FileViewPage.FileView.PaintInfoItem.GridLines:= fShowGridLines;
+    FileViewPage.FileView.FolderUpOnDblClick:= fFolderUpOnDblClick;
+    FileViewPage.FileView.FullRowDblClick:= fFullRowDblClick;
     // Options
     options:= FileViewPage.FileView.Options;
     if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
@@ -1549,12 +1562,27 @@ begin
   SendChanges;
 end;
 
+procedure TCEFileViewSettings.SetFolderUpOnDblClick(const Value: Boolean);
+begin
+  fFolderUpOnDblClick:= Value;
+  SendChanges;
+end;
+
 {-------------------------------------------------------------------------------
   Set FontSize
 -------------------------------------------------------------------------------}
 procedure TCEFileViewSettings.SetFontSize(const Value: Integer);
 begin
   fFontSize:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Set FullRow Dbl Click
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetFullRowDblClick(const Value: Boolean);
+begin
+  fFullRowDblClick:= Value;
+  SendChanges;
 end;
 
 {-------------------------------------------------------------------------------

@@ -897,3 +897,24 @@ msgstr ""
 # dCE_Images.dfm:7680
 msgid "PngImage55"
 msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4210
+# dCE_Images.dfm:7765
+msgid "PngImage56"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4236
+# dCE_Images.dfm:7782
+msgid "PngImage57"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4263
+# dCE_Images.dfm:7800
+msgid "PngImage58"
+msgstr "
