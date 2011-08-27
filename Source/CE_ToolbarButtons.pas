@@ -140,8 +140,6 @@ type
     fRestoreListItem: TSpTBXItem;
   protected
     procedure DoPopup(Sender: TTBCustomItem; FromLink: Boolean); override;
-    procedure HandleItemCountValueChange(Sender: TObject);
-    procedure HandleDayLimitValueChange(Sender: TObject);
     procedure RefreshItems;
   public
     destructor Destroy; override;
@@ -168,6 +166,15 @@ type
         SetUndoDelete_ItemCount;
   end;
 
+type
+  TCESystemPowerButton = class(TCEToolbarSubmenuItem)
+  protected
+    procedure HandleItemClick(Sender: TObject);
+    procedure Populate;
+  public
+    constructor Create(AOwner: TComponent); override;
+  end;
+
 var
   GlobalButtonSettings: TCEButtonSettings;
 
@@ -176,7 +183,7 @@ implementation
 uses
   CE_FileView, fCE_FileView, CE_BaseFileView, dCE_Actions, dCE_Images, Main,
   CE_Sessions, fCE_FiltersPanel, CE_Utils, MPShellTypes, CE_CommonObjects,
-  CE_AppSettings;
+  CE_AppSettings, CE_SystemUtils;
 
 {##############################################################################}
 
@@ -882,8 +889,6 @@ var
 begin
   ClearItems;
   CERecycleBinCtrl.RefreshList;
-
-
   // Add Recycle Bin Item
   subItem:= TCEToolbarSubmenuItem.Create(Self);
   subItem.Images:= CE_Images.SmallIcons;
@@ -918,21 +923,7 @@ begin
     item.Tag:= -3;
     item.OnClick:= OnSubClick;
     subItem.Add(item);
-    // Add Separator
-    subItem.Add(TSpTBXSeparatorItem.Create(subItem));
-    // Add Item Count edit
-    edit:= TSpTBXSpinEditItem.Create(subItem);
-    edit.EditCaption:= _('Item Count');
-    edit.Value:= CERecycleBinCtrl.ItemNumberLimit;
-    edit.OnValueChanged:= HandleItemCountValueChange;
-    subItem.Add(edit);
-    // Add Day limit edit
-    edit:= TSpTBXSpinEditItem.Create(subItem);
-    edit.EditCaption:= _('Day Limit');
-    edit.Value:= CERecycleBinCtrl.DayLimit;
-    edit.OnValueChanged:= HandleDayLimitValueChange;
-    subItem.Add(edit);
-
+    
   // Add Separator
   Sender.Add(TSpTBXSeparatorItem.Create(Self));
   // Populate items
@@ -947,40 +938,6 @@ begin
     item.ImageIndex:= ns.GetIconIndex(false, icSmall);
     item.OnClick:= OnSubClick;
     Sender.Add(item);
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  Handle Item Count Value Change
--------------------------------------------------------------------------------}
-procedure TCEUndoDeleteButton.HandleItemCountValueChange(Sender: TObject);
-var
-  item: TSpTBXItem;
-  ns: TNamespace;
-  i: Integer;
-  ws: WideString;
-begin
-  if Sender is TSpTBXSpinEditOptions then
-  begin
-    CERecycleBinCtrl.ItemNumberLimit:= Round(TSpTBXSpinEditOptions(Sender).Value);
-    RefreshItems;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  Handle Item Count Value Change
--------------------------------------------------------------------------------}
-procedure TCEUndoDeleteButton.HandleDayLimitValueChange(Sender: TObject);
-var
-  item: TSpTBXItem;
-  ns: TNamespace;
-  i: Integer;
-  ws: WideString;
-begin
-  if Sender is TSpTBXSpinEditOptions then
-  begin
-    CERecycleBinCtrl.DayLimit:= Round(TSpTBXSpinEditOptions(Sender).Value);
-    RefreshItems;
   end;
 end;
 
@@ -1102,6 +1059,97 @@ end;
 procedure TCEButtonSettings.SetUndoDelete_DayLimit(const Value: Integer);
 begin
   CERecycleBinCtrl.DayLimit:= Value;
+end;
+
+{##############################################################################}
+
+{*------------------------------------------------------------------------------
+  Create an instance of TCESystemPowerButton
+-------------------------------------------------------------------------------}
+constructor TCESystemPowerButton.Create(AOwner: TComponent);
+begin
+  inherited;
+  Self.DropdownCombo:= false;
+  Self.Options:= [tboDropdownArrow];
+  Populate;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle Item Click
+-------------------------------------------------------------------------------}
+procedure TCESystemPowerButton.HandleItemClick(Sender: TObject);
+begin
+  case TSpTBXItem(Sender).Tag of
+    1: LockWorkStation;
+    2: WindowsExit(EWX_LOGOFF);
+    3: SetSuspendState(false, false, false);
+    4: SetSuspendState(true, false, false);
+    5: WindowsExit(EWX_REBOOT);
+    6: WindowsExit(EWX_POWEROFF);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Popuplate sub menu
+-------------------------------------------------------------------------------}
+procedure TCESystemPowerButton.Populate;
+var
+  item: TSpTBXItem;
+begin
+  Self.Clear;
+  // Lock
+  item:= TSpTBXItem.Create(Self);
+  item.Caption:= _('Lock');
+  item.Images:= CE_Images.SmallIcons;
+  item.OnClick:= HandleItemClick;
+  item.Tag:= 1;
+  Self.Add(item);
+  // Logoff
+  item:= TSpTBXItem.Create(Self);
+  item.Caption:= _('Logoff');
+  item.Images:= CE_Images.SmallIcons;
+  item.OnClick:= HandleItemClick;
+  item.Tag:= 2;
+  Self.Add(item);
+  // ----
+  if IsPwrSuspendAllowed or IsHibernateAllowed then
+  Self.Add(TSpTBXSeparatorItem.Create(Self));
+  // Sleep
+  if IsPwrSuspendAllowed then
+  begin
+    item:= TSpTBXItem.Create(Self);
+    item.Caption:= _('Sleep');
+    item.Images:= CE_Images.SmallIcons;
+    item.OnClick:= HandleItemClick;
+    item.Tag:= 3;
+    Self.Add(item);
+  end;
+  // Hibernate
+  if IsHibernateAllowed then
+  begin
+    item:= TSpTBXItem.Create(Self);
+    item.Caption:= _('Hibernate');
+    item.Images:= CE_Images.SmallIcons;
+    item.OnClick:= HandleItemClick;
+    item.Tag:= 4;
+    Self.Add(item);
+  end;
+  // ----
+  Self.Add(TSpTBXSeparatorItem.Create(Self));
+  // Reboot
+  item:= TSpTBXItem.Create(Self);
+  item.Caption:= _('Reboot');
+  item.Images:= CE_Images.SmallIcons;
+  item.OnClick:= HandleItemClick;
+  item.Tag:= 5;
+  Self.Add(item);
+  // Shut down
+  item:= TSpTBXItem.Create(Self);
+  item.Caption:= _('Shut down');
+  item.Images:= CE_Images.SmallIcons;
+  item.OnClick:= HandleItemClick;
+  item.Tag:= 6;
+  Self.Add(item);
 end;
 
 {##############################################################################}

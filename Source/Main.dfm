@@ -45,8 +45,6 @@ object MainForm: TMainForm
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
-    ExplicitLeft = 10
-    ExplicitTop = 60
   end
   object RightToolDock: TSpTBXDock
     Left = 619
@@ -147,13 +145,13 @@ object MainForm: TMainForm
         object SpTBXItem22: TSpTBXItem
           Action = CEActions.act_edit_delete
         end
-        object SpTBXItem21: TSpTBXItem
-          Action = CEActions.act_edit_rename
+        object SpTBXItem98: TSpTBXItem
+          Action = CEActions.act_edit_undo_delete
         end
         object SpTBXSeparatorItem30: TSpTBXSeparatorItem
         end
-        object SpTBXItem98: TSpTBXItem
-          Action = CEActions.act_edit_undo_delete
+        object SpTBXItem21: TSpTBXItem
+          Action = CEActions.act_edit_rename
         end
         object SpTBXSeparatorItem8: TSpTBXSeparatorItem
         end

@@ -164,6 +164,7 @@ object CEActions: TCEActions
       Tag = 335
       Category = 'View'
       Caption = 'Always On Top'
+      ImageIndex = 60
       OnExecute = ActionExecute
     end
     object act_view_groupby: TCEToolbarAction
@@ -673,6 +674,7 @@ object CEActions: TCEActions
       Tag = 103
       Category = 'General'
       Caption = 'New Window'
+      ImageIndex = 61
       OnExecute = ActionExecute
     end
     object act_help_checkupdates: TTntAction
@@ -688,6 +690,15 @@ object CEActions: TCEActions
       Caption = 'Empty Recycle Bin'
       ImageIndex = 24
       OnExecute = ActionExecute
+    end
+    object act_tools_systempower: TCEToolbarAction
+      Tag = 455
+      Category = 'Tools'
+      Caption = 'System Power'
+      Hint = 'System Power'
+      ImageIndex = 59
+      OnExecute = ActionExecute
+      CanExecute = False
     end
   end
   object UpdateTimer: TTimer

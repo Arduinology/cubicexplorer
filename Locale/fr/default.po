@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1420\n"
+"CE-POT-Version: 1424\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
 
@@ -383,6 +383,9 @@ msgstr "Date de création"
 msgid "Date Modified"
 msgstr "Date de modification"
 
+msgid "Day Limit"
+msgstr "Age maxi (en jours)"
+
 msgid "Default"
 msgstr "Par défaut"
 
@@ -698,6 +701,9 @@ msgstr "Mise à jour invalide !"
 msgid "Invert Selection"
 msgstr "Inverser la sélection"
 
+msgid "Item Count"
+msgstr "Nb max d'éléments"
+
 msgid "Item(s)"
 msgstr "élément(s)"
 
@@ -995,6 +1001,9 @@ msgstr "Visualisation"
 msgid "Read Only"
 msgstr "Lecture seule"
 
+msgid "Recycle Bin"
+msgstr "Corbeille"
+
 msgid "Redo"
 msgstr "Restaurer"
 
@@ -1045,6 +1054,15 @@ msgstr "Redémarrage requis !"
 
 msgid "Restore"
 msgstr "Restaurer"
+
+msgid "Restore All"
+msgstr "Restaurer toute la corbeille"
+
+msgid "Restore List"
+msgstr "Restaurer la liste"
+
+msgid "Restoring multiple items!"
+msgstr "Restauration de multiples éléments !"
 
 msgid "Reuse already open tabs"
 msgstr " Réutiliser les onglets déjà ouverts"
@@ -1468,6 +1486,9 @@ msgstr "Affichage"
 
 msgid "View Style"
 msgstr "Mode d'affichage"
+
+msgid "WARNING! You are about to restore %d items."
+msgstr "ATTENTION ! Vous êtes sur le point de restaurer %d éléments."
 
 msgid "WARNING: Real file operations below"
 msgstr "ATTENTION : ci-dessous opérations sur les fichiers réels"

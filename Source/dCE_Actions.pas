@@ -223,6 +223,7 @@ type
     act_help_checkupdates: TTntAction;
     act_edit_undo_delete: TCEToolbarAction;
     act_tools_emptytrash: TTntAction;
+    act_tools_systempower: TCEToolbarAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -393,6 +394,7 @@ begin
   act_filters_menu.ItemClass:= TCEFiltersMenuButton;
   act_filters_pattern.ItemClass:= TCEFilterPatternItem;
   act_edit_undo_delete.ItemClass:= TCEUndoDeleteButton;
+  act_tools_systempower.ItemClass:= TCESystemPowerButton;
 end;
 
 {##############################################################################}

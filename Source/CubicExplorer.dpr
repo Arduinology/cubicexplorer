@@ -25,6 +25,7 @@ program CubicExplorer;
 
 
 uses
+  FastMM4,
   madExcept,
   madLinkDisAsm,
   Forms,
@@ -137,11 +138,14 @@ uses
   JclCompressionWide in 'Components\jcl\JclCompressionWide.pas',
   fCE_ArchivePanel in 'fCE_ArchivePanel.pas' {CEArchiverPanel},
   fCE_OptionsPage_General_Updates in 'fCE_OptionsPage_General_Updates.pas' {CE_OptionsPage_General_Updates: TFrame},
-  fCE_LoginPromptDlg in 'fCE_LoginPromptDlg.pas' {CELoginPromptDlg};
+  fCE_LoginPromptDlg in 'fCE_LoginPromptDlg.pas' {CELoginPromptDlg},
+  CE_SystemUtils in 'CE_SystemUtils.pas';
 
 {$R *.res}
 {$R 'CE_Resources.res'}
 {$R 'CE_VideoPlayerUI.res'}
+
+{.$define FullDebugMode}
 
 var
   h: HWND;
