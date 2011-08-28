@@ -86,7 +86,6 @@ object CEActions: TCEActions
       Category = 'Edit'
       Caption = 'Undo Delete'
       ImageIndex = 55
-      ShortCut = 16474
       OnExecute = ActionExecute
     end
     object act_view_bookmark: TTntAction

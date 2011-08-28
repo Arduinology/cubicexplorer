@@ -80,6 +80,7 @@ type
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
         override;
     procedure PopulateTree(XmlDoc: TJvSimpleXml); virtual;
+    procedure RefreshScrollHeight;
   public
     constructor Create(AOwner: TComponent); override;
     procedure EditSelectedNode;
@@ -443,31 +444,31 @@ end;
 procedure TCEBookmarkTree.HandleMouseDblClick(var Message: TWMMouse; const
     HitInfo: THitInfo);
 begin
-  if not assigned(HitInfo.HitNode) then
-  Exit;
-  
-  if Self.Expanded[HitInfo.HitNode] then
-  begin
-    Self.ToggleNode(HitInfo.HitNode);
-    Exit;
-  end;
-
-  Self.BeginUpdate;
-  try
-    if fAutoCollapse then
-    Self.FullCollapse;
-
-    Self.ClearSelection;
-
-    Self.FullyVisible[HitInfo.HitNode]:= true;
-    Self.ToggleNode(HitInfo.HitNode);
-
-    Self.Selected[HitInfo.HitNode]:= true;
-    Self.FocusedNode:= HitInfo.HitNode;
-    Self.ScrollIntoView(HitInfo.HitNode,false,true);
-  finally
-    Self.EndUpdate;
-  end;
+//  if not assigned(HitInfo.HitNode) then
+//  Exit;
+//  
+//  if Self.Expanded[HitInfo.HitNode] then
+//  begin
+//    Self.ToggleNode(HitInfo.HitNode);
+//    Exit;
+//  end;
+//
+//  Self.BeginUpdate;
+//  try
+//    if fAutoCollapse then
+//    Self.FullCollapse;
+//
+//    Self.ClearSelection;
+//
+//    Self.FullyVisible[HitInfo.HitNode]:= true;
+//    Self.ToggleNode(HitInfo.HitNode);
+//
+//    Self.Selected[HitInfo.HitNode]:= true;
+//    Self.FocusedNode:= HitInfo.HitNode;
+//    Self.ScrollIntoView(HitInfo.HitNode,false,true);
+//  finally
+//    Self.EndUpdate;
+//  end;
 end;
 
 {*------------------------------------------------------------------------------
@@ -475,41 +476,32 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEBookmarkTree.HandleMouseDown(var Message: TWMMouse; var HitInfo:
     THitInfo);
+var
+  h: Integer;
+  node: PVirtualNode;
 begin
   if GetKeyState(VK_MENU) < 0 then
   Exit;
+  
+  inherited;
 
-  if (not assigned(HitInfo.HitNode)) or
-     (not fAutoExpand) or
-     (not ((hiOnNormalIcon in HitInfo.HitPositions) or (hiOnItemLabel in HitInfo.HitPositions))) then
-  begin
-    inherited;
-    Exit;
-  end;
-
-  if HitInfo.HitNode = self.FocusedNode then
-  begin
-    inherited;
-  end
-  else
-  begin
-    Self.BeginUpdate;
-    try
+  Self.BeginUpdate;
+  try
+    if assigned(HitInfo.HitNode) and not (hiOnItemButton in HitInfo.HitPositions) then
+    begin
       if fAutoCollapse then
       Self.FullCollapse;
-
-      Self.ClearSelection;
-
-      Self.FullyVisible[HitInfo.HitNode]:= true;
-      if not Self.Expanded[HitInfo.HitNode] then
+      if fAutoExpand and not Self.Expanded[HitInfo.HitNode] then
       Self.ToggleNode(HitInfo.HitNode);
-
-      Self.Selected[HitInfo.HitNode]:= true;
-      Self.FocusedNode:= HitInfo.HitNode;
       Self.ScrollIntoView(HitInfo.HitNode,false,true);
-    finally
-      Self.EndUpdate;
-    end;
+
+      // Update scrollbar size (VT calculates wrong height if new items have been added.)
+      RefreshScrollHeight;
+    end
+    else if (hiOnItemButton in HitInfo.HitPositions) then
+    RefreshScrollHeight;
+  finally
+    Self.EndUpdate;
   end;
 end;
 
@@ -538,7 +530,10 @@ begin
   Self.FocusedNode:= nil;
 
   if (hiOnItemButton in HitInfo.HitPositions) then
-  Exit;
+  begin
+    inherited;
+    Exit;
+  end;
 
   if not (hiOnItemLabel in HitInfo.HitPositions) and not (hiOnNormalIcon in HitInfo.HitPositions) then
   begin
@@ -641,20 +636,15 @@ begin
       begin
         if AttachMode = amNoWhere then
         AttachMode:= amInsertAfter;
-        data:= GetNodeData(InsertNode(Self.DropTargetNode, AttachMode));
+        node:= InsertNode(Self.DropTargetNode, AttachMode);
+        Self.ValidateNode(node, false);
+        data:= GetNodeData(node);
         data.BookComp:= TCENormalItemComp.Create;
         TCENormalItemComp(data.BookComp).LoadFromPIDL(hd.AbsolutePIDL(i));
       end;
 
       // Update scrollbar size (VT doesn't do that automatically for some reason)
-      h:= Self.RootNode.NodeHeight + Self.BottomSpace;
-      node:= Self.GetFirstVisible;
-      while assigned(node) do
-      begin
-        h:= h + node.NodeHeight;
-        node:= Self.GetNextVisible(node);
-      end;
-      Self.RootNode.TotalHeight:= h;
+      RefreshScrollHeight;
     finally
       hd.Free;
       Self.EndUpdate;      
@@ -850,6 +840,24 @@ procedure TCEBookmarkTree.RefreshIcons;
 begin
   LastBookmarkIconRefresh:= GetTickCount;
   Self.Refresh;
+end;
+
+{-------------------------------------------------------------------------------
+  Refresh Scroll Height
+-------------------------------------------------------------------------------}
+procedure TCEBookmarkTree.RefreshScrollHeight;
+var
+  h: Integer;
+  node: PVirtualNode;
+begin
+  h:= Self.RootNode.NodeHeight + Self.BottomSpace;
+  node:= Self.GetFirstVisible;
+  while assigned(node) do
+  begin
+    h:= h + node.NodeHeight;
+    node:= Self.GetNextVisible(node);
+  end;
+  Self.RootNode.TotalHeight:= h;
 end;
 
 
