@@ -44,7 +44,7 @@ inherited TCEOptionsPage_Hotkeys: TTCEOptionsPage_Hotkeys
     Columns = <
       item
         Position = 0
-        Width = 146
+        Width = 142
         WideText = 'Name'
       end
       item
