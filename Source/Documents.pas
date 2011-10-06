@@ -82,6 +82,7 @@ Unit Documents;
 // 374 = Group By
 // 375 = Filters menu
 // 380 = DualView
+// 390 = Lock Toolbars
 
 // **** Tools (400) ****
 // 401 = Customize UI

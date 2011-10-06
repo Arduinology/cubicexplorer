@@ -699,6 +699,12 @@ object CEActions: TCEActions
       OnExecute = ActionExecute
       CanExecute = False
     end
+    object act_view_lock_toolbars: TTntAction
+      Tag = 390
+      Category = 'View'
+      Caption = 'Lock Toolbars'
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

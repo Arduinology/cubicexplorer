@@ -1559,6 +1559,7 @@ var
   comp: TControl;
   item: TSpTBXItem;
 begin
+  // Add Toolbar items
   for i:= 0 to Count - 1 do
   begin
     if (CELayoutItems.Items[i] is TTBCustomDockableWindow) or (CELayoutItems.Items[i] is TCESpTabSet) then
@@ -1575,6 +1576,12 @@ begin
       item.Caption:= TCESpTabSet(comp).Toolbar.Caption;
     end;
   end;
+  // Add Separator
+  RootItem.Add(TSpTBXSeparatorItem.Create(RootItem));
+  // Add Lock Toolbars item
+  item:= TSpTBXItem.Create(RootItem);
+  item.Action:= CEActions.act_view_lock_toolbars;
+  RootItem.Add(item);
 end;
 
 {##############################################################################}

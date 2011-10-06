@@ -239,6 +239,7 @@ type
     fActiveLanguage: WideString;
     fCEIsClosing: Boolean;
     fLanguageList: TTntStrings;
+    fLockToolbars: Boolean;
     fOldWindowState: TWindowState;
     fPathInTitle: Boolean;
     fSaveSettingsOnClose: Boolean;
@@ -246,6 +247,7 @@ type
     fUpdatingCount: Integer;
     procedure SetFullscreen(const Value: Boolean);
     procedure SetActiveLanguage(const Value: WideString);
+    procedure SetLockToolbars(const Value: Boolean);
     procedure SetPathInTitle(const Value: Boolean);
     procedure SetSingleInstance(const Value: Boolean);
   protected
@@ -292,6 +294,7 @@ type
     property Fullscreen: Boolean read fFullscreen write SetFullscreen;
     property ActiveLanguage: WideString read fActiveLanguage write
         SetActiveLanguage;
+    property LockToolbars: Boolean read fLockToolbars write SetLockToolbars;
     property PathInTitle: Boolean read fPathInTitle write SetPathInTitle;
     property SaveSettingsOnClose: Boolean read fSaveSettingsOnClose write
         fSaveSettingsOnClose;
@@ -325,6 +328,7 @@ type
     function GetAutoLoadSession: WideString;
     function GetCheckForUpdateTypes: TCEBuildTypes;
     function GetLastUpdateCheck: TDateTime;
+    function GetLockToolbars: Boolean;
     function GetProxyAddress: WideString;
     function GetProxyPassword: String;
     function GetProxyUsername: String;
@@ -342,6 +346,7 @@ type
     procedure SetAutoLoadSession(const Value: WideString);
     procedure SetCheckForUpdateTypes(const Value: TCEBuildTypes);
     procedure SetLastUpdateCheck(const Value: TDateTime);
+    procedure SetLockToolbars(const Value: Boolean);
     procedure SetProxyAddress(const Value: WideString);
     procedure SetProxyPassword(const Value: String);
     procedure SetProxyUsername(const Value: String);
@@ -378,6 +383,7 @@ type
         fExitOnLastTabClose;
     property LastUpdateCheck: TDateTime read GetLastUpdateCheck write
         SetLastUpdateCheck;
+    property LockToolbars: Boolean read GetLockToolbars write SetLockToolbars;
     property MinimizeToTray: Boolean read fMinimizeToTray write fMinimizeToTray;
     property ProxyAddress: WideString read GetProxyAddress write SetProxyAddress;
     property ProxyPassword: String read GetProxyPassword write SetProxyPassword;
@@ -1588,6 +1594,24 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Set Lock Toolbars
+-------------------------------------------------------------------------------}
+procedure TMainForm.SetLockToolbars(const Value: Boolean);
+var
+  i: Integer;
+begin
+  fLockToolbars:= Value;
+  for i:= 0 to CEToolbarDocks.OuterDocks.Count-1 do
+  begin
+    TTBDock(CEToolbarDocks.OuterDocks.Items[i]).AllowDrag:= not fLockToolbars;
+  end;
+  for i:= 0 to CEToolbarDocks.InnerDocks.Count-1 do
+  begin
+    TTBDock(CEToolbarDocks.InnerDocks.Items[i]).AllowDrag:= not fLockToolbars;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   Toggle Visibility (Restore/Minimize)
 -------------------------------------------------------------------------------}
 procedure TMainForm.ToggleVisibility;
@@ -1946,6 +1970,18 @@ end;
 procedure TMainFormSettings.SetProxyPassword(const Value: String);
 begin
   CE_ProxyPassword:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set LockToolbars
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetLockToolbars: Boolean;
+begin
+  Result:= Form.LockToolbars;
+end;
+procedure TMainFormSettings.SetLockToolbars(const Value: Boolean);
+begin
+  Form.LockToolbars:= Value;
 end;
 
 {##############################################################################}

@@ -224,6 +224,7 @@ type
     act_edit_undo_delete: TCEToolbarAction;
     act_tools_emptytrash: TTntAction;
     act_tools_systempower: TCEToolbarAction;
+    act_view_lock_toolbars: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -703,6 +704,7 @@ begin
               end;
     370: MainForm.Fullscreen:= not MainForm.Fullscreen;
     371: MainForm.OpenSkin;
+    390: MainForm.LockToolbars:= not MainForm.LockToolbars;
   end;
 end;
 
@@ -744,6 +746,7 @@ begin
               end;
     370: TargetAction.Checked:= MainForm.Fullscreen;
     372..374: TargetAction.Enabled:= GlobalPathCtrl.ActivePage is TCEFileViewPage;
+    390: TargetAction.Checked:= MainForm.LockToolbars;
   end;
 end;
 

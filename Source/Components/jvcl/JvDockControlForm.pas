@@ -968,7 +968,7 @@ procedure BeginDockLoading;
 begin
   if GDockLoadCount = 0 then
   begin
-    JvDockLockWindow(nil);
+    //JvDockLockWindow(nil); // LockWindowUpdate should not be used!
   end;
   Inc(GDockLoadCount);
 end;
@@ -979,7 +979,7 @@ begin
   if GDockLoadCount = 0 then
   begin
     ApplyShowingChanged;
-    JvDockUnLockWindow;
+    //JvDockUnLockWindow; // LockWindowUpdate should not be used!
   end;
 end;
 
