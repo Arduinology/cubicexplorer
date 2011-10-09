@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1424\n"
+"CE-POT-Version: 1430\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
 
@@ -653,6 +653,9 @@ msgstr "Aide"
 msgid "Hex"
 msgstr "Hexa"
 
+msgid "Hibernate"
+msgstr "Mettre en veille prolongée"
+
 msgid "Hidden"
 msgstr "Caché"
 
@@ -775,6 +778,12 @@ msgstr "Chargement..."
 
 msgid "Location"
 msgstr "Emplacement :"
+
+msgid "Lock"
+msgstr "Verrouiller"
+
+msgid "Logoff"
+msgstr "Fermer la session"
 
 msgid "MB"
 msgstr "Mo"
@@ -1000,6 +1009,9 @@ msgstr "Visualisation"
 
 msgid "Read Only"
 msgstr "Lecture seule"
+
+msgid "Reboot"
+msgstr "Redémarrer"
 
 msgid "Recycle Bin"
 msgstr "Corbeille"
@@ -1241,6 +1253,9 @@ msgstr "Afficher plus d'onglets"
 msgid "Show/Hide"
 msgstr "Afficher / Cacher"
 
+msgid "Shut down"
+msgstr "Arrêter l'ordinateur"
+
 msgid "Single Instance Only"
 msgstr " N'autoriser qu'une seule instance de CubicExplorer"
 
@@ -1258,6 +1273,9 @@ msgstr "Taille"
 
 msgid "Size && Attributes"
 msgstr "Taille && Attributs"
+
+msgid "Sleep"
+msgstr "Mettre en veille"
 
 msgid "Small"
 msgstr "Petit"
@@ -1315,6 +1333,9 @@ msgstr "Système"
 
 msgid "System Folders"
 msgstr "Dossiers système"
+
+msgid "System Power"
+msgstr "Arrêter..."
 
 msgid "TB"
 msgstr "To"

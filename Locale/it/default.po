@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: CE 0.95.0.1420 - 2011.08.18\n"
+"Project-Id-Version: CE 0.95.0.1430 - 2011.08.31\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1420\n"
+"CE-POT-Version: 1430\n"
 "CE-Language: Italian\n"
 "Last-Translator: Folgore101 <andrea.gramegna@gmail.com>\n"
 
@@ -127,6 +127,9 @@ msgstr "Sei sicuro di voler cancellare i preferiti selezionati?"
 
 msgid "Are you sure you want to delete this session?"
 msgstr "Sei sicuro di voler cancellare questa sessione?"
+
+msgid "Are you sure you want to do that?"
+msgstr "Sei sicuro di volerlo fare?"
 
 msgid "Are you sure you want to restore?"
 msgstr "Sei sicuro di voler ripristinare?"
@@ -376,6 +379,9 @@ msgstr "Data Creazione"
 
 msgid "Date Modified"
 msgstr "Data Modifica"
+
+msgid "Day Limit"
+msgstr "Giorno limite"
 
 msgid "Default"
 msgstr "Predefinito"
@@ -641,6 +647,9 @@ msgstr "Aiuto"
 msgid "Hex"
 msgstr "Hex"
 
+msgid "Hibernate"
+msgstr "Ibernazione"
+
 msgid "Hidden"
 msgstr "Nascosto"
 
@@ -688,6 +697,9 @@ msgstr "Aggiornamento non valido!"
 
 msgid "Invert Selection"
 msgstr "Inverti Selezione"
+
+msgid "Item Count"
+msgstr "Conteggio"
 
 msgid "Item(s)"
 msgstr "Elementi"
@@ -760,6 +772,12 @@ msgstr "Caricamento in corso..."
 
 msgid "Location"
 msgstr "Posizione"
+
+msgid "Lock"
+msgstr "Blocca"
+
+msgid "Logoff"
+msgstr "Disconnetti"
 
 msgid "MB"
 msgstr "MB"
@@ -983,6 +1001,12 @@ msgstr "Anteprima"
 msgid "Read Only"
 msgstr "Sola Lettura"
 
+msgid "Reboot"
+msgstr "Riavvia"
+
+msgid "Recycle Bin"
+msgstr "Cestino"
+
 msgid "Redo"
 msgstr "Ripristina"
 
@@ -1033,6 +1057,15 @@ msgstr "Riavvio necessario!"
 
 msgid "Restore"
 msgstr "Ripristino"
+
+msgid "Restore All"
+msgstr "Ripristina Tutto"
+
+msgid "Restore List"
+msgstr "Ripristina Lista"
+
+msgid "Restoring multiple items!"
+msgstr "Ripristino più elementi!"
 
 msgid "Reuse already open tabs"
 msgstr "Riusa schede già aperte"
@@ -1208,6 +1241,9 @@ msgstr "Mostra più schede"
 msgid "Show/Hide"
 msgstr "Mostra/Nascondi"
 
+msgid "Shut down"
+msgstr "Spegni"
+
 msgid "Single Instance Only"
 msgstr "Usa soltanto una Singola Istanza di CubicExplorer"
 
@@ -1225,6 +1261,9 @@ msgstr "Dimensione"
 
 msgid "Size && Attributes"
 msgstr "Dimensione e Attributi"
+
+msgid "Sleep"
+msgstr "Sospensione"
 
 msgid "Small"
 msgstr "Piccolo"
@@ -1285,6 +1324,9 @@ msgstr "Sistema"
 
 msgid "System Folders"
 msgstr "Cartelle di Sistema"
+
+msgid "System Power"
+msgstr "Alimentazione Sistema"
 
 msgid "TB"
 msgstr "TB"
@@ -1456,6 +1498,9 @@ msgstr "Visualizza"
 
 msgid "View Style"
 msgstr "Tipo Vista"
+
+msgid "WARNING! You are about to restore %d items."
+msgstr "ATTENZIONE! Stai per ripristinare %d elementi."
 
 msgid "WARNING: Real file operations below"
 msgstr "ATTENZIONE: Le operazioni sui file sotto sono effettive"

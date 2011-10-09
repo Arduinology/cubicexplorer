@@ -1,14 +1,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2011-06-24 19:00\n"
+"POT-Creation-Date: 2011-08-28 12:53\n"
 "PO-Revision-Date: \n"
-"Last-Translator: benok<benok1@gmail.com>\n"
+"Last-Translator: Nobukazu KAWABE <n-kawabe@camnac.co.jp>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1376\n"
+"CE-POT-Version: 1430\n"
 "CE-Language: Japanese\n"
 
 #. CEActions..ActionList..act_tabs_closetab..Category
@@ -23,15 +23,15 @@ msgstr ""
 #. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..group_loadsave..check_tabs..Caption
 #. Create TabSet
 #: dCE_Actions.dfm:13
-#: dCE_Actions.dfm:494
-#: dCE_Actions.dfm:502
-#: dCE_Actions.dfm:510
-#: dCE_Actions.dfm:588
-#: dCE_Actions.dfm:597
-#: dCE_Actions.dfm:606
-#: fCE_SessionManager.dfm:128
+#: dCE_Actions.dfm:507
+#: dCE_Actions.dfm:515
+#: dCE_Actions.dfm:523
+#: dCE_Actions.dfm:602
+#: dCE_Actions.dfm:611
+#: dCE_Actions.dfm:620
+#: fCE_SessionManager.dfm:131
 #: fCE_OptionsPage_Tabs.pas:79
-#: Main.pas:487
+#: Main.pas:538
 msgid "Tabs"
 msgstr "タブ"
 
@@ -44,9 +44,11 @@ msgstr "タブを閉じる"
 #. CEActions..ActionList..act_gen_exit..Category
 #. CEActions..ActionList..act_gen_menu..Category
 #. CEActions..ActionList..act_gen_showhide..Category
+#. CEActions..ActionList..act_gen_new_instance..Category
 #. BookmarkPropDlg..PageControl..GeneralSheet..Caption
 #: dCE_Actions.dfm:24
-#: fCE_BookmarkPropDlg.dfm:34
+#: dCE_Actions.dfm:674
+#: fCE_BookmarkPropDlg.dfm:36
 #: fCE_OptionsPage_General.pas:72
 msgid "General"
 msgstr "一般"
@@ -81,6 +83,7 @@ msgstr "終了"
 #. CEActions..ActionList..act_view_showextensions..Category
 #. CEActions..ActionList..act_view_arrangeby..Category
 #. CEActions..ActionList..act_view_infobar..Category
+#. CEActions..ActionList..act_view_archiver..Category
 #. CEActions..BackgroundCMItems_up..View1..Caption
 #. CETextEditorPage..TopDock..MainToolbar..SpTBXSubmenuItem4..Caption
 #. CETextEditorPage..ActionList..text_view_toolbar..Category
@@ -88,34 +91,35 @@ msgstr "終了"
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..Caption
 #. MainForm..TopToolDock..ViewToolbar..Caption
 #: dCE_Actions.dfm:32
-#: dCE_Actions.dfm:93
-#: dCE_Actions.dfm:100
-#: dCE_Actions.dfm:107
-#: dCE_Actions.dfm:114
-#: dCE_Actions.dfm:120
+#: dCE_Actions.dfm:101
+#: dCE_Actions.dfm:108
+#: dCE_Actions.dfm:115
+#: dCE_Actions.dfm:122
 #: dCE_Actions.dfm:128
-#: dCE_Actions.dfm:135
-#: dCE_Actions.dfm:142
-#: dCE_Actions.dfm:149
-#: dCE_Actions.dfm:156
-#: dCE_Actions.dfm:162
-#: dCE_Actions.dfm:170
-#: dCE_Actions.dfm:178
-#: dCE_Actions.dfm:185
-#: dCE_Actions.dfm:305
-#: dCE_Actions.dfm:364
-#: dCE_Actions.dfm:377
-#: dCE_Actions.dfm:411
-#: dCE_Actions.dfm:417
-#: dCE_Actions.dfm:424
-#: dCE_Actions.dfm:457
-#: dCE_Actions.dfm:563
-#: dCE_Actions.dfm:663
+#: dCE_Actions.dfm:136
+#: dCE_Actions.dfm:143
+#: dCE_Actions.dfm:150
+#: dCE_Actions.dfm:157
+#: dCE_Actions.dfm:164
+#: dCE_Actions.dfm:171
+#: dCE_Actions.dfm:179
+#: dCE_Actions.dfm:187
+#: dCE_Actions.dfm:194
+#: dCE_Actions.dfm:320
+#: dCE_Actions.dfm:380
+#: dCE_Actions.dfm:393
+#: dCE_Actions.dfm:421
+#: dCE_Actions.dfm:427
+#: dCE_Actions.dfm:435
+#: dCE_Actions.dfm:470
+#: dCE_Actions.dfm:577
+#: dCE_Actions.dfm:667
+#: dCE_Actions.dfm:721
 #: fCE_TextEditor.dfm:95
 #: fCE_TextEditor.dfm:442
 #: fCE_TextEditor.dfm:458
-#: Main.dfm:176
-#: Main.dfm:415
+#: Main.dfm:184
+#: Main.dfm:435
 msgid "View"
 msgstr "表示"
 
@@ -131,11 +135,15 @@ msgstr "スタック"
 #. CEActions..ActionList..act_help_forum..Category
 #. CEActions..ActionList..act_help_about..Category
 #. CEActions..ActionList..act_help_poedit_form..Category
+#. CEActions..ActionList..act_help_versionmgr..Category
+#. CEActions..ActionList..act_help_checkupdates..Category
 #. MainForm..TopToolDock..MainToolbar..helpMenuItem..Caption
 #: dCE_Actions.dfm:40
-#: dCE_Actions.dfm:299
-#: dCE_Actions.dfm:430
-#: Main.dfm:383
+#: dCE_Actions.dfm:313
+#: dCE_Actions.dfm:442
+#: dCE_Actions.dfm:660
+#: dCE_Actions.dfm:681
+#: Main.dfm:399
 msgid "Help"
 msgstr "ヘルプ"
 
@@ -154,157 +162,47 @@ msgstr "寄付する"
 #. CEActions..ActionList..act_navi_scrollright..Category
 #. CEActions..ActionList..act_navi_quickview..Category
 #. MainForm..TopToolDock..NavigationToolbar..Caption
-#: dCE_Actions.dfm:46
-#: dCE_Actions.dfm:69
-#: dCE_Actions.dfm:321
-#: dCE_Actions.dfm:329
-#: dCE_Actions.dfm:465
-#: dCE_Actions.dfm:471
-#: dCE_Actions.dfm:525
-#: Main.dfm:447
+#: dCE_Actions.dfm:47
+#: dCE_Actions.dfm:70
+#: dCE_Actions.dfm:336
+#: dCE_Actions.dfm:344
+#: dCE_Actions.dfm:478
+#: dCE_Actions.dfm:484
+#: dCE_Actions.dfm:539
+#: Main.dfm:467
 msgid "Navigation"
 msgstr "ナビゲーション"
 
 #. CEActions..ActionList..act_navi_forward..Caption
-#: dCE_Actions.dfm:47
+#: dCE_Actions.dfm:48
 msgid "Forward"
 msgstr "次へ"
 
 #. CEActions..ActionList..act_navi_back..Caption
-#: dCE_Actions.dfm:55
+#: dCE_Actions.dfm:56
 msgid "Back"
 msgstr "戻る"
 
 #. CEActions..ActionList..act_navi_folderup..Caption
-#: dCE_Actions.dfm:63
+#: dCE_Actions.dfm:64
 msgid "Folder Up"
 msgstr "上のフォルダーへ"
 
 #. CEActions..ActionList..act_navi_refresh..Caption
 #. CEBookmarkPanel..BookmarkPopupMenu..but_refresh..Caption
-#: dCE_Actions.dfm:70
+#: dCE_Actions.dfm:71
 msgid "Refresh"
 msgstr "最新の情報に更新"
 
 #. CEActions..ActionList..act_view_folders..Caption
 #. CEFolderPanel..Caption
-#: dCE_Actions.dfm:78
+#: dCE_Actions.dfm:79
 #: fCE_OptionsPage_Display_FolderTree.pas:63
-#: Main.pas:1062
+#: Main.pas:1145
 msgid "Folders"
 msgstr "フォルダー"
 
-#. CEActions..ActionList..act_view_bookmark..Caption
-#. CEActions..ActionList..act_bookmarks_menu..Category
-#. CEActions..ActionList..act_bookmarks_menu..Caption
-#. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..group_loadsave..check_bookmarks..Caption
-#. MainForm..TopToolDock..MainToolbar..bookmarkMenuItem..Caption
-#. Create BookmarkBar
-#: dCE_Actions.dfm:86
-#: fCE_SessionManager.dfm:142
-#: Main.dfm:332
-#: fCE_OptionsPage_Display_Bookmarks.pas:65
-#: Main.pas:525
-msgid "Bookmarks"
-msgstr "ブックマーク"
-
-#. CEActions..ActionList..act_view_large..Caption
-#. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..check_largeIcons..Caption
-#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_icon..Caption
-#: dCE_Actions.dfm:94
-msgid "Large Icons"
-msgstr "大きいアイコン"
-
-#. CEActions..ActionList..act_view_small..Caption
-#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_smallicon..Caption
-#: dCE_Actions.dfm:101
-msgid "Small Icons"
-msgstr "小さいアイコン"
-
-#. CEActions..ActionList..act_view_list..Caption
-#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_list..Caption
-#: dCE_Actions.dfm:108
-msgid "List"
-msgstr "一覧"
-
-#. CEActions..ActionList..act_view_showheaderalways..Caption
-#: dCE_Actions.dfm:115
-msgid "Always Show Sort Columns"
-msgstr "常にソート列を表示"
-
-#. CEActions..ActionList..act_view_filters..Caption
-#. CEActions..ActionList..act_filters_menu..Category
-#. CEActions..ActionList..act_filters_menu..Caption
-#. CEActions..ActionList..act_filters_pattern..Category
-#. CEActions..ActionList..act_filters_clear..Category
-#. CEFiltersPanel..Caption
-#. CESearchPage..SearchPanel..CriteriaTabControl..SpTBXTabItem8..Caption
-#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_filters..Caption
-#: dCE_Actions.dfm:121
-#: dCE_Actions.dfm:631
-#: dCE_Actions.dfm:639
-#: fCE_FiltersPanel.dfm:2
-#: fCE_SearchPage.dfm:136
-#: fCE_SearchPage.dfm:144
-msgid "Filters"
-msgstr "フィルター"
-
-#. CEActions..ActionList..act_view_details..Caption
-#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_details..Caption
-#: dCE_Actions.dfm:129
-msgid "Details"
-msgstr "詳細"
-
-#. CEActions..ActionList..act_view_thumbs..Caption
-#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_thumbnails..Caption
-#: dCE_Actions.dfm:136
-msgid "Thumbnails"
-msgstr "縮小表示"
-
-#. CEActions..ActionList..act_view_loadskin..Caption
-#: dCE_Actions.dfm:143
-msgid "Load theme from file..."
-msgstr "ファイルからテーマを読み込む..."
-
-#. CEActions..ActionList..act_view_loadskin..Hint
-#. CEToolbarCustomizer..TabControl..SpTBXTabSheet3..but_loadTheme..Hint
-#: dCE_Actions.dfm:144
-msgid "Load theme from file"
-msgstr "ファイルからテーマを読み込み"
-
-#. CEActions..ActionList..act_view_tiles..Caption
-#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_tiles..Caption
-#: dCE_Actions.dfm:150
-msgid "Tiles"
-msgstr "並べて表示"
-
-#. CEActions..ActionList..act_view_alwaysontop..Caption
-#: dCE_Actions.dfm:157
-msgid "Always On Top"
-msgstr "常に全面に表示"
-
-#. CEActions..ActionList..act_view_groupby..Caption
-#. CEActions..BackgroundCMItems_up..MenuItem_GroupBy..Caption
-#: dCE_Actions.dfm:163
-msgid "Group By"
-msgstr "グループ化"
-
-#. CEActions..ActionList..act_view_viewstyle..Caption
-#: dCE_Actions.dfm:171
-msgid "View Style"
-msgstr "表示形式"
-
-#. CEActions..ActionList..act_view_filmstrip..Caption
-#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_filmstrip..Caption
-#: dCE_Actions.dfm:179
-msgid "Filmstrip"
-msgstr "映画スライド"
-
-#. CEActions..ActionList..act_view_checkbox_selection..Caption
-#: dCE_Actions.dfm:186
-msgid "Checkbox Selection"
-msgstr "チェックボックス選択"
-
+#. CEActions..ActionList..act_edit_undo_delete..Category
 #. CEActions..ActionList..act_edit_copy..Category
 #. CEActions..ActionList..act_edit_cut..Category
 #. CEActions..ActionList..act_edit_paste..Category
@@ -332,18 +230,19 @@ msgstr "チェックボックス選択"
 #. CETextEditorPage..ActionList..text_edit_findprev..Category
 #. MainForm..TopToolDock..MainToolbar..editMenuItem..Caption
 #. MainForm..TopToolDock..EditToolbar..Caption
-#: dCE_Actions.dfm:191
+#: dCE_Actions.dfm:86
 #: dCE_Actions.dfm:219
-#: dCE_Actions.dfm:227
-#: dCE_Actions.dfm:234
-#: dCE_Actions.dfm:241
-#: dCE_Actions.dfm:249
-#: dCE_Actions.dfm:313
-#: dCE_Actions.dfm:349
-#: dCE_Actions.dfm:357
-#: dCE_Actions.dfm:383
-#: dCE_Actions.dfm:391
-#: dCE_Actions.dfm:569
+#: dCE_Actions.dfm:229
+#: dCE_Actions.dfm:237
+#: dCE_Actions.dfm:245
+#: dCE_Actions.dfm:253
+#: dCE_Actions.dfm:261
+#: dCE_Actions.dfm:328
+#: dCE_Actions.dfm:364
+#: dCE_Actions.dfm:372
+#: dCE_Actions.dfm:400
+#: dCE_Actions.dfm:408
+#: dCE_Actions.dfm:583
 #: fCE_TextEditor.dfm:45
 #: fCE_TextEditor.dfm:324
 #: fCE_TextEditor.dfm:362
@@ -355,26 +254,142 @@ msgstr "チェックボックス選択"
 #: fCE_TextEditor.dfm:404
 #: fCE_TextEditor.dfm:412
 #: fCE_TextEditor.dfm:420
-#: Main.dfm:124
-#: Main.dfm:485
+#: Main.dfm:127
+#: Main.dfm:505
 msgid "Edit"
 msgstr "編集"
 
+#. CEActions..ActionList..act_edit_undo_delete..Caption
+#: dCE_Actions.dfm:87
+msgid "Undo Delete"
+msgstr "削除を元に戻す"
+
+#. CEActions..ActionList..act_view_bookmark..Caption
+#. CEActions..ActionList..act_bookmarks_menu..Category
+#. CEActions..ActionList..act_bookmarks_menu..Caption
+#. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..group_loadsave..check_bookmarks..Caption
+#. MainForm..TopToolDock..MainToolbar..bookmarkMenuItem..Caption
+#. Create BookmarkBar
+#: dCE_Actions.dfm:94
+#: fCE_SessionManager.dfm:145
+#: Main.dfm:345
+#: fCE_OptionsPage_Display_Bookmarks.pas:65
+#: Main.pas:576
+msgid "Bookmarks"
+msgstr "ブックマーク"
+
+#. CEActions..ActionList..act_view_large..Caption
+#. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..check_largeIcons..Caption
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_icon..Caption
+#: dCE_Actions.dfm:102
+msgid "Large Icons"
+msgstr "大きいアイコン"
+
+#. CEActions..ActionList..act_view_small..Caption
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_smallicon..Caption
+#: dCE_Actions.dfm:109
+msgid "Small Icons"
+msgstr "小さいアイコン"
+
+#. CEActions..ActionList..act_view_list..Caption
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_list..Caption
+#: dCE_Actions.dfm:116
+msgid "List"
+msgstr "一覧"
+
+#. CEActions..ActionList..act_view_showheaderalways..Caption
+#: dCE_Actions.dfm:123
+msgid "Always Show Sort Columns"
+msgstr "常にソート列を表示"
+
+#. CEActions..ActionList..act_view_filters..Caption
+#. CEActions..ActionList..act_filters_menu..Category
+#. CEActions..ActionList..act_filters_menu..Caption
+#. CEActions..ActionList..act_filters_pattern..Category
+#. CEActions..ActionList..act_filters_clear..Category
+#. CEFiltersPanel..Caption
+#. CESearchPage..SearchPanel..CriteriaTabControl..SpTBXTabItem8..Caption
+#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_filters..Caption
+#: dCE_Actions.dfm:129
+#: dCE_Actions.dfm:645
+#: dCE_Actions.dfm:653
+#: fCE_FiltersPanel.dfm:2
+#: fCE_SearchPage.dfm:136
+#: fCE_SearchPage.dfm:144
+msgid "Filters"
+msgstr "フィルター"
+
+#. CEActions..ActionList..act_view_details..Caption
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_details..Caption
+#: dCE_Actions.dfm:137
+msgid "Details"
+msgstr "詳細"
+
+#. CEActions..ActionList..act_view_thumbs..Caption
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_thumbnails..Caption
+#: dCE_Actions.dfm:144
+msgid "Thumbnails"
+msgstr "縮小表示"
+
+#. CEActions..ActionList..act_view_loadskin..Caption
+#: dCE_Actions.dfm:151
+msgid "Load theme from file..."
+msgstr "ファイルからテーマを読み込む..."
+
+#. CEActions..ActionList..act_view_loadskin..Hint
+#. CEToolbarCustomizer..TabControl..SpTBXTabSheet3..but_loadTheme..Hint
+#: dCE_Actions.dfm:152
+msgid "Load theme from file"
+msgstr "ファイルからテーマを読み込み"
+
+#. CEActions..ActionList..act_view_tiles..Caption
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_tiles..Caption
+#: dCE_Actions.dfm:158
+msgid "Tiles"
+msgstr "並べて表示"
+
+#. CEActions..ActionList..act_view_alwaysontop..Caption
+#: dCE_Actions.dfm:165
+msgid "Always On Top"
+msgstr "常に全面に表示"
+
+#. CEActions..ActionList..act_view_groupby..Caption
+#. CEActions..BackgroundCMItems_up..MenuItem_GroupBy..Caption
+#: dCE_Actions.dfm:172
+msgid "Group By"
+msgstr "グループ化"
+
+#. CEActions..ActionList..act_view_viewstyle..Caption
+#: dCE_Actions.dfm:180
+msgid "View Style"
+msgstr "表示形式"
+
+#. CEActions..ActionList..act_view_filmstrip..Caption
+#. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_filmstrip..Caption
+#: dCE_Actions.dfm:188
+msgid "Filmstrip"
+msgstr "映画スライド"
+
+#. CEActions..ActionList..act_view_checkbox_selection..Caption
+#: dCE_Actions.dfm:195
+msgid "Checkbox Selection"
+msgstr "チェックボックス選択"
+
 #. CEActions..ActionList..act_edit_copy..Caption
 #. CETextEditorPage..ActionList..text_edit_copy..Caption
-#: dCE_Actions.dfm:192
+#: dCE_Actions.dfm:202
 msgid "Copy"
 msgstr "コピー"
 
 #. CEActions..ActionList..act_edit_cut..Caption
 #. CETextEditorPage..ActionList..text_edit_cut..Caption
-#: dCE_Actions.dfm:202
+#: dCE_Actions.dfm:212
 msgid "Cut"
 msgstr "切り取り"
 
 #. CEActions..ActionList..act_edit_paste..Caption
 #. CETextEditorPage..ActionList..text_edit_paste..Caption
-#: dCE_Actions.dfm:210
+#: dCE_Actions.dfm:220
 msgid "Paste"
 msgstr "貼り付け"
 
@@ -384,34 +399,36 @@ msgstr "貼り付け"
 #. TCEOptionsPage_Hotkeys..TntGroupBox1..but_delete..Caption
 #. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..but_delete..Caption
 #. CETextEditorPage..ActionList..text_edit_delete..Caption
-#: dCE_Actions.dfm:220
+#: dCE_Actions.dfm:230
 #: fCE_OptionsPage_GlobalHotkeys.dfm:123
 #: fCE_OptionsPage_Hotkeys.dfm:127
-#: fCE_SessionManager.dfm:85
+#: fCE_SessionManager.dfm:88
 #: fCE_TextEditor.dfm:391
+#: fCE_VersionMgrForm.pas:323
+#: fCE_VersionMgrForm.pas:544
 msgid "Delete"
 msgstr "削除"
 
 #. CEActions..ActionList..act_edit_selall..Caption
 #. CETextEditorPage..ActionList..text_edit_selall..Caption
-#: dCE_Actions.dfm:228
+#: dCE_Actions.dfm:238
 msgid "Select All"
 msgstr "すべて選択"
 
 #. CEActions..ActionList..act_edit_invertsel..Caption
-#: dCE_Actions.dfm:235
+#: dCE_Actions.dfm:246
 msgid "Invert Selection"
 msgstr "選択を反転"
 
 #. CEActions..ActionList..act_edit_properties..Caption
 #. CEBookmarkPanel..BookmarkPopupMenu..but_properties..Caption
-#: dCE_Actions.dfm:242
+#: dCE_Actions.dfm:254
 msgid "Properties..."
 msgstr "プロパティ..."
 
 #. CEActions..ActionList..act_edit_rename..Caption
 #. CEBookmarkPanel..BookmarkPopupMenu..but_rename..Caption
-#: dCE_Actions.dfm:250
+#: dCE_Actions.dfm:262
 msgid "Rename"
 msgstr "名前の変更"
 
@@ -421,10 +438,10 @@ msgstr "名前の変更"
 #. CEActions..ActionList..act_quick_image..Category
 #. CEActions..ActionList..act_quick_hex..Category
 #. CEActions..ActionList..act_view_quickview..Caption
-#: dCE_Actions.dfm:257
-#: dCE_Actions.dfm:275
-#: dCE_Actions.dfm:281
-#: dCE_Actions.dfm:306
+#: dCE_Actions.dfm:269
+#: dCE_Actions.dfm:287
+#: dCE_Actions.dfm:293
+#: dCE_Actions.dfm:321
 #: fCE_QuickViewPanel.pas:79
 msgid "Quickview"
 msgstr "クイックビュー"
@@ -432,154 +449,151 @@ msgstr "クイックビュー"
 #. CEActions..ActionList..act_quick_none..Caption
 #. CETextEditorPage..TopDock..MainToolbar..highlighterSubmenu..SpTBXItem16..Caption
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem57..Caption
-#: dCE_Actions.dfm:258
+#: dCE_Actions.dfm:270
 msgid "None"
 msgstr "なし"
 
 #. CEActions..ActionList..act_quick_auto..Caption
-#: dCE_Actions.dfm:264
+#: dCE_Actions.dfm:276
 msgid "Auto"
 msgstr "自動"
 
 #. CEActions..ActionList..act_quick_text..Caption
-#: dCE_Actions.dfm:270
+#: dCE_Actions.dfm:282
 msgid "Text"
 msgstr "テキスト"
 
 #. CEActions..ActionList..act_quick_image..Caption
-#: dCE_Actions.dfm:276
+#: dCE_Actions.dfm:288
 msgid "Image"
 msgstr "画像"
 
 #. CEActions..ActionList..act_quick_hex..Caption
-#: dCE_Actions.dfm:282
+#: dCE_Actions.dfm:294
 msgid "Hex"
 msgstr "16進"
 
 #. CEActions..ActionList..act_help_home..Caption
-#: dCE_Actions.dfm:288
-msgid "CubicExplore Home Page"
+#: dCE_Actions.dfm:300
+msgid "CubicExplorer Home Page"
 msgstr "CubicExplorerホームページ"
 
 #. CEActions..ActionList..act_help_forum..Caption
-#: dCE_Actions.dfm:294
+#: dCE_Actions.dfm:307
 msgid "Support Forum"
 msgstr "サポートフォーラム"
 
 #. CEActions..ActionList..act_help_about..Caption
-#: dCE_Actions.dfm:300
+#: dCE_Actions.dfm:314
 msgid "About..."
 msgstr "バージョン情報..."
 
 #. CEActions..ActionList..act_edit_duplicate..Caption
-#: dCE_Actions.dfm:314
+#: dCE_Actions.dfm:329
 msgid "Duplicate"
 msgstr "複製"
 
 #. CEActions..ActionList..act_navi_texteditor..Caption
-#: dCE_Actions.dfm:322
+#: dCE_Actions.dfm:337
 msgid "Text Editor"
 msgstr "テキストエディター"
 
 #. CEActions..ActionList..act_navi_filesearch..Caption
-#: dCE_Actions.dfm:330
+#: dCE_Actions.dfm:345
 msgid "File Search"
 msgstr "ファイル検索"
 
 #. CEActions..ActionList..act_tools_mapdrive..Category
 #. CEActions..ActionList..act_tools_disconnectdrive..Category
 #. CEActions..ActionList..act_tools_showcustomizer..Category
-#. CEActions..ActionList..act_tools_emptytrash..Category
 #. CEActions..ActionList..act_tools_cmd..Category
 #. CEActions..ActionList..act_tools_showoptions..Category
+#. CEActions..ActionList..act_tools_emptytrash..Category
+#. CEActions..ActionList..act_tools_systempower..Category
 #. MainForm..TopToolDock..MainToolbar..toolsMenuItem..Caption
-#: dCE_Actions.dfm:337
-#: dCE_Actions.dfm:397
-#: dCE_Actions.dfm:404
-#: dCE_Actions.dfm:436
-#: Main.dfm:364
+#: dCE_Actions.dfm:352
+#: dCE_Actions.dfm:414
+#: dCE_Actions.dfm:449
+#: dCE_Actions.dfm:688
+#: dCE_Actions.dfm:695
+#: Main.dfm:377
 msgid "Tools"
 msgstr "ツール"
 
 #. CEActions..ActionList..act_tools_mapdrive..Caption
-#: dCE_Actions.dfm:338
+#: dCE_Actions.dfm:353
 msgid "Map Network Drive..."
 msgstr "ネットワークドライブの割り当て..."
 
 #. CEActions..ActionList..act_tools_disconnectdrive..Caption
-#: dCE_Actions.dfm:344
+#: dCE_Actions.dfm:359
 msgid "Disconnect Network Drive..."
 msgstr "ネットワークドライブを切断..."
 
 #. CEActions..ActionList..act_edit_newfile..Caption
 #. CEPoEditor..ActionList..act_new..Caption
 #. CETextEditorPage..ActionList..text_file_new..Caption
-#: dCE_Actions.dfm:350
+#: dCE_Actions.dfm:365
 msgid "New"
 msgstr "新規作成"
 
 #. CEActions..ActionList..act_edit_copypath..Caption
-#: dCE_Actions.dfm:358
+#: dCE_Actions.dfm:373
 msgid "Copy Path"
 msgstr "パスをコピー"
 
 #. CEActions..ActionList..act_view_showhints..Caption
-#: dCE_Actions.dfm:365
+#: dCE_Actions.dfm:381
 msgid "Show Hints"
 msgstr "ヒントを表示"
 
 #. CEActions..ActionList..act_tools_showcustomizer..Caption
-#: dCE_Actions.dfm:371
+#: dCE_Actions.dfm:387
 msgid "Customizer..."
 msgstr "カスタマイズ..."
 
 #. CEActions..ActionList..act_view_hiddenfiles..Caption
-#: dCE_Actions.dfm:378
+#: dCE_Actions.dfm:394
 msgid "Show Hidden Files"
 msgstr "隠しファイルを表示"
 
 #. CEActions..ActionList..act_edit_newfolder..Caption
-#: dCE_Actions.dfm:384
+#: dCE_Actions.dfm:401
 msgid "New Folder"
 msgstr "新しいフォルダー"
 
 #. CEActions..ActionList..act_edit_paste_shortcut..Caption
-#: dCE_Actions.dfm:392
+#: dCE_Actions.dfm:409
 msgid "Paste Shortcut"
 msgstr "ショートカットの貼り付け"
 
-#. CEActions..ActionList..act_tools_emptytrash..Caption
-#: dCE_Actions.dfm:398
-msgid "Empty Recycle Bin"
-msgstr "ゴミ箱を空にする"
-
 #. CEActions..ActionList..act_tools_cmd..Caption
-#: dCE_Actions.dfm:405
+#: dCE_Actions.dfm:415
 msgid "Open Command Prompt"
 msgstr "コマンドプロンプトを開く"
 
 #. CEActions..ActionList..act_view_statusbar..Caption
-#: dCE_Actions.dfm:412
+#: dCE_Actions.dfm:422
 msgid "Status Bar"
 msgstr "ステータスバー"
 
 #. CEActions..ActionList..act_view_fullscreen..Caption
-#: dCE_Actions.dfm:418
+#: dCE_Actions.dfm:428
 msgid "Fullscreen"
 msgstr "全画面"
 
 #. CEActions..ActionList..act_view_showextensions..Caption
-#: dCE_Actions.dfm:425
+#: dCE_Actions.dfm:436
 msgid "Show Extensions"
 msgstr "拡張子を表示"
 
 #. CEActions..ActionList..act_help_poedit_form..Caption
-#: dCE_Actions.dfm:431
+#: dCE_Actions.dfm:443
 msgid "Translate CubicExplorer"
 msgstr "CubicExplorerを翻訳する"
 
 #. CEActions..ActionList..act_tools_showoptions..Caption
-#: dCE_Actions.dfm:437
+#: dCE_Actions.dfm:450
 msgid "Options..."
 msgstr "オプション..."
 
@@ -592,28 +606,28 @@ msgstr "オプション..."
 #. CEActions..ActionList..act_sessions_enablehistory..Category
 #. MainForm..TopToolDock..MainToolbar..sessionsMenuItem..Caption
 #. Create SessionsBar
-#: dCE_Actions.dfm:443
-#: dCE_Actions.dfm:540
-#: dCE_Actions.dfm:555
-#: dCE_Actions.dfm:556
-#: dCE_Actions.dfm:575
-#: Main.dfm:335
-#: Main.pas:535
+#: dCE_Actions.dfm:456
+#: dCE_Actions.dfm:554
+#: dCE_Actions.dfm:569
+#: dCE_Actions.dfm:570
+#: dCE_Actions.dfm:589
+#: Main.dfm:348
+#: Main.pas:586
 msgid "Sessions"
 msgstr "セッション"
 
 #. CEActions..ActionList..act_sessions_save..Caption
-#: dCE_Actions.dfm:444
+#: dCE_Actions.dfm:457
 msgid "Save..."
 msgstr "保存..."
 
 #. CEActions..ActionList..act_sessions_save..Hint
-#: dCE_Actions.dfm:445
+#: dCE_Actions.dfm:458
 msgid "Save active session."
 msgstr "現在のセッションを保存"
 
 #. CEActions..ActionList..act_sessions_manage..Caption
-#: dCE_Actions.dfm:451
+#: dCE_Actions.dfm:464
 msgid "Manage..."
 msgstr "管理..."
 
@@ -621,134 +635,167 @@ msgstr "管理..."
 #. CEActions..ActionList..act_sessions_addhistoryitem..Hint
 #. CEActions..ActionList..act_sessions_clearhistory..Hint
 #. CEActions..ActionList..act_sessions_enablehistory..Hint
-#: dCE_Actions.dfm:452
-#: dCE_Actions.dfm:577
+#: dCE_Actions.dfm:465
+#: dCE_Actions.dfm:591
 msgid "Show Session Manager"
-msgstr "セッションマネージャを表示"
+msgstr "セッションマネージャーを表示"
 
 #. CEActions..ActionList..act_view_arrangeby..Caption
 #. CEActions..BackgroundCMItems_up..MenuItem_ArragneBy..Caption
-#: dCE_Actions.dfm:458
+#: dCE_Actions.dfm:471
 msgid "Arrange By"
 msgstr "並べ替え"
 
 #. CEActions..ActionList..act_navi_scrollleft..Caption
-#: dCE_Actions.dfm:466
+#: dCE_Actions.dfm:479
 msgid "Scroll Left"
 msgstr "左へスクロール"
 
 #. CEActions..ActionList..act_navi_scrollright..Caption
-#: dCE_Actions.dfm:472
+#: dCE_Actions.dfm:485
 msgid "Scroll Right"
 msgstr "右へスクロール"
 
 #. CEActions..ActionList..act_tabs_closeothertabs..Caption
 #. CEActions..ActionList..act_tabs_closeothertabs..Hint
-#: dCE_Actions.dfm:478
+#: dCE_Actions.dfm:491
 msgid "Close Other Tabs"
 msgstr "他のタブを閉じる"
 
 #. CEActions..ActionList..act_tabs_addtab..Caption
 #. CEActions..ActionList..act_tabs_addtab..Hint
-#: dCE_Actions.dfm:486
+#: dCE_Actions.dfm:499
 msgid "Add Tab"
 msgstr "タブを追加"
 
 #. CEActions..ActionList..act_tabs_duplicatetab..Caption
 #. CEActions..ActionList..act_tabs_duplicatetab..Hint
-#: dCE_Actions.dfm:495
+#: dCE_Actions.dfm:508
 msgid "Duplicate Tab"
 msgstr "タブを複製"
 
 #. CEActions..ActionList..act_tabs_closeonleft..Caption
 #. CEActions..ActionList..act_tabs_closeonleft..Hint
-#: dCE_Actions.dfm:503
+#: dCE_Actions.dfm:516
 msgid "Close Tabs on Left"
 msgstr "左側のタブを閉じる"
 
 #. CEActions..ActionList..act_tabs_closeonright..Caption
 #. CEActions..ActionList..act_tabs_closeonright..Hint
-#: dCE_Actions.dfm:511
+#: dCE_Actions.dfm:524
 msgid "Close Tabs on Right"
 msgstr "右側のタブを閉じる"
 
 #. CEActions..ActionList..act_gen_menu..Caption
-#: dCE_Actions.dfm:519
+#: dCE_Actions.dfm:532
 msgid "Menu"
 msgstr "メニュー"
 
 #. CEActions..ActionList..act_navi_quickview..Caption
-#: dCE_Actions.dfm:526
+#: dCE_Actions.dfm:540
 msgid "QuickView"
 msgstr "クイックビュー"
 
 #. CEActions..ActionList..act_sessions_addhistoryitem..Caption
-#: dCE_Actions.dfm:534
+#: dCE_Actions.dfm:548
 msgid "Add History Item"
 msgstr "履歴アイテムを追加"
 
 #. CEActions..ActionList..act_sessions_clearhistory..Caption
-#: dCE_Actions.dfm:541
+#: dCE_Actions.dfm:555
 msgid "Clear History"
 msgstr "履歴をクリア"
 
 #. CEActions..ActionList..act_view_infobar..Caption
-#: dCE_Actions.dfm:564
+#: dCE_Actions.dfm:578
 msgid "Info Bar"
 msgstr "情報バー"
 
 #. CEActions..ActionList..act_edit_create_symlink..Caption
 #. CreateSymlinkDlg..Caption
-#: dCE_Actions.dfm:570
+#: dCE_Actions.dfm:584
 msgid "Create Symbolic Link"
 msgstr "シンボリックリンクを作成"
 
 #. CEActions..ActionList..act_sessions_enablehistory..Caption
-#: dCE_Actions.dfm:576
+#: dCE_Actions.dfm:590
 msgid "Auto Save History"
 msgstr "履歴を自動保存"
 
 #. CEActions..ActionList..act_gen_showhide..Caption
-#: dCE_Actions.dfm:583
+#: dCE_Actions.dfm:597
 msgid "Show/Hide"
 msgstr "表示/隠す"
 
 #. CEActions..ActionList..act_tabs_undo..Caption
 #. CEActions..ActionList..act_tabs_undo..Hint
-#: dCE_Actions.dfm:589
+#: dCE_Actions.dfm:603
 msgid "Undo Tab Close"
 msgstr "閉じたタブを元に戻す"
 
 #. CEActions..ActionList..act_tabs_next..Caption
-#: dCE_Actions.dfm:598
+#: dCE_Actions.dfm:612
 msgid "Switch to Next Tab"
 msgstr "次のタブに切り替え"
 
 #. CEActions..ActionList..act_tabs_prev..Caption
-#: dCE_Actions.dfm:607
+#: dCE_Actions.dfm:621
 msgid "Swith to Previous Tab"
 msgstr "前のタブに切り替え"
 
 #. CEActions..ActionList..act_focus_addressbar..Category
-#: dCE_Actions.dfm:615
+#: dCE_Actions.dfm:629
 msgid "Focus"
 msgstr "フォーカス"
 
 #. CEActions..ActionList..act_focus_addressbar..Caption
-#: dCE_Actions.dfm:616
+#: dCE_Actions.dfm:630
 msgid "Set focus to address bar"
 msgstr "アドレスバーを選択する"
 
 #. CEActions..ActionList..act_filters_pattern..Caption
-#: dCE_Actions.dfm:632
+#: dCE_Actions.dfm:646
 msgid "Text Filter"
 msgstr "テキストフィルター"
 
 #. CEActions..ActionList..act_filters_clear..Caption
 #. Add Clear Filters
-#: dCE_Actions.dfm:640
+#: dCE_Actions.dfm:654
 msgid "Clear Filters"
 msgstr "フィルターをクリア"
+
+#. CEActions..ActionList..act_help_versionmgr..Caption
+#. CEVersionMgrForm..Caption
+#: dCE_Actions.dfm:661
+msgid "Version Manager"
+msgstr "バージョンマネージャー"
+
+#. CEActions..ActionList..act_view_archiver..Caption
+#. CEArchiverPanel..Caption
+#: dCE_Actions.dfm:668
+msgid "Archiver"
+msgstr "アーカイバー"
+
+#. CEActions..ActionList..act_gen_new_instance..Caption
+#: dCE_Actions.dfm:675
+msgid "New Window"
+msgstr "新しいウインドウ"
+
+#. CEActions..ActionList..act_help_checkupdates..Caption
+#: dCE_Actions.dfm:682
+msgid "Check For Updates"
+msgstr "アップデートの確認"
+
+#. CEActions..ActionList..act_tools_emptytrash..Caption
+#: dCE_Actions.dfm:689
+msgid "Empty Recycle Bin"
+msgstr "ゴミ箱を空にする"
+
+#. CEActions..ActionList..act_tools_systempower..Caption
+#. CEActions..ActionList..act_tools_systempower..Hint
+#: dCE_Actions.dfm:696
+msgid "System Power"
+msgstr "システム電源"
 
 #. CEAboutBox..Caption
 #: fCE_AboutBox.dfm:6
@@ -757,15 +804,17 @@ msgstr "CubicExplorerについて"
 
 #. CEAboutBox..Panel1..but_close..Caption
 #. CEToolbarCustomizer..SpTBXPanel1..but_close..Caption
-#. CESessionManager..SpTBXPanel2..SpTBXButton1..Caption
+#. CESessionManager..SpTBXPanel2..but_close..Caption
 #. CETextEditorPage..ActionList..text_file_close..Caption
-#: fCE_AboutBox.dfm:1028
+#. CEVersionMgrForm..panel_bottom..but_close..Caption
+#: fCE_AboutBox.dfm:1029
 #: fCE_TextEditor.dfm:356
+#: fCE_VersionMgrForm.dfm:193
 msgid "Close"
 msgstr "閉じる"
 
 #. CEAboutBox..Panel1..BuildLabel..Caption
-#: fCE_AboutBox.dfm:1037
+#: fCE_AboutBox.dfm:1039
 msgid "Version:"
 msgstr "バージョン："
 
@@ -813,34 +862,36 @@ msgid "Properties"
 msgstr "プロパティ"
 
 #. BookmarkPropDlg..PageControl..GeneralSheet..TargetPanel..Label2..Caption
-#: fCE_BookmarkPropDlg.dfm:69
+#: fCE_BookmarkPropDlg.dfm:71
 msgid "Target"
 msgstr "ターゲット"
 
 #. BookmarkPropDlg..PageControl..GeneralSheet..TargetPanel..check_relative..Caption
-#: fCE_BookmarkPropDlg.dfm:90
+#: fCE_BookmarkPropDlg.dfm:92
 msgid "Relative"
 msgstr "相対"
 
 #. BookmarkPropDlg..PageControl..GeneralSheet..TargetPanel..but_browse..Caption
 #. CEOptionsPage_Tabs..NewTabGroup..but_newtab..Caption
 #. CENewTranslationDlg..but_browser..Caption
-#: fCE_BookmarkPropDlg.dfm:99
-#: fCE_PoEditor_NewForm.dfm:60
+#: fCE_BookmarkPropDlg.dfm:101
+#: fCE_PoEditor_NewForm.dfm:62
 msgid "Browse..."
 msgstr "参照..."
 
 #. BookmarkPropDlg..PageControl..GeneralSheet..SessionPanel..Label1..Caption
-#: fCE_BookmarkPropDlg.dfm:118
+#: fCE_BookmarkPropDlg.dfm:120
 msgid "Session Name"
 msgstr "セッション名"
 
 #. BookmarkPropDlg..but_OK..Caption
 #. CEFormColumnSettings..SpTBXPanel1..ButtonOk..Caption
 #. CEItemSelectSaveDlg..panel_background..but_ok..Caption
+#. CELoginPromptDlg..but_ok..Caption
 #. CEOptionsDialog..BottomPanel..but_ok..Caption
-#: fCE_BookmarkPropDlg.dfm:138
-#: fCE_ItemSelectSaveDlg.dfm:50
+#: fCE_BookmarkPropDlg.dfm:140
+#: fCE_ItemSelectSaveDlg.dfm:52
+#: fCE_LoginPromptDlg.dfm:77
 #: fCE_OptionsDialog.dfm:158
 msgid "OK"
 msgstr "OK"
@@ -849,21 +900,25 @@ msgstr "OK"
 #. CEFormColumnSettings..SpTBXPanel1..ButtonCancel..Caption
 #. CreateSymlinkDlg..SpTBXPanel1..but_cancel..Caption
 #. CEItemSelectSaveDlg..panel_background..but_cancel..Caption
+#. CELoginPromptDlg..but_cancel..Caption
 #. CEOptionsDialog..BottomPanel..but_cancel..Caption
 #. CENewTranslationDlg..but_cancel..Caption
-#: fCE_BookmarkPropDlg.dfm:149
-#: fCE_CreateSymlink.dfm:106
-#: fCE_ItemSelectSaveDlg.dfm:61
+#. CEUpdateDlg..but_cancel..Caption
+#: fCE_BookmarkPropDlg.dfm:152
+#: fCE_CreateSymlink.dfm:100
+#: fCE_ItemSelectSaveDlg.dfm:63
+#: fCE_LoginPromptDlg.dfm:88
 #: fCE_OptionsDialog.dfm:169
-#: fCE_PoEditor_NewForm.dfm:80
+#: fCE_PoEditor_NewForm.dfm:83
+#: fCE_UpdateDlg.dfm:46
 msgid "Cancel"
 msgstr "キャンセル"
 
 #. BookmarkPropDlg..but_Apply..Caption
 #. CEOptionsDialog..BottomPanel..but_apply..Caption
 #. CEPoEditor..ActionList..act_apply..Caption
-#: fCE_BookmarkPropDlg.dfm:160
-#: fCE_PoEditor.dfm:408
+#: fCE_BookmarkPropDlg.dfm:163
+#: fCE_PoEditor.dfm:400
 msgid "Apply"
 msgstr "適用"
 
@@ -878,33 +933,33 @@ msgid "Live Update"
 msgstr "その場で更新"
 
 #. CEFormColumnSettings..SpTBXTabControl1..SpTBXTabSheet1..Label1..Caption
-#: fCE_ColumnFormSpTBX.dfm:105
+#: fCE_ColumnFormSpTBX.dfm:112
 msgid "Drag and Drop to reorder the columns. "
 msgstr "列をドラッグ＆ドロップして並べ替え"
 
 #. CEFormColumnSettings..SpTBXTabControl1..SpTBXTabSheet1..Label2..Caption
-#: fCE_ColumnFormSpTBX.dfm:122
+#: fCE_ColumnFormSpTBX.dfm:129
 msgid "Width of the selected column"
 msgstr "選択された列の幅"
 
 #. CreateSymlinkDlg..SpTBXTabControl1..SpTBXTabSheet1..edit_targetpath..EditButton.Caption
-#: fCE_CreateSymlink.dfm:67
+#: fCE_CreateSymlink.dfm:62
 msgid "..."
 msgstr "..."
 
 #. CreateSymlinkDlg..SpTBXTabControl1..SpTBXTabSheet1..SpTBXLabel1..Caption
-#: fCE_CreateSymlink.dfm:76
+#: fCE_CreateSymlink.dfm:71
 msgid "Link Name"
 msgstr "リンク名"
 
 #. CreateSymlinkDlg..SpTBXTabControl1..SpTBXTabSheet1..SpTBXLabel2..Caption
-#: fCE_CreateSymlink.dfm:83
+#: fCE_CreateSymlink.dfm:78
 msgid "Target Folder"
 msgstr "ターゲットフォルダー"
 
 #. CreateSymlinkDlg..SpTBXPanel1..but_create..Caption
 #. CENewTranslationDlg..but_create..Caption
-#: fCE_CreateSymlink.dfm:116
+#: fCE_CreateSymlink.dfm:110
 msgid "Create"
 msgstr "作成"
 
@@ -916,13 +971,13 @@ msgstr "カスタマイズ"
 #. CEToolbarCustomizer..TabControl..tab_toolbars..Caption
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..Caption
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..toolbarsMenuItem..Caption
-#: fCE_Customizer.dfm:72
+#: fCE_Customizer.dfm:76
 msgid "Toolbars"
 msgstr "ツールバー"
 
 #. CEToolbarCustomizer..TabControl..tab_buttons..Caption
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet2..Caption
-#: fCE_Customizer.dfm:76
+#: fCE_Customizer.dfm:80
 msgid "Buttons"
 msgstr "ボタン"
 
@@ -930,8 +985,9 @@ msgstr "ボタン"
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet3..Caption
 #. CEOptionsPage_Display..TntLabel1..Caption
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem6..Caption
-#: fCE_Customizer.dfm:79
-#: Main.dfm:224
+#: fCE_Customizer.dfm:83
+#: fCE_OptionsPage_Display.dfm:7
+#: Main.dfm:235
 msgid "Theme"
 msgstr "テーマ"
 
@@ -939,29 +995,29 @@ msgstr "テーマ"
 #. TCEOptionsPage_GlobalHotkeys..HotkeyList......WideText
 #. TCEOptionsPage_Hotkeys..HotkeyList......WideText
 #. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..SpTBXLabel1..Caption
-#: fCE_Customizer.dfm:177
+#: fCE_Customizer.dfm:128
 #: fCE_OptionsPage_Hotkeys.dfm:48
-#: fCE_SessionManager.dfm:167
+#: fCE_SessionManager.dfm:170
 msgid "Name"
 msgstr "名前"
 
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..group_displayMode..Caption
-#: fCE_Customizer.dfm:206
+#: fCE_Customizer.dfm:210
 msgid "Display Mode"
 msgstr "表示モード"
 
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..check_borders..Caption
-#: fCE_Customizer.dfm:227
+#: fCE_Customizer.dfm:231
 msgid "Borders"
 msgstr "境界"
 
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..check_stretch..Caption
-#: fCE_Customizer.dfm:237
+#: fCE_Customizer.dfm:241
 msgid "Stretch"
 msgstr "引き延ばす"
 
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..check_dragHandle..Caption
-#: fCE_Customizer.dfm:247
+#: fCE_Customizer.dfm:251
 msgid "Drag Handle"
 msgstr "ドラッグハンドル"
 
@@ -1014,6 +1070,31 @@ msgstr "フォルダー変更時にフィルターをクリアする"
 #: fCE_FiltersPanel.dfm:592
 msgid "Clear filter history"
 msgstr "フィルター履歴をクリア"
+
+#. CELoginPromptDlg..Caption
+#: fCE_LoginPromptDlg.dfm:4
+msgid "Proxy Login"
+msgstr "プロキシログイン"
+
+#. CELoginPromptDlg..TntLabel1..Caption
+#: fCE_LoginPromptDlg.dfm:29
+msgid "Username"
+msgstr "ユーザー名"
+
+#. CELoginPromptDlg..TntLabel2..Caption
+#: fCE_LoginPromptDlg.dfm:36
+msgid "Password"
+msgstr "パスワード"
+
+#. CELoginPromptDlg..label_warning..Caption
+#: fCE_LoginPromptDlg.dfm:44
+msgid "Warning: password will be saved in clear text!"
+msgstr "警告：パスワードは平文で保存されます！"
+
+#. CELoginPromptDlg..check_save..Caption
+#: fCE_LoginPromptDlg.dfm:68
+msgid "Remember"
+msgstr "記憶する"
 
 #. CEOptionsDialog..Caption
 #: fCE_OptionsDialog.dfm:6
@@ -1171,6 +1252,41 @@ msgstr "閉じた時にトレイにしまう"
 msgid "Start minimized to tray"
 msgstr "トレイに最小化して起動"
 
+#. CE_OptionsPage_General_Updates..TntLabel1..Caption
+#: fCE_OptionsPage_General_Updates.dfm:7
+msgid "Notify only about following update types"
+msgstr "アップデートタイプが次のタイプのもののみ通知する"
+
+#. CE_OptionsPage_General_Updates..check_autoupdates..Caption
+#: fCE_OptionsPage_General_Updates.dfm:14
+msgid "Check for updates on startup"
+msgstr "起動時にアップデートを確認"
+
+#. CE_OptionsPage_General_Updates..group_proxy..Caption
+#: fCE_OptionsPage_General_Updates.dfm:32
+msgid "Proxy Settings"
+msgstr "プロキシー設定"
+
+#. CE_OptionsPage_General_Updates..group_proxy..label_proxy_address..Caption
+#: fCE_OptionsPage_General_Updates.dfm:42
+msgid "Address"
+msgstr "アドレス"
+
+#. CE_OptionsPage_General_Updates..group_proxy..label_proxy_port..Caption
+#: fCE_OptionsPage_General_Updates.dfm:50
+msgid "Port"
+msgstr "ポート"
+
+#. CE_OptionsPage_General_Updates..group_proxy..check_proxy_system..Caption
+#: fCE_OptionsPage_General_Updates.dfm:74
+msgid "Use system settings"
+msgstr "システム設定を使用"
+
+#. CE_OptionsPage_General_Updates..group_proxy..check_proxy..Caption
+#: fCE_OptionsPage_General_Updates.dfm:83
+msgid "Enable"
+msgstr "有効"
+
 #. TCEOptionsPage_GlobalHotkeys..TntLabel1..Caption
 #. TCEOptionsPage_Hotkeys..TntLabel1..Caption
 #: fCE_OptionsPage_GlobalHotkeys.dfm:14
@@ -1272,7 +1388,7 @@ msgstr "最後のタブを閉じたらプログラムを終了する"
 #. CEPoEditor..TabControl..WordsSheet..PoList_panel..PoList......WideText
 #: fCE_PoEditor.dfm:62
 #: fCE_PoEditor.dfm:358
-#: fCE_PoEditor.pas:229
+#: fCE_PoEditor.pas:231
 msgid "Translation"
 msgstr "翻訳"
 
@@ -1327,31 +1443,31 @@ msgid "Original"
 msgstr "オリジナル"
 
 #. CEPoEditor..panel_startup..label_startup..Caption
-#: fCE_PoEditor.dfm:382
+#: fCE_PoEditor.dfm:378
 msgid "Select existing translation or create new."
 msgstr "既存の翻訳を選択するか新規作成してください。"
 
 #. CEPoEditor..ActionList..act_save..Caption
 #. CEStackPanel..TopDock..StackToolbar..sub_save..Caption
 #. CETextEditorPage..ActionList..text_file_save..Caption
-#: fCE_PoEditor.dfm:396
+#: fCE_PoEditor.dfm:388
 #: CE_Sessions.pas:234
-#: fCE_StackPanel.pas:327
+#: fCE_StackPanel.pas:332
 msgid "Save"
 msgstr "保存"
 
 #. CEPoEditor..ActionList..act_save..Hint
-#: fCE_PoEditor.dfm:397
+#: fCE_PoEditor.dfm:389
 msgid "Save changes."
 msgstr "変更を保存"
 
 #. CEPoEditor..ActionList..act_new..Hint
-#: fCE_PoEditor.dfm:403
+#: fCE_PoEditor.dfm:395
 msgid "Create new translation."
 msgstr "新しい翻訳の作成"
 
 #. CEPoEditor..ActionList..act_apply..Hint
-#: fCE_PoEditor.dfm:409
+#: fCE_PoEditor.dfm:401
 msgid "Apply changes."
 msgstr "変更を適用"
 
@@ -1361,7 +1477,7 @@ msgid "Create New Translation"
 msgstr "新しい翻訳の作成"
 
 #. CENewTranslationDlg..Path..Caption
-#: fCE_PoEditor_NewForm.dfm:44
+#: fCE_PoEditor_NewForm.dfm:46
 msgid "Path"
 msgstr "パス"
 
@@ -1440,7 +1556,7 @@ msgstr "サイズ"
 #: CE_StatusBar.pas:166
 #: CE_StatusBar.pas:193
 #: fCE_SearchPage.pas:284
-#: Main.pas:1064
+#: Main.pas:1147
 msgid "KB"
 msgstr "KB"
 
@@ -1458,7 +1574,7 @@ msgstr "バイト"
 #: fCE_SearchPage.dfm:239
 #: CE_StatusBar.pas:168
 #: fCE_SearchPage.pas:285
-#: Main.pas:1065
+#: Main.pas:1148
 msgid "MB"
 msgstr "MB"
 
@@ -1617,22 +1733,22 @@ msgid "Manage Sessions"
 msgstr "セッションの管理"
 
 #. CESessionManager..SpTBXPanel2..SpTBXLabel2..Caption
-#: fCE_SessionManager.dfm:47
+#: fCE_SessionManager.dfm:50
 msgid "Change order by dragging"
 msgstr "ドラッグして順序を変更"
 
 #. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..check_autosave..Caption
-#: fCE_SessionManager.dfm:95
+#: fCE_SessionManager.dfm:98
 msgid "Save settings automatically."
 msgstr "設定を自動保存する"
 
 #. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..group_loadsave..Caption
-#: fCE_SessionManager.dfm:116
+#: fCE_SessionManager.dfm:119
 msgid "Save/Load Settings"
 msgstr "保存/読込み設定"
 
 #. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..group_loadsave..check_layout..Caption
-#: fCE_SessionManager.dfm:154
+#: fCE_SessionManager.dfm:157
 msgid "Layouts"
 msgstr "レイアウト"
 
@@ -1803,23 +1919,83 @@ msgstr "再読込み"
 msgid "Show Statusbar"
 msgstr "ステータスバーを表示"
 
+#. CEUpdateDlg..Caption
+#: fCE_UpdateDlg.dfm:4
+msgid "Update CubicExplorer"
+msgstr "CubicExplorerを更新する"
+
+#. CEUpdateDlg..TntLabel1..Caption
+#: fCE_UpdateDlg.dfm:29
+msgid "Files to update"
+msgstr "アップデートするファイル"
+
+#. CEUpdateDlg..but_update..Caption
+#: fCE_UpdateDlg.dfm:56
+msgid "Update"
+msgstr "アップデート"
+
+#. CEVersionMgrForm..TabControl..tab_versions..Caption
+#. CEVersionMgrForm..TabControl..sheet_versions..Caption
+#: fCE_VersionMgrForm.dfm:35
+msgid "Versions"
+msgstr "バージョン"
+
+#. CEVersionMgrForm..TabControl..tab_backups..Caption
+#. CEVersionMgrForm..TabControl..sheet_backups..Caption
+#: fCE_VersionMgrForm.dfm:39
+msgid "Backups"
+msgstr "バックアップ"
+
+#. CEVersionMgrForm..TabControl..sheet_versions..ItemList......WideText
+#. Translate
+#: fCE_VersionMgrForm.dfm:98
+msgid "Version"
+msgstr "バージョン"
+
+#. #-#-#-#-#  tmp.po (PACKAGE VERSION)  #-#-#-#-#
+#. CEVersionMgrForm..TabControl..sheet_versions..ItemList......WideText
+#: fCE_VersionMgrForm.dfm:103
+msgid "Type"
+msgstr "形式"
+
+#. CEVersionMgrForm..TabControl..sheet_versions..ItemList......WideText
+#: fCE_VersionMgrForm.dfm:108
+msgid "Date"
+msgstr "日付"
+
+#. CEVersionMgrForm..TabControl..sheet_versions..but_check..Caption
+#: fCE_VersionMgrForm.dfm:139
+msgid "Check for updates"
+msgstr "アップデートの確認"
+
+#. CEVersionMgrForm..TabControl..sheet_versions..but_use..Caption
+#: fCE_VersionMgrForm.dfm:157
+msgid "Use this version"
+msgstr "このバージョンを使用"
+
+#. CEVersionMgrForm..TabControl..sheet_versions..but_download..Caption
+#: fCE_VersionMgrForm.dfm:168
+#: fCE_VersionMgrForm.pas:538
+msgid "Download"
+msgstr "ダウンロード"
+
 #. MainForm..TopToolDock..MainToolbar..Caption
 #: Main.dfm:73
 msgid "Main Menu"
 msgstr "メインメニュー"
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem9..Caption
-#: Main.dfm:198
+#: Main.dfm:206
 msgid "Panels"
 msgstr "パネル"
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..Caption
-#: Main.dfm:240
+#: Main.dfm:253
 msgid "Transparency"
 msgstr "透過率"
 
 #. MainForm..TopToolDock..MainToolbar..sessionsMenuItem..sessionHistoryMenuItem..Caption
-#: Main.dfm:345
+#: Main.dfm:358
 msgid "History"
 msgstr "履歴"
 
@@ -1828,40 +2004,61 @@ msgid "Connection error!"
 msgstr "接続エラー！"
 
 #. Show Empty Folder text
-#: CE_BaseFileView.pas:315
+#. Show Empty Folder text
+#: CE_BaseFileView.pas:317
 msgid "Empty folder"
 msgstr "空のフォルダー"
 
 #. Add "More..." item
 #. More... item
 #. More... item
-#: CE_BaseFileView.pas:1421
-#: CE_ToolbarButtons.pas:687
-#: dCE_Actions.pas:1695
-#: dCE_Actions.pas:1734
+#: CE_BaseFileView.pas:1416
+#: CE_ToolbarButtons.pas:648
+#: dCE_Actions.pas:1745
+#: dCE_Actions.pas:1784
 msgid "More..."
 msgstr "その他..."
 
 #. Save to existing Stack
-#: CE_BookmarkTree.pas:351
-#: fCE_StackPanel.pas:329
-#: fCE_StackPanel.pas:393
+#: CE_BookmarkTree.pas:354
+#: fCE_StackPanel.pas:334
+#: fCE_StackPanel.pas:398
 msgid "Confirm"
 msgstr "確認"
 
-#: CE_BookmarkTree.pas:352
+#: CE_BookmarkTree.pas:355
 msgid "Deleting multiple bookmarks!"
 msgstr "複数のブックマークを削除しようとしています！"
 
-#: CE_BookmarkTree.pas:353
+#: CE_BookmarkTree.pas:356
 msgid "Are you sure you want to delete selected bookmarks?"
 msgstr "本当に選択中のブックマークを削除しますか？"
 
-#: CE_FileView.pas:569
+#: CE_CommonObjects.pas:276
+msgid "WARNING! You are about to restore %d items."
+msgstr "警告! %d 個のアイテムを復元しようとしています。"
+
+#: CE_CommonObjects.pas:277
+msgid "Are you sure you want to do that?"
+msgstr "本当にそれを行ってもよろしいですか？"
+
+#: CE_CommonObjects.pas:278
+msgid "Restoring multiple items!"
+msgstr "複数アイテムを復元しようとしています!"
+
+#: CE_CommonObjects.pas:475
+msgid "Are you sure you want to restore?"
+msgstr "本当に復元してもよろしいですか？"
+
+#: CE_CommonObjects.pas:477
+msgid "Restore"
+msgstr "復元"
+
+#: CE_FileView.pas:597
 msgid "Contains hidden items"
 msgstr "隠しアイテムを含む"
 
-#: CE_FileView.pas:691
+#: CE_FileView.pas:748
 msgid "Opening..."
 msgstr "開いています..."
 
@@ -1923,7 +2120,7 @@ msgstr "セッション履歴をクリアしますか？"
 msgid "Are you sure you want to clear session history?"
 msgstr "セッション履歴をクリアしてもよろしいですか？"
 
-#: CE_Sessions.pas:1045
+#: CE_Sessions.pas:1049
 msgid "Session at"
 msgstr "セッション日時"
 
@@ -1949,101 +2146,189 @@ msgstr "グループ"
 msgid "Total Size"
 msgstr "合計サイズ"
 
-#: CE_StdBookmarkComps.pas:124
+#: CE_StdBookmarkComps.pas:130
 msgid "New Category"
 msgstr "新しいカテゴリー"
 
-#: CE_ToolbarButtons.pas:327
+#: CE_ToolbarButtons.pas:356
 msgid "Folder Path"
 msgstr "フォルダーのパス"
 
-#: CE_ToolbarButtons.pas:333
+#: CE_ToolbarButtons.pas:362
 msgid "Name Only"
 msgstr "名前のみ"
 
-#: CE_ToolbarButtons.pas:342
+#: CE_ToolbarButtons.pas:371
 msgid "Short Path"
 msgstr "短いパス"
 
-#: CE_ToolbarButtons.pas:348
+#: CE_ToolbarButtons.pas:377
 msgid "Short Folder Path"
 msgstr "フォルダーの短いパス"
 
-#: CE_ToolbarButtons.pas:354
+#: CE_ToolbarButtons.pas:383
 msgid "Short Name Only"
 msgstr "短い名前のみ"
 
 #. Grouped toggle item
 #. Sho in Groups
-#: CE_ToolbarButtons.pas:661
+#: CE_ToolbarButtons.pas:622
 msgid "Show in Groups"
 msgstr "グループで表示"
 
+#. Add Recycle Bin Item
+#: CE_ToolbarButtons.pas:895
+msgid "Recycle Bin"
+msgstr "ゴミ箱"
+
+#. Add Restore List
+#. Populate items
+#: CE_ToolbarButtons.pas:913
+msgid "Restore List"
+msgstr "復元リスト"
+
+#. Add Restore All
+#: CE_ToolbarButtons.pas:921
+msgid "Restore All"
+msgstr "全て復元"
+
+#. Lock
+#: CE_ToolbarButtons.pas:1102
+msgid "Lock"
+msgstr "ロック"
+
+#. Logoff
+#: CE_ToolbarButtons.pas:1109
+msgid "Logoff"
+msgstr "ログオフ"
+
+#. Sleep
+#: CE_ToolbarButtons.pas:1121
+msgid "Sleep"
+msgstr "スリープ"
+
+#. Hibernate
+#: CE_ToolbarButtons.pas:1131
+msgid "Hibernate"
+msgstr "休止状態"
+
+#. Reboot
+#: CE_ToolbarButtons.pas:1141
+msgid "Reboot"
+msgstr "再起動"
+
+#. Shut down
+#: CE_ToolbarButtons.pas:1148
+msgid "Shut down"
+msgstr "シャットダウン"
+
+#: CE_VersionUpdater.pas:401
+msgid "Restart needed!"
+msgstr "再起動が必要です!"
+
+#: CE_VersionUpdater.pas:402
+msgid "Restart CubicExplorer Now?"
+msgstr "今すぐCubicExplorerを再起動しますか？"
+
+#: CE_VersionUpdater.pas:435
+msgid "Official"
+msgstr "正式版"
+
+#. btSnapshot is depricated
+#: CE_VersionUpdater.pas:436
+msgid "Weekly"
+msgstr "Weekly版"
+
+#: CE_VersionUpdater.pas:438
+msgid "Daily"
+msgstr "Daily版"
+
+#: CE_VersionUpdater.pas:439
+msgid "Test"
+msgstr "テスト版"
+
+#: CE_VersionUpdater.pas:1219
+msgid "You have no update type notifications selected."
+msgstr "アップデート通知タイプが選択されていません。"
+
+#: CE_VersionUpdater.pas:1219
+msgid "Use Options->Updates to change them."
+msgstr "オプション→アップデートを変更してください"
+
+#. Show error message
+#: CE_VersionUpdater.pas:1295
+msgid "No new updates"
+msgstr "新しいアップデートはありません"
+
+#: fCE_BookmarkPanel.pas:230
+msgid "Open in current tab"
+msgstr "現在のタブで開く"
+
 #. Add Session
-#: fCE_BookmarkPanel.pas:269
+#: fCE_BookmarkPanel.pas:278
 msgid "Select Session"
 msgstr "セッションを選択"
 
-#: fCE_BookmarkPanel.pas:270
+#: fCE_BookmarkPanel.pas:279
 msgid "Session"
 msgstr "セッション"
 
-#: fCE_CreateSymlink.pas:87
+#: fCE_CreateSymlink.pas:88
 msgid "already exists. Please choose another name."
 msgstr "既に存在しています。他の名前を選んでください。"
 
-#: fCE_CreateSymlink.pas:88
+#: fCE_CreateSymlink.pas:89
 msgid "Duplicate name"
 msgstr "名前を複製"
 
-#: fCE_CreateSymlink.pas:129
+#: fCE_CreateSymlink.pas:130
 msgid "Select target folder"
 msgstr "ターゲットフォルダーを選択"
 
 #. Add Separator category to ActionList
-#: fCE_Customizer.pas:264
+#: fCE_Customizer.pas:265
 msgid "Separators"
 msgstr "区切り"
 
 #. Add Separator item to ActionList
-#: fCE_Customizer.pas:271
+#: fCE_Customizer.pas:272
 msgid "Separator"
 msgstr "区切り"
 
 #. Add Dynamic Spacer item to ActionList
-#: fCE_Customizer.pas:279
+#: fCE_Customizer.pas:280
 msgid "Dynamic Spacer"
 msgstr "自動調整スペーサー"
 
 #. Add Fixed Spacer item to ActionList
-#: fCE_Customizer.pas:287
+#: fCE_Customizer.pas:288
 msgid "Fixed Spacer"
 msgstr "固定スペーサー"
 
 #. Populate Theme list
 #. Populate Theme list
-#: fCE_Customizer.pas:315
+#: fCE_Customizer.pas:316
 msgid "Author"
 msgstr "作成者"
 
 #. Populate group_displayMode
-#: fCE_Customizer.pas:337
+#: fCE_Customizer.pas:338
 msgid "Default"
 msgstr "デフォルト"
 
-#: fCE_Customizer.pas:338
+#: fCE_Customizer.pas:339
 msgid "Icon only"
 msgstr "アイコンのみ"
 
-#: fCE_Customizer.pas:339
+#: fCE_Customizer.pas:340
 msgid "Icon above text"
 msgstr "アイコンの下にテキスト"
 
-#: fCE_Customizer.pas:340
+#: fCE_Customizer.pas:341
 msgid "Text only"
 msgstr "テキストのみ"
 
-#: fCE_Customizer.pas:558
+#: fCE_Customizer.pas:559
 msgid "Drag buttons to/from toolbars"
 msgstr "ツールバーへ(から)ボタンをドラッグしてください"
 
@@ -2111,6 +2396,14 @@ msgstr "スタックの設定"
 msgid "General Settings"
 msgstr "一般設定"
 
+#: fCE_OptionsPage_General_Updates.pas:73
+msgid "Updates"
+msgstr "アップデート"
+
+#: fCE_OptionsPage_General_Updates.pas:74
+msgid "Updates Settings"
+msgstr "アップデートの設定"
+
 #: fCE_OptionsPage_GlobalHotkeys.pas:140
 msgid "Global"
 msgstr "グローバル"
@@ -2169,15 +2462,15 @@ msgstr "タブの設定"
 msgid "Select default folder for new tabs."
 msgstr "新しいタブのデフォルトフォルダーを選択してください"
 
-#: fCE_PoEditor.pas:844
+#: fCE_PoEditor.pas:848
 msgid "Language Editor"
 msgstr "言語エディター"
 
-#: fCE_PoEditor.pas:869
+#: fCE_PoEditor.pas:873
 msgid "Save changes before closing?"
 msgstr "閉じる前に変更を保存しますか?"
 
-#: fCE_PoEditor.pas:870
+#: fCE_PoEditor.pas:874
 msgid "Save changes?"
 msgstr "変更を保存しますか?"
 
@@ -2201,41 +2494,41 @@ msgstr "%d個のフォルダーを検索し、%d個のアイテムが見つか�
 msgid "Open Containing Folder"
 msgstr "保持しているフォルダーを開く"
 
-#: fCE_SessionManager.pas:147
+#: fCE_SessionManager.pas:148
 msgid "Are you sure you want to delete this session?"
 msgstr "このセッションを本当に削除してもよろしいですか？"
 
 #. Save As...
-#: fCE_StackPanel.pas:325
+#: fCE_StackPanel.pas:330
 msgid "Save Stack"
 msgstr "スタックを保存"
 
-#: fCE_StackPanel.pas:326
+#: fCE_StackPanel.pas:331
 msgid "Stack Name"
 msgstr "スタック名"
 
-#: fCE_StackPanel.pas:330
+#: fCE_StackPanel.pas:335
 msgid "Override existing stack?"
 msgstr "既存のスタックを上書きしますか？"
 
-#: fCE_StackPanel.pas:331
+#: fCE_StackPanel.pas:336
 msgid "Do you want to override existing stack?"
 msgstr "既存のスタックをオーバーライドしてもよろしいですか？"
 
-#: fCE_StackPanel.pas:450
+#: fCE_StackPanel.pas:455
 msgid "Clear Stack"
 msgstr "スタックをクリア"
 
-#: fCE_StackPanel.pas:451
+#: fCE_StackPanel.pas:456
 msgid "Removing all items from Stack!"
 msgstr "スタックからすべてのアイテムを取り除こうとしています！"
 
-#: fCE_StackPanel.pas:452
+#: fCE_StackPanel.pas:457
 msgid "Are you sure you want to clear the list?"
 msgstr "本当にリストをクリアしてもよろしいですか？"
 
 #. Auto Save
-#: fCE_StackPanel.pas:539
+#: fCE_StackPanel.pas:544
 msgid "Enable Auto Save"
 msgstr "自動保存を有効にする"
 
@@ -2247,122 +2540,178 @@ msgstr "上書き"
 msgid "Untitled"
 msgstr "無題"
 
+#. Last Check
+#. Success
+#: fCE_VersionMgrForm.pas:142
+msgid "Last check:"
+msgstr "最終確認日"
+
+#: fCE_VersionMgrForm.pas:144
+msgid "Current version:"
+msgstr "現在のバージョン："
+
+#: fCE_VersionMgrForm.pas:231
+msgid "Invalid update!"
+msgstr "無効なアップデートです!"
+
+#: fCE_VersionMgrForm.pas:232
+msgid "One or more files are missing!"
+msgstr "一つ以上のファイルが不足しています!"
+
+#: fCE_VersionMgrForm.pas:233
+msgid "Do you really wan't to update?"
+msgstr "本当にアップデートしますか？"
+
+#: fCE_VersionMgrForm.pas:268
+#, fuzzy
+msgid "%d of %d"
+msgstr "%d of %d"
+
+#: fCE_VersionMgrForm.pas:341
+msgid "Download failed!"
+msgstr "ダウンロードに失敗しました。"
+
+#: fCE_VersionMgrForm.pas:341
+msgid "%d file(s) failed to download!"
+msgstr "%d 個のファイルのダウンロードに失敗しました!"
+
+#: fCE_VersionMgrForm.pas:525
+msgid "Published:"
+msgstr "発行日："
+
 #. Create FolderCombo Toolbar
-#: Main.pas:506
+#: Main.pas:557
 msgid "Address Bar"
 msgstr "アドレスバー"
 
 #. Create DriveToolbar
-#: Main.pas:514
+#: Main.pas:565
 msgid "Drives"
 msgstr "ドライブ"
 
 #. Create BreadcrumbBar
-#: Main.pas:545
+#: Main.pas:596
 msgid "Breadcrumb Navigation"
 msgstr "パンくずリストナビゲーション"
 
 #. Add default menu items
-#: Main.pas:937
+#: Main.pas:1020
 msgid "English (default)"
 msgstr "英語(デフォルト)"
 
 #. TabBar Left/Right arrow hints
-#: Main.pas:1034
+#: Main.pas:1117
 msgid "Show more tabs"
 msgstr "さらにタブを表示"
 
 #. VSTools strings
-#: Main.pas:1038
+#: Main.pas:1121
 msgid "Warning"
 msgstr "警告"
 
-#: Main.pas:1041
+#: Main.pas:1124
 msgid "Last hour"
 msgstr "1時間以内"
 
-#: Main.pas:1042
+#: Main.pas:1125
 msgid "Last twenty-four hours"
 msgstr "過去24時間"
 
-#: Main.pas:1043
+#: Main.pas:1126
 msgid "This week"
 msgstr "今週"
 
-#: Main.pas:1044
+#: Main.pas:1127
 msgid "Two weeks ago"
 msgstr "2週間前"
 
-#: Main.pas:1045
+#: Main.pas:1128
 msgid "Three weeks ago"
 msgstr "3週間前"
 
-#: Main.pas:1046
+#: Main.pas:1129
 msgid "A month ago"
 msgstr "1ヶ月前"
 
-#: Main.pas:1047
+#: Main.pas:1130
 msgid "Two months ago"
 msgstr "2ヶ月前"
 
-#: Main.pas:1048
+#: Main.pas:1131
 msgid "Three months ago"
 msgstr "3ヶ月前"
 
-#: Main.pas:1049
+#: Main.pas:1132
 msgid "Four months ago"
 msgstr "4ヶ月前"
 
-#: Main.pas:1050
+#: Main.pas:1133
 msgid "Five months ago"
 msgstr "5ヶ月前"
 
-#: Main.pas:1051
+#: Main.pas:1134
 msgid "Six months ago"
 msgstr "6ヶ月前"
 
-#: Main.pas:1052
+#: Main.pas:1135
 msgid "Earlier this year"
-msgstr "今年の現在以前"
+msgstr "今年のそれ以前"
 
-#: Main.pas:1053
+#: Main.pas:1136
 msgid "A long time ago"
-msgstr "かなり前"
+msgstr "かなり昔"
 
-#: Main.pas:1055
+#: Main.pas:1138
 msgid "Zero"
 msgstr "ゼロ"
 
-#: Main.pas:1056
+#: Main.pas:1139
 msgid "Tiny"
 msgstr "わずか"
 
-#: Main.pas:1057
+#: Main.pas:1140
 msgid "Small"
-msgstr "小"
+msgstr "小さい"
 
-#: Main.pas:1058
+#: Main.pas:1141
 msgid "Medium"
-msgstr "中"
+msgstr "中くらい"
 
-#: Main.pas:1059
+#: Main.pas:1142
 msgid "Large"
-msgstr "大"
+msgstr "大きい"
 
-#: Main.pas:1060
+#: Main.pas:1143
 msgid "Gigantic"
 msgstr "巨大"
 
-#: Main.pas:1061
+#: Main.pas:1144
 msgid "System Folders"
 msgstr "システムフォルダー"
 
-#: Main.pas:1066
+#: Main.pas:1149
 msgid "TB"
-msgstr "TB"
+msgstr "テラバイト級"
 
-msgid "Type"
-msgstr "形式"
+#: Main.pas:1571
+msgid "New version (%s) is available. Do you want to update now?"
+msgstr "新しいバージョン(%s)が使用できます。今すぐアップデートしますか？"
+
+#: Main.pas:1573
+msgid "Build:"
+msgstr "ビルド："
+
+#: Main.pas:1574
+msgid "Update type:"
+msgstr "アップデートタイプ："
+
+#: Main.pas:1577
+msgid "New Version Available"
+msgstr "新しいバージョンが使用できます"
+
+#: Main.pas:1578
+msgid "Do you want to update?"
+msgstr "アップデートしますか？"
 
 msgid "Date Modified"
 msgstr "変更日時"
