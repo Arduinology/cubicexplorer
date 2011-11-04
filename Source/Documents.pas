@@ -51,6 +51,7 @@ Unit Documents;
 // 213 = Paste to shortcut
 // 214 = Create Symbolic Link
 // 215 = Undo Delete
+// 216 = Calculate folder size
 
 // **** View (300) ****
 // 300 = Statusbar, toggle visibility

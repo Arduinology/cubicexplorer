@@ -505,6 +505,8 @@ begin
   if ws = '' then
   Exit;
 
+  ReplaceSystemVariablePath(ws);
+
   if IsUNC(ws) then
   begin
     ws:= WideExcludeTrailingBackslash(ws);

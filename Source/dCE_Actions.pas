@@ -1462,7 +1462,7 @@ begin
         IsShortcut:= false;
         IsFile:= true;
       end
-      else
+      else if list.Strings[i] <> '' then
       begin
         path:= list.Strings[i];
         // Open File
@@ -1505,15 +1505,23 @@ begin
           ReplaceSystemVariablePath(path);
           path:= IncludeTrailingBackslashW(path);
 
-          if not DirExistsVET(path, false) then
-          path:= DecodeRelativePath(path);
-
-          if DirExistsVET(path, false) then
+          if path[1] = ':' then
           begin
             OpenFolderInTab(nil, path, true, true);
             Result:= true;
             TabOpened:= true;
           end
+          else
+          begin
+            if not DirExistsVET(path, false) then
+            path:= DecodeRelativePath(path);
+            if DirExistsVET(path, false) then
+            begin
+              OpenFolderInTab(nil, path, true, true);
+              Result:= true;
+              TabOpened:= true;
+            end
+          end;
         end;
       end;
       i:= i + 1;

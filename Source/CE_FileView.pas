@@ -118,6 +118,7 @@ type
     ShellNewMenu: TVirtualShellNewMenu;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    procedure CalculateFolderSizes;
     procedure ClearHistory;
     procedure CreateNewFolder;
     procedure GoBackInHistory;
@@ -384,6 +385,21 @@ begin
   //History.Free;
   //ShellNewMenu.Free;
   inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Calculate Folder Sizes
+-------------------------------------------------------------------------------}
+procedure TCEFileView.CalculateFolderSizes;
+var
+  item: TExplorerItem;
+begin
+  item:= TExplorerItem(Selection.First);
+  while assigned(item) do
+  begin
+    item.Namespace.FolderSize(true, true);
+    item:= TExplorerItem(Selection.Next(item));
+  end;
 end;
 
 {-------------------------------------------------------------------------------

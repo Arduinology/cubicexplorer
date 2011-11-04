@@ -577,6 +577,7 @@ object MainForm: TMainForm
   end
   object TrayIcon: TJvTrayIcon
     IconIndex = 0
+    Hint = 'CubicExplorer'
     PopupMenu = TrayPopupMenu
     Visibility = [tvVisibleTaskBar, tvVisibleTaskList]
     OnMouseUp = TrayIconMouseUp

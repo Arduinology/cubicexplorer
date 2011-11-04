@@ -455,10 +455,12 @@ begin
   fIsSpecial:= false;
   fPath:= APath;
   fRelative:= RelativePath;
+
+  ReplaceSystemVariablePath(APath);
   if fRelative then
-  PIDL:= PathToPIDL(DecodeRelativePath(fPath))
+  PIDL:= PathToPIDL(DecodeRelativePath(APath))
   else
-  PIDL:= PathToPIDL(fPath);
+  PIDL:= PathToPIDL(APath);
 
   if PIDLMgr.IsDesktopFolder(PIDL) then
   begin

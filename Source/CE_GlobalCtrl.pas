@@ -270,6 +270,8 @@ begin
     MainForm.Caption:= fGlobalPathCaption;
     TntApplication.Title:= fGlobalPathCaption;
   end;
+
+  MainForm.TrayIcon.Hint:= 'CubicExplorer: ' +  fGlobalPathCaption;
 end;
 
 {##############################################################################}
