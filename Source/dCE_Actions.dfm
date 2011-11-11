@@ -705,6 +705,14 @@ object CEActions: TCEActions
       Caption = 'Lock Toolbars'
       OnExecute = ActionExecute
     end
+    object act_navi_refresh_current: TTntAction
+      Tag = 610
+      Category = 'Navigation'
+      Caption = 'Refresh Fileview'
+      ImageIndex = 8
+      ShortCut = 8308
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

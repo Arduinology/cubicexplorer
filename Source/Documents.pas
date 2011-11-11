@@ -112,6 +112,7 @@ Unit Documents;
 // 607 = Dublicate Tab
 // 608 = Scroll Left
 // 609 = Scroll Right
+// 610 = Refresh current folder only.
 // 650 = Add Text Editor tab.
 // 651 = Add File Search tab.
 // 652 = Add QuickView tab.

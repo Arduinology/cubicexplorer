@@ -225,6 +225,7 @@ type
     act_tools_emptytrash: TTntAction;
     act_tools_systempower: TCEToolbarAction;
     act_view_lock_toolbars: TTntAction;
+    act_navi_refresh_current: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -902,6 +903,10 @@ begin
          end;
     608: MainForm.TabSet.ScrollLeft;
     609: MainForm.TabSet.ScrollRight;
+    610: begin
+      if GlobalPathCtrl.ActivePage is TCEFileViewPage then
+      TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.Rebuild;
+    end;
     // Open Editor
     650: begin
            GlobalFileViewSettings.AssignFromActivePage;
@@ -1413,6 +1418,7 @@ var
   TabOpened: Boolean;
   IsShortcut: Boolean;
   IsFile: Boolean;
+  IsIcon: Boolean;
   NS: TNamespace;
 begin
   Result:= false;
@@ -1426,6 +1432,7 @@ begin
     TabOpened:= false;
     IsShortcut:= false;
     IsFile:= false;
+    IsIcon:= false;
     while i < list.Count do
     begin
       if IsSameText(list.Strings[i], '/idlist') and not TabOpened then
@@ -1443,84 +1450,112 @@ begin
         end;
         IsShortcut:= false;
         IsFile:= false;
+        IsIcon:= false;
       end
       else if IsSameText(list.Strings[i], '/n') then
       begin
         TabOpened:= false;
         IsShortcut:= false;
         IsFile:= false;
+        IsIcon:= false;
       end
       else if IsSameText(list.Strings[i], '/link') then
       begin
         TabOpened:= false;
         IsShortcut:= true;
         IsFile:= false;
+        IsIcon:= false;
       end
       else if IsSameText(list.Strings[i], '/f') then
       begin
         TabOpened:= false;
         IsShortcut:= false;
         IsFile:= true;
+        IsIcon:= false;
+      end
+      else if IsSameText(list.Strings[i], '/icon') then
+      begin
+        TabOpened:= false;
+        IsShortcut:= false;
+        IsFile:= false;
+        IsIcon:= true;
       end
       else if list.Strings[i] <> '' then
       begin
         path:= list.Strings[i];
-        // Open File
-        if IsFile then
+        if IsIcon then
         begin
           if not WideFileExists(path) then
           path:= DecodeRelativePath(path);
           if WideFileExists(path) then
           begin
-            OpenFileInTab(path, true, true);
-            Result:= true;
-            TabOpened:= true;
-          end;
-          IsFile:= false;
-        end;
-        // Open Shortcut
-        if IsShortcut then
-        begin
-          if not WideFileExists(path) then
-          path:= DecodeRelativePath(path);
-          if WideFileExists(path) then
-          begin
-            NS:= TNamespace.CreateFromFileName(path);
             try
-              if NS.Link then
-              begin
-                OpenFolderInTab(nil, NS.ShellLink.TargetIDList, true, true);
-                Result:= true;
-                TabOpened:= true;
-              end;
-            finally
-              NS.Free;
+              Application.Icon.LoadFromFile(path);
+            except
             end;
-          end;
-          IsShortcut:= false;
-        end;
-        // Open normal folder
-        if not TabOpened then
-        begin
-          ReplaceSystemVariablePath(path);
-          path:= IncludeTrailingBackslashW(path);
-
-          if path[1] = ':' then
-          begin
-            OpenFolderInTab(nil, path, true, true);
             Result:= true;
-            TabOpened:= true;
-          end
-          else
+          end;
+          IsIcon:= false;
+        end
+        else
+        begin
+          // Open File
+          if IsFile then
           begin
-            if not DirExistsVET(path, false) then
+            if not WideFileExists(path) then
             path:= DecodeRelativePath(path);
-            if DirExistsVET(path, false) then
+            if WideFileExists(path) then
+            begin
+              OpenFileInTab(path, true, true);
+              Result:= true;
+              TabOpened:= true;
+            end;
+            IsFile:= false;
+          end;
+          // Open Shortcut
+          if IsShortcut then
+          begin
+            if not WideFileExists(path) then
+            path:= DecodeRelativePath(path);
+            if WideFileExists(path) then
+            begin
+              NS:= TNamespace.CreateFromFileName(path);
+              try
+                if NS.Link then
+                begin
+                  OpenFolderInTab(nil, NS.ShellLink.TargetIDList, true, true);
+                  Result:= true;
+                  TabOpened:= true;
+                end;
+              finally
+                NS.Free;
+              end;
+            end;
+            IsShortcut:= false;
+          end;
+          // Open normal folder
+          if not TabOpened then
+          begin
+            ReplaceSystemVariablePath(path);
+            path:= IncludeTrailingBackslashW(path);
+
+            if path[1] = ':' then
             begin
               OpenFolderInTab(nil, path, true, true);
               Result:= true;
               TabOpened:= true;
             end
+            else
+            begin
+              if not DirExistsVET(path, false) then
+              path:= DecodeRelativePath(path);
+              if DirExistsVET(path, false) then
+              begin
+                OpenFolderInTab(nil, path, true, true);
+                Result:= true;
+                TabOpened:= true;
+              end
+            end;
           end;
         end;
       end;

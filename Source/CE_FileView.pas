@@ -905,7 +905,7 @@ begin
     if assigned(item) then
     begin
       item.HitTestAt(viewPt, itemHitInfo);
-      if ehtOnClickSelectBounds in itemHitInfo then
+      if ((ehtOnIcon in itemHitInfo) or (ehtOnText in itemHitInfo)) and not (ehtOnCheck in itemHitInfo) then
       begin
         if Self.ValidateNamespace(item, ns) then
         begin
