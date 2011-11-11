@@ -132,7 +132,7 @@ type
 implementation
 
 uses
-  MPCommonUtilities, ShellAPI, MPCommonObjects, TntSysUtils;
+  MPCommonUtilities, ShellAPI, MPCommonObjects, TntSysUtils, CE_Utils;
 
 {-------------------------------------------------------------------------------
   FileTime To DateTime
@@ -205,7 +205,7 @@ begin
   Self.TreeOptions.SelectionOptions:= [toMultiSelect];
   fShowFilePathInFlat:= false;
   fSingleFolderMode:= false;
-  fLibraryMissing:= not WideFileExists('7z.dll');
+  fLibraryMissing:= not WideFileExists(ExePath + '7z.dll');
 end;
 
 {-------------------------------------------------------------------------------

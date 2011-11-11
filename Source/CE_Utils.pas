@@ -126,16 +126,26 @@ var
   Decode Relative Path (relative to application path)
 -------------------------------------------------------------------------------}
 function DecodeRelativePath(Path: WideString): WideString;
+var
+  ws: WideString;
 begin
+  ws:= WideGetCurrentDir;
+  WideSetCurrentDir(ExePath);
   Result:= WideExpandFileName(Path);
+  WideSetCurrentDir(ws);
 end;
 
 {*------------------------------------------------------------------------------
   Encode Relative Path (relative to application path)
 -------------------------------------------------------------------------------}
 function EncodeRelativePath(Path: WideString): WideString;
+var
+  ws: WideString;
 begin
+  ws:= WideGetCurrentDir;
+  WideSetCurrentDir(ExePath);
   Result:= WideExtractRelativePath(WideParamStr(0), Path);
+  WideSetCurrentDir(ws);
 end;
 
 {*------------------------------------------------------------------------------
