@@ -1,5 +1,7 @@
 16.11.2011
 * Updated Dutch translation (thanks to Karel Baerten).
+---
+- Fixed bug in session loading when /icon switch is used.
 ================================================================================
 11.11.2011
 - Fixed missing 7z.dll bug.

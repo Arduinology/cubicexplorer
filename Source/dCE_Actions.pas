@@ -1493,7 +1493,6 @@ begin
               Application.Icon.LoadFromFile(path);
             except
             end;
-            Result:= true;
           end;
           IsIcon:= false;
         end

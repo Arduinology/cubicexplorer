@@ -130,7 +130,7 @@
 			<Directories Name="UsePackages">False</Directories>
 		</Directories>
 		<Parameters>
-			<Parameters Name="RunParams">/n ::{031E4825-7B94-4DC3-B131-E946B44C8DD5}\Documents.library-ms\ /n C:\</Parameters>
+			<Parameters Name="RunParams">/icon D:\Files\TestFiles\Images\skype.ico</Parameters>
 			<Parameters Name="HostApplication"></Parameters>
 			<Parameters Name="Launcher"></Parameters>
 			<Parameters Name="UseLauncher">False</Parameters>
