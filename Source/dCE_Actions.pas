@@ -1271,6 +1271,7 @@ var
   PIDL: PItemIDList;
 begin
   PIDL:= PathToPIDL(FilePath);
+
   Result:= OpenFolderInTab(Sender, PIDL, SelectTab, ActivateApp, ForceNewTab, PaneNumber);
 end;
 
@@ -1381,8 +1382,6 @@ end;
 function IsSingleInstance: Boolean;
 begin
   Result:= MainForm.SingleInstance;
-  if Result then
-  Application.BringToFront;
 end;
 
 {##############################################################################}
@@ -1414,7 +1413,7 @@ var
   list: TTntStrings;
   i: Integer;
   pidl: PItemIDList;
-  path: WideString;
+  path, path2: WideString;
   TabOpened: Boolean;
   IsShortcut: Boolean;
   IsFile: Boolean;
@@ -1536,13 +1535,23 @@ begin
           if not TabOpened then
           begin
             ReplaceSystemVariablePath(path);
-            path:= IncludeTrailingBackslashW(path);
-
+            
             if path[1] = ':' then
             begin
-              OpenFolderInTab(nil, path, true, true);
-              Result:= true;
-              TabOpened:= true;
+              // Open Control Panel in explorer.exe. CE won't work properly with Vista+ control panels.
+              if IsWindowsVista and (Pos('::{26EE0668-A00A-44D7-9371-BEB064C98683}', path) = 1) then
+              begin
+                path2:= WideExpandEnviromentString('%windir%\explorer.exe');
+
+                ShellExecuteW(0, 'open', PWideChar(path2), PWideChar(path), '', SW_SHOWDEFAULT);
+                Result:= false;
+              end
+              else
+              begin
+                OpenFolderInTab(nil, path, true, true);
+                Result:= true;
+                TabOpened:= true;
+              end;
             end
             else
             begin
@@ -1593,6 +1602,7 @@ begin
     // Copy Data for command line parameters
     WM_COPYDATA: begin
       ws:= PWideChar(TWMCopyData(Msg).CopyDataStruct.lpData);
+      TWMCopyData(Msg).Result:= 0;
       HandleCmdParams(ws);
       Handled:= true;
     end;

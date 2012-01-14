@@ -91,7 +91,7 @@ var
 implementation
 
 uses
-  Main, dCE_Actions, fCE_FileView, fCE_TextEditor, CE_FileUtils;
+  Main, dCE_Actions, fCE_FileView, fCE_TextEditor, CE_FileUtils, TntSysUtils;
 
 {##############################################################################}
 
@@ -143,6 +143,7 @@ begin
   end;
 
   fCurrentPath:= NewPath;
+  WideSetCurrentDir(fCurrentPath);
   fPathChanging:= false;
 end;
 
@@ -182,6 +183,7 @@ begin
   end;
 
   fCurrentPath:= PIDLToCEPath(APIDL);
+  WideSetCurrentDir(fCurrentPath);
   fPathChanging:= false;
 end;
 

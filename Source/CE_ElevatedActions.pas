@@ -36,6 +36,13 @@ function HandleElevatedCommands: Boolean;
 function Elevated_CreateJunction(ALink: WideString; ATarget: WideString;
     ParentHWND: HWND): Boolean;
 
+function RunElevatedCommand(AParentHWND: HWND; const AParams: WideString):
+    Boolean;
+
+function Elevated_RegisterDefaultFileManager: Boolean;
+
+function Elevated_UnRegisterDefaultFileManager: Boolean;
+
 implementation
 
 uses
@@ -46,7 +53,7 @@ uses
 -------------------------------------------------------------------------------}
 function HandleElevatedCommands: Boolean;
 var
-  i, c: Integer;
+  index, count: Integer;
   doAdmin: Boolean;
   doUpdate: Boolean;
   action: String;
@@ -56,68 +63,101 @@ begin
   Result:= false;
   doAdmin:= false;
   doUpdate:= false;
-  i:= 1;
-  c:= ParamCount;
+  index:= 1;
+  count:= ParamCount;
   // Loop through cmd params.
-  while i <= c do
+  while index <= count do
   begin
+    // Do Admin actions
     if doAdmin then
     begin
-      action:= ParamStr(i);
+      action:= ParamStr(index);
 
       // Create Junction
       if action = 'create_symlink' then
       begin
-        if i + 1 < c then // make sure we have all needed params present
+        if index + 2 <= count then // make sure we have all needed params present
         begin
-          param1:= WideParamStr(i + 1);
-          param2:= WideParamStr(i + 2);
-          i:= i + 2;
+          param1:= WideParamStr(index + 1);
+          param2:= WideParamStr(index + 2);
+          index:= index + 2;
 
-          //ShowMessage(action + ': ' + '"'+ param1 + '", "' + param2 + '"');
           CreateJunction(param1, param2);
         end;
       end
-      else
-      i:= i + 1;
+      // Register
+      else if action = 'register' then
+      begin
+        RegisterDefaultFileManager('cubicexplorer', 'Open in CubicExplorer', WideParamStr(0));
+      end
+      else if action = 'unregister' then
+      begin
+        UnRegisterDefaultFileManager('cubicexplorer');
+      end;
+
+      index:= index + 1;
 
       doAdmin:= false;
     end
+    // Do Update
     else if doUpdate then
     begin
-      if i + 1 < c then
+      if index + 1 < count then
       begin
-        param1:= WideParamStr(i); // zip path
-        param2:= WideParamStr(i + 1); // dest folder
-        i:= i + 2;
-        if i <= c then
+        param1:= WideParamStr(index); // zip path
+        param2:= WideParamStr(index + 1); // dest folder
+        index:= index + 2;
+        if index <= count then
         begin
-          paramI:= StrToIntDef(WideParamStr(i), 0); // Handle to old app
-          i:= i + 1;
+          paramI:= StrToIntDef(WideParamStr(index), 0); // Handle to old app
+          index:= index + 1;
         end
         else
         paramI:= 0;
-        
+
         UpdateCEFromZip(param1, param2, paramI, false);
         doUpdate:= false;
       end
       else
-      i:= i + 1;
+      index:= index + 1;
     end
     else
     begin
-      doAdmin:= (ParamStr(i) = '/admin') and (i < ParamCount); // Check if /admin switch is present
+      doAdmin:= (ParamStr(index) = '/admin') and (index < ParamCount); // Check if /admin switch is present
       if doAdmin then
       Result:= true
       else
       begin
-        doUpdate:= (ParamStr(i) = '/update') and (i < ParamCount);
+        doUpdate:= (ParamStr(index) = '/update') and (index < count);
         if doUpdate then
         Result:= true;
       end;
-      i:= i + 1;
+      index:= index + 1;
     end;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Run Elevated Command
+-------------------------------------------------------------------------------}
+function RunElevatedCommand(AParentHWND: HWND; const AParams: WideString): Boolean;
+var
+  ws: WideString;
+  op: WideString;
+begin
+  Result:= true; // TODO: add proper result value
+
+  if (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6) then
+  op:= 'runas'
+  else
+  op:= 'open';
+
+  Tnt_ShellExecuteW(AParentHWND,
+                    PWideChar(op),
+                    PWideChar(WideParamStr(0)),
+                    PWideChar(AParams),
+                    '',
+                    SW_HIDE);
 end;
 
 {-------------------------------------------------------------------------------
@@ -127,22 +167,25 @@ function Elevated_CreateJunction(ALink: WideString; ATarget: WideString;
     ParentHWND: HWND): Boolean;
 var
   ws: WideString;
-  op: WideString;
 begin
-  Result:= true; // TODO: add proper result value
-  
   ws:= '/admin create_symlink "' + ALink + '" "' + ATarget + '"';
-  if (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6) then
-  op:= 'runas'
-  else
-  op:= 'open';
+  Result:= RunElevatedCommand(ParentHWND, ws);
+end;
 
-  Tnt_ShellExecuteW(ParentHWND,
-                    PWideChar(op),
-                    PWideChar(WideParamStr(0)),
-                    PWideChar(ws),
-                    '',
-                    SW_HIDE);
+{-------------------------------------------------------------------------------
+  Register Default File Manager (Elevated)
+-------------------------------------------------------------------------------}
+function Elevated_RegisterDefaultFileManager: Boolean;
+begin
+  Result:= RunElevatedCommand(0, '/admin register');
+end;
+
+{-------------------------------------------------------------------------------
+  UnRegister Default File Manager (Elevated)
+-------------------------------------------------------------------------------}
+function Elevated_UnRegisterDefaultFileManager: Boolean;
+begin
+  Result:= RunElevatedCommand(0, '/admin unregister');
 end;
 
 end.

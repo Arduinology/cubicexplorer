@@ -1,3 +1,10 @@
+14.1.2011
+* Changed path handling to support environment variables.
+- Fixed separator bug in FileSearch when using multible locations.
+* Search button now shows progress dots when running.
+* CurrentDirectory is now changed to the active path.
++ Added option to register CE as default file manager.
+
 16.11.2011
 * Updated Dutch translation (thanks to Karel Baerten).
 ---

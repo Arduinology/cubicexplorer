@@ -138,6 +138,7 @@ end;
 procedure TCEMsgInput.MsgProc(var Msg : TMessage);
 var
   handled: Boolean;
+  ws: WideString;
 begin
   handled:= false;
   HandleInputMessage(Msg, handled);

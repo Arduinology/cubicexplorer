@@ -11,36 +11,45 @@ inherited CEOptionsPage_General: TCEOptionsPage_General
   object group_startup: TTntGroupBox
     Left = 16
     Top = 12
-    Width = 409
+    Width = 241
     Height = 129
     Caption = 'On Startup'
     TabOrder = 1
+    DesignSize = (
+      241
+      129)
     object radio_default: TTntRadioButton
       Left = 11
       Top = 24
-      Width = 386
+      Width = 227
       Height = 17
+      Anchors = [akLeft, akTop, akRight]
       Caption = 'Open default tab'
       TabOrder = 0
       OnClick = radioClick
+      ExplicitWidth = 395
     end
     object radio_lasttime: TTntRadioButton
       Left = 11
       Top = 47
-      Width = 386
+      Width = 227
       Height = 17
+      Anchors = [akLeft, akTop, akRight]
       Caption = 'Continue from last time'
       TabOrder = 1
       OnClick = radioClick
+      ExplicitWidth = 395
     end
     object radio_session: TTntRadioButton
       Left = 11
       Top = 70
-      Width = 386
+      Width = 227
       Height = 17
+      Anchors = [akLeft, akTop, akRight]
       Caption = 'Load session'
       TabOrder = 2
       OnClick = radioClick
+      ExplicitWidth = 395
     end
     object combo_sessions: TTntComboBox
       Left = 27
@@ -60,11 +69,15 @@ inherited CEOptionsPage_General: TCEOptionsPage_General
     Height = 121
     Caption = 'Tray Icon'
     TabOrder = 2
+    DesignSize = (
+      409
+      121)
     object check_tray_enable: TTntCheckBox
       Left = 11
       Top = 22
-      Width = 386
+      Width = 395
       Height = 17
+      Anchors = [akLeft, akTop, akRight]
       Caption = 'Show'
       TabOrder = 0
       OnClick = HandleChange
@@ -72,8 +85,9 @@ inherited CEOptionsPage_General: TCEOptionsPage_General
     object check_tray_minimize: TTntCheckBox
       Left = 27
       Top = 45
-      Width = 370
+      Width = 379
       Height = 17
+      Anchors = [akLeft, akTop, akRight]
       Caption = 'Minimize to tray'
       TabOrder = 1
       OnClick = HandleChange
@@ -81,8 +95,9 @@ inherited CEOptionsPage_General: TCEOptionsPage_General
     object check_tray_close: TTntCheckBox
       Left = 27
       Top = 68
-      Width = 370
+      Width = 379
       Height = 17
+      Anchors = [akLeft, akTop, akRight]
       Caption = 'Close to tray'
       TabOrder = 2
       OnClick = HandleChange
@@ -90,11 +105,49 @@ inherited CEOptionsPage_General: TCEOptionsPage_General
     object check_tray_start: TTntCheckBox
       Left = 27
       Top = 91
-      Width = 370
+      Width = 379
       Height = 17
+      Anchors = [akLeft, akTop, akRight]
       Caption = 'Start minimized to tray'
       TabOrder = 3
       OnClick = HandleChange
+    end
+  end
+  object TntGroupBox2: TTntGroupBox
+    Left = 272
+    Top = 12
+    Width = 153
+    Height = 129
+    Caption = 'Default File Manager'
+    TabOrder = 3
+    DesignSize = (
+      153
+      129)
+    object but_register: TSpTBXButton
+      Left = 16
+      Top = 24
+      Width = 121
+      Height = 33
+      Caption = 'Register'
+      Anchors = [akLeft, akTop, akRight]
+      TabOrder = 0
+      OnClick = but_registerClick
+      Images = CE_Images.MiscImages
+      ImageIndex = 10
+      SkinType = sknWindows
+    end
+    object but_unregister: TSpTBXButton
+      Left = 16
+      Top = 71
+      Width = 121
+      Height = 34
+      Caption = 'Unregister'
+      Anchors = [akLeft, akTop, akRight]
+      TabOrder = 1
+      OnClick = but_unregisterClick
+      Images = CE_Images.MiscImages
+      ImageIndex = 10
+      SkinType = sknWindows
     end
   end
 end

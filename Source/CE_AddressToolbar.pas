@@ -501,7 +501,7 @@ var
   PIDL: PItemIDList;
   errCode: Cardinal;
 begin
-  ws:= WideIncludeTrailingBackslash(TextEditor.Text);
+  ws:= Trim(TextEditor.Text);
   if ws = '' then
   Exit;
 

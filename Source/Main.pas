@@ -219,6 +219,9 @@ type
     SpTBXItem97: TSpTBXItem;
     SpTBXSeparatorItem30: TSpTBXSeparatorItem;
     SpTBXItem98: TSpTBXItem;
+    SpTBXItem99: TSpTBXItem;
+    SpTBXItem100: TSpTBXItem;
+    SpTBXItem101: TSpTBXItem;
     procedure AutoUpdateTimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -234,6 +237,9 @@ type
     procedure TabPopupMenuPopup(Sender: TObject);
     procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer);
+    procedure SpTBXItem99Click(Sender: TObject);
+    procedure SpTBXItem100Click(Sender: TObject);
+    procedure SpTBXItem101Click(Sender: TObject);
   private
     fFullscreen: Boolean;
     fActiveLanguage: WideString;
@@ -403,7 +409,8 @@ implementation
 
 uses
   madExcept, CE_QuickView, Clipbrd, CE_PaneHost, CE_Stacks, MPResources,
-  fCE_OptionsDialog, fCE_StackPanel, CE_Consts, CE_CommonObjects;
+  fCE_OptionsDialog, fCE_StackPanel, CE_Consts, CE_CommonObjects,
+  CE_ElevatedActions, CE_FileUtils;
 
 {$R *.dfm}
 
@@ -1693,6 +1700,22 @@ begin
   end;
 end;
 
+procedure TMainForm.SpTBXItem99Click(Sender: TObject);
+begin
+  Elevated_RegisterDefaultFileManager;
+end;
+
+procedure TMainForm.SpTBXItem100Click(Sender: TObject);
+begin
+  //UnRegisterDefaultFileManager('cubic');
+  Elevated_UnRegisterDefaultFileManager;
+end;
+
+
+procedure TMainForm.SpTBXItem101Click(Sender: TObject);
+begin
+  Caption:= BoolToStr(IsDefaultFileManager('cubic'), true);
+end;
 
 {##############################################################################}
 

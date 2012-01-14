@@ -165,6 +165,7 @@ type
     fOpenFolderID: Integer;
     fDownShiftState: TShiftState;
     fFileCount: Integer;
+    fLastButtonAnimChange: Integer;
     fLastStatusChange: Integer;
     fShowItemContextMenu: Boolean;
     fStartTime: Cardinal;
@@ -546,6 +547,7 @@ var
   ws: WideString;
 begin
   but_search_start.Enabled:= true;
+  but_search_start.Caption:= _('Search');
   but_search_stop.Enabled:= false;
 
   if Find.Aborted then
@@ -763,8 +765,11 @@ var
   ext: WideString;
   i: Integer;
 begin
+  fLastButtonAnimChange:= 0;
+  but_search_start.Tag:= 0;
+  fLastStatusChange:= 0;
   // Location
-  Find.Criteria.Files.Location:= edit_location.Text;
+  Find.Criteria.Files.Location:= WideStringReplace(edit_location.Text, ',', ';', [rfReplaceAll], false);
   Find.Criteria.Files.Subfolders:= check_subfolders.Checked;
   if check_minlevel.Checked then
   Find.Criteria.Files.MinLevel:= StrToIntDef(spin_minlevel.Text, 0)
@@ -881,6 +886,20 @@ begin
   timer_status.Enabled:= false;
   label_status.Caption:= fStatus;
   fLastStatusChange:= GetTickCount;
+
+  if (fLastStatusChange - fLastButtonAnimChange) > 500 then
+  begin
+    if but_search_start.Tag > 3 then
+    but_search_start.Tag:= 0;
+    case but_search_start.Tag of
+      0: but_search_start.Caption:= _('Search') + '   ';
+      1: but_search_start.Caption:= _('Search') + '.  ';
+      2: but_search_start.Caption:= _('Search') + '.. ';
+      3: but_search_start.Caption:= _('Search') + '...';
+    end;
+    but_search_start.Tag:= but_search_start.Tag + 1;
+    fLastButtonAnimChange:= fLastStatusChange;
+  end;
 end;
 
 {*------------------------------------------------------------------------------

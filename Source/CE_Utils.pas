@@ -459,20 +459,24 @@ begin
   Path := ReplacePath(Path, '%cedrive%', WideLowerCase(WideStripTrailingBackslash(WideExtractFileDrive(ExePath))));
 
   // Environment variables
-  Path := ReplacePath(Path, '%userprofile%', WideStripTrailingBackslash(WideExpandEnviromentString('%USERPROFILE%')));
-  Path := ReplacePath(Path, '%allusersprofile%', WideStripTrailingBackslash(WideExpandEnviromentString('%ALLUSERSPROFILE%')));
-  Path := ReplacePath(Path, '%programfiles%', WideStripTrailingBackslash(WideExpandEnviromentString('%ProgramFiles%')));
-  Path := ReplacePath(Path, '%systemroot%', WideStripTrailingBackslash(WideExpandEnviromentString('%SystemRoot%')));
-  Path := ReplacePath(Path, '%systemdrive%', WideStripTrailingBackslash(WideExpandEnviromentString('%SystemDrive%')));
-  Path := ReplacePath(Path, '%windir%', WideStripTrailingBackslash(WideExpandEnviromentString('%windir%')));
-  Path := ReplacePath(Path, '%tmp%', WideStripTrailingBackslash(WideExpandEnviromentString('%TMP%')));
-  Path := ReplacePath(Path, '%temp%', WideStripTrailingBackslash(WideExpandEnviromentString('%TEMP%')));
-  Path := ReplacePath(Path, '%public%', WideStripTrailingBackslash(WideExpandEnviromentString('%PUBLIC%')));
-  Path := ReplacePath(Path, '%programdata%', WideStripTrailingBackslash(WideExpandEnviromentString('%ProgramData%')));
-  Path := ReplacePath(Path, '%homedrive%', WideStripTrailingBackslash(WideExpandEnviromentString('%HOMEDRIVE%')));
-  Path := ReplacePath(Path, '%homepath%', WideStripTrailingBackslash(WideExpandEnviromentString('%HOMEPATH%')));
-  Path := ReplacePath(Path, '%commonprogramfiles%', WideStripTrailingBackslash(WideExpandEnviromentString('%CommonProgramFiles%')));
-  Path := ReplacePath(Path, '%appdata%', WideStripTrailingBackslash(WideExpandEnviromentString('%APPDATA%')));
+  Path:= WideExpandEnviromentStringForUser(Path);
+  Path:= WideExpandEnviromentString(Path);
+
+//  // Environment variables
+//  Path := ReplacePath(Path, '%userprofile%', WideStripTrailingBackslash(WideExpandEnviromentString('%USERPROFILE%')));
+//  Path := ReplacePath(Path, '%allusersprofile%', WideStripTrailingBackslash(WideExpandEnviromentString('%ALLUSERSPROFILE%')));
+//  Path := ReplacePath(Path, '%programfiles%', WideStripTrailingBackslash(WideExpandEnviromentString('%ProgramFiles%')));
+//  Path := ReplacePath(Path, '%systemroot%', WideStripTrailingBackslash(WideExpandEnviromentString('%SystemRoot%')));
+//  Path := ReplacePath(Path, '%systemdrive%', WideStripTrailingBackslash(WideExpandEnviromentString('%SystemDrive%')));
+//  Path := ReplacePath(Path, '%windir%', WideStripTrailingBackslash(WideExpandEnviromentString('%windir%')));
+//  Path := ReplacePath(Path, '%tmp%', WideStripTrailingBackslash(WideExpandEnviromentString('%TMP%')));
+//  Path := ReplacePath(Path, '%temp%', WideStripTrailingBackslash(WideExpandEnviromentString('%TEMP%')));
+//  Path := ReplacePath(Path, '%public%', WideStripTrailingBackslash(WideExpandEnviromentString('%PUBLIC%')));
+//  Path := ReplacePath(Path, '%programdata%', WideStripTrailingBackslash(WideExpandEnviromentString('%ProgramData%')));
+//  Path := ReplacePath(Path, '%homedrive%', WideStripTrailingBackslash(WideExpandEnviromentString('%HOMEDRIVE%')));
+//  Path := ReplacePath(Path, '%homepath%', WideStripTrailingBackslash(WideExpandEnviromentString('%HOMEPATH%')));
+//  Path := ReplacePath(Path, '%commonprogramfiles%', WideStripTrailingBackslash(WideExpandEnviromentString('%CommonProgramFiles%')));
+//  Path := ReplacePath(Path, '%appdata%', WideStripTrailingBackslash(WideExpandEnviromentString('%APPDATA%')));
 end;
 
 {##############################################################################}

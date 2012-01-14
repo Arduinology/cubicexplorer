@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  fCE_OptionsDialog, fCE_OptionsCustomPage, CE_LanguageEngine,
+  fCE_OptionsDialog, fCE_OptionsCustomPage, CE_LanguageEngine, dCE_Images,
   // Tnt
   TntStdCtrls,
   // System Units
@@ -45,8 +45,13 @@ type
     check_tray_close: TTntCheckBox;
     check_tray_start: TTntCheckBox;
     TntGroupBox1: TTntGroupBox;
+    TntGroupBox2: TTntGroupBox;
+    but_register: TSpTBXButton;
+    but_unregister: TSpTBXButton;
     procedure HandleChange(Sender: TObject);
     procedure radioClick(Sender: TObject);
+    procedure but_registerClick(Sender: TObject);
+    procedure but_unregisterClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -61,7 +66,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Main, CE_Sessions;
+  Main, CE_Sessions, CE_ElevatedActions;
 
 {-------------------------------------------------------------------------------
   Create an instance of TCEOptionsPage_General
@@ -157,6 +162,22 @@ procedure TCEOptionsPage_General.radioClick(Sender: TObject);
 begin
   HandleChange(Sender);
   combo_sessions.Enabled:= radio_session.Checked;
+end;
+
+{-------------------------------------------------------------------------------
+  On but_register.Click
+-------------------------------------------------------------------------------}
+procedure TCEOptionsPage_General.but_registerClick(Sender: TObject);
+begin
+  Elevated_RegisterDefaultFileManager;
+end;
+
+{-------------------------------------------------------------------------------
+  On but_unregister.Click
+-------------------------------------------------------------------------------}
+procedure TCEOptionsPage_General.but_unregisterClick(Sender: TObject);
+begin
+  Elevated_UnRegisterDefaultFileManager;
 end;
 
 {##############################################################################}
