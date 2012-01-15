@@ -614,31 +614,46 @@ begin
   reg:= TTntRegistry.Create;
   try
     reg.RootKey:= HKEY_CLASSES_ROOT;
-    // Vista and Win7
-    if IsWindowsVista then
-    begin
-      if reg.KeyExists('\Folder\shell\' + AName) then Exit; // -->
 
-      // HKEY_CLASSES_ROOT\Folder\shell
-      if reg.OpenKey('\Folder\shell', false) then 
+    // Check to see if all ready registered
+    if reg.KeyExists('\Folder\shell\' + AName) then
+    begin
+      if reg.OpenKey('\Folder\shell', false) then
       begin
-        oldValue:= reg.ReadString('');
-        // HKEY_CLASSES_ROOT\Folder\shell\[AName]
-        if reg.OpenKey(AName, true) then 
+        if reg.ReadString('') = AName then
         begin
-          reg.WriteString('', ADescription);
-          reg.WriteString('OldDefaultValue', oldValue);
-          // HKEY_CLASSES_ROOT\Folder\shell\[AName]\command
-          if reg.OpenKey('command', true) then 
+          Result:= true;
+          Exit; // Already registered-->
+        end;
+      end;
+    end;
+
+    // HKEY_CLASSES_ROOT\Folder\shell
+    if reg.OpenKey('\Folder\shell', false) then 
+    begin
+      oldValue:= reg.ReadString('');
+
+      // HKEY_CLASSES_ROOT\Folder\shell\[AName]
+      if reg.OpenKey(AName, true) then 
+      begin
+        reg.WriteString('', ADescription);
+        reg.WriteString('OldDefaultValue', oldValue);
+
+        // HKEY_CLASSES_ROOT\Folder\shell\[AName]\command
+        if reg.OpenKey('command', true) then 
+        begin
+          if Win32MajorVersion = 5 then
+          cmd:= '"' + AFilePath + '" /idlist,%I,%L' // 2000, XP, 2003
+          else
+          cmd:= '"' + AFilePath + '" /shell "%1"';  // Vista and Win7
+          
+          reg.WriteExpandString('', cmd);
+          
+          // HKEY_CLASSES_ROOT\Folder\shell
+          if reg.OpenKey('\Folder\shell', false) then 
           begin
-            cmd:= '"' + AFilePath + '" "%1"';
-            reg.WriteExpandString('', cmd);
-            // HKEY_CLASSES_ROOT\Folder\shell
-            if reg.OpenKey('\Folder\shell', false) then 
-            begin
-              reg.WriteString('', AName);
-              Result:= true;
-            end;
+            reg.WriteString('', AName);
+            Result:= true;
           end;
         end;
       end;
@@ -660,21 +675,23 @@ begin
   reg:= TTntRegistry.Create;
   try
     reg.RootKey:= HKEY_CLASSES_ROOT;
-    // Vista and Win7
-    if IsWindowsVista then
-    begin
-      if not reg.KeyExists('\Folder\shell\' + AName) then Exit; // -->
 
-      // HKEY_CLASSES_ROOT\Folder\shell\[AName]
-      if reg.OpenKey('\Folder\shell\' + AName, false) then
+    if not reg.KeyExists('\Folder\shell\' + AName) then
+    begin
+      Result:= true;
+      Exit; // -->
+    end;
+
+    // HKEY_CLASSES_ROOT\Folder\shell\[AName]
+    if reg.OpenKey('\Folder\shell\' + AName, false) then
+    begin
+      oldValue:= reg.ReadString('OldDefaultValue');
+      
+      // HKEY_CLASSES_ROOT\Folder\shell
+      if reg.OpenKey('\Folder\shell', false) then
       begin
-        oldValue:= reg.ReadString('OldDefaultValue');
-        // HKEY_CLASSES_ROOT\Folder\shell
-        if reg.OpenKey('\Folder\shell', false) then
-        begin
-          reg.WriteString('', oldValue);
-          Result:= reg.DeleteKey('\Folder\shell\' + AName);
-        end;
+        reg.WriteString('', oldValue);
+        Result:= reg.DeleteKey('\Folder\shell\' + AName);
       end;
     end;
   finally
@@ -692,12 +709,10 @@ begin
   Result:= false;
   reg:= TTntRegistry.Create;
   try
-    if IsWindowsVista then
+    // HKEY_CLASSES_ROOT\Folder\shell
+    if reg.OpenKey('\Folder\shell', false) then
     begin
-      if reg.OpenKey('\Folder\shell', false) then
-      begin
-        Result:= reg.ReadString('') = AName;
-      end;
+      Result:= reg.ReadString('') = AName;
     end;
   finally
     reg.Free;

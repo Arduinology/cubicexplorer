@@ -157,6 +157,10 @@ begin
   if HandleElevatedCommands then
   Exit;
 
+  // Handle Control Panel launch
+  if HandleExeCommands then
+  Exit;
+
   //////////////////////////////////////////////////////
   //***** Check if only Single instance is allowed *****
   h:= FindWindow('CubicExplorer_MsgInput','CE_MsgInput');

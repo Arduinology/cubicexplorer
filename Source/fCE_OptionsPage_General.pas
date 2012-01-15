@@ -66,7 +66,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Main, CE_Sessions, CE_ElevatedActions;
+  Main, CE_Sessions, CE_ElevatedActions, MPCommonUtilities;
 
 {-------------------------------------------------------------------------------
   Create an instance of TCEOptionsPage_General
@@ -169,7 +169,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEOptionsPage_General.but_registerClick(Sender: TObject);
 begin
-  Elevated_RegisterDefaultFileManager;
+  Elevated_RegisterDefaultFileManager(Self.Handle);
 end;
 
 {-------------------------------------------------------------------------------
@@ -177,7 +177,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEOptionsPage_General.but_unregisterClick(Sender: TObject);
 begin
-  Elevated_UnRegisterDefaultFileManager;
+  Elevated_UnRegisterDefaultFileManager(Self.Handle);
 end;
 
 {##############################################################################}

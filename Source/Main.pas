@@ -219,9 +219,6 @@ type
     SpTBXItem97: TSpTBXItem;
     SpTBXSeparatorItem30: TSpTBXSeparatorItem;
     SpTBXItem98: TSpTBXItem;
-    SpTBXItem99: TSpTBXItem;
-    SpTBXItem100: TSpTBXItem;
-    SpTBXItem101: TSpTBXItem;
     procedure AutoUpdateTimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -237,9 +234,6 @@ type
     procedure TabPopupMenuPopup(Sender: TObject);
     procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer);
-    procedure SpTBXItem99Click(Sender: TObject);
-    procedure SpTBXItem100Click(Sender: TObject);
-    procedure SpTBXItem101Click(Sender: TObject);
   private
     fFullscreen: Boolean;
     fActiveLanguage: WideString;
@@ -290,7 +284,7 @@ type
     procedure EndUIUpdate;
     procedure InitializeUI;
     procedure FinalizeUI;
-    procedure MakeVisible(AForceToTop: Boolean = false);
+    procedure MakeVisible;
     procedure MenuItemTranslateHandler(Obj:TObject; var IsIgnored: Boolean);
     procedure OpenSkin;
     procedure Shutdown;
@@ -1351,25 +1345,33 @@ end;
 {-------------------------------------------------------------------------------
   Make MainForm visible
 -------------------------------------------------------------------------------}
-procedure TMainForm.MakeVisible(AForceToTop: Boolean = false);
+procedure TMainForm.MakeVisible;
 begin
   if TrayIcon.Active and not TrayIcon.ApplicationVisible then
-  TrayIcon.ShowApplication
-  else if (GetForegroundWindow <> Handle) and AForceToTop then
-  begin
-    // Trick Windows to force CE on top.
-    Application.Minimize;
-    ShowWindow(Application.Handle, SW_HIDE);
-    ShowWindow(Application.Handle, SW_SHOW);
-    Application.Restore;
-  end;
+  TrayIcon.ShowApplication;
 
+//////////////////// Doesn't bring on top always, taskbar button just blinks.
+//  if IsIconic(Handle) then
+//  begin
+//    ShowWindow(Handle, SW_RESTORE);
+//  end;
+//
+//  Application.BringToFront;
+////////////////////
+
+//////////////////// Brings window to top but doesn't activate the window.
+//  ForceForegroundWindow(Handle);
+////////////////////
+
+//////////////////// Doesn't bring on top always, taskbar button just blinks.
+//  SwitchToThisWindow(Handle, false);
+////////////////////
+
+//////////////////// Seems to work
   if IsIconic(Handle) then
-  begin
-    ShowWindow(Handle, SW_RESTORE);
-  end;
-
-  Application.BringToFront;
+  ShowWindow(Handle, SW_RESTORE);
+  ForceForegroundWindow2(Handle);
+////////////////////
 end;
 
 {-------------------------------------------------------------------------------
@@ -1698,23 +1700,6 @@ begin
       inherited;
     end;
   end;
-end;
-
-procedure TMainForm.SpTBXItem99Click(Sender: TObject);
-begin
-  Elevated_RegisterDefaultFileManager;
-end;
-
-procedure TMainForm.SpTBXItem100Click(Sender: TObject);
-begin
-  //UnRegisterDefaultFileManager('cubic');
-  Elevated_UnRegisterDefaultFileManager;
-end;
-
-
-procedure TMainForm.SpTBXItem101Click(Sender: TObject);
-begin
-  Caption:= BoolToStr(IsDefaultFileManager('cubic'), true);
 end;
 
 {##############################################################################}

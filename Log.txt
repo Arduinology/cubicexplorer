@@ -1,4 +1,7 @@
-14.1.2011
+15.1.2012
+* Finalized "Register as default file manager" function.
+
+14.1.2012
 * Changed path handling to support environment variables.
 - Fixed separator bug in FileSearch when using multible locations.
 * Search button now shows progress dots when running.

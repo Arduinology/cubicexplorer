@@ -77,6 +77,9 @@ function ShortCutToTextRaw(ShortCut: TShortCut): string;
 
 function GetSpecialName(ShortCut: TShortCut): string;
 
+procedure SwitchToThisWindow(h1: hWnd; x: bool); stdcall;
+  external user32 Name 'SwitchToThisWindow';
+
 var
   ExePath: WideString;
   SettingsDirPath: WideString;
@@ -108,6 +111,14 @@ function GetSystemProxyServer(Protocol: String = 'http'): String;
 function ExtractUrlPort(Address: String; var Port: Integer): String;
 
   function CleanDateTimeStr(AStr: WideString): String;
+
+function GetWinMajorVersion: Integer;
+
+function IsWindowsAdmin: Boolean;
+
+function ForceForegroundWindow(hwnd: THandle): Boolean;
+
+procedure ForceForegroundWindow2(hwnd: THandle);
 
 var
   MenuKeyCaps: array[TMenuKeyCap] of string = (
@@ -339,6 +350,19 @@ begin
    end;
 end;
 
+{-------------------------------------------------------------------------------
+  Get WinMajorVersion
+-------------------------------------------------------------------------------}
+function GetWinMajorVersion: Integer;
+var
+   osVerInfo: TOSVersionInfo;
+begin
+  osVerInfo.dwOSVersionInfoSize:= SizeOf(TOSVersionInfo);
+  if GetVersionEx(osVerInfo) then
+  Result:= osVerInfo.dwMajorVersion
+  else
+  Result:= -1;
+end;
 
 {*------------------------------------------------------------------------------
   Empty Recycle Bin
@@ -1008,6 +1032,132 @@ begin
   begin
     if (Ord(AStr[i]) > 31) and (Ord(AStr[i]) < 127) then
     Result:= Result + AStr[i];
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  IsWindowsAdmin
+-------------------------------------------------------------------------------}
+function IsWindowsAdmin: Boolean;
+const
+  SECURITY_NT_AUTHORITY: TSIDIdentifierAuthority = (Value: (0, 0, 0, 0, 0, 5)) ;
+  SECURITY_BUILTIN_DOMAIN_RID = $00000020;
+  DOMAIN_ALIAS_RID_ADMINS = $00000220;
+var
+  hAccessToken: THandle;
+  ptgGroups: PTokenGroups;
+  dwInfoBufferSize: DWORD;
+  psidAdministrators: PSID;
+  g: Integer;
+  bSuccess: BOOL;
+begin
+  Result:= False;
+
+  bSuccess:= OpenThreadToken(GetCurrentThread, TOKEN_QUERY, True, hAccessToken);
+  if not bSuccess then
+  begin
+    if GetLastError = ERROR_NO_TOKEN then
+    bSuccess:= OpenProcessToken(GetCurrentProcess, TOKEN_QUERY, hAccessToken);
+  end;
+
+  if bSuccess then
+  begin
+    GetMem(ptgGroups, 1024);
+    bSuccess:= GetTokenInformation(hAccessToken, TokenGroups, ptgGroups, 1024, dwInfoBufferSize);
+    CloseHandle(hAccessToken);
+    if bSuccess then
+    begin
+      AllocateAndInitializeSid(SECURITY_NT_AUTHORITY, 2, SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, psidAdministrators);
+      for g := 0 to ptgGroups.GroupCount - 1 do
+      if EqualSid(psidAdministrators, ptgGroups.Groups[g].Sid) then
+      begin
+        Result:= True;
+        Break;
+      end;
+      FreeSid(psidAdministrators);
+    end;
+    FreeMem(ptgGroups);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  ForceForegroundWindow
+-------------------------------------------------------------------------------}
+function ForceForegroundWindow(hwnd: THandle): Boolean;
+const
+  SPI_GETFOREGROUNDLOCKTIMEOUT = $2000;
+  SPI_SETFOREGROUNDLOCKTIMEOUT = $2001;
+var
+  ForegroundThreadID: DWORD;
+  ThisThreadID: DWORD;
+  timeout: DWORD;
+begin
+  if IsIconic(hwnd) then ShowWindow(hwnd, SW_RESTORE);
+
+  if GetForegroundWindow = hwnd then Result := True
+  else
+  begin
+    // Windows 98/2000 doesn't want to foreground a window when some other
+    // window has keyboard focus
+
+    if ((Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion > 4)) or
+      ((Win32Platform = VER_PLATFORM_WIN32_WINDOWS) and
+      ((Win32MajorVersion > 4) or ((Win32MajorVersion = 4) and
+      (Win32MinorVersion > 0)))) then
+    begin
+      // Code from Karl E. Peterson, www.mvps.org/vb/sample.htm
+      // Converted to Delphi by Ray Lischner
+      // Published in The Delphi Magazine 55, page 16
+
+      Result := False;
+      ForegroundThreadID := GetWindowThreadProcessID(GetForegroundWindow, nil);
+      ThisThreadID := GetWindowThreadPRocessId(hwnd, nil);
+      if AttachThreadInput(ThisThreadID, ForegroundThreadID, True) then
+      begin
+        BringWindowToTop(hwnd); // IE 5.5 related hack
+        SetForegroundWindow(hwnd);
+        AttachThreadInput(ThisThreadID, ForegroundThreadID, False);
+        Result := (GetForegroundWindow = hwnd);
+      end;
+      if not Result then
+      begin
+        // Code by Daniel P. Stasinski
+        SystemParametersInfo(SPI_GETFOREGROUNDLOCKTIMEOUT, 0, @timeout, 0);
+        SystemParametersInfo(SPI_SETFOREGROUNDLOCKTIMEOUT, 0, TObject(0),
+          SPIF_SENDCHANGE);
+        BringWindowToTop(hwnd); // IE 5.5 related hack
+        SetForegroundWindow(hWnd);
+        SystemParametersInfo(SPI_SETFOREGROUNDLOCKTIMEOUT, 0, TObject(timeout), SPIF_SENDCHANGE);
+      end;
+    end
+    else
+    begin
+      BringWindowToTop(hwnd); // IE 5.5 related hack
+      SetForegroundWindow(hwnd);
+    end;
+
+    Result := (GetForegroundWindow = hwnd);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  ForceForegroundWindow2
+-------------------------------------------------------------------------------}
+procedure ForceForegroundWindow2(hwnd: THandle);
+var
+  hlp: TForm;
+begin
+  hlp:= TForm.Create(nil);
+  try
+    hlp.BorderStyle := bsNone;
+    hlp.SetBounds(0, 0, 1, 1);
+    hlp.FormStyle := fsStayOnTop;
+    hlp.Show;
+    mouse_event(MOUSEEVENTF_ABSOLUTE or MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
+    mouse_event(MOUSEEVENTF_ABSOLUTE or MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
+    SetForegroundWindow(hwnd);
+  finally
+    hlp.Free;
   end;
 end;
 

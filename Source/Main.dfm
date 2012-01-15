@@ -422,18 +422,6 @@ object MainForm: TMainForm
           Action = CEActions.act_help_about
         end
       end
-      object SpTBXItem99: TSpTBXItem
-        Caption = 'reg'
-        OnClick = SpTBXItem99Click
-      end
-      object SpTBXItem100: TSpTBXItem
-        Caption = 'unreg'
-        OnClick = SpTBXItem100Click
-      end
-      object SpTBXItem101: TSpTBXItem
-        Caption = 'isReg'
-        OnClick = SpTBXItem101Click
-      end
     end
     object ViewToolbar: TCEToolbar
       Left = 270

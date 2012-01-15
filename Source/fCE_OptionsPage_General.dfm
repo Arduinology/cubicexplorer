@@ -27,7 +27,6 @@ inherited CEOptionsPage_General: TCEOptionsPage_General
       Caption = 'Open default tab'
       TabOrder = 0
       OnClick = radioClick
-      ExplicitWidth = 395
     end
     object radio_lasttime: TTntRadioButton
       Left = 11
@@ -38,7 +37,6 @@ inherited CEOptionsPage_General: TCEOptionsPage_General
       Caption = 'Continue from last time'
       TabOrder = 1
       OnClick = radioClick
-      ExplicitWidth = 395
     end
     object radio_session: TTntRadioButton
       Left = 11
@@ -49,7 +47,6 @@ inherited CEOptionsPage_General: TCEOptionsPage_General
       Caption = 'Load session'
       TabOrder = 2
       OnClick = radioClick
-      ExplicitWidth = 395
     end
     object combo_sessions: TTntComboBox
       Left = 27

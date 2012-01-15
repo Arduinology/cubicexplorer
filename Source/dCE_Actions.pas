@@ -52,6 +52,7 @@ const
   WM_SingleInstance = WM_USER + 1;
   WM_MakeVisible = WM_USER + 100;
   WM_ExecuteAction = WM_USER + 101;
+  WM_AdminResult = WM_USER + 102;
 
 type
   TCustomVirtualExplorerEasyListviewHack = class(TCustomVirtualExplorerEasyListview);
@@ -331,6 +332,8 @@ procedure DoGlobalContextMenuShow(Sender: TObject; Namespace: TNamespace; Menu:
 
 procedure DoGlobalContextMenuCmd(Sender: TObject; Namespace: TNamespace; Verb:
     WideString; MenuItemID: Integer; var Handled: Boolean);
+
+function HandleExeCommands: Boolean;
 
 var
   CEActions: TCEActions;
@@ -1543,7 +1546,7 @@ begin
               begin
                 path2:= WideExpandEnviromentString('%windir%\explorer.exe');
 
-                ShellExecuteW(0, 'open', PWideChar(path2), PWideChar(path), '', SW_SHOWDEFAULT);
+                ShellExecuteW(0, 'open', PWideChar(path2), PWideChar(path), '', SW_SHOWNORMAL);
                 Result:= false;
               end
               else
@@ -1589,6 +1592,7 @@ end;
 procedure HandleInputMessage(var Msg : TMessage; var Handled: Boolean);
 var
   ws: WideString;
+  h: HWND;
 begin
   case msg.Msg of
     // Single instance question
@@ -1608,11 +1612,40 @@ begin
     end;
     // Make CE Visible
     WM_MakeVisible: begin
-      MainForm.MakeVisible(true);
+      MainForm.MakeVisible;
     end;
     // Execute Action
     WM_ExecuteAction: begin
       ExecuteCEAction(Msg.WParam);
+    end;
+    // Admin command result
+    WM_AdminResult: begin
+      case Msg.WParam of
+        // Register as Default File Manager
+        100: begin
+          if assigned(CEOptionsDialog) then
+          h:= CEOptionsDialog.Handle
+          else
+          h:= MainForm.Handle;
+
+          if Msg.LParam = 0 then
+          WideMessageBox(h, _('Default File Manager'), _('Registered successfully!'), MB_ICONINFORMATION or MB_OK)
+          else
+          WideMessageBox(h, _('Default File Manager'), _('Registration failed!'), MB_ICONERROR or MB_OK);
+        end;
+        // UnRegister as Default File Manager
+        101: begin
+          if assigned(CEOptionsDialog) then
+          h:= CEOptionsDialog.Handle
+          else
+          h:= MainForm.Handle;
+
+          if Msg.LParam = 0 then
+          WideMessageBox(h, _('Default File Manager'), _('Unregistered successfully!'), MB_ICONINFORMATION or MB_OK)
+          else
+          WideMessageBox(h, _('Default File Manager'), _('Unregistration failed!'), MB_ICONERROR or MB_OK);
+        end;
+      end;
     end;
   end;
 end;
@@ -1738,6 +1771,49 @@ begin
   if MenuItemID = 664 then
   begin
     OpenFolderInTab(Sender, Namespace.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle Exe Commands (Runs before UI has been created!
+    If Result=true, CE will terminate after this function)
+-------------------------------------------------------------------------------}
+function HandleExeCommands: Boolean;
+var
+  doShell: Boolean;
+  ws, path: WideString;
+  index, count: Integer;
+begin
+  Result:= false;
+  if IsWindowsVista then // NOTICE: at the moment there's nothing to do prior to vista.
+  begin
+    doShell:= false;
+    count:= WideParamCount;
+    for index:= 1 to count do
+    begin
+      ws:= WideParamStr(index);
+      if not doShell then
+      begin
+        if ws = '/shell' then
+        begin
+          doShell:= true;
+        end;
+      end
+      else
+      begin
+        if IsWindowsVista then
+        begin
+          // Control Panel
+          if (Pos('::{26EE0668-A00A-44D7-9371-BEB064C98683}', ws) = 1) or
+             (Pos('::{21EC2020-3AEA-1069-A2DD-08002B30309D}', ws) = 1) then
+          begin
+            path:= WideExpandEnviromentString('%windir%\explorer.exe');
+            ShellExecuteW(0, 'open', PWideChar(path), PWideChar(ws), '', SW_SHOWNORMAL);
+            Result:= true;
+          end;
+        end;
+      end;
+    end;
   end;
 end;
 

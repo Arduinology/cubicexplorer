@@ -882,7 +882,6 @@ end;
 procedure TCEUndoDeleteButton.DoPopup(Sender: TTBCustomItem; FromLink: Boolean);
 var
   item, subItem: TSpTBXItem;
-  edit: TSpTBXSpinEditItem;
   i: Integer;
   ws: WideString;
   ns: TNamespace;

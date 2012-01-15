@@ -39,14 +39,14 @@ function Elevated_CreateJunction(ALink: WideString; ATarget: WideString;
 function RunElevatedCommand(AParentHWND: HWND; const AParams: WideString):
     Boolean;
 
-function Elevated_RegisterDefaultFileManager: Boolean;
+function Elevated_RegisterDefaultFileManager(AParentHWND: HWND): Boolean;
 
-function Elevated_UnRegisterDefaultFileManager: Boolean;
+function Elevated_UnRegisterDefaultFileManager(AParentHWND: HWND): Boolean;
 
 implementation
 
 uses
-  CE_VersionUpdater;
+  CE_VersionUpdater, dCE_Input, dCE_Actions, Main, CE_Utils;
 
 {-------------------------------------------------------------------------------
   Handle Elevated Commands
@@ -59,6 +59,7 @@ var
   action: String;
   param1, param2: WideString;
   paramI: Integer;
+  b: Boolean;
 begin
   Result:= false;
   doAdmin:= false;
@@ -88,11 +89,37 @@ begin
       // Register
       else if action = 'register' then
       begin
-        RegisterDefaultFileManager('cubicexplorer', 'Open in CubicExplorer', WideParamStr(0));
+        b:= RegisterDefaultFileManager('cubicexplorer', 'Open in CubicExplorer', WideParamStr(0));
+        if index + 1 <= count then
+        begin
+          param1:= WideParamStr(index + 1);
+          paramI:= StrToIntDef(param1, 0);
+          if paramI > 0 then
+          begin
+            if b then
+            PostMessage(paramI, WM_AdminResult, 100, 0)
+            else
+            PostMessage(paramI, WM_AdminResult, 100, -1);
+            index:= index + 1;
+          end;
+        end;
       end
       else if action = 'unregister' then
       begin
-        UnRegisterDefaultFileManager('cubicexplorer');
+        b:= UnRegisterDefaultFileManager('cubicexplorer');
+        if index + 1 <= count then
+        begin
+          param1:= WideParamStr(index + 1);
+          paramI:= StrToIntDef(param1, 0);
+          if paramI > 0 then
+          begin
+            if b then
+            PostMessage(paramI, WM_AdminResult, 101, 0)
+            else
+            PostMessage(paramI, WM_AdminResult, 101, -1);
+            index:= index + 1;
+          end;
+        end;
       end;
 
       index:= index + 1;
@@ -147,7 +174,7 @@ var
 begin
   Result:= true; // TODO: add proper result value
 
-  if (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6) then
+  if ((Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6)) or not IsWindowsAdmin then
   op:= 'runas'
   else
   op:= 'open';
@@ -175,17 +202,35 @@ end;
 {-------------------------------------------------------------------------------
   Register Default File Manager (Elevated)
 -------------------------------------------------------------------------------}
-function Elevated_RegisterDefaultFileManager: Boolean;
+function Elevated_RegisterDefaultFileManager(AParentHWND: HWND): Boolean;
 begin
-  Result:= RunElevatedCommand(0, '/admin register');
+  if (Win32MajorVersion > 5) or not IsWindowsAdmin then
+  Result:= RunElevatedCommand(AParentHWND, '/admin register ' + IntToStr(CEInput.MsgInput.Handle))
+  else
+  begin
+    Result:= RegisterDefaultFileManager('cubicexplorer', 'Open in CubicExplorer', WideParamStr(0));
+    if Result then
+    PostMessage(CEInput.MsgInput.Handle, WM_AdminResult, 100, 0)
+    else
+    PostMessage(CEInput.MsgInput.Handle, WM_AdminResult, 100, -1);
+  end;
 end;
 
 {-------------------------------------------------------------------------------
   UnRegister Default File Manager (Elevated)
 -------------------------------------------------------------------------------}
-function Elevated_UnRegisterDefaultFileManager: Boolean;
+function Elevated_UnRegisterDefaultFileManager(AParentHWND: HWND): Boolean;
 begin
-  Result:= RunElevatedCommand(0, '/admin unregister');
+  if (Win32MajorVersion > 5) or not IsWindowsAdmin then
+  Result:= RunElevatedCommand(AParentHWND, '/admin unregister ' + IntToStr(CEInput.MsgInput.Handle))
+  else
+  begin
+    Result:= UnRegisterDefaultFileManager('cubicexplorer');
+    if Result then
+    PostMessage(CEInput.MsgInput.Handle, WM_AdminResult, 101, 0)
+    else
+    PostMessage(CEInput.MsgInput.Handle, WM_AdminResult, 101, -1);
+  end;
 end;
 
 end.
