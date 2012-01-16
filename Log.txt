@@ -1,5 +1,6 @@
 16.1.2012
 * Uninstaller now unregisters CE as default file manager.
+* Updated Romanian translation (thanks to  Stefan Arhip).
 
 15.1.2012
 * Finalized "Register as default file manager" function.

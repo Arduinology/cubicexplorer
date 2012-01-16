@@ -1575,9 +1575,9 @@ var
 begin
   list:= TTntStringList.Create;
   list.Text:= Notes;
-  if list.Count > 10 then
+  if list.Count > 20 then
   begin
-    while list.Count > 10 do
+    while list.Count > 20 do
     list.Delete(list.Count - 1);
     list.Add('...');
   end;

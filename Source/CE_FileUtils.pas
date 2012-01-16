@@ -615,23 +615,12 @@ begin
   try
     reg.RootKey:= HKEY_CLASSES_ROOT;
 
-    // Check to see if all ready registered
-    if reg.KeyExists('\Folder\shell\' + AName) then
-    begin
-      if reg.OpenKey('\Folder\shell', false) then
-      begin
-        if reg.ReadString('') = AName then
-        begin
-          Result:= true;
-          Exit; // Already registered-->
-        end;
-      end;
-    end;
-
     // HKEY_CLASSES_ROOT\Folder\shell
     if reg.OpenKey('\Folder\shell', false) then 
     begin
       oldValue:= reg.ReadString('');
+      if oldValue = AName then
+      oldValue:= '';
 
       // HKEY_CLASSES_ROOT\Folder\shell\[AName]
       if reg.OpenKey(AName, true) then 
@@ -686,7 +675,9 @@ begin
     if reg.OpenKey('\Folder\shell\' + AName, false) then
     begin
       oldValue:= reg.ReadString('OldDefaultValue');
-      
+      if oldValue = AName then
+      oldValue:= '';
+
       // HKEY_CLASSES_ROOT\Folder\shell
       if reg.OpenKey('\Folder\shell', false) then
       begin
