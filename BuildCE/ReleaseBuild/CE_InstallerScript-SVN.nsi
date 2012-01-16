@@ -138,6 +138,7 @@ SectionEnd
 
 Section "Uninstall"
 
+  ### UnRegister as default file manager
   ReadRegStr $1 HKCR "Folder\shell" ""
   ReadRegStr $2 HKCR "Folder\shell\cubicexplorer" "OldDefaultValue"
   ReadRegStr $3 HKCR "Folder\shell\cubicexplorer\command" ""
@@ -153,6 +154,7 @@ Section "Uninstall"
       WriteRegStr HKCR "Folder\shell" "" $2
   unreg_done:
 
+  ### Delete files
   Delete "$SMPROGRAMS\CubicExplorer_dev\CubicExplorer.lnk"
   Delete "$SMPROGRAMS\CubicExplorer_dev\Uninstall.lnk"
   RMDir "$SMPROGRAMS\CubicExplorer_dev"
@@ -160,6 +162,7 @@ Section "Uninstall"
 
   Delete "$INSTDIR\Uninstall.exe"
   Delete "$INSTDIR\CubicExplorer.exe"
+  Delete "$INSTDIR\CubicExplorer.exe.old"
   Delete "$INSTDIR\7z.dll"
   Delete "$INSTDIR\bookmarks.xml"
   Delete "$INSTDIR\settings.xml"
