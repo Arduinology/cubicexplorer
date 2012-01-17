@@ -15,6 +15,7 @@ inherited CESearchPage: TCESearchPage
     CompressedFile.Font.Name = 'Tahoma'
     CompressedFile.Font.Style = []
     DefaultSortColumn = 0
+    EditManager.Enabled = True
     EditManager.Font.Charset = DEFAULT_CHARSET
     EditManager.Font.Color = clWindowText
     EditManager.Font.Height = -11

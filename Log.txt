@@ -1,3 +1,6 @@
+17.1.2012
+* Rename is now possible in Search tab.
+================================================================================
 16.1.2012
 * Uninstaller now unregisters CE as default file manager.
 * Updated Romanian translation (thanks to  Stefan Arhip).
