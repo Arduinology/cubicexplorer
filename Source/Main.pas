@@ -977,7 +977,7 @@ begin
   end
   else
   begin
-    Self.BorderStyle:= bsSingle;
+    Self.BorderStyle:= bsSizeable;
     Self.WindowState:= fOldWindowState;
   end;
 end;

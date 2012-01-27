@@ -57,6 +57,7 @@ type
     fActive: Boolean;
     fFilteringImage: TBitmap;
     fExplorerEasyListview: TCustomVirtualExplorerEasyListview;
+    fExcludeFromResults: Boolean;
     fPatternText: WideString;
     fShowAllExtensions: Boolean;
     fShowFolders: Boolean;
@@ -67,6 +68,7 @@ type
     procedure SetActive(const Value: Boolean);
     procedure SetExplorerEasyListview(const Value:
         TCustomVirtualExplorerEasyListview);
+    procedure SetExcludeFromResults(const Value: Boolean);
     procedure SetPatternText(const Value: WideString);
     procedure SetShowAllExtensions(const Value: Boolean);
     procedure SetShowFilteringBackground(const Value: Boolean);
@@ -95,6 +97,8 @@ type
     property FilteringImage: TBitmap read fFilteringImage write fFilteringImage;
     property ExplorerEasyListview: TCustomVirtualExplorerEasyListview read
         fExplorerEasyListview write SetExplorerEasyListview;
+    property ExcludeFromResults: Boolean read fExcludeFromResults write
+        SetExcludeFromResults;
     property PatternText: WideString read fPatternText write SetPatternText;
     property ShowAllExtensions: Boolean read fShowAllExtensions write
         SetShowAllExtensions;
@@ -290,8 +294,10 @@ begin
     begin
       NS:= nil;
       item:= view.Items.Items[i];
+      // Show all files
       if (ActiveFilters.Count = 0) or fShowAllExtensions then
       begin
+        // Hide/Show folders
         if not fShowFolders then
         begin
           if view.ValidateNamespace(item, NS) then
@@ -305,25 +311,35 @@ begin
         else
         item.Visible:= true;
       end
+      // Filter extensions
       else
       begin
         if view.ValidateNamespace(item, NS) then
         begin
           if NS.Folder and (WideCompareText(NS.Extension,'.zip') <> 0) then
           item.Visible:= fShowFolders
-          else if NS.Extension = '' then
-          item.Visible:= ActiveFilters.IndexOf('none') > -1
           else
-          item.Visible:= ActiveFilters.IndexOf(NS.Extension) > -1;
+          begin
+            if NS.Extension = '' then
+            item.Visible:= ActiveFilters.IndexOf('none') > -1
+            else
+            item.Visible:= ActiveFilters.IndexOf(NS.Extension) > -1;
+
+            if ExcludeFromResults then
+            item.Visible:= not item.Visible;
+          end;
         end;
       end;
-
+      // Text filtering
       if item.Visible and (PatternText <> '') then
       begin
         if not assigned(NS) then
         view.ValidateNamespace(item, NS);
+        
+        item.Visible:= WideStringMatch(NS.NameParseAddressInFolder, pattern);
 
-        item.Visible:= WideStringMatch(NS.NameNormal, pattern)
+        if ExcludeFromResults then
+        item.Visible:= not item.Visible;
       end;
 
       if NoFiltering then
@@ -658,6 +674,18 @@ begin
     end;
   finally
     AppStorage.Path:= OldPath;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set ExcludeFromResults
+-------------------------------------------------------------------------------}
+procedure TCEFilterList.SetExcludeFromResults(const Value: Boolean);
+begin
+  if Value <> fExcludeFromResults then
+  begin
+    fExcludeFromResults:= Value;
+    DoFiltering;
   end;
 end;
 

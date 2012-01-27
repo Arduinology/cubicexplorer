@@ -612,7 +612,7 @@ object CEActions: TCEActions
       Caption = 'Switch to Next Tab'
       ShortCut = 16393
       SecondaryShortCuts.Strings = (
-        'Ctrl+PgUp')
+        'Ctrl+PgDn')
       OnExecute = ActionExecute
     end
     object act_tabs_prev: TTntAction
@@ -621,7 +621,7 @@ object CEActions: TCEActions
       Caption = 'Swith to Previous Tab'
       ShortCut = 24585
       SecondaryShortCuts.Strings = (
-        'Ctrl+PgDn')
+        'Ctrl+PgUp')
       OnExecute = ActionExecute
     end
     object act_focus_addressbar: TTntAction
@@ -709,7 +709,7 @@ object CEActions: TCEActions
       Tag = 610
       Category = 'Navigation'
       Caption = 'Refresh Fileview'
-      ImageIndex = 8
+      ImageIndex = 62
       ShortCut = 8308
       OnExecute = ActionExecute
     end

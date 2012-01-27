@@ -58,6 +58,7 @@ type
     SpTBXSeparatorItem1: TSpTBXSeparatorItem;
     but_clear_filterhistory: TSpTBXItem;
     but_clear: TSpTBXItem;
+    but_invert: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure check_resetfiltersClick(Sender: TObject);
@@ -73,6 +74,10 @@ type
       const PaintStage: TSpTBXPaintStage; var PaintDefault: Boolean);
     procedure but_clear_filterhistoryClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure but_invertClick(Sender: TObject);
+    procedure but_invertDrawItem(Sender: TObject; ACanvas: TCanvas;
+      ARect: TRect; ItemInfo: TSpTBXMenuItemInfo;
+      const PaintStage: TSpTBXPaintStage; var PaintDefault: Boolean);
   private
     fPatternNotifyInProgress: Boolean;
     fSettings: TCEFiltersPanelSettings;
@@ -415,6 +420,27 @@ begin
   Settings.AutoResetFilters:= not Settings.AutoResetFilters;
 end;
 
+{-------------------------------------------------------------------------------
+  On but_invert.Click
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.but_invertClick(Sender: TObject);
+begin
+  Filters.ExcludeFromResults:= not Filters.ExcludeFromResults;
+end;
+
+{-------------------------------------------------------------------------------
+  On but_invert.DrawItem
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.but_invertDrawItem(Sender: TObject; ACanvas: TCanvas;
+  ARect: TRect; ItemInfo: TSpTBXMenuItemInfo;
+  const PaintStage: TSpTBXPaintStage; var PaintDefault: Boolean);
+begin
+  but_invert.Checked:= Filters.ExcludeFromResults;
+end;
+
+{-------------------------------------------------------------------------------
+  ClearFilters
+-------------------------------------------------------------------------------}
 procedure TCEFiltersPanel.ClearFilters;
 begin
   combo_filterpattern.Text:= '';

@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1430\n"
+"CE-POT-Version: 1449\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
 
@@ -90,7 +90,7 @@ msgid "Always On Top"
 msgstr "Toujours au premier plan"
 
 msgid "Always Show Sort Columns"
-msgstr "Toujours afficher les en-têtes de colonne"
+msgstr "Toujours afficher les en-têtes de colonnes"
 
 msgid "Always sort folders first."
 msgstr " Toujours classer les dossiers en premier"
@@ -297,7 +297,7 @@ msgid "Compressed"
 msgstr "Compressé"
 
 msgid "Confirm"
-msgstr "Confirmer"
+msgstr "Veuillez confirmer"
 
 msgid "Confirm Stack Save"
 msgstr "Confirmer l'enregistrement du panier"
@@ -357,7 +357,7 @@ msgid "Custom..."
 msgstr " Personnalisé..."
 
 msgid "Customize"
-msgstr "Personnaliser"
+msgstr "Personnalisez CubicExplorer"
 
 msgid "Customizer..."
 msgstr "Fenêtre de personnalisation... "
@@ -388,6 +388,9 @@ msgstr "Age maxi (en jours)"
 
 msgid "Default"
 msgstr "Par défaut"
+
+msgid "Default File Manager"
+msgstr "Gestion. de fichiers par défaut"
 
 msgid "Default hotkeys become available after restart!"
 msgstr "Les raccourcis par défaut ne deviendront valides qu'après un redémarrage !"
@@ -672,7 +675,7 @@ msgid "Hotkey Settings"
 msgstr "Paramètres des raccourcis clavier"
 
 msgid "Hotkeys"
-msgstr "Raccourcis :"
+msgstr "Raccourcis"
 
 msgid "Icon above text"
 msgstr "Icônes au-dessus du texte"
@@ -781,6 +784,9 @@ msgstr "Emplacement :"
 
 msgid "Lock"
 msgstr "Verrouiller"
+
+msgid "Lock Toolbars"
+msgstr "Verrouiller les barres d'outils"
 
 msgid "Logoff"
 msgstr "Fermer la session"
@@ -1021,6 +1027,18 @@ msgstr "Restaurer"
 
 msgid "Refresh"
 msgstr "Actualiser"
+
+msgid "Refresh Fileview"
+msgstr "Actualiser la fenêtre principale"
+
+msgid "Register"
+msgstr "Enregistrer"
+
+msgid "Registered successfully!"
+msgstr "Enregistrement réussi ! CubicExplorer est à présent le gestionnaire de fichiers par défaut."
+
+msgid "Registration failed!"
+msgstr "L'enregistrement du gestionnaire de fichiers a échoué !"
 
 msgid "Regular expression"
 msgstr "Expression régulière"
@@ -1453,6 +1471,15 @@ msgstr "Annuler la suppression"
 
 msgid "Undo Tab Close"
 msgstr "Annuler la fermeture d'un onglet"
+
+msgid "Unregister"
+msgstr "Rétablir"
+
+msgid "Unregistered successfully!"
+msgstr "Restauration réussie ! CubicExplorer n'est désormais plus le gestionnaire de fichiers par défaut."
+
+msgid "Unregistration failed!"
+msgstr "La restauration du gestionnaire de fichiers a échoué !"
 
 msgid "Untitled"
 msgstr "Sans titre"

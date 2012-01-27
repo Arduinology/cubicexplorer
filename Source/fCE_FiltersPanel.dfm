@@ -25,6 +25,14 @@ inherited CEFiltersPanel: TCEFiltersPanel
       object combo_controlitem: TTBControlItem
         Control = combo_filterpattern
       end
+      object but_invert: TSpTBXItem
+        Caption = 'Exclude'
+        Hint = 'Exlude'
+        ImageIndex = 11
+        Images = CE_Images.MiscImages
+        OnClick = but_invertClick
+        OnDrawItem = but_invertDrawItem
+      end
       object check_wildcards: TSpTBXItem
         Caption = 'Strict'
         Hint = 'Use strict filtering (wildcards are ? and *)'

@@ -1,3 +1,12 @@
+27.1.2012
+* Changed "Refresh Fileview" icon to green.
+- Fixed resize bug when using Fullscreen mode.
+* Updated French translation (thanks to BB).
+* Updated Russian translation (thanks to Vitaly).
+* Text filter now searches from complete file name (including extension).
++ Added exclude button to filters panel.
+
+
 17.1.2012
 * Rename is now possible in Search tab.
 ================================================================================
@@ -168,8 +177,8 @@
 * Updated Russian translation (thanks to buddah)
 
 15.7.2011
-+ Added Archiver panel.
-+ Added Version Manager.
++ ?dded Archiver panel.
++ ?dded Version Manager.
 * Double click on stack item now opens it.
 + Added UseSystemPopupMenu advanced option to Bookmarks.
 * Alt+Click and Alt+Shift+Click now works in Bookmark toolbar.
