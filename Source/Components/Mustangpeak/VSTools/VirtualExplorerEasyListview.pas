@@ -4250,10 +4250,9 @@ end;
 function TCustomVirtualExplorerEasyListview.BrowseToByPIDL(APIDL: PItemIDList; SelectTarget: Boolean = True; ShowExplorerMsg: Boolean = True): Boolean;
 var
   NS: TNamespace;
-  P, OldPIDL, JunctionPtPIDL: PItemIDList;
+  P, OldPIDL: PItemIDList;
   SelectItem: TExplorerItem;
   Browsing, FreePIDL, ParentBrowsable: Boolean;
-  JunctionPtPath: WideString;
 begin
   P := nil;
   FreePIDL := False;

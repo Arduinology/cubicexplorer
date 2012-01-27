@@ -169,7 +169,6 @@ end;
 -------------------------------------------------------------------------------}
 function RunElevatedCommand(AParentHWND: HWND; const AParams: WideString): Boolean;
 var
-  ws: WideString;
   op: WideString;
 begin
   Result:= true; // TODO: add proper result value

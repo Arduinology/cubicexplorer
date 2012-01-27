@@ -5,7 +5,9 @@
 * Updated Russian translation (thanks to Vitaly).
 * Text filter now searches from complete file name (including extension).
 + Added exclude button to filters panel.
-
+* Swapped Ctrl+PgUp and Ctrl+PgDown to work other way around.
+---
++ Added SelectPasted and SortAfterPaste settings for Fileview.
 
 17.1.2012
 * Rename is now possible in Search tab.

@@ -185,12 +185,15 @@ type
     fRememberPanelLayout: Boolean;
     fRememberInnerToolbarLayout: Boolean;
     fRememberOuterToolbarLayout: Boolean;
+    fSelectPasted: Boolean;
     fShowExtensions: Boolean;
     fShowGridLines: Boolean;
     fShowHeaderAlways: Boolean;
     fShowInfoBar: Boolean;
     fSingleClickBrowse: Boolean;
     fSingleClickExecute: Boolean;
+    fSmoothScroll: Boolean;
+    fSortAfterPaste: Boolean;
     fSortFolderFirstAlways: Boolean;
     fThreadedDetails: Boolean;
     fThreadedEnumeration: Boolean;
@@ -209,6 +212,7 @@ type
     procedure SetFolderUpOnDblClick(const Value: Boolean);
     procedure SetFontSize(const Value: Integer);
     procedure SetFullRowDblClick(const Value: Boolean);
+    procedure SetSelectPasted(const Value: Boolean);
     procedure SetShowInfoTips(const Value: Boolean);
     procedure SetShowExtensions(const Value: Boolean);
     procedure SetShowGridLines(const Value: Boolean);
@@ -217,6 +221,7 @@ type
     procedure SetSingleClickBrowse(const Value: Boolean);
     procedure SetSingleClickExecute(const Value: Boolean);
     procedure SetSmoothScroll(const Value: Boolean);
+    procedure SetSortAfterPaste(const Value: Boolean);
     procedure SetSortFolderFirstAlways(const Value: Boolean);
     procedure SetThreadedDetails(const Value: Boolean);
     procedure SetThreadedEnumeration(const Value: Boolean);
@@ -226,7 +231,6 @@ type
     fUpdateCount: Integer;
     fViewStyle: TEasyListStyle;
   public
-    fSmoothScroll: Boolean;
     constructor Create;
     destructor Destroy; override;
     procedure AssignSettingsTo(FileViewPage: TCEFileViewPage; AssignColumnSettings:
@@ -273,6 +277,7 @@ type
         write fRememberInnerToolbarLayout;
     property RememberOuterToolbarLayout: Boolean read fRememberOuterToolbarLayout
         write fRememberOuterToolbarLayout;
+    property SelectPasted: Boolean read fSelectPasted write SetSelectPasted;
     property ShowExtensions: Boolean read fShowExtensions write SetShowExtensions;
     property ShowGridLines: Boolean read fShowGridLines write SetShowGridLines;
     property ShowHeaderAlways: Boolean read fShowHeaderAlways write
@@ -283,6 +288,7 @@ type
     property SingleClickExecute: Boolean read fSingleClickExecute write
         SetSingleClickExecute;
     property SmoothScroll: Boolean read fSmoothScroll write SetSmoothScroll;
+    property SortAfterPaste: Boolean read fSortAfterPaste write SetSortAfterPaste;
     property SortFolderFirstAlways: Boolean read fSortFolderFirstAlways write
         SetSortFolderFirstAlways;
     property ThreadedDetails: Boolean read fThreadedDetails write
@@ -1079,6 +1085,8 @@ begin
   fFontSize:= -1;
   fFolderUpOnDblClick:= true;
   fFullRowDblClick:= false;
+  fSelectPasted:= true;
+  fSortAfterPaste:= true;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1154,6 +1162,8 @@ begin
     FileViewPage.FileView.PaintInfoItem.GridLines:= fShowGridLines;
     FileViewPage.FileView.FolderUpOnDblClick:= fFolderUpOnDblClick;
     FileViewPage.FileView.FullRowDblClick:= fFullRowDblClick;
+    FileViewPage.FileView.SelectPasted:= fSelectPasted;
+    FileViewPage.FileView.SortAfterPaste:= fSortAfterPaste;
     // Options
     options:= FileViewPage.FileView.Options;
     if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
@@ -1585,6 +1595,12 @@ begin
   SendChanges;
 end;
 
+procedure TCEFileViewSettings.SetSelectPasted(const Value: Boolean);
+begin
+  fSelectPasted:= Value;
+  SendChanges;
+end;
+
 {-------------------------------------------------------------------------------
   Set ShowGridLines
 -------------------------------------------------------------------------------}
@@ -1627,6 +1643,12 @@ end;
 procedure TCEFileViewSettings.SetSingleClickExecute(const Value: Boolean);
 begin
   fSingleClickExecute:= Value;
+  SendChanges;
+end;
+
+procedure TCEFileViewSettings.SetSortAfterPaste(const Value: Boolean);
+begin
+  fSortAfterPaste:= Value;
   SendChanges;
 end;
 

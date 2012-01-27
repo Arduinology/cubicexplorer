@@ -76,15 +76,20 @@ type
     fFolderUpOnDblClick: Boolean;
     fFullRowDblClick: Boolean;
     fOldHistoryIndex: Integer;
+    fPasteFocusSet: Boolean;
     fRightMouseButton_RockerClicks: Integer;
+    fSelectPasted: Boolean;
     fSingleClickBrowse: Boolean;
     fSingleClickExecute: Boolean;
+    fSortAfterPaste: Boolean;
     fUseMouseRocker: Boolean;
     procedure SetAutosizeListViewStyle(const Value: Boolean);
     procedure SetUseKernelNotification(const Value: Boolean);
   protected
     fDoubleClicking: Boolean;
+    fLastPaste: Integer;
     fSingleClickBrowsing: Boolean;
+    procedure DoAfterShellNotify(ShellEvent: TVirtualShellEvent); override;
     procedure DoCustomColumnAdd; override;
     procedure DoEnumFinished; override;
     procedure DoEnumFolder(const Namespace: TNamespace; var AllowAsChild: Boolean);
@@ -118,12 +123,15 @@ type
     ShellNewMenu: TVirtualShellNewMenu;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    function AddCustomItem(Group: TEasyGroup; NS: TNamespace; LockoutSort:
+        Boolean): TExplorerItem; override;
     procedure CalculateFolderSizes;
     procedure ClearHistory;
     procedure CreateNewFolder;
     procedure GoBackInHistory;
     procedure GoFolderUp;
     procedure GoForwardInHistory;
+    procedure PasteFromClipboard; override;
     procedure PasteShortcutFromClipboard;
     procedure SelectedFilesDelete(ShiftKeyState: TExecuteVerbShift = evsCurrent);
         override;
@@ -145,12 +153,14 @@ type
         fAutoSelectFirstItem;
     property ArrowBrowse: Boolean read fArrowBrowse write fArrowBrowse;
     property FullRowDblClick: Boolean read fFullRowDblClick write fFullRowDblClick;
+    property SelectPasted: Boolean read fSelectPasted write fSelectPasted;
     property SelectPreviousFolder: Boolean read fSelectPreviousFolder write
         fSelectPreviousFolder;
     property SingleClickBrowse: Boolean read fSingleClickBrowse write
         fSingleClickBrowse;
     property SingleClickExecute: Boolean read fSingleClickExecute write
         fSingleClickExecute;
+    property SortAfterPaste: Boolean read fSortAfterPaste write fSortAfterPaste;
     property UseKernelNotification: Boolean read fUseKernelNotification write
         SetUseKernelNotification;
     property OnViewStyleChange: TNotifyEvent read fOnViewStyleChange write
@@ -371,6 +381,10 @@ begin
   fFullRowDblClick:= false;
 
   Self.BackGround.CaptionShowOnlyWhenEmpty:= false;
+  // Paste selection/sort
+  fLastPaste:= 0;
+  fSelectPasted:= true;
+  fSortAfterPaste:= true;
 end;
 
 {-------------------------------------------------------------------------------
@@ -385,6 +399,24 @@ begin
   //History.Free;
   //ShellNewMenu.Free;
   inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  AddCustomItem
+-------------------------------------------------------------------------------}
+function TCEFileView.AddCustomItem(Group: TEasyGroup; NS: TNamespace;
+    LockoutSort: Boolean): TExplorerItem;
+begin
+  Result:= inherited AddCustomItem(Group, NS, True);
+  if SelectPasted and (fLastPaste > 0) then
+  begin
+    if not fPasteFocusSet then // Set focus to first pasted item
+    begin
+      Self.Selection.FocusedItem:= Result;
+      fPasteFocusSet:= true;
+    end;
+    Result.Selected:= true;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -562,6 +594,20 @@ begin
      item.Selected:= True;
      item.Edit;
    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  DoAfterShellNotify
+-------------------------------------------------------------------------------}
+procedure TCEFileView.DoAfterShellNotify(ShellEvent: TVirtualShellEvent);
+begin
+  inherited;
+  if (fLastPaste > 0) and (ShellEvent.ShellNotifyEvent = vsneFreeSpace) then // get's called after paste (not reliable!)
+  begin
+    if SortAfterPaste then
+    Self.SortList;
+    fLastPaste:= 0;
   end;
 end;
 
@@ -760,6 +806,8 @@ procedure TCEFileView.DoRootChanging(const NewRoot: TRootFolder; Namespace:
     TNamespace; var Allow: Boolean);
 begin
   inherited;
+  fLastPaste:= 0;
+  fPasteFocusSet:= false;
   SetNotifyFolder(Namespace);
   Self.BackGround.Caption:= _('Opening...');
   Self.BackGround.CaptionShow:= true;
@@ -979,12 +1027,25 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  PasteFromClipboard
+-------------------------------------------------------------------------------}
+procedure TCEFileView.PasteFromClipboard;
+begin
+  fLastPaste:= GetTickCount;
+  fPasteFocusSet:= false;
+  if SelectPasted then
+  Self.Selection.ClearAll;
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
   Paste Shortcut From Clipboard
 -------------------------------------------------------------------------------}
 procedure TCEFileView.PasteShortcutFromClipboard;
 var
   NSA: TNamespaceArray;
 begin
+  fLastPaste:= GetTickCount;
   Cursor := crHourglass;
   try
     if Assigned(RootFolderNamespace) then

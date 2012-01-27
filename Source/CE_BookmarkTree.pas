@@ -476,9 +476,6 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEBookmarkTree.HandleMouseDown(var Message: TWMMouse; var HitInfo:
     THitInfo);
-var
-  h: Integer;
-  node: PVirtualNode;
 begin
   if GetKeyState(VK_MENU) < 0 then
   Exit;
@@ -574,7 +571,6 @@ var
   hd: TCommonShellIDList;
   data: PCEBookData;
   node: PVirtualNode;
-  h: Integer;
 begin
 
   // Get Attach mode
