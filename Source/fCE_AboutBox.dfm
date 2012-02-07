@@ -980,29 +980,29 @@ object CEAboutBox: TCEAboutBox
     Gutter.Width = 0
     Highlighter = SynURISyn1
     Lines.UnicodeStrings = 
-      'Copyright 2006-2011 Marko Savolainen.'#13#10#13#10'Homepage - http://www.c' +
+      'Copyright 2006-2012 Marko Savolainen.'#13#10#13#10'Homepage - http://www.c' +
       'ubicreality.com'#13#10'Support - http://www.cubicreality.com/forum'#13#10#13#10 +
       '================================================================' +
       '=='#13#10'   CubicExplorer uses the following 3rd party Delphi compone' +
       'nts'#13#10'===========================================================' +
-      '======='#13#10#13#10'-VirtualShellTools and EasyListview'#13#10'http://www.musta' +
-      'ngpeak.net'#13#10#13#10'-Virtual Treeview and GraphicEx'#13#10'http://www.soft-g' +
-      'ems.net'#13#10#13#10'-TNT Unicode Controls'#13#10'http://www.tntware.com/delphic' +
-      'ontrols/unicode/'#13#10#13#10'-PngComponents'#13#10'http://www.thany.org/article' +
-      '/32/PngComponents'#13#10#13#10'-Toolbar2000'#13#10'http://www.jrsoftware.org'#13#10#13#10 +
-      '-SpTBXLib'#13#10'http://club.telepolis.com/silverpointdev/sptbxlib/ind' +
-      'ex.htm'#13#10#13#10'-Graphics32'#13#10'http://www.graphics32.org'#13#10#13#10'-JVCL'#13#10'http:' +
-      '//jvcl.sourceforge.net'#13#10#13#10'-Unicode SynEdit'#13#10'http://mh-nexus.de/u' +
-      'nisynedit.htm'#13#10#13#10'===============================================' +
-      '==================='#13#10'  Many thanks to all developers of those gr' +
-      'eat components.'#13#10'  '#13#10'  A special thanks goes to Jim Kueneman for' +
-      ' his great work on'#13#10'  VirtualShellTools and EasyListview. Withou' +
-      't VirtualShellTools,'#13#10'  CubicExplorer would not exist.'#13#10#13#10'  Also' +
-      ' thanks to Stas Lebedev for the Vista icons which are'#13#10'  used in' +
-      ' CubicExplorer.'#13#10#13#10'  -Vista Icons Pack 3'#13#10'  http://kudesnick.blo' +
-      'gspot.com/'#13#10'====================================================' +
-      '=============='#13#10#13#10#13#10'Thanks for using CubicExplorer :)'#13#10#13#10'Regards' +
-      ','#13#10'Marko Savolainen.'
+      '======='#13#10#13#10'- VirtualShellTools and EasyListview'#13#10'http://www.must' +
+      'angpeak.net'#13#10#13#10'- Virtual Treeview and GraphicEx'#13#10'http://www.soft' +
+      '-gems.net'#13#10#13#10'- TNT Unicode Controls'#13#10'http://www.tntware.com/delp' +
+      'hicontrols/unicode/'#13#10#13#10'- PngComponents'#13#10'http://www.thany.org/art' +
+      'icle/32/PngComponents'#13#10#13#10'- Toolbar2000'#13#10'http://www.jrsoftware.or' +
+      'g'#13#10#13#10'- SpTBXLib'#13#10'http://club.telepolis.com/silverpointdev/sptbxl' +
+      'ib/index.htm'#13#10#13#10'- Graphics32'#13#10'http://www.graphics32.org'#13#10#13#10'- ATB' +
+      'inHex'#13#10'http://atorg.net.ru/other/atbinhex.htm'#13#10#13#10'- JVCL'#13#10'http://' +
+      'jvcl.sourceforge.net'#13#10#13#10'- Unicode SynEdit'#13#10'http://mh-nexus.de/un' +
+      'isynedit.htm'#13#10#13#10'-7-zip library (7z.dll). Licensed under the GNU ' +
+      'LGPL.'#13#10'http://www.7-zip.org'#13#10#13#10#13#10'===============================' +
+      '==================================='#13#10#13#10'  Many thanks to all deve' +
+      'lopers of those great components.'#13#10'  '#13#10'  A special thanks goes t' +
+      'o Jim Kueneman for his great work on'#13#10'  VirtualShellTools and Ea' +
+      'syListview. Without VirtualShellTools,'#13#10'  CubicExplorer would no' +
+      't exist.'#13#10#13#10'====================================================' +
+      '=============='#13#10#13#10'Thank you for using CubicExplorer.'#13#10#13#10'Regards,' +
+      #13#10'Marko Savolainen.'
     Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoNoCaret, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
     ReadOnly = True
     RightEdgeColor = clWindow

@@ -251,6 +251,7 @@ object MainForm: TMainForm
         end
         object AlphaSubmenuItem: TSpTBXSubmenuItem
           Caption = 'Transparency'
+          ImageIndex = 65
           Visible = False
           OnPopup = TransparencyPopup
           object SpTBXItem57: TSpTBXItem

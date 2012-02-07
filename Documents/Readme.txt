@@ -1,4 +1,4 @@
-Copyright 2006-2011 Marko Savolainen.
+Copyright 2006-2012 Marko Savolainen.
 
 Homepage - http://www.cubicreality.com
 Support - http://www.cubicreality.com/forum
@@ -42,15 +42,16 @@ http://www.7-zip.org
 
 
 ==================================================================
+
   Many thanks to all developers of those great components.
   
   A special thanks goes to Jim Kueneman for his great work on
   VirtualShellTools and EasyListview. Without VirtualShellTools,
   CubicExplorer would not exist.
+
 ==================================================================
 
-
-Thanks for using CubicExplorer :)
+Thank you for using CubicExplorer.
 
 Regards,
 Marko Savolainen.
