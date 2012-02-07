@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: CE 0.95.0.1430 - 2011.08.31\n"
+"Project-Id-Version: CE 0.95.1.1449 - 2012.01.17\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1430\n"
+"CE-POT-Version: 1449\n"
 "CE-Language: Italian\n"
 "Last-Translator: Folgore101 <andrea.gramegna@gmail.com>\n"
 
@@ -96,7 +96,7 @@ msgid "Always sort folders first."
 msgstr "Ordina sempre le cartelle per prime"
 
 msgid "And Launch Files"
-msgstr "E Avvia i File"
+msgstr "Apri le schede avviando i File"
 
 msgid "Application Revision:"
 msgstr "Revisione Applicazione:"
@@ -385,6 +385,9 @@ msgstr "Giorno limite"
 
 msgid "Default"
 msgstr "Predefinito"
+
+msgid "Default File Manager"
+msgstr "File Manager predefinito"
 
 msgid "Default hotkeys become available after restart!"
 msgstr "Tasti di scelta rapida predefiniti saranno disponibili dopo il riavvio!"
@@ -729,7 +732,7 @@ msgid "Last twenty-four hours"
 msgstr "Ultime 24 ore"
 
 msgid "Launch Files Only"
-msgstr "Avvia Solo i File "
+msgstr "Avvia solo i File "
 
 msgid "Layout"
 msgstr "Struttura"
@@ -775,6 +778,9 @@ msgstr "Posizione"
 
 msgid "Lock"
 msgstr "Blocca"
+
+msgid "Lock Toolbars"
+msgstr "Blocca la Barre degli Strumenti"
 
 msgid "Logoff"
 msgstr "Disconnetti"
@@ -888,7 +894,7 @@ msgid "Open"
 msgstr "Apri"
 
 msgid "Open All in Tabs"
-msgstr "Apri Tutto in Schede"
+msgstr "Apri tutto in Schede"
 
 msgid "Open Command Prompt"
 msgstr "Apri Prompt dei Comandi"
@@ -1012,6 +1018,18 @@ msgstr "Ripristina"
 
 msgid "Refresh"
 msgstr "Aggiorna"
+
+msgid "Refresh Fileview"
+msgstr "Aggiorna Pannello file"
+
+msgid "Register"
+msgstr "Registra"
+
+msgid "Registered successfully!"
+msgstr "Registrato con successo!"
+
+msgid "Registration failed!"
+msgstr "Registrazione fallita!"
 
 msgid "Regular expression"
 msgstr "Espressione regolare"
@@ -1221,7 +1239,7 @@ msgid "Show InfoTips"
 msgstr "Mostra Informazione Suggerimenti"
 
 msgid "Show Path in Title bar"
-msgstr "Mostra il Percorso nella Barra del Titolo"
+msgstr "Mostra il percorso nella Barra del Titolo"
 
 msgid "Show Session Manager"
 msgstr "Mostra Gestione Sessioni"
@@ -1444,6 +1462,15 @@ msgstr "Annulla Eliminazione"
 
 msgid "Undo Tab Close"
 msgstr "Annulla Chiusura Scheda"
+
+msgid "Unregister"
+msgstr "Annulla registrazione"
+
+msgid "Unregistered successfully!"
+msgstr "Registrazione annullata con successo!"
+
+msgid "Unregistration failed!"
+msgstr "Annullamento registrazione fallita!"
 
 msgid "Untitled"
 msgstr "Senza nome"
