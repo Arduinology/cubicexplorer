@@ -713,6 +713,22 @@ object CEActions: TCEActions
       ShortCut = 8308
       OnExecute = ActionExecute
     end
+    object act_filters_strict: TTntAction
+      Tag = 902
+      Category = 'Filters'
+      Caption = 'Strict'
+      Hint = 'Use strict filtering (wildcards are ? and *)'
+      ImageIndex = 63
+      OnExecute = ActionExecute
+    end
+    object act_filters_exclude: TTntAction
+      Tag = 903
+      Category = 'Filters'
+      Caption = 'Exclude'
+      Hint = 'Exclude'
+      ImageIndex = 64
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

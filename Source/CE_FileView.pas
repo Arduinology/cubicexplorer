@@ -410,12 +410,12 @@ begin
   Result:= inherited AddCustomItem(Group, NS, True);
   if SelectPasted and (fLastPaste > 0) then
   begin
+    Result.Selected:= true;
     if not fPasteFocusSet then // Set focus to first pasted item
     begin
       Self.Selection.FocusedItem:= Result;
       fPasteFocusSet:= true;
     end;
-    Result.Selected:= true;
   end;
 end;
 
@@ -606,7 +606,13 @@ begin
   if (fLastPaste > 0) and (ShellEvent.ShellNotifyEvent = vsneFreeSpace) then // get's called after paste (not reliable!)
   begin
     if SortAfterPaste then
-    Self.SortList;
+    begin
+      Self.SortList;
+    end;
+
+    if Self.Selection.Count > 0 then
+    Self.Selection.First.MakeVisible(emvAuto);
+
     fLastPaste:= 0;
   end;
 end;
@@ -724,6 +730,9 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFileView.DoKeyAction(var CharCode: Word; var Shift: TShiftState;
     var DoDefault: Boolean);
+var
+  ns: TNamespace;
+  item: TEasyItem;
 begin
   if DoDefault then
   begin
@@ -773,6 +782,35 @@ begin
       begin
         if (ssShift in Shift) or (ssCtrl in Shift) then
         DoDefault:= false;
+      end;
+      VK_RETURN:
+      begin
+        if Self.Selection.Count > 0 then
+        begin
+          // execute first selected (file)
+          if Self.ValidateNamespace(Self.Selection.First, ns) and not ns.Folder then
+          DoShellExecute(Self.Selection.First);
+
+          // browse/execute rest selected
+          item:= Self.Selection.Next(Self.Selection.First);
+          while assigned(item) do
+          begin
+            if Self.ValidateNamespace(item, ns) then
+            begin
+              if ns.Folder then
+              OpenFolderInTab(Self, ns.AbsolutePIDL, false)
+              else
+              DoShellExecute(item);
+            end;
+            item:= Self.Selection.Next(item);
+          end;
+
+          // browse to first selected (folder)
+          if Self.ValidateNamespace(Self.Selection.First, ns) and ns.Folder then
+          Self.BrowseToByPIDL(ns.AbsolutePIDL);
+          
+          DoDefault:= false;
+        end;
       end;
     end
   end;

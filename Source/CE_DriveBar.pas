@@ -66,6 +66,8 @@ type
     property ShortName: Boolean read fShortName write fShortName;
   end;
 
+  TCEDriceBarSettings = class;
+
   TCEDriveToolbar = class(TCEToolbar)
   protected
     function CanItemClick(Item: TTBCustomItem; Button: TMouseButton; Shift:
@@ -75,6 +77,7 @@ type
     procedure SetLargeImages(const Value: Boolean); override;
     procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
   public
+    Settings: TCEDriceBarSettings;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure HandleContextMenuCmd(Namespace: TNamespace; Verb: WideString;
@@ -84,10 +87,17 @@ type
     procedure Populate;
   end;
 
+  TCEDriceBarSettings = class(TPersistent)
+  private
+    fOpenInNewTab: Boolean;
+  published
+    property OpenInNewTab: Boolean read fOpenInNewTab write fOpenInNewTab;
+  end;
+
 implementation
 
 uses
-  fCE_FolderPanel, Main;
+  fCE_FolderPanel, Main, CE_AppSettings;
 
 {*------------------------------------------------------------------------------
   Create an instance of TCEShellToolbarItem
@@ -115,7 +125,7 @@ begin
   inherited;
   if assigned(Namespace) then
   begin
-    if CEFolderPanel.Settings.OpenInNewTab then
+    if MainForm.DriveToolbar.Settings.OpenInNewTab then
     OpenFolderInTab(self, Namespace.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect)
     else
     GlobalPathCtrl.ChangeGlobalPathPIDL(self.Owner,Namespace.AbsolutePIDL);
@@ -180,18 +190,29 @@ end;
 
 {##############################################################################}
 
+{-------------------------------------------------------------------------------
+  Create an instance of TCEDriveToolbar
+-------------------------------------------------------------------------------}
 constructor TCEDriveToolbar.Create(AOwner: TComponent);
 begin
   inherited;
   Customizable:= false;
   SetVistaFont(Font);
   Images:= SmallSysImages;
+
+  Settings:= TCEDriceBarSettings.Create;
+  GlobalAppSettings.AddItem('DriveBar', Settings, false);
+
   ChangeNotifier.RegisterShellChangeNotify(Self);
 end;
 
+{-------------------------------------------------------------------------------
+  Destroy TCEDriveToolbar
+-------------------------------------------------------------------------------}
 destructor TCEDriveToolbar.Destroy;
 begin
   ChangeNotifier.UnRegisterShellChangeNotify(Self);
+  Settings.Free;
   inherited;
 end;
 

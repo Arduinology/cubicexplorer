@@ -227,6 +227,8 @@ type
     act_tools_systempower: TCEToolbarAction;
     act_view_lock_toolbars: TTntAction;
     act_navi_refresh_current: TTntAction;
+    act_filters_strict: TTntAction;
+    act_filters_exclude: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -849,6 +851,10 @@ procedure ExecuteMiscCategory(ActionID: Integer);
 begin
   case ActionID of
     901: CEFiltersPanel.ClearFilters;
+    902: CEFiltersPanel.Filters.UseWildcards:= not 
+      CEFiltersPanel.Filters.UseWildcards;
+    903: CEFiltersPanel.Filters.ExcludeFromResults:= not
+      CEFiltersPanel.Filters.ExcludeFromResults;
   end;
 end;
 
@@ -858,6 +864,10 @@ end;
 -------------------------------------------------------------------------------}
 procedure UpdateMiscCategory(ActionID: Integer; TargetAction: TTntAction);
 begin
+  case ActionID of
+    902: TargetAction.Checked:= CEFiltersPanel.Filters.UseWildcards;
+    903: TargetAction.Checked:= CEFiltersPanel.Filters.ExcludeFromResults;
+  end;
   TargetAction.Enabled:= true;
 end;
 
@@ -1766,10 +1776,32 @@ end;
 -------------------------------------------------------------------------------}
 procedure DoGlobalContextMenuCmd(Sender: TObject; Namespace: TNamespace; Verb:
     WideString; MenuItemID: Integer; var Handled: Boolean);
+var
+  item: TEasyItem;
+  ns: TNamespace;
 begin
   // Handle "Open in new tab"
   if MenuItemID = 664 then
   begin
+    // quick hack to open multiple folders!
+    if (Sender is TCECustomFileView) and
+       (TCECustomFileView(Sender).Selection.Count > 0) then
+    begin
+      item:= TCECustomFileView(Sender).Selection.First;
+      while assigned(item) do
+      begin
+        if TCECustomFileView(Sender).ValidateNamespace(item, ns) then
+        begin
+          if ns.Folder then
+          begin
+            OpenFolderInTab(Sender, ns.AbsolutePIDL,
+              MainForm.TabSet.Settings.OpenTabSelect);
+          end;
+        end;
+        item:= TCECustomFileView(Sender).Selection.Next(item);
+      end;
+    end
+    else
     OpenFolderInTab(Sender, Namespace.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect);
   end;
 end;

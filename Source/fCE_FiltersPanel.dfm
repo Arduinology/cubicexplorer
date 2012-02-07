@@ -26,20 +26,12 @@ inherited CEFiltersPanel: TCEFiltersPanel
         Control = combo_filterpattern
       end
       object but_invert: TSpTBXItem
-        Caption = 'Exclude'
-        Hint = 'Exlude'
-        ImageIndex = 11
-        Images = CE_Images.MiscImages
-        OnClick = but_invertClick
-        OnDrawItem = but_invertDrawItem
+        Action = CEActions.act_filters_exclude
+        Images = CE_Images.SmallIcons
       end
-      object check_wildcards: TSpTBXItem
-        Caption = 'Strict'
-        Hint = 'Use strict filtering (wildcards are ? and *)'
-        ImageIndex = 1
-        Images = CE_Images.MiscImages
-        OnClick = check_wildcardsClick
-        OnDrawItem = check_wildcardsDrawItem
+      object but_strict: TSpTBXItem
+        Action = CEActions.act_filters_strict
+        Images = CE_Images.SmallIcons
       end
       object but_clear: TSpTBXItem
         Action = CEActions.act_filters_clear

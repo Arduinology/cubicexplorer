@@ -53,7 +53,7 @@ type
     PatternToolbar: TSpTBXToolbar;
     combo_filterpattern: TSpTBXComboBox;
     combo_controlitem: TTBControlItem;
-    check_wildcards: TSpTBXItem;
+    but_strict: TSpTBXItem;
     FilterTimer: TTimer;
     SpTBXSeparatorItem1: TSpTBXSeparatorItem;
     but_clear_filterhistory: TSpTBXItem;
@@ -63,21 +63,13 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure check_resetfiltersClick(Sender: TObject);
     procedure FiltersPopupMenuPopup(Sender: TObject);
-    procedure check_wildcardsClick(Sender: TObject);
     procedure combo_filterpatternSelect(Sender: TObject);
     procedure combo_filterpatternKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure FilterTimerTimer(Sender: TObject);
     procedure combo_filterpatternChange(Sender: TObject);
-    procedure check_wildcardsDrawItem(Sender: TObject; ACanvas: TCanvas;
-      ARect: TRect; ItemInfo: TSpTBXMenuItemInfo;
-      const PaintStage: TSpTBXPaintStage; var PaintDefault: Boolean);
     procedure but_clear_filterhistoryClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
-    procedure but_invertClick(Sender: TObject);
-    procedure but_invertDrawItem(Sender: TObject; ACanvas: TCanvas;
-      ARect: TRect; ItemInfo: TSpTBXMenuItemInfo;
-      const PaintStage: TSpTBXPaintStage; var PaintDefault: Boolean);
   private
     fPatternNotifyInProgress: Boolean;
     fSettings: TCEFiltersPanelSettings;
@@ -292,7 +284,7 @@ procedure TCEFiltersPanel.DoFormShow;
 begin
   inherited;
   Filters.Active:= true;
-  check_wildcards.Checked:= Filters.UseWildcards;
+  but_strict.Checked:= Filters.UseWildcards;
   FormResize(Self);
 end;
 
@@ -337,24 +329,6 @@ end;
 procedure TCEFiltersPanel.but_clear_filterhistoryClick(Sender: TObject);
 begin
   combo_filterpattern.Clear;
-end;
-
-{-------------------------------------------------------------------------------
-  On check_wildcards click
--------------------------------------------------------------------------------}
-procedure TCEFiltersPanel.check_wildcardsClick(Sender: TObject);
-begin
-  Filters.UseWildcards:= not Filters.UseWildcards;
-end;
-
-{-------------------------------------------------------------------------------
-  On check_wildcards DrawItem
--------------------------------------------------------------------------------}
-procedure TCEFiltersPanel.check_wildcardsDrawItem(Sender: TObject;
-  ACanvas: TCanvas; ARect: TRect; ItemInfo: TSpTBXMenuItemInfo;
-  const PaintStage: TSpTBXPaintStage; var PaintDefault: Boolean);
-begin
-  check_wildcards.Checked:= Filters.UseWildcards;
 end;
 
 {-------------------------------------------------------------------------------
@@ -418,24 +392,6 @@ end;
 procedure TCEFiltersPanel.check_resetfiltersClick(Sender: TObject);
 begin
   Settings.AutoResetFilters:= not Settings.AutoResetFilters;
-end;
-
-{-------------------------------------------------------------------------------
-  On but_invert.Click
--------------------------------------------------------------------------------}
-procedure TCEFiltersPanel.but_invertClick(Sender: TObject);
-begin
-  Filters.ExcludeFromResults:= not Filters.ExcludeFromResults;
-end;
-
-{-------------------------------------------------------------------------------
-  On but_invert.DrawItem
--------------------------------------------------------------------------------}
-procedure TCEFiltersPanel.but_invertDrawItem(Sender: TObject; ACanvas: TCanvas;
-  ARect: TRect; ItemInfo: TSpTBXMenuItemInfo;
-  const PaintStage: TSpTBXPaintStage; var PaintDefault: Boolean);
-begin
-  but_invert.Checked:= Filters.ExcludeFromResults;
 end;
 
 {-------------------------------------------------------------------------------
@@ -535,6 +491,12 @@ begin
     AItem.Add(edit);
     // Add separator
     AItem.Add(TSpTBXSeparatorItem.Create(AItem));
+    // Add exclude item
+    item:= TSpTBXItem.Create(AItem);
+    item.Action:= CEActions.act_filters_exclude;
+    AItem.Add(item);
+    // Add separator
+    //AItem.Add(TSpTBXSeparatorItem.Create(AItem));
     // Add items from FilterList
     node:= Filters.GetFirst;
     while assigned(node) do

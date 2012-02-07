@@ -251,7 +251,7 @@ begin
     else if TaskDialog(Self.Handle,
                        _('Invalid update!'),
                        _('One or more files are missing!'),
-                       _('Do you really wan''t to update?'),
+                       _('Do you really want to update?'),
                        TD_ICON_WARNING,
                        TD_BUTTON_YES or TD_BUTTON_NO) = mrYes then
     Updater.UseVersion(data.Version);

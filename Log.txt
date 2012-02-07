@@ -1,3 +1,13 @@
+7.2.2012
+* Updated Brazilian Portuguese translation (thanks to Luciano Sturaro).
+* Updated Russian translation (thanks to sergus).
++ Added "OpenInNewTab" advanced option for DriveBar.
+* Auto scrolls now after paste.
+* Pressing Enter or selecting "Open in new tab" from Context menu will now open multible folders.
++ Added Exclude to Filters menu.
++ Added Exclude and Strict filter buttons to Customizer.
+
+================================================================================
 27.1.2012
 * Changed "Refresh Fileview" icon to green.
 - Fixed resize bug when using Fullscreen mode.
@@ -286,7 +296,7 @@
 + Added Options page for Stack (empty).
 
 25.5.2011
-+ Added Blue Line theme.
++ ?dded Blue Line theme.
 + Added ArrowBrowse option (Options -> Advanced -> FileView -> ArrowBrowse).
 
 23.5.2011

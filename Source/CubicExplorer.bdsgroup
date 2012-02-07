@@ -10,8 +10,7 @@
 	</PersonalityInfo>
 	<Default.Personality>  <Projects>
       <Projects Name="CubicExplorer.exe">CubicExplorer.bdsproj</Projects>
-      <Projects Name="UltraExplorer.exe">..\..\..\..\3rd_Party\Mustangpeak_SVN\UE\UltraExplorer.bdsproj</Projects>
-      <Projects Name="Targets">CubicExplorer.exe UltraExplorer.exe</Projects>
+      <Projects Name="Targets">CubicExplorer.exe</Projects>
     </Projects>
     <Dependencies/>
   </Default.Personality>

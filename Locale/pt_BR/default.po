@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
-"CE-POT-Version: 1431\n"
+"CE-POT-Version: 1454\n"
 "Last-Translator: Luciano Sturaro <sturaro@pop.com.br>\n"
 "CE-Language: Brazilian Portuguese\n"
-"Project-Id-Version: 0.90 RC3\n"
+"Project-Id-Version: 0.90 RC5\n"
 
 msgid "%d file(s) failed to download!"
-msgstr "%d arquivo(s) falharam o download!"
+msgstr ""
 
 msgid "%d folder(s) searched and %d item(s) found in %.3f second(s)"
 msgstr "%d pasta(s) verficada(s) e %d item(s) encontrados em %.3f segundo(s)"
@@ -15,13 +15,13 @@ msgid "%d of %d"
 msgstr "%d de %d"
 
 msgid "..."
-msgstr "..."
+msgstr ""
 
 msgid "A long time ago"
-msgstr "Há muito tempo atrás"
+msgstr "A muito tempo atras"
 
 msgid "A month ago"
-msgstr "Há um mês"
+msgstr "A um mês atras"
 
 msgid "About CubicExplorer"
 msgstr "Sobre o Cubic Explorer"
@@ -69,10 +69,10 @@ msgid "Advanced Settings"
 msgstr "Opções avançadas"
 
 msgid "After Date:"
-msgstr "Antes de:"
+msgstr "Depois de:"
 
 msgid "After Time:"
-msgstr "Antes das:"
+msgstr "Depois de:"
 
 msgid "All"
 msgstr "Todos"
@@ -108,25 +108,25 @@ msgid "Apply changes."
 msgstr "Aplicar alterações."
 
 msgid "Archiver"
-msgstr ""
+msgstr "Compactador"
 
 msgid "Are you sure you want to clear session history?"
-msgstr "Confirma limpar histórico da sessão?"
+msgstr "Limpar o histórico das sessões?"
 
 msgid "Are you sure you want to clear the list?"
-msgstr "Confirma limpar a lista?"
+msgstr "Limpar a lista?"
 
 msgid "Are you sure you want to delete selected bookmarks?"
-msgstr "Confirma a exclusão dos marcadores selecionados?"
+msgstr "Apagar o favorito selecionado?"
 
 msgid "Are you sure you want to delete this session?"
-msgstr "Confirma a exclusão desta sessão?"
+msgstr "Apagar esta sessão?"
 
 msgid "Are you sure you want to do that?"
 msgstr "Tem certeza?"
 
 msgid "Are you sure you want to restore?"
-msgstr "Tem certeza de que deseja restaurar?"
+msgstr "Quer restaurar?"
 
 msgid "Arrange By"
 msgstr "Ordenar por"
@@ -153,7 +153,7 @@ msgid "Auto Expand Trees"
 msgstr "Expandir automaticamente"
 
 msgid "Auto Save History"
-msgstr "Salvar Histórico Automaticamente"
+msgstr "Auto salvar o Histórico"
 
 msgid "Auto collapse tree"
 msgstr "Recolher automaticamente"
@@ -174,7 +174,7 @@ msgid "Back"
 msgstr "Anterior"
 
 msgid "Backups"
-msgstr "Backups"
+msgstr ""
 
 msgid "Backward"
 msgstr "Anterior"
@@ -225,7 +225,7 @@ msgid "Case sensitivity"
 msgstr "Case Sensitive"
 
 msgid "Change order by dragging"
-msgstr "Alterar a ordem, arrastando"
+msgstr "Altere a ordem arrastando"
 
 msgid "Check For Updates"
 msgstr "Verificar atualizações"
@@ -291,16 +291,16 @@ msgid "Compressed"
 msgstr "Comprimido"
 
 msgid "Confirm"
-msgstr "Confirma"
+msgstr "Confirmar"
 
 msgid "Connection error!"
 msgstr "Erro de conexão!"
 
 msgid "Contact File"
-msgstr ""
+msgstr "Arquivo de contato"
 
 msgid "Contains hidden items"
-msgstr "Contém arquivos ocultos"
+msgstr "Contem arquivos ocultos"
 
 msgid "Content"
 msgstr "Conteúdo"
@@ -374,11 +374,17 @@ msgstr "Data de criação"
 msgid "Date Modified"
 msgstr "Data de modificação"
 
+msgid "Day Limit"
+msgstr "Dia limite"
+
 msgid "Default"
 msgstr "Padrão"
 
+msgid "Default File Manager"
+msgstr "Gerenciador padrão"
+
 msgid "Default hotkeys become available after restart!"
-msgstr "Hotkeys padrão tornam-se disponíveis após a reiniar!"
+msgstr "Hotkeys padrão se tornam disponíveis após reiniciar!"
 
 msgid "Delete"
 msgstr "Apagar"
@@ -387,7 +393,7 @@ msgid "Delete active session."
 msgstr "Excluir sessão atual."
 
 msgid "Deleting multiple bookmarks!"
-msgstr "Exclusão de multiplos marcadores!"
+msgstr "Excluindo múltiplos favoritos!"
 
 msgid "Desktop"
 msgstr "Desktop"
@@ -414,22 +420,22 @@ msgid "Display Settings"
 msgstr "Configurações de exibição"
 
 msgid "Do you really wan't to update?"
-msgstr "Você quer realmente atualizar?"
+msgstr "Você realmente quer atualizar?"
 
 msgid "Do you want to override existing session?"
-msgstr "Substituir sessão existente?"
+msgstr "Sobreescrever a sessão existente?"
 
 msgid "Do you want to override existing stack?"
-msgstr "Substituir pilha existente?"
+msgstr "Sobreescrever a pilha existente?"
 
 msgid "Do you want to reset all hotkeys for this action?"
-msgstr "Você quer reiniciar todas as hotkeys para essa ação?"
+msgstr "Redefinir todas as Hotkeys para essa ação?"
 
 msgid "Do you want to update?"
-msgstr "Deseja atualizar?"
+msgstr "Quer atualizar?"
 
 msgid "Do you want to use it anyway?"
-msgstr ""
+msgstr "Quer usar isto de qualquer forma?"
 
 msgid "Donate"
 msgstr "Contribuição"
@@ -438,7 +444,7 @@ msgid "Down"
 msgstr "Abaixo"
 
 msgid "Download"
-msgstr "Download"
+msgstr ""
 
 msgid "Download failed!"
 msgstr "Download falhou!"
@@ -477,7 +483,7 @@ msgid "Dynamic Spacer"
 msgstr "Espaçador dinâmico"
 
 msgid "Earlier this year"
-msgstr "No início deste ano"
+msgstr "Inicio deste ano"
 
 msgid "Edit"
 msgstr "Editar"
@@ -510,19 +516,22 @@ msgid "English (default)"
 msgstr "Inglês (padrão)"
 
 msgid "Enter each file mask on a separate line."
-msgstr "Entrar cada máscara de arquivo em uma linha separada."
+msgstr "Entre com cada máscara de arquivo em uma linha separada."
+
+msgid "Exclude"
+msgstr "Excluir"
 
 msgid "Exclude File Masks:"
-msgstr "Excluir máscaras de arquivo:"
+msgstr "Máscara a excluir:"
 
 msgid "Exit"
 msgstr "Sair"
 
 msgid "Exit program when last tab is closed"
-msgstr "Sair do programa ao fechar última aba"
+msgstr "Sair do programa ao fechar a última aba."
 
 msgid "Explorer"
-msgstr "Explorer"
+msgstr ""
 
 msgid "File"
 msgstr "Arquivo"
@@ -540,7 +549,7 @@ msgid "File size format:"
 msgstr "Formato do tamanho do arquivo:"
 
 msgid "Files to update"
-msgstr "Arquivos para atualização"
+msgstr "Arquivos a atualziar"
 
 msgid "Fileview"
 msgstr "Visualização de arquivos"
@@ -561,7 +570,7 @@ msgid "Find Previous"
 msgstr "Localizar Anterior"
 
 msgid "Finished"
-msgstr "Concluído"
+msgstr "Terminado!"
 
 msgid "Five months ago"
 msgstr "Cinco meses atrás"
@@ -570,7 +579,7 @@ msgid "Fixed Spacer"
 msgstr "Espaçador fixo"
 
 msgid "Focus"
-msgstr ""
+msgstr "Foco"
 
 msgid "Folder"
 msgstr "Pasta"
@@ -597,13 +606,13 @@ msgid "Four months ago"
 msgstr "Quatro meses atrás"
 
 msgid "Full expand on stack load"
-msgstr "Expandir tudo ao carregar pilha"
+msgstr "Expandir completamente ao carregar a pilha"
 
 msgid "Fullscreen"
 msgstr "Tela cheia"
 
 msgid "GB"
-msgstr "GB"
+msgstr ""
 
 msgid "General"
 msgstr "Geral"
@@ -615,10 +624,10 @@ msgid "Gigantic"
 msgstr "Usar configurações do sistema"
 
 msgid "Global"
-msgstr "Global"
+msgstr ""
 
 msgid "Global Hotkey Settings"
-msgstr "Configuração Hotkey Global"
+msgstr "Ajuste Global"
 
 msgid "Group"
 msgstr "Grupo"
@@ -648,10 +657,10 @@ msgid "History"
 msgstr "Histórico"
 
 msgid "Hotkey Settings"
-msgstr "Configurações Hotkey"
+msgstr "Configurações de Hotkeys"
 
 msgid "Hotkeys"
-msgstr "Hotkeys"
+msgstr ""
 
 msgid "Icon above text"
 msgstr "Mostrar rótulos de texto"
@@ -666,7 +675,7 @@ msgid "Image"
 msgstr "Imagem"
 
 msgid "Include File Masks:"
-msgstr "Incluir máscaras de arquivo:"
+msgstr "Máscara a incluir:"
 
 msgid "Include Subfolders"
 msgstr "Incluir Sub-pastas"
@@ -684,7 +693,7 @@ msgid "Invert Selection"
 msgstr "Inverter seleção"
 
 msgid "Item Count"
-msgstr "Contagem de itens"
+msgstr "Contagem dos itens"
 
 msgid "Item(s)"
 msgstr ""
@@ -705,13 +714,13 @@ msgid "Large Icons"
 msgstr "Ícones grandes"
 
 msgid "Last check:"
-msgstr "Última verificação:"
+msgstr "Última verificação"
 
 msgid "Last hour"
 msgstr "Última hora"
 
 msgid "Last twenty-four hours"
-msgstr "Últimas 24 horas"
+msgstr "Últimas 24 horas."
 
 msgid "Launch Files Only"
 msgstr "Executar arquivos"
@@ -723,13 +732,13 @@ msgid "Left"
 msgstr "Esquerda"
 
 msgid "Link Name"
-msgstr "Nome do atalho"
+msgstr "Nome do link"
 
 msgid "List"
 msgstr "Lista"
 
 msgid "Live Update"
-msgstr "Atualização livre"
+msgstr ""
 
 msgid "Load Skin..."
 msgstr "Carregar skin..."
@@ -753,19 +762,19 @@ msgid "Loading..."
 msgstr "Carregando ..."
 
 msgid "Location"
-msgstr "Endereço"
+msgstr "Examinar:"
 
 msgid "Lock"
 msgstr "Bloquear"
 
 msgid "Lock Toolbars"
-msgstr "Bloquear barra de ferramentas"
+msgstr "Fixar barra de ferramentas"
 
 msgid "Logoff"
 msgstr "Logoff"
 
 msgid "MB"
-msgstr "MB"
+msgstr "Mb"
 
 msgid "Main Menu"
 msgstr "Menu Principal"
@@ -780,7 +789,7 @@ msgid "Map Network Drive..."
 msgstr "Mapear unidade de rede"
 
 msgid "Max Level:"
-msgstr "Nícel máxima:"
+msgstr "Nível máximo:"
 
 msgid "Medium"
 msgstr "Médio"
@@ -840,16 +849,16 @@ msgid "New version (%s) is available. Do you want to update now?"
 msgstr "Nova versão (%s) disponível. Quer atualizar agora?"
 
 msgid "No Extension"
-msgstr "Sem Extensão"
+msgstr "Sem extensão"
 
 msgid "No Selection"
-msgstr "Sem Seleção"
+msgstr "Sem seleção"
 
 msgid "No file loaded."
 msgstr "Nenhum arquivo selecionado."
 
 msgid "No new updates"
-msgstr "Nenhuma atualização disponível!"
+msgstr "Nenhuma atualização disponível"
 
 msgid "None"
 msgstr "Nenhum"
@@ -894,19 +903,19 @@ msgid "Open in new tab by default"
 msgstr "Abrir em nova aba"
 
 msgid "Open last used"
-msgstr "Abrir última usada"
+msgstr "Abrir último usado"
 
 msgid "Open new tab as"
 msgstr "Abrir nova aba como"
 
 msgid "Open new tab next to current"
-msgstr "Abrir nova aba ao lado da aba ativa"
+msgstr "Abrir nova aba ao lado atual"
 
 msgid "Open selected"
-msgstr "Abrir selecionada"
+msgstr "Abrir selecionado"
 
 msgid "Open..."
-msgstr "Abrir ..."
+msgstr "Abrir..."
 
 msgid "Opening..."
 msgstr "Abrir..."
@@ -948,7 +957,7 @@ msgid "Pause"
 msgstr "Pausa"
 
 msgid "Please choose different hotkey."
-msgstr "Por favor escolha um hotkey diferente."
+msgstr "Por favor escolha um Hotkey diferente."
 
 msgid "Port"
 msgstr "Porta"
@@ -994,6 +1003,18 @@ msgstr "Refazer"
 
 msgid "Refresh"
 msgstr "Atualizar"
+
+msgid "Refresh Fileview"
+msgstr "Atualizar visualização de arquivos"
+
+msgid "Register"
+msgstr "Registrar"
+
+msgid "Registered successfully!"
+msgstr "Registrado com sucesso!"
+
+msgid "Registration failed!"
+msgstr "Falha ao registrar"
 
 msgid "Regular expression"
 msgstr "Expressão normal"
@@ -1047,7 +1068,7 @@ msgid "Restore List"
 msgstr "Restaurar lista"
 
 msgid "Restoring multiple items!"
-msgstr "Restaurar múltiplos itens!"
+msgstr "Restaurar múltiplos itens"
 
 msgid "Reuse already open tabs"
 msgstr "Reutilizar abas abertas"
@@ -1116,7 +1137,7 @@ msgid "Search in Directory"
 msgstr "Localizar na pasta"
 
 msgid "Searching from"
-msgstr "Pesquisando a partir de"
+msgstr "Localizar a partir de"
 
 msgid "Select All"
 msgstr "Selecionar tudo"
@@ -1278,7 +1299,7 @@ msgid "Stop"
 msgstr "Parar"
 
 msgid "Stretch"
-msgstr "Forçar"
+msgstr "Esticar"
 
 msgid "Strict"
 msgstr "Estrito"
@@ -1308,7 +1329,7 @@ msgid "System Power"
 msgstr ""
 
 msgid "TB"
-msgstr "TB"
+msgstr ""
 
 msgid "Tabs"
 msgstr "Abas"
@@ -1421,6 +1442,15 @@ msgstr "Desfazer excluir"
 msgid "Undo Tab Close"
 msgstr "Desfazer fechar aba"
 
+msgid "Unregister"
+msgstr "Desregistrar"
+
+msgid "Unregistered successfully!"
+msgstr "Desregistrado com sucesso!"
+
+msgid "Unregistration failed!"
+msgstr "Falha ao desregistrar"
+
 msgid "Untitled"
 msgstr "Sem título"
 
@@ -1440,7 +1470,7 @@ msgid "Updates"
 msgstr "Atualizações"
 
 msgid "Updates Settings"
-msgstr "Configuração das Atualizações"
+msgstr "Configuração das atualizações"
 
 msgid "Use Options->Updates to change them."
 msgstr "Use: Opções -> Atualizações para alterar."
@@ -1479,13 +1509,13 @@ msgid "WARNING! You are about to restore %d items."
 msgstr "ATENÇÃO! Você está prestes a restaurar %d iten(s)."
 
 msgid "WARNING: Real file operations below"
-msgstr ""
+msgstr "ATENÇÃO: Operações reais de arquivo abaixo"
 
 msgid "Warning"
 msgstr "Atenção"
 
 msgid "Warning: changes are made immediately!"
-msgstr "Atenção: as mudanças tem efeito imediato!"
+msgstr "Atenção: as mudanças são feitas imediatamente!"
 
 msgid "Warning: password will be saved in clear text!"
 msgstr "Atenção: a senha será guardada em texto plano!"

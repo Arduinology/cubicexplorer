@@ -201,6 +201,7 @@ object CEPoEditor: TCEPoEditor
         Caption = 'Publish Translation'
         Enabled = False
         TabOrder = 1
+        Visible = False
       end
     end
     object WordsSheet: TSpTBXTabSheet
