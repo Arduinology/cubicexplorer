@@ -236,7 +236,6 @@ begin
       begin
         combo_filterpattern.Text:= '';
         FilterTimer.Enabled:= false;
-        Filters.PatternText:= '';
         Filters.ClearFilters;
       end;
       Filters.ExplorerEasyListview:= TCEFileViewPage(NewPage).FileView;
@@ -247,7 +246,6 @@ begin
       begin
         combo_filterpattern.Text:= '';
         FilterTimer.Enabled:= false;
-        Filters.PatternText:= '';
         Filters.ClearFilters;
       end;
       Filters.ExplorerEasyListview:= TCESearchPage(NewPage).ResultView;
@@ -272,8 +270,7 @@ procedure TCEFiltersPanel.GlobalContentChange(Sender: TObject);
 begin
   if Filters.Active then
   begin
-    Filters.PopulateTree;
-    Filters.DoFiltering;
+    Filters.DoFiltering(true);
   end;
 end;
 
@@ -318,7 +315,6 @@ begin
   begin
     combo_filterpattern.Text:= '';
     FilterTimer.Enabled:= false;
-    Filters.PatternText:= '';
     Filters.ClearFilters;
   end;
 end;
@@ -401,10 +397,8 @@ procedure TCEFiltersPanel.ClearFilters;
 begin
   combo_filterpattern.Text:= '';
   FilterTimer.Enabled:= false;
-  Filters.PatternText:= '';
   Filters.ClearFilters;
   GlobalFileViewSettings.ClearFilters;
-  Filters.PopulateTree;
   combo_filterpatternChange(combo_filterpattern);
 end;
 

@@ -59,6 +59,7 @@ type
     fExplorerEasyListview: TCustomVirtualExplorerEasyListview;
     fExcludeFromResults: Boolean;
     fPatternText: WideString;
+    fRefreshItemCount: Boolean;
     fShowAllExtensions: Boolean;
     fShowFolders: Boolean;
     fShowAllNode: PVirtualNode;
@@ -84,15 +85,15 @@ type
         TColumnIndex; TextType: TVSTTextType); override;
     procedure HandleMouseDown(var Message: TWMMouse; var HitInfo: THitInfo);
         override;
+    procedure PopulateTree;
   public
     ActiveFilters: TTntStrings;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure ClearFilters;
     procedure DeFilter;
-    procedure DoFiltering;
+    procedure DoFiltering(ReCountExtensions: Boolean = true);
     function FindByExtension(ext: WideString): PVirtualNode;
-    procedure PopulateTree;
     property Active: Boolean read fActive write SetActive;
     property FilteringImage: TBitmap read fFilteringImage write fFilteringImage;
     property ExplorerEasyListview: TCustomVirtualExplorerEasyListview read
@@ -106,6 +107,9 @@ type
         SetShowFilteringBackground;
     property ShowFolders: Boolean read fShowFolders write SetShowFolders;
     property UseWildcards: Boolean read fUseWildcards write SetUseWildcards;
+  published
+    property RefreshItemCount: Boolean read fRefreshItemCount write
+        fRefreshItemCount;
   end;
 
 implementation
@@ -129,6 +133,7 @@ begin
   fActive:= false;
   fPatternText:= '';
   fUseWildcards:= false;
+  fRefreshItemCount:= true;
 end;
 
 {*------------------------------------------------------------------------------
@@ -146,8 +151,10 @@ end;
 procedure TCEFilterList.ClearFilters;
 begin
   ActiveFilters.Clear;
-  ShowAllExtensions:= true;
-  ShowFolders:= true;
+  fShowAllExtensions:= true;
+  fShowFolders:= true;
+  fPatternText:= '';
+  DoFiltering(true);
 end;
 
 {*------------------------------------------------------------------------------
@@ -155,13 +162,13 @@ end;
 -------------------------------------------------------------------------------}
 function TCEFilterList.FindByExtension(ext: WideString): PVirtualNode;
 var
-  d: PFilterItem;
+  data: PFilterItem;
 begin
   Result:= Self.GetFirst;
   while assigned(Result) do
   begin
-    d:= Self.GetNodeData(Result);
-    if WideCompareText(d.extension, ext) = 0 then
+    data:= Self.GetNodeData(Result);
+    if (WideCompareText(data.extension, ext) = 0) and (Result <> fShowAllNode) and (Result <> fShowFoldersNode) then
     break
     else
     Result:= Result.NextSibling;
@@ -174,8 +181,6 @@ end;
 procedure TCEFilterList.PopulateTree;
 var
   i: Integer;
-  item: TEasyItem;
-  NS: TNamespace;
   data, dataAllItem, dataFolderItem: PFilterItem;
   node: PVirtualNode;
 begin
@@ -199,7 +204,7 @@ begin
     fShowAllNode.CheckState:= csCheckedNormal;
     dataAllItem:= Self.GetNodeData(fShowAllNode);
     dataAllItem.ShowAllItem:= true;
-    // Add Filter nodes
+    // Add Active Filter nodes
     for i:= 0 to ActiveFilters.Count - 1 do
     begin
       node:= Self.AddChild(nil);
@@ -209,147 +214,147 @@ begin
       data.extension:= ActiveFilters.Strings[i];
       data.count:= 0;
     end;
-
-    for i:= 0 to TCustomVirtualExplorerEasyListviewHack(fExplorerEasyListview).ItemCount - 1 do
-    begin
-      item:= TCustomVirtualExplorerEasyListviewHack(fExplorerEasyListview).Items.Items[i];
-      fExplorerEasyListview.ValidateNamespace(item, NS);
-      if assigned(NS) then
-      begin
-        if (not NS.Folder) or (WideCompareText(NS.Extension,'.zip') = 0) then
-        begin
-          Inc(dataAllItem.Count, 1);
-          if NS.Extension <> '' then
-          begin
-            node:= FindByExtension(NS.Extension);
-            if assigned(node) then
-            begin
-              data:= Self.GetNodeData(node);
-              Inc(data.count,1);
-            end
-            else
-            begin
-              node:= Self.AddChild(nil);
-              node.CheckType:= ctCheckBox;
-              data:= Self.GetNodeData(node);
-              data.extension:= NS.Extension;
-              data.count:= 1;
-            end;
-          end
-          else
-          begin
-            node:= FindByExtension('none');
-            if assigned(node) then
-            begin
-              data:= Self.GetNodeData(node);
-              Inc(data.count,1);
-            end
-            else
-            begin
-              node:= Self.AddChild(nil);
-              node.CheckType:= ctCheckBox;
-              data:= Self.GetNodeData(node);
-              data.extension:= 'none';
-              data.count:= 1;
-            end;          
-          end;
-        end
-        else
-        begin
-          Inc(dataFolderItem.Count, 1);
-        end;
-      end;
-    end;
   finally
     Self.EndUpdate;
     Self.SortTree(-1,sdAscending);
   end;
 end;
 
-{*------------------------------------------------------------------------------
-  Do filtering
+{-------------------------------------------------------------------------------
+  DoFiltering
 -------------------------------------------------------------------------------}
-procedure TCEFilterList.DoFiltering;
+procedure TCEFilterList.DoFiltering(ReCountExtensions: Boolean = true);
+var
+  pattern: WideString;
+
+  // IncreaseExtCount
+  procedure IncreaseExtCount(ns: TNamespace);
+  var
+    node: PVirtualNode;
+    data: PFilterItem;
+  begin
+    if ns.Folder then 
+    begin
+      // update folder node
+      data:= Self.GetNodeData(fShowFoldersNode);
+      data.Count:= data.Count + 1;
+    end
+    else
+    begin
+      node:= FindByExtension(ns.Extension);
+      if not assigned(node) then
+      begin
+        // add new extension node
+        node:= Self.AddChild(nil);
+        node.CheckType:= ctCheckBox;
+        data:= Self.GetNodeData(node);
+        data.Extension:= ns.Extension;
+        data.Count:= 1;
+      end
+      else 
+      begin
+        // update existing extension node
+        data:= Self.GetNodeData(node);
+        data.Count:= data.Count + 1;
+      end;
+      // update all files node
+      data:= Self.GetNodeData(fShowAllNode);
+      data.Count:= data.Count + 1;
+    end;
+  end;
+
+  // PatternFilterMatch
+  function PatternFilterMatch(ns: TNamespace): Boolean;
+  begin
+    Result:= WideStringMatch(NS.NameParseAddressInFolder, pattern);
+  end;
+
 var
   i: Integer;
   item: TEasyItem;
-  NS: TNamespace;
+  ns: TNamespace;
   NoFiltering: Boolean;
-  pattern: WideString;
   view: TCustomVirtualExplorerEasyListviewHack;
+  doPatternFiltering: Boolean;
 begin
   if not assigned(fExplorerEasyListview) then
   Exit;
 
+  // Init values
   if UseWildcards then
   pattern:= PatternText
   else
   pattern:= '*' + PatternText + '*';
-
-  NoFiltering:= true;
   view:= TCustomVirtualExplorerEasyListviewHack(fExplorerEasyListview);
+  doPatternFiltering:= (PatternText <> '');
+  NoFiltering:= true;
+
+  if ReCountExtensions then
+  begin
+    Self.BeginUpdate;
+    PopulateTree;
+  end;
   view.BeginUpdate;
   try
-    for i:= 0 to view.ItemCount - 1 do
+    for i:= 0 to view.Items.Count-1 do
     begin
-      NS:= nil;
       item:= view.Items.Items[i];
-      // Show all files
-      if (ActiveFilters.Count = 0) or fShowAllExtensions then
+      if view.ValidateNamespace(item, ns) then
       begin
-        // Hide/Show folders
-        if not fShowFolders then
+        // Pattern filtering and ReCounting
+        if doPatternFiltering then
         begin
-          if view.ValidateNamespace(item, NS) then
+          if ExcludeFromResults then
+          item.Visible:= not PatternFilterMatch(ns)
+          else
+          item.Visible:= PatternFilterMatch(ns);
+
+          if item.Visible then
           begin
-            if NS.Folder and (WideCompareText(NS.Extension,'.zip') <> 0) then
-            item.Visible:= false
-            else
-            item.Visible:= true;
+            if ReCountExtensions then
+            IncreaseExtCount(ns);
           end;
         end
         else
-        item.Visible:= true;
-      end
-      // Filter extensions
-      else
-      begin
-        if view.ValidateNamespace(item, NS) then
         begin
-          if NS.Folder and (WideCompareText(NS.Extension,'.zip') <> 0) then
-          item.Visible:= fShowFolders
-          else
-          begin
-            if NS.Extension = '' then
-            item.Visible:= ActiveFilters.IndexOf('none') > -1
-            else
-            item.Visible:= ActiveFilters.IndexOf(NS.Extension) > -1;
-
-            if ExcludeFromResults then
-            item.Visible:= not item.Visible;
-          end;
+          item.Visible:= true;
+          if ReCountExtensions then
+          IncreaseExtCount(ns);
         end;
-      end;
-      // Text filtering
-      if item.Visible and (PatternText <> '') then
-      begin
-        if not assigned(NS) then
-        view.ValidateNamespace(item, NS);
-        
-        item.Visible:= WideStringMatch(NS.NameParseAddressInFolder, pattern);
 
-        if ExcludeFromResults then
-        item.Visible:= not item.Visible;
+        // Extension filtering
+        if item.Visible then
+        begin
+          // files
+          if not ns.Folder then
+          begin
+            if not ExcludeFromResults then
+              item.Visible:= fShowAllExtensions or
+                             (ActiveFilters.IndexOf(ns.Extension) > -1)
+            else
+              item.Visible:= fShowAllExtensions or
+                             (ActiveFilters.IndexOf(ns.Extension) = -1);
+          end
+          // folders
+          else
+          item.Visible:= fShowFolders;
+        end;
       end;
 
       if NoFiltering then
       NoFiltering:= item.Visible;
     end;
   finally
+    if ReCountExtensions then
+    begin
+      Self.SortTree(-1, sdAscending);
+      Self.EndUpdate;
+    end;
+
     if fShowFilteringBackground then
     view.BackGround.Enabled:= not NoFiltering;
-    
-    view.EndUpdate;
+
+    view.EndUpdate(true);
   end;
 end;
 
@@ -392,7 +397,7 @@ begin
   Text:= _('Show All Files') + ' (' + IntToStr(data.count) + ')'
   else if data.ShowFoldersItem then
   Text:= _('Show Folders') + ' (' + IntToStr(data.count) + ')'
-  else if data.Extension = 'none' then
+  else if data.Extension = '' then
   begin
     Text:= _('No Extension') + ' (' + IntToStr(data.count) + ')';
   end
@@ -409,35 +414,51 @@ var
   data: PFilterItem;
 begin
   data:= Self.GetNodeData(Node);
+  // Show All Files item
   if data.ShowAllItem then
   begin
     ShowAllExtensions:= (Node.CheckState = csCheckedNormal) or (ActiveFilters.Count = 0);
     Self.Repaint;
   end
+  // Show Folders item
   else if data.ShowFoldersItem then
   begin
     ShowFolders:= (Node.CheckState = csCheckedNormal);
     Self.Repaint;
   end
+  // Extension item
   else
   begin
-    n:= Self.GetFirst;
-    ActiveFilters.Clear;
-    while assigned(n) do
-    begin
-      if n.CheckState = csCheckedNormal then
+    Self.BeginUpdate;
+    try
+      n:= Self.GetFirst;
+      ActiveFilters.Clear;
+      while assigned(n) do
       begin
-        data:= Self.GetNodeData(n);
-        if not data.ShowAllItem and not data.ShowFoldersItem then
-        ActiveFilters.Add(data.extension);
+        if n.CheckState = csCheckedNormal then
+        begin
+          data:= Self.GetNodeData(n);
+          if not data.ShowAllItem and not data.ShowFoldersItem then
+          ActiveFilters.Add(data.extension);
+        end;
+        n:= n.NextSibling;
       end;
-      n:= n.NextSibling;
+
+      // update Show All Files item
+      fShowAllExtensions:= ActiveFilters.Count = 0;
+      if assigned(fShowAllNode) then
+      begin
+        if fShowAllExtensions then
+        fShowAllNode.CheckState:= csCheckedNormal
+        else
+        fShowAllNode.CheckState:= csUncheckedNormal;
+      end;
+
+      // filter (no recount needed)
+      DoFiltering(false);
+    finally
+      Self.EndUpdate;
     end;
-
-    ShowAllExtensions:= ActiveFilters.Count = 0;
-
-    DoFiltering;
-    Self.Repaint;
   end;
 end;
 
@@ -451,17 +472,17 @@ var
 begin
   data1:= GetNodeData(Node1);
   data2:= GetNodeData(Node2);
-  if data1.ShowFoldersItem then
+  if data1.ShowFoldersItem then // "Show Folders" should be first
   Result:= -1
-  else if data2.ShowFoldersItem then
+  else if data2.ShowFoldersItem then // "Show Folders" should be first
   Result:= 1
-  else if data1.ShowAllItem then
+  else if data1.ShowAllItem then // "Show All Files" should be second
   Result:= -1
-  else if data2.ShowAllItem then
+  else if data2.ShowAllItem then // "Show All Files" should be second
   Result:= 1
-  else if data1.Extension = 'none' then
+  else if data1.Extension = '' then // "No Extension" should be last
   Result:= 1
-  else if data2.Extension = 'none' then
+  else if data2.Extension = '' then // "No Extension" should be last
   Result:= -1
   else
   Result:= CompareText(data1.Extension, data2.Extension);
@@ -478,6 +499,7 @@ begin
   inherited;
 
   data:= Self.GetNodeData(Node);
+  // Show Folders item
   if data.ShowFoldersItem then
   begin
     if Node.CheckState = csCheckedNormal then
@@ -485,6 +507,7 @@ begin
     else
     Canvas.Font.Color:= clBtnShadow;
   end
+  // Show All Files item
   else if fShowAllExtensions then
   begin
     if data.ShowAllItem then
@@ -492,6 +515,7 @@ begin
     else
     Canvas.Font.Color:= clBtnShadow;
   end
+  // Extension item
   else
   begin
     if data.ShowAllItem then
@@ -505,6 +529,7 @@ begin
     Canvas.Font.Color:= clWindowText;
   end;
 
+  // Checked item
   if Node.CheckState = csCheckedNormal then
   begin
     if data.ShowAllItem or data.ShowFoldersItem then
@@ -512,6 +537,7 @@ begin
     else if not fShowAllExtensions then
     Canvas.Font.Style:= [fsBold];
   end
+  // UnChecked item
   else
   begin
     if data.ShowAllItem or data.ShowFoldersItem then
@@ -527,6 +553,8 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFilterList.HandleMouseDown(var Message: TWMMouse; var HitInfo:
     THitInfo);
+var
+  data: PFilterItem;
 begin
   inherited;
   if not assigned(HitInfo.HitNode) then
@@ -536,10 +564,22 @@ begin
   begin
     if hiOnItemLabel in HitInfo.HitPositions then
     begin
-      if HitInfo.HitNode.CheckState = csCheckedNormal then
-      Self.CheckState[HitInfo.HitNode]:= csUncheckedNormal
+      data:= Self.GetNodeData(HitInfo.HitNode);
+      if data.ShowAllItem then
+      begin
+        // clear extension filters
+        Self.CheckState[HitInfo.HitNode]:= csCheckedNormal;
+        fShowAllExtensions:= true;
+        ActiveFilters.Clear;
+        DoFiltering(true);
+      end
       else
-      Self.CheckState[HitInfo.HitNode]:= csCheckedNormal;
+      begin
+        if HitInfo.HitNode.CheckState = csCheckedNormal then
+        Self.CheckState[HitInfo.HitNode]:= csUncheckedNormal
+        else
+        Self.CheckState[HitInfo.HitNode]:= csCheckedNormal;
+      end;
     end;
   end;
 end;
@@ -561,8 +601,8 @@ begin
 
     if fActive then
     begin
-      PopulateTree;
-      DoFiltering;
+      // filter (recount needed)
+      DoFiltering(true);
     end
     else
     DeFilter;
@@ -585,7 +625,8 @@ begin
   if fShowAllExtensions <> Value then
   begin
     fShowAllExtensions:= Value;
-    DoFiltering;
+    // filter (no need to recount)
+    DoFiltering(false);
   end;
 end;
 
@@ -599,8 +640,8 @@ begin
     fActive:= Value;
     if fActive then
     begin
-      PopulateTree;
-      DoFiltering;
+      // filter (recount needed)
+      DoFiltering(true);
     end
     else
     DeFilter;
@@ -630,8 +671,8 @@ begin
 
   if fActive then
   begin
-    PopulateTree;
-    DoFiltering;
+    // filter to set the background visibility (no recount needed)
+    DoFiltering(false);
   end;
 end;
 
@@ -651,7 +692,8 @@ begin
   if fShowFolders <> Value then
   begin
     fShowFolders:= Value;
-    DoFiltering;
+    // filter (no recount needed)
+    DoFiltering(false);
   end;
 end;
 
@@ -685,7 +727,8 @@ begin
   if Value <> fExcludeFromResults then
   begin
     fExcludeFromResults:= Value;
-    DoFiltering;
+    // filter (do recount if pattern is used)
+    DoFiltering(fPatternText <> '');
   end;
 end;
 
@@ -697,7 +740,8 @@ begin
   if Value <> fPatternText then
   begin
     fPatternText:= Value;
-    DoFiltering;
+    // filter (do recount)
+    DoFiltering(true);
   end;
 end;
 
@@ -707,7 +751,8 @@ end;
 procedure TCEFilterList.SetUseWildcards(const Value: Boolean);
 begin
   fUseWildcards:= Value;
-  DoFiltering;
+  // filter (do recount if pattern is used)
+  DoFiltering(fPatternText <> '');
 end;
 
 {*------------------------------------------------------------------------------
