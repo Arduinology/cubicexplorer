@@ -815,6 +815,9 @@ object CEActions: TCEActions
   object BackgroundCMItems_down: TTntPopupMenu
     Left = 64
     Top = 168
+    object NewFolder1: TTntMenuItem
+      Action = act_edit_newfolder
+    end
     object N3: TTntMenuItem
       Caption = '-'
     end

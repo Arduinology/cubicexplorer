@@ -229,6 +229,7 @@ type
     act_navi_refresh_current: TTntAction;
     act_filters_strict: TTntAction;
     act_filters_exclude: TTntAction;
+    NewFolder1: TTntMenuItem;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
