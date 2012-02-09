@@ -1,5 +1,6 @@
 9.2.2012
 + Added "Restore Default Layout" button to Help menu and Options->Display.
+* Changed Text editor default title from "Untitled" to "New text file".
 
 8.2.2012
 * Filter list now updated file counts when text filter is used.

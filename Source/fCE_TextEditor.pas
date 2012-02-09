@@ -1035,8 +1035,8 @@ procedure TCETextEditorPage.UpdateCaption;
 begin
   if fActiveFile = '' then
   begin
-    TabCaption:= _('Untitled');
-    label_path.Caption:= _('Untitled');
+    TabCaption:= _('New text file');
+    label_path.Caption:= _('New text file');
     TabItem.Images:= CE_Images.SmallIcons;
     TabItem.ImageIndex:= 21;
   end
