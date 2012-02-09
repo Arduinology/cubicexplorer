@@ -219,6 +219,8 @@ type
     SpTBXItem97: TSpTBXItem;
     SpTBXSeparatorItem30: TSpTBXSeparatorItem;
     SpTBXItem98: TSpTBXItem;
+    SpTBXSeparatorItem31: TSpTBXSeparatorItem;
+    but_reset_layout: TSpTBXItem;
     procedure AutoUpdateTimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -234,6 +236,7 @@ type
     procedure TabPopupMenuPopup(Sender: TObject);
     procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer);
+    procedure but_reset_layoutClick(Sender: TObject);
   private
     fFullscreen: Boolean;
     fActiveLanguage: WideString;
@@ -1699,6 +1702,22 @@ begin
       Message.Result:= 0;
       inherited;
     end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On but_reset_layout.Click
+-------------------------------------------------------------------------------}
+procedure TMainForm.but_reset_layoutClick(Sender: TObject);
+begin
+  Layouts.LoadDefaultLayout;
+  if assigned(TabSet.ActiveTab) then
+  begin
+    Layouts.LoadLayout(TabSet.ActiveTab.Page.Layout,
+                       TabSet.ActiveTab.Page.Settings.RememberInnerToolbarLayout,
+                       TabSet.ActiveTab.Page.Settings.RememberOuterToolbarLayout,
+                       TabSet.ActiveTab.Page.Settings.RememberPanelLayout,
+                       True);
   end;
 end;
 

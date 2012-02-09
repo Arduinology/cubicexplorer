@@ -24,4 +24,12 @@ inherited CEOptionsPage_Display: TCEOptionsPage_Display
     TabOrder = 1
     OnClick = HandleChange
   end
+  object TntButton1: TTntButton
+    Left = 16
+    Top = 288
+    Width = 177
+    Height = 33
+    Action = CEActions.act_help_restore_layout
+    TabOrder = 2
+  end
 end

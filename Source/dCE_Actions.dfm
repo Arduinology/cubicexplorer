@@ -729,6 +729,12 @@ object CEActions: TCEActions
       ImageIndex = 64
       OnExecute = ActionExecute
     end
+    object act_help_restore_layout: TTntAction
+      Tag = 508
+      Category = 'Help'
+      Caption = 'Restore Default Layout'
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

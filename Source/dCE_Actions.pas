@@ -230,6 +230,7 @@ type
     act_filters_strict: TTntAction;
     act_filters_exclude: TTntAction;
     NewFolder1: TTntMenuItem;
+    act_help_restore_layout: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -809,6 +810,7 @@ end;
 procedure ExecuteHelpCategory(ActionID: Integer);
 var
   form: TCEPoEditorForm;
+  h: HWND;
 begin
   case ActionID of
     501: ShellExecute(0,'open','http://www.cubicreality.com','','',SW_NORMAL);
@@ -828,6 +830,26 @@ begin
     505: ShellExecute(0,'open','http://www.cubicreality.com/donate/','','',SW_NORMAL);
     506: ShowVersionManager;
     507: MainForm.AutoUpdater.CheckForUpdates(true);
+    508: begin
+      if assigned(CEOptionsDialog) then
+      h:= CEOptionsDialog.Handle
+      else
+      h:= MainForm.Handle;
+      if WideMessageBox(h, 'Restore Default Layout',
+                        'Are you sure you want to restore default layout?',
+                        MB_ICONQUESTION or MB_YESNO) = idYes then
+      begin
+        MainForm.Layouts.LoadDefaultLayout;
+        if assigned(MainForm.TabSet.ActiveTab) then
+        begin
+          MainForm.Layouts.LoadLayout(MainForm.TabSet.ActiveTab.Page.Layout,
+                                      MainForm.TabSet.ActiveTab.Page.Settings.RememberInnerToolbarLayout,
+                                      MainForm.TabSet.ActiveTab.Page.Settings.RememberOuterToolbarLayout,
+                                      MainForm.TabSet.ActiveTab.Page.Settings.RememberPanelLayout,
+                                      True);
+        end;
+      end;
+    end;
   end;
 end;
 

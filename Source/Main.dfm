@@ -412,6 +412,11 @@ object MainForm: TMainForm
         object SpTBXItem83: TSpTBXItem
           Action = CEActions.act_help_poedit_form
         end
+        object SpTBXSeparatorItem31: TSpTBXSeparatorItem
+        end
+        object but_reset_layout: TSpTBXItem
+          Action = CEActions.act_help_restore_layout
+        end
         object SpTBXSeparatorItem29: TSpTBXSeparatorItem
         end
         object SpTBXItem97: TSpTBXItem

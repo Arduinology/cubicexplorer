@@ -84,9 +84,11 @@ type
     AppStorage: TJvAppXMLFileStorage;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    procedure LoadDefaultLayout;
     procedure LoadFromFile(AFilePath: WideString);
     procedure LoadLayout(LayoutName: String; LoadInnerToolbarLayout,
-        LoadOuterToolbarLayout, LoadFormLayout: Boolean);
+        LoadOuterToolbarLayout, LoadFormLayout: Boolean; ForceReload: Boolean =
+        false);
     procedure LoadSettingsForToolbars;
     procedure SaveCurrentLayout;
     procedure SaveLayout(LayoutName: String; SaveInnerToolbarLayout,
@@ -223,6 +225,20 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Load Default Layout
+-------------------------------------------------------------------------------}
+procedure TCELayoutController.LoadDefaultLayout;
+begin
+  AppStorage.BeginUpdate;
+  try
+    AppStorage.Xml.LoadFromResourceName(hInstance, 'DEFAULT_LAYOUT_DATA');
+  finally
+    AppStorage.EndUpdate;
+    InitSelf;
+  end;
+end;
+
 {*------------------------------------------------------------------------------
   Load layout configuration from file
 -------------------------------------------------------------------------------}
@@ -282,7 +298,8 @@ end;
   Load layout
 -------------------------------------------------------------------------------}
 procedure TCELayoutController.LoadLayout(LayoutName: String;
-    LoadInnerToolbarLayout, LoadOuterToolbarLayout, LoadFormLayout: Boolean);
+    LoadInnerToolbarLayout, LoadOuterToolbarLayout, LoadFormLayout: Boolean;
+    ForceReload: Boolean = false);
 var
   s: String;
 begin
@@ -296,7 +313,7 @@ begin
       s:= LayoutName
       else
       s:= DefaultLayoutName;
-      if s <> CurrentFormLayout then
+      if (s <> CurrentFormLayout) or ForceReload then
       begin
         LoadDockedForms(AppStorage, s);
         CurrentFormLayout:= s;
@@ -321,7 +338,7 @@ begin
         if LoadOuterToolbarLayout then
         begin
           s:= LayoutName;
-          if s <> CurrentOuterToolbarLayout then
+          if (s <> CurrentOuterToolbarLayout) or ForceReload then
           begin
             LoadPositionsForToolbars(AppStorage, s, tdtOuter);
             CurrentOuterToolbarLayout:= s;
@@ -339,7 +356,7 @@ begin
         s:= LayoutName
         else
         s:= DefaultLayoutName;
-        if s <> CurrentInnerToolbarLayout then
+        if (s <> CurrentInnerToolbarLayout) or ForceReload then
         begin
           LoadPositionsForToolbars(AppStorage, s, tdtInner);
           CurrentInnerToolbarLayout:= s;

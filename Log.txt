@@ -1,3 +1,10 @@
+9.2.2012
++ Added "Restore Default Layout" button to Help menu and Options->Display.
+
+8.2.2012
+* Filter list now updated file counts when text filter is used.
++ Added "New Folder" to the background menu.
+
 7.2.2012
 * Updated Brazilian Portuguese translation (thanks to Luciano Sturaro).
 * Updated Russian translation (thanks to sergus).

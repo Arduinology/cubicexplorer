@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  fCE_OptionsDialog, fCE_OptionsCustomPage, CE_LanguageEngine,
+  fCE_OptionsDialog, fCE_OptionsCustomPage, CE_LanguageEngine, dCE_Actions,
   // SpTBX
   SpTBXSkins,
   // Tnt
@@ -39,6 +39,7 @@ type
     TntLabel1: TTntLabel;
     combo_theme: TComboBox;
     check_path_in_title: TTntCheckBox;
+    TntButton1: TTntButton;
   private
     { Private declarations }
   public
