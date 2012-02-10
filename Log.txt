@@ -1,7 +1,10 @@
 10.2.2012
 + Added advanced option MainForm->ChangeCurrentDirVar. Setting it to False will fix "Folder in use" bug.
 - Fixed background text bug when file/folder is added in empty folder.
+---
 + Added icon for InfoBar.
+---
++ Added confirmation prompt if open dialogs are found when quitting CE.
 
 9.2.2012
 + Added "Restore Default Layout" button to Help menu and Options->Display.

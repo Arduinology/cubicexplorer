@@ -120,6 +120,8 @@ function ForceForegroundWindow(hwnd: THandle): Boolean;
 
 procedure ForceForegroundWindow2(hwnd: THandle);
 
+function FindDialogWindow(AProcessID: DWORD = 0): HWND;
+
 var
   MenuKeyCaps: array[TMenuKeyCap] of string = (
     SmkcBkSp, SmkcTab, SmkcEsc, SmkcEnter, SmkcSpace, SmkcPgUp,
@@ -1159,6 +1161,54 @@ begin
   finally
     hlp.Free;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  FindDialogWindow (if AProcessID = 0, MainThread is used)
+-------------------------------------------------------------------------------}
+var
+  fDlgWindow: HWND;
+  
+  function EnumWindowsProc(hHwnd: HWND; lParam : integer): boolean; stdcall;
+  var
+    pid : DWORD;
+    ClassName : string;
+  begin
+    if (hHwnd=0) then
+    begin
+      Result:= false;
+    end
+    else
+    begin
+      GetWindowThreadProcessId(hHwnd, pid);
+
+      if pid <> DWORD(lParam) then
+      begin
+        Result:= true;
+        Exit;
+      end;
+
+      SetLength(ClassName, 255);
+      SetLength(ClassName, GetClassName(hHwnd, PChar(ClassName), 255));
+
+      if ClassName = '#32770' then
+      fDlgWindow:= hHwnd;
+      
+      Result:= fDlgWindow = 0;
+    end;
+  end;
+
+function FindDialogWindow(AProcessID: DWORD = 0): HWND;
+var
+  pid: DWORD;
+begin
+  fDlgWindow:= 0;
+  if AProcessID <> 0 then
+  pid:= AProcessID
+  else
+  GetWindowThreadProcessId(Application.MainFormHandle, pid);
+  EnumWindows(@EnumWindowsProc, pid);
+  Result:= fDlgWindow;
 end;
 
 {##############################################################################}

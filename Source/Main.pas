@@ -890,7 +890,27 @@ end;
   Get's called on MainForm CloseQuery.
 -------------------------------------------------------------------------------}
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+var
+  h: HWND;
 begin
+  // Close options dialog
+  if assigned(CEOptionsDialog) then
+  CEOptionsDialog.Close;
+
+  // Check if dialogs are present. If so, show a warning.
+  h:= FindDialogWindow;
+  if h <> 0 then
+  begin
+    BringWindowToTop(h);
+    if WideMessageBox(h, 'Open dialog found!',
+                      'File operation might be still running!'#13#10'Are you sure you want to quit?',
+                      MB_ICONQUESTION or MB_YESNO) <> idYes then
+    begin      
+      CanClose:= false;
+      Exit;
+    end;
+  end;
+
   fCEIsClosing:= true;
   CEActions.UpdateTimer.Enabled:= false;
 
