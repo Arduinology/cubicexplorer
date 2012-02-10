@@ -902,8 +902,8 @@ begin
   if h <> 0 then
   begin
     BringWindowToTop(h);
-    if WideMessageBox(h, 'Open dialog found!',
-                      'File operation might be still running!'#13#10'Are you sure you want to quit?',
+    if WideMessageBox(h, _('Dialog found!'),
+                      _('File operation might be still running!')+#13#10+_('Are you sure you want to quit?'),
                       MB_ICONQUESTION or MB_YESNO) <> idYes then
     begin      
       CanClose:= false;

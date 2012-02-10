@@ -410,7 +410,7 @@ msgstr "Mod de afisare"
 msgid "Display Settings"
 msgstr "Setari Vedere"
 
-msgid "Do you really wan't to update?"
+msgid "Do you really want to update?"
 msgstr "Chiar vrei sa actualizezi?"
 
 msgid "Do you want to override existing session?"

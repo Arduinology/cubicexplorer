@@ -2559,7 +2559,7 @@ msgid "One or more files are missing!"
 msgstr "一つ以上のファイルが不足しています!"
 
 #: fCE_VersionMgrForm.pas:233
-msgid "Do you really wan't to update?"
+msgid "Do you really want to update?"
 msgstr "本当にアップデートしますか？"
 
 #: fCE_VersionMgrForm.pas:268
