@@ -576,6 +576,7 @@ object CEActions: TCEActions
       Tag = 336
       Category = 'View'
       Caption = 'Info Bar'
+      ImageIndex = 66
       OnExecute = ActionExecute
     end
     object act_edit_create_symlink: TTntAction
