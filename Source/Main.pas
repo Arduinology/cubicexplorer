@@ -329,6 +329,7 @@ type
     function GetSingleInstance: Boolean;
     function GetSkin: string;
     function GetAutoLoadSession: WideString;
+    function GetChangeCurrentDirVar: Boolean;
     function GetCheckForUpdateTypes: TCEBuildTypes;
     function GetLastUpdateCheck: TDateTime;
     function GetLockToolbars: Boolean;
@@ -347,6 +348,7 @@ type
     procedure SetSingleInstance(const Value: Boolean);
     procedure SetSkin(const Value: string);
     procedure SetAutoLoadSession(const Value: WideString);
+    procedure SetChangeCurrentDirVar(const Value: Boolean);
     procedure SetCheckForUpdateTypes(const Value: TCEBuildTypes);
     procedure SetLastUpdateCheck(const Value: TDateTime);
     procedure SetLockToolbars(const Value: Boolean);
@@ -379,6 +381,8 @@ type
     property Skin: string read GetSkin write SetSkin;
     property AutoLoadSession: WideString read GetAutoLoadSession write
         SetAutoLoadSession;
+    property ChangeCurrentDirVar: Boolean read GetChangeCurrentDirVar write
+        SetChangeCurrentDirVar;
     property CheckForUpdateTypes: TCEBuildTypes read GetCheckForUpdateTypes write
         SetCheckForUpdateTypes;
     property CloseToTray: Boolean read fCloseToTray write fCloseToTray;
@@ -2009,6 +2013,18 @@ end;
 procedure TMainFormSettings.SetLockToolbars(const Value: Boolean);
 begin
   Form.LockToolbars:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set ChangeCurrentDirVar
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetChangeCurrentDirVar: Boolean;
+begin
+  Result:= GlobalPathCtrl.ChangeCurrentDirVar;
+end;
+procedure TMainFormSettings.SetChangeCurrentDirVar(const Value: Boolean);
+begin
+  GlobalPathCtrl.ChangeCurrentDirVar:= Value;
 end;
 
 {##############################################################################}

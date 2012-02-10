@@ -50,6 +50,7 @@ type
   TCEPathCtrl = class(TObject)
   private
     fActivePage: TComponent;
+    fChangeCurrentDirVar: Boolean;
     fCurrentPath: WideString;
     fFocusChanging: Boolean;
     fGlobalPathCaption: WideString;
@@ -67,6 +68,8 @@ type
     procedure RegisterNotify(ReceiverCtrl: TComponent);
     procedure ChangeGlobalContent(Sender: TObject);
     property ActivePage: TComponent read fActivePage write SetActivePage;
+    property ChangeCurrentDirVar: Boolean read fChangeCurrentDirVar write
+        fChangeCurrentDirVar;
     property CurrentPath: WideString read fCurrentPath;
     property GlobalPathCaption: WideString read fGlobalPathCaption write
         SetGlobalPathCaption;
@@ -102,6 +105,7 @@ constructor TCEPathCtrl.Create;
 begin
   inherited;
   fGlobalPathCtrls:= TComponentList.Create(false);
+  fChangeCurrentDirVar:= false;
 end;
 
 {*------------------------------------------------------------------------------
@@ -174,7 +178,7 @@ begin
       if Supports(fGlobalPathCtrls.Items[i], ICEPathChangeHandler, PathHandler) then
       PathHandler.GlobalPIDLChanged(Sender, APIDL);
     end;
-  end; 
+  end;
   // Active Component
   if Assigned(fActivePage) and (Sender <> fActivePage) then
   begin
@@ -183,6 +187,7 @@ begin
   end;
 
   fCurrentPath:= PIDLToCEPath(APIDL);
+  if ChangeCurrentDirVar then
   WideSetCurrentDir(fCurrentPath);
   fPathChanging:= false;
 end;

@@ -634,6 +634,7 @@ begin
     begin
       if not fPathChanging then
       GlobalPathCtrl.ChangeGlobalPathPIDL(Self, Namespace.AbsolutePIDL);
+
       if FileView.Active then
       GlobalFileViewSettings.AssignColumnSettingsFrom(FileView);
     end;

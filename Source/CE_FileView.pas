@@ -114,6 +114,7 @@ type
         TVirtualShellNewItem; var Path, FileName: WideString; var Allow: Boolean);
     procedure SetNotifyFolder(Namespace: TNamespace);
     procedure SetView(Value: TEasyListStyle); override;
+    procedure UpdateBackgroundText;
     procedure WMKillFocus(var Message: TWMKillFocus); message WM_KillFocus;
     procedure WMSetFocus(var Msg: TWMSetFocus); message WM_SETFOCUS;
     property ColumnIndex: Integer read fColumnIndex write fColumnIndex;
@@ -417,6 +418,7 @@ begin
       fPasteFocusSet:= true;
     end;
   end;
+  UpdateBackgroundText;
 end;
 
 {-------------------------------------------------------------------------------
@@ -865,19 +867,7 @@ end;
 procedure TCEFileView.DoShellNotify(ShellEvent: TVirtualShellEvent);
 begin
   inherited;
-  // Show Empty Folder text
-  if Self.Groups.ItemCount = 0 then
-  begin
-    if IsEmptyFolder(Self.RootFolderNamespace) then
-    self.BackGround.Caption:= _('Empty folder')
-    else
-    self.BackGround.Caption:= _('Contains hidden items');
-    Self.BackGround.CaptionShow:= true;
-  end
-  else
-  begin
-    Self.BackGround.CaptionShow:= false;
-  end;  
+  UpdateBackgroundText;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1198,6 +1188,26 @@ begin
     begin
       ChangeNotifier.UnRegisterKernelChangeNotify(Self);
     end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  UpdateBackgroundText
+-------------------------------------------------------------------------------}
+procedure TCEFileView.UpdateBackgroundText;
+begin
+  // Show Empty Folder text
+  if Self.Groups.ItemCount = 0 then
+  begin
+    if IsEmptyFolder(Self.RootFolderNamespace) then
+    self.BackGround.Caption:= _('Empty folder')
+    else
+    self.BackGround.Caption:= _('Contains hidden items');
+    Self.BackGround.CaptionShow:= true;
+  end
+  else
+  begin
+    Self.BackGround.CaptionShow:= false;
   end;
 end;
 
