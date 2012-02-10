@@ -1192,7 +1192,10 @@ var
       SetLength(ClassName, GetClassName(hHwnd, PChar(ClassName), 255));
 
       if ClassName = '#32770' then
-      fDlgWindow:= hHwnd;
+      begin
+        if IsWindowVisible(hHwnd) then
+        fDlgWindow:= hHwnd;
+      end;
       
       Result:= fDlgWindow = 0;
     end;
