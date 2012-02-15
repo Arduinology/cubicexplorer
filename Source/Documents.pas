@@ -127,6 +127,7 @@ Unit Documents;
 // 667 = Undo Close Tab
 // 668 = Switch to Next Tab
 // 669 = Switch to Previous Tab
+// 670 = Tabs list
 
 // **** QuickView (700) ****
     // begin - group 700 -->
@@ -152,6 +153,8 @@ Unit Documents;
 
 // **** Misc (900) ****
 // 901 = Clear Filters
+// 902 = Strict filtering
+// 903 = Exclude filtering
 
 // **** Focus (950) ****
 // 951 = Set focus to address bar

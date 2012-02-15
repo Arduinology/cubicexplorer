@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1424\n"
+"CE-POT-Version: 1459\n"
 "CE-Language: Spanish\n"
 "Last-Translator: Javier Gutiérrez <guti.bitacoras.com@gmail.com>\n"
 
@@ -130,6 +130,9 @@ msgstr "¿Está seguro que querer eliminar esta sesión?"
 
 msgid "Are you sure you want to do that?"
 msgstr ""
+
+msgid "Are you sure you want to quit?"
+msgstr "¿Está seguro de querer salir?"
 
 msgid "Are you sure you want to restore?"
 msgstr "¿Está seguro de que desea restaurar?"
@@ -380,6 +383,9 @@ msgstr "Días límite"
 msgid "Default"
 msgstr "Predeterminado"
 
+msgid "Default File Manager"
+msgstr "Administrador de archivos"
+
 msgid "Default hotkeys become available after restart!"
 msgstr "¡Las teclas de acceso rápido por defecto estarán disponibles tras reiniciar!"
 
@@ -397,6 +403,9 @@ msgstr "Escritorio"
 
 msgid "Details"
 msgstr "Detalles"
+
+msgid "Dialog found!"
+msgstr "¡Diálogo encontrado!"
 
 msgid "Direction"
 msgstr "Dirección"
@@ -518,6 +527,9 @@ msgstr "Inglés (por defecto)"
 msgid "Enter each file mask on a separate line."
 msgstr "Introduce cada máscara de archivo en una linea separada."
 
+msgid "Exclude"
+msgstr "Excluir"
+
 msgid "Exclude File Masks:"
 msgstr "Excluir máscaras de archivo:"
 
@@ -541,6 +553,9 @@ msgstr "Máscara de nombre de archivo"
 
 msgid "File Search"
 msgstr "Buscar Archivo"
+
+msgid "File operation might be still running!"
+msgstr "¡Operación con archivos en funcionamiento!"
 
 msgid "File size format:"
 msgstr "Formato de tamaño de archivo"
@@ -640,6 +655,9 @@ msgstr "Ayuda"
 
 msgid "Hex"
 msgstr "Hex"
+
+msgid "Hibernate"
+msgstr "Hibernar"
 
 msgid "Hidden"
 msgstr "Ocultos"
@@ -764,6 +782,15 @@ msgstr "Cargando..."
 msgid "Location"
 msgstr "Ubicación"
 
+msgid "Lock"
+msgstr "Bloquear"
+
+msgid "Lock Toolbars"
+msgstr "Bloquear barras de herramientas"
+
+msgid "Logoff"
+msgstr ""
+
 msgid "MB"
 msgstr "MB"
 
@@ -835,6 +862,9 @@ msgstr "Nueva Versión disponible"
 
 msgid "New Window"
 msgstr "Nueva ventana"
+
+msgid "New text file"
+msgstr "Nuevo archivo de texto"
 
 msgid "New version (%s) is available. Do you want to update now?"
 msgstr "Disponible nueva versión (%s). ¿Quieres actualizar ahora?"
@@ -989,6 +1019,9 @@ msgstr "Descargar de nuevo"
 msgid "Read Only"
 msgstr "Solo lectura"
 
+msgid "Reboot"
+msgstr "Reiniciar"
+
 msgid "Recycle Bin"
 msgstr "Papelera de reciclaje"
 
@@ -997,6 +1030,18 @@ msgstr "Rehacer"
 
 msgid "Refresh"
 msgstr "Actualizar"
+
+msgid "Refresh Fileview"
+msgstr "Actualizar vista de archivos"
+
+msgid "Register"
+msgstr "Registrar"
+
+msgid "Registered successfully!"
+msgstr "¡Registro exitoso!"
+
+msgid "Registration failed!"
+msgstr "¡Registro fallido!"
 
 msgid "Regular expression"
 msgstr "Expresión regular"
@@ -1045,6 +1090,9 @@ msgstr "Restaurar"
 
 msgid "Restore All"
 msgstr "Restaurar todo"
+
+msgid "Restore Default Layout"
+msgstr ""
 
 msgid "Restore List"
 msgstr "Restaurar lista"
@@ -1134,7 +1182,7 @@ msgid "Select existing translation or create new."
 msgstr "Seleccionar traducción existente o crear nueva"
 
 msgid "Select first item automatically"
-msgstr "Seleccionar primer item automáticamente"
+msgstr "Seleccionar primer elemento automáticamente"
 
 msgid "Select previous folder"
 msgstr "Seleccionar carpeta previa"
@@ -1203,7 +1251,7 @@ msgid "Show InfoTips"
 msgstr "Mostrar InfoTips"
 
 msgid "Show Path in Title bar"
-msgstr "Mostrar la Ruta en la Barra de Titulo"
+msgstr "Mostrar la ruta en la barra de título"
 
 msgid "Show Session Manager"
 msgstr "Mostrar administrador de sesiones"
@@ -1223,6 +1271,9 @@ msgstr "Mostrar más pestañas"
 msgid "Show/Hide"
 msgstr "Mostrar/ocultar"
 
+msgid "Shut down"
+msgstr "Apagar"
+
 msgid "Single Instance Only"
 msgstr "Solo una instancia"
 
@@ -1240,6 +1291,9 @@ msgstr "Tamaño"
 
 msgid "Size && Attributes"
 msgstr "Tamaño y atributos"
+
+msgid "Sleep"
+msgstr ""
 
 msgid "Small"
 msgstr "Pequeño"
@@ -1294,6 +1348,9 @@ msgstr "Sistema"
 
 msgid "System Folders"
 msgstr "Carpetas del sistema"
+
+msgid "System Power"
+msgstr ""
 
 msgid "TB"
 msgstr "TB"
@@ -1412,6 +1469,15 @@ msgstr "Cancelar borrado"
 msgid "Undo Tab Close"
 msgstr "Deshacer cerrar pestaña"
 
+msgid "Unregister"
+msgstr "Quitar registro"
+
+msgid "Unregistered successfully!"
+msgstr "¡Registro removido exitosamente!"
+
+msgid "Unregistration failed!"
+msgstr "¡Fallo al remover registro!"
+
 msgid "Untitled"
 msgstr "Sin título"
 
@@ -1485,7 +1551,7 @@ msgid "Weekly"
 msgstr "Semanalmente"
 
 msgid "When I open folder/file in a new tab, switch to it immediately "
-msgstr "Al abrir la carpeta/archivo en una nueva pestaña, Cambiar inmediatamente a la pestaña"
+msgstr "Al abrir la carpeta/archivo en una nueva pestaña, enfocar la pestaña"
 
 msgid "Whole Word"
 msgstr "Palabra completa"

@@ -736,6 +736,12 @@ object CEActions: TCEActions
       Caption = 'Restore Default Layout'
       OnExecute = ActionExecute
     end
+    object act_tabs_menu: TCEToolbarAction
+      Tag = 670
+      Category = 'Tabs'
+      Caption = 'Tabs'
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

@@ -1,3 +1,6 @@
+11.2.2012
++ Added Tabs toolbar button.
+================================================================================
 10.2.2012
 + Added advanced option MainForm->ChangeCurrentDirVar. Setting it to False will fix "Folder in use" bug.
 - Fixed background text bug when file/folder is added in empty folder.

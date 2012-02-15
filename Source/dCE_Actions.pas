@@ -231,6 +231,7 @@ type
     act_filters_exclude: TTntAction;
     NewFolder1: TTntMenuItem;
     act_help_restore_layout: TTntAction;
+    act_tabs_menu: TCEToolbarAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -404,6 +405,7 @@ begin
   act_filters_pattern.ItemClass:= TCEFilterPatternItem;
   act_edit_undo_delete.ItemClass:= TCEUndoDeleteButton;
   act_tools_systempower.ItemClass:= TCESystemPowerButton;
+  act_tabs_menu.ItemClass:= TCETabsButton;
 end;
 
 {##############################################################################}
@@ -1145,6 +1147,7 @@ begin
   case ActionID of
     661..662,664: TargetAction.Enabled:= assigned(MainForm.TabSet.ActivePopupTab) or (MainForm.TabSet.GetActiveTab <> nil);
     667: TargetAction.Enabled:= MainForm.TabSet.CanUndoTabClose;
+    670: TargetAction.Enabled:= MainForm.TabSet.TabCount > 1;
   end;
 end;
 

@@ -175,6 +175,15 @@ type
     constructor Create(AOwner: TComponent); override;
   end;
 
+type
+  TCETabsButton = class(TCEToolbarSubmenuItem)
+  protected
+    procedure DoPopup(Sender: TTBCustomItem; FromLink: Boolean); override;
+    procedure DoSubClick(Sender: TObject); virtual;
+  public
+    constructor Create(AOwner: TComponent); override;
+  end;
+
 var
   GlobalButtonSettings: TCEButtonSettings;
 
@@ -183,7 +192,7 @@ implementation
 uses
   CE_FileView, fCE_FileView, CE_BaseFileView, dCE_Actions, dCE_Images, Main,
   CE_Sessions, fCE_FiltersPanel, CE_Utils, MPShellTypes, CE_CommonObjects,
-  CE_AppSettings, CE_SystemUtils;
+  CE_AppSettings, CE_SystemUtils, CE_SpTabBar, SpTBXTabs;
 
 {##############################################################################}
 
@@ -1149,6 +1158,56 @@ begin
   item.OnClick:= HandleItemClick;
   item.Tag:= 6;
   Self.Add(item);
+end;
+
+{##############################################################################}
+// TCETabsButton
+
+{*------------------------------------------------------------------------------
+  Create an instance of TCETabsButton
+-------------------------------------------------------------------------------}
+constructor TCETabsButton.Create(AOwner: TComponent);
+begin
+  inherited;
+  Self.DropdownCombo:= false;
+  Self.Options:= [tboDropdownArrow];
+end;
+
+{*------------------------------------------------------------------------------
+  Do Button Popup
+-------------------------------------------------------------------------------}
+procedure TCETabsButton.DoPopup(Sender: TTBCustomItem; FromLink:
+    Boolean);
+var
+  tab: TCESpTabItem;
+  item: TSpTBXItem;
+  i: Integer;
+begin
+  Self.Clear;
+  for i:= 0 to MainForm.TabSet.Items.Count - 1 do
+  begin
+    // add item
+    if MainForm.TabSet.Items.Items[i] is TCESpTabItem then
+    begin
+      tab:= TCESpTabItem(MainForm.TabSet.Items.Items[i]);
+      item:= TSpTBXItem.Create(Self);
+      item.Caption:= tab.Caption;
+      item.Images:= tab.Images;
+      item.ImageIndex:= tab.ImageIndex;
+      item.Tag:= Integer(tab);
+      item.Checked:= tab.Checked;
+      item.OnClick:= DoSubClick;  
+      Self.Add(item); 
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Do SubClick
+-------------------------------------------------------------------------------}
+procedure TCETabsButton.DoSubClick(Sender: TObject);
+begin
+  MainForm.TabSet.SelectTab(TSpTBXTabItem(TSpTBXItem(Sender).Tag));
 end;
 
 {##############################################################################}
