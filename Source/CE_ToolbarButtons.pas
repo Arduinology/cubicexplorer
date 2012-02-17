@@ -149,6 +149,7 @@ type
 
   TCEButtonSettings = class(TPersistent)
   private
+    fTabs_ShowTabControls: Boolean;
     function GetUndoDelete_ConfirmRestore: Boolean;
     function GetUndoDelete_DayLimit: Integer;
     function GetUndoDelete_ItemCount: Integer;
@@ -158,6 +159,8 @@ type
   public
     constructor Create;
   published
+    property Tabs_ShowTabControls: Boolean read fTabs_ShowTabControls write
+        fTabs_ShowTabControls;
     property UndoDelete_ConfirmRestore: Boolean read GetUndoDelete_ConfirmRestore
         write SetUndoDelete_ConfirmRestore;
     property UndoDelete_DayLimit: Integer read GetUndoDelete_DayLimit write
@@ -1031,6 +1034,7 @@ end;
 constructor TCEButtonSettings.Create;
 begin
   inherited Create;
+  fTabs_ShowTabControls:= true;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1181,23 +1185,78 @@ procedure TCETabsButton.DoPopup(Sender: TTBCustomItem; FromLink:
 var
   tab: TCESpTabItem;
   item: TSpTBXItem;
-  i: Integer;
+  sub: TCEToolbarSubmenuItem;
+  sep: TSpTBXSeparatorItem;
+  i,idx: Integer;
 begin
   Self.Clear;
+
+  if GlobalButtonSettings.Tabs_ShowTabControls then
+  begin
+    // add "Add Tab" item
+    sub:= TCEToolbarSubmenuItem.Create(Self);
+    sub.Action:= CEActions.act_tabs_addtab;
+    sub.Images:= CE_Images.SmallIcons;
+    Self.Add(sub);
+      // add "Duplicate Tab" item
+      item:= TSpTBXItem.Create(Self);
+      item.Action:= CEActions.act_tabs_duplicatetab;
+      item.Images:= CE_Images.SmallIcons;
+      sub.Add(item);
+    // add "Close Tab" item
+    sub:= TCEToolbarSubmenuItem.Create(Self);
+    sub.Action:= CEActions.act_tabs_closetab;
+    sub.Images:= CE_Images.SmallIcons;
+    Self.Add(sub);
+      // add "Undo Tab Close" item
+      item:= TCEClosedTabsListButton.Create(Self);
+      item.Action:= CEActions.act_tabs_undo;
+      item.Images:= CE_Images.SmallIcons;
+      sub.Add(item);
+      // add Separator
+      sep:= TSpTBXSeparatorItem.Create(Self);
+      sub.Add(sep);
+      // add "Close Other Tabs" item
+      item:= TSpTBXItem.Create(Self);
+      item.Action:= CEActions.act_tabs_closeothertabs;
+      item.Images:= CE_Images.SmallIcons;
+      sub.Add(item);
+      // add "Close Tabs on Left" item
+      item:= TSpTBXItem.Create(Self);
+      item.Action:= CEActions.act_tabs_closeonleft;
+      item.Images:= CE_Images.SmallIcons;
+      sub.Add(item);
+      // add "Close Tabs on Right" item
+      item:= TSpTBXItem.Create(Self);
+      item.Action:= CEActions.act_tabs_closeonright;
+      item.Images:= CE_Images.SmallIcons;
+      sub.Add(item);
+
+    // add Separator
+    sep:= TSpTBXSeparatorItem.Create(Self);
+    Self.Add(sep);
+  end;
+
+  // add tab items
+  idx:= 0;
   for i:= 0 to MainForm.TabSet.Items.Count - 1 do
   begin
-    // add item
     if MainForm.TabSet.Items.Items[i] is TCESpTabItem then
     begin
+      idx:= idx + 1;
       tab:= TCESpTabItem(MainForm.TabSet.Items.Items[i]);
       item:= TSpTBXItem.Create(Self);
-      item.Caption:= tab.Caption;
+      item.Caption:=  IntToStr(idx) + ': ' + tab.Caption;
+      item.Hint:= tab.Hint;
+      item.Options:= [tboShowHint];
       item.Images:= tab.Images;
       item.ImageIndex:= tab.ImageIndex;
       item.Tag:= Integer(tab);
       item.Checked:= tab.Checked;
+      if item.Checked then
+      item.FontSettings.Style:= [fsBold];
       item.OnClick:= DoSubClick;  
-      Self.Add(item); 
+      Self.Add(item);
     end;
   end;
 end;

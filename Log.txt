@@ -1,3 +1,13 @@
+17.2.2012
++ Added tab controls to Tabs toolbar button.
++ Added icon for Tabs menu.
+* Updated French translation (thanks to BB).
+- Fixed translation bug.
+- Fixed tab X button draw bug.
+
+15.2.2012
+* Updated Spanish translation (thanks to juanmanuel).
+
 11.2.2012
 + Added Tabs toolbar button.
 ================================================================================

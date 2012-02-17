@@ -740,6 +740,7 @@ object CEActions: TCEActions
       Tag = 670
       Category = 'Tabs'
       Caption = 'Tabs'
+      ImageIndex = 67
       OnExecute = ActionExecute
     end
   end

@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1449\n"
+"CE-POT-Version: 1459\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
 
@@ -130,6 +130,9 @@ msgstr "Etes-vous sûr(e) de vouloir supprimer cette session ?"
 
 msgid "Are you sure you want to do that?"
 msgstr "Etes-vous certain(e) de vouloir faire cela ?"
+
+msgid "Are you sure you want to quit?"
+msgstr "Etes-vous sûr(e) de vouloir quitter ?"
 
 msgid "Are you sure you want to restore?"
 msgstr "Etes-vous sûr(e) de vouloir restaurer ?"
@@ -410,6 +413,9 @@ msgstr " Bureau"
 msgid "Details"
 msgstr "Détails"
 
+msgid "Dialog found!"
+msgstr "Boîte de dialogue trouvée !"
+
 msgid "Direction"
 msgstr "Direction"
 
@@ -530,6 +536,9 @@ msgstr "Anglais (par défaut)"
 msgid "Enter each file mask on a separate line."
 msgstr "Entrez chaque masque de fichiers sur une ligne distincte."
 
+msgid "Exclude"
+msgstr "Exclure"
+
 msgid "Exclude File Masks:"
 msgstr "Masques de fichier exclus :"
 
@@ -553,6 +562,9 @@ msgstr "Masque pour le nom du fichier :"
 
 msgid "File Search"
 msgstr "Recherche de fichiers"
+
+msgid "File operation might be still running!"
+msgstr "Une opération sur un ou des fichiers est peut être encore en cours d'exécution !"
 
 msgid "File size format:"
 msgstr "Format pour la taille des fichiers :"
@@ -866,8 +878,11 @@ msgstr "Nouvelle version disponible"
 msgid "New Window"
 msgstr "Nouvelle fenêtre"
 
+msgid "New text file"
+msgstr "Nouveau fichier texte"
+
 msgid "New version (%s) is available. Do you want to update now?"
-msgstr "Une nouvelle version (%s) est disponible. Souhaitez-vous mettre à jour maintenant ?"
+msgstr "Une nouvelle version (%s) est disponible. Souhaitez-vous mettre à jour CubicExplorer maintenant ?"
 
 msgid "No Extension"
 msgstr "Pas d'extension"
@@ -1087,6 +1102,9 @@ msgstr "Restaurer"
 
 msgid "Restore All"
 msgstr "Restaurer toute la corbeille"
+
+msgid "Restore Default Layout"
+msgstr "Restaurer barres d'outils et volets"
 
 msgid "Restore List"
 msgstr "Restaurer la liste"
@@ -1329,7 +1347,7 @@ msgid "Stretch"
 msgstr "Etirer"
 
 msgid "Strict"
-msgstr "Strict"
+msgstr "Filtrage strict"
 
 msgid "Subdirectories"
 msgstr "Sous-répertoires"
@@ -1506,7 +1524,7 @@ msgid "Use Options->Updates to change them."
 msgstr "Allez dans "Options"->"Mises à jour" pour faire votre choix."
 
 msgid "Use strict filtering (wildcards are ? and *)"
-msgstr "Filtrage strict (les jokers sont ? et *)"
+msgstr "Filtrage strict (les caractères génériques sont ? et *)"
 
 msgid "Use system settings"
 msgstr " Utiliser les paramètres système"

@@ -837,8 +837,8 @@ begin
       h:= CEOptionsDialog.Handle
       else
       h:= MainForm.Handle;
-      if WideMessageBox(h, 'Restore Default Layout',
-                        'Are you sure you want to restore default layout?',
+      if WideMessageBox(h, _('Restore Default Layout'),
+                        _('Are you sure you want to restore default layout?'),
                         MB_ICONQUESTION or MB_YESNO) = idYes then
       begin
         MainForm.Layouts.LoadDefaultLayout;

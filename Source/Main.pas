@@ -221,6 +221,8 @@ type
     SpTBXItem98: TSpTBXItem;
     SpTBXSeparatorItem31: TSpTBXSeparatorItem;
     but_reset_layout: TSpTBXItem;
+    SpTBXSubmenuItem2: TSpTBXSubmenuItem;
+    SpTBXItem99: TSpTBXItem;
     procedure AutoUpdateTimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
