@@ -392,9 +392,7 @@ end;
 destructor TCEFileViewPage.Destroy;
 begin
   if GlobalPathCtrl.ActivePage = Self then
-  begin
-    GlobalPathCtrl.ActivePage:= nil;
-  end;
+  GlobalPathCtrl.ActivePage:= nil;
   FileView.Free;
   InfoBar.Free;
   InfoBarSplitter.Free;
@@ -696,8 +694,6 @@ end;
 procedure TCEFileViewPage.UpdateCaption;
 begin
   TabCaption:= FileView.RootFolderNamespace.NameNormal;
-//  TCESpTabItem(TabItem).NormalImages:= SmallSysImages;
-//  TCESpTabItem(TabItem).NormalImageIndex:= FileView.RootFolderNamespace.GetIconIndex(false, icSmall);
   TCESpTabItem(TabItem).Images:= SmallSysImages;
   TCESpTabItem(TabItem).ImageIndex:= FileView.RootFolderNamespace.GetIconIndex(false, icSmall);
   TabItem.Hint:= FileView.RootFolderNamespace.NameParseAddress;

@@ -426,6 +426,8 @@ begin
             if propInfo.PropType^ = TypeInfo(Boolean) then
             begin
               propValueI:= GetOrdProp(AObject, propInfo);
+              addNode:= (propValueI <> propInfo.Default);
+              if addNode then
               propValue:= BoolToStr(Boolean(propValueI), StringBooleans);
             end
             else

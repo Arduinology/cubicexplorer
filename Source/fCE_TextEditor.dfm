@@ -274,6 +274,7 @@ inherited CETextEditorPage: TCETextEditorPage
       TabOrder = 5
       OnClick = SpTBXButton1Click
       Default = True
+      DrawPushedCaption = False
     end
     object SpTBXButton2: TSpTBXButton
       Left = 559
@@ -284,6 +285,7 @@ inherited CETextEditorPage: TCETextEditorPage
       Anchors = [akTop, akRight]
       TabOrder = 6
       OnClick = SpTBXButton2Click
+      DrawPushedCaption = False
     end
     object SpTBXButton3: TSpTBXButton
       Left = 559
@@ -294,6 +296,7 @@ inherited CETextEditorPage: TCETextEditorPage
       Anchors = [akTop, akRight]
       TabOrder = 7
       OnClick = SpTBXButton3Click
+      DrawPushedCaption = False
     end
     object opt_radio: TSpTBXRadioGroup
       Left = 559

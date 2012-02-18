@@ -345,6 +345,8 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCETextEditorPage.Destroy;
 begin
+  if CEActions.PageActionList = Self.ActionList then
+  CEActions.PageActionList:= nil;
   if GlobalPathCtrl.ActivePage = Self then
   GlobalPathCtrl.ActivePage:= nil;
   CloseDocument;
@@ -1062,10 +1064,6 @@ begin
   if Result then
   begin
     CETextEditorOptions.WordWrap:= Editor.WordWrap;
-    if GlobalPathCtrl.ActivePage = Self then
-    GlobalPathCtrl.ActivePage:= nil;
-    if CEActions.PageActionList = Self.ActionList then
-    CEActions.PageActionList:= nil;
   end
   else
   fClosing:= false;

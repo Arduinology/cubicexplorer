@@ -428,14 +428,6 @@ object MainForm: TMainForm
           Action = CEActions.act_help_about
         end
       end
-      object SpTBXSubmenuItem2: TSpTBXSubmenuItem
-        Caption = 'sub'
-        object SpTBXItem99: TSpTBXItem
-          Caption = 'test'
-          Hint = 'Lorem ipsum'
-          Options = [tboShowHint]
-        end
-      end
     end
     object ViewToolbar: TCEToolbar
       Left = 270

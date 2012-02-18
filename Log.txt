@@ -1,3 +1,7 @@
+18.2.2012
+- Fixed bug that might cause crash when closing File Search tab.
+* Session now remembers most of FileSearch settings.
+
 17.2.2012
 + Added tab controls to Tabs toolbar button.
 + Added icon for Tabs menu.

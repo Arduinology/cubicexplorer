@@ -84,6 +84,7 @@ inherited CESearchPage: TCESearchPage
         TabOrder = 0
         OnClick = but_search_startClick
         Default = True
+        DrawPushedCaption = False
       end
       object but_search_stop: TSpTBXButton
         Left = 15
@@ -93,6 +94,7 @@ inherited CESearchPage: TCESearchPage
         Caption = 'Stop'
         TabOrder = 1
         OnClick = but_search_stopClick
+        DrawPushedCaption = False
       end
       object check_clear_before: TSpTBXCheckBox
         Left = 17
@@ -223,6 +225,7 @@ inherited CESearchPage: TCESearchPage
             SpinButton.Height = 17
             SpinButton.Align = alRight
             SpinButton.Enabled = False
+            SpinButton.DrawPushedCaption = False
           end
           object combo_size_atleast: TSpTBXComboBox
             Left = 111
@@ -262,6 +265,7 @@ inherited CESearchPage: TCESearchPage
             SpinButton.Height = 17
             SpinButton.Align = alRight
             SpinButton.Enabled = False
+            SpinButton.DrawPushedCaption = False
           end
           object combo_size_atmost: TSpTBXComboBox
             Left = 111
@@ -750,6 +754,7 @@ inherited CESearchPage: TCESearchPage
           SpinButton.Height = 17
           SpinButton.Align = alRight
           SpinButton.Enabled = False
+          SpinButton.DrawPushedCaption = False
         end
         object check_minlevel: TSpTBXCheckBox
           Left = 142
@@ -782,6 +787,7 @@ inherited CESearchPage: TCESearchPage
           SpinButton.Height = 17
           SpinButton.Align = alRight
           SpinButton.Enabled = False
+          SpinButton.DrawPushedCaption = False
         end
         object edit_wordphrase: TSpTBXEdit
           Left = 12
@@ -834,6 +840,7 @@ inherited CESearchPage: TCESearchPage
           EditButton.Width = 20
           EditButton.Height = 17
           EditButton.Align = alRight
+          EditButton.DrawPushedCaption = False
           EditButton.DropDownMenu = FolderTreePopup
         end
       end

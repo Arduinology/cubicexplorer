@@ -237,10 +237,26 @@ type
 type
   TCEFileSearchPageSettings = class(TCECustomTabPageSettings)
   private
+    function GetClearResults: Boolean;
+    function GetContent: WideString;
+    function GetExt: WideString;
+    function GetMask: WideString;
+    function GetMaxLevel: Integer;
+    function GetMinLevel: Integer;
     function GetPath: WideString;
     function GetSubFolders: Boolean;
+    function GetUseMask: Boolean;
+    function GetWordPhrase: WideString;
+    procedure SetClearResults(const Value: Boolean);
+    procedure SetContent(const Value: WideString);
+    procedure SetExt(const Value: WideString);
+    procedure SetMask(const Value: WideString);
+    procedure SetMaxLevel(const Value: Integer);
+    procedure SetMinLevel(const Value: Integer);
     procedure SetPath(const Value: WideString);
     procedure SetSubFolders(const Value: Boolean);
+    procedure SetUseMask(const Value: Boolean);
+    procedure SetWordPhrase(const Value: WideString);
   protected
     function GetRememberPanelLayout: Boolean; override;
     function GetRememberInnerToolbarLayout: Boolean; override;
@@ -248,8 +264,16 @@ type
   public
     FileSearchPage: TCESearchPage;
   published
+    property ClearResults: Boolean read GetClearResults write SetClearResults default true;
+    property Content: WideString read GetContent write SetContent;
+    property Ext: WideString read GetExt write SetExt;
+    property Mask: WideString read GetMask write SetMask;
+    property MaxLevel: Integer read GetMaxLevel write SetMaxLevel default -1;
+    property MinLevel: Integer read GetMinLevel write SetMinLevel default -1;
     property Path: WideString read GetPath write SetPath;
-    property SubFolders: Boolean read GetSubFolders write SetSubFolders;
+    property SubFolders: Boolean read GetSubFolders write SetSubFolders default true; 
+    property UseMask: Boolean read GetUseMask write SetUseMask default false;
+    property WordPhrase: WideString read GetWordPhrase write SetWordPhrase;
   end;
 
 var
@@ -1125,10 +1149,116 @@ function TCEFileSearchPageSettings.GetSubFolders: Boolean;
 begin
   Result:= FileSearchPage.check_subfolders.Checked;
 end;
-
 procedure TCEFileSearchPageSettings.SetSubFolders(const Value: Boolean);
 begin
   FileSearchPage.check_subfolders.Checked:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set WordPhrase
+-------------------------------------------------------------------------------}
+function TCEFileSearchPageSettings.GetWordPhrase: WideString;
+begin
+  Result:= FileSearchPage.edit_wordphrase.Text;
+end;
+procedure TCEFileSearchPageSettings.SetWordPhrase(const Value: WideString);
+begin
+  FileSearchPage.edit_wordphrase.Text:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set Ext
+-------------------------------------------------------------------------------}
+function TCEFileSearchPageSettings.GetExt: WideString;
+begin
+  Result:= FileSearchPage.combo_extension.Text;
+end;
+procedure TCEFileSearchPageSettings.SetExt(const Value: WideString);
+begin
+  FileSearchPage.combo_extension.Text:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set Mask
+-------------------------------------------------------------------------------}
+function TCEFileSearchPageSettings.GetMask: WideString;
+begin
+  Result:= FileSearchPage.edit_filemask.Text;
+end;
+
+procedure TCEFileSearchPageSettings.SetMask(const Value: WideString);
+begin
+  FileSearchPage.edit_filemask.Text:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set UseMask
+-------------------------------------------------------------------------------}
+function TCEFileSearchPageSettings.GetUseMask: Boolean;
+begin
+  Result:= FileSearchPage.radio_name_mask.Checked;
+end;
+procedure TCEFileSearchPageSettings.SetUseMask(const Value: Boolean);
+begin
+  FileSearchPage.radio_name_mask.Checked:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set MinLevel
+-------------------------------------------------------------------------------}
+function TCEFileSearchPageSettings.GetMinLevel: Integer;
+begin
+  if FileSearchPage.check_minlevel.Checked then
+  Result:= Round(FileSearchPage.spin_minlevel.Value)
+  else
+  Result:= -1;
+end;
+procedure TCEFileSearchPageSettings.SetMinLevel(const Value: Integer);
+begin
+  FileSearchPage.check_minlevel.Checked:= Value > -1;
+  if FileSearchPage.check_minlevel.Checked then
+  FileSearchPage.spin_minlevel.Value:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set MaxLevel
+-------------------------------------------------------------------------------}
+function TCEFileSearchPageSettings.GetMaxLevel: Integer;
+begin
+  if FileSearchPage.check_maxlevel.Checked then
+  Result:= Round(FileSearchPage.spin_maxlevel.Value)
+  else
+  Result:= -1;
+end;
+procedure TCEFileSearchPageSettings.SetMaxLevel(const Value: Integer);
+begin
+  FileSearchPage.check_maxlevel.Checked:= Value > -1;
+  if FileSearchPage.check_maxlevel.Checked then
+  FileSearchPage.spin_maxlevel.Value:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set ClearResults
+-------------------------------------------------------------------------------}
+function TCEFileSearchPageSettings.GetClearResults: Boolean;
+begin
+  Result:= FileSearchPage.check_clear_before.Checked;
+end;
+procedure TCEFileSearchPageSettings.SetClearResults(const Value: Boolean);
+begin
+  FileSearchPage.check_clear_before.Checked:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set Content
+-------------------------------------------------------------------------------}
+function TCEFileSearchPageSettings.GetContent: WideString;
+begin
+  Result:= FileSearchPage.memo_content.Text;
+end;
+procedure TCEFileSearchPageSettings.SetContent(const Value: WideString);
+begin
+  FileSearchPage.memo_content.Text:= Value;
 end;
 
 {##############################################################################}

@@ -164,6 +164,8 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCECustomTabPage.Destroy;
 begin
+  if GlobalPathCtrl.ActivePage = Self then
+  GlobalPathCtrl.ActivePage:= nil;
   fSettings.Free;
   inherited;
 end;
@@ -294,7 +296,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCECustomTabPage.SelectPage;
 begin
-  // Override from descendant.
+  GlobalPathCtrl.ActivePage:= Self;
 end;
 
 {*------------------------------------------------------------------------------

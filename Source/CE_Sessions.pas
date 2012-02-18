@@ -745,10 +745,11 @@ procedure TCESessionList.LoadSession(ASession: TCESessionItem);
 
         AStorage.LoadObjectProperties(page.Settings, chNode);
 
-        if pageClass = TCEFileViewPage then
-        page.SelectPage; //TODO: This is a hack around a bug. TCustomEasyListview.Destroy will eventually cause crash without this for some unknown reason.
+//        if pageClass = TCEFileViewPage then
+//        page.SelectPage; //TODO: This is a hack around a bug. TCustomEasyListview.Destroy will eventually cause crash without this for some unknown reason.
 
         page.Active:= true;
+        page.UpdateCaption;
       end;
       chNode:= chNode.NextSibling;
     end;

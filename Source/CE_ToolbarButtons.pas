@@ -1241,14 +1241,16 @@ begin
   idx:= 0;
   for i:= 0 to MainForm.TabSet.Items.Count - 1 do
   begin
-    if MainForm.TabSet.Items.Items[i] is TCESpTabItem then
+    if MainForm.TabSet.Items.Items[i] is TCESpTabItem then                      
+      
     begin
       idx:= idx + 1;
       tab:= TCESpTabItem(MainForm.TabSet.Items.Items[i]);
       item:= TSpTBXItem.Create(Self);
-      item.Caption:=  IntToStr(idx) + ': ' + tab.Caption;
+      item.Caption:=  ' ' + IntToStr(idx) + ': ' + tab.Caption;
       item.Hint:= tab.Hint;
-      item.Options:= [tboShowHint];
+      item.Options:= [tboShowHint, tboToolbarStyle];
+      item.Alignment:= taLeftJustify;
       item.Images:= tab.Images;
       item.ImageIndex:= tab.ImageIndex;
       item.Tag:= Integer(tab);
