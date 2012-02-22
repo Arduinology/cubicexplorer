@@ -1,3 +1,6 @@
+22.2.2012
+* File Search now shows the search values in the tab title.
+
 18.2.2012
 - Fixed bug that might cause crash when closing File Search tab.
 * Session now remembers most of FileSearch settings.

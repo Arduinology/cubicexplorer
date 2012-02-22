@@ -721,6 +721,7 @@ inherited CESearchPage: TCESearchPage
           Anchors = [akLeft, akTop, akRight]
           Enabled = False
           TabOrder = 0
+          OnChange = edit_wordphraseChange
         end
         object SpTBXLabel2: TSpTBXLabel
           Left = 12
@@ -795,6 +796,7 @@ inherited CESearchPage: TCESearchPage
           Width = 159
           Height = 21
           TabOrder = 7
+          OnChange = edit_wordphraseChange
         end
         object radio_name_word: TSpTBXRadioButton
           Left = 10
@@ -816,6 +818,7 @@ inherited CESearchPage: TCESearchPage
           ItemHeight = 13
           TabOrder = 9
           Text = 'All'
+          OnChange = edit_wordphraseChange
         end
         object radio_name_mask: TSpTBXRadioButton
           Left = 242

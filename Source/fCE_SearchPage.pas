@@ -160,6 +160,7 @@ type
     procedure timer_statusTimer(Sender: TObject);
     procedure ResultViewHintCustomInfo(Sender: TCustomEasyListview;
       TargetObj: TEasyCollectionItem; Info: TEasyHintInfo);
+    procedure edit_wordphraseChange(Sender: TObject);
   private
     fStatus: WideString;
     fOpenFolderID: Integer;
@@ -345,6 +346,14 @@ begin
   CEFileSearchSettings.AssignSettingsFrom(Self);
   Find.Free;
   inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  edit_wordphrase Change
+-------------------------------------------------------------------------------}
+procedure TCESearchPage.edit_wordphraseChange(Sender: TObject);
+begin
+  UpdateCaption;
 end;
 
 {-------------------------------------------------------------------------------
@@ -593,6 +602,7 @@ begin
   edit_wordphrase.Enabled:= radio_name_word.Checked;
   combo_extension.Enabled:= radio_name_word.Checked;
   edit_filemask.Enabled:= radio_name_mask.Checked;
+  UpdateCaption;
 end;
 
 {-------------------------------------------------------------------------------
@@ -930,12 +940,30 @@ end;
   Update Tab item Caption
 -------------------------------------------------------------------------------}
 procedure TCESearchPage.UpdateCaption;
+var
+  ws: WideString;
 begin
   if assigned(TabItem) then
   begin
     TabItem.Images:= CE_Images.SmallIcons;
     TabItem.ImageIndex:= 22;
   end;
+
+  if radio_name_word.Checked then
+  begin
+    if edit_wordphrase.Text <> '' then
+    ws:= Trim(edit_wordphrase.Text);
+
+    if (combo_extension.ItemIndex <> 0) and (combo_extension.Text <> '') then
+    ws:= ws + ' .' + combo_extension.Text;
+
+  end
+  else
+  ws:= '[' + edit_filemask.Text + ']';
+
+  if (ws <> '') then
+  TabCaption:= _('Search') + ': ' + ws
+  else
   TabCaption:= _('File Search');
 end;
 
@@ -1176,6 +1204,7 @@ end;
 procedure TCEFileSearchPageSettings.SetExt(const Value: WideString);
 begin
   FileSearchPage.combo_extension.Text:= Value;
+  FileSearchPage.combo_extension.ItemIndex:= FileSearchPage.combo_extension.Items.IndexOf(Value);
 end;
 
 {-------------------------------------------------------------------------------
