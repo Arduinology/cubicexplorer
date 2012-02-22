@@ -743,6 +743,14 @@ object CEActions: TCEActions
       ImageIndex = 67
       OnExecute = ActionExecute
     end
+    object act_edit_newemptyfile: TTntAction
+      Tag = 217
+      Category = 'Edit'
+      Caption = 'New File'
+      ImageIndex = 36
+      ShortCut = 24654
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

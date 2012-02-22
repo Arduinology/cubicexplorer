@@ -128,6 +128,7 @@ type
         Boolean): TExplorerItem; override;
     procedure CalculateFolderSizes;
     procedure ClearHistory;
+    procedure CreateEmptyFile;
     procedure CreateNewFolder;
     procedure GoBackInHistory;
     procedure GoFolderUp;
@@ -568,6 +569,41 @@ begin
 
   if assigned(fOnViewStyleChange) then
   fOnViewStyleChange(self);
+end;
+
+{-------------------------------------------------------------------------------
+  Create Empty File
+-------------------------------------------------------------------------------}
+procedure TCEFileView.CreateEmptyFile;
+var
+  path: WideString;
+  NS: TNamespace;
+  item: TEasyItem;
+  h: THandle;
+begin
+  if WideDirectoryExists(RootFolderNamespace.NameForParsing) then
+  begin
+   path:= UniqueDirName(WideIncludeTrailingBackslash(RootFolderNamespace.NameForParsing) + _('New File'));
+
+   h:= CreateFileW(PWideChar(path),0,0,0,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,0);
+   if h <> INVALID_HANDLE_VALUE then
+   begin
+     CloseHandle(h);
+     if WideFileExists(path) then
+     begin
+       if not Self.Focused then
+       Self.SetFocus;
+       NS:= TNamespace.CreateFromFileName(path);
+       item:= AddCustomItem(nil,NS,true);
+       //Self.Selection.SelectRange(item,item,false,true);
+       Self.Selection.ClearAll;
+       item.MakeVisible(emvAuto);
+       item.Focused:= True;
+       item.Selected:= True;
+       item.Edit;
+     end;
+   end;
+  end;
 end;
 
 {-------------------------------------------------------------------------------

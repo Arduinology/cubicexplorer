@@ -1,5 +1,8 @@
 22.2.2012
 * File Search now shows the search values in the tab title.
+---
++ Added "New File" button.
+* Updated Italian translation (thanks to Folgore101).
 
 18.2.2012
 - Fixed bug that might cause crash when closing File Search tab.

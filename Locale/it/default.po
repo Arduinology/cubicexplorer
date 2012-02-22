@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: CE 0.95.1.1449 - 2012.01.17\n"
+"Project-Id-Version: CE 0.95.1.1459 - 2012.02.12\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1449\n"
+"CE-POT-Version: 1459\n"
 "CE-Language: Italian\n"
 "Last-Translator: Folgore101 <andrea.gramegna@gmail.com>\n"
 
@@ -130,6 +130,9 @@ msgstr "Sei sicuro di voler cancellare questa sessione?"
 
 msgid "Are you sure you want to do that?"
 msgstr "Sei sicuro di volerlo fare?"
+
+msgid "Are you sure you want to quit?"
+msgstr "Sei sicuro di voler uscire?"
 
 msgid "Are you sure you want to restore?"
 msgstr "Sei sicuro di voler ripristinare?"
@@ -407,6 +410,9 @@ msgstr "Desktop"
 msgid "Details"
 msgstr "Dettagli"
 
+msgid "Dialog found!"
+msgstr "Dialogo trovato!"
+
 msgid "Direction"
 msgstr "Direzione"
 
@@ -425,8 +431,11 @@ msgstr "Modalità Visualizzazione"
 msgid "Display Settings"
 msgstr "Impostazioni Visualizzazione"
 
-msgid "Do you really want to update?"
+msgid "Do you really wan't to update?"
 msgstr "Vuoi davvero aggiornare?"
+
+msgid "Do you really want to update?"
+msgstr "Vuoi veramente aggiornare?"
 
 msgid "Do you want to override existing session?"
 msgstr "Vuoi sovrascrivere la sessione esistente?"
@@ -527,6 +536,9 @@ msgstr "Inglese (predefinita)"
 msgid "Enter each file mask on a separate line."
 msgstr "Immetti ogni maschera di file su una linea separata."
 
+msgid "Exclude"
+msgstr "Escludere"
+
 msgid "Exclude File Masks:"
 msgstr "Escludi Maschera File:"
 
@@ -550,6 +562,9 @@ msgstr "Nome/Maschera File"
 
 msgid "File Search"
 msgstr "Ricerca file"
+
+msgid "File operation might be still running!"
+msgstr "L'operazione sul file potrebbe essere ancora in esecuzione!"
 
 msgid "File size format:"
 msgstr "Formato dimensione file:"
@@ -857,6 +872,9 @@ msgstr "Nuova Versione Disponibile"
 msgid "New Window"
 msgstr "Nuova Finestra"
 
+msgid "New text file"
+msgstr "Nuovo file di testo"
+
 msgid "New version (%s) is available. Do you want to update now?"
 msgstr "La nuova versione (%s) è disponibile. Vuoi aggiornare ora?"
 
@@ -1078,6 +1096,9 @@ msgstr "Ripristino"
 
 msgid "Restore All"
 msgstr "Ripristina Tutto"
+
+msgid "Restore Default Layout"
+msgstr "Ripristina il Layout Predefinito"
 
 msgid "Restore List"
 msgstr "Ripristina Lista"

@@ -232,6 +232,7 @@ type
     NewFolder1: TTntMenuItem;
     act_help_restore_layout: TTntAction;
     act_tabs_menu: TCEToolbarAction;
+    act_edit_newemptyfile: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -587,11 +588,10 @@ begin
                MessageBox(0, PChar(s), 'Clipboard error!', MB_ICONERROR or MB_OK);
              end;
            end;
-      212: begin
-             fileview.CreateNewFolder;
-           end;
+      212: fileview.CreateNewFolder;
       214: ShowCreateSymlinkDialog(fileview.RootFolderNamespace.NameForParsing, '');
       215: CERecycleBinCtrl.RestoreLastDeleted;
+      217: fileview.CreateEmptyFile;
     end;
   end;
 
@@ -652,7 +652,7 @@ begin
   if assigned(fileview) then
   begin
     case ActionID of
-      205,206,207,210,211,212: TargetAction.Enabled:= true;
+      205,206,207,210,211,212,217: TargetAction.Enabled:= true;
       214: TargetAction.Enabled:= (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion > 4);
       215: TargetAction.Enabled:= not CERecycleBinCtrl.IsRecycleBinEmpty;
     end;

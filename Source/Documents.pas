@@ -45,13 +45,14 @@ Unit Documents;
 // 207 = Show properties of selected items
 // 208 = Rename item
 // 209 = Duplicate
-// 210 = New File
+// 210 = New
 // 211 = Copy Path
 // 212 = New Folder
 // 213 = Paste to shortcut
 // 214 = Create Symbolic Link
 // 215 = Undo Delete
 // 216 = Calculate folder size
+// 217 = New Empty File
 
 // **** View (300) ****
 // 300 = Statusbar, toggle visibility
