@@ -776,8 +776,10 @@ begin
   // Load Settings
   if WideFileExists(SettingsDirPath + 'settings.xml') then
   GlobalAppSettings.LoadFromFile(SettingsDirPath + 'settings.xml')
+  else if WideFileExists(exePath + 'settings.xml') then       
+  GlobalAppSettings.LoadFromFile(exePath + 'settings.xml')
   else
-  GlobalAppSettings.LoadFromFile(exePath + 'settings.xml');
+  GlobalAppSettings.LoadFromResource(hInstance, 'DEFAULT_SETTINGS_DATA');
   Settings.ApplyPositionInfo(Settings.StartInTray);
   if not Settings.StartInTray then
   MainForm.Show;

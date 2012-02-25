@@ -342,6 +342,8 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCESearchPage.Destroy;
 begin
+  if GlobalPathCtrl.ActivePage = Self then
+  GlobalPathCtrl.ActivePage:= nil; 
   SkinManager.RemoveSkinNotification(Self);
   CEFileSearchSettings.AssignSettingsFrom(Self);
   Find.Free;

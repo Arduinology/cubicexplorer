@@ -208,7 +208,7 @@ begin
   fGroupImageIndex:= -1;
   fGroupOpenImageIndex:= -1;
   fNotAvailableImageIndex:= -1;
-  fSafeOperationsOnly:= false;
+  fSafeOperationsOnly:= true;
   fMaxHintItemCount:= 20;
   BorderStyle:= bsNone;
   BevelInner:= bvNone;

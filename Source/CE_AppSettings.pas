@@ -29,7 +29,7 @@ uses
   // Tnt
   TntSysUtils,
   // System Units
-  TypInfo, Contnrs, Classes, SysUtils;
+  TypInfo, Contnrs, Classes, SysUtils, Windows;
 
 type
   TCEAppSettingItem = class(TObject)
@@ -75,6 +75,8 @@ type
     procedure Delete(Index: Integer);
     function FindItem(AName: String): TCEAppSettingItem;
     function LoadFromFile(AFilePath: WideString): Boolean; virtual;
+    function LoadFromResource(AInstance: Cardinal; AResName: String): Boolean;
+        virtual;
     procedure LoadObjectProperties(AObject: TObject; ANode: TDOMNode; ARecursive:
         Boolean = true; AExcludeProperties: TStrings = nil; AIncludeProperties:
         TStrings = nil); virtual;
@@ -246,6 +248,47 @@ begin
   end
   else
   Result:= false;
+end;
+
+{-------------------------------------------------------------------------------
+  LoadFromResource
+-------------------------------------------------------------------------------}
+function TCEAppSettings.LoadFromResource(AInstance: Cardinal; AResName:
+    String): Boolean;
+var
+  stream: TStream;
+begin
+  try
+    stream:= TResourceStream.Create(AInstance, AResName, RT_RCDATA);
+    try
+      fXML.Free;
+      try
+        ReadXMLFile(fXML, stream);
+        Result:= true;
+      except on EXMLReadError do
+        begin
+          if not assigned(fXML) then
+          begin
+            fXML:= TXMLDocument.Create;
+            XML.AppendChild(XML.CreateElement('CubicExplorer'));
+          end
+          else if not assigned(XML.DocumentElement) then
+          begin
+            XML.AppendChild(XML.CreateElement('CubicExplorer'));
+          end
+          else
+          Result:= false;
+        end;
+      end;
+
+      if Result then
+      LoadProperties;
+    finally
+      stream.Free;
+    end;
+  except
+    Result:= false;
+  end;
 end;
 
 {-------------------------------------------------------------------------------

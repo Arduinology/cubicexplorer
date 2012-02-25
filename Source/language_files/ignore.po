@@ -951,3 +951,10 @@ msgstr ""
 #: dCE_Images.dfm:8654
 msgid "PngImage66"
 msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:4773
+# dCE_Images.dfm:8719
+msgid "PngImage67"
+msgstr ""

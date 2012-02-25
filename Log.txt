@@ -2,6 +2,8 @@
 + Added Stretcher toolbar item.
 * Filters toolbar can now be customized.
 * Text Filter toolbar item now supports history.
+---
+* Updated default settings
 
 22.2.2012
 * File Search now shows the search values in the tab title.

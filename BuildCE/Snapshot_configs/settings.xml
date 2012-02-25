@@ -31,6 +31,7 @@
       <Thumbnails_Width>235</Thumbnails_Width>
       <Filmstrip_Width>-1</Filmstrip_Width>
     </CellSizes>
+    <CheckBoxSelection>False</CheckBoxSelection>
     <Columns>
       <ControlPanel>0,0,180,0</ControlPanel>
       <Default>0,0,241,1|1,1,152,0|2,2,120,0|3,3,120,0</Default>
@@ -43,7 +44,9 @@
       <ThumbSize>120</ThumbSize>
       <ThumbStyle>7</ThumbStyle>
     </Filmstrip>
+    <FolderUpOnDblClick>True</FolderUpOnDblClick>
     <FontSize>-1</FontSize>
+    <FullRowDblClick>False</FullRowDblClick>
     <FullRowSelect>False</FullRowSelect>
     <GroupBy>
       <ControlPanel>0,False</ControlPanel>
@@ -57,15 +60,18 @@
     <RememberPanelLayout>False</RememberPanelLayout>
     <RememberInnerToolbarLayout>True</RememberInnerToolbarLayout>
     <RememberOuterToolbarLayout>False</RememberOuterToolbarLayout>
+    <SelectPasted>True</SelectPasted>
     <ShowExtensions>False</ShowExtensions>
+    <ShowGridLines>False</ShowGridLines>
     <ShowHeaderAlways>True</ShowHeaderAlways>
     <ShowInfoBar>False</ShowInfoBar>
     <SingleClickBrowse>False</SingleClickBrowse>
     <SingleClickExecute>False</SingleClickExecute>
     <SmoothScroll>False</SmoothScroll>
+    <SortAfterPaste>True</SortAfterPaste>
     <SortFolderFirstAlways>False</SortFolderFirstAlways>
-    <ThreadedDetails>False</ThreadedDetails>
-    <ThreadedEnumeration>False</ThreadedEnumeration>
+    <ThreadedDetails>True</ThreadedDetails>
+    <ThreadedEnumeration>True</ThreadedEnumeration>
     <ThreadedImages>True</ThreadedImages>
     <Use_JumboIcons_in_InfoBar>False</Use_JumboIcons_in_InfoBar>
     <ViewStyle>3</ViewStyle>
@@ -90,31 +96,49 @@
     <ShowExtensions>True</ShowExtensions>
     <SubFolders>True</SubFolders>
   </FileSearch>
+  <Buttons>
+    <Tabs_ShowTabControls>True</Tabs_ShowTabControls>
+    <UndoDelete_ConfirmRestore>True</UndoDelete_ConfirmRestore>
+    <UndoDelete_DayLimit>-1</UndoDelete_DayLimit>
+    <UndoDelete_ItemCount>20</UndoDelete_ItemCount>
+  </Buttons>
   <MainForm>
     <AlphaBlend>255</AlphaBlend>
     <AlwaysOnTop>False</AlwaysOnTop>
+    <AutoCheckUpdates>False</AutoCheckUpdates>
     <Left>46</Left>
     <Top>38</Top>
-    <Width>938</Width>
-    <Height>790</Height>
+    <Width>916</Width>
+    <Height>669</Height>
     <Language/>
-    <PathInTitle>False</PathInTitle>
+    <PathInTitle>True</PathInTitle>
     <ShowCmd>1</ShowCmd>
     <ShowHint>True</ShowHint>
     <SingleInstance>False</SingleInstance>
     <Skin>Chrome</Skin>
     <AutoLoadSession/>
+    <ChangeCurrentDirVar>False</ChangeCurrentDirVar>
+    <CheckForUpdateTypes>5</CheckForUpdateTypes>
     <CloseToTray>False</CloseToTray>
     <ExitOnLastTabClose>False</ExitOnLastTabClose>
+    <LastUpdateCheck>0</LastUpdateCheck>
+    <LockToolbars>False</LockToolbars>
     <MinimizeToTray>True</MinimizeToTray>
+    <ProxyAddress>:0</ProxyAddress>
+    <ProxyPassword/>
+    <ProxyUsername/>
     <ShowTray>False</ShowTray>
     <StartInTray>False</StartInTray>
     <StartupType>0</StartupType>
+    <UpdateURL>http://cubicreality.pp.fi/ce/updates/updates.xml</UpdateURL>
+    <UseProxy>False</UseProxy>
+    <UseSystemProxy>True</UseSystemProxy>
   </MainForm>
   <Hotkeys/>
   <GlobalHotkeys/>
   <Tabs>
-    <NewTabPath/>
+    <AllowDropToTab>True</AllowDropToTab>
+    <NewTabPath>PIDL:FgAAABQAH1DgT9Ag6jppEKLYCAArMDCdAAA=</NewTabPath>
     <NewTabSelect>True</NewTabSelect>
     <NewTabType>2</NewTabType>
     <OpenTabSelect>True</OpenTabSelect>
@@ -122,15 +146,18 @@
     <AutoFit>True</AutoFit>
     <AutoFitMaxSize>200</AutoFitMaxSize>
     <CloseButton>2</CloseButton>
-    <ClosedTabHistory>True</ClosedTabHistory>
     <DblClickCloseTab>True</DblClickCloseTab>
     <MaxTabSize>-1</MaxTabSize>
     <OpenNextToCurrent>False</OpenNextToCurrent>
+    <SwitchTabOnDragHover>True</SwitchTabOnDragHover>
     <UndoCount>15</UndoCount>
   </Tabs>
   <AddressBar>
     <Breadcrumb>False</Breadcrumb>
   </AddressBar>
+  <DriveBar>
+    <OpenInNewTab>False</OpenInNewTab>
+  </DriveBar>
   <FolderPanel>
     <AutoCollapse>True</AutoCollapse>
     <AutoExpand>True</AutoExpand>
@@ -148,7 +175,9 @@
     <LineHeight>-1</LineHeight>
     <OpenInNewTab>False</OpenInNewTab>
     <ShowOpenAllAtTop>True</ShowOpenAllAtTop>
+    <ShowOpenAllItem>True</ShowOpenAllItem>
     <SingleClickMode>True</SingleClickMode>
+    <UseSystemPopupMenu>False</UseSystemPopupMenu>
   </BookmarksPanel>
   <FilterPanel>
     <AutoResetFilters>True</AutoResetFilters>
