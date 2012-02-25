@@ -11,44 +11,17 @@ inherited CEFiltersPanel: TCEFiltersPanel
     Height = 26
     ExplicitWidth = 425
     ExplicitHeight = 26
-    object PatternToolbar: TSpTBXToolbar
+    object FiltersToolbar: TCEToolbar
       Left = 0
       Top = 0
       BorderStyle = bsNone
-      DockMode = dmCannotFloatOrChangeDocks
+      ChevronMoveItems = False
       DockPos = 0
       DragHandleStyle = dhNone
       Images = CE_Images.SmallIcons
-      ShrinkMode = tbsmNone
       Stretch = True
       TabOrder = 0
-      object combo_controlitem: TTBControlItem
-        Control = combo_filterpattern
-      end
-      object but_invert: TSpTBXItem
-        Action = CEActions.act_filters_exclude
-        Images = CE_Images.SmallIcons
-      end
-      object but_strict: TSpTBXItem
-        Action = CEActions.act_filters_strict
-        Images = CE_Images.SmallIcons
-      end
-      object but_clear: TSpTBXItem
-        Action = CEActions.act_filters_clear
-      end
-      object combo_filterpattern: TSpTBXComboBox
-        Left = 0
-        Top = 0
-        Width = 150
-        Height = 21
-        DropDownCount = 12
-        ItemHeight = 13
-        TabOrder = 0
-        OnChange = combo_filterpatternChange
-        OnKeyDown = combo_filterpatternKeyDown
-        OnSelect = combo_filterpatternSelect
-        HotTrack = False
-      end
+      Caption = 'Filters'
     end
   end
   inherited BottomDock: TSpTBXDock
@@ -593,10 +566,10 @@ inherited CEFiltersPanel: TCEFiltersPanel
       OnClick = but_clear_filterhistoryClick
     end
   end
-  object FilterTimer: TTimer
+  object PatternFilterTimer: TTimer
     Enabled = False
     Interval = 500
-    OnTimer = FilterTimerTimer
+    OnTimer = DoPatternFilter
     Left = 84
     Top = 56
   end

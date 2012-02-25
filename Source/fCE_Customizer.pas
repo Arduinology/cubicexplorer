@@ -46,7 +46,7 @@ uses
 type
   TTBCustomDockableWindowHack = class(TTBCustomDockableWindow);
 
-  TCESeparatorType = (stNormal, stDynamic, stFixed);
+  TCESeparatorType = (stNormal, stDynamic, stFixed, stStrether);
 
   PCEActTreeData = ^TCEActTreeData;
   TCEActTreeData = record
@@ -290,6 +290,14 @@ begin
   data.IsCategory:= false;
   data.IsSeparator:= true;
   data.SeparatorType:= stFixed;
+  // Add Stretcher item to ActionList
+  chNode:= ActionTree.AddChild(node);
+  data:= ActionTree.GetNodeData(chNode);
+  data.Name:= '[' + _('Stretcher') + ']';
+  data.IconIndex:= -1;
+  data.IsCategory:= false;
+  data.IsSeparator:= true;
+  data.SeparatorType:= stStrether;
 
   // Sort actions
   node:= ActionTree.GetFirst;
@@ -443,6 +451,7 @@ begin
       stNormal: itemClass:= TCEToolbarSeparatorItem;
       stDynamic: itemClass:= TCEToolbarDynamicSpacerItem;
       stFixed: itemClass:= TCEToolbarFixedSpacerItem;
+      stStrether: itemClass:= TCEToolbarStretcherItem;
     end;
   end
   else if data.ActionItem is TCEToolbarAction then

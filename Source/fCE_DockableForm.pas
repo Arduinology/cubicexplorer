@@ -65,6 +65,7 @@ type
     function IsVisible: Boolean;
     procedure DoFormHide; virtual;
     procedure DoFormShow; virtual;
+    procedure DoStartUp; virtual;
     property ImageIndex: Integer read fImageIndex write fImageIndex;
     property ImageList: TImageList read fImageList write fImageList;
     { Public declarations }
@@ -93,6 +94,7 @@ begin
   DockClient.OnFormShow:= FormShow;
   Self.OnHide:= FormHide;
   Self.OnShow:= FormShow;
+  MainForm.Panels.Add(Self);
 end;
 
 {-------------------------------------------------------------------------------
@@ -195,6 +197,14 @@ end;
   Get's called when form gets shown.
 -------------------------------------------------------------------------------}
 procedure TCECustomDockableForm.DoFormShow;
+begin
+  // Override from descendant
+end;
+
+{-------------------------------------------------------------------------------
+  Get's called on Application startup
+-------------------------------------------------------------------------------}
+procedure TCECustomDockableForm.DoStartUp;
 begin
   // Override from descendant
 end;

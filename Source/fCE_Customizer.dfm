@@ -44,6 +44,7 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
       TabOrder = 0
       OnClick = but_closeClick
       Default = True
+      DrawPushedCaption = False
       ModalResult = 2
     end
     object label_help: TSpTBXLabel
@@ -158,6 +159,7 @@ object CEToolbarCustomizer: TCEToolbarCustomizer
         Anchors = [akLeft, akTop, akRight]
         TabOrder = 1
         OnClick = but_loadThemeClick
+        DrawPushedCaption = False
       end
       object label_themeName: TSpTBXLabel
         Left = 207

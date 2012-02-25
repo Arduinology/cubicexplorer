@@ -1315,11 +1315,11 @@ begin
     if Data.HTTP.ResultCode = 200 then
     msg:= _('No new updates')
     else if Data.HTTP.ResultCode = 500 then
-    msg:= 'Error: Could not connect!'
+    msg:= _('Error: Could not connect!')
     else if Data.HTTP.ResultString <> '' then
-    msg:= 'Error: ' + IntToStr(Data.HTTP.ResultCode) + ' - ' + Data.HTTP.ResultString
+    msg:= _('Error') + ': ' + IntToStr(Data.HTTP.ResultCode) + ' - ' + Data.HTTP.ResultString
     else
-    msg:= 'Error: ' + IntToStr(Data.HTTP.ResultCode);
+    msg:= _('Error') + ': ' + IntToStr(Data.HTTP.ResultCode);
 
     TaskDialog(Application.MainFormHandle,
                _('Check For Updates'),

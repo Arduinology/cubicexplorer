@@ -52,7 +52,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ShellAPI, Menus, ShlObj, XPMan, ActiveX,
   ImgList, Registry, AppEvnts, ActnList, Math, JvComponentBase, JvTrayIcon,
-  AppCommand;
+  AppCommand, Contnrs;
 
 type
   TMainFormSettings = class;
@@ -243,6 +243,7 @@ type
     fLanguageList: TTntStrings;
     fLockToolbars: Boolean;
     fOldWindowState: TWindowState;
+    fPanels: TComponentList;
     fPathInTitle: Boolean;
     fSaveSettingsOnClose: Boolean;
     fSingleInstance: Boolean;
@@ -297,6 +298,7 @@ type
     property ActiveLanguage: WideString read fActiveLanguage write
         SetActiveLanguage;
     property LockToolbars: Boolean read fLockToolbars write SetLockToolbars;
+    property Panels: TComponentList read fPanels write fPanels;
     property PathInTitle: Boolean read fPathInTitle write SetPathInTitle;
     property SaveSettingsOnClose: Boolean read fSaveSettingsOnClose write
         fSaveSettingsOnClose;
@@ -494,6 +496,8 @@ begin
     SetThreadLocale(LOCALE_USER_DEFAULT);
     GetFormatSettings;
   end;
+
+  fPanels:= TComponentList.Create(false);
 end;
 
 {-------------------------------------------------------------------------------
@@ -517,6 +521,7 @@ begin
   FinalizeUI;
   fLanguageList.Free;
   Settings.Free;
+  fPanels.Free;
 end;
 
 {*------------------------------------------------------------------------------
@@ -642,9 +647,7 @@ begin
   CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.TopGroupToolDock, true);
   CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.RightGroupToolDock, true);
   CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.BottomGroupToolDock, true);
-  // Populate menu items
-  CELayoutItems.PopulateMenuItem(toolbarsMenuItem);
-  CELayoutItems.PopulateMenuItem(ToolbarPopupMenu.Items);
+
   // Add Session menu items
   sessionsMenuItem.Add(TCESessionsMenuItem.Create(self));
   sessionHistoryMenuItem.Add(TCESessionHistoryMenuItem.Create(self));
@@ -746,6 +749,19 @@ var
   ws: WideString;
 begin
   //Wow64Enabled:= IsWindows64;
+
+  // Do panel startup
+  for i:= 0 to Panels.Count - 1 do
+  begin
+    if Panels.Items[i] is TCECustomDockableForm then
+    begin
+      TCECustomDockableForm(Panels.Items[i]).DoStartUp;
+    end;
+  end;
+
+  // Populate menu items
+  CELayoutItems.PopulateMenuItem(toolbarsMenuItem);
+  CELayoutItems.PopulateMenuItem(ToolbarPopupMenu.Items);  
 
   // Load skins
   GetSkinsFromFolder(exePath + 'Skins\');

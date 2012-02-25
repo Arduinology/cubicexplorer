@@ -126,10 +126,14 @@ type
     constructor Create(AOwner: TComponent); override;
   end;
 
-  TCEFilterPatternItem = class(TCEToolbarEditItem)
+  TCEToolbarComboBoxItemViewerAccess = class(TCEToolbarComboBoxItemViewer);
+  
+  TCEFilterPatternItem = class(TCEToolbarComboBoxItem)
   protected
     procedure DoChange(const AText: WideString); override;
     procedure DoClearButtonClick(Shift: TShiftState); override;
+    function GetComboItems: TTntStrings; override;
+    procedure KeyPress(var Key: Char); override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -825,11 +829,7 @@ end;
 procedure TCEFilterPatternItem.DoChange(const AText: WideString);
 begin
   inherited;
-  if CEFiltersPanel.combo_filterpattern.Text <> AText then
-  begin
-    CEFiltersPanel.combo_filterpattern.Text:= AText;
-    CEFiltersPanel.combo_filterpatternChange(Self);
-  end;
+  CEFiltersPanel.PatternText:= AText;
 end;
 
 {-------------------------------------------------------------------------------
@@ -838,8 +838,35 @@ end;
 procedure TCEFilterPatternItem.DoClearButtonClick(Shift: TShiftState);
 begin
   inherited;
-//  CEFiltersPanel.combo_filterpattern.Text:= '';
-//  CEFiltersPanel.combo_filterpatternChange(Self);
+  CEFiltersPanel.PatternText:= '';
+end;
+
+{-------------------------------------------------------------------------------
+  Get ComboItems
+-------------------------------------------------------------------------------}
+function TCEFilterPatternItem.GetComboItems: TTntStrings;
+begin
+  Result:= CEFiltersPanel.PatternHistory;
+end;
+
+{-------------------------------------------------------------------------------
+  KeyPress
+-------------------------------------------------------------------------------}
+procedure TCEFilterPatternItem.KeyPress(var Key: Char);
+begin
+  // Add text to filter history
+  if (Key = #13) and (Self.Text <> '') then
+  begin
+    CEFiltersPanel.PatternHistory.Insert(0, Self.Text);
+    if Self.Viewer is TCEToolbarComboBoxItemViewer then
+    begin
+      if assigned(TCEToolbarComboBoxItemViewerAccess(Self.Viewer).fComboBox) then
+      begin
+        TCEToolbarComboBoxItemViewerAccess(Self.Viewer).fComboBox.Items.Assign(GetComboItems);
+      end;
+    end;
+  end;
+  inherited;
 end;
 
 {##############################################################################}

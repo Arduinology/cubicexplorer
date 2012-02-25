@@ -16,7 +16,7 @@
 //                                                                                            
 //  The Initial Developer of the Original Code is Marko Savolainen (cubicreality@gmail.com).  
 //  Portions created by Marko Savolainen Copyright (C) Marko Savolainen. All Rights Reserved. 
-//                                                                                            
+//
 //******************************************************************************
 
 unit fCE_FiltersPanel;
@@ -39,7 +39,7 @@ uses
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ShlObj, Menus, TB2Item, SpTBXEditors, TB2Toolbar, StdCtrls,
-  TntStdCtrls, ExtCtrls, SpTBXSkins, Contnrs;
+  TntStdCtrls, ExtCtrls, SpTBXSkins, Contnrs, CE_Toolbar, TntClasses;
 
 type
   TControlHack = class(TControl);
@@ -50,33 +50,28 @@ type
     Images: TBitmap32List;
     FiltersPopupMenu: TSpTBXPopupMenu;
     check_resetfilters: TSpTBXItem;
-    PatternToolbar: TSpTBXToolbar;
-    combo_filterpattern: TSpTBXComboBox;
-    combo_controlitem: TTBControlItem;
-    but_strict: TSpTBXItem;
-    FilterTimer: TTimer;
-    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    PatternFilterTimer: TTimer;
     but_clear_filterhistory: TSpTBXItem;
-    but_clear: TSpTBXItem;
-    but_invert: TSpTBXItem;
+    FiltersToolbar: TCEToolbar;
+    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure check_resetfiltersClick(Sender: TObject);
     procedure FiltersPopupMenuPopup(Sender: TObject);
-    procedure combo_filterpatternSelect(Sender: TObject);
-    procedure combo_filterpatternKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure FilterTimerTimer(Sender: TObject);
-    procedure combo_filterpatternChange(Sender: TObject);
     procedure but_clear_filterhistoryClick(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure DoPatternFilter(Sender: TObject);
   private
+    fPatternHistory: TTntStrings;
     fPatternNotifyInProgress: Boolean;
+    fPatternText: WideString;
     fSettings: TCEFiltersPanelSettings;
   protected
+    fDock: TSpTBXDock;
     FilterBackgroundBitmap: TBitmap;
     procedure DoMenuEditChange(Sender: TObject; const AText: WideString); virtual;
     procedure DoMenuItemClick(Sender: TObject); virtual;
+    procedure DoPatternChanged; virtual;
     procedure DrawFilterBitmap;
     procedure GlobalActivePageChange(OldPage, NewPage: TComponent); override;
         stdcall;
@@ -85,13 +80,17 @@ type
         stdcall;
     procedure GlobalPIDLChanged(Sender: TObject; NewPIDL: PItemIDList); override;
         stdcall;
+    procedure SetPatternText(const Value: WideString); virtual;
   public
     Filters: TCEFilterList;
     PatternNotifyList: TObjectList;
     procedure ClearFilters;
     procedure DoFormHide; override;
     procedure DoFormShow; override;
+    procedure DoStartUp; override;
     procedure PopulateMenuItem(AItem: TSpTBXItem);
+    property PatternHistory: TTntStrings read fPatternHistory;
+    property PatternText: WideString read fPatternText write SetPatternText;
   published
     property Settings: TCEFiltersPanelSettings read fSettings write fSettings;
   end;
@@ -131,15 +130,24 @@ var
 implementation
 
 uses
-  Main, CE_LanguageEngine, CE_Utils;
+  CE_LanguageEngine, CE_Utils, CE_Layout, CE_ToolbarButtons, Main;
 {$R *.dfm}
 
 {*------------------------------------------------------------------------------
   Get's called on Create
 -------------------------------------------------------------------------------}
 procedure TCEFiltersPanel.FormCreate(Sender: TObject);
+var
+  item: TSpTBXCustomItem;
 begin
   inherited;
+  fDock:= TopDock;
+  TopDock.Name:= 'FiltersPanel_TopDock';
+  BottomDock.Name:= 'FiltersPanel_BottomDock';
+
+  fPatternHistory:= TTntStringList.Create;
+  fPatternHistory.Delimiter:= ',';
+
   fSettings:= TCEFiltersPanelSettings.Create;
   fSettings.FilterPanel:= Self;
   FilterBackgroundBitmap:= TBitmap.Create;
@@ -157,7 +165,6 @@ begin
   GlobalPathCtrl.RegisterNotify(self);
 
   GlobalAppSettings.AddItem('FilterPanel', fSettings, true);
-  combo_filterpattern.Items.Delimiter:= ',';
 
   // Default settings
   Settings.StrictFilter:= false;
@@ -169,6 +176,8 @@ begin
 
   PatternNotifyList:= TObjectList.Create(false);
   fPatternNotifyInProgress:= false;
+
+  CELayoutItems.Add(FiltersToolbar);
 end;
 
 {*------------------------------------------------------------------------------
@@ -179,6 +188,7 @@ begin
   FilterBackgroundBitmap.Free;
   fSettings.Free;
   PatternNotifyList.Free;
+  fPatternHistory.Free;
   inherited;
 end;
 
@@ -191,16 +201,7 @@ var
   view: TTBItemViewer;
   w: Integer;
 begin
-  w:= 0;
-  for i:= 0 to PatternToolbar.View.ViewerCount - 1 do
-  begin
-    view:= PatternToolbar.View.Viewers[i];
-    if view.Item is TSpTBXItem then
-    begin
-      w:= w + (view.BoundsRect.Right - view.BoundsRect.Left);
-    end;
-  end;
-  combo_filterpattern.Width:= Self.ClientWidth - w - 4;
+  fDock.Width:= ClientWidth;
 end;
 
 {*------------------------------------------------------------------------------
@@ -234,8 +235,9 @@ begin
     begin
       if Settings.AutoResetFilters then
       begin
-        combo_filterpattern.Text:= '';
-        FilterTimer.Enabled:= false;
+        PatternFilterTimer.Enabled:= false;
+        fPatternText:= '';
+        DoPatternChanged;
         Filters.ClearFilters;
       end;
       Filters.ExplorerEasyListview:= TCEFileViewPage(NewPage).FileView;
@@ -244,8 +246,9 @@ begin
     begin
       if Settings.AutoResetFilters then
       begin
-        combo_filterpattern.Text:= '';
-        FilterTimer.Enabled:= false;
+        PatternFilterTimer.Enabled:= false;
+        fPatternText:= '';
+        DoPatternChanged;
         Filters.ClearFilters;
       end;
       Filters.ExplorerEasyListview:= TCESearchPage(NewPage).ResultView;
@@ -281,7 +284,6 @@ procedure TCEFiltersPanel.DoFormShow;
 begin
   inherited;
   Filters.Active:= true;
-  but_strict.Checked:= Filters.UseWildcards;
   FormResize(Self);
 end;
 
@@ -313,8 +315,9 @@ procedure TCEFiltersPanel.GlobalPIDLChanged(Sender: TObject; NewPIDL:
 begin
   if Settings.AutoResetFilters then
   begin
-    combo_filterpattern.Text:= '';
-    FilterTimer.Enabled:= false;
+    PatternFilterTimer.Enabled:= false;
+    fPatternText:= '';
+    DoPatternChanged;
     Filters.ClearFilters;
   end;
 end;
@@ -324,62 +327,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFiltersPanel.but_clear_filterhistoryClick(Sender: TObject);
 begin
-  combo_filterpattern.Clear;
-end;
-
-{-------------------------------------------------------------------------------
-  On combo_filterpattern Change
--------------------------------------------------------------------------------}
-procedure TCEFiltersPanel.combo_filterpatternChange(Sender: TObject);
-var
-  i: Integer;
-begin
-  inherited;
-  if fPatternNotifyInProgress then
-  Exit;
-
-  fPatternNotifyInProgress:= true;
-  try
-    for i:= 0 to PatternNotifyList.Count - 1 do
-    begin
-      if PatternNotifyList.Items[i] <> Sender then
-      begin
-        if PatternNotifyList.Items[i] is TSpTBXEditItem then
-        TSpTBXEditItem(PatternNotifyList.Items[i]).Text:= combo_filterpattern.Text;
-      end;
-    end;
-  finally
-    fPatternNotifyInProgress:= false;
-    FilterTimer.Enabled:= true;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  On combo_filterpattern KeyDown
--------------------------------------------------------------------------------}
-procedure TCEFiltersPanel.combo_filterpatternKeyDown(Sender: TObject;
-  var Key: Word; Shift: TShiftState);
-begin
-  case Key of
-    VK_RETURN: begin
-      if Settings.SaveFilterHistory then
-      begin
-        combo_filterpattern.Items.Insert(0, combo_filterpattern.Text);
-        combo_filterpattern.ItemIndex:= 0;
-        while combo_filterpattern.Items.Count > 100 do
-        combo_filterpattern.Items.Delete(combo_filterpattern.Items.Count-1);
-      end;
-    end;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  On combo_filterpattern Select
--------------------------------------------------------------------------------}
-procedure TCEFiltersPanel.combo_filterpatternSelect(Sender: TObject);
-begin
-  Filters.PatternText:= combo_filterpattern.Text;
-  combo_filterpatternChange(Sender);
+  PatternHistory.Clear;
 end;
 
 {-------------------------------------------------------------------------------
@@ -395,11 +343,11 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFiltersPanel.ClearFilters;
 begin
-  combo_filterpattern.Text:= '';
-  FilterTimer.Enabled:= false;
+  PatternFilterTimer.Enabled:= false;
   Filters.ClearFilters;
+  fPatternText:= '';
+  DoPatternChanged;
   GlobalFileViewSettings.ClearFilters;
-  combo_filterpatternChange(combo_filterpattern);
 end;
 
 {-------------------------------------------------------------------------------
@@ -408,8 +356,7 @@ end;
 procedure TCEFiltersPanel.DoMenuEditChange(Sender: TObject; const AText:
     WideString);
 begin
-  combo_filterpattern.Text:= AText;
-  combo_filterpatternChange(Sender);
+  PatternText:= AText;
 end;
 
 {-------------------------------------------------------------------------------
@@ -446,20 +393,75 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Do PatternChange
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.DoPatternChanged;
+var
+  i: Integer;
+begin
+  if fPatternNotifyInProgress then
+  Exit;
+
+  fPatternNotifyInProgress:= true;
+  try
+    for i:= 0 to PatternNotifyList.Count - 1 do
+    begin
+      if PatternNotifyList.Items[i] is TSpTBXEditItem then
+      TSpTBXEditItem(PatternNotifyList.Items[i]).Text:= PatternText;
+    end;
+  finally
+    fPatternNotifyInProgress:= false;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Do Pattern Filter
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.DoPatternFilter(Sender: TObject);
+begin
+  inherited;
+  PatternFilterTimer.Enabled:= false;
+  Filters.PatternText:= PatternText;
+  DoPatternChanged;
+end;
+
+{-------------------------------------------------------------------------------
+  Do StartUp
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.DoStartUp;
+var
+  item: TSpTBXCustomItem;
+begin
+  // Create default toolbar items
+  // - pattern field
+  item:= TCEFilterPatternItem.Create(FiltersToolbar);
+  item.Action:= CEActions.act_filters_pattern;
+  FiltersToolbar.Items.Add(item);
+  // - stretcher
+  item:= TCEToolbarStretcherItem.Create(FiltersToolbar);
+  FiltersToolbar.Items.Add(item);
+  // - exclude
+  item:= TSpTBXItem.Create(FiltersToolbar);
+  item.Action:= CEActions.act_filters_exclude;
+  FiltersToolbar.Items.Add(item);
+  // - strict
+  item:= TSpTBXItem.Create(FiltersToolbar);
+  item.Action:= CEActions.act_filters_strict;
+  FiltersToolbar.Items.Add(item);
+  // - clear
+  item:= TSpTBXItem.Create(FiltersToolbar);
+  item.Action:= CEActions.act_filters_clear;
+  FiltersToolbar.Items.Add(item);
+
+  FiltersToolbar.PopupMenu:= MainForm.ToolbarPopupMenu;
+end;
+
+{-------------------------------------------------------------------------------
   On FiltersPopupMenu popup
 -------------------------------------------------------------------------------}
 procedure TCEFiltersPanel.FiltersPopupMenuPopup(Sender: TObject);
 begin
   check_resetfilters.Checked:= Settings.AutoResetFilters;
-end;
-
-{-------------------------------------------------------------------------------
-  On Filter Timer
--------------------------------------------------------------------------------}
-procedure TCEFiltersPanel.FilterTimerTimer(Sender: TObject);
-begin
-  FilterTimer.Enabled:= false;
-  Filters.PatternText:= combo_filterpattern.Text;
 end;
 
 {-------------------------------------------------------------------------------
@@ -478,7 +480,7 @@ begin
     AItem.Clear;
     // Add Text filter edit
     edit:= TSpTBXEditItem.Create(AItem);
-    edit.Text:= combo_filterpattern.Text;
+    edit.Text:= PatternText;
     edit.OnChange:= DoMenuEditChange;
     edit.Images:= CE_Images.SmallIcons;
     edit.EditImageIndex:= 29;
@@ -489,8 +491,6 @@ begin
     item:= TSpTBXItem.Create(AItem);
     item.Action:= CEActions.act_filters_exclude;
     AItem.Add(item);
-    // Add separator
-    //AItem.Add(TSpTBXSeparatorItem.Create(AItem));
     // Add items from FilterList
     node:= Filters.GetFirst;
     while assigned(node) do
@@ -526,12 +526,23 @@ begin
     AItem.Add(TSpTBXSeparatorItem.Create(AItem));
     // Add Clear Filters
     item:= TSpTBXItem.Create(AItem);
-    item.Caption:= _('Clear Filters');
-    item.Tag:= -1;
-    item.OnClick:= DoMenuItemClick;
-    item.Images:= but_clear.Images;
-    item.ImageIndex:= but_clear.ImageIndex;
+    item.Action:= CEActions.act_filters_clear;
     AItem.Add(item);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set Pattern Text
+-------------------------------------------------------------------------------}
+procedure TCEFiltersPanel.SetPatternText(const Value: WideString);
+begin
+  if fPatternNotifyInProgress then
+  Exit;
+  
+  if Value <> fPatternText then
+  begin
+    fPatternText:= Value;
+    PatternFilterTimer.Enabled:= true;
   end;
 end;
 
@@ -555,11 +566,11 @@ end;
 -------------------------------------------------------------------------------}
 function TCEFiltersPanelSettings.GetFilterHistory: WideString;
 begin
-  Result:= FilterPanel.combo_filterpattern.Items.DelimitedText;
+  Result:= FilterPanel.PatternHistory.DelimitedText;
 end;
 procedure TCEFiltersPanelSettings.SetFilterHistory(const Value: WideString);
 begin
-  FilterPanel.combo_filterpattern.Items.DelimitedText:= Value;
+  FilterPanel.PatternHistory.DelimitedText:= Value;
 end;
 
 {-------------------------------------------------------------------------------
@@ -576,6 +587,10 @@ end;
 function TCEFiltersPanelSettings.GetStrictFilter: Boolean;
 begin
   Result:= FilterPanel.Filters.UseWildcards;
+end;
+procedure TCEFiltersPanelSettings.SetStrictFilter(const Value: Boolean);
+begin
+  FilterPanel.Filters.UseWildcards:= Value;
 end;
 
 {-------------------------------------------------------------------------------
@@ -620,11 +635,6 @@ begin
       FilterPanel.Filters.EndUpdate;
     end;
   end;
-end;
-
-procedure TCEFiltersPanelSettings.SetStrictFilter(const Value: Boolean);
-begin
-  FilterPanel.Filters.UseWildcards:= Value;
 end;
 
 end.

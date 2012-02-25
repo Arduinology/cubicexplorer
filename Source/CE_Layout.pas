@@ -43,6 +43,7 @@ uses
 type
   TJvCustomAppXMLStorageHack = class(TJvCustomAppXMLStorage);
   TTBCustomDockableWindowHack = class(TTBCustomDockableWindow);
+  TSpTBXToolbarAccess = class(TSpTBXToolbar);
 
   TCEToolbarDockType = (tdtBoth, tdtInner, tdtOuter);
 
@@ -644,6 +645,7 @@ var
   dock: TTBDock;
   tabset: TCESpTabSet;
   statusbar: TCEStatusBar;
+  newPath: String;
 begin
   if not assigned(AppStorage) then
   Exit;
@@ -659,12 +661,22 @@ begin
       begin
         dockablewindow:= TTBCustomDockableWindow(CELayoutItems.Items[i]);
         dockablewindow.BeginUpdate;
+
+        // continue if toolbar can't float or change docks
+        if (TTBCustomDockableWindowHack(dockablewindow).DockMode = dmCannotFloatOrChangeDocks) then
+        Continue;
+
+        // continue if setting is not found (keeps toolbar in default position).
+        if not AppStorage.PathExists(dockablewindow.Name) then
+        Continue;
+
         AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, dockablewindow.Name]);
         try
           loadPos:= false;
           s:= AppStorage.ReadString('Dock', 'TopToolDock');
           dock:= CEToolbarDocks.FindDockNamed(s);
-          if assigned(dock) then // Docked
+          // Docked
+          if assigned(dock) then 
           begin
             if DockType = tdtInner then
             begin
@@ -706,7 +718,8 @@ begin
               dockablewindow.Visible:= b;
             end;
           end
-          else // Floating
+          // Floating
+          else if (TTBCustomDockableWindowHack(dockablewindow).DockMode = dmCanFloat) then 
           begin
             if not dockablewindow.Floating then
             dockablewindow.Floating:= true;
@@ -778,6 +791,10 @@ begin
       if CELayoutItems.Items[i] is TTBCustomDockableWindow then
       begin
         dockablewindow:= TTBCustomDockableWindow(CELayoutItems.Items[i]);
+
+        // continue if toolbar can't float or change docks
+        if (TTBCustomDockableWindowHack(dockablewindow).DockMode = dmCannotFloatOrChangeDocks) then
+        Continue;
 
         AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, dockablewindow.Name]);
 
@@ -1034,6 +1051,7 @@ begin
     if assigned(toolbar) then
     begin
       toolbar.BeginCustomize;
+      TSpTBXToolbarAccess(toolbar).RightAlignItems;
       toolbar.Repaint;
     end;
   end;
@@ -1059,6 +1077,7 @@ begin
     if assigned(toolbar) then
     begin
       toolbar.EndCustomize;
+      TSpTBXToolbarAccess(toolbar).RightAlignItems;
       toolbar.Repaint;
     end;
   end;
@@ -1160,6 +1179,11 @@ procedure SaveToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
       begin
         ToNode.Items.Add('fixed_spacer');
       end
+      // Stretcher
+      else if item is TCEToolbarStretcherItem then
+      begin
+        ToNode.Items.Add('stretcher');
+      end      
       // Editor Item
       else if item is TSpTBXEditItem then
       begin
@@ -1168,6 +1192,9 @@ procedure SaveToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
         chNode.Properties.Add('action', item.Action.Name)
         else
         chNode.Properties.Add('name', item.Name);
+        if item is TCEToolbarEditItem then
+        chNode.Properties.Add('size', TCEToolbarEditItem(item).DefaultWidth)
+        else
         chNode.Properties.Add('size', TSpTBXEditItem(item).CustomWidth);
       end
       // Submenu
@@ -1219,6 +1246,11 @@ procedure SaveToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
       begin
         ToNode.Items.Add('fixed_spacer');
       end
+      // Stretcher
+      else if item is TCEToolbarStretcherItem then
+      begin
+        ToNode.Items.Add('stretcher');
+      end
       // Editor Item
       else if item is TSpTBXEditItem then
       begin
@@ -1227,6 +1259,9 @@ procedure SaveToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
         chNode.Properties.Add('action', item.Action.Name)
         else
         chNode.Properties.Add('name', item.Name);
+        if item is TCEToolbarEditItem then
+        chNode.Properties.Add('size', TCEToolbarEditItem(item).DefaultWidth)
+        else
         chNode.Properties.Add('size', TSpTBXEditItem(item).CustomWidth);
       end
       // Submenu
@@ -1290,9 +1325,10 @@ procedure LoadToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
           item:= itemClass.Create(Toolbar);
           item.Action:= act;
           // Editor item size
-          if item is TSpTBXEditItem then
+          if item is TCEToolbarEditItem then
+          TCEToolbarEditItem(item).DefaultWidth:= chNode.Properties.IntValue('size', TCEToolbarEditItem(item).DefaultWidth)
+          else if item is TSpTBXEditItem then
           TSpTBXEditItem(item).CustomWidth:= chNode.Properties.IntValue('size', TSpTBXEditItem(item).CustomWidth);
-
           Toolbar.Items.Add(item);
         end;
       end
@@ -1314,6 +1350,12 @@ procedure LoadToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
         item:= TCEToolbarFixedSpacerItem.Create(Toolbar);
         Toolbar.Items.Add(item);
       end
+      // Stretcher
+      else if SameText(chNode.Name, 'stretcher') then
+      begin
+        item:= TCEToolbarStretcherItem.Create(Toolbar);
+        Toolbar.Items.Add(item);
+      end      
       // Submenu item
       else if SameText(chNode.Name, 'submenu') then
       begin
@@ -1366,7 +1408,9 @@ procedure LoadToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
         begin
           item:= itemClass.Create(Toolbar);
           item.Action:= act;
-          if item is TSpTBXEditItem then
+          if item is TCEToolbarEditItem then
+          TCEToolbarEditItem(item).DefaultWidth:= chNode.Properties.IntValue('size', TSpTBXEditItem(item).CustomWidth)
+          else if item is TSpTBXEditItem then
           TSpTBXEditItem(item).CustomWidth:= chNode.Properties.IntValue('size', TSpTBXEditItem(item).CustomWidth);
         end;
       end
@@ -1394,6 +1438,12 @@ procedure LoadToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
       else if SameText(chNode.Name, 'fixed_spacer') then
       begin
         item:= TCEToolbarFixedSpacerItem.Create(Toolbar);
+      end
+      // Stretcher
+      else if SameText(chNode.Name, 'stretcher') then
+      begin
+        item:= TCEToolbarStretcherItem.Create(Toolbar);
+        Toolbar.Items.Add(item);
       end
       // Right Align Spacer
       // TODO: Depricated, remove this!

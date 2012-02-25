@@ -17,7 +17,7 @@ object CECustomDockableForm: TCECustomDockableForm
     Top = 0
     Width = 425
     Height = 9
-    ExplicitWidth = 426
+    FixAlign = True
   end
   object BottomDock: TSpTBXDock
     Left = 0
@@ -25,6 +25,5 @@ object CECustomDockableForm: TCECustomDockableForm
     Width = 425
     Height = 9
     Position = dpBottom
-    ExplicitWidth = 426
   end
 end

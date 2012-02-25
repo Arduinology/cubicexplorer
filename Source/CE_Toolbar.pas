@@ -31,6 +31,7 @@ uses
 
 type
   TTBItemViewerAccess = class(TTBItemViewer);
+  TSpTBXCustomItemAccess = class(TSpTBXCustomItem);
   
   TCEToolbarItem = class(TSpTBXItem)
   end;
@@ -51,10 +52,18 @@ type
   TCEToolbar = class(TSpTBXToolbar)
   private
     fLargeImages: Boolean;
+    procedure WMSize(var Message: TWMSize); message WM_SIZE;
   protected
+    fDynSpacersList: TList;
+    fLastFullSize: Integer;
+    fStretchedItemsList: TList;
+    function GetStretchedSize: Integer; virtual;
+    procedure Resize; override;
     procedure RightAlignItems; override;
     procedure SetLargeImages(const Value: Boolean); virtual;
   public
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
     property LargeImages: Boolean read fLargeImages write SetLargeImages;
   end;
 
@@ -85,9 +94,23 @@ type
     constructor Create(AOwner: TComponent); override;
   end;
 
+type
+  TCEToolbarStretcherItem = class(TCECustomToolbarSpacerItem)
+  protected
+    procedure DoDrawButton(ACanvas: TCanvas; ARect: TRect; ItemInfo:
+        TSpTBXMenuItemInfo; const PaintStage: TSpTBXPaintStage; var PaintDefault:
+        Boolean); override;
+  public
+    constructor Create(AOwner: TComponent); override;
+  end;
+
 procedure Register;
 
 implementation
+
+uses
+  CE_ToolbarEditorItems,
+  TB2Dock;
 
 procedure Register;
 begin
@@ -135,93 +158,283 @@ end;
 {##############################################################################}
 
 {-------------------------------------------------------------------------------
+  Create an instance of TCEToolbar
+-------------------------------------------------------------------------------}
+constructor TCEToolbar.Create(AOwner: TComponent);
+begin
+  inherited;
+  // create lists for dynamic spacers and stretchers to speed things up.
+  // we'll use these in RightAlignItems method.
+  fDynSpacersList:= TList.Create;
+  fStretchedItemsList:= TList.Create;
+  fLastFullSize:= 0;
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy TCEToolbar
+-------------------------------------------------------------------------------}
+destructor TCEToolbar.Destroy;
+begin
+  fDynSpacersList.Free;
+  fStretchedItemsList.Free;
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Get StretchedSize
+-------------------------------------------------------------------------------}
+function TCEToolbar.GetStretchedSize: Integer;
+var
+  i: Integer;
+  size, rightPos: Integer;
+  toolbar: TTBCustomDockableWindow;
+begin
+  if assigned(CurrentDock) then
+  begin
+    size:= 0;
+    rightPos:= 0;
+    for i:= 0 to CurrentDock.ToolbarCount - 1 do
+    begin
+      toolbar:= CurrentDock.Toolbars[i];
+      if (toolbar <> Self) and (toolbar.DockRow = Self.DockRow) then
+      begin
+        if (toolbar.DockPos > Self.DockPos) then
+        begin
+          if IsVertical then
+          rightPos:= Max(toolbar.Top, rightPos)
+          else
+          rightPos:= Max(toolbar.Left, rightPos);
+        end
+        else
+        begin
+          if IsVertical then
+          size:= size + toolbar.Height
+          else
+          size:= size + toolbar.Width;
+        end;
+      end;
+    end;
+
+    if rightPos = 0 then
+    begin
+      if IsVertical then
+      rightPos:= CurrentDock.Height
+      else
+      rightPos:= CurrentDock.Width;
+    end;
+
+    Result:= rightPos - size;
+    if IsVertical then
+    Result:= Result - Self.CalcNCSizes.Y
+    else
+    Result:= Result - Self.CalcNCSizes.X;    
+  end
+  else
+  begin
+    if IsVertical then
+    Result:= Self.ClientHeight
+    else
+    Result:= Self.ClientWidth;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Resize
+-------------------------------------------------------------------------------}
+procedure TCEToolbar.Resize;
+begin
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
   RightAlignItems
 -------------------------------------------------------------------------------}
 procedure TCEToolbar.RightAlignItems;
 var
   i: Integer;
-  spacers: TList;
-  spacer: TCEToolbarDynamicSpacerItem;
-  size, totalSize, fullSize, dynamicSize, overSize: Integer;
+  item, prevItem: TTBCustomItem;
   IV: TTBItemViewer;
-  IsRotated: Boolean;
+  fullSize, totalSize, overSize, size: Integer;
+  isDynSpacer, isStretcher: Boolean;
+  spacer: TCEToolbarDynamicSpacerItem;
 begin
-  if (csDestroying in ComponentState)
-     or (tstRightAligning in FState)
-     //or not Assigned(CurrentDock)
-     or (Items.Count <= 0)
-     or not Stretch
-     //or ((CurrentDock.Width <= 0) and (CurrentDock.Height <= 0))
-     or IsUpdating
+  if (csDestroying in ComponentState) // exit if we are destroying
+     or (tstRightAligning in FState)  // exit if already right aligning
+     or (Items.Count <= 0)            // exit if we have no items
+     or IsUpdating                    // exit if update in progress
   then Exit;
 
-  // Set Dynamic Spacers to Zero size if floating
-  if Self.Floating then
-  begin
-    for i:= 0 to Items.Count-1 do
-    begin
-      if Items.Items[i] is TCEToolbarDynamicSpacerItem then
-      TCEToolbarDynamicSpacerItem(Items.Items[i]).CustomWidth:= 0;
-    end;
-    Exit; // --> EXIT
-  end;
-
-  FState := FState + [tstRightAligning];
-
-  spacers:= TList.Create;
-  View.ValidatePositions;
+  FState:= FState + [tstRightAligning];
   View.BeginUpdate;
+  View.ValidatePositions;
   try
-    IsRotated:= IsVertical;
-    
-    if IsRotated then
-    fullSize:= Self.ClientHeight
-    else
-    fullSize:= Self.ClientWidth;
-
-    // calculate total size of items
-    totalSize:= 0;
-    for i:= 0 to View.ViewerCount - 1 do
+    // Floating or Docked but not stretched or fullsized
+    if Floating or not (Stretch or Self.FullSize) then
     begin
-      IV:= View.Viewers[i];
-      if not (IV.Item is TCEToolbarDynamicSpacerItem) then
+      for i:= 0 to Items.Count - 1 do
       begin
-        if IV.Item.Visible then
+        item:= Items.Items[i];
+        if (item is TCEToolbarDynamicSpacerItem) or (item is TCEToolbarStretcherItem) then
         begin
-          if IsRotated then
+          if IsCustomizing then
+          begin
+            TCECustomToolbarSpacerItem(item).CustomWidth:= 12; // set to default size
+            TCECustomToolbarSpacerItem(item).Visible:= true;
+          end
+          else
+          TCECustomToolbarSpacerItem(item).Visible:= false;
+        end
+        else if item is TCEToolbarEditItem then
+        TSpTBXCustomItemAccess(item).CustomWidth:= TCEToolbarEditItem(item).DefaultWidth
+        else if item is TSpTBXCustomItem then
+        TSpTBXCustomItemAccess(item).CustomWidth:= -1; // set to default size
+      end;
+    end
+    // Docked and Stretched or FullSized
+    else
+    begin
+      // initilize
+      size:= 0;
+      totalSize:= 0;
+      fullSize:= GetStretchedSize;
+      fLastFullSize:= fullSize;
+      fDynSpacersList.Clear;
+      fStretchedItemsList.Clear;
+      // loop through viewers to get totalSize
+      for i:= 0 to View.ViewerCount - 1 do
+      begin
+        IV:= View.Viewers[i];
+        item:= IV.Item;
+        isDynSpacer:= item is TCEToolbarDynamicSpacerItem;
+        isStretcher:= item is TCEToolbarStretcherItem;
+
+        // add dynamic spacers to list
+        if isDynSpacer then
+        fDynSpacersList.Add(item)
+        // add strethed items to lists
+        else if isStretcher and (i > 0) then
+        begin
+          // add to list only if stretched item is not separator/spacer/strether.
+          // else set the size variable to zero so we won't subtract it from totalSize.
+          prevItem:= View.Viewers[i-1].Item;
+          if not (prevItem is TCECustomToolbarSpacerItem) and
+             not (prevItem is TSpTBXSeparatorItem) and
+             not (IsVertical and (prevItem is TCEToolbarEditItem)) and
+             (prevItem is TSpTBXCustomItem) then
+          fStretchedItemsList.Add(prevItem)
+          else
+          size:= 0; 
+        end
+        // set default size to edit items
+        else if (item is TCEToolbarEditItem) then
+        begin
+          TCEToolbarEditItem(item).CustomWidth:= TCEToolbarEditItem(item).DefaultWidth;
+        end
+        else if item is TSpTBXCustomItem then
+        begin
+          if TSpTBXCustomItemAccess(item).CustomWidth <> -1 then
+          begin
+            TSpTBXCustomItemAccess(item).CustomWidth:= -1; // set to default size
+            View.ValidatePositions;
+          end;
+        end;
+
+        // if customizing, show all. if not, show all except stretchers
+        item.Visible:= IsCustomizing or not isStretcher;
+
+        // calculate size
+        if isStretcher then
+        begin
+          // customizing, add stretcher to totalSize
+          if IsCustomizing then
+          begin
+            if IsVertical then
+            totalSize:= totalSize + TCEToolbarStretcherItem(item).CustomHeight
+            else
+            totalSize:= totalSize + TCEToolbarStretcherItem(item).CustomWidth;
+          end;
+          // remove strethed item from totalSize
+          if not (IsVertical and (item is TCEToolbarEditItem)) then
+          totalSize:= totalSize - size;
+        end
+        else if not isDynSpacer then // normal item
+        begin
+          if IsVertical then
           size:= IV.BoundsRect.Bottom - IV.BoundsRect.Top
           else
           size:= IV.BoundsRect.Right - IV.BoundsRect.Left;
           totalSize:= totalSize + size;
         end;
-      end
-      else
-      begin
-        spacers.Add(Pointer(IV.Item));
       end;
-    end;
 
-    // Calculate size for spacers
-    overSize:= fullSize - totalSize;
-    if (overSize > 0) and (spacers.Count > 0) then
-    dynamicSize:= Floor(overSize / spacers.Count)
-    else
-    dynamicSize:= 0;
+      // calculate overSize
+      overSize:= fullSize - totalSize;
 
-    // Set spacer sizes
-    for i:= 0 to spacers.Count - 1 do
-    begin
-      spacer:= TCEToolbarDynamicSpacerItem(spacers.Items[i]);
-      if i < spacers.Count-1 then
-      spacer.CustomWidth:= dynamicSize
-      else
-      spacer.CustomWidth:= overSize;
-      overSize:= overSize - dynamicSize;
+      // stretch items (dynamic spacers are not used if strethers were found)
+      if fStretchedItemsList.Count > 0 then
+      begin
+        // hide/show dynamic spacers
+        for i:= 0 to fDynSpacersList.Count - 1 do
+        begin
+          spacer:= TCEToolbarDynamicSpacerItem(fDynSpacersList.Items[i]);
+          if IsCustomizing then 
+          begin
+            spacer.Visible:= true;
+            spacer.CustomWidth:= 12; // set default size
+            overSize:= overSize - 12;
+          end
+          else 
+          spacer.Visible:= false;
+        end;
+
+        // calculate size for strethed items. minimum size is 20
+        if (overSize > 0) and (fStretchedItemsList.Count > 0) then
+        size:= Max(Floor(overSize / fStretchedItemsList.Count), 20)
+        else
+        size:= 20;
+
+        // resize strethed items
+        for i:= 0 to fStretchedItemsList.Count - 1 do
+        begin
+          item:= TTBCustomItem(fStretchedItemsList.Items[i]);
+          if i < fStretchedItemsList.Count- 1 then
+          begin
+            TSpTBXCustomItemAccess(item).CustomWidth:= size;
+            overSize:= overSize - size;
+          end
+          else // use the left over space for last item, that way we'll fill every pixel.
+          TSpTBXCustomItemAccess(item).CustomWidth:= Max(overSize,20);
+        end;
+      end
+      // resize dynamic spacers
+      else if fDynSpacersList.Count > 0 then
+      begin
+        // calculate size for dynamic spacers.
+        if (overSize > 0) and (fDynSpacersList.Count > 0) then
+        size:= Floor(overSize / fDynSpacersList.Count)
+        else
+        size:= 0;
+
+        if IsCustomizing and (size < 12) then
+        size:= 12;
+
+        // resize dynamic spacers
+        for i:= 0 to fDynSpacersList.Count - 1 do
+        begin
+          item:= TTBCustomItem(fDynSpacersList.Items[i]);
+          if i < fDynSpacersList.Count- 1 then
+          begin
+            TSpTBXCustomItemAccess(item).CustomWidth:= size;
+            overSize:= overSize - size;
+          end
+          else // use the left over space for last item, that way we'll fill every pixel.
+          TSpTBXCustomItemAccess(item).CustomWidth:= overSize;
+        end;
+      end;
     end;
   finally
     View.EndUpdate;
     FState:= FState - [tstRightAligning];
-    spacers.Free;
   end;
 end;
 
@@ -233,6 +446,14 @@ end;
 procedure TCEToolbar.SetLargeImages(const Value: Boolean);
 begin
   fLargeImages:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  WMSize
+-------------------------------------------------------------------------------}
+procedure TCEToolbar.WMSize(var Message: TWMSize);
+begin
+  inherited;
 end;
 
 {-------------------------------------------------------------------------------
@@ -294,4 +515,42 @@ begin
   //Self.ItemStyle:= Self.ItemStyle - [tbisSeparator];
 end;
 
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Create an instance of TCEToolbarStretcherItem
+-------------------------------------------------------------------------------}
+constructor TCEToolbarStretcherItem.Create(AOwner: TComponent);
+begin
+  inherited;
+  Self.CustomWidth:= 12;
+  Self.CustomHeight:= 16;
+  Self.ItemStyle:= Self.ItemStyle + [tbisClicksTransparent];
+end;
+
+{-------------------------------------------------------------------------------
+  DoDrawButton
+-------------------------------------------------------------------------------}
+procedure TCEToolbarStretcherItem.DoDrawButton(ACanvas: TCanvas; ARect: TRect;
+    ItemInfo: TSpTBXMenuItemInfo; const PaintStage: TSpTBXPaintStage; var
+    PaintDefault: Boolean);
+begin
+  //inherited;
+  PaintDefault:= false;
+  if Self.GetParentComponent is TSpTBXToolbar then
+  begin
+    if TSpTBXToolbar(Self.GetParentComponent).IsCustomizing then
+    begin
+      ACanvas.Brush.Color:= clWhite;
+      ACanvas.Brush.Style:= bsSolid;
+      ACanvas.FillRect(ARect);
+      ACanvas.Brush.Color:= clBlack;
+      ACanvas.FrameRect(ARect);
+
+      SpDrawArrow(ACanvas, Round(ARect.Right / 2)-2, Round(ARect.Bottom / 2), clBlack, false, false, 4);
+    end;
+  end;
+end;
+
 end.
+
