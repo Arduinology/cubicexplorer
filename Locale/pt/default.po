@@ -1,16 +1,16 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.9\n"
-"POT-Creation-Date:                                           \n"
+"POT-Creation-Date:                                             \n"
 "PO-Revision-Date: 2007-11-01 00:00+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: Portugues\n"
 "X-Poedit-Country: PORTUGAL\n"
-"CE-POT-Version: 1430\n"
+"CE-POT-Version: 1474\n"
 "CE-Language: Portuguese\n"
 "Last-Translator: Mário F. Gonçalves <mail.mario.goncalves@gmail.com>\n"
+"Project-Id-Version: 2.0\n"
 
 msgid "%d file(s) failed to download!"
 msgstr "%d ficheiro(s) falharam o download"
@@ -131,6 +131,9 @@ msgstr "Tem a certeza que quer apagar esta sessão?"
 
 msgid "Are you sure you want to do that?"
 msgstr "Tem a certeza que quer fazer isso?"
+
+msgid "Are you sure you want to quit?"
+msgstr "Tem a certeza que quer saír?"
 
 msgid "Are you sure you want to restore?"
 msgstr "Tem a certeza que quer fazer o restauro?"
@@ -384,6 +387,9 @@ msgstr "Data da Modificação"
 msgid "Default"
 msgstr "Inicial"
 
+msgid "Default File Manager"
+msgstr "Gestor de Ficheiros por defeito"
+
 msgid "Default hotkeys become available after restart!"
 msgstr "Teclas de atalho por defeito disponíveis depois de reiniciar"
 
@@ -401,6 +407,9 @@ msgstr "Ambiente de Trabalho"
 
 msgid "Details"
 msgstr "Detalhes"
+
+msgid "Dialog found!"
+msgstr "Encontrado diálogo!"
 
 msgid "Direction"
 msgstr "Direção"
@@ -519,6 +528,9 @@ msgstr "Inglês (por defeito)"
 msgid "Enter each file mask on a separate line."
 msgstr "Insira cada máscara de ficheiro numa linha separada."
 
+msgid "Exclude"
+msgstr "Excluir"
+
 msgid "Exclude File Masks:"
 msgstr "Excluir Máscaras de Ficheiro:"
 
@@ -542,6 +554,9 @@ msgstr "Máscara do Nome do Ficheiro"
 
 msgid "File Search"
 msgstr "Procurar Ficheiros"
+
+msgid "File operation might be still running!"
+msgstr "Operação com ficheiros pode estar a decorrer!"
 
 msgid "File size format:"
 msgstr "Formato do tamanho do ficheiro:"
@@ -762,6 +777,9 @@ msgstr "Localização"
 msgid "Lock"
 msgstr "Bloquear"
 
+msgid "Lock Toolbars"
+msgstr "Bloquear Barras"
+
 msgid "Logoff"
 msgstr "Desligar"
 
@@ -836,6 +854,9 @@ msgstr "Disponível Nova Versão"
 
 msgid "New Window"
 msgstr "Nova Janela"
+
+msgid "New text file"
+msgstr "Novo ficheiro de texto"
 
 msgid "New version (%s) is available. Do you want to update now?"
 msgstr "Nova versão (%s) está disponível. Quer atualizar agora?"
@@ -1005,6 +1026,18 @@ msgstr "Refazer"
 msgid "Refresh"
 msgstr "Refrescar"
 
+msgid "Refresh Fileview"
+msgstr "Refrescar Visualização de Ficheiros"
+
+msgid "Register"
+msgstr "Registar"
+
+msgid "Registered successfully!"
+msgstr "Registado com sucesso!"
+
+msgid "Registration failed!"
+msgstr "Falha no registo!"
+
 msgid "Regular expression"
 msgstr "Expressão Normal"
 
@@ -1052,6 +1085,9 @@ msgstr "Restaurar"
 
 msgid "Restore All"
 msgstr "Restaurar Tudo"
+
+msgid "Restore Default Layout"
+msgstr "Restaurar Layout por defeito"
 
 msgid "Restore List"
 msgstr "Restaurar Lista"
@@ -1436,6 +1472,15 @@ msgstr "Desfazer Apagar"
 
 msgid "Undo Tab Close"
 msgstr "Desfazer Fecho do Tabulador"
+
+msgid "Unregister"
+msgstr "Remover registo"
+
+msgid "Unregistered successfully!"
+msgstr "Registo removido com sucesso!"
+
+msgid "Unregistration failed!"
+msgstr "Falha na remoção do registo!"
 
 msgid "Untitled"
 msgstr "Sem Título"
