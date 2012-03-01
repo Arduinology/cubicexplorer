@@ -57,13 +57,15 @@ type
     fDynSpacersList: TList;
     fLastFullSize: Integer;
     fStretchedItemsList: TList;
-    function GetStretchedSize: Integer; virtual;
+    procedure DoItemNotification(Ancestor: TTBCustomItem; Relayed: Boolean; Action:
+        TTBItemChangedAction; Index: Integer; Item: TTBCustomItem); override;
     procedure Resize; override;
     procedure RightAlignItems; override;
     procedure SetLargeImages(const Value: Boolean); virtual;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    function GetStretchedSize: Integer; virtual;
     property LargeImages: Boolean read fLargeImages write SetLargeImages;
   end;
 
@@ -104,18 +106,10 @@ type
     constructor Create(AOwner: TComponent); override;
   end;
 
-procedure Register;
-
 implementation
 
 uses
-  CE_ToolbarEditorItems,
-  TB2Dock;
-
-procedure Register;
-begin
-  RegisterComponents('CubicExplorer', [TCEToolbar]);
-end;
+  CE_ToolbarEditorItems, TB2Dock, TB2Toolbar;
 
 {*------------------------------------------------------------------------------
   Create an instance of TCEToolbarSubmenuItem
@@ -177,6 +171,12 @@ destructor TCEToolbar.Destroy;
 begin
   fDynSpacersList.Free;
   fStretchedItemsList.Free;
+  inherited;
+end;
+
+procedure TCEToolbar.DoItemNotification(Ancestor: TTBCustomItem; Relayed:
+    Boolean; Action: TTBItemChangedAction; Index: Integer; Item: TTBCustomItem);
+begin
   inherited;
 end;
 
@@ -254,7 +254,7 @@ var
   i: Integer;
   item, prevItem: TTBCustomItem;
   IV: TTBItemViewer;
-  fullSize, totalSize, overSize, size: Integer;
+  fullSize, totalSize, overSize, size, newWidth: Integer;
   isDynSpacer, isStretcher: Boolean;
   spacer: TCEToolbarDynamicSpacerItem;
 begin
@@ -305,6 +305,11 @@ begin
       begin
         IV:= View.Viewers[i];
         item:= IV.Item;
+
+        // continue to next if item is Chevron
+        if item is TTBChevronItem then
+        Continue;
+
         isDynSpacer:= item is TCEToolbarDynamicSpacerItem;
         isStretcher:= item is TCEToolbarStretcherItem;
 
@@ -320,7 +325,7 @@ begin
           if not (prevItem is TCECustomToolbarSpacerItem) and
              not (prevItem is TSpTBXSeparatorItem) and
              not (IsVertical and (prevItem is TCEToolbarEditItem)) and
-             (prevItem is TSpTBXCustomItem) then
+             ((prevItem is TSpTBXCustomItem) or (prevItem is TTBControlItem)) then
           fStretchedItemsList.Add(prevItem)
           else
           size:= 0; 
@@ -330,7 +335,7 @@ begin
         begin
           TCEToolbarEditItem(item).CustomWidth:= TCEToolbarEditItem(item).DefaultWidth;
         end
-        else if item is TSpTBXCustomItem then
+        else if (item is TSpTBXCustomItem) and not (item is TCEToolbarFixedSpacerItem) then
         begin
           if TSpTBXCustomItemAccess(item).CustomWidth <> -1 then
           begin
@@ -339,8 +344,9 @@ begin
           end;
         end;
 
-        // if customizing, show all. if not, show all except stretchers
-        item.Visible:= IsCustomizing or not isStretcher;
+        // hide stretchers if not  customizing
+        if isStretcher then
+        item.Visible:= IsCustomizing;
 
         // calculate size
         if isStretcher then
@@ -357,7 +363,7 @@ begin
           if not (IsVertical and (item is TCEToolbarEditItem)) then
           totalSize:= totalSize - size;
         end
-        else if not isDynSpacer then // normal item
+        else if not isDynSpacer and item.Visible then // normal item
         begin
           if IsVertical then
           size:= IV.BoundsRect.Bottom - IV.BoundsRect.Top
@@ -397,13 +403,22 @@ begin
         for i:= 0 to fStretchedItemsList.Count - 1 do
         begin
           item:= TTBCustomItem(fStretchedItemsList.Items[i]);
+
           if i < fStretchedItemsList.Count- 1 then
           begin
-            TSpTBXCustomItemAccess(item).CustomWidth:= size;
+            newWidth:= size;
             overSize:= overSize - size;
           end
-          else // use the left over space for last item, that way we'll fill every pixel.
-          TSpTBXCustomItemAccess(item).CustomWidth:= Max(overSize,20);
+          else
+          newWidth:= Max(overSize,20); // use the left over space for last item, that way we'll fill every pixel.
+
+          if item is TTBControlItem then
+          begin
+            if assigned(TTBControlItem(item).Control) then
+            TTBControlItem(item).Control.Width:= newWidth
+          end
+          else
+          TSpTBXCustomItemAccess(item).CustomWidth:= newWidth;
         end;
       end
       // resize dynamic spacers

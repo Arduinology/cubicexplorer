@@ -22,20 +22,26 @@ package CEToolbar;
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
+{$DESIGNONLY}
 {$IMPLICITBUILD ON}
 
 requires
   rtl,
   vcl,
+  dclstd,
   TntUnicodeVcl,
+  TntUnicodeVcl_Design,
+  tb2k_d10,
+  tb2kdsgn_d10,
+  SpTBXLib_d10,
   vclactnband,
   vclx,
   vcldb,
-  dbrtl,
-  tb2k_d10,
-  SpTBXLib_d10;
+  dbrtl;
 
 contains
-  CE_Toolbar in 'CE_Toolbar.pas';
+  CE_Toolbar in 'CE_Toolbar.pas',
+  CE_ToolbarReg in 'CE_ToolbarReg.pas',
+  CE_SpTBXItems in 'CE_SpTBXItems.pas';
 
 end.
