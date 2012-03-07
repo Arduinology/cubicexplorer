@@ -101,7 +101,6 @@ type
   TCEToolbarComboBoxItemViewer = class(TCEToolbarEditItemViewer)
   private
     fMouseOverDropButton: Boolean;
-    procedure MouseBeginEdit;
     procedure UpdateDropDownButton;
   protected
     fComboBox: TSpTBXComboBox;
@@ -114,7 +113,6 @@ type
     function GetEditControlText: WideString; override;
     procedure GetEditRect(var R: TRect); override;
     procedure InternalEditControlExit; override;
-    procedure InternalDrawComboBox(ACanvas: TCanvas; ARect: TRect); virtual;
     procedure InternalEditControlChange(Sender: TObject); override;
     procedure MouseDown(Shift: TShiftState; X, Y: Integer; var MouseDownOnMenu:
         Boolean); override;
@@ -1015,7 +1013,6 @@ var
 var
   R: TRect;
   ActiveWnd, FocusWnd: HWND;
-  S: WideString;
 begin
   GetEditRect(R);
   if IsRectEmpty(R) then
@@ -1169,43 +1166,6 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  InternalDrawComboBox
--------------------------------------------------------------------------------}
-procedure TCEToolbarComboBoxItemViewer.InternalDrawComboBox(ACanvas: TCanvas;
-    ARect: TRect);
-var
-  ItemInfo: TSpTBXMenuItemInfo;
-  R, ButtonR: TRect;
-  ButtonWidth: Integer;
-  T: TSpTBXSkinType;
-  PaintDefault, HotTrackFrame, VistaNewComCtrls: Boolean;
-begin
-  SpFillItemInfo(ACanvas, Self, ItemInfo);
-  try
-    GetWindowRect(fComboBox.Handle, R);
-    OffsetRect(R, -R.Left, -R.Top);  
-    ButtonWidth := GetSystemMetrics(SM_CXHSCROLL);
-
-    T:= SkinManager.GetSkinType;
-    ExcludeClipRect(ACanvas.Handle, 2, 2, R.Right - 2 - ButtonWidth, R.Bottom - 2);
-
-    VistaNewComCtrls:= not (csDesigning in Item.ComponentState) and (T = sknWindows) and SpIsWinVistaOrUp and ThemeServices.ThemesEnabled;
-
-    if (T <> sknNone) and not VistaNewComCtrls then
-    begin
-      ButtonR := GetDropDownButtonRect;
-
-      if T = sknSkin then
-      SpDrawParentBackground(fComboBox, ACanvas.Handle, R);
-      SpDrawXPEditFrame(ACanvas, R, Item.Enabled, HotTrackFrame, T);
-      SpDrawXPComboButton(ACanvas, ButtonR, Item.Enabled, HotTrackFrame, GetMouseInDropDownButton, fComboBox.DroppedDown, True, T);
-    end;
-  finally
-    SelectClipRgn(ACanvas.Handle, 0);
-  end;
-end;
-
-{-------------------------------------------------------------------------------
   InternalEditControlChange
 -------------------------------------------------------------------------------}
 procedure TCEToolbarComboBoxItemViewer.InternalEditControlChange(Sender:
@@ -1213,20 +1173,6 @@ procedure TCEToolbarComboBoxItemViewer.InternalEditControlChange(Sender:
 begin
   // Used by descendants
   TCEToolbarEditItem(Item).SetTextEx(GetEditControlText, tcrEditControl);
-end;
-
-{-------------------------------------------------------------------------------
-  Mouse Begin Edit
--------------------------------------------------------------------------------}
-procedure TCEToolbarComboBoxItemViewer.MouseBeginEdit;
-begin
-  if Item.Enabled then
-    Execute(True)
-  else
-  begin
-    if (View.ParentView = nil) and not View.IsPopup then
-      View.EndModal;
-  end;
 end;
 
 {-------------------------------------------------------------------------------

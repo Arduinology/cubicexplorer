@@ -571,9 +571,10 @@ end;
 procedure TCEFileViewPage.OnMouseUp(Sender: TObject; Button: TMouseButton;
     Shift: TShiftState; X, Y: Integer);
 var
-  NS: TNamespace;
+  NS, targetNS: TNamespace;
   item: TEasyItem;
   WindowPt: TPoint;
+  freeTarget: Boolean;
 begin
   if (ssMiddle in fDownShiftState) or ((ssLeft in fDownShiftState) and (ssAlt in Shift)) then
   begin
@@ -585,20 +586,36 @@ begin
       FileView.ValidateNamespace(Item,NS);
       if assigned(NS) then
       begin
-        if NS.FileSystem and not NS.Folder then
+        if NS.Link and assigned(NS.ShellLink) then
         begin
-          if ssShift in Shift then
-          OpenFileInTab(NS.NameForParsing, not MainForm.TabSet.Settings.OpenTabSelect)
-          else
-          OpenFileInTab(NS.NameForParsing, MainForm.TabSet.Settings.OpenTabSelect)
+          targetNS:= TNamespace.Create(PIDLMgr.CopyPIDL(NS.ShellLink.TargetIDList), nil);
+          freeTarget:= true;
         end
         else
         begin
-          if ssShift in Shift then
-          OpenFolderInTab(Self, NS.AbsolutePIDL, not MainForm.TabSet.Settings.OpenTabSelect)
-          else
-          OpenFolderInTab(Self, NS.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect)
+          targetNS:= NS;
+          freeTarget:= false;
         end;
+
+        try
+          if targetNS.FileSystem and not targetNS.Folder then
+          begin
+            if ssShift in Shift then
+            OpenFileInTab(targetNS.NameForParsing, not MainForm.TabSet.Settings.OpenTabSelect)
+            else
+            OpenFileInTab(targetNS.NameForParsing, MainForm.TabSet.Settings.OpenTabSelect)
+          end
+          else
+          begin
+            if ssShift in Shift then
+            OpenFolderInTab(Self, targetNS.AbsolutePIDL, not MainForm.TabSet.Settings.OpenTabSelect)
+            else
+            OpenFolderInTab(Self, targetNS.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect)
+          end;
+        finally
+          if freeTarget then
+          targetNS.Free;
+        end;            
       end;
     end;
   end

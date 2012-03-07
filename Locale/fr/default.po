@@ -4,9 +4,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1459\n"
+"CE-POT-Version: 1474\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
+"POT-Creation-Date:   \n"
+"PO-Revision-Date:   \n"
+"Language-Team:   \n"
 
 msgid "%d file(s) failed to download!"
 msgstr "Echec du téléchargement de %d fichier(s) !"
@@ -133,6 +136,9 @@ msgstr "Etes-vous certain(e) de vouloir faire cela ?"
 
 msgid "Are you sure you want to quit?"
 msgstr "Etes-vous sûr(e) de vouloir quitter ?"
+
+msgid "Are you sure you want to restore default layout?"
+msgstr "Etes-vous sûr(e) de vouloir restaurer la disposition par défaut ?"
 
 msgid "Are you sure you want to restore?"
 msgstr "Etes-vous sûr(e) de vouloir restaurer ?"
@@ -360,7 +366,7 @@ msgid "Custom..."
 msgstr " Personnalisé..."
 
 msgid "Customize"
-msgstr "Personnalisez CubicExplorer"
+msgstr "Personnaliser CubicExplorer"
 
 msgid "Customizer..."
 msgstr "Fenêtre de personnalisation... "
@@ -447,7 +453,7 @@ msgid "Do you want to reset all hotkeys for this action?"
 msgstr "Voulez-vous réinitialiser tous les raccourcis clavier pour cette action ?"
 
 msgid "Do you want to update?"
-msgstr "Voulez-vous mettre à jour ?"
+msgstr "Voulez-vous mettre à jour CubicExplorer ?"
 
 msgid "Do you want to use it anyway?"
 msgstr "Voulez-vous quand même l'utiliser ?"
@@ -535,6 +541,12 @@ msgstr "Anglais (par défaut)"
 
 msgid "Enter each file mask on a separate line."
 msgstr "Entrez chaque masque de fichiers sur une ligne distincte."
+
+msgid "Error"
+msgstr "Erreur"
+
+msgid "Error: Could not connect!"
+msgstr "Erreur : connexion impossible !"
 
 msgid "Exclude"
 msgstr "Exclure"
@@ -863,6 +875,9 @@ msgstr "Nouveau"
 msgid "New Category"
 msgstr "Nouvelle catégorie"
 
+msgid "New File"
+msgstr "Nouveau fichier"
+
 msgid "New Folder"
 msgstr "Nouveau dossier"
 
@@ -882,7 +897,7 @@ msgid "New text file"
 msgstr "Nouveau fichier texte"
 
 msgid "New version (%s) is available. Do you want to update now?"
-msgstr "Une nouvelle version (%s) est disponible. Souhaitez-vous mettre à jour CubicExplorer maintenant ?"
+msgstr "Une nouvelle version (%s) est disponible. Souhaitez-vous mettre à jour maintenant ?"
 
 msgid "No Extension"
 msgstr "Pas d'extension"
@@ -951,7 +966,7 @@ msgid "Open new tab next to current"
 msgstr " Ouvrir les nouveaux onglets à côté de l'onglet actif"
 
 msgid "Open selected"
-msgstr " Ouvrir le panier sélectionné :"
+msgstr " Ouvrir le panier suivant :"
 
 msgid "Open..."
 msgstr "Ouvrir..."
@@ -1345,6 +1360,9 @@ msgstr "Arrêter"
 
 msgid "Stretch"
 msgstr "Etirer"
+
+msgid "Stretcher"
+msgstr "Etirement"
 
 msgid "Strict"
 msgstr "Filtrage strict"

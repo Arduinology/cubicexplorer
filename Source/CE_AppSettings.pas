@@ -258,6 +258,7 @@ function TCEAppSettings.LoadFromResource(AInstance: Cardinal; AResName:
 var
   stream: TStream;
 begin
+  Result:= false;
   try
     stream:= TResourceStream.Create(AInstance, AResName, RT_RCDATA);
     try
@@ -275,9 +276,7 @@ begin
           else if not assigned(XML.DocumentElement) then
           begin
             XML.AppendChild(XML.CreateElement('CubicExplorer'));
-          end
-          else
-          Result:= false;
+          end;
         end;
       end;
 

@@ -137,8 +137,6 @@ uses
   Get's called on Create
 -------------------------------------------------------------------------------}
 procedure TCEFiltersPanel.FormCreate(Sender: TObject);
-var
-  item: TSpTBXCustomItem;
 begin
   inherited;
   fDock:= TopDock;
@@ -196,10 +194,6 @@ end;
   On Form Resize
 -------------------------------------------------------------------------------}
 procedure TCEFiltersPanel.FormResize(Sender: TObject);
-var
-  i: Integer;
-  view: TTBItemViewer;
-  w: Integer;
 begin
   fDock.Width:= ClientWidth;
 end;

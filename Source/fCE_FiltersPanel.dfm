@@ -9,7 +9,6 @@ inherited CEFiltersPanel: TCEFiltersPanel
   TextHeight = 13
   inherited TopDock: TSpTBXDock
     Height = 26
-    ExplicitWidth = 425
     ExplicitHeight = 26
     object FiltersToolbar: TCEToolbar
       Left = 0
@@ -23,9 +22,6 @@ inherited CEFiltersPanel: TCEFiltersPanel
       TabOrder = 0
       Caption = 'Filters'
     end
-  end
-  inherited BottomDock: TSpTBXDock
-    ExplicitWidth = 425
   end
   object Images: TBitmap32List
     Bitmaps = <

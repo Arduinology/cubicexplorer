@@ -645,7 +645,6 @@ var
   dock: TTBDock;
   tabset: TCESpTabSet;
   statusbar: TCEStatusBar;
-  newPath: String;
 begin
   if not assigned(AppStorage) then
   Exit;

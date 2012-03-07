@@ -585,7 +585,7 @@ begin
   begin
    path:= UniqueDirName(WideIncludeTrailingBackslash(RootFolderNamespace.NameForParsing) + _('New File'));
 
-   h:= CreateFileW(PWideChar(path),0,0,0,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,0);
+   h:= CreateFileW(PWideChar(path),0,0,nil,CREATE_NEW,FILE_ATTRIBUTE_NORMAL,0);
    if h <> INVALID_HANDLE_VALUE then
    begin
      CloseHandle(h);

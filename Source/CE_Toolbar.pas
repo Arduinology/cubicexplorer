@@ -257,6 +257,7 @@ var
   fullSize, totalSize, overSize, size, newWidth: Integer;
   isDynSpacer, isStretcher: Boolean;
   spacer: TCEToolbarDynamicSpacerItem;
+  r: TRect;
 begin
   if (csDestroying in ComponentState) // exit if we are destroying
      or (tstRightAligning in FState)  // exit if already right aligning
@@ -266,7 +267,6 @@ begin
 
   FState:= FState + [tstRightAligning];
   View.BeginUpdate;
-  View.ValidatePositions;
   try
     // Floating or Docked but not stretched or fullsized
     if Floating or not (Stretch or Self.FullSize) then
@@ -300,6 +300,32 @@ begin
       fLastFullSize:= fullSize;
       fDynSpacersList.Clear;
       fStretchedItemsList.Clear;
+
+      // set default sizes
+      for i:= 0 to View.ViewerCount - 1 do
+      begin
+        IV:= View.Viewers[i];
+        item:= IV.Item;
+        if (item is TCEToolbarDynamicSpacerItem) or (item is TCEToolbarStretcherItem) then
+        begin
+          if IsCustomizing then
+          TCECustomToolbarSpacerItem(item).CustomWidth:= 12
+          else
+          TCECustomToolbarSpacerItem(item).CustomWidth:= 0;
+        end
+        else if (item is TCEToolbarEditItem) then
+        begin
+          TCEToolbarEditItem(item).CustomWidth:= TCEToolbarEditItem(item).DefaultWidth;
+        end
+        else if (item is TSpTBXCustomItem) and not (item is TCEToolbarFixedSpacerItem) then
+        begin
+          if TSpTBXCustomItemAccess(item).CustomWidth <> -1 then
+          begin
+            TSpTBXCustomItemAccess(item).CustomWidth:= -1; // set to default size
+          end;
+        end;
+      end;
+
       // loop through viewers to get totalSize
       for i:= 0 to View.ViewerCount - 1 do
       begin
@@ -329,19 +355,6 @@ begin
           fStretchedItemsList.Add(prevItem)
           else
           size:= 0; 
-        end
-        // set default size to edit items
-        else if (item is TCEToolbarEditItem) then
-        begin
-          TCEToolbarEditItem(item).CustomWidth:= TCEToolbarEditItem(item).DefaultWidth;
-        end
-        else if (item is TSpTBXCustomItem) and not (item is TCEToolbarFixedSpacerItem) then
-        begin
-          if TSpTBXCustomItemAccess(item).CustomWidth <> -1 then
-          begin
-            TSpTBXCustomItemAccess(item).CustomWidth:= -1; // set to default size
-            View.ValidatePositions;
-          end;
         end;
 
         // hide stretchers if not  customizing

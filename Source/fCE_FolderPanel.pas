@@ -170,7 +170,7 @@ procedure TCEFolderPanel.FolderTreeSelectedChange(Node: PVirtualNode);
 var
   NS: TNamespace;
 begin
-  if FolderTree.ValidateNamespace(Node, NS) then
+  if not FolderTree.IsEditing and FolderTree.ValidateNamespace(Node, NS) then
   begin
     if Settings.OpenInNewTab then
     OpenFolderInTab(FolderTree, NS.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect)
@@ -179,7 +179,6 @@ begin
 
     if Settings.CenterOnBrowse then
     FolderTree.ScrollToView(Node, false, true);
-
   end;
 end;
 
