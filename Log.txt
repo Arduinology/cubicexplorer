@@ -1,6 +1,7 @@
 7.3.2012
 * Shortcuts are now opened properly when middle clicking.
 * Updated French translation (thanks to BB).
+* Fixed toolbar bugs.
 
 1.3.2012
 * Updated Portuguese translation (thanks to Mário Gonçalves).

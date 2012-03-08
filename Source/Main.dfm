@@ -19,10 +19,22 @@ object MainForm: TMainForm
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnResize = TntFormResize
   OnShortCut = FormShortCut
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object panel_curtain: TPanel
+    Left = 0
+    Top = 0
+    Width = 628
+    Height = 441
+    BevelOuter = bvNone
+    Caption = 'Starting CubicExplorer...'
+    Color = clWindow
+    ParentBackground = False
+    TabOrder = 5
+  end
   object BottomToolDock: TSpTBXDock
     Left = 0
     Top = 432

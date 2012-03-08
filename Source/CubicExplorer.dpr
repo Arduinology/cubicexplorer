@@ -152,6 +152,7 @@ var
   ws: WideString;
   i: Integer;
   copyDataStruct : TCopyDataStruct;
+  t: Integer;
 begin
   // Handle elevated commands
   if HandleElevatedCommands then

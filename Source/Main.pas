@@ -221,6 +221,7 @@ type
     SpTBXItem98: TSpTBXItem;
     SpTBXSeparatorItem31: TSpTBXSeparatorItem;
     but_reset_layout: TSpTBXItem;
+    panel_curtain: TPanel;
     procedure AutoUpdateTimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -234,6 +235,7 @@ type
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
     procedure sub_closed_tab_listPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure TabPopupMenuPopup(Sender: TObject);
+    procedure TntFormResize(Sender: TObject);
     procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer);
   private
@@ -406,7 +408,7 @@ type
 
 var
   MainForm: TMainForm;
-
+  
 implementation
 
 uses
@@ -464,6 +466,11 @@ end;
 -------------------------------------------------------------------------------}
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
+  // show curtain
+  // - we added the curtain panel in design time because otherwise toolbars will
+  //  flash on screen before the curtain is drawn.
+  panel_curtain.BringToFront;
+  
   ShowWindow(Application.Handle, SW_HIDE);
   SetWindowLong(Application.Handle, GWL_EXSTYLE,
     GetWindowLong(Application.Handle, GWL_EXSTYLE) and not WS_EX_APPWINDOW
@@ -543,7 +550,6 @@ begin
   DockHostForm.Parent:= MainPanel;
   DockHostForm.Align:= alClient;
   DockHostForm.Show;
-  //BeginUIUpdate;
 
   // Setup MainMenuPopup
   MainMenuPopupMenu.LinkSubitems:= MainToolbar.Items;
@@ -622,6 +628,7 @@ begin
   StatusBar:= TCEStatusBar.Create(Self);
   StatusBar.Name:= 'StatusBar';
   StatusBar.Parent:= Self;
+  panel_curtain.BringToFront; // bring curtain over statusbar
   StatusBar.Initialize;
   StatusBar.PopupMenu:= MainMenuPopupMenu;
   GlobalPathCtrl.RegisterNotify(StatusBar);
@@ -838,9 +845,6 @@ begin
   // Start Update timer
   CEActions.UpdateTimer.Enabled:= true;
 
-  
-
-
   // Testing stuff!!!
   if DebugHook <> 0 then
   begin
@@ -867,6 +871,10 @@ begin
 
   if Settings.AutoCheckUpdates then
   AutoUpdateTimer.Enabled:= true;
+  
+  // destroy curtain
+  panel_curtain.Free;
+  panel_curtain:= nil;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1726,6 +1734,16 @@ end;
 procedure TMainForm.TabPopupMenuPopup(Sender: TObject);
 begin
   sub_closed_tab_list.Enabled:= TabSet.CanUndoTabClose;
+end;
+
+{-------------------------------------------------------------------------------
+  On TMainForm.Resize
+-------------------------------------------------------------------------------}
+procedure TMainForm.TntFormResize(Sender: TObject);
+begin
+  // resize curtain
+  if assigned(panel_curtain) then
+  panel_curtain.BoundsRect:= ClientRect;
 end;
 
 {-------------------------------------------------------------------------------
