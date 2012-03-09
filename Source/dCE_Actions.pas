@@ -233,6 +233,11 @@ type
     act_help_restore_layout: TTntAction;
     act_tabs_menu: TCEToolbarAction;
     act_edit_newemptyfile: TTntAction;
+    act_stack_open: TCEToolbarAction;
+    act_stack_save: TCEToolbarAction;
+    act_stack_remove: TTntAction;
+    act_stack_clear: TTntAction;
+    act_stack_allowmove: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -407,6 +412,8 @@ begin
   act_edit_undo_delete.ItemClass:= TCEUndoDeleteButton;
   act_tools_systempower.ItemClass:= TCESystemPowerButton;
   act_tabs_menu.ItemClass:= TCETabsButton;
+  act_stack_open.ItemClass:= TCEStackOpenButton;
+  act_stack_save.ItemClass:= TCEStackSaveButton;
 end;
 
 {##############################################################################}
@@ -880,6 +887,10 @@ begin
       CEFiltersPanel.Filters.UseWildcards;
     903: CEFiltersPanel.Filters.ExcludeFromResults:= not
       CEFiltersPanel.Filters.ExcludeFromResults;
+    // stack
+    923: CEStackPanel.StackTree.DeleteSelectedNodes;
+    924: CEStackPanel.ClearList;
+    925: CEStackPanel.StackTree.SafeOperationsOnly:= not CEStackPanel.StackTree.SafeOperationsOnly;
   end;
 end;
 
@@ -889,11 +900,15 @@ end;
 -------------------------------------------------------------------------------}
 procedure UpdateMiscCategory(ActionID: Integer; TargetAction: TTntAction);
 begin
+  TargetAction.Enabled:= true;
   case ActionID of
     902: TargetAction.Checked:= CEFiltersPanel.Filters.UseWildcards;
     903: TargetAction.Checked:= CEFiltersPanel.Filters.ExcludeFromResults;
+    // stack
+    923: TargetAction.Enabled:= CEStackPanel.StackTree.SelectedCount > 0;
+    924: TargetAction.Enabled:= CEStackPanel.StackTree.RootNode.ChildCount > 0;
+    925: TargetAction.Enabled:= not CEStackPanel.StackTree.SafeOperationsOnly;
   end;
-  TargetAction.Enabled:= true;
 end;
 
 {##############################################################################}

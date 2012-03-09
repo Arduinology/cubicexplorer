@@ -1093,12 +1093,15 @@ begin
   WideCreateDir(VersionFolder);
   if WideDirectoryExists(VersionFolder) then
   begin
-    fs:= TTntFileStream.Create(VersionFolder + 'updates.xml', fmCreate);
     try
-      fs.Seek(0, soFromBeginning);
-      WriteXMLFile(fXML, fs);
-    finally
-      fs.Free;
+      fs:= TTntFileStream.Create(VersionFolder + 'updates.xml', fmCreate);
+      try
+        fs.Seek(0, soFromBeginning);
+        WriteXMLFile(fXML, fs);
+      finally
+        fs.Free;
+      end;
+    except
     end;
   end;
 end;

@@ -222,13 +222,16 @@ procedure TCEBookmarkTree.LoadFromXmlStream(S: TStream);
 var
   XmlDoc: TJvSimpleXml;
 begin
-  XmlDoc:= TJvSimpleXml.Create(nil);
   try
-    XmlDoc.LoadFromStream(S);
-    PopulateTree(XmlDoc);
-  finally
-    XmlDoc.Free;
-    BookmarksChange;
+    XmlDoc:= TJvSimpleXml.Create(nil);
+    try
+      XmlDoc.LoadFromStream(S);
+      PopulateTree(XmlDoc);
+    finally
+      XmlDoc.Free;
+      BookmarksChange;
+    end;
+  except
   end;
 end;
 

@@ -1,3 +1,13 @@
+9.3.2012
+- Fixed bug that caused MainToolbar to not remember it's visibility.
+* Changed QuickView text viewer so it doesn't lock files.
+* It's now possible to customize StackToolbar.
+- Fixed crash in FileSearch when search has finished.
+- Removed exceptions when setting files are locked.
+
+8.3.2012
++ Added loading screen.
+
 7.3.2012
 * Shortcuts are now opened properly when middle clicking.
 * Updated French translation (thanks to BB).

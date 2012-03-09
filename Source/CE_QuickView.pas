@@ -233,7 +233,7 @@ begin
   Repaint;
 
   try
-    Stream := TTntFileStream.Create(AFilePath, fmOpenReadWrite or fmShareDenyNone);
+    Stream := TTntFileStream.Create(AFilePath, fmOpenRead or fmShareDenyNone);
   except
     on E: Exception do
     begin

@@ -16,45 +16,11 @@ inherited CEStackPanel: TCEStackPanel
       Left = 0
       Top = 0
       BorderStyle = bsNone
-      DockMode = dmCannotFloatOrChangeDocks
       DragHandleStyle = dhNone
-      Images = CE_Images.MiscImages
+      Images = CE_Images.SmallIcons
       Stretch = True
       TabOrder = 0
-      object sub_load: TSpTBXSubmenuItem
-        Caption = 'Open'
-        ImageIndex = 4
-        Options = [tboDropdownArrow]
-        OnPopup = sub_loadPopup
-      end
-      object sub_save: TSpTBXSubmenuItem
-        Caption = 'Save'
-        ImageIndex = 5
-        Options = [tboDropdownArrow]
-        OnPopup = sub_savePopup
-      end
-      object SpTBXSeparatorItem1: TSpTBXSeparatorItem
-      end
-      object item_remove: TSpTBXItem
-        Caption = 'Remove from Stack'
-        Enabled = False
-        ImageIndex = 4
-        Images = CE_Images.SmallIcons
-        OnClick = item_removeClick
-      end
-      object item_clear_list: TSpTBXItem
-        Caption = 'Clear List'
-        Enabled = False
-        ImageIndex = 44
-        Images = CE_Images.SmallIcons
-        OnClick = item_clear_listClick
-      end
-      object item_safe_operations: TSpTBXItem
-        Caption = 'Allow Move'
-        ImageIndex = 7
-        Images = CE_Images.MiscImages
-        OnClick = item_safe_operationsClick
-      end
+      Caption = 'Stacks'
     end
   end
   inherited BottomDock: TSpTBXDock
@@ -66,10 +32,7 @@ inherited CEStackPanel: TCEStackPanel
     Left = 368
     Top = 48
     object but_clearlist: TSpTBXItem
-      Caption = 'Clear List'
-      ImageIndex = 44
-      Images = CE_Images.SmallIcons
-      OnClick = item_clear_listClick
+      Action = CEActions.act_stack_clear
     end
   end
 end

@@ -130,7 +130,7 @@ inherited CEOptionsPage_General: TCEOptionsPage_General
       TabOrder = 0
       OnClick = but_registerClick
       Images = CE_Images.MiscImages
-      ImageIndex = 10
+      ImageIndex = 6
       SkinType = sknWindows
     end
     object but_unregister: TSpTBXButton
@@ -143,7 +143,7 @@ inherited CEOptionsPage_General: TCEOptionsPage_General
       TabOrder = 1
       OnClick = but_unregisterClick
       Images = CE_Images.MiscImages
-      ImageIndex = 10
+      ImageIndex = 6
       SkinType = sknWindows
     end
   end

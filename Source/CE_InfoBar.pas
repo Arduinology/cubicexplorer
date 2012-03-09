@@ -854,11 +854,14 @@ begin
       ns.ExtractImage.Height:= ThumbnailSize.cy;
       ns.ExtractImage.ColorDepth:= 32;
       ns.ExtractImage.Flags:= IEIFLAG_SCREEN or IEIFLAG_QUALITY;
-      ns.ExtractImage.ImagePath;
-      if Succeeded(ns.ExtractImage.ExtractImageInterface.Extract(Bits)) then
-      begin
-        Thumbnail.Handle:= Bits;
-        ThumbnailFound:= true;
+      try
+        ns.ExtractImage.ImagePath;
+        if Succeeded(ns.ExtractImage.ExtractImageInterface.Extract(Bits)) then
+        begin
+          Thumbnail.Handle:= Bits;
+          ThumbnailFound:= true;
+      end;
+      except
       end;
     end;
     // Synchronize end results

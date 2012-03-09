@@ -191,6 +191,22 @@ type
     constructor Create(AOwner: TComponent); override;
   end;
 
+type
+  TCEStackOpenButton = class(TCEToolbarSubmenuItem)
+  protected
+    procedure DoPopup(Sender: TTBCustomItem; FromLink: Boolean); override;
+  public
+    constructor Create(AOwner: TComponent); override;
+  end;
+
+type
+  TCEStackSaveButton = class(TCEToolbarSubmenuItem)
+  protected
+    procedure DoPopup(Sender: TTBCustomItem; FromLink: Boolean); override;
+  public
+    constructor Create(AOwner: TComponent); override;
+  end;
+
 var
   GlobalButtonSettings: TCEButtonSettings;
 
@@ -199,7 +215,7 @@ implementation
 uses
   CE_FileView, fCE_FileView, CE_BaseFileView, dCE_Actions, dCE_Images, Main,
   CE_Sessions, fCE_FiltersPanel, CE_Utils, MPShellTypes, CE_CommonObjects,
-  CE_AppSettings, CE_SystemUtils, CE_SpTabBar, SpTBXTabs;
+  CE_AppSettings, CE_SystemUtils, CE_SpTabBar, SpTBXTabs, fCE_StackPanel;
 
 {##############################################################################}
 
@@ -1296,6 +1312,50 @@ end;
 procedure TCETabsButton.DoSubClick(Sender: TObject);
 begin
   MainForm.TabSet.SelectTab(TSpTBXTabItem(TSpTBXItem(Sender).Tag));
+end;
+
+{##############################################################################}
+// TCEStackOpenButton
+
+{*------------------------------------------------------------------------------
+  Create an instance of TCEStackOpenButton
+-------------------------------------------------------------------------------}
+constructor TCEStackOpenButton.Create(AOwner: TComponent);
+begin
+  inherited;
+  Self.DropdownCombo:= false;
+  Self.Options:= [tboDropdownArrow];
+end;
+
+{*------------------------------------------------------------------------------
+  Do Button Popup
+-------------------------------------------------------------------------------}
+procedure TCEStackOpenButton.DoPopup(Sender: TTBCustomItem; FromLink:
+    Boolean);
+begin
+  CEStackPanel.PopulateStackOpenMenuItem(Sender);
+end;
+
+{##############################################################################}
+// TCEStackSaveButton
+
+{*------------------------------------------------------------------------------
+  Create an instance of TCEStackSaveButton
+-------------------------------------------------------------------------------}
+constructor TCEStackSaveButton.Create(AOwner: TComponent);
+begin
+  inherited;
+  Self.DropdownCombo:= false;
+  Self.Options:= [tboDropdownArrow];
+end;
+
+{*------------------------------------------------------------------------------
+  Do Button Popup
+-------------------------------------------------------------------------------}
+procedure TCEStackSaveButton.DoPopup(Sender: TTBCustomItem; FromLink:
+    Boolean);
+begin
+  CEStackPanel.PopulateStackSaveMenuItem(Sender, true);
 end;
 
 {##############################################################################}

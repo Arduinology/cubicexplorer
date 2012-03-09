@@ -590,9 +590,13 @@ begin
   else
   ws:= _('Finished');
 
-  ChangeStatus(ws + ' - ' + WideFormat(_('%d folder(s) searched and %d item(s) found in %.3f second(s)'),
-                                             [Find.SearchedFolderCount, fFileCount, (GetTickCount - fStartTime) / 1000]));
-
+  try
+    ChangeStatus(ws + ' - ' + WideFormat(_('%d folder(s) searched and %d item(s) found in %.3f second(s)'),
+                                               [Find.SearchedFolderCount, fFileCount, (GetTickCount - fStartTime) / 1000]));
+  except
+    ChangeStatus(ws + ' - ' + WideFormat('%d folder(s) searched and %d item(s) found in %.3f second(s)',
+                                               [Find.SearchedFolderCount, fFileCount, (GetTickCount - fStartTime) / 1000]));
+  end;
   GlobalPathCtrl.ChangeGlobalContent(Self);
 end;
 

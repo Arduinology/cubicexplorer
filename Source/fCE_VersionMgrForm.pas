@@ -359,8 +359,13 @@ begin
     end;
 
     if Data.Failed > 0 then
-    TaskDialog(Self.Handle, _('Download failed!'), WideFormat(_('%d file(s) failed to download!'), [IntToStr(Data.Failed)]), '', TD_ICON_WARNING, TD_BUTTON_OK);
-
+    begin
+      try
+        TaskDialog(Self.Handle, _('Download failed!'), WideFormat(_('%d file(s) failed to download!'), [IntToStr(Data.Failed)]), '', TD_ICON_WARNING, TD_BUTTON_OK);
+      except
+        TaskDialog(Self.Handle, _('Download failed!'), WideFormat('%d file(s) failed to download!', [IntToStr(Data.Failed)]), '', TD_ICON_WARNING, TD_BUTTON_OK);
+      end;
+    end;
     CheckOfflineStates;
   end;
 end;
@@ -435,9 +440,9 @@ begin
   begin
     data:= Sender.GetNodeData(Node);
     if data.IsOffline then
-    ImageIndex:= 8
+    ImageIndex:= 4
     else
-    ImageIndex:= 9;
+    ImageIndex:= 5;
   end;
 end;
 

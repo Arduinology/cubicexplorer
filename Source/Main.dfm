@@ -56,7 +56,7 @@ object MainForm: TMainForm
     Height = 373
     Align = alClient
     BevelOuter = bvNone
-    TabOrder = 2
+    TabOrder = 0
   end
   object RightToolDock: TSpTBXDock
     Left = 619
@@ -75,7 +75,6 @@ object MainForm: TMainForm
       Left = 0
       Top = 0
       CloseButton = False
-      DockMode = dmCannotFloatOrChangeDocks
       DockPos = 0
       DragHandleStyle = dhNone
       Images = CE_Images.SmallIcons

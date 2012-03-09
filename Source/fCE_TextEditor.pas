@@ -436,12 +436,17 @@ begin
     begin
       if CloseDocument then
       begin
-        s:= TTntFileStream.Create(open1.FileName, fmOpenRead or fmShareDenyNone);
         try
-          Editor.Lines.LoadFromStream(s);
-          ActiveFile:= open1.FileName;
-        finally
-          s.Free;
+          s:= TTntFileStream.Create(open1.FileName, fmOpenRead or fmShareDenyNone);
+          try
+            Editor.Lines.LoadFromStream(s);
+            ActiveFile:= open1.FileName;
+          finally
+            s.Free;
+          end;
+        except
+          on E:EFOpenError do
+          WideMessageBox(Application.MainFormHandle, _('Error'), E.Message, MB_ICONERROR or MB_OK);
         end;
       end;
     end;
@@ -451,12 +456,17 @@ begin
   begin
     if CloseDocument then
     begin
-      s:= TTntFileStream.Create(FilePath, fmOpenRead or fmShareDenyNone);
       try
-        Editor.Lines.LoadFromStream(s);
-        ActiveFile:= FilePath;
-      finally
-        s.Free;
+        s:= TTntFileStream.Create(FilePath, fmOpenRead or fmShareDenyNone);
+        try
+          Editor.Lines.LoadFromStream(s);
+          ActiveFile:= FilePath;
+        finally
+          s.Free;
+        end;
+      except
+        on E:EFOpenError do
+        WideMessageBox(Application.MainFormHandle, _('Error'), E.Message, MB_ICONERROR or MB_OK);
       end;
     end;
   end;

@@ -1635,7 +1635,12 @@ begin
   end;
 
   try
-    ws:= WideFormat(_('New version (%s) is available. Do you want to update now?'), [VersionNumberToStr(Version)]);
+    try
+      ws:= WideFormat(_('New version (%s) is available. Do you want to update now?'), [VersionNumberToStr(Version)]);
+    except
+      ws:= WideFormat('New version (%s) is available. Do you want to update now?', [VersionNumberToStr(Version)]);
+    end;
+
     ws:= ws + #13#10 + '____________________' + #13#10;
     ws:= ws + _('Build:') + ' ' + VersionNumberToStr(Version) + #13#10;
     ws:= ws + _('Update type:') + ' ' + GetBuildTypeDescription(BuildType) + #13#10#13#10;

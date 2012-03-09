@@ -157,6 +157,13 @@ Unit Documents;
 // 902 = Strict filtering
 // 903 = Exclude filtering
 
+// **** Stack (920) ****
+// 921 = Open
+// 922 = Save
+// 923 = Remove from stack
+// 924 = Clear list
+// 925 = Allow Move
+
 // **** Focus (950) ****
 // 951 = Set focus to address bar
 

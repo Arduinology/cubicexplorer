@@ -324,7 +324,7 @@ begin
   fThumbViewStyle:= elsFilmStrip;
   Layout:= 'FileView';
   Images:= SmallSysImages;
-  FileView:= TCEFileView.Create(nil);
+  FileView:= TCEFileView.Create(Self);
   FileView.Parent:= self;
   FileView.Align:= alClient;
   FileView.Themed:= false;
@@ -393,7 +393,7 @@ destructor TCEFileViewPage.Destroy;
 begin
   if GlobalPathCtrl.ActivePage = Self then
   GlobalPathCtrl.ActivePage:= nil;
-  FileView.Free;
+  //FileView.Free;
   InfoBar.Free;
   InfoBarSplitter.Free;
   inherited;

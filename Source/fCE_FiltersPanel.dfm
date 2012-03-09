@@ -18,6 +18,7 @@ inherited CEFiltersPanel: TCEFiltersPanel
       DockPos = 0
       DragHandleStyle = dhNone
       Images = CE_Images.SmallIcons
+      PopupMenu = MainForm.ToolbarPopupMenu
       Stretch = True
       TabOrder = 0
       Caption = 'Filters'

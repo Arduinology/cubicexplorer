@@ -751,6 +751,41 @@ object CEActions: TCEActions
       ShortCut = 24654
       OnExecute = ActionExecute
     end
+    object act_stack_open: TCEToolbarAction
+      Tag = 921
+      Category = 'Stack'
+      Caption = 'Open'
+      ImageIndex = 68
+      OnExecute = ActionExecute
+    end
+    object act_stack_save: TCEToolbarAction
+      Tag = 922
+      Category = 'Stack'
+      Caption = 'Save'
+      ImageIndex = 69
+      OnExecute = ActionExecute
+    end
+    object act_stack_remove: TTntAction
+      Tag = 923
+      Category = 'Stack'
+      Caption = 'Remove from Stack'
+      ImageIndex = 4
+      OnExecute = ActionExecute
+    end
+    object act_stack_clear: TTntAction
+      Tag = 924
+      Category = 'Stack'
+      Caption = 'Clear List'
+      ImageIndex = 44
+      OnExecute = ActionExecute
+    end
+    object act_stack_allowmove: TTntAction
+      Tag = 925
+      Category = 'Stack'
+      Caption = 'Allow Move'
+      ImageIndex = 70
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

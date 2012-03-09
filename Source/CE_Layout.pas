@@ -672,6 +672,9 @@ begin
         AppStorage.Path:= AppStorage.ConcatPaths([AppStorage.Path, dockablewindow.Name]);
         try
           loadPos:= false;
+          if assigned(dockablewindow.CurrentDock) then
+          s:= AppStorage.ReadString('Dock', dockablewindow.CurrentDock.Name)
+          else
           s:= AppStorage.ReadString('Dock', 'TopToolDock');
           dock:= CEToolbarDocks.FindDockNamed(s);
           // Docked

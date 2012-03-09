@@ -48,36 +48,24 @@ type
     DropStackPopup: TSpTBXPopupMenu;
     but_clearlist: TSpTBXItem;
     StackToolbar: TCEToolbar;
-    sub_load: TSpTBXSubmenuItem;
-    sub_save: TSpTBXSubmenuItem;
-    item_safe_operations: TSpTBXItem;
-    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
-    item_clear_list: TSpTBXItem;
-    item_remove: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure DropStackPopupPopup(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure sub_loadPopup(Sender: TTBCustomItem; FromLink: Boolean);
-    procedure sub_savePopup(Sender: TTBCustomItem; FromLink: Boolean);
-    procedure item_safe_operationsClick(Sender: TObject);
-    procedure item_clear_listClick(Sender: TObject);
-    procedure item_removeClick(Sender: TObject);
   private
     fSettings: TCEStackPanelSettings;
     { Private declarations }
   protected
     fStackPaths: TTntStrings;
-    procedure HandleSafeOperationsOnlyChange(Sender: TObject);
     procedure HandleStackLoadClick(Sender: TObject);
     procedure HandleStackSaveClick(Sender: TObject);
-    procedure HandleStackTreeChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
-    procedure HandleStackTreeStructureChange(Sender: TBaseVirtualTree; Node:
-        PVirtualNode; Reason: TChangeReason);
   public
     StackTree: TCEStackTree;
     procedure DoFormShow; override;
     function FindStackNames(AList: TTntStrings): Integer;
+    procedure ClearList;
+    procedure DoStartUp; override;
     procedure LoadStartupStack;
+    procedure PopulateStackOpenMenuItem(AItem: TTBCustomItem);
     procedure PopulateStackSaveMenuItem(AItem: TTBCustomItem; ShowAutoSaveItem:
         Boolean = false);
     property Settings: TCEStackPanelSettings read fSettings write fSettings;
@@ -130,7 +118,8 @@ var
 implementation
 
 uses
-  CE_LanguageEngine, CE_LanguageUtils, fCE_ItemSelectSaveDlg, CE_Utils;
+  CE_LanguageEngine, CE_LanguageUtils, fCE_ItemSelectSaveDlg, CE_Utils,
+  CE_ToolbarButtons, CE_Layout, Main;
 
 {$R *.dfm}
 
@@ -156,10 +145,6 @@ begin
   StackTree.GroupOpenImageIndex:= 6;
   StackTree.NotAvailableImageIndex:= 4;
   StackTree.BottomSpace:= 6;
-  StackTree.OnSafeOperationsOnlyChange:= HandleSafeOperationsOnlyChange;
-  StackTree.OnChange:= HandleStackTreeChange;
-  StackTree.OnStructureChange:= HandleStackTreeStructureChange;
-  HandleSafeOperationsOnlyChange(Self);
   // Focus control
   GlobalFocusCtrl.CtrlList.Add(StackTree);
   TControlHack(StackTree).OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
@@ -172,14 +157,10 @@ begin
   fSettings.fLineHeight:= -1;
 
   GlobalAppSettings.AddItem('StackPanel', fSettings, true);
-  // Add dynamic spacer to toolbar
-  i:= StackToolbar.Items.IndexOf(item_safe_operations);
-  if i > 0 then
-  StackToolbar.Items.Insert(i, TCEToolbarDynamicSpacerItem.Create(StackToolbar.Items));
 
   fStackPaths:= TTntStringList.Create;
 
-  sub_save.Enabled:= not ReadOnlySettings;
+  CELayoutItems.Add(StackToolbar);
 end;
 
 {-------------------------------------------------------------------------------
@@ -195,41 +176,6 @@ begin
   fStackPaths.Free;
   fSettings.Free;
   inherited;
-end;
-
-{-------------------------------------------------------------------------------
-  On sub_load Popup
--------------------------------------------------------------------------------}
-procedure TCEStackPanel.sub_loadPopup(Sender: TTBCustomItem; FromLink: Boolean);
-var
-  i: Integer;
-  item: TSpTBXItem;
-  ws: WideString;
-begin
-  Sender.Clear;
-
-  FindStacks(StackDirPath, fStackPaths);
-
-  for i:= 0 to fStackPaths.Count - 1 do
-  begin
-    item:= TSpTBXItem.Create(Sender);
-    ws:= fStackPaths.Strings[i];
-    item.Caption:= WideExtractFileName(ws, true);
-    item.Tag:= i;
-    item.OnClick:= HandleStackLoadClick;
-    item.Checked:= assigned(StackTree.ActiveStack) and (StackTree.ActiveStack.StackPath = ws);
-    item.Images:= CE_Images.SmallIcons;
-    item.ImageIndex:= 43;
-    Sender.Add(item);
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  On sub_save Popup
--------------------------------------------------------------------------------}
-procedure TCEStackPanel.sub_savePopup(Sender: TTBCustomItem; FromLink: Boolean);
-begin
-  PopulateStackSaveMenuItem(Sender, true);
 end;
 
 {-------------------------------------------------------------------------------
@@ -272,11 +218,64 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  On OnSafeOperationsOnlyChange
+  ClearList
 -------------------------------------------------------------------------------}
-procedure TCEStackPanel.HandleSafeOperationsOnlyChange(Sender: TObject);
+procedure TCEStackPanel.ClearList;
 begin
-  item_safe_operations.Checked:= not StackTree.SafeOperationsOnly;
+  if Settings.ShowWarnings then
+  begin
+    if TaskDialog(Self.Handle,
+                  _('Clear Stack'),
+                  _('Removing all items from Stack!'),
+                  _('Are you sure you want to clear the list?'),
+                  TD_ICON_QUESTION,
+                  TD_BUTTON_YES + TD_BUTTON_NO) = TD_RESULT_YES then
+    begin
+      StackTree.Clear;
+    end;
+  end
+  else
+  StackTree.Clear;
+end;
+
+{-------------------------------------------------------------------------------
+  Do StartUp
+-------------------------------------------------------------------------------}
+procedure TCEStackPanel.DoStartUp;
+var
+  item: TSpTBXCustomItem;
+  sep: TCEToolbarSeparatorItem;
+begin
+  // Create default toolbar items
+  // - open
+  item:= TCEStackOpenButton.Create(StackToolbar);
+  item.Action:= CEActions.act_stack_open;
+  StackToolbar.Items.Add(item);
+  // - save
+  item:= TCEStackSaveButton.Create(StackToolbar);
+  item.Action:= CEActions.act_stack_save;
+  StackToolbar.Items.Add(item);
+  // - separator
+  sep:= TCEToolbarSeparatorItem.Create(StackToolbar);
+  StackToolbar.Items.Add(sep);
+  // - remove
+  item:= TSpTBXItem.Create(StackToolbar);
+  item.Action:= CEActions.act_stack_remove;
+  StackToolbar.Items.Add(item);
+  // - clear
+  item:= TSpTBXItem.Create(StackToolbar);
+  item.Action:= CEActions.act_stack_clear;
+  StackToolbar.Items.Add(item);
+  // - dynamic spacer
+  item:= TCEToolbarDynamicSpacerItem.Create(StackToolbar);
+  StackToolbar.Items.Add(item);
+  // - allow Move
+  item:= TSpTBXItem.Create(StackToolbar);
+  item.Action:= CEActions.act_stack_allowmove;
+  StackToolbar.Items.Add(item);
+
+  // Popup
+  StackToolbar.PopupMenu:= MainForm.ToolbarPopupMenu;
 end;
 
 {-------------------------------------------------------------------------------
@@ -418,62 +417,6 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Handle StackTree.OnChange
--------------------------------------------------------------------------------}
-procedure TCEStackPanel.HandleStackTreeChange(Sender: TBaseVirtualTree; Node:
-    PVirtualNode);
-begin
-  item_remove.Enabled:= StackTree.SelectedCount > 0;
-end;
-
-{-------------------------------------------------------------------------------
-  Handle StackTree.OnStructureChange
--------------------------------------------------------------------------------}
-procedure TCEStackPanel.HandleStackTreeStructureChange(Sender:
-    TBaseVirtualTree; Node: PVirtualNode; Reason: TChangeReason);
-begin
-  item_clear_list.Enabled:= StackTree.RootNode.ChildCount > 0;
-  item_remove.Enabled:= StackTree.SelectedCount > 0;
-end;
-
-{-------------------------------------------------------------------------------
-  On item_safe_operations Click
--------------------------------------------------------------------------------}
-procedure TCEStackPanel.item_safe_operationsClick(Sender: TObject);
-begin
-  StackTree.SafeOperationsOnly:= not StackTree.SafeOperationsOnly;
-end;
-
-{-------------------------------------------------------------------------------
-  On item_clear_list.Click
--------------------------------------------------------------------------------}
-procedure TCEStackPanel.item_clear_listClick(Sender: TObject);
-begin
-  if Settings.ShowWarnings then
-  begin
-    if TaskDialog(Self.Handle,
-                  _('Clear Stack'),
-                  _('Removing all items from Stack!'),
-                  _('Are you sure you want to clear the list?'),
-                  TD_ICON_QUESTION,
-                  TD_BUTTON_YES + TD_BUTTON_NO) = TD_RESULT_YES then
-    begin
-      StackTree.Clear;
-    end;
-  end
-  else
-  StackTree.Clear;
-end;
-
-{-------------------------------------------------------------------------------
-  On item_remove.Click
--------------------------------------------------------------------------------}
-procedure TCEStackPanel.item_removeClick(Sender: TObject);
-begin
-  StackTree.DeleteSelectedNodes;
-end;
-
-{-------------------------------------------------------------------------------
   Load Startup Stack
 -------------------------------------------------------------------------------}
 procedure TCEStackPanel.LoadStartupStack;
@@ -497,6 +440,30 @@ begin
       end;     
     end;
   end;       
+end;
+
+procedure TCEStackPanel.PopulateStackOpenMenuItem(AItem: TTBCustomItem);
+var
+  i: Integer;
+  item: TSpTBXItem;
+  ws: WideString;
+begin
+  AItem.Clear;
+
+  FindStacks(StackDirPath, fStackPaths);
+
+  for i:= 0 to fStackPaths.Count - 1 do
+  begin
+    item:= TSpTBXItem.Create(AItem);
+    ws:= fStackPaths.Strings[i];
+    item.Caption:= WideExtractFileName(ws, true);
+    item.Tag:= i;
+    item.OnClick:= HandleStackLoadClick;
+    item.Checked:= assigned(StackTree.ActiveStack) and (StackTree.ActiveStack.StackPath = ws);
+    item.Images:= CE_Images.SmallIcons;
+    item.ImageIndex:= 43;
+    AItem.Add(item);
+  end;
 end;
 
 {-------------------------------------------------------------------------------
