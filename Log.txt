@@ -1,4 +1,7 @@
 9.3.2012
+- Fixed status bar not updating on tab change bug.
+================================================================================
+9.3.2012
 - Fixed bug that caused MainToolbar to not remember it's visibility.
 * Changed QuickView text viewer so it doesn't lock files.
 * It's now possible to customize StackToolbar.
@@ -18,6 +21,7 @@
 1.3.2012
 * Updated Portuguese translation (thanks to Mário Gonçalves).
 
+================================================================================
 25.2.2012
 + Added Stretcher toolbar item.
 * Filters toolbar can now be customized.

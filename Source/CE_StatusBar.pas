@@ -91,7 +91,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEStatusBar.GlobalActivePageChange(OldPage, NewPage: TComponent);
 begin
-  // Do Nothing?
+  UpdateLabels;
 end;
 
 {*------------------------------------------------------------------------------
