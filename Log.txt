@@ -4,6 +4,8 @@
 * It's now possible to customize StackToolbar.
 - Fixed crash in FileSearch when search has finished.
 - Removed exceptions when setting files are locked.
+---
+- Fixed translation issue in FileSearch.
 
 8.3.2012
 + Added loading screen.

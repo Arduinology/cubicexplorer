@@ -353,62 +353,6 @@ inherited CESearchPage: TCESearchPage
           end
         end
       end
-      object sheet_content: TSpTBXTabSheet
-        Left = 0
-        Top = 0
-        Width = 433
-        Height = 160
-        Caption = 'Content'
-        ImageIndex = -1
-        DesignSize = (
-          433
-          160)
-        TabItem = 'SpTBXTabItem4'
-        object SpTBXLabel4: TSpTBXLabel
-          Left = 12
-          Top = 9
-          Width = 71
-          Height = 19
-          Caption = 'File Contains:'
-        end
-        object memo_content: TTntMemo
-          Left = 12
-          Top = 30
-          Width = 409
-          Height = 96
-          Anchors = [akLeft, akTop, akRight]
-          ScrollBars = ssBoth
-          TabOrder = 1
-        end
-        object check_content_wordwrap: TSpTBXCheckBox
-          Left = 214
-          Top = 7
-          Width = 207
-          Height = 21
-          Caption = 'Word Wrap'
-          Anchors = [akLeft, akTop, akRight]
-          AutoSize = False
-          TabOrder = 2
-          OnClick = check_content_wordwrapClick
-          Alignment = taRightJustify
-        end
-        object check_content_case_sensitive: TSpTBXCheckBox
-          Left = 12
-          Top = 132
-          Width = 94
-          Height = 21
-          Caption = 'Case Sensitive'
-          TabOrder = 3
-        end
-        object check_content_wholeword: TSpTBXCheckBox
-          Left = 131
-          Top = 132
-          Width = 83
-          Height = 21
-          Caption = 'Whole Word'
-          TabOrder = 4
-        end
-      end
       object sheet_date_time: TSpTBXTabSheet
         Left = 0
         Top = 0
@@ -700,6 +644,62 @@ inherited CESearchPage: TCESearchPage
               OnClick = check_dateClick
             end
           end
+        end
+      end
+      object sheet_content: TSpTBXTabSheet
+        Left = 0
+        Top = 0
+        Width = 433
+        Height = 160
+        Caption = 'Content'
+        ImageIndex = -1
+        DesignSize = (
+          433
+          160)
+        TabItem = 'SpTBXTabItem4'
+        object SpTBXLabel4: TSpTBXLabel
+          Left = 12
+          Top = 9
+          Width = 71
+          Height = 19
+          Caption = 'File Contains:'
+        end
+        object memo_content: TTntMemo
+          Left = 12
+          Top = 30
+          Width = 409
+          Height = 82
+          Anchors = [akLeft, akTop, akRight]
+          ScrollBars = ssBoth
+          TabOrder = 1
+        end
+        object check_content_wordwrap: TSpTBXCheckBox
+          Left = 214
+          Top = 7
+          Width = 207
+          Height = 21
+          Caption = 'Word Wrap'
+          Anchors = [akLeft, akTop, akRight]
+          AutoSize = False
+          TabOrder = 2
+          OnClick = check_content_wordwrapClick
+          Alignment = taRightJustify
+        end
+        object check_content_case_sensitive: TSpTBXCheckBox
+          Left = 12
+          Top = 116
+          Width = 94
+          Height = 21
+          Caption = 'Case Sensitive'
+          TabOrder = 3
+        end
+        object check_content_wholeword: TSpTBXCheckBox
+          Left = 12
+          Top = 136
+          Width = 83
+          Height = 21
+          Caption = 'Whole Word'
+          TabOrder = 4
         end
       end
       object sheet_name_location: TSpTBXTabSheet

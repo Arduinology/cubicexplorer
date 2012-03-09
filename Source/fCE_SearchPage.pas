@@ -46,7 +46,7 @@ type
   TCustomVirtualExplorerEasyListviewHack = class(TCustomVirtualExplorerEasyListview);
 
   TCESearchPage = class(TCECustomTabPage)
-    ResultView: TVirtualMultiPathExplorerEasyListview;
+    ResultView: TVirtualMultiPathExplorerEasyListview; 
     SearchPanel: TPanel;
     group_searchbuttons: TSpTBXGroupBox;
     but_search_start: TSpTBXButton;

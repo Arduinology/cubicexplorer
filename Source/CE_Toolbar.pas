@@ -257,7 +257,6 @@ var
   fullSize, totalSize, overSize, size, newWidth: Integer;
   isDynSpacer, isStretcher: Boolean;
   spacer: TCEToolbarDynamicSpacerItem;
-  r: TRect;
 begin
   if (csDestroying in ComponentState) // exit if we are destroying
      or (tstRightAligning in FState)  // exit if already right aligning

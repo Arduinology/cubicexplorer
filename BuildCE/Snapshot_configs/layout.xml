@@ -1192,6 +1192,12 @@
           <Dock>FiltersPanel_TopDock</Dock>
           <Visible>TRUE</Visible>
         </FiltersToolbar>
+        <StackToolbar>
+          <DockPos>-1</DockPos>
+          <DockRow>0</DockRow>
+          <Dock>StackPanel_TopDock</Dock>
+          <Visible>TRUE</Visible>
+        </StackToolbar>
       </Toolbars>
     </FileView>
     <Default>
@@ -1263,6 +1269,12 @@
           <Dock>FiltersPanel_TopDock</Dock>
           <Visible>TRUE</Visible>
         </FiltersToolbar>
+        <StackToolbar>
+          <DockPos>-1</DockPos>
+          <DockRow>0</DockRow>
+          <Dock>StackPanel_TopDock</Dock>
+          <Visible>TRUE</Visible>
+        </StackToolbar>
       </Toolbars>
       <Forms>
         <FormNames>BookmarkPanel;QuickViewPanel;FiltersPanel;StackPanel;TJvDockTabHostForm_FiltersPanel_QuickViewPanel_00EBD5B0;FolderPanel;DockHost@LeftDockPanel;DockHost@LeftDockPanel_PopupPanel;DockHost@RightDockPanel;DockHost@RightDockPanel_PopupPanel;DockHost@TopDockPanel;DockHost@TopDockPanel_PopupPanel;ArchiverPanel;DockHost@BottomDockPanel;DockHost@BottomDockPanel_PopupPanel;DockHost;</FormNames>
@@ -1570,5 +1582,16 @@
         <item action="act_filters_clear"/>
       </Items>
     </FiltersToolbar>
+    <StackToolbar DisplayMode="0" LargeIcons="0" Borders="0" Stretch="-1" DragHandle="0">
+      <Items>
+        <item action="act_stack_open"/>
+        <item action="act_stack_save"/>
+        <separator/>
+        <item action="act_stack_remove"/>
+        <item action="act_stack_clear"/>
+        <dynamic_spacer/>
+        <item action="act_stack_allowmove"/>
+      </Items>
+    </StackToolbar>
   </Toolbars>
 </Configuration>

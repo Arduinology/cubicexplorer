@@ -127,8 +127,6 @@ uses
   Gets called when TCEStackPanel is created
 -------------------------------------------------------------------------------}
 procedure TCEStackPanel.FormCreate(Sender: TObject);
-var
-  i: Integer;
 begin
   inherited;
   // Properties

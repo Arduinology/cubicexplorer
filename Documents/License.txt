@@ -1,7 +1,7 @@
 
   License for use and distribution
   ================================
-  CubicExplorer Copyright (C) 2006-2011 Marko Savolainen.
+  CubicExplorer Copyright (C) 2006-2012 Marko Savolainen.
 
 
   Licenses for files are:

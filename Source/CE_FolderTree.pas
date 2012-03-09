@@ -458,7 +458,7 @@ begin
   if AHorizontal then
   begin
     level:= GetNodeLevel(ANode)-1;
-    indentW:= Indent * level;
+    indentW:= Integer(Indent) * level;
     r:= GetDisplayRect(ANode, NoColumn, false, true);
     if ((r.Right - r.Left) + indentW) > Self.ClientWidth then
     OffsetX:= -indentW;
