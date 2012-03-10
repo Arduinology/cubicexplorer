@@ -907,7 +907,7 @@ begin
     // stack
     923: TargetAction.Enabled:= CEStackPanel.StackTree.SelectedCount > 0;
     924: TargetAction.Enabled:= CEStackPanel.StackTree.RootNode.ChildCount > 0;
-    925: TargetAction.Enabled:= not CEStackPanel.StackTree.SafeOperationsOnly;
+    925: TargetAction.Checked:= not CEStackPanel.StackTree.SafeOperationsOnly;
   end;
 end;
 
