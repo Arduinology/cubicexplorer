@@ -1,7 +1,7 @@
 13.3.2012
 - Check selection now changes focus.
 * Chanced Update type Weekly to Snapshot.
-* Updated Chinese Simplified translation.
+* Updated Chinese Simplified translation (thanks to lcz20).
 
 10.3.2012
 - Fixed Allow Move button in Stack toolbar.
