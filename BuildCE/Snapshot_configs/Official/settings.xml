@@ -118,7 +118,7 @@
     <Skin>Chrome</Skin>
     <AutoLoadSession/>
     <ChangeCurrentDirVar>False</ChangeCurrentDirVar>
-    <CheckForUpdateTypes>5</CheckForUpdateTypes>
+    <CheckForUpdateTypes>1</CheckForUpdateTypes>
     <CloseToTray>False</CloseToTray>
     <ExitOnLastTabClose>False</ExitOnLastTabClose>
     <LastUpdateCheck>0</LastUpdateCheck>

@@ -1478,6 +1478,8 @@ begin
   if CheckBoxSelection then
   begin
     Item.Selected:= Item.Checked;
+    if Item.Checked then
+    Self.Selection.FocusedItem:= Item;
   end;
 end;
 

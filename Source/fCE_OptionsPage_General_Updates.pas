@@ -76,8 +76,8 @@ begin
   ImageIndex:= 8;
   // update types
   list_update_types.Items.AddObject(GetBuildTypeDescription(btOfficial), TObject(btOfficial));
-  list_update_types.Items.AddObject(GetBuildTypeDescription(btWeeklySnapshot), TObject(btWeeklySnapshot));
-  list_update_types.Items.AddObject(GetBuildTypeDescription(btDailySnapshot), TObject(btDailySnapshot));
+  list_update_types.Items.AddObject(GetBuildTypeDescription(btSnapshot), TObject(btSnapshot));
+  //list_update_types.Items.AddObject(GetBuildTypeDescription(btDailySnapshot), TObject(btDailySnapshot)); // unused
   list_update_types.Items.AddObject(GetBuildTypeDescription(btTest), TObject(btTest));
 end;
 

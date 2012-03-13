@@ -1523,7 +1523,7 @@
   </Layouts>
   <Toolbars>
     <MainToolbar DisplayMode="0" LargeIcons="0" Borders="-1" Stretch="-1" DragHandle="0"/>
-    <NavigationToolbar DisplayMode="0" LargeIcons="-1" Borders="-1" Stretch="0" DragHandle="-1">
+    <NavigationToolbar DisplayMode="0" LargeIcons="-1" Borders="-1" Stretch="-1" DragHandle="-1">
       <Items>
         <item action="act_navi_back"/>
         <item action="act_navi_forward"/>
@@ -1537,7 +1537,7 @@
         <separator/>
       </Items>
     </NavigationToolbar>
-    <ViewToolbar DisplayMode="0" LargeIcons="-1" Borders="-1" Stretch="0" DragHandle="-1">
+    <ViewToolbar DisplayMode="0" LargeIcons="-1" Borders="-1" Stretch="-1" DragHandle="-1">
       <Items>
         <item action="act_view_large"/>
         <item action="act_view_small"/>
@@ -1552,7 +1552,7 @@
     <DriveToolbar DisplayMode="0" LargeIcons="0" Borders="-1" Stretch="-1" DragHandle="-1"/>
     <BookmarkToolbar DisplayMode="0" LargeIcons="0" Borders="-1" Stretch="-1" DragHandle="-1"/>
     <SessionsToolbar DisplayMode="0" LargeIcons="0" Borders="-1" Stretch="-1" DragHandle="-1"/>
-    <EditToolbar DisplayMode="0" LargeIcons="0" Borders="-1" Stretch="0" DragHandle="-1">
+    <EditToolbar DisplayMode="0" LargeIcons="0" Borders="-1" Stretch="-1" DragHandle="-1">
       <Items>
         <item action="act_edit_copy"/>
         <item action="act_edit_cut"/>

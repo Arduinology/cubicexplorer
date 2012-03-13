@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-03-09 15:56\n"
-"PO-Revision-Date: 2012-03-09 15:56\n"
+"POT-Creation-Date: 2012-03-13 15:15\n"
+"PO-Revision-Date: 2012-03-13 15:15\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -977,7 +977,7 @@ msgstr ""
 #. CETextEditorPage..ActionList..text_file_save..Caption
 #: fCE_TextEditor.dfm:343
 #: CE_Sessions.pas:234
-#: fCE_StackPanel.pas:331
+#: fCE_StackPanel.pas:329
 msgid "Save"
 msgstr ""
 
@@ -1861,7 +1861,7 @@ msgstr ""
 #. CEPoEditor..TabControl..WordsSheet..TabItem
 #: fCE_PoEditor.dfm:214
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_name_location..TabItem
-#: fCE_SearchPage.dfm:659
+#: fCE_SearchPage.dfm:715
 #. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..TabItem
 #: fCE_SessionManager.dfm:82
 msgid "SpTBXTabItem1"
@@ -2546,28 +2546,28 @@ msgstr ""
 #. CESearchPage..SearchPanel..CriteriaTabControl..SpTBXTabItem1..Caption
 #: fCE_SearchPage.dfm:122
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_name_location..Caption
-#: fCE_SearchPage.dfm:654
+#: fCE_SearchPage.dfm:710
 msgid "Name && Location"
 msgstr ""
 
 #. CESearchPage..SearchPanel..CriteriaTabControl..SpTBXTabItem2..Caption
-#: fCE_SearchPage.dfm:126
+#: fCE_SearchPage.dfm:127
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_date_time..Caption
 #: fCE_SearchPage.dfm:361
 msgid "Date && Time"
 msgstr ""
 
 #. CESearchPage..SearchPanel..CriteriaTabControl..SpTBXTabItem3..Caption
-#: fCE_SearchPage.dfm:130
+#: fCE_SearchPage.dfm:131
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_size_attributes..Caption
 #: fCE_SearchPage.dfm:201
 msgid "Size && Attributes"
 msgstr ""
 
 #. CESearchPage..SearchPanel..CriteriaTabControl..SpTBXTabItem4..Caption
-#: fCE_SearchPage.dfm:134
+#: fCE_SearchPage.dfm:135
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_content..Caption
-#: fCE_SearchPage.dfm:799
+#: fCE_SearchPage.dfm:654
 msgid "Content"
 msgstr ""
 
@@ -2761,67 +2761,67 @@ msgstr ""
 msgid "SpTBXTabItem5"
 msgstr ""
 
-#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_name_location..SpTBXLabel2..Caption
-#: fCE_SearchPage.dfm:675
-msgid "Location"
-msgstr ""
-
-#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_name_location..check_subfolders..Caption
-#: fCE_SearchPage.dfm:682
-msgid "Include Subfolders"
-msgstr ""
-
-#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_name_location..check_minlevel..Caption
-#: fCE_SearchPage.dfm:709
-msgid "Min Level:"
-msgstr ""
-
-#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_name_location..check_maxlevel..Caption
-#: fCE_SearchPage.dfm:718
-msgid "Max Level:"
-msgstr ""
-
-#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_name_location..radio_name_word..Caption
-#: fCE_SearchPage.dfm:750
-msgid "Word or Phrase in File Name"
-msgstr ""
-
-#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_name_location..combo_extension..Text
-#: fCE_SearchPage.dfm:764
-#: fCE_SearchPage.pas:320
-msgid "All"
-msgstr ""
-
-#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_name_location..radio_name_mask..Caption
-#: fCE_SearchPage.dfm:772
-msgid "File Name Mask"
-msgstr ""
-
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_content..TabItem
-#: fCE_SearchPage.dfm:804
+#: fCE_SearchPage.dfm:659
 msgid "SpTBXTabItem4"
 msgstr ""
 
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_content..SpTBXLabel4..Caption
-#: fCE_SearchPage.dfm:810
+#: fCE_SearchPage.dfm:665
 msgid "File Contains:"
 msgstr ""
 
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_content..check_content_wordwrap..Caption
-#: fCE_SearchPage.dfm:826
+#: fCE_SearchPage.dfm:681
 #. CETextEditorPage..ActionList..text_format_wrap..Caption
 #: fCE_TextEditor.dfm:432
 msgid "Word Wrap"
 msgstr ""
 
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_content..check_content_case_sensitive..Caption
-#: fCE_SearchPage.dfm:838
+#: fCE_SearchPage.dfm:693
 msgid "Case Sensitive"
 msgstr ""
 
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_content..check_content_wholeword..Caption
-#: fCE_SearchPage.dfm:846
+#: fCE_SearchPage.dfm:701
 msgid "Whole Word"
+msgstr ""
+
+#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_name_location..SpTBXLabel2..Caption
+#: fCE_SearchPage.dfm:731
+msgid "Location"
+msgstr ""
+
+#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_name_location..check_subfolders..Caption
+#: fCE_SearchPage.dfm:738
+msgid "Include Subfolders"
+msgstr ""
+
+#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_name_location..check_minlevel..Caption
+#: fCE_SearchPage.dfm:765
+msgid "Min Level:"
+msgstr ""
+
+#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_name_location..check_maxlevel..Caption
+#: fCE_SearchPage.dfm:774
+msgid "Max Level:"
+msgstr ""
+
+#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_name_location..radio_name_word..Caption
+#: fCE_SearchPage.dfm:806
+msgid "Word or Phrase in File Name"
+msgstr ""
+
+#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_name_location..combo_extension..Text
+#: fCE_SearchPage.dfm:820
+#: fCE_SearchPage.pas:320
+msgid "All"
+msgstr ""
+
+#. CESearchPage..SearchPanel..CriteriaTabControl..sheet_name_location..radio_name_mask..Caption
+#: fCE_SearchPage.dfm:828
+msgid "File Name Mask"
 msgstr ""
 
 #. CESearchPage..panel_status..Caption
@@ -2973,7 +2973,7 @@ msgstr ""
 #. CETextEditorPage..ActionList..text_file_saveas..Caption
 #: fCE_TextEditor.dfm:351
 #. Save As...
-#: fCE_StackPanel.pas:482
+#: fCE_StackPanel.pas:480
 msgid "Save As..."
 msgstr ""
 
@@ -3195,9 +3195,9 @@ msgstr ""
 #: CE_BookmarkTree.pas:357
 #: CE_Sessions.pas:237
 #: CE_Sessions.pas:332
-#: fCE_StackPanel.pas:333
+#: fCE_StackPanel.pas:331
 #. Save to existing Stack
-#: fCE_StackPanel.pas:397
+#: fCE_StackPanel.pas:395
 msgid "Confirm"
 msgstr ""
 
@@ -3430,10 +3430,10 @@ msgstr ""
 msgid "Official"
 msgstr ""
 
-#. btSnapshot is depricated
 #: CE_VersionUpdater.pas:457
+#. Weekly is depricated
 #: CE_VersionUpdater.pas:458
-msgid "Weekly"
+msgid "Snapshot"
 msgstr ""
 
 #: CE_VersionUpdater.pas:459
@@ -3441,7 +3441,7 @@ msgid "Daily"
 msgstr ""
 
 #: CE_VersionUpdater.pas:460
-msgid "Test"
+msgid "For testing"
 msgstr ""
 
 #: CE_VersionUpdater.pas:1243
@@ -3741,39 +3741,39 @@ msgid "Are you sure you want to delete this "
 "session?"
 msgstr ""
 
-#: fCE_StackPanel.pas:228
+#: fCE_StackPanel.pas:226
 msgid "Clear Stack"
 msgstr ""
 
-#: fCE_StackPanel.pas:229
+#: fCE_StackPanel.pas:227
 msgid "Removing all items from Stack!"
 msgstr ""
 
-#: fCE_StackPanel.pas:230
+#: fCE_StackPanel.pas:228
 msgid "Are you sure you want to clear the list?"
 msgstr ""
 
 #. Save As...
-#: fCE_StackPanel.pas:329
+#: fCE_StackPanel.pas:327
 msgid "Save Stack"
 msgstr ""
 
-#: fCE_StackPanel.pas:330
+#: fCE_StackPanel.pas:328
 msgid "Stack Name"
 msgstr ""
 
-#: fCE_StackPanel.pas:334
-#: fCE_StackPanel.pas:398
+#: fCE_StackPanel.pas:332
+#: fCE_StackPanel.pas:396
 msgid "Override existing stack?"
 msgstr ""
 
-#: fCE_StackPanel.pas:335
-#: fCE_StackPanel.pas:399
+#: fCE_StackPanel.pas:333
+#: fCE_StackPanel.pas:397
 msgid "Do you want to override existing stack?"
 msgstr ""
 
 #. Auto Save
-#: fCE_StackPanel.pas:511
+#: fCE_StackPanel.pas:509
 msgid "Enable Auto Save"
 msgstr ""
 

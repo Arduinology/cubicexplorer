@@ -454,10 +454,10 @@ begin
   Result:= '';
   case ABuildType of
     btOfficial: Result:= _('Official');
-    btSnapshot: Result:= _('Weekly'); // btSnapshot is depricated
-    btWeeklySnapshot: Result:= _('Weekly');
+    btSnapshot: Result:= _('Snapshot');
+    btWeeklySnapshot: Result:= _('Snapshot'); // Weekly is depricated
     btDailySnapshot: Result:= _('Daily');
-    btTest: Result:= _('Test');
+    btTest: Result:= _('For testing');
   end;
 end;
 
