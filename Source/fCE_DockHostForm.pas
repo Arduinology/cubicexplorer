@@ -25,7 +25,7 @@ interface
 
 uses
   // CE Units
-  CE_Layout, CE_AppSettings, dCE_Images, CE_PaneHost,
+  CE_Layout, CE_AppSettings, dCE_Images,
   // JVCL
   JvDockControlForm,
   // Toolbar2000
@@ -44,8 +44,11 @@ type
     procedure FormDestroy(Sender: TObject);
   private
   public
-    PaneGroupHost: TCEPaneGroupHost;
     DockServer: TJvDockServer;
+    BottomGroupToolDock: TSpTBXDock;
+    LeftGroupToolDock: TSpTBXDock;
+    RightGroupToolDock: TSpTBXDock;
+    TopGroupToolDock: TSpTBXDock;
   end;
 
 implementation
@@ -57,9 +60,6 @@ implementation
 -------------------------------------------------------------------------------}
 procedure TCEDockHostForm.FormCreate(Sender: TObject);
 begin
-  PaneGroupHost:= TCEPaneGroupHost.Create;
-  PaneGroupHost.Parent:= CenterPanel;
-
   DockServer:= TJvDockServer.Create(self);
   DockServer.DockStyle:= CEDockStyle;
   DockServer.TopDockPanel.Parent:= CenterPanel;
@@ -80,6 +80,24 @@ begin
   TControlAccess(DockServer.TopDockPanel).ParentColor:= true;
   TControlAccess(DockServer.RightDockPanel).ParentColor:= true;
   TControlAccess(DockServer.BottomDockPanel).ParentColor:= true;
+
+  // Toolbar docks
+  TopGroupToolDock:= TSpTBXDock.Create(Self);
+  TopGroupToolDock.Name:= 'TopPageToolDock';
+  TopGroupToolDock.Parent:= CenterPanel;
+  TopGroupToolDock.Position:= dpTop;
+  BottomGroupToolDock:= TSpTBXDock.Create(Self);
+  BottomGroupToolDock.Name:= 'BottomPageToolDock';
+  BottomGroupToolDock.Parent:= CenterPanel;
+  BottomGroupToolDock.Position:= dpBottom;
+  LeftGroupToolDock:= TSpTBXDock.Create(Self);
+  LeftGroupToolDock.Name:= 'LeftPageToolDock';
+  LeftGroupToolDock.Parent:= CenterPanel;
+  LeftGroupToolDock.Position:= dpLeft;
+  RightGroupToolDock:= TSpTBXDock.Create(Self);
+  RightGroupToolDock.Name:= 'RightPageToolDock';
+  RightGroupToolDock.Parent:= CenterPanel;
+  RightGroupToolDock.Position:= dpRight;  
 end;
 
 {*------------------------------------------------------------------------------
@@ -88,7 +106,6 @@ end;
 procedure TCEDockHostForm.FormDestroy(Sender: TObject);
 begin
   DockServer.Free;
-  PaneGroupHost.Free;
 end;
 
 end.

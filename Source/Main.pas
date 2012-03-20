@@ -412,7 +412,7 @@ var
 implementation
 
 uses
-  madExcept, CE_QuickView, Clipbrd, CE_PaneHost, CE_Stacks, MPResources,
+  madExcept, Clipbrd, CE_Stacks, MPResources,
   fCE_OptionsDialog, fCE_StackPanel, CE_Consts, CE_CommonObjects,
   CE_ElevatedActions, CE_FileUtils;
 
@@ -562,7 +562,7 @@ begin
   TabSet.Toolbar.Caption:= _('Tabs');
   TabSet.Toolbar.Name:= 'TabToolbar';
   TabSet.TabDragReorder:= true;
-  TabSet.TabPageHost:= DockHostForm.PaneGroupHost.GetPane;
+  TabSet.TabPageHost:= DockHostForm.CenterPanel;
   TabSet.LayoutController:= Layouts;
   TabSet.Toolbar.Customizable:= true;
   TabSet.Images:= CE_Images.SmallIcons;
@@ -650,10 +650,10 @@ begin
   CEToolbarDocks.Add(TopToolDock);
   CEToolbarDocks.Add(RightToolDock);
   CEToolbarDocks.Add(BottomToolDock);
-  CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.LeftGroupToolDock, true);
-  CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.TopGroupToolDock, true);
-  CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.RightGroupToolDock, true);
-  CEToolbarDocks.Add(DockHostForm.PaneGroupHost.ActivePaneGroup.BottomGroupToolDock, true);
+  CEToolbarDocks.Add(DockHostForm.LeftGroupToolDock, true);
+  CEToolbarDocks.Add(DockHostForm.TopGroupToolDock, true);
+  CEToolbarDocks.Add(DockHostForm.RightGroupToolDock, true);
+  CEToolbarDocks.Add(DockHostForm.BottomGroupToolDock, true);
 
   // Add Session menu items
   sessionsMenuItem.Add(TCESessionsMenuItem.Create(self));
