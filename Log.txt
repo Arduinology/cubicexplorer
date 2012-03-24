@@ -1,3 +1,8 @@
+24.3.2012
+* Updated Hungarian translation (thanks to Mezei Zoltan).
+* Updated Italian translation (thanks to Folgore101).
+* Updated French translation (thanks to BB).
+
 14.3.2012
 * Updated Swedish translation (thanks to eson).
 ================================================================================

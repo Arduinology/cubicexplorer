@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: CE 0.95.1.1459 - 2012.02.12\n"
+"Project-Id-Version: CE 0.95.1.1494 - 2012.03.20\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1459\n"
+"CE-POT-Version: 1494\n"
 "CE-Language: Italian\n"
 "Last-Translator: Folgore101 <andrea.gramegna@gmail.com>\n"
 
@@ -133,6 +133,9 @@ msgstr "Sei sicuro di volerlo fare?"
 
 msgid "Are you sure you want to quit?"
 msgstr "Sei sicuro di voler uscire?"
+
+msgid "Are you sure you want to restore default layout?"
+msgstr "Sei sicuro di voler ripristinare il layout predefinito?"
 
 msgid "Are you sure you want to restore?"
 msgstr "Sei sicuro di voler ripristinare?"
@@ -536,6 +539,12 @@ msgstr "Inglese (predefinita)"
 msgid "Enter each file mask on a separate line."
 msgstr "Immetti ogni maschera di file su una linea separata."
 
+msgid "Error"
+msgstr "Errore"
+
+msgid "Error: Could not connect!"
+msgstr "Errore: Impossibile connettersi!"
+
 msgid "Exclude"
 msgstr "Escludere"
 
@@ -619,6 +628,9 @@ msgstr "Cartelle"
 
 msgid "Folders Panel Settings"
 msgstr "Impostazioni Pannello Cartelle"
+
+msgid "For testing"
+msgstr "Per provare"
 
 msgid "Format"
 msgstr "Formatta"
@@ -856,6 +868,9 @@ msgstr "Nuovo"
 
 msgid "New Category"
 msgstr "Nuova Categoria"
+
+msgid "New File"
+msgstr "Nuovo File"
 
 msgid "New Folder"
 msgstr "Nuova Cartella"
@@ -1313,6 +1328,9 @@ msgstr "Icone Piccole"
 msgid "Smooth Scroll"
 msgstr "Scorrimento dolce"
 
+msgid "Snapshot"
+msgstr "Istantanea"
+
 msgid "Stack"
 msgstr "Stack"
 
@@ -1322,11 +1340,17 @@ msgstr "Nome Stack"
 msgid "Stack Settings"
 msgstr "Impostazioni Stack"
 
+msgid "Stacks"
+msgstr "Stack"
+
 msgid "Start"
 msgstr "Avvio"
 
 msgid "Start minimized to tray"
 msgstr "Avvio minimizzato nel Tray"
+
+msgid "Starting CubicExplorer..."
+msgstr "Avvio di CubicExplorer..."
 
 msgid "Status Bar"
 msgstr "Barra di Stato"
@@ -1336,6 +1360,9 @@ msgstr "Stop"
 
 msgid "Stretch"
 msgstr "Tratto"
+
+msgid "Stretcher"
+msgstr "Barella"
 
 msgid "Strict"
 msgstr "Stretto"

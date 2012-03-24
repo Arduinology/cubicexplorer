@@ -4,12 +4,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1474\n"
+"CE-POT-Version: 1494\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
-"POT-Creation-Date:   \n"
-"PO-Revision-Date:   \n"
-"Language-Team:   \n"
+"POT-Creation-Date:          \n"
+"PO-Revision-Date:          \n"
+"Language-Team:          \n"
 
 msgid "%d file(s) failed to download!"
 msgstr "Echec du téléchargement de %d fichier(s) !"
@@ -471,7 +471,7 @@ msgid "Download failed!"
 msgstr "Le téléchargement a échoué !"
 
 msgid "Drag Handle"
-msgstr "Poignées de redimensionnement"
+msgstr "Poignée de déplacement"
 
 msgid "Drag and Drop to reorder the columns. "
 msgstr "Glissez-déposez pour réorganiser les colonnes."
@@ -504,7 +504,7 @@ msgid "Duplicate name"
 msgstr "Nom en double"
 
 msgid "Dynamic Spacer"
-msgstr "Espacement dynamique"
+msgstr "Espace dynamique"
 
 msgid "Earlier this year"
 msgstr "Plus tôt cette année"
@@ -609,7 +609,7 @@ msgid "Five months ago"
 msgstr "Il y a cinq mois"
 
 msgid "Fixed Spacer"
-msgstr "Espacement fixe"
+msgstr "Espace fixe"
 
 msgid "Focus"
 msgstr "Focus"
@@ -631,6 +631,9 @@ msgstr "Dossiers"
 
 msgid "Folders Panel Settings"
 msgstr "Paramètres du volet des dossiers"
+
+msgid "For testing"
+msgstr "En test"
 
 msgid "Format"
 msgstr "Format"
@@ -918,7 +921,7 @@ msgid "Not yet ready, coming soon"
 msgstr "Pas encore prêt, à venir prochainement"
 
 msgid "Notify only about following update types"
-msgstr " Rechercher uniquement les mises à jour de types suivants :"
+msgstr " Me prévenir uniquement en cas de nouvelle version :"
 
 msgid "OK"
 msgstr "OK"
@@ -1155,7 +1158,7 @@ msgid "Save active session."
 msgstr "Sauver la session active"
 
 msgid "Save changes before closing?"
-msgstr "Enregistrer les modifications avant de fermer ?"
+msgstr "Voulez-vous sauver les modifications avant de fermer ?"
 
 msgid "Save changes."
 msgstr "Enregistrer les modifications"
@@ -1337,6 +1340,9 @@ msgstr "Petites icônes"
 msgid "Smooth Scroll"
 msgstr "Défilement doux"
 
+msgid "Snapshot"
+msgstr "Instantanée"
+
 msgid "Stack"
 msgstr "Panier"
 
@@ -1346,11 +1352,17 @@ msgstr "Nom du panier"
 msgid "Stack Settings"
 msgstr "Paramètres du panier"
 
+msgid "Stacks"
+msgstr "Paniers"
+
 msgid "Start"
 msgstr "Démarrer"
 
 msgid "Start minimized to tray"
 msgstr " Démarrer minimisé dans la zone de notification"
+
+msgid "Starting CubicExplorer..."
+msgstr "Démarrage de CubicExplorer..."
 
 msgid "Status Bar"
 msgstr "Barre d'état"
