@@ -57,8 +57,7 @@ type
     fDynSpacersList: TList;
     fLastFullSize: Integer;
     fStretchedItemsList: TList;
-    procedure DoItemNotification(Ancestor: TTBCustomItem; Relayed: Boolean; Action:
-        TTBItemChangedAction; Index: Integer; Item: TTBCustomItem); override;
+    procedure AnchorItems(UpdateControlItems: Boolean = True); override;
     procedure Resize; override;
     procedure RightAlignItems; override;
     procedure SetLargeImages(const Value: Boolean); virtual;
@@ -174,10 +173,12 @@ begin
   inherited;
 end;
 
-procedure TCEToolbar.DoItemNotification(Ancestor: TTBCustomItem; Relayed:
-    Boolean; Action: TTBItemChangedAction; Index: Integer; Item: TTBCustomItem);
+{-------------------------------------------------------------------------------
+  AnchorItems
+-------------------------------------------------------------------------------}
+procedure TCEToolbar.AnchorItems(UpdateControlItems: Boolean);
 begin
-  inherited;
+  // do nothing
 end;
 
 {-------------------------------------------------------------------------------
@@ -480,7 +481,9 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEToolbar.WMSize(var Message: TWMSize);
 begin
+  Self.DisableAlign;
   inherited;
+  Self.EnableAlign;
 end;
 
 {-------------------------------------------------------------------------------
