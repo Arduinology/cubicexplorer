@@ -356,12 +356,12 @@ implementation
 
 uses
   Main, fCE_FolderPanel, fCE_QuickViewPanel, fCE_BookmarkPanel,
-  fCE_TextEditor, fCE_FileView, CE_FileView, CE_QuickView,
+  fCE_TextEditor, fCE_FileView, CE_FileView, 
   CE_Bookmarks, CE_BookmarkTree, fCE_AboutBox,
   CE_ToolbarButtons, fCE_Customizer, fCE_TabPage, fCE_FiltersPanel,
   fCE_PoEditor, fCE_OptionsDialog, CE_Sessions, fCE_StackPanel,
   CE_BaseFileView, fCE_QuickViewTab, fCE_SearchPage, fCE_CreateSymlink,
-  fCE_VersionMgrForm, fCE_ArchivePanel, CE_CommonObjects;
+  fCE_VersionMgrForm, fCE_ArchivePanel, CE_CommonObjects, fCE_QuickView;
 
 {##############################################################################}
 
@@ -991,14 +991,8 @@ begin
            if (ws <> '') then
            begin
             ext:= WideUpperCase(WideExtractFileExt(ws));
-            case QuickViewSettings.GetViewType(ext) of
-              qvImage, qvVideo:
-              else
-              begin
-                if (ext <> '.EXE') and (ext <> '.DLL') then
-                editor.OpenDocument(ws);
-              end;
-            end;
+            if (ext <> '.EXE') and (ext <> '.DLL') then
+            editor.OpenDocument(ws);
            end;
          end;
     // Open Search
@@ -1173,30 +1167,15 @@ end;
 -------------------------------------------------------------------------------}
 procedure ExecuteQuickviewCategory(ActionID: Integer);
 begin
-  case ActionID of
-    701: CEQuickviewPanel.Viewer.ViewType:= qvNone;
-    702: CEQuickviewPanel.Viewer.ViewType:= qvAuto;
-    703: CEQuickviewPanel.Viewer.ViewType:= qvMemo;
-    704: CEQuickviewPanel.Viewer.ViewType:= qvImage;
-    705: CEQuickviewPanel.Viewer.ViewType:= qvHex;
-  end;
+
 end;
 
 {*------------------------------------------------------------------------------
   Quickview Category Update
 -------------------------------------------------------------------------------}
 procedure UpdateQuickviewCategory(ActionID: Integer; TargetAction: TTntAction);
-var
-  i: Integer;
 begin
-  i:= Ord(CEQuickviewPanel.Viewer.ViewType) + 701;
-  if ActionID = i then
-  begin
-    if not TargetAction.Checked then
-    TargetAction.Checked:= true;
-  end
-  else
-  TargetAction.Checked:= false;
+
 end;
 
 {##############################################################################}
@@ -1289,25 +1268,20 @@ procedure OpenFileInTab(FilePath: WideString; SelectTab: Boolean = true;
 var
   editor: TCETextEditorPage;
   quickview: TCEQuickViewPage;
-  filetype: TCEQuickViewType;
-  ext: WideString;
 begin
   if WideFileExists(FilePath) then
   begin
     GlobalFileViewSettings.AssignFromActivePage;
 
-    ext:= WideExtractFileExt(FilePath);
-    filetype:= QuickViewSettings.GetViewType(ext);
-    case filetype of
-      qvImage, qvVideo: begin
-        quickview:= TCEQuickViewPage(MainForm.TabSet.AddTab(TCEQuickViewPage, SelectTab).Page);
-        quickview.OpenFile(FilePath);
-      end;
-      else
-      begin
-        editor:= TCETextEditorPage(MainForm.TabSet.AddTab(TCETextEditorPage, SelectTab).Page);
-        editor.OpenDocument(FilePath);
-      end;
+    if GlobalQuickViewSettings.IsSupported(WideExtractFileExt(FilePath)) then
+    begin
+      quickview:= TCEQuickViewPage(MainForm.TabSet.AddTab(TCEQuickViewPage, SelectTab).Page);
+      quickview.OpenFile(FilePath);
+    end
+    else
+    begin
+      editor:= TCETextEditorPage(MainForm.TabSet.AddTab(TCETextEditorPage, SelectTab).Page);
+      editor.OpenDocument(FilePath);
     end;
 
     if ActivateApp then

@@ -131,13 +131,7 @@ Unit Documents;
 // 670 = Tabs list
 
 // **** QuickView (700) ****
-    // begin - group 700 -->
-// 701 = Quickview type as qvNone
-// 702 = Quickview type as qvAuto
-// 703 = Quickview type as qvMemo
-// 704 = Quickview type as qvImage
-// 705 = Quickview type as qvHex
-    // <-- end - group 700
+
 
 // **** Bookmarks (800) ****
 // 801 = Add Category

@@ -36,7 +36,7 @@ uses
   CE_DriveBar, CE_BookmarkBar, CE_StatusBar, CE_VistaFuncs, CE_Breadcrumb,
   CE_ToolbarButtons, CE_TBActions, CE_LanguageCodes, CE_LanguageEngine,
   CE_LanguageUtils, CE_Sessions, CE_SpTabBar,
-  CE_AppSettings, CE_Toolbar,
+  CE_AppSettings, CE_Toolbar, AppCommand,
   // Toolbar2000
   TB2Dock, TB2Item, TB2Toolbar, TB2ToolWindow, TB2ExtItems,
   // SpTBX
@@ -52,7 +52,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ShellAPI, Menus, ShlObj, XPMan, ActiveX,
   ImgList, Registry, AppEvnts, ActnList, Math, JvComponentBase, JvTrayIcon,
-  AppCommand, Contnrs;
+  Contnrs;
 
 type
   TMainFormSettings = class;

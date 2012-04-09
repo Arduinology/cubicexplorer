@@ -25,7 +25,8 @@ interface
 
 uses
   // CE Units
-  fCE_DockableForm, CE_QuickView, CE_GlobalCtrl, dCE_Images, CE_LanguageEngine,
+  fCE_DockableForm, CE_GlobalCtrl, dCE_Images, CE_LanguageEngine,
+  fCE_QuickView,
   // VSTools
   MPCommonUtilities,
   // PNG Controls
@@ -36,7 +37,8 @@ uses
   TB2Dock, SpTBXItem, 
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ShlObj, ImgList, StdCtrls;
+  Dialogs, ShlObj, ImgList, StdCtrls, CE_Toolbar, TB2Item, ComCtrls,
+  SpTBXControls, CE_SpTBXItems, TB2Toolbar, ExtCtrls;
 
 const
   WM_ActivateQuickView = WM_USER + 1;
@@ -54,7 +56,7 @@ type
     procedure WMActivateQuickView(var Message: TMessage); message
         WM_ActivateQuickView;
   public
-    Viewer: TCEQuickView;
+    QuickView: TCEQuickView;
     procedure DoFormHide; override;
     procedure DoFormShow; override;
   end;
@@ -77,10 +79,11 @@ begin
   TopDock.Name:= 'QuickViewPanel_TopDock';
   BottomDock.Name:= 'QuickViewPanel_BottomDock';
   Caption:= _('Quickview');
-  Viewer:= TCEQuickView.Create(self);
-  Viewer.Parent:= self;
-  Viewer.Align:= alClient;
-  Viewer.UseThumbImage:= true;
+
+  QuickView:= TCEQuickView.Create(nil);
+  QuickView.Parent:= Self;
+  QuickView.Align:= alClient;
+
   GlobalPathCtrl.RegisterNotify(self);
   ImageList:= CE_Images.SmallIcons;
   ImageIndex:= 20;
@@ -91,7 +94,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEQuickViewPanel.FormDestroy(Sender: TObject);
 begin
-  Viewer.Free;
+  QuickView.Free;
   inherited;
 end;
 
@@ -101,7 +104,7 @@ end;
 procedure TCEQuickViewPanel.GlobalFocusChanged(Sender: TObject; NewPath:
     WideString);
 begin
-  Viewer.LoadFile(NewPath);
+  QuickView.ActiveFilePath:= NewPath;
 end;
 
 {*------------------------------------------------------------------------------
@@ -110,7 +113,7 @@ end;
 procedure TCEQuickViewPanel.DoFormHide;
 begin
   inherited;
-  Viewer.Active:= false;
+ QuickView.Active:= false;
 end;
 
 {*------------------------------------------------------------------------------
@@ -129,7 +132,7 @@ end;
 procedure TCEQuickViewPanel.WMActivateQuickView(var Message: TMessage);
 begin
   inherited;
-  Viewer.Active:= Message.WParam = 1;
+  QuickView.Active:= Message.WParam = 1;
 end;
 
 end.

@@ -26,6 +26,7 @@ program CubicExplorer;
 
 uses
   FastMM4,
+  ControlResizeBugFix,
   madExcept,
   madLinkDisAsm,
   Forms,
@@ -48,7 +49,6 @@ uses
   CE_FileView in 'CE_FileView.pas',
   fCE_FolderPanel in 'fCE_FolderPanel.pas' {CEFolderPanel},
   fCE_BookmarkPanel in 'fCE_BookmarkPanel.pas' {CEBookmarkPanel},
-  CE_QuickView in 'CE_QuickView.pas',
   CE_GifAnim in 'CE_GifAnim.pas',
   fCE_QuickViewPanel in 'fCE_QuickViewPanel.pas' {CEQuickViewPanel},
   dCE_Actions in 'dCE_Actions.pas' {CEActions: TDataModule},
@@ -81,9 +81,6 @@ uses
   CE_Classes in 'CE_Classes.pas',
   CE_ContextMenu in 'CE_ContextMenu.pas',
   CE_CommonObjects in 'CE_CommonObjects.pas',
-  CE_VideoEngine in 'CE_VideoEngine.pas',
-  CE_VideoPlayer in 'CE_VideoPlayer.pas',
-  CE_VideoPlayerUI in 'CE_VideoPlayerUI.pas',
   CE_LanguageCodes in 'CE_LanguageCodes.pas',
   fCE_PoEditor_NewForm in 'fCE_PoEditor_NewForm.pas' {CENewTranslationDlg},
   CE_ProcessUtils in 'CE_ProcessUtils.pas',
@@ -108,7 +105,6 @@ uses
   CE_Sessions in 'CE_Sessions.pas',
   fCE_OptionsPage_Advanced in 'fCE_OptionsPage_Advanced.pas' {CEOptionsPage_Advanced: TFrame},
   fCE_SessionManager in 'fCE_SessionManager.pas' {CESessionManager},
-  CE_PaneHost in 'CE_PaneHost.pas',
   fCE_SearchPage in 'fCE_SearchPage.pas' {CESearchPage: TFrame},
   CE_InfoBar in 'CE_InfoBar.pas',
   FindFileW in 'Components\FindFile\FindFileW.pas',
@@ -139,11 +135,16 @@ uses
   fCE_ArchivePanel in 'fCE_ArchivePanel.pas' {CEArchiverPanel},
   fCE_OptionsPage_General_Updates in 'fCE_OptionsPage_General_Updates.pas' {CE_OptionsPage_General_Updates: TFrame},
   fCE_LoginPromptDlg in 'fCE_LoginPromptDlg.pas' {CELoginPromptDlg},
-  CE_SystemUtils in 'CE_SystemUtils.pas';
+  CE_SystemUtils in 'CE_SystemUtils.pas',
+  CE_SpTBXItems in 'CE_SpTBXItems.pas',
+  fCE_QuickView in 'fCE_QuickView.pas' {CEQuickView: TFrame},
+  CE_FilePreview in 'CE_FilePreview.pas',
+  CV_ImageView in 'CV_ImageView.pas',
+  CV_MediaPlayer in 'CV_MediaPlayer.pas',
+  CV_MediaPlayerEngines in 'CV_MediaPlayerEngines.pas';
 
 {$R *.res}
 {$R 'CE_Resources.res'}
-{$R 'CE_VideoPlayerUI.res'}
 
 {.$define FullDebugMode}
 

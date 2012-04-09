@@ -25,13 +25,14 @@ interface
 
 uses
   // CE Units
-  fCE_TabPage, CE_QuickView, CE_LanguageEngine, dCE_Images, CE_Utils,
+  fCE_TabPage, CE_LanguageEngine, dCE_Images, CE_Utils, fCE_QuickView,
   CE_GlobalCtrl, 
   // VSTools
   MPCommonUtilities, MPCommonObjects,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls;
+  Dialogs, StdCtrls, SpTBXItem, CE_Toolbar, TB2Item, ComCtrls, SpTBXControls,
+  CE_SpTBXItems, TB2Dock, TB2Toolbar, ExtCtrls;
 
 type
   TCEQuickViewPage = class(TCECustomTabPage)
@@ -41,7 +42,7 @@ type
   protected
     function GetSettingsClass: TCECustomTabPageSettingsClass; override;
   public
-    Viewer: TCEQuickView;
+    QuickView: TCEQuickView;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure LoadFromStream(AStream: TStream); override;
@@ -74,10 +75,10 @@ implementation
 constructor TCEQuickViewPage.Create(AOwner: TComponent);
 begin
   inherited;
-  Viewer:= TCEQuickView.Create(nil);
-  Viewer.Parent:= Self;
-  Viewer.Align:= alClient;
-  Viewer.Active:= true;
+  QuickView:= TCEQuickView.Create(nil);
+  QuickView.Parent:= Self;
+  QuickView.Align:= alClient;
+  QuickView.Active:= true;
   Layout:= 'QuickView';
 end;
 
@@ -86,7 +87,7 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCEQuickViewPage.Destroy;
 begin
-  Viewer.Free;
+  QuickView.Free;
   inherited;
 end;
 
@@ -120,7 +121,7 @@ begin
     ActiveFile:= AFilePath;
     UpdateCaption;
     Application.ProcessMessages;
-    Viewer.LoadFile(AFilePath);
+    QuickView.ActiveFilePath:= AFilePath;
   end
   else
   begin
@@ -185,7 +186,7 @@ end;
 -------------------------------------------------------------------------------}
 function TCEQuickViewPageSettings.GetRememberPanelLayout: Boolean;
 begin
-  Result:= QuickViewSettings.RememberPanelLayout;
+  Result:= GlobalQuickViewSettings.RememberPanelLayout;
 end;
 
 {-------------------------------------------------------------------------------
@@ -193,7 +194,7 @@ end;
 -------------------------------------------------------------------------------}
 function TCEQuickViewPageSettings.GetRememberInnerToolbarLayout: Boolean;
 begin
-  Result:= QuickViewSettings.RememberInnerToolbarLayout;
+  Result:= GlobalQuickViewSettings.RememberInnerToolbarLayout;
 end;
 
 {-------------------------------------------------------------------------------
@@ -201,7 +202,7 @@ end;
 -------------------------------------------------------------------------------}
 function TCEQuickViewPageSettings.GetRememberOuterToolbarLayout: Boolean;
 begin
-  Result:= QuickViewSettings.RememberOuterToolbarLayout;
+  Result:= GlobalQuickViewSettings.RememberOuterToolbarLayout;
 end;
 
 end.

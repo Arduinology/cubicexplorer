@@ -56,11 +56,11 @@ const
   CE_fileviewer = 'fileviewer';
   CE_viewstyle = 'viewstyle';
 
-  CE_quickviewer = 'quickviewer';
-  CE_viewtype = 'viewtype';
-  CE_image_exts = 'image_exts';
-  CE_text_exts = 'text_exts';
-  CE_hex_exts = 'hex_exts';
+//  CE_quickviewer = 'quickviewer';
+//  CE_viewtype = 'viewtype';
+//  CE_image_exts = 'image_exts';
+//  CE_text_exts = 'text_exts';
+//  CE_hex_exts = 'hex_exts';
 
 var
   CE_ProxyAddress: String = '';

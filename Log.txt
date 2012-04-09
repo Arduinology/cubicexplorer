@@ -1,3 +1,6 @@
+9.4.2012
++ Rewrote QuickView
+
 7.4.2012
 * Updated Polish translation (thanks to Seethi).
 ---

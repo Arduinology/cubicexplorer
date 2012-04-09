@@ -25,9 +25,9 @@ interface
 
 uses
   // CE Units
-  fCE_TabPage, CE_FileView, CE_GlobalCtrl, CE_QuickView, CE_Utils,
+  fCE_TabPage, CE_FileView, CE_GlobalCtrl, CE_Utils,
   dCE_Images, CE_ContextMenu, CE_LanguageEngine, CE_AppSettings,
-  CE_InfoBar, CE_FileUtils,
+  CE_InfoBar, CE_FileUtils, fCE_QuickView,
   // EasyListview
   EasyListview, 
   // VSTools
@@ -511,7 +511,7 @@ begin
       GlobalPathCtrl.ChangeFocusedPath(Self, NS.NameForParsing);
     end;
     if assigned(fQuickView) then
-    fQuickView.LoadFile(NS.NameForParsing);
+    fQuickView.ActiveFilePath:= NS.NameForParsing;
 
     // Change Info Bar
     if ShowInfoBar then
@@ -538,7 +538,7 @@ begin
   begin
     GlobalPathCtrl.ChangeFocusedPath(Self, '');
     if assigned(fQuickView) then
-    fQuickView.CloseFile;
+    fQuickView.Close;
     if ShowInfoBar then
     InfoBar.Clear;
   end;
@@ -803,10 +803,8 @@ begin
     if not assigned(fQuickView) then
     begin
       fQuickView:= TCEQuickView.Create(self);
-      fQuickView.BorderWidth:= 2;
       fQuickView.Parent:= self;
       fQuickView.Align:= alClient;
-      fQuickview.UseThumbImage:= false;
       fQuickview.PopupMenu:= QuickViewPopupMenu;
       fQuickview.Active:= true;
     end;
