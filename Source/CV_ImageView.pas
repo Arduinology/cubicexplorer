@@ -105,8 +105,8 @@ type
     function GetViewRangeSize: TFloatPoint; virtual;
     procedure HandleTaskDone(Sender: TObject; AObject: TObject; AData: Pointer;
         ATag: Integer); virtual;
-    procedure HandleTaskExecute(Sender: TObject; AObject: TObject; AData: Pointer;
-        ATag: Integer); virtual;
+    procedure HandleTaskExecute(Sender: TCCTaskPoolThread; AObject: TObject; AData:
+        Pointer; ATag: Integer); virtual;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer;
         Layer: TCustomLayer); reintroduce; overload; override;
@@ -949,7 +949,7 @@ end;
 {-------------------------------------------------------------------------------
   Handle Task Execute (runs in a separate thread!!!)
 -------------------------------------------------------------------------------}
-procedure TCVImageView.HandleTaskExecute(Sender: TObject; AObject: TObject;
+procedure TCVImageView.HandleTaskExecute(Sender: TCCTaskPoolThread; AObject: TObject;
     AData: Pointer; ATag: Integer);
 var
   Ext: WideString;

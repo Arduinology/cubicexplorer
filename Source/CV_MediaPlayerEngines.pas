@@ -37,7 +37,7 @@ uses
   GraphicEx,
   // System Units
   ActiveX, SysUtils, Types, Windows, ExtCtrls, Controls, Messages, Classes,
-  CV_ImageView, GR32;
+  CV_ImageView, GR32, StdCtrls;
 
 {==============================================================================}
 type
@@ -70,10 +70,6 @@ type
     constructor Create;
     destructor Destroy; override;
     procedure Close; override; stdcall;
-    // GetConstantParentNeeded
-    // - Return TRUE if the parent window handle can't change when media is loaded.
-    // - By default, try to make things work so that constant parent handle is not needed.
-    function GetConstantParentNeeded: Boolean; override; stdcall;
     function GetDuration: Int64; virtual; stdcall;
     function GetPosition: Int64; virtual; stdcall;
     function GetStatus: TCVMediaPlayerStatus; override; stdcall;
@@ -140,10 +136,6 @@ type
     constructor Create;
     destructor Destroy; override;
     procedure Close; override; stdcall;
-    // GetConstantParentNeeded
-    // - Return TRUE if the parent window handle can't change when media is loaded.
-    // - By default, try to make things work so that constant parent handle is not needed.
-    function GetConstantParentNeeded: Boolean; override; stdcall;
     function GetDuration: Int64; virtual; stdcall;
     function GetPosition: Int64; virtual; stdcall;
     function GetStatusText: WideString; override; stdcall;
@@ -195,25 +187,69 @@ type
     destructor Destroy; override;
   end;
 
-  TCVImageEngine = class(TCVCustomMediaEngine)
+  TCVImageEngine = class(TCVCustomMediaEngine, ICVMediaEngineControl)
   protected
     fBoundsRect: TRect;
     fImageView: TCVImageViewPanel;
     fParentWindow: HWND;
+    fPlayInterval: Cardinal;
+    fPlayTimer: TTimer;
+    fPlayTimerTick: Cardinal;
     fTaskTag: Integer;
+    procedure HandlePlayTimer(Sender: TObject); virtual;
     procedure InternalCreateImageView; virtual;
   public
     destructor Destroy; override;
     procedure Close; override; stdcall;
     constructor Create; override;
+    // HasControl
+    // - Return TRUE if currently loaded file supports play/pause/stop.
+    // - Return FALSE with still media like images.
+    function HasControl: Boolean; virtual; stdcall;
     function OpenFile(AFilePath: WideString): Boolean; override; stdcall;
+    // Pause
+    procedure Pause; virtual; stdcall;
+    // Play
+    procedure Play; virtual; stdcall;
     procedure SetBounds(ARect: TRect); override; stdcall;
     // SetFocus
     procedure SetFocus; override; stdcall;
     procedure SetParentWindow(AParentWindow: HWND); override; stdcall;
+    // Stop
+    procedure Stop; virtual; stdcall;
+    property PlayInterval: Cardinal read fPlayInterval write fPlayInterval;
   end;
 
-  TCVMemoEngine = class(TCVCustomMediaEngine)
+  TCVMemoEngine = class(TCVCustomMediaEngine, ICVMediaEngineControl)
+  protected
+    fBoundsRect: TRect;
+    fMemo: TMemo;
+    fParentWindow: HWND;
+    fPlayInterval: Cardinal;
+    fPlayTimer: TTimer;
+    fPlayTimerTick: Cardinal;
+    procedure HandlePlayTimer(Sender: TObject); virtual;
+    procedure InternalCreateImageView; virtual;
+  public
+    constructor Create; override;
+    destructor Destroy; override;
+    procedure Close; override; stdcall;
+    // HasControl
+    // - Return TRUE if currently loaded file supports play/pause/stop.
+    // - Return FALSE with still media like images.
+    function HasControl: Boolean; virtual; stdcall;
+    function OpenFile(AFilePath: WideString): Boolean; override; stdcall;
+    // Pause
+    procedure Pause; virtual; stdcall;
+    // Play
+    procedure Play; virtual; stdcall;
+    procedure SetBounds(ARect: TRect); override; stdcall;
+    // SetFocus
+    procedure SetFocus; override; stdcall;
+    procedure SetParentWindow(AParentWindow: HWND); override; stdcall;
+    // Stop
+    procedure Stop; virtual; stdcall;
+    property PlayInterval: Cardinal read fPlayInterval write fPlayInterval;
   end;
 
 const
@@ -306,14 +342,6 @@ end;
 procedure TCVDSEngine.Close;
 begin
   ClearGraph;
-end;
-
-{-------------------------------------------------------------------------------
-  Get ConstantParentNeeded
--------------------------------------------------------------------------------}
-function TCVDSEngine.GetConstantParentNeeded: Boolean;
-begin
-  Result:= true;
 end;
 
 {-------------------------------------------------------------------------------
@@ -774,14 +802,6 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Get ConstantParentNeeded
--------------------------------------------------------------------------------}
-function TCVWMPEngine.GetConstantParentNeeded: Boolean;
-begin
-  Result:= true;
-end;
-
-{-------------------------------------------------------------------------------
   Get Duration
 -------------------------------------------------------------------------------}
 function TCVWMPEngine.GetDuration: Int64;
@@ -1040,6 +1060,13 @@ begin
   fTaskTag:= GetTickCount;
   fBoundsRect:= Rect(0,0,0,0);
   fParentWindow:= 0;
+  fPlayInterval:= 3000;
+  // create PlayTimer
+  fPlayTimer:= TTimer.Create(nil);
+  fPlayTimer.Enabled:= false;
+  fPlayTimer.Interval:= fPlayInterval;
+  fPlayTimer.OnTimer:= HandlePlayTimer;
+  fPlayTimerTick:= 0;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1047,6 +1074,9 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCVImageEngine.Destroy;
 begin
+  fPlayTimer.Enabled:= false;
+  FreeAndNil(fPlayTimer);
+  
   if assigned(fImageView) then
   FreeAndNil(fImageView);
   inherited;
@@ -1057,8 +1087,29 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCVImageEngine.Close;
 begin
+  fPlayTimer.Enabled:= false;
   if assigned(fImageView) then
   FreeAndNil(fImageView);
+  ChangeStatus(mpsClosed);
+end;
+
+{-------------------------------------------------------------------------------
+  Handle PlayTimer
+-------------------------------------------------------------------------------}
+procedure TCVImageEngine.HandlePlayTimer(Sender: TObject);
+begin
+  // reset PlayTimer.Interval (pause will change it, here we change it back)
+  fPlayTimer.Interval:= fPlayInterval;
+  fPlayTimerTick:= GetTickCount;
+  ChangeStatus(mpsDone);
+end;
+
+{-------------------------------------------------------------------------------
+  Has Control
+-------------------------------------------------------------------------------}
+function TCVImageEngine.HasControl: Boolean;
+begin
+  Result:= true;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1088,11 +1139,47 @@ end;
   OpenFile
 -------------------------------------------------------------------------------}
 function TCVImageEngine.OpenFile(AFilePath: WideString): Boolean;
-var
-  task: TCVImageEngineTask;
 begin
+  Result:= true;
   InternalCreateImageView;
+
+  ChangeStatus(mpsOpening);
   fImageView.View.OpenFile(AFilePath);
+  ChangeStatus(mpsStopped);
+end;
+
+{-------------------------------------------------------------------------------
+  Pause
+-------------------------------------------------------------------------------}
+procedure TCVImageEngine.Pause;
+var
+  t: Integer;
+begin
+  if fStatus = mpsPlaying then
+  begin
+    fPlayTimer.Enabled:= false;
+    t:= fPlayInterval - (GetTickCount - fPlayTimerTick);
+    if t > 0 then
+    fPlayTimer.Interval:= t
+    else
+    fPlayTimer.Interval:= 0;
+    
+    ChangeStatus(mpsPaused);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Play
+-------------------------------------------------------------------------------}
+procedure TCVImageEngine.Play;
+begin
+  // start PlayTimer
+  if fPlayInterval > 0 then
+  begin
+    fPlayTimer.Enabled:= true;
+    fPlayTimerTick:= GetTickCount;
+    ChangeStatus(mpsPlaying);
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1129,6 +1216,19 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Stop
+-------------------------------------------------------------------------------}
+procedure TCVImageEngine.Stop;
+begin
+  if (fStatus = mpsPlaying) or (fStatus = mpsPaused) then
+  begin
+    fPlayTimer.Enabled:= false;
+    fPlayTimer.Interval:= fPlayInterval;
+    ChangeStatus(mpsStopped);
+  end;
+end;
+
 {##############################################################################}
 // TCVImageEngineTask
 
@@ -1140,6 +1240,179 @@ begin
   if assigned(Bitmap) then
   FreeAndNil(Bitmap);
   inherited;
+end;
+
+{##############################################################################}
+// TCVMemoEngine
+
+{-------------------------------------------------------------------------------
+  Create
+-------------------------------------------------------------------------------}
+constructor TCVMemoEngine.Create;
+begin
+  inherited;
+  fBoundsRect:= Rect(0,0,0,0);
+  fParentWindow:= 0;
+  fPlayInterval:= 3000;  
+  // create PlayTimer
+  fPlayTimer:= TTimer.Create(nil);
+  fPlayTimer.Enabled:= false;
+  fPlayTimer.Interval:= fPlayInterval;
+  fPlayTimer.OnTimer:= HandlePlayTimer;
+  fPlayTimerTick:= 0;
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy
+-------------------------------------------------------------------------------}
+destructor TCVMemoEngine.Destroy;
+begin
+  fPlayTimer.Enabled:= false;
+  FreeAndNil(fPlayTimer);
+  
+  if assigned(fMemo) then
+  FreeAndNil(fMemo);
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Close
+-------------------------------------------------------------------------------}
+procedure TCVMemoEngine.Close;
+begin
+  fPlayTimer.Enabled:= false;
+  if assigned(fMemo) then
+  FreeAndNil(fMemo);
+  ChangeStatus(mpsClosed);
+end;
+
+{-------------------------------------------------------------------------------
+  Handle PlayTimer
+-------------------------------------------------------------------------------}
+procedure TCVMemoEngine.HandlePlayTimer(Sender: TObject);
+begin
+  // reset PlayTimer.Interval (pause will change it, here we change it back)
+  fPlayTimer.Interval:= fPlayInterval;
+  fPlayTimerTick:= GetTickCount;
+  ChangeStatus(mpsDone);
+end;
+
+{-------------------------------------------------------------------------------
+  Has Control
+-------------------------------------------------------------------------------}
+function TCVMemoEngine.HasControl: Boolean;
+begin
+  Result:= true;
+end;
+
+{-------------------------------------------------------------------------------
+  Internal Create ImageView
+-------------------------------------------------------------------------------}
+procedure TCVMemoEngine.InternalCreateImageView;
+begin
+  if not assigned(fMemo) then
+  begin
+    fMemo:= TMemo.Create(nil);
+    if fParentWindow <> 0 then
+    begin
+      fMemo.ParentWindow:= fParentWindow;
+      fMemo.BoundsRect:= fBoundsRect;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  OpenFile
+-------------------------------------------------------------------------------}
+function TCVMemoEngine.OpenFile(AFilePath: WideString): Boolean;
+begin
+  Result:= true;
+  InternalCreateImageView;
+
+  ChangeStatus(mpsOpening);
+  fMemo.Lines.LoadFromFile(AFilePath);
+  ChangeStatus(mpsStopped);
+end;
+
+{-------------------------------------------------------------------------------
+  Pause
+-------------------------------------------------------------------------------}
+procedure TCVMemoEngine.Pause;
+var
+  t: Integer;
+begin
+  if fStatus = mpsPlaying then
+  begin
+    fPlayTimer.Enabled:= false;
+    t:= fPlayInterval - (GetTickCount - fPlayTimerTick);
+    if t > 0 then
+    fPlayTimer.Interval:= t
+    else
+    fPlayTimer.Interval:= 0;
+    
+    ChangeStatus(mpsPaused);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Play
+-------------------------------------------------------------------------------}
+procedure TCVMemoEngine.Play;
+begin
+  // start PlayTimer
+  if fPlayInterval > 0 then
+  begin
+    fPlayTimer.Enabled:= true;
+    fPlayTimerTick:= GetTickCount;
+    ChangeStatus(mpsPlaying);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set Bounds
+-------------------------------------------------------------------------------}
+procedure TCVMemoEngine.SetBounds(ARect: TRect);
+begin
+  fBoundsRect:= ARect;
+  if assigned(fMemo) then
+  fMemo.BoundsRect:= fBoundsRect;
+end;
+
+{-------------------------------------------------------------------------------
+  SetFocus
+-------------------------------------------------------------------------------}
+procedure TCVMemoEngine.SetFocus;
+begin
+  if assigned(fMemo) then
+  begin
+    Windows.SetFocus(fMemo.Handle);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set Parent Window
+-------------------------------------------------------------------------------}
+procedure TCVMemoEngine.SetParentWindow(AParentWindow: HWND);
+begin
+  fParentWindow:= AParentWindow;
+  if assigned(fMemo) and (fParentWindow <> 0) then
+  begin
+    fMemo.ParentWindow:= fParentWindow;
+    fMemo.BoundsRect:= fBoundsRect;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Stop
+-------------------------------------------------------------------------------}
+procedure TCVMemoEngine.Stop;
+begin
+  if (fStatus = mpsPlaying) or (fStatus = mpsPaused) then
+  begin
+    fPlayTimer.Enabled:= false;
+    fPlayTimer.Interval:= fPlayInterval;
+    ChangeStatus(mpsStopped);
+  end;
 end;
 
 end.

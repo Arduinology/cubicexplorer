@@ -233,10 +233,6 @@ type
     constructor Create; virtual;
     destructor Destroy; override;
     procedure Close; virtual; stdcall;
-    // GetConstantParentNeeded
-    // - Return TRUE if the parent window handle can't change when media is loaded.
-    // - By default, try to make things work so that constant parent handle is not needed.
-    function GetConstantParentNeeded: Boolean; virtual; stdcall;
     function GetStatus: TCVMediaPlayerStatus; virtual; stdcall;
     function GetStatusText: WideString; virtual; stdcall;
     // GetSupportedExtensions
@@ -326,6 +322,7 @@ type
         write fOnPositionChange;
     property OnStatusChanged: TNotifyEvent read fOnStatusChanged write
         fOnStatusChanged;
+    property PopupMenu;
   end;
 
 {-------------------------------------------------------------------------------
@@ -889,14 +886,6 @@ begin
   fStatus:= AStatus;  
   if assigned(fStatusChangedEvent) then
   fStatusChangedEvent(Self);
-end;
-
-{-------------------------------------------------------------------------------
-  Get ConstantParentNeeded
--------------------------------------------------------------------------------}
-function TCVCustomMediaEngine.GetConstantParentNeeded: Boolean;
-begin
-  Result:= false;
 end;
 
 {-------------------------------------------------------------------------------

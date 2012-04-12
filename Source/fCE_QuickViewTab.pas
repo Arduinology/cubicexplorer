@@ -79,6 +79,7 @@ begin
   QuickView.Parent:= Self;
   QuickView.Align:= alClient;
   QuickView.Active:= true;
+  QuickView.ShowPreview:= false;
   Layout:= 'QuickView';
 end;
 

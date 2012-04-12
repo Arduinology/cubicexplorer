@@ -141,7 +141,8 @@ uses
   CE_FilePreview in 'CE_FilePreview.pas',
   CV_ImageView in 'CV_ImageView.pas',
   CV_MediaPlayer in 'CV_MediaPlayer.pas',
-  CV_MediaPlayerEngines in 'CV_MediaPlayerEngines.pas';
+  CV_MediaPlayerEngines in 'CV_MediaPlayerEngines.pas',
+  CV_Playlist in 'CV_Playlist.pas';
 
 {$R *.res}
 {$R 'CE_Resources.res'}

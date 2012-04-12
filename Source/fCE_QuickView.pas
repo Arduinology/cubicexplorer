@@ -25,15 +25,18 @@ interface
 
 uses
   // CE
-  CE_Toolbar, CE_SpTBXItems, CE_FilePreview,
+  CE_Toolbar, CE_SpTBXItems, CE_FilePreview, dCE_Images, CE_AppSettings,
   // CV
   CV_MediaPlayer, CV_MediaPlayerEngines,
   // SpTBX
   TB2Dock, SpTBXItem, TB2Toolbar, SpTBXControls, TB2Item, SpTBXDkPanels,
   SpTBXTabs,
+  // fcl-xml
+  DOM,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Contnrs, ImgList, PngImageList, ComCtrls, ExtCtrls;
+  Dialogs, Contnrs, ImgList, PngImageList, ComCtrls, ExtCtrls, CV_Playlist,
+  Menus;
 
 type
   TCEQuickViewForm = class;
@@ -41,47 +44,63 @@ type
 {-------------------------------------------------------------------------------
   TCEQuickView
 -------------------------------------------------------------------------------}
+  TCEQuickViewLoopMode = (lmNoLooping, lmSingleFile, lmPlaylist, lmFilelist);
+
   TCEQuickView = class(TFrame)
     Dock_Bottom: TSpTBXDock;
     toolbar_seekbar: TCEToolbar;
     toolbar_controls: TCEToolbar;
-    PngImageList1: TPngImageList;
     panel_content: TPanel;
     tabs_playlist: TSpTBXTabControl;
     tab_playlist: TSpTBXTabItem;
-    SpTBXTabSheet1: TSpTBXTabSheet;
+    sheet_playlist: TSpTBXTabSheet;
     tab_filelist: TSpTBXTabItem;
-    SpTBXTabSheet2: TSpTBXTabSheet;
+    sheet_filelist: TSpTBXTabSheet;
     splitter_left: TSpTBXSplitter;
     splitter_right: TSpTBXSplitter;
+    QuickViewPopup: TSpTBXPopupMenu;
+    but_detach: TSpTBXItem;
+    procedure but_detachClick(Sender: TObject);
+    procedure tabs_playlistActiveTabChange(Sender: TObject; TabIndex: Integer);
   private
     { Private declarations }
   protected
     fActive: Boolean;
     fActiveFilePath: WideString;
     fControlItems: TComponentList;
-    fHostWindow: HWND;
+    fIsGlobalSettingsRead: Boolean;
     fLastMute: Boolean;
     fLastPlaylistVisible: Boolean;
     fLastVolume: Integer;
+    fLoopMode: TCEQuickViewLoopMode;
     fMediaPlayer: TCVMediaPlayer;
+    fShowPreview: Boolean;
     Preview: TCEFilePreview;
     procedure AssignTo(Dest: TPersistent); override;
     function CreateDetachedQuickView: TCEQuickViewForm; virtual;
     procedure CreateEmbededMediaPlayer; virtual;
     procedure HandleControlClick(Sender: TObject); virtual;
+    procedure HandleActiveChange(Sender: TObject); virtual;
+    procedure HandleNavigationStateChange(Sender: TObject); virtual;
+    procedure HandleIsSupported(Sender: TObject; AExtension: WideString; var
+        AIsSupported: Boolean); virtual;
     procedure HandlePreviewClick(Sender: TObject); virtual;
     procedure HandleSeekbarAfterChange(Sender: TObject); virtual;
     procedure HandleShowHintQuery(Sender: TObject; var AHint: String; var
         AShowHint: Boolean); virtual;
     procedure HandleVolumeAfterChange(Sender: TObject); virtual;
     procedure HandleVolumeChange(Sender: TObject); virtual;
+    procedure ReadGlobalSettings; virtual;
     procedure SetActive(const Value: Boolean);
     procedure SetActiveFilePath(const Value: WideString);
+    procedure SetLoopMode(const Value: TCEQuickViewLoopMode); virtual;
     procedure UpdateControlStates(Sender: TObject); virtual;
+    procedure WriteGlobalSettings; virtual;
     procedure UpdateSeekbarState(Sender: TObject; APosition: Int64; ADuration:
         Int64); virtual;
   public
+    Filelist: TCVFilelist;
+    Playlist: TCVPlaylist;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure AttachMediaPlayer(AMediaPlayer: TCVMediaPlayer); virtual;
@@ -89,13 +108,16 @@ type
     procedure Detach; virtual;
     procedure OpenFile(AFilePath: WideString); virtual;
     procedure OpenFileInMediaPlayer(AFilePath: WideString); virtual;
+    procedure PlayNextFile; virtual;
     procedure PopulateControlsToolbar(AToolbar: TCEToolbar); virtual;
     procedure PopulateSeekToolbar(AToolbar: TCEToolbar); virtual;
     property Active: Boolean read fActive write SetActive;
     property ActiveFilePath: WideString read fActiveFilePath write
         SetActiveFilePath;
-    property HostWindow: HWND read fHostWindow write fHostWindow;
     { Public declarations }
+  published
+    property LoopMode: TCEQuickViewLoopMode read fLoopMode write SetLoopMode;
+    property ShowPreview: Boolean read fShowPreview write fShowPreview;
   end;
 
 {-------------------------------------------------------------------------------
@@ -115,6 +137,13 @@ type
   TCEQuickViewSettings
 -------------------------------------------------------------------------------}
   TCEMediaPlayerType = (mptAuto, mptWMP, mptDirectShow);
+  TCEPlaylistVisibility = (pvHidden, pvPlaylist, pvFilelist);
+
+  TCEMediaEngineSettings = class(TCECustomSettingStorage)
+  public
+    procedure Load(AAppStorage: TCEAppSettings; ANode: TDOMNode); override;
+    procedure Save(AAppStorage: TCEAppSettings; ANode: TDOMNode); override;
+  end;
 
   TCEQuickViewSettings = class(TPersistent)
   private
@@ -124,9 +153,11 @@ type
   protected
     fDirectShowExtensions: WideString;
     fImageExtensions: WideString;
+    fLoopMode: TCEQuickViewLoopMode;
     fMediaPlayer: TCEMediaPlayerType;
     fTextExtensions: WideString;
     fMediaExtensions: WideString;
+    fPlaylistVisibility: TCEPlaylistVisibility;
     fWMPExtensions: WideString;
     procedure SetDirectShowExtensions(const Value: WideString); virtual;
     procedure SetImageExtensions(const Value: WideString); virtual;
@@ -135,6 +166,7 @@ type
     procedure SetWMPExtensions(const Value: WideString); virtual;
   public
     constructor Create; virtual;
+    destructor Destroy; override;
     function CreateMediaEngine(AExtension: WideString): ICVMediaEngine; virtual;
     function IsSupported(AExtension: WideString): Boolean; virtual;
   published
@@ -142,6 +174,7 @@ type
         SetDirectShowExtensions;
     property ImageExtensions: WideString read fImageExtensions write
         SetImageExtensions;
+    property LoopMode: TCEQuickViewLoopMode read fLoopMode write fLoopMode;
     property MediaPlayer: TCEMediaPlayerType read fMediaPlayer write fMediaPlayer;
     property TextExtensions: WideString read fTextExtensions write
         SetTextExtensions;
@@ -153,6 +186,8 @@ type
         fRememberPanelLayout;
     property MediaExtensions: WideString read fMediaExtensions write
         SetMediaExtensions;
+    property PlaylistVisibility: TCEPlaylistVisibility read fPlaylistVisibility
+        write fPlaylistVisibility;
     property WMPExtensions: WideString read fWMPExtensions write SetWMPExtensions;
   end;
 
@@ -162,7 +197,8 @@ var
 implementation
 
 uses
-  Math, CE_AppSettings, ccFileUtils, ccClasses;
+  Math, ccFileUtils, ccClasses, CE_LanguageEngine,
+  MPShellUtilities;
 
 {$R *.dfm}
 
@@ -179,12 +215,38 @@ begin
   fLastMute:= false;
   fLastVolume:= 100;
   fLastPlaylistVisible:= false;
+  fIsGlobalSettingsRead:= false;
+  fShowPreview:= true;
+  fMediaPlayer:= nil;
+  fActive:= false;
+  fLoopMode:= lmNoLooping;
 
+  // create Preview
   Preview:= TCEFilePreview.Create(Self);
   Preview.Parent:= panel_content;
   Preview.Align:= alClient;
   Preview.OnClick:= HandlePreviewClick;
+  Preview.PopupMenu:= QuickViewPopup;
 
+  // create Playlist
+  Playlist:= TCVPlaylist.Create(Self);
+  Playlist.Parent:= sheet_playlist;
+  Playlist.Align:= alClient;
+  Playlist.LoopList:= false;
+  Playlist.OnIsSupported:= HandleIsSupported;
+  Playlist.OnActiveItemChange:= HandleActiveChange;
+  Playlist.OnNavigationStateChange:= HandleNavigationStateChange;
+
+  // create Filelist
+  Filelist:= TCVFilelist.Create(Self);
+  Filelist.Parent:= sheet_filelist;
+  Filelist.Align:= alClient;
+  Filelist.LoopList:= false;
+  Filelist.OnIsSupported:= HandleIsSupported;
+  Filelist.OnActiveItemChange:= HandleActiveChange;
+  Filelist.OnNavigationStateChange:= HandleNavigationStateChange;
+
+  // create control items
   fControlItems:= TComponentList.Create(false);
   PopulateControlsToolbar(toolbar_controls);
   PopulateSeekToolbar(toolbar_seekbar);
@@ -247,6 +309,11 @@ begin
   end;
 end;
 
+procedure TCEQuickView.but_detachClick(Sender: TObject);
+begin
+  Detach;
+end;
+
 {-------------------------------------------------------------------------------
   Close
 -------------------------------------------------------------------------------}
@@ -297,6 +364,7 @@ begin
     fMediaPlayer.BringToFront;
     fMediaPlayer.OnPositionChange:= UpdateSeekbarState;
     fMediaPlayer.OnStatusChanged:= UpdateControlStates;
+    fMediaPlayer.PopupMenu:= QuickViewPopup;
   end;
 end;
 
@@ -309,8 +377,8 @@ var
 begin
   form:= CreateDetachedQuickView;
   form.QuickView.AttachMediaPlayer(fMediaPlayer);
-  form.QuickView.Assign(Self);
   fMediaPlayer:= nil;
+  form.QuickView.Assign(Self);  
   UpdateControlStates(Self);
 end;
 
@@ -324,16 +392,41 @@ begin
     if Sender is TSpTBXItem then
     begin
       case TSpTBXItem(Sender).Tag of
+        // play
         1: begin
           if fMediaPlayer.GetStatus = mpsPlaying then
           fMediaPlayer.Pause
           else
           fMediaPlayer.Play;
         end;
+        // stop
         2: fMediaPlayer.Stop;
+        // previous
+        3: Playlist.ActivatePrevious;
+        // next
+        4: Playlist.ActivateNext;
+        // previous file
+        5: begin
+          if Filelist.IsEmpty then
+          Filelist.ActiveFilePath:= ActiveFilePath;
+          Filelist.ActivatePrevious;
+        end;
+        // next file
+        6: begin
+          if Filelist.IsEmpty then
+          Filelist.ActiveFilePath:= ActiveFilePath;
+          Filelist.ActivateNext;
+        end;
+        // loop modes
+        71: LoopMode:= lmNoLooping;
+        72: LoopMode:= lmSingleFile;
+        73: LoopMode:= lmPlaylist;
+        74: LoopMode:= lmFilelist;
+        // playlist
         8: begin
           fLastPlaylistVisible:= not fLastPlaylistVisible;
         end;
+        // mute
         9: begin
           fLastMute:= not fLastMute;
           fMediaPlayer.Mute:= fLastMute;
@@ -342,6 +435,68 @@ begin
       UpdateControlStates(Self);
     end;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle ActiveChange
+-------------------------------------------------------------------------------}
+procedure TCEQuickView.HandleActiveChange(Sender: TObject);
+begin
+  if Sender = Filelist then
+  OpenFileInMediaPlayer(Filelist.GetActivePath)
+  else if Sender = Playlist then
+  OpenFileInMediaPlayer(Playlist.GetActivePath);
+end;
+
+{-------------------------------------------------------------------------------
+  Handle Navigation State Change
+-------------------------------------------------------------------------------}
+procedure TCEQuickView.HandleNavigationStateChange(Sender: TObject);
+var
+  L,R: Boolean;
+  i: Integer;
+begin
+  // Playlist
+  if (Sender = Playlist) then
+  begin
+    L:= Playlist.GetPreviousItem <> nil;
+    R:= Playlist.GetNextItem <> nil;
+    for i:= 0 to fControlItems.Count - 1 do
+    begin
+      case fControlItems.Items[i].Tag of
+        3: begin
+          TSpTBXItem(fControlItems.Items[i]).Visible:= Playlist.RootNodeCount > 1;
+          TSpTBXItem(fControlItems.Items[i]).Enabled:= L;
+        end;
+        4: begin
+          TSpTBXItem(fControlItems.Items[i]).Visible:= Playlist.RootNodeCount > 1;
+          TSpTBXItem(fControlItems.Items[i]).Enabled:= R;
+        end;
+      end;
+    end;
+  end
+  // Filelist
+  else if (Sender = Filelist) then
+  begin
+    L:= Filelist.GetPreviousItem <> nil;
+    R:= Filelist.GetNextItem <> nil;  
+    for i:= 0 to fControlItems.Count - 1 do
+    begin
+      case fControlItems.Items[i].Tag of
+        5: TSpTBXItem(fControlItems.Items[i]).Enabled:= L;
+        6: TSpTBXItem(fControlItems.Items[i]).Enabled:= R;
+      end;
+    end;    
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  HandleIsSupported
+-------------------------------------------------------------------------------}
+procedure TCEQuickView.HandleIsSupported(Sender: TObject; AExtension:
+    WideString; var AIsSupported: Boolean);
+begin
+  AIsSupported:= GlobalQuickViewSettings.IsSupported(AExtension);
 end;
 
 {-------------------------------------------------------------------------------
@@ -446,13 +601,30 @@ procedure TCEQuickView.OpenFile(AFilePath: WideString);
 var
   status: TCVMediaPlayerStatus;
 begin
-  Preview.OpenFile(AFilePath);
-  if assigned(fMediaPlayer) then
+  if AFilePath = '' then
+  Exit;
+
+  // show preview
+  if fShowPreview then
   begin
-    status:= fMediaPlayer.GetStatus;
-    if (status = mpsClosed) or (status = mpsDone) or (status = mpsError) or (status = mpsStopped)  then
-    Close;
+    Preview.OpenFile(AFilePath);
+    if assigned(fMediaPlayer) then
+    begin
+      status:= fMediaPlayer.GetStatus;
+      if (status = mpsClosed) or (status = mpsDone) or (status = mpsError) or (status = mpsStopped)  then
+      Close;
+    end;    
+  end  
+  // open directly in media player
+  else
+  begin
+    ReadGlobalSettings;
+
+    Playlist.Clear;
+    Playlist.Add(fActiveFilePath, true); // <-- opens the media player
+    Filelist.ActiveFilePath:= fActiveFilePath;
   end;
+  
   UpdateControlStates(Self);
 end;
 
@@ -461,8 +633,14 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEQuickView.HandlePreviewClick(Sender: TObject);
 begin
-  OpenFileInMediaPlayer(fActiveFilePath);
-  fMediaPlayer.SetFocus;
+  ReadGlobalSettings;
+
+  Playlist.Clear;
+  Playlist.Add(fActiveFilePath, true); // <-- opens the media player
+  Filelist.ActiveFilePath:= fActiveFilePath;
+
+  if assigned(fMediaPlayer) then
+  fMediaPlayer.SetFocus;  
 end;
 
 {-------------------------------------------------------------------------------
@@ -472,13 +650,45 @@ procedure TCEQuickView.OpenFileInMediaPlayer(AFilePath: WideString);
 var
   Ext: WideString;
 begin
+  if AFilePath = '' then
+  Exit;
+
+  // create media player
   CreateEmbededMediaPlayer;
+  // create media engine
   Ext:= WideLowerCase(WideExtractFileExt(AFilePath));
-
-
   fMediaPlayer.Engine:= GlobalQuickViewSettings.CreateMediaEngine(Ext);
+  // open file
   fMediaPlayer.OpenFile(AFilePath);
+  // clear preview (no need to keep it in memory since it's hidden)
+  Preview.Clear;
+  
   UpdateControlStates(Self);
+end;
+
+{-------------------------------------------------------------------------------
+  Play Next File
+-------------------------------------------------------------------------------}
+procedure TCEQuickView.PlayNextFile;
+var
+  doPlay: Boolean;
+begin
+  // next playlist item
+  if fLoopMode = lmPlaylist then
+  doPlay:= Playlist.ActivateNext <> nil
+  // next filelist item
+  else if fLoopMode = lmFilelist then
+  doPlay:= Filelist.ActivateNext <> nil
+  // loop current
+  else
+  doPlay:= fLoopMode = lmSingleFile;
+
+  // play
+  if assigned(fMediaPlayer) and doPlay then
+  begin
+    fMediaPlayer.SetPosition(0);
+    fMediaPlayer.Play;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -487,6 +697,7 @@ end;
 procedure TCEQuickView.PopulateControlsToolbar(AToolbar: TCEToolbar);
 var
   item: TSpTBXItem;
+  sub: TSpTBXSubmenuItem;
   status: TSpTBXLabelItem;
   track: TCETrackBar;
 begin
@@ -528,9 +739,6 @@ begin
   AToolbar.Items.Add(item);
   fControlItems.Add(item);
 
-  // dynamic spacer
-  AToolbar.Items.Add(TCEToolbarDynamicSpacerItem.Create(AToolbar));
-
   // previous file (5)
   item:= TSpTBXItem.Create(AToolbar);
   item.Tag:= 5;
@@ -539,6 +747,7 @@ begin
   item.OnClick:= HandleControlClick;
   AToolbar.Items.Add(item);
   fControlItems.Add(item);
+
   // next file (6)
   item:= TSpTBXItem.Create(AToolbar);
   item.Tag:= 6;
@@ -547,13 +756,50 @@ begin
   item.OnClick:= HandleControlClick;
   AToolbar.Items.Add(item);
   fControlItems.Add(item);
-  // status text (7)
-//  status:= TSpTBXLabelItem.Create(AToolbar);
-//  status.Tag:= 7;
-//  status.Caption:= 'Closed';
-//  AToolbar.Items.Add(status);
-//  fControlItems.Add(status);
-  
+
+  // dynamic spacer
+  AToolbar.Items.Add(TCEToolbarDynamicSpacerItem.Create(AToolbar));
+
+  // Loop mode (7)
+  sub:= TSpTBXSubmenuItem.Create(AToolbar);
+  sub.Tag:= 7;
+  sub.ImageIndex:= -1;
+  sub.Options:= [tboDropdownArrow];
+  AToolbar.Items.Add(sub);
+  fControlItems.Add(sub);
+    // no looping (71)
+    item:= TSpTBXItem.Create(sub);
+    item.Tag:= 71;
+    item.Caption:= _('No Looping');
+    item.ImageIndex:= 10;
+    item.OnClick:= HandleControlClick;
+    sub.Add(item);
+    fControlItems.Add(item);
+    // single file (72)
+    item:= TSpTBXItem.Create(sub);
+    item.Tag:= 72;
+    item.Caption:= _('Loop File');
+    item.ImageIndex:= 11;
+    item.OnClick:= HandleControlClick;
+    sub.Add(item);
+    fControlItems.Add(item);
+    // playlist (73)
+    item:= TSpTBXItem.Create(sub);
+    item.Tag:= 73;
+    item.Caption:= _('Loop Playlist');
+    item.ImageIndex:= 12;
+    item.OnClick:= HandleControlClick;
+    sub.Add(item);
+    fControlItems.Add(item);
+    // filelist (74)
+    item:= TSpTBXItem.Create(sub);
+    item.Tag:= 74;
+    item.Caption:= _('Loop Filelist');
+    item.ImageIndex:= 13;
+    item.OnClick:= HandleControlClick;
+    sub.Add(item);
+    fControlItems.Add(item);
+
   // playlist (8)
   item:= TSpTBXItem.Create(AToolbar);
   item.Tag:= 8;
@@ -651,8 +897,25 @@ end;
   Set ActiveFilePath
 -------------------------------------------------------------------------------}
 procedure TCEQuickView.SetActiveFilePath(const Value: WideString);
+var
+  ns: TNamespace;
 begin
+  // get file location from LNK file.
+  if WideLowerCase(WideExtractFileExt(Value)) = '.lnk' then
+  begin
+    ns:= TNamespace.CreateFromFileName(Value);
+    try
+      if ns.Link then
+      fActiveFilePath:= ns.ShellLink.TargetPath
+      else
+      fActiveFilePath:= Value;
+    finally
+      ns.Free;
+    end;
+  end
+  else  
   fActiveFilePath:= Value;
+  
   if fActive then
   begin
     if WideFileExists(fActiveFilePath) then
@@ -660,6 +923,28 @@ begin
     else if not assigned(fMediaPlayer) then
     Close;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set LoopMode
+-------------------------------------------------------------------------------}
+procedure TCEQuickView.SetLoopMode(const Value: TCEQuickViewLoopMode);
+begin
+  if Value <> fLoopMode then
+  begin
+    fLoopMode:= Value;
+    GlobalQuickViewSettings.LoopMode:= fLoopMode;
+    UpdateControlStates(Self);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On tabs_playlist.ActiveTabChange
+-------------------------------------------------------------------------------}
+procedure TCEQuickView.tabs_playlistActiveTabChange(Sender: TObject; TabIndex:
+    Integer);
+begin
+  WriteGlobalSettings;
 end;
 
 {-------------------------------------------------------------------------------
@@ -678,6 +963,17 @@ begin
   if assigned(fMediaPlayer) then
   begin
     status:= fMediaPlayer.GetStatus;
+
+    // play next file
+    if Sender = fMediaPlayer then
+    begin
+      if (status = mpsDone) or (status = mpsError) then
+      begin
+        PlayNextFile;
+        status:= fMediaPlayer.GetStatus;
+      end;
+    end;
+
     loaded:= (status = mpsPlaying) or (status = mpsPaused) or (status = mpsStopped) or (status = mpsDone);
     for i:= 0 to fControlItems.Count - 1 do
     begin
@@ -685,7 +981,10 @@ begin
         // play/pause
         1: begin
           item:= TSpTBXItem(fControlItems.Items[i]);
-          item.Enabled:= loaded;
+          item.Enabled:= loaded or
+                         ((fLoopMode = lmPlaylist) and not Playlist.IsEmpty) or
+                         ((fLoopMode = lmFilelist) and not Filelist.IsEmpty);
+
           if (status = mpsPlaying) then
           item.ImageIndex:= 1
           else
@@ -697,24 +996,51 @@ begin
         end;
         // previous
         3: begin
-        
+          TSpTBXItem(fControlItems.Items[i]).Visible:= Playlist.RootNodeCount > 1;
+          if TSpTBXItem(fControlItems.Items[i]).Visible then
+          TSpTBXItem(fControlItems.Items[i]).Enabled:= Playlist.GetPreviousItem <> nil;
         end;
         // next
         4: begin
-
+          TSpTBXItem(fControlItems.Items[i]).Visible:= Playlist.RootNodeCount > 1;
+          if TSpTBXItem(fControlItems.Items[i]).Visible then
+          TSpTBXItem(fControlItems.Items[i]).Enabled:= Playlist.GetNextItem <> nil;
         end;
         // previous file
         5: begin
-
+          TSpTBXItem(fControlItems.Items[i]).Enabled:= Filelist.GetPreviousItem <> nil;
         end;
         // next file
         6: begin
-
+          TSpTBXItem(fControlItems.Items[i]).Enabled:= Filelist.GetNextItem <> nil;
         end;
-        // status text
+        // loop mode
         7: begin
-
-        end;
+          item:= TSpTBXItem(fControlItems.Items[i]);
+          case fLoopMode of
+            lmNoLooping: begin
+              item.Caption:= _('No Looping');
+              item.ImageIndex:= 10;
+            end;
+            lmSingleFile: begin
+              item.Caption:= _('Loop File');
+              item.ImageIndex:= 11;
+            end;
+            lmPlaylist: begin
+              item.Caption:= _('Loop Playlist');
+              item.ImageIndex:= 12;
+            end;
+            lmFilelist: begin
+              item.Caption:= _('Loop Filelist');
+              item.ImageIndex:= 13;
+            end;
+          end;
+        end;        
+        71: TSpTBXItem(fControlItems.Items[i]).Checked:= fLoopMode = lmNoLooping;   // no looping
+        72: TSpTBXItem(fControlItems.Items[i]).Checked:= fLoopMode = lmSingleFile;  // loop file
+        73: TSpTBXItem(fControlItems.Items[i]).Checked:= fLoopMode = lmPlaylist;    // loop playlist
+        74: TSpTBXItem(fControlItems.Items[i]).Checked:= fLoopMode = lmFilelist;    // loop filelist
+        
         // playlist
         8: begin
           TSpTBXItem(fControlItems.Items[i]).Checked:= fLastPlaylistVisible;
@@ -796,6 +1122,7 @@ begin
         splitter_left.Visible:= false;
         splitter_right.Visible:= false;
       end;
+      WriteGlobalSettings;
     end;
   end
   // not loaded, hide everything
@@ -807,6 +1134,42 @@ begin
     splitter_left.Visible:= false;
     splitter_right.Visible:= false;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Read Global Settings
+-------------------------------------------------------------------------------}
+procedure TCEQuickView.ReadGlobalSettings;
+begin
+  // PlaylistVisibility
+  fLastPlaylistVisible:= GlobalQuickViewSettings.PlaylistVisibility <> pvHidden;
+  if GlobalQuickViewSettings.PlaylistVisibility = pvPlaylist then
+  tab_playlist.Checked:= true
+  else
+  tab_filelist.Checked:= true;
+  // LoopMode
+  fLoopMode:= GlobalQuickViewSettings.LoopMode;
+
+  fIsGlobalSettingsRead:= true;
+end;
+
+{-------------------------------------------------------------------------------
+  Write Global Settings
+-------------------------------------------------------------------------------}
+procedure TCEQuickView.WriteGlobalSettings;
+begin
+  if not fIsGlobalSettingsRead then
+  Exit;
+  
+  // PlaylistVisibility
+  if not tabs_playlist.Visible then
+  GlobalQuickViewSettings.PlaylistVisibility:= pvHidden
+  else if tab_playlist.Checked then
+  GlobalQuickViewSettings.PlaylistVisibility:= pvPlaylist
+  else
+  GlobalQuickViewSettings.PlaylistVisibility:= pvFilelist;
+  // LoopMode
+  GlobalQuickViewSettings.LoopMode:= fLoopMode;
 end;
 
 {-------------------------------------------------------------------------------
@@ -872,7 +1235,6 @@ begin
   inherited CreateNew(AOwner, Dummy);
   QuickView:= TCEQuickView.Create(Self);
   QuickView.Parent:= Self;
-  QuickView.HostWindow:= Self.Handle;
   QuickView.Align:= alClient;
 end;
 
@@ -910,6 +1272,15 @@ begin
   fWMPExtensions:= fMediaExtensions;
   fDirectShowExtensions:= fMediaExtensions;
   fMediaPlayer:= mptWMP;
+  fLoopMode:= lmNoLooping;
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy TCEQuickViewSettings
+-------------------------------------------------------------------------------}
+destructor TCEQuickViewSettings.Destroy;
+begin
+  inherited;
 end;
 
 {-------------------------------------------------------------------------------
@@ -978,6 +1349,7 @@ function TCEQuickViewSettings.IsSupported(AExtension: WideString): Boolean;
 var
   list: TCCStringList;
 begin
+  // TODO: optimize and make thread-safe
   Result:= false;
   
   if AExtension = '' then
@@ -1039,6 +1411,28 @@ end;
 procedure TCEQuickViewSettings.SetWMPExtensions(const Value: WideString);
 begin
   fWMPExtensions:= WideLowerCase(Value);
+end;
+
+{##############################################################################}
+// TCEMediaEngineSettings
+
+{-------------------------------------------------------------------------------
+  Load
+-------------------------------------------------------------------------------}
+procedure TCEMediaEngineSettings.Load(AAppStorage: TCEAppSettings; ANode:
+    TDOMNode);
+begin
+ 
+end;
+
+{-------------------------------------------------------------------------------
+  Save
+-------------------------------------------------------------------------------}
+procedure TCEMediaEngineSettings.Save(AAppStorage: TCEAppSettings; ANode:
+    TDOMNode);
+begin
+  //ANode.appendChild(AAppStorage.XML.CreateElement('test'));
+ 
 end;
 
 {##############################################################################}

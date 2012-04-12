@@ -70,8 +70,8 @@ type
     fTaskTag: Integer;
     fThumbBuffer: TBitmap;
     procedure CreateParams(var Params: TCreateParams); override;
-    procedure HandleExecuteTask(Sender: TObject; AObject: TObject; AData: Pointer;
-        ATag: Integer); virtual;
+    procedure HandleExecuteTask(Sender: TCCTaskPoolThread; AObject: TObject; AData:
+        Pointer; ATag: Integer); virtual;
     procedure DoFetchInformation; virtual;
     procedure DoFetchThumbnail; virtual;
     procedure DoUpdateInfoBuffer; virtual;
@@ -104,6 +104,7 @@ type
     property Font;
     property ShowIcon: Boolean read fShowIcon write SetShowIcon;
     property OnClick;
+    property PopupMenu;
   end;
 
 implementation
@@ -179,7 +180,7 @@ end;
 {-------------------------------------------------------------------------------
   Do Execute Task (runs in a separate thread!!!)
 -------------------------------------------------------------------------------}
-procedure TCEFilePreview.HandleExecuteTask(Sender: TObject; AObject:
+procedure TCEFilePreview.HandleExecuteTask(Sender: TCCTaskPoolThread; AObject:
     TObject; AData: Pointer; ATag: Integer);
 var
   ns: TNamespace;
