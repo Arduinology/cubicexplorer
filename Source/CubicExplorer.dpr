@@ -225,12 +225,13 @@ begin
   CEStackPanel.Name:= 'StackPanel';
 
   // Create Archiver Panel
-  CEArchiverPanel:= TCEArchiverPanel.Create(MainForm);
-  CEArchiverPanel.Name:= 'ArchiverPanel';
+//  CEArchiverPanel:= TCEArchiverPanel.Create(MainForm);
+//  CEArchiverPanel.Name:= 'ArchiverPanel';
 
   // Run Start up code.
   MainForm.StartUp;
   MainForm.StartUpTimer.Enabled:= true;
+
   // Run Application
   Application.Run;
 

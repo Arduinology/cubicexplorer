@@ -184,7 +184,8 @@ type
     constructor Create; virtual;
     destructor Destroy; override;
     function CreateMediaEngine(AExtension: WideString): ICVMediaEngine; virtual;
-    function IsSupported(AExtension: WideString): Boolean; virtual;
+    function IsSupported(AExtension: WideString; AExcludeText: Boolean = false):
+        Boolean; virtual;
   published
     property DirectShowExtensions: WideString read fDirectShowExtensions write
         SetDirectShowExtensions;
@@ -1495,7 +1496,8 @@ end;
 {-------------------------------------------------------------------------------
   IsSupported
 -------------------------------------------------------------------------------}
-function TCEQuickViewSettings.IsSupported(AExtension: WideString): Boolean;
+function TCEQuickViewSettings.IsSupported(AExtension: WideString; AExcludeText:
+    Boolean = false): Boolean;
 var
   list: TCCStringList;
 begin
@@ -1511,11 +1513,21 @@ begin
   list:= TCCStringList.Create;
   try
     list.Delimiter:= ',';
-    
-    if fMediaPlayer = mptAuto then
-    list.DelimitedText:= fImageExtensions +','+ fTextExtensions +','+ fWMPExtensions +','+ fDirectShowExtensions
+
+    if not AExcludeText then
+    begin
+      if fMediaPlayer = mptAuto then
+      list.DelimitedText:= fImageExtensions +','+ fTextExtensions +','+ fWMPExtensions +','+ fDirectShowExtensions
+      else
+      list.DelimitedText:= fImageExtensions +','+ fTextExtensions +','+ fMediaExtensions;
+    end
     else
-    list.DelimitedText:= fImageExtensions +','+ fTextExtensions +','+ fMediaExtensions;
+    begin
+      if fMediaPlayer = mptAuto then
+      list.DelimitedText:= fImageExtensions +','+ fWMPExtensions +','+ fDirectShowExtensions
+      else
+      list.DelimitedText:= fImageExtensions +','+ fMediaExtensions;
+    end;
     
     Result:= list.IndexOf(AExtension) > -1;
   finally

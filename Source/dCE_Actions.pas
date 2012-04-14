@@ -701,7 +701,7 @@ begin
     303: if GetFormVisible(CEQuickviewPanel) then HideDockForm(CEQuickviewPanel) else ShowDockForm(CEQuickviewPanel);
     304: if GetFormVisible(CEFiltersPanel) then HideDockForm(CEFiltersPanel) else ShowDockForm(CEFiltersPanel);
     305: if GetFormVisible(CEStackPanel) then HideDockForm(CEStackPanel) else ShowDockForm(CEStackPanel);
-    306: if GetFormVisible(CEArchiverPanel) then HideDockForm(CEArchiverPanel) else ShowDockForm(CEArchiverPanel);
+//    306: if GetFormVisible(CEArchiverPanel) then HideDockForm(CEArchiverPanel) else ShowDockForm(CEArchiverPanel);
     330: MainForm.ShowHint:= not MainForm.ShowHint;
     332: begin
       GlobalFileViewSettings.HiddenFiles:= not GlobalFileViewSettings.HiddenFiles;
@@ -738,7 +738,7 @@ begin
     303: TargetAction.Checked:= CEQuickviewPanel.IsVisible;
     304: TargetAction.Checked:= CEFiltersPanel.IsVisible;
     305: TargetAction.Checked:= CEStackPanel.IsVisible;
-    306: TargetAction.Checked:= CEArchiverPanel.IsVisible;
+//    306: TargetAction.Checked:= CEArchiverPanel.IsVisible;
     330: TargetAction.Checked:= MainForm.ShowHint;
     332: TargetAction.Checked:= GlobalFileViewSettings.HiddenFiles;
     333: TargetAction.Checked:= GlobalFileViewSettings.ShowHeaderAlways;
@@ -1273,7 +1273,7 @@ begin
   begin
     GlobalFileViewSettings.AssignFromActivePage;
 
-    if GlobalQuickViewSettings.IsSupported(WideExtractFileExt(FilePath)) then
+    if GlobalQuickViewSettings.IsSupported(WideExtractFileExt(FilePath), true) then
     begin
       quickview:= TCEQuickViewPage(MainForm.TabSet.AddTab(TCEQuickViewPage, SelectTab).Page);
       quickview.OpenFile(FilePath);
