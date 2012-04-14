@@ -16,7 +16,7 @@ object CEQuickView: TCEQuickView
       Top = 0
       BorderStyle = bsNone
       ChevronMoveItems = False
-      DockPos = 0
+      DockPos = 9
       DragHandleStyle = dhNone
       Images = CE_Images.QuickViewImages
       ParentShowHint = False
@@ -24,7 +24,7 @@ object CEQuickView: TCEQuickView
       ShowHint = True
       Stretch = True
       TabOrder = 0
-      Caption = 'toolbar_seekbar'
+      Caption = 'Seekbar'
     end
     object toolbar_controls: TCEToolbar
       Left = 0
@@ -37,7 +37,7 @@ object CEQuickView: TCEQuickView
       PopupMenu = QuickViewPopup
       Stretch = True
       TabOrder = 1
-      Caption = 'toolbar_controls'
+      Caption = 'Controls'
       ChevronVertical = False
     end
   end
@@ -108,11 +108,18 @@ object CEQuickView: TCEQuickView
     GripSize = 0
   end
   object QuickViewPopup: TSpTBXPopupMenu
+    OnPopup = QuickViewPopupPopup
     Left = 160
     Top = 128
     object but_detach: TSpTBXItem
-      Caption = 'Detach in Window'
-      OnClick = but_detachClick
+      Tag = 101
+      Caption = 'Detach to Window'
+      OnClick = HandlePopupItemClick
+    end
+    object but_ontop: TSpTBXItem
+      Tag = 102
+      Caption = 'Always On Top'
+      OnClick = HandlePopupItemClick
     end
   end
 end

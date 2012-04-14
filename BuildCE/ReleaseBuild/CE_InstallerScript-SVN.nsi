@@ -21,19 +21,28 @@
   !define VERSION "SVN"
   !define VERSION_STR "SVN Snapshot"
 
+;---General info---
+
+  Name "CubicExplorer"
+  Caption 'CubicExplorer ${VERSION_STR}'
+  OutFile "Output\CubicExplorer_${VERSION}_Setup.exe"
+  InstallDir "$PROGRAMFILES\CubicExplorer_dev"
+
+;---Installer file desctiptions---
+VIProductVersion "0.0.0.0"
+VIAddVersionKey "ProductName" "CubicExplorer"
+VIAddVersionKey "ProductVersion" "${VERSION_STR}"
+VIAddVersionKey "CompanyName" "CubicReality Software"
+;VIAddVersionKey "FileVersion" ""
+VIAddVersionKey "FileDescription" "File Manager"
+VIAddVersionKey "LegalCopyright" "Marko Savolainen"
+
 ;---Reserved Files---
   ReserveFile "ShortcutPage.ini"
   !insertmacro MUI_RESERVEFILE_INSTALLOPTIONS
 
 ;---Variables---
   Var INI_VALUE
-
-;---general info---
-
-  Name "CubicExplorer"
-  Caption 'CubicExplorer ${VERSION_STR}'
-  OutFile "Output\CubicExplorer_${VERSION}_Setup.exe"
-  InstallDir "$PROGRAMFILES\CubicExplorer_dev"
 
 ;---OnInit---
 Function .onInit

@@ -69,6 +69,7 @@ type
     fShowThumbnail: Boolean;
     fTaskTag: Integer;
     fThumbBuffer: TBitmap;
+    procedure AssignTo(Dest: TPersistent); override;
     procedure CreateParams(var Params: TCreateParams); override;
     procedure HandleExecuteTask(Sender: TCCTaskPoolThread; AObject: TObject; AData:
         Pointer; ATag: Integer); virtual;
@@ -129,6 +130,7 @@ begin
   Self.Color:= clWindow;
   fBorderSize:= 6;
   fInfoAlign:= iaBottom;
+  fFileIconIndex:= -1;
   // create instances
   fResizeTimer:= TTimer.Create(Self);
   fResizeTimer.Interval:= 250;
@@ -148,6 +150,40 @@ begin
   if assigned(fThumbBuffer) then
   FreeAndNil(fThumbBuffer);
   inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  AssignTo
+-------------------------------------------------------------------------------}
+procedure TCEFilePreview.AssignTo(Dest: TPersistent);
+var
+  preview: TCEFilePreview;
+begin
+  if Dest is TCEFilePreview then
+  begin
+    preview:= TCEFilePreview(Dest);
+    preview.fBorderSize:= fBorderSize;
+    preview.fInfoAlign:= fInfoAlign;
+    preview.Color:= Color;
+    preview.Font.Assign(Font);
+    preview.fShowIcon:= fShowIcon;
+    preview.fShowInformation:= fShowInformation;
+    preview.fShowThumbnail:= fShowThumbnail;
+    preview.fFileIconIndex:= fFileIconIndex;
+    preview.fFileInfo:= fFileInfo;
+    preview.fFilePath:= fFilePath;
+    // create buffers
+    if assigned(fInfoBuffer) then
+    begin
+      preview.fInfoBuffer:= TBitmap.Create;
+      preview.fInfoBuffer.Assign(fInfoBuffer);
+    end;
+    if assigned(fThumbBuffer) then
+    begin
+      preview.fThumbBuffer:= TBitmap.Create;
+      preview.fThumbBuffer.Assign(fThumbBuffer);
+    end;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -426,18 +462,30 @@ begin
       begin
         fInfoBuffer.Canvas.Font.Style:= [];
         r:= posArray[i];
-        // draw name
-        ws:= list.Names[i] + ':';
-        Windows.DrawTextW(Self.Canvas.Handle, PWideChar(ws), -1, r, DT_CALCRECT);
-        w:= r.Right;
-        fInfoBuffer.Canvas.Font.Color:= clGrayText;
-        Windows.DrawTextW(fInfoBuffer.Canvas.Handle, PWideChar(ws), -1, posArray[i], DT_END_ELLIPSIS);
-        // draw value
-        ws:= list.ValueFromIndex[i];
-        r:= posArray[i];
-        r.Left:= w;
-        fInfoBuffer.Canvas.Font.Color:= Self.Font.Color;
-        Windows.DrawTextW(fInfoBuffer.Canvas.Handle, PWideChar(ws), -1, r, DT_END_ELLIPSIS);
+        if list.ValueFromIndex[i] <> '' then
+        begin
+          // draw name
+          ws:= list.Names[i] + ':';
+          Windows.DrawTextW(Self.Canvas.Handle, PWideChar(ws), -1, r, DT_CALCRECT);
+          w:= r.Right;
+          fInfoBuffer.Canvas.Font.Color:= clGrayText;
+          Windows.DrawTextW(fInfoBuffer.Canvas.Handle, PWideChar(ws), -1, posArray[i], DT_END_ELLIPSIS);
+          // draw value
+          ws:= list.ValueFromIndex[i];
+          r:= posArray[i];
+          r.Left:= w;
+          fInfoBuffer.Canvas.Font.Color:= Self.Font.Color;
+          Windows.DrawTextW(fInfoBuffer.Canvas.Handle, PWideChar(ws), -1, r, DT_END_ELLIPSIS);
+        end
+        else
+        begin
+          // draw name
+          ws:= list.Names[i];
+          Windows.DrawTextW(Self.Canvas.Handle, PWideChar(ws), -1, r, DT_CALCRECT);
+          w:= r.Right;
+          fInfoBuffer.Canvas.Font.Color:= Self.Font.Color;
+          Windows.DrawTextW(fInfoBuffer.Canvas.Handle, PWideChar(ws), -1, posArray[i], DT_END_ELLIPSIS);        
+        end;
       end;
     end;
 

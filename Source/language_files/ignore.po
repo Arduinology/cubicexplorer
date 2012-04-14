@@ -979,3 +979,27 @@ msgstr ""
 # dCE_Images.dfm:9057
 msgid "PngImage70"
 msgstr ""
+
+#. Programmer's name for it: dtlServerPage
+#. Programmer's name for it: dtlOcxPage
+#: WMPLib_TLB.pas:5398
+# WMPLib_TLB.pas:5400
+msgid "(none)"
+msgstr ""
+
+#. CEQuickView..tabs_playlist..sheet_playlist..TabItem
+#: fCE_QuickView.dfm:90
+msgid "tab_playlist"
+msgstr ""
+
+#. CEQuickView..tabs_playlist..sheet_filelist..TabItem
+#: fCE_QuickView.dfm:81
+msgid "tab_filelist"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5180
+# dCE_Images.dfm:9224
+msgid "PngImage71"
+msgstr ""

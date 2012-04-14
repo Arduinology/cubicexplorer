@@ -61,7 +61,7 @@ type
 
   TCVImageViewStatus = (ivsEmpty, ivsLoading, ivsLoaded, ivsAborted, ivsError);
 
-  TCVImageView = class(TCustomImage32)
+  TCVImageView = class(TImage32)
   private
     fAutoResizeToFit: Boolean;
     fAutoResizeToOptimalFit: Boolean;
@@ -80,6 +80,7 @@ type
     fDragPoint: TPoint;
     fFullSize: TPoint;
     fLastTaskTick: Cardinal;
+    fLoadErrorMsg: WideString;
     fScaleUpResampler: TCVImageResampler;
     fOffset: TFloatPoint;
     fOnStatusChanged: TNotifyEvent;
@@ -90,6 +91,7 @@ type
     fSupportsOptimizedLoad: Boolean;
     fTaskTag: Integer;
     fLoadOptimalSize: Boolean;
+    fOnLoadError: TNotifyEvent;
     fUseThumbnailPreview: Boolean;
     fZoom: Extended;
     procedure BitmapResized; override;
@@ -100,6 +102,7 @@ type
     procedure DoLoadOptimized; virtual;
     function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer; MousePos:
         TPoint): Boolean; override;
+    procedure DoPaintGDIOverlay; override;
     function GetViewport: TFloatRect; virtual;
     function GetViewRange: TFloatRect; virtual;
     function GetViewRangeSize: TFloatPoint; virtual;
@@ -152,6 +155,15 @@ type
     property Zoom: Extended read fZoom write SetZoom;
   published
     property AdaptiveZoom: Boolean read fAdaptiveZoom write SetAdaptiveZoom;
+    property Align;
+    property Anchors;
+    property Font;
+    property LoadErrorMsg: WideString read fLoadErrorMsg write fLoadErrorMsg;
+    property ShowHint;
+    property TabOrder;
+    property TabStop;
+    property Visible;
+    property OnLoadError: TNotifyEvent read fOnLoadError write fOnLoadError;
     property OnStatusChanged: TNotifyEvent read fOnStatusChanged write
         fOnStatusChanged;
     property OnZoomChange: TNotifyEvent read fOnZoomChange write fOnZoomChange;
@@ -325,7 +337,25 @@ begin
     begin
       try
         Result:= TBitmap.Create;
-        Result.Assign(Graphic);
+        try
+          // icons
+          if Graphic is TIcon then
+          begin
+            Result.SetSize(Graphic.Width, Graphic.Height);
+            Result.Canvas.Lock;
+            try
+              Result.Canvas.Brush.Color:= BackgroundColor;
+              Result.Canvas.FillRect(Rect(0,0,Result.Width,Result.Height));
+              Result.Canvas.Draw(0,0,Graphic);
+            finally
+              Result.Canvas.Unlock;
+            end;
+          end
+          // everything else
+          else
+          Result.Assign(Graphic);
+        except
+        end;
       finally
         Graphic.Free;
       end;
@@ -507,6 +537,7 @@ begin
   fSupportsOptimizedLoad:= false;
   fUseThumbnailPreview:= true;
   fLoadOptimalSize:= true;
+  fLoadErrorMsg:= 'Error';
   Color:= clWindow;
 end;
 
@@ -598,6 +629,8 @@ begin
   fStatus:= AStatus;
   if assigned(fOnStatusChanged) then
   fOnStatusChanged(Self);
+  if fStatus = ivsError then
+  Paint;
 end;
 
 {-------------------------------------------------------------------------------
@@ -720,6 +753,53 @@ begin
 
   DoPanAndZoom;
   UpdateScrollbars;
+end;
+
+{-------------------------------------------------------------------------------
+  Do PaintGDIOverlay
+-------------------------------------------------------------------------------}
+procedure TCVImageView.DoPaintGDIOverlay;
+
+  function GetFontColor(BackgroundColor: TColor): TColor;
+  var
+    R, G, B: Integer;
+  begin
+    R := GetRValue(BackgroundColor) * 2;
+    G := GetGValue(BackgroundColor) * 5;
+    B := GetBValue(BackgroundColor);
+    if R + G + B < 1024 then
+    begin
+      // dark background, use white
+      Result:= clWhite;
+    end
+    else
+    begin
+      // bright background, use black
+      Result:= clBlack;
+    end;
+  end;
+
+var
+  r: TRect;
+begin
+  inherited;
+  // show error message
+  if (fStatus = ivsError) and (fLoadErrorMsg <> '') then
+  begin
+    Self.Canvas.Lock;
+    try
+      Self.Canvas.Brush.Style:= bsClear;
+      Self.Canvas.Font.Assign(Self.Font);
+      Self.Canvas.Font.Color:= GetFontColor(Color);
+      r:= Self.ClientRect;
+
+      DrawTextW(Self.Canvas.Handle,
+                PWideChar(fLoadErrorMsg), Length(fLoadErrorMsg),
+                r, DT_CENTER or DT_SINGLELINE or DT_VCENTER);
+    finally
+      Self.Canvas.Unlock;
+    end;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -942,6 +1022,8 @@ begin
     else
     begin
       ChangeStatus(ivsError);
+      if assigned(fOnLoadError) then
+      fOnLoadError(Self);
     end;
   end;
 end;

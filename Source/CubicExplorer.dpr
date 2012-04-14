@@ -233,4 +233,5 @@ begin
   MainForm.StartUpTimer.Enabled:= true;
   // Run Application
   Application.Run;
+
 end.

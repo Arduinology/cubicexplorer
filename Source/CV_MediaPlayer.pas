@@ -28,7 +28,8 @@ uses
   // CubicCore
   ccFileUtils, ccInterfaces,
   // System Units
-  Windows, SysUtils, Classes, Controls, Messages, Types, ExtCtrls, Contnrs;
+  Windows, SysUtils, Classes, Controls, Messages, Types, ExtCtrls, Contnrs,
+  cUtils;
 
 {==============================================================================}
 const
@@ -38,6 +39,7 @@ const
   IID_ICVMediaEngineSeeking: TGUID = '{1E391419-4376-4BA2-A5EA-D513B6B6B977}';
   IID_ICVMediaEngineVideo: TGUID   = '{0597AE0E-C7EA-4621-925D-8DC1979D3227}';
   IID_ICVMediaEngineAudio: TGUID   = '{74205AAD-17EB-4E7C-82C4-933412EBCC5B}';
+  IID_ICVMediaEngineStill: TGUID   = '{F0A1381F-55F6-4509-8A93-8D87A807BE12}';
 
 type
 {-------------------------------------------------------------------------------
@@ -97,6 +99,10 @@ type
     // - Return true if currently loaded media has video
     function HasVideo: Boolean; stdcall;
 
+    // IsStill
+    // - Return true if currently loaded media is still (image or similar)
+    function IsStill: Boolean; stdcall;
+
     // OpenFile
     function OpenFile(AFilePath: WideString): Boolean; stdcall;
 
@@ -106,9 +112,13 @@ type
     // Play
     procedure Play; stdcall;
 
-    // SetPosition
+    // Set Position
     // - Set position in milliseconds
     procedure SetPosition(APosition: Int64); stdcall;
+
+    // Set Slideshow Interval
+    // - Set interval for stills in milliseconds.
+    procedure SetSlideshowInterval(AInterval: Integer); stdcall;
 
     // Set Volume
     // - Range is from 0 to 100
@@ -130,6 +140,10 @@ type
     // Close
     // - Frees file from memory
     procedure Close; stdcall;
+
+    // GetID
+    // - Return unique TGuid
+    function GetID: TGUID; stdcall;
 
     // GetStatus
     function GetStatus: TCVMediaPlayerStatus; stdcall;
@@ -222,6 +236,25 @@ type
   end;
 
 {-------------------------------------------------------------------------------
+  ICVMediaEngineStill
+-------------------------------------------------------------------------------}
+  ICVMediaEngineStill = interface(IInterface)
+  ['{F0A1381F-55F6-4509-8A93-8D87A807BE12}']
+    // IsStill
+    // - Return true if currentrly loaded media is still (image or similar).
+    function IsStill: Boolean; stdcall;
+
+    // SetSlideshowInterval
+    // - AInterval is millisecounds.
+    // - Engines have to implement their own timer to "play" stills.
+    // - Engines should use the interval set in here as the "media length".
+    // - Engines should start the timer when Play is called (pause and stop
+    //   should be supported also).
+    // - When the timer finishes, Status should be changed to mpsDone.
+    procedure SetSlideshowInterval(AInterval: Integer); stdcall;
+  end;
+
+{-------------------------------------------------------------------------------
   TCVCustomMediaEngine
 -------------------------------------------------------------------------------}
   TCVCustomMediaEngine = class(TInterfacedObject, ICVMediaEngine, ICCWindowCtrl)
@@ -233,6 +266,9 @@ type
     constructor Create; virtual;
     destructor Destroy; override;
     procedure Close; virtual; stdcall;
+    // GetID
+    // - Return unique TGuid
+    function GetID: TGUID; virtual; stdcall;
     function GetStatus: TCVMediaPlayerStatus; virtual; stdcall;
     function GetStatusText: WideString; virtual; stdcall;
     // GetSupportedExtensions
@@ -272,6 +308,7 @@ type
     fMute: Boolean;
     fPositionInterval: Integer;
     fProgressTimer: TTimer;
+    fSlideshowInterval: Integer;
     fVolume: Integer;
     function CheckEngine: Boolean; virtual;
     procedure CreateParams(var Params: TCreateParams); override;
@@ -304,6 +341,9 @@ type
     function HasVideo: Boolean; virtual; stdcall;
     function HasSeeking: Boolean; virtual; stdcall;
     function HasControl: Boolean; virtual; stdcall;
+    // IsStill
+    // - Return true if currently loaded media is still (image or similar)
+    function IsStill: Boolean; virtual; stdcall;
     function OpenFile(AFilePath: WideString): Boolean; virtual; stdcall;
     procedure Pause; virtual; stdcall;
     procedure Play; virtual; stdcall;
@@ -311,11 +351,16 @@ type
     // SetPosition
     // - Set position in milliseconds
     procedure SetPosition(APosition: Int64); virtual; stdcall;
+    // Set Slideshow Interval
+    // - Set interval for stills in milliseconds.
+    procedure SetSlideshowInterval(AInterval: Integer); virtual; stdcall;
     procedure Stop; virtual; stdcall;
     property Engine: ICVMediaEngine read fEngine write SetEngine;
     property Mute: Boolean read fMute write SetMute;
     property PositionInterval: Integer read fPositionInterval write
         SetPositionInterval;
+    property SlideshowInterval: Integer read fSlideshowInterval write
+        SetSlideshowInterval;
     property Volume: Integer read fVolume write SetVolume;
   published
     property OnPositionChange: TCVMediaPlayerPositionEvent read fOnPositionChange
@@ -323,6 +368,7 @@ type
     property OnStatusChanged: TNotifyEvent read fOnStatusChanged write
         fOnStatusChanged;
     property PopupMenu;
+    property Color;
   end;
 
 {-------------------------------------------------------------------------------
@@ -611,6 +657,19 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  IsStill
+-------------------------------------------------------------------------------}
+function TCVMediaPlayer.IsStill: Boolean;
+var
+  still: ICVMediaEngineStill;
+begin
+  if CheckEngine and supports(Engine, ICVMediaEngineStill, still) then
+  Result:= still.IsStill
+  else
+  Result:= false;
+end;
+
+{-------------------------------------------------------------------------------
   OpenFile
 -------------------------------------------------------------------------------}
 function TCVMediaPlayer.OpenFile(AFilePath: WideString): Boolean;
@@ -623,6 +682,9 @@ begin
 
     // Set Volume
     SetMute(fMute);
+
+    // Set SlideshowInterval
+    SetSlideshowInterval(fSlideshowInterval);
 
     // Open file
     Result:= Engine.OpenFile(AFilePath);
@@ -829,6 +891,18 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  SetSlideshowInterval
+-------------------------------------------------------------------------------}
+procedure TCVMediaPlayer.SetSlideshowInterval(AInterval: Integer);
+var
+  still: ICVMediaEngineStill;
+begin
+  fSlideshowInterval:= AInterval;
+  if CheckEngine and supports(Engine, ICVMediaEngineStill, still) then
+  still.SetSlideshowInterval(fSlideshowInterval);
+end;
+
+{-------------------------------------------------------------------------------
   SetVolume
 -------------------------------------------------------------------------------}
 procedure TCVMediaPlayer.SetVolume(AVolume: Integer);
@@ -886,6 +960,14 @@ begin
   fStatus:= AStatus;  
   if assigned(fStatusChangedEvent) then
   fStatusChangedEvent(Self);
+end;
+
+{-------------------------------------------------------------------------------
+  GetID
+-------------------------------------------------------------------------------}
+function TCVCustomMediaEngine.GetID: TGUID;
+begin
+  // override from descendant
 end;
 
 {-------------------------------------------------------------------------------

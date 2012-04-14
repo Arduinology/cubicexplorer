@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-03-13 15:15\n"
-"PO-Revision-Date: 2012-03-13 15:15\n"
+"POT-Creation-Date: 2012-04-14 11:52\n"
+"PO-Revision-Date: 2012-04-14 11:52\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -246,7 +246,7 @@ msgstr ""
 #. CEActions..ActionList..act_view_large..Caption
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..check_largeIcons..Caption
 #. CEFileViewPage..QuickViewPopupMenu..SpTBXSubmenuItem2..but_thumbstyle_icon..Caption
-#: dCE_Actions.dfm:102  fCE_Customizer.dfm:223 fCE_FileView.dfm:56
+#: dCE_Actions.dfm:102  fCE_Customizer.dfm:221 fCE_FileView.dfm:56
 msgid "Large Icons"
 msgstr ""
 
@@ -304,7 +304,7 @@ msgstr ""
 
 #. CEActions..ActionList..act_view_loadskin..Hint
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet3..but_loadTheme..Hint
-#: dCE_Actions.dfm:152  fCE_Customizer.dfm:158
+#: dCE_Actions.dfm:152  fCE_Customizer.dfm:157
 msgid "Load theme from file"
 msgstr ""
 
@@ -315,7 +315,8 @@ msgid "Tiles"
 msgstr ""
 
 #. CEActions..ActionList..act_view_alwaysontop..Caption
-#: dCE_Actions.dfm:165 
+#. CEQuickView..QuickViewPopup..but_ontop..Caption
+#: dCE_Actions.dfm:165  fCE_QuickView.dfm:121
 msgid "Always On Top"
 msgstr ""
 
@@ -403,7 +404,7 @@ msgstr ""
 #. CEActions..ActionList..act_view_quickview..Caption
 #: dCE_Actions.dfm:269  dCE_Actions.dfm:275 dCE_Actions.dfm:281
 #: dCE_Actions.dfm:287 dCE_Actions.dfm:293 dCE_Actions.dfm:321
-#: fCE_QuickViewPanel.pas:79
+#: fCE_QuickViewPanel.pas:81
 msgid "Quickview"
 msgstr ""
 
@@ -491,7 +492,7 @@ msgstr ""
 #. CEActions..ActionList..act_edit_newfile..Caption
 #. CEPoEditor..ActionList..act_new..Caption
 #. CETextEditorPage..ActionList..text_file_new..Caption
-#: dCE_Actions.dfm:365  fCE_PoEditor.dfm:395 fCE_TextEditor.dfm:321
+#: dCE_Actions.dfm:365  fCE_PoEditor.dfm:408 fCE_TextEditor.dfm:321
 msgid "New"
 msgstr ""
 
@@ -646,7 +647,7 @@ msgid "Menu"
 msgstr ""
 
 #. CEActions..ActionList..act_navi_quickview..Caption
-#: dCE_Actions.dfm:540  fCE_QuickViewTab.pas:166
+#: dCE_Actions.dfm:540  fCE_QuickView.pas:1403 fCE_QuickViewTab.pas:168
 msgid "QuickView"
 msgstr ""
 
@@ -794,7 +795,7 @@ msgstr ""
 #. CEActions..ActionList..act_stack_save..Caption
 #. CEPoEditor..ActionList..act_save..Caption
 #. CETextEditorPage..ActionList..text_file_save..Caption
-#: dCE_Actions.dfm:764  fCE_PoEditor.dfm:389 fCE_TextEditor.dfm:343
+#: dCE_Actions.dfm:764  fCE_PoEditor.dfm:401 fCE_TextEditor.dfm:343
 #: CE_Sessions.pas:234 fCE_StackPanel.pas:329
 msgid "Save"
 msgstr ""
@@ -825,8 +826,9 @@ msgstr ""
 #. CESessionManager..SpTBXPanel2..but_close..Caption
 #. CETextEditorPage..ActionList..text_file_close..Caption
 #. CEVersionMgrForm..panel_bottom..but_close..Caption
+#. show close button
 #: fCE_AboutBox.dfm:1029  fCE_Customizer.dfm:42 fCE_SessionManager.dfm:39
-#: fCE_TextEditor.dfm:359 fCE_VersionMgrForm.dfm:193
+#: fCE_TextEditor.dfm:359 fCE_VersionMgrForm.dfm:193 fCE_QuickView.pas:1117
 msgid "Close"
 msgstr ""
 
@@ -837,7 +839,7 @@ msgstr ""
 
 #. CEBookmarkPanel..BookmarkPopupMenu..but_open_new_tab..Caption
 #. Add "Open in new tab" item
-#: fCE_BookmarkPanel.dfm:27  dCE_Actions.pas:1782 fCE_BookmarkPanel.pas:232
+#: fCE_BookmarkPanel.dfm:27  dCE_Actions.pas:1756 fCE_BookmarkPanel.pas:232
 msgid "Open in new tab"
 msgstr ""
 
@@ -931,7 +933,7 @@ msgstr ""
 #. CEOptionsDialog..BottomPanel..but_apply..Caption
 #. CEPoEditor..ActionList..act_apply..Caption
 #: fCE_BookmarkPropDlg.dfm:163  fCE_OptionsDialog.dfm:179
-#: fCE_PoEditor.dfm:401
+#: fCE_PoEditor.dfm:415
 msgid "Apply"
 msgstr ""
 
@@ -984,13 +986,13 @@ msgstr ""
 #. CEToolbarCustomizer..TabControl..tab_toolbars..Caption
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..Caption
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..toolbarsMenuItem..Caption
-#: fCE_Customizer.dfm:77  fCE_Customizer.dfm:192 Main.dfm:214
+#: fCE_Customizer.dfm:76  fCE_Customizer.dfm:190 Main.dfm:214
 msgid "Toolbars"
 msgstr ""
 
 #. CEToolbarCustomizer..TabControl..tab_buttons..Caption
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet2..Caption
-#: fCE_Customizer.dfm:81  fCE_Customizer.dfm:91
+#: fCE_Customizer.dfm:80  fCE_Customizer.dfm:90
 msgid "Buttons"
 msgstr ""
 
@@ -998,7 +1000,7 @@ msgstr ""
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet3..Caption
 #. CEOptionsPage_Display..TntLabel1..Caption
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem6..Caption
-#: fCE_Customizer.dfm:84  fCE_Customizer.dfm:138
+#: fCE_Customizer.dfm:83  fCE_Customizer.dfm:137
 #: fCE_OptionsPage_Display.dfm:7 Main.dfm:246
 msgid "Theme"
 msgstr ""
@@ -1007,28 +1009,28 @@ msgstr ""
 #. TCEOptionsPage_GlobalHotkeys..HotkeyList......WideText
 #. TCEOptionsPage_Hotkeys..HotkeyList......WideText
 #. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..SpTBXLabel1..Caption
-#: fCE_Customizer.dfm:129  fCE_OptionsPage_GlobalHotkeys.dfm:48
+#: fCE_Customizer.dfm:128  fCE_OptionsPage_GlobalHotkeys.dfm:48
 #: fCE_OptionsPage_Hotkeys.dfm:48 fCE_SessionManager.dfm:170
 msgid "Name"
 msgstr ""
 
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..group_displayMode..Caption
-#: fCE_Customizer.dfm:212 
+#: fCE_Customizer.dfm:210 
 msgid "Display Mode"
 msgstr ""
 
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..check_borders..Caption
-#: fCE_Customizer.dfm:233 
+#: fCE_Customizer.dfm:231 
 msgid "Borders"
 msgstr ""
 
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..check_stretch..Caption
-#: fCE_Customizer.dfm:243 
+#: fCE_Customizer.dfm:241 
 msgid "Stretch"
 msgstr ""
 
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..check_dragHandle..Caption
-#: fCE_Customizer.dfm:253 
+#: fCE_Customizer.dfm:251 
 msgid "Drag Handle"
 msgstr ""
 
@@ -1254,8 +1256,8 @@ msgid "Start minimized to tray"
 msgstr ""
 
 #. CEOptionsPage_General..TntGroupBox2..Caption
-#: fCE_OptionsPage_General.dfm:118  dCE_Actions.pas:1683 dCE_Actions.pas:1685
-#: dCE_Actions.pas:1695 dCE_Actions.pas:1697
+#: fCE_OptionsPage_General.dfm:118  dCE_Actions.pas:1657 dCE_Actions.pas:1659
+#: dCE_Actions.pas:1669 dCE_Actions.pas:1671
 msgid "Default File Manager"
 msgstr ""
 
@@ -1398,83 +1400,90 @@ msgstr ""
 msgid "Exit program when last tab is closed"
 msgstr ""
 
+#. CEPoEditor..panel_startup..label_startup..Caption
+#: fCE_PoEditor.dfm:24 
+msgid "Select existing translation or create new."
+msgstr ""
+
 #. CEPoEditor..TabControl..SpTBXTabItem2..Caption
-#. CEPoEditor..TabControl..SettingsSheet..Caption
 #. CEPoEditor..TabControl..WordsSheet..Translation_panel..PoItemStrMsg_panel..TntLabel5..Caption
 #. CEPoEditor..TabControl..WordsSheet..PoList_panel..PoList......WideText
-#: fCE_PoEditor.dfm:62  fCE_PoEditor.dfm:73 fCE_PoEditor.dfm:290
-#: fCE_PoEditor.dfm:359 fCE_PoEditor.pas:231
+#. CEPoEditor..TabControl..SettingsSheet..Caption
+#: fCE_PoEditor.dfm:95  fCE_PoEditor.dfm:187 fCE_PoEditor.dfm:258
+#: fCE_PoEditor.dfm:268 fCE_PoEditor.pas:237
 msgid "Translation"
 msgstr ""
 
 #. CEPoEditor..TabControl..SpTBXTabItem1..Caption
 #. CEPoEditor..TabControl..WordsSheet..Caption
-#: fCE_PoEditor.dfm:65  fCE_PoEditor.dfm:212
+#: fCE_PoEditor.dfm:99  fCE_PoEditor.dfm:106
 msgid "Word List"
-msgstr ""
-
-#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel1..Caption
-#: fCE_PoEditor.dfm:87 
-msgid "Translator's Name"
-msgstr ""
-
-#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel2..Caption
-#: fCE_PoEditor.dfm:95 
-msgid "Translator's Email"
-msgstr ""
-
-#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel3..Caption
-#. CENewTranslationDlg..TntLabel1..Caption
-#. MainForm..TopToolDock..MainToolbar..viewMenuItem..LanguageMenuItem..Caption
-#: fCE_PoEditor.dfm:103  fCE_PoEditor_NewForm.dfm:39 Main.dfm:257
-msgid "Language"
-msgstr ""
-
-#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel4..Caption
-#: fCE_PoEditor.dfm:111 
-msgid "Translation Version"
-msgstr ""
-
-#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..label1..Caption
-#: fCE_PoEditor.dfm:120 
-msgid "Application Revision:"
-msgstr ""
-
-#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..label2..Caption
-#: fCE_PoEditor.dfm:129 
-msgid "Translation Revision:"
-msgstr ""
-
-#. CEPoEditor..TabControl..SettingsSheet..SpTBXButton1..Caption
-#: fCE_PoEditor.dfm:201 
-msgid "Publish Translation"
 msgstr ""
 
 #. CEPoEditor..TabControl..WordsSheet..Translation_panel..PoItemStrID_panel..TntLabel6..Caption
 #. CEPoEditor..TabControl..WordsSheet..PoList_panel..PoList......WideText
 #. Init stuff
-#: fCE_PoEditor.dfm:253  fCE_PoEditor.dfm:354 fCE_PoEditor.pas:230
+#: fCE_PoEditor.dfm:150  fCE_PoEditor.dfm:253 fCE_PoEditor.pas:236
 msgid "Original"
 msgstr ""
 
-#. CEPoEditor..panel_startup..label_startup..Caption
-#: fCE_PoEditor.dfm:379 
-msgid "Select existing translation or create new."
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel1..Caption
+#: fCE_PoEditor.dfm:283 
+msgid "Translator's Name"
+msgstr ""
+
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel2..Caption
+#: fCE_PoEditor.dfm:291 
+msgid "Translator's Email (optional)"
+msgstr ""
+
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel3..Caption
+#. CENewTranslationDlg..TntLabel1..Caption
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..LanguageMenuItem..Caption
+#: fCE_PoEditor.dfm:299  fCE_PoEditor_NewForm.dfm:39 Main.dfm:257
+msgid "Language"
+msgstr ""
+
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel4..Caption
+#: fCE_PoEditor.dfm:307 
+msgid "Translation Version"
+msgstr ""
+
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..label1..Caption
+#: fCE_PoEditor.dfm:316 
+msgid "Application Revision:"
+msgstr ""
+
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..label2..Caption
+#: fCE_PoEditor.dfm:325 
+msgid "Translation Revision:"
+msgstr ""
+
+#. CEPoEditor..TabControl..SettingsSheet..SpTBXButton1..Caption
+#: fCE_PoEditor.dfm:389 
+msgid "Publish Translation"
 msgstr ""
 
 #. CEPoEditor..ActionList..act_save..Hint
-#: fCE_PoEditor.dfm:390 
+#: fCE_PoEditor.dfm:402 
 msgid "Save changes."
 msgstr ""
 
 #. CEPoEditor..ActionList..act_new..Hint
-#: fCE_PoEditor.dfm:396 
+#: fCE_PoEditor.dfm:409 
 msgid "Create new translation."
 msgstr ""
 
 #. CEPoEditor..ActionList..act_apply..Hint
-#: fCE_PoEditor.dfm:402 
+#: fCE_PoEditor.dfm:416 
 msgid "Apply changes."
+msgstr ""
+
+#. CEPoEditor..ActionList..act_saveas..Caption
+#. CETextEditorPage..ActionList..text_file_saveas..Caption
+#. Save As...
+#: fCE_PoEditor.dfm:421  fCE_TextEditor.dfm:351 fCE_StackPanel.pas:480
+msgid "Save As..."
 msgstr ""
 
 #. CENewTranslationDlg..Caption
@@ -1485,6 +1494,33 @@ msgstr ""
 #. CENewTranslationDlg..Path..Caption
 #: fCE_PoEditor_NewForm.dfm:46 
 msgid "Path"
+msgstr ""
+
+#. CEQuickView..Dock_Bottom..toolbar_seekbar..Caption
+#: fCE_QuickView.dfm:27 
+msgid "Seekbar"
+msgstr ""
+
+#. CEQuickView..Dock_Bottom..toolbar_controls..Caption
+#: fCE_QuickView.dfm:40 
+msgid "Controls"
+msgstr ""
+
+#. CEQuickView..tabs_playlist..tab_playlist..Caption
+#. CEQuickView..tabs_playlist..sheet_playlist..Caption
+#: fCE_QuickView.dfm:66  fCE_QuickView.dfm:88
+msgid "Playlist"
+msgstr ""
+
+#. CEQuickView..tabs_playlist..tab_filelist..Caption
+#. CEQuickView..tabs_playlist..sheet_filelist..Caption
+#: fCE_QuickView.dfm:71  fCE_QuickView.dfm:79
+msgid "Filelist"
+msgstr ""
+
+#. CEQuickView..QuickViewPopup..but_detach..Caption
+#: fCE_QuickView.dfm:116 
+msgid "Detach to Window"
 msgstr ""
 
 #. CESearchPage..SearchPanel..group_searchbuttons..but_search_start..Caption
@@ -1499,7 +1535,9 @@ msgid "Search"
 msgstr ""
 
 #. CESearchPage..SearchPanel..group_searchbuttons..but_search_stop..Caption
-#: fCE_SearchPage.dfm:94 
+#. always show stop button
+#. show stop button
+#: fCE_SearchPage.dfm:94  fCE_QuickView.pas:1097 fCE_QuickView.pas:1107
 msgid "Stop"
 msgstr ""
 
@@ -1856,12 +1894,6 @@ msgstr ""
 msgid "Open..."
 msgstr ""
 
-#. CETextEditorPage..ActionList..text_file_saveas..Caption
-#. Save As...
-#: fCE_TextEditor.dfm:351  fCE_StackPanel.pas:480
-msgid "Save As..."
-msgstr ""
-
 #. CETextEditorPage..ActionList..text_edit_redo..Caption
 #: fCE_TextEditor.dfm:366 
 msgid "Redo"
@@ -2001,7 +2033,7 @@ msgstr ""
 #. More... item
 #. More... item
 #: CE_BaseFileView.pas:1416  CE_ToolbarButtons.pas:528
-#: CE_ToolbarButtons.pas:680 dCE_Actions.pas:1949 dCE_Actions.pas:1988
+#: CE_ToolbarButtons.pas:680 dCE_Actions.pas:1923 dCE_Actions.pas:1962
 msgid "More..."
 msgstr ""
 
@@ -2047,15 +2079,15 @@ msgstr ""
 msgid "Opening..."
 msgstr ""
 
-#: CE_FilterPanel.pas:397  fCE_FiltersPanel.pas:496
+#: CE_FilterPanel.pas:397  fCE_FiltersPanel.pas:499
 msgid "Show All Files"
 msgstr ""
 
-#: CE_FilterPanel.pas:399  fCE_FiltersPanel.pas:498
+#: CE_FilterPanel.pas:399  fCE_FiltersPanel.pas:501
 msgid "Show Folders"
 msgstr ""
 
-#: CE_FilterPanel.pas:402  fCE_FiltersPanel.pas:501
+#: CE_FilterPanel.pas:402  fCE_FiltersPanel.pas:504
 msgid "No Extension"
 msgstr ""
 
@@ -2073,15 +2105,6 @@ msgstr ""
 #. Draw "No Selection" notify.
 #: CE_InfoBar.pas:592 
 msgid "No Selection"
-msgstr ""
-
-#: CE_QuickView.pas:144  CE_QuickView.pas:418
-msgid "No file loaded."
-msgstr ""
-
-#. fImage.Bitmap.DrawMode:= dmBlend;
-#: CE_QuickView.pas:232  CE_QuickView.pas:308 CE_QuickView.pas:436
-msgid "Loading..."
 msgstr ""
 
 #: CE_Sessions.pas:233 
@@ -2156,53 +2179,53 @@ msgstr ""
 
 #. Grouped toggle item
 #. Sho in Groups
-#: CE_ToolbarButtons.pas:654  dCE_Actions.pas:1958
+#: CE_ToolbarButtons.pas:654  dCE_Actions.pas:1932
 msgid "Show in Groups"
 msgstr ""
 
 #. Add Recycle Bin Item
-#: CE_ToolbarButtons.pas:949 
+#: CE_ToolbarButtons.pas:950 
 msgid "Recycle Bin"
 msgstr ""
 
 #. Add Restore List
 #. Populate items
-#: CE_ToolbarButtons.pas:967  CE_ToolbarButtons.pas:1065
+#: CE_ToolbarButtons.pas:968  CE_ToolbarButtons.pas:1066
 msgid "Restore List"
 msgstr ""
 
 #. Add Restore All
-#: CE_ToolbarButtons.pas:975 
+#: CE_ToolbarButtons.pas:976 
 msgid "Restore All"
 msgstr ""
 
 #. Lock
-#: CE_ToolbarButtons.pas:1157 
+#: CE_ToolbarButtons.pas:1158 
 msgid "Lock"
 msgstr ""
 
 #. Logoff
-#: CE_ToolbarButtons.pas:1164 
+#: CE_ToolbarButtons.pas:1165 
 msgid "Logoff"
 msgstr ""
 
 #. Sleep
-#: CE_ToolbarButtons.pas:1176 
+#: CE_ToolbarButtons.pas:1177 
 msgid "Sleep"
 msgstr ""
 
 #. Hibernate
-#: CE_ToolbarButtons.pas:1186 
+#: CE_ToolbarButtons.pas:1187 
 msgid "Hibernate"
 msgstr ""
 
 #. Reboot
-#: CE_ToolbarButtons.pas:1196 
+#: CE_ToolbarButtons.pas:1197 
 msgid "Reboot"
 msgstr ""
 
 #. Shut down
-#: CE_ToolbarButtons.pas:1203 
+#: CE_ToolbarButtons.pas:1204 
 msgid "Shut down"
 msgstr ""
 
@@ -2253,23 +2276,27 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
+#: CV_MediaPlayerEngines.pas:1205 
+msgid "Format not supported"
+msgstr ""
+
 #: dCE_Actions.pas:848 
 msgid "Are you sure you want to restore default layout?"
 msgstr ""
 
-#: dCE_Actions.pas:1683 
+#: dCE_Actions.pas:1657 
 msgid "Registered successfully!"
 msgstr ""
 
-#: dCE_Actions.pas:1685 
+#: dCE_Actions.pas:1659 
 msgid "Registration failed!"
 msgstr ""
 
-#: dCE_Actions.pas:1695 
+#: dCE_Actions.pas:1669 
 msgid "Unregistered successfully!"
 msgstr ""
 
-#: dCE_Actions.pas:1697 
+#: dCE_Actions.pas:1671 
 msgid "Unregistration failed!"
 msgstr ""
 
@@ -2479,16 +2506,37 @@ msgstr ""
 msgid "Select default folder for new tabs."
 msgstr ""
 
-#: fCE_PoEditor.pas:848 
+#: fCE_PoEditor.pas:875 
 msgid "Language Editor"
 msgstr ""
 
-#: fCE_PoEditor.pas:873 
+#: fCE_PoEditor.pas:900 
 msgid "Save changes before closing?"
 msgstr ""
 
-#: fCE_PoEditor.pas:874 
+#: fCE_PoEditor.pas:901 
 msgid "Save changes?"
+msgstr ""
+
+#. no looping (71)
+#. loop mode
+#: fCE_QuickView.pas:851  fCE_QuickView.pas:1147
+msgid "No Looping"
+msgstr ""
+
+#. single file (72)
+#: fCE_QuickView.pas:859  fCE_QuickView.pas:1151
+msgid "Loop File"
+msgstr ""
+
+#. playlist (73)
+#: fCE_QuickView.pas:867  fCE_QuickView.pas:1155
+msgid "Loop Playlist"
+msgstr ""
+
+#. filelist (74)
+#: fCE_QuickView.pas:875  fCE_QuickView.pas:1159
+msgid "Loop Filelist"
 msgstr ""
 
 #: fCE_SearchPage.pas:555 

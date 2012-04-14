@@ -156,9 +156,9 @@ begin
   // ProgressBar: Only Normal and HotTrack states are used
   // HotTrack represents the selection
   Options(skncProgressBar, sknsNormal).Body.Fill(1, $fefaf7, $f7ede5, clNone, clNone);
-  Options(skncProgressBar, sknsNormal).Borders.Fill(2, $eddad3, $eddad3, clNone, clNone);
+  Options(skncProgressBar, sknsNormal).Borders.Fill(2, $00E3D1CB, $00E3D1CB, clNone, clNone);
   Options(skncProgressBar, sknsHotTrack).Body.Fill(1, $fcccac, $e7bc98, clNone, clNone);
-  Options(skncProgressBar, sknsHotTrack).Borders.Fill(2, $eddad3, $eddad3, clNone, clNone);
+  Options(skncProgressBar, sknsHotTrack).Borders.Fill(2, $00E3D1CB, $00E3D1CB, clNone, clNone);
 
   //---- TrackBar ----//
   // TrackBar: Only Normal and HotTrack states are used
@@ -167,9 +167,9 @@ begin
 
   // TrackBarButton: Only Normal and Pushed states are used
   Options(skncTrackBarButton, sknsNormal).Body.Fill(1, $fefaf7, $f4e1e2, clNone, clNone);
-  Options(skncTrackBarButton, sknsNormal).Borders.Fill(2, $eddad3, $eddad3, clNone, clNone);
+  Options(skncTrackBarButton, sknsNormal).Borders.Fill(2, $00DCC2B9, $00DCC2B9, clNone, clNone);
   Options(skncTrackBarButton, sknsPushed).Body.Fill(1, $f4e1e2, $fcccac, clNone, clNone);
-  Options(skncTrackBarButton, sknsPushed).Borders.Fill(2, $eddad3, $eddad3, clNone, clNone);
+  Options(skncTrackBarButton, sknsPushed).Borders.Fill(2, $00DCC2B9, $00DCC2B9, clNone, clNone);
 
   //---- Header ----//
   Options(skncHeader, sknsNormal).Body.Fill(0, $FDF7F2, clNone, clNone, clNone);

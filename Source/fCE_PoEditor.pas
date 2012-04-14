@@ -26,7 +26,7 @@ interface
 uses
   // CE Units
   CE_LanguageUtils, CE_LanguageCodes, CE_ProcessUtils, fCE_PoEditor_NewForm,
-  CE_LanguageEngine,
+  CE_LanguageEngine, dCE_Images,
   // VSTools
   MPCommonUtilities,
   // VT
@@ -50,7 +50,6 @@ type
   TCEPoEditor = class(TFrame)
     SpTBXDock1: TSpTBXDock;
     SpTBXToolbar1: TSpTBXToolbar;
-    SpTBXItem1: TSpTBXItem;
     SpTBXItem2: TSpTBXItem;
     SpTBXItem3: TSpTBXItem;
     SpTBXSeparatorItem1: TSpTBXSeparatorItem;
@@ -91,11 +90,15 @@ type
     edit_translators_name: TTntEdit;
     edit_translators_email: TTntEdit;
     edit_translation_version: TTntEdit;
-    Bevel1: TBevel;
     panel_startup: TSpTBXPanel;
     label_startup: TSpTBXLabel;
+    act_saveas: TTntAction;
+    SpTBXItem1: TSpTBXItem;
+    SpTBXItem5: TSpTBXItem;
+    SpTBXSeparatorItem2: TSpTBXSeparatorItem;
     procedure act_applyExecute(Sender: TObject);
     procedure act_newExecute(Sender: TObject);
+    procedure act_saveasExecute(Sender: TObject);
     procedure act_saveExecute(Sender: TObject);
     procedure act_Update(Sender: TObject);
     procedure edit_translation_versionChange(Sender: TObject);
@@ -177,6 +180,9 @@ type
   end;
 
 implementation
+
+uses
+  TntDialogs;
 
 {$R *.dfm}
 
@@ -324,6 +330,25 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  On act_saveas.Execute
+-------------------------------------------------------------------------------}
+procedure TCEPoEditor.act_saveasExecute(Sender: TObject);
+var
+  dlg: TTntSaveDialog;
+begin
+  dlg:= TTntSaveDialog.Create(nil);
+  try
+    dlg.FileName:= fActiveFile;
+    if dlg.Execute then
+    begin
+      SaveToFile(dlg.FileName);
+    end;
+  finally
+    dlg.Free;
+  end;
+end;
+
 {*------------------------------------------------------------------------------
   Save translatio
 -------------------------------------------------------------------------------}
@@ -342,6 +367,8 @@ procedure TCEPoEditor.act_Update(Sender: TObject);
 begin
   if Sender = act_save then
   act_save.Enabled:= IsChanged
+  else if Sender = act_saveas then
+  act_saveas.Enabled:= fActiveLanguage <> ''
   else if Sender = act_apply then
   act_apply.Enabled:= not IsApplyed;
 end;

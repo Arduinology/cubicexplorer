@@ -17,8 +17,24 @@
 ;=== Initialize =================================================
 
 ;---Version info---
+  !define BUILD "0.95.1.1494"
   !define VERSION "0.95.1"
   !define VERSION_STR "0.95.1"
+
+;---General info---
+
+  Name "CubicExplorer"
+  Caption 'CubicExplorer ${VERSION_STR}'
+  OutFile "Output\CubicExplorer_${VERSION}_Setup.exe"
+  InstallDir "$PROGRAMFILES\CubicExplorer"
+
+;---Installer file desctiptions---
+  VIProductVersion "${BUILD}"
+  VIAddVersionKey "ProductName" "CubicExplorer"
+  VIAddVersionKey "ProductVersion" "${VERSION_STR}"
+  VIAddVersionKey "CompanyName" "CubicReality Software"
+  VIAddVersionKey "FileDescription" "File Manager"
+  VIAddVersionKey "LegalCopyright" "Marko Savolainen"
 
 ;---Reserved Files---
   ReserveFile "ShortcutPage.ini"
@@ -26,13 +42,6 @@
 
 ;---Variables---
   Var INI_VALUE
-
-;---general info---
-
-  Name "CubicExplorer"
-  Caption 'CubicExplorer ${VERSION_STR}'
-  OutFile "Output\CubicExplorer_${VERSION}_Setup.exe"
-  InstallDir "$PROGRAMFILES\CubicExplorer"
 
 ;---OnInit---
 Function .onInit

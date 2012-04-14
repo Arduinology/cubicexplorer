@@ -17,7 +17,7 @@ type
 {-------------------------------------------------------------------------------
   TCVPlaylist
 -------------------------------------------------------------------------------}
-  PCEPlaylistData = ^TCVPlaylistData;
+  PCVPlaylistData = ^TCVPlaylistData;
   TCVPlaylistData = record
     fLastUpdate: Cardinal;
     Title: WideString;
@@ -39,6 +39,7 @@ type
     fOnDeleteActive: TNotifyEvent;
     fOnIsSupported: TCVPlaylistIsSupportedEvent;
     fOnNavigationStateChange: TNotifyEvent;
+    procedure AssignTo(Dest: TPersistent); override;
     procedure DoDragDrop(Source: TObject; DataObject: IDataObject; Formats:
         TFormatArray; Shift: TShiftState; Pt: TPoint; var Effect: Integer; Mode:
         TDropMode); override;
@@ -74,6 +75,7 @@ type
     function ActivatePrevious: PVirtualNode; virtual;
     function Add(APath: WideString; AMakeActive: Boolean = false): PVirtualNode;
         virtual;
+    procedure Assign(Source: TPersistent); override;
     procedure Clear; override;
     function FindItem(AFilePath: WideString): PVirtualNode; virtual;
     function GetActivePath: WideString; virtual;
@@ -127,6 +129,7 @@ type
     fMultiThreadedSearch: Boolean;
     fTaskTag: Cardinal;
     fThreadedIcons: Boolean;
+    procedure AssignTo(Dest: TPersistent); override;
     function DoGetImageIndex(Node: PVirtualNode; Kind: TVTImageKind; Column:
         TColumnIndex; var Ghosted: Boolean; var Index: Integer): TCustomImageList;
         override;
@@ -218,6 +221,61 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Assign
+-------------------------------------------------------------------------------}
+procedure TCVPlaylist.Assign(Source: TPersistent);
+begin
+  inherited;
+  if Source is TCVPlaylist then
+  TCVPlaylist(Source).AssignTo(Self);
+end;
+
+{-------------------------------------------------------------------------------
+  AssignTo
+-------------------------------------------------------------------------------}
+procedure TCVPlaylist.AssignTo(Dest: TPersistent);
+var
+  list: TCVPlaylist;
+  data, dataDest: PCVPlaylistData;
+  node, nodeDest: PVirtualNode;
+begin
+  if Dest is TCVPlaylist then
+  begin
+    list:= TCVPlaylist(Dest);
+
+    
+    list.BeginUpdate;
+    try
+      // assign items
+      list.Clear;
+      node:= Self.GetFirst;
+      while assigned(node) do
+      begin
+        data:= Self.GetNodeData(node);
+        nodeDest:= list.AddChild(nil);
+        dataDest:= list.GetNodeData(nodeDest);
+        dataDest.fLastUpdate:= data.fLastUpdate;
+        dataDest.Title:= data.Title;
+        dataDest.Path:= data.Path;
+        dataDest.ImageIndex:= data.ImageIndex;
+
+        // active item
+        if fActiveItem = node then
+        list.fActiveItem:= nodeDest;
+        
+        node:= Self.GetNext(node);
+      end;
+
+      list.fLastIconRefresh:= fLastIconRefresh;
+      list.fActiveFilePath:= fActiveFilePath;
+      list.fLoopList:= fLoopList;
+    finally
+      list.EndUpdate;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   Clear
 -------------------------------------------------------------------------------}
 procedure TCVPlaylist.Clear;
@@ -238,7 +296,7 @@ var
   Nodes: TNodeArray;
   i: Integer;
   hd: TCommonShellIDList;
-  data: PCEPlaylistData;
+  data: PCVPlaylistData;
   node: PVirtualNode;
   ns: TNamespace;
 begin
@@ -382,45 +440,6 @@ begin
       begin
         Result:= True;
         Effect:= DROPEFFECT_LINK;
-//        data:= Self.GetNodeData(Self.DropTargetNode);
-//        if (Mode = dmOnNode) and data.BookComp.SupportsDragDrop then
-//        begin
-////          if fDropNode <> Self.DropTargetNode then
-////          begin
-////            ClearDropNode;
-////            fDropNode:= Self.DropTargetNode;
-////            if data.BookComp.DoDragEnter(Self.DragManager.DataObject, Shift, Self.ClientToScreen(Pt), Effect) then
-////            begin
-////              fDropNodeAcceptsDrop:= true;
-////              if ssLeft in Shift then
-////              fDragEnterMouseShiftState:= [ssLeft]
-////              else if ssRight in Shift then
-////              fDragEnterMouseShiftState:= [ssRight]
-////              else
-////              fDragEnterMouseShiftState:= [ssMiddle];
-////            end
-////            else
-////            begin
-////              Result:= True;
-////              Effect:= DROPEFFECT_LINK;
-////            end;
-////          end
-////          else if fDropNodeAcceptsDrop then
-////          begin
-////            Effect:= DROPEFFECT_COPY or DROPEFFECT_MOVE or DROPEFFECT_LINK;
-////            Result:= data.BookComp.DoDragOver(Shift, Self.ClientToScreen(Pt), Effect);
-////          end
-////          else
-////          begin
-////            Effect:= DROPEFFECT_LINK;
-////            Result:= true;
-////          end;
-//        end
-//        else
-//        begin
-//          Result:= True;
-//          Effect:= DROPEFFECT_LINK;
-//        end;
       end
       else
       begin
@@ -436,7 +455,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCVPlaylist.DoFreeNode(Node: PVirtualNode);
 var
-  data: PCEPlaylistData;
+  data: PCVPlaylistData;
 begin
   if fActiveItem = Node then
   ActiveItem:= nil;
@@ -453,7 +472,7 @@ function TCVPlaylist.DoGetImageIndex(Node: PVirtualNode; Kind:
     TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var Index:
     Integer): TCustomImageList;
 var
-  data: PCEPlaylistData;
+  data: PCVPlaylistData;
   ns: TNamespace;
 begin
   if (Kind = ikNormal) or (Kind = ikSelected) then
@@ -487,7 +506,7 @@ end;
 function TCVPlaylist.DoGetNodeHint(Node: PVirtualNode; Column:
     TColumnIndex; var LineBreakStyle: TVTTooltipLineBreakStyle): UnicodeString;
 var
-  data: PCEPlaylistData;
+  data: PCVPlaylistData;
 begin
   data:= Self.GetNodeData(Node);
   Result:= data.Path;
@@ -500,7 +519,7 @@ end;
 procedure TCVPlaylist.DoGetText(Node: PVirtualNode; Column:
     TColumnIndex; TextType: TVSTTextType; var Text: UnicodeString);
 var
-  data: PCEPlaylistData;
+  data: PCVPlaylistData;
 begin
   data:= Self.GetNodeData(Node);
   Text:= data.Title;
@@ -554,7 +573,7 @@ end;
 function TCVPlaylist.FindItem(AFilePath: WideString): PVirtualNode;
 var
   node: PVirtualNode;
-  data: PCEPlaylistData;
+  data: PCVPlaylistData;
 begin
   Result:= nil;
   node:= Self.GetFirst;
@@ -575,7 +594,7 @@ end;
 -------------------------------------------------------------------------------}
 function TCVPlaylist.GetActivePath: WideString;
 var
-  data: PCEPlaylistData;
+  data: PCVPlaylistData;
 begin
   if assigned(fActiveItem) then
   begin
@@ -658,7 +677,7 @@ function TCVPlaylist.Insert(ATargetNode: PVirtualNode; AAttachMode:
     TVTNodeAttachMode; APath: WideString; AMakeActive: Boolean = false):
     PVirtualNode;
 var
-  data: PCEPlaylistData;
+  data: PCVPlaylistData;
 begin
   if assigned(ATargetNode) then
   Result:= Self.InsertNode(ATargetNode, AAttachMode, Pointer(1))
@@ -760,6 +779,8 @@ begin
     fActiveItem:= Value;
     Self.ScrollIntoView(fActiveItem, true);
     Self.Invalidate;
+    if assigned(fActiveItem) then
+    fActiveFilePath:= GetActivePath;
     if assigned(fOnActiveItemChange) then
     fOnActiveItemChange(Self);
     DoNavigationStateChange;
@@ -861,13 +882,38 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  AssignTo
+-------------------------------------------------------------------------------}
+procedure TCVFilelist.AssignTo(Dest: TPersistent);
+var
+  list: TCVFilelist;
+  data, dataDest: PCVPlaylistData;
+  node, nodeDest: PVirtualNode;
+begin
+  inherited;
+  if Dest is TCVFilelist then
+  begin
+    list:= TCVFilelist(Dest);
+
+    list.BeginUpdate;
+    try
+      list.fIncludeSubFolders:= fIncludeSubFolders;
+      list.fMultiThreadedSearch:= fMultiThreadedSearch;
+      list.fThreadedIcons:= fThreadedIcons;
+    finally
+      list.EndUpdate;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   Do GetImageIndex
 -------------------------------------------------------------------------------}
 function TCVFilelist.DoGetImageIndex(Node: PVirtualNode; Kind:
     TVTImageKind; Column: TColumnIndex; var Ghosted: Boolean; var Index:
     Integer): TCustomImageList;
 var
-  data: PCEPlaylistData;
+  data: PCVPlaylistData;
   task: TCVFilelistTask;
   ns: TNamespace;
 begin
@@ -916,7 +962,7 @@ procedure TCVFilelist.HandleTaskDone(Sender: TObject; AObject: TObject; AData:
 var
   task: TCVFilelistTask;
   dummy: Integer;
-  data: PCEPlaylistData;
+  data: PCVPlaylistData;
 begin
   if AObject is TCVFilelistTask then
   begin

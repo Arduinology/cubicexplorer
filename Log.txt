@@ -1,3 +1,8 @@
+14.4.2012
+* Worked with QuickView.
+* Added file descriptions to installers.
++ Added Save As button to translator.
+
 9.4.2012
 + Rewrote QuickView
 

@@ -40,7 +40,14 @@ uses
   CV_ImageView, GR32, StdCtrls;
 
 {==============================================================================}
+const
+  ID_CVDSEngine: TGUID          = '{31617FF4-C7B6-4FBD-A3AF-961FCE4954B3}';
+  ID_CVWmpEngine: TGUID         = '{B41DD245-09F2-4DA8-AB8D-47751BA82D03}';
+  ID_CVImageEngine: TGUID       = '{621F4159-A3C0-4A88-B257-43E296E8BFA6}';
+  ID_CVMemoEngine: TGUID        = '{4C7CB4CE-0761-4A87-8C16-FEDFFF24CBC2}';
+
 type
+
 {-------------------------------------------------------------------------------
   TCVDSEngine (DirectShow engine)
 -------------------------------------------------------------------------------}
@@ -71,6 +78,9 @@ type
     destructor Destroy; override;
     procedure Close; override; stdcall;
     function GetDuration: Int64; virtual; stdcall;
+    // GetID
+    // - Return unique TGuid
+    function GetID: TGUID; override; stdcall;
     function GetPosition: Int64; virtual; stdcall;
     function GetStatus: TCVMediaPlayerStatus; override; stdcall;
     function GetStatusText: WideString; override; stdcall;
@@ -137,6 +147,9 @@ type
     destructor Destroy; override;
     procedure Close; override; stdcall;
     function GetDuration: Int64; virtual; stdcall;
+    // GetID
+    // - Return unique TGuid
+    function GetID: TGUID; override; stdcall;
     function GetPosition: Int64; virtual; stdcall;
     function GetStatusText: WideString; override; stdcall;
     // GetSupportedExtensions
@@ -187,7 +200,8 @@ type
     destructor Destroy; override;
   end;
 
-  TCVImageEngine = class(TCVCustomMediaEngine, ICVMediaEngineControl)
+  TCVImageEngine = class(TCVCustomMediaEngine, ICVMediaEngineControl,
+    ICVMediaEngineStill)
   protected
     fBoundsRect: TRect;
     fImageView: TCVImageViewPanel;
@@ -196,16 +210,23 @@ type
     fPlayTimer: TTimer;
     fPlayTimerTick: Cardinal;
     fTaskTag: Integer;
+    procedure HandleLoadError(Sender: TObject); virtual;
     procedure HandlePlayTimer(Sender: TObject); virtual;
     procedure InternalCreateImageView; virtual;
   public
     destructor Destroy; override;
     procedure Close; override; stdcall;
     constructor Create; override;
+    // GetID
+    // - Return unique TGuid
+    function GetID: TGUID; override; stdcall;
     // HasControl
     // - Return TRUE if currently loaded file supports play/pause/stop.
     // - Return FALSE with still media like images.
     function HasControl: Boolean; virtual; stdcall;
+    // IsStill
+    // - Return true if currentrly loaded media is still (image or similar).
+    function IsStill: Boolean; virtual; stdcall;
     function OpenFile(AFilePath: WideString): Boolean; override; stdcall;
     // Pause
     procedure Pause; virtual; stdcall;
@@ -215,12 +236,18 @@ type
     // SetFocus
     procedure SetFocus; override; stdcall;
     procedure SetParentWindow(AParentWindow: HWND); override; stdcall;
+    // SetSlideshowInterval
+    // - Engines have to implement their own timer to "play" stills.
+    // - They should use the interval set in here as the "media length".
+    // - Timer should start when Play is called. When the timer finishes,
+    // Status should be changed to mpsDone.
+    procedure SetSlideshowInterval(AInterval: Integer); virtual; stdcall;
     // Stop
     procedure Stop; virtual; stdcall;
-    property PlayInterval: Cardinal read fPlayInterval write fPlayInterval;
   end;
 
-  TCVMemoEngine = class(TCVCustomMediaEngine, ICVMediaEngineControl)
+  TCVMemoEngine = class(TCVCustomMediaEngine, ICVMediaEngineControl,
+    ICVMediaEngineStill)
   protected
     fBoundsRect: TRect;
     fMemo: TMemo;
@@ -234,10 +261,16 @@ type
     constructor Create; override;
     destructor Destroy; override;
     procedure Close; override; stdcall;
+    // GetID
+    // - Return unique TGuid
+    function GetID: TGUID; override; stdcall;
     // HasControl
     // - Return TRUE if currently loaded file supports play/pause/stop.
     // - Return FALSE with still media like images.
     function HasControl: Boolean; virtual; stdcall;
+    // IsStill
+    // - Return true if currentrly loaded media is still (image or similar).
+    function IsStill: Boolean; virtual; stdcall;
     function OpenFile(AFilePath: WideString): Boolean; override; stdcall;
     // Pause
     procedure Pause; virtual; stdcall;
@@ -247,6 +280,12 @@ type
     // SetFocus
     procedure SetFocus; override; stdcall;
     procedure SetParentWindow(AParentWindow: HWND); override; stdcall;
+    // SetSlideshowInterval
+    // - Engines have to implement their own timer to "play" stills.
+    // - They should use the interval set in here as the "media length".
+    // - Timer should start when Play is called. When the timer finishes,
+    // Status should be changed to mpsDone.
+    procedure SetSlideshowInterval(AInterval: Integer); virtual; stdcall;
     // Stop
     procedure Stop; virtual; stdcall;
     property PlayInterval: Cardinal read fPlayInterval write fPlayInterval;
@@ -259,7 +298,7 @@ const
 implementation
 
 uses
-  Graphics, GR32_Resamplers, GR32_LowLevel;
+  Graphics, GR32_Resamplers, GR32_LowLevel, CE_LanguageEngine;
 
 {##############################################################################}
 // TCVDSEngine
@@ -358,6 +397,14 @@ begin
     if i > 0 then
     Result:= i div 10000;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  GetID
+-------------------------------------------------------------------------------}
+function TCVDSEngine.GetID: TGUID;
+begin
+  Result:= ID_CVDSEngine;
 end;
 
 {-------------------------------------------------------------------------------
@@ -813,6 +860,14 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  GetID
+-------------------------------------------------------------------------------}
+function TCVWMPEngine.GetID: TGUID;
+begin
+  Result:= ID_CVWmpEngine;
+end;
+
+{-------------------------------------------------------------------------------
   Get Position
 -------------------------------------------------------------------------------}
 function TCVWMPEngine.GetPosition: Int64;
@@ -1094,11 +1149,28 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  GetID
+-------------------------------------------------------------------------------}
+function TCVImageEngine.GetID: TGUID;
+begin
+  Result:= ID_CVImageEngine;
+end;
+
+{-------------------------------------------------------------------------------
+  HandleLoadError
+-------------------------------------------------------------------------------}
+procedure TCVImageEngine.HandleLoadError(Sender: TObject);
+begin
+  ChangeStatus(mpsError);
+end;
+
+{-------------------------------------------------------------------------------
   Handle PlayTimer
 -------------------------------------------------------------------------------}
 procedure TCVImageEngine.HandlePlayTimer(Sender: TObject);
 begin
   // reset PlayTimer.Interval (pause will change it, here we change it back)
+  fPlayTimer.Enabled:= false;
   fPlayTimer.Interval:= fPlayInterval;
   fPlayTimerTick:= GetTickCount;
   ChangeStatus(mpsDone);
@@ -1127,12 +1199,24 @@ begin
     fImageView.View.ScaleUpResampler:= irDraft;
     fImageView.View.UseThumbnailPreview:= true;
     fImageView.View.LoadOptimalSize:= true;
+    fImageView.View.OnLoadError:= HandleLoadError;
+    fImageView.View.Color:= $00333333;
+    fImageView.View.Font.Color:= clWhite;
+    fImageView.View.LoadErrorMsg:= _('Format not supported');
     if fParentWindow <> 0 then
     begin
       fImageView.ParentWindow:= fParentWindow;
       fImageView.BoundsRect:= fBoundsRect;
     end;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Is Still
+-------------------------------------------------------------------------------}
+function TCVImageEngine.IsStill: Boolean;
+begin
+  Result:= true;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1217,6 +1301,15 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  SetSlideshowInterval
+-------------------------------------------------------------------------------}
+procedure TCVImageEngine.SetSlideshowInterval(AInterval: Integer);
+begin
+  fPlayInterval:= AInterval;
+  fPlayTimer.Interval:= fPlayInterval;
+end;
+
+{-------------------------------------------------------------------------------
   Stop
 -------------------------------------------------------------------------------}
 procedure TCVImageEngine.Stop;
@@ -1287,6 +1380,14 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  GetID
+-------------------------------------------------------------------------------}
+function TCVMemoEngine.GetID: TGUID;
+begin
+  Result:= ID_CVMemoEngine;
+end;
+
+{-------------------------------------------------------------------------------
   Handle PlayTimer
 -------------------------------------------------------------------------------}
 procedure TCVMemoEngine.HandlePlayTimer(Sender: TObject);
@@ -1319,6 +1420,14 @@ begin
       fMemo.BoundsRect:= fBoundsRect;
     end;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Is Still
+-------------------------------------------------------------------------------}
+function TCVMemoEngine.IsStill: Boolean;
+begin
+  Result:= true;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1400,6 +1509,15 @@ begin
     fMemo.ParentWindow:= fParentWindow;
     fMemo.BoundsRect:= fBoundsRect;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  SetSlideshowInterval
+-------------------------------------------------------------------------------}
+procedure TCVMemoEngine.SetSlideshowInterval(AInterval: Integer);
+begin
+  fPlayInterval:= AInterval;
+  fPlayTimer.Interval:= fPlayInterval;
 end;
 
 {-------------------------------------------------------------------------------

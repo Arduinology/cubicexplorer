@@ -183,6 +183,9 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFiltersPanel.FormDestroy(Sender: TObject);
 begin
+  if Self = CEFiltersPanel then
+  CEFiltersPanel:= nil;
+
   FilterBackgroundBitmap.Free;
   fSettings.Free;
   PatternNotifyList.Free;

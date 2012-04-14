@@ -835,6 +835,7 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCEFilterPatternItem.Destroy;
 begin
+  if assigned(CEFiltersPanel) then
   CEFiltersPanel.PatternNotifyList.Remove(Self);
   inherited;
 end;

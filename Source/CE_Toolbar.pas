@@ -59,12 +59,12 @@ type
     fStretchedItemsList: TList;
     procedure AnchorItems(UpdateControlItems: Boolean = True); override;
     procedure Resize; override;
-    procedure RightAlignItems; override;
     procedure SetLargeImages(const Value: Boolean); virtual;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     function GetStretchedSize: Integer; virtual;
+    procedure RightAlignItems; override;
     property LargeImages: Boolean read fLargeImages write SetLargeImages;
   end;
 
