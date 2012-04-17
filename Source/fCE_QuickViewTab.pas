@@ -41,6 +41,7 @@ type
     { Private declarations }
   protected
     function GetSettingsClass: TCECustomTabPageSettingsClass; override;
+    procedure HandleDetach(Sender: TObject); virtual;
   public
     QuickView: TCEQuickView;
     constructor Create(AOwner: TComponent); override;
@@ -67,6 +68,9 @@ type
 
 implementation
 
+uses
+  CE_SpTabBar;
+
 {$R *.dfm}
 
 {-------------------------------------------------------------------------------
@@ -80,6 +84,7 @@ begin
   QuickView.Align:= alClient;
   QuickView.Active:= true;
   QuickView.ShowPreview:= false;
+  QuickView.OnDetach:= HandleDetach;
   Layout:= 'QuickView';
 end;
 
@@ -98,6 +103,20 @@ end;
 function TCEQuickViewPage.GetSettingsClass: TCECustomTabPageSettingsClass;
 begin
   Result:= TCEQuickViewPageSettings;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle Detach
+-------------------------------------------------------------------------------}
+procedure TCEQuickViewPage.HandleDetach(Sender: TObject);
+begin
+  if assigned(Self.fTabItem) then
+  begin
+    if (Self.fTabItem is TCESpTabItem) then
+    TCESpTabItem(Self.fTabItem).CloseTab
+    else
+    Self.fTabItem.TabClose;
+  end;
 end;
 
 {-------------------------------------------------------------------------------

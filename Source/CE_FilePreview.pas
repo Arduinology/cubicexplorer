@@ -39,6 +39,8 @@ type
   TCEFilePreviewTaskType = (fpttThumbnail, fpttInfo, fpttIconIndex);
 
   TCEFilePreviewTask = class(TObject)
+  protected
+    fStartTick: Cardinal;
   public
     BackgroundColor: TColor;
     FilePath: WideString;
@@ -63,6 +65,7 @@ type
     fFilePath: WideString;
     fInfoAlign: TCEInfoAlign;
     fInfoBuffer: TBitmap;
+    fLastAbort: Cardinal;
     fResizeTimer: TTimer;
     fShowIcon: Boolean;
     fShowInformation: Boolean;
@@ -131,6 +134,7 @@ begin
   fBorderSize:= 6;
   fInfoAlign:= iaBottom;
   fFileIconIndex:= -1;
+  fLastAbort:= 0;
   // create instances
   fResizeTimer:= TTimer.Create(Self);
   fResizeTimer.Interval:= 250;
@@ -269,6 +273,11 @@ begin
   if (ATag = fTaskTag) and (AObject is TCEFilePreviewTask) then
   begin
     task:= TCEFilePreviewTask(AObject);
+
+    // disregard old tasks
+    if task.fStartTick < fLastAbort then
+    Exit;
+    
     // Info
     if task.TaskType = fpttInfo then
     begin
@@ -310,6 +319,7 @@ begin
     task:= TCEFilePreviewTask.Create;
     task.FilePath:= fFilePath;
     task.TaskType:= fpttInfo;
+    task.fStartTick:= Max(GetTickCount, fLastAbort);
     GlobalTaskPool.AddTask(nil, task, true, true, fTaskTag, HandleExecuteTask, HandleTaskDone);
   end;
 end;
@@ -328,6 +338,7 @@ begin
     task.ThumbSize:= Point(ClientWidth, ClientHeight);
     task.BackgroundColor:= Color;
     task.TaskType:= fpttThumbnail;
+    task.fStartTick:= Max(GetTickCount, fLastAbort);
     GlobalTaskPool.AddTask(nil, task, true, true, fTaskTag, HandleExecuteTask, HandleTaskDone);
   end;
 end;
@@ -344,6 +355,7 @@ begin
     task:= TCEFilePreviewTask.Create;
     task.FilePath:= fFilePath;
     task.TaskType:= fpttIconIndex;
+    task.fStartTick:= Max(GetTickCount, fLastAbort);
     GlobalTaskPool.AddTask(nil, task, true, true, fTaskTag, HandleExecuteTask, HandleTaskDone);
   end;
 end;
@@ -550,14 +562,24 @@ var
   info: TThumbInfo;
   ns: TNamespace;
   B: TBitmap;
+  t: Cardinal;
 begin
+  // abort previous tasks
   GlobalTaskPool.AbortTasksWithTag(fTaskTag);
+  t:= GetTickCount;
+  if t = fLastAbort then
+  fLastAbort:= t + 1
+  else
+  fLastAbort:= t;
+
+  // free previous buffer
+  if assigned(fThumbBuffer) then
+  FreeAndNil(fThumbBuffer);
+
+  // init values
   fFilePath:= AFilePath;
   fFileInfo:= '';
   fFileIconIndex:= -1;
-
-  if assigned(fThumbBuffer) then
-  FreeAndNil(fThumbBuffer);
 
   // start thumbnail fetching task
   if fShowThumbnail then

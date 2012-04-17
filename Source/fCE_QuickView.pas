@@ -82,6 +82,7 @@ type
     fLoopMode: TCEQuickViewLoopMode;
     fMediaPlayer: TCVMediaPlayer;
     fOnCurrentFileChange: TNotifyEvent;
+    fOnDetach: TNotifyEvent;
     fShowPreview: Boolean;
     Preview: TCEFilePreview;
     procedure AssignTo(Dest: TPersistent); override;
@@ -132,6 +133,7 @@ type
     property ShowPreview: Boolean read fShowPreview write fShowPreview;
     property OnCurrentFileChange: TNotifyEvent read fOnCurrentFileChange write
         fOnCurrentFileChange;
+    property OnDetach: TNotifyEvent read fOnDetach write fOnDetach;
   end;
 
 {-------------------------------------------------------------------------------
@@ -384,7 +386,7 @@ var
   p: TPoint;
 begin
   // create form
-  Result:= TCEQuickViewForm.CreateNew(Self);
+  Result:= TCEQuickViewForm.CreateNew(Application.MainForm);
   // initilize values
   Result.FormStyle:= fsStayOnTop;
   Result.ScreenSnap:= true;
@@ -439,6 +441,9 @@ begin
   SetActiveFilePath(fActiveFilePath);
 
   UpdateControlStates(Self);
+
+  if assigned(fOnDetach) then
+  fOnDetach(Self);
 end;
 
 {-------------------------------------------------------------------------------
