@@ -1,15 +1,17 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2011-08-14 16:14\n"
-"PO-Revision-Date:                     \n"
-"Last-Translator: sergus <zergut@freemail.ru>\n"
-"Language-Team:                     \n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1454\n"
 "CE-Language: Russian\n"
-"Project-Id-Version: 0.95.1.1454\n"
+"CE-POT-Version: 1512\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: Russian\n"
+"Last-Translator: lzsaver\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"PO-Revision-Date: 2012-04-18 05:55\n"
+"POT-Creation-Date: 2011-08-14 16:14\n"
+"Project-Id-Version: 0.95.1.1512\n"
+"X-Poedit-Language: Russian\n"
 
 msgid "%d file(s) failed to download!"
 msgstr "%d файла(ов) не удалось загрузить!"
@@ -127,6 +129,12 @@ msgstr "Уверены, что хотите удалить эту сессию?"
 
 msgid "Are you sure you want to do that?"
 msgstr "Уверены, что хотите это сделать?"
+
+msgid "Are you sure you want to quit?"
+msgstr "Вы действительно хотите выйти?"
+
+msgid "Are you sure you want to restore default layout?"
+msgstr ""
 
 msgid "Are you sure you want to restore?"
 msgstr "Уверены, что хотите восстановить?"
@@ -302,6 +310,9 @@ msgstr "Содержимое"
 msgid "Continue from last time"
 msgstr "Продолжить с прошлого раза"
 
+msgid "Controls"
+msgstr ""
+
 msgid "Copy"
 msgstr "Копировать"
 
@@ -383,8 +394,14 @@ msgstr "Удаление нескольких закладок!"
 msgid "Desktop"
 msgstr "Рабочий стол"
 
+msgid "Detach to Window"
+msgstr ""
+
 msgid "Details"
 msgstr "Таблица"
+
+msgid "Dialog found!"
+msgstr "Диалог найден!"
 
 msgid "Direction"
 msgstr "Направление"
@@ -491,6 +508,12 @@ msgstr "Английский (по умолчанию)"
 msgid "Enter each file mask on a separate line."
 msgstr "Введите каждую маску файла в отдельную строку."
 
+msgid "Error"
+msgstr "Ошибка"
+
+msgid "Error: Could not connect!"
+msgstr "Ошибка: не могу соединиться!"
+
 msgid "Exclude"
 msgstr "Исключить"
 
@@ -518,8 +541,14 @@ msgstr "Маска файла:"
 msgid "File Search"
 msgstr "Поиск файлов"
 
+msgid "File operation might be still running!"
+msgstr "Файловая операция может все еще выполняться!"
+
 msgid "File size format:"
 msgstr "Формат размера файлов:"
+
+msgid "Filelist"
+msgstr "Список файлов"
 
 msgid "Files to update"
 msgstr "Файлы для обновления"
@@ -569,8 +598,14 @@ msgstr "Папки"
 msgid "Folders Panel Settings"
 msgstr "Настройки панели папок"
 
+msgid "For testing"
+msgstr "Тестовые"
+
 msgid "Format"
 msgstr "Формат"
+
+msgid "Format not supported"
+msgstr "Формат не поддерживается"
 
 msgid "Forward"
 msgstr "Вперед"
@@ -585,7 +620,7 @@ msgid "Fullscreen"
 msgstr "Полный экран"
 
 msgid "GB"
-msgstr "ГБ"
+msgstr "ГиБ"
 
 msgid "General"
 msgstr "Общие"
@@ -669,7 +704,7 @@ msgid "Item(s)"
 msgstr "Элемент(ов)"
 
 msgid "KB"
-msgstr "КБ"
+msgstr "КиБ"
 
 msgid "Language"
 msgstr "Язык"
@@ -734,8 +769,17 @@ msgstr "Зафиксировать панели инструментов"
 msgid "Logoff"
 msgstr "Выйти"
 
+msgid "Loop File"
+msgstr "Повторять файл"
+
+msgid "Loop Filelist"
+msgstr "Повторять список файлов"
+
+msgid "Loop Playlist"
+msgstr "Повторять плейлист"
+
 msgid "MB"
-msgstr "МБ"
+msgstr "МиБ"
 
 msgid "Main Menu"
 msgstr "Главное меню"
@@ -791,6 +835,9 @@ msgstr "Новый"
 msgid "New Category"
 msgstr "Новая категория"
 
+msgid "New File"
+msgstr "Новый файл"
+
 msgid "New Folder"
 msgstr "Новая папка"
 
@@ -803,11 +850,17 @@ msgstr "Доступна новая версия"
 msgid "New Window"
 msgstr "Новое окно"
 
+msgid "New text file"
+msgstr "Новый текстовый файл"
+
 msgid "New version (%s) is available. Do you want to update now?"
 msgstr "Новая версия (%s) доступна. Хотите обновиться сейчас?"
 
 msgid "No Extension"
 msgstr "Без расширения"
+
+msgid "No Looping"
+msgstr "Без повторения"
 
 msgid "No Selection"
 msgstr "Отменить выбор"
@@ -828,7 +881,7 @@ msgid "OK"
 msgstr "ОК"
 
 msgid "Official"
-msgstr "Официальные"
+msgstr "Релизы"
 
 msgid "On Startup"
 msgstr "При запуске"
@@ -910,6 +963,9 @@ msgstr "Вставить ярлык"
 
 msgid "Path"
 msgstr "Путь"
+
+msgid "Playlist"
+msgstr "Плейлист"
 
 msgid "Please choose different hotkey."
 msgstr "Выберите другую комбинацию."
@@ -1013,6 +1069,9 @@ msgstr "Восстановить"
 msgid "Restore All"
 msgstr "Востановить все"
 
+msgid "Restore Default Layout"
+msgstr ""
+
 msgid "Restore List"
 msgstr "Восстановить список"
 
@@ -1075,6 +1134,9 @@ msgstr "Поиск от курсора"
 
 msgid "Searching from"
 msgstr "Начать поиск с"
+
+msgid "Seekbar"
+msgstr ""
 
 msgid "Select All"
 msgstr "Выделить все"
@@ -1208,6 +1270,9 @@ msgstr "Маленький"
 msgid "Small Icons"
 msgstr "Мелкие значки"
 
+msgid "Snapshot"
+msgstr "Ночные"
+
 msgid "Stack"
 msgstr "Буфер копирования"
 
@@ -1217,8 +1282,14 @@ msgstr "Имя буфера"
 msgid "Stack Settings"
 msgstr "Настройки буфера копирования"
 
+msgid "Stacks"
+msgstr ""
+
 msgid "Start minimized to tray"
 msgstr "Запуск свернутой в трее"
+
+msgid "Starting CubicExplorer..."
+msgstr "Загружается CubicExplorer"
 
 msgid "Status Bar"
 msgstr "Строка состояния"
@@ -1228,6 +1299,9 @@ msgstr "Стоп"
 
 msgid "Stretch"
 msgstr "Растянуть"
+
+msgid "Stretcher"
+msgstr ""
 
 msgid "Strict"
 msgstr "Строгий"
@@ -1254,7 +1328,7 @@ msgid "System Power"
 msgstr "Выключение"
 
 msgid "TB"
-msgstr "ТБ"
+msgstr "ТиБ"
 
 msgid "Tabs"
 msgstr "Вкладки"
@@ -1339,6 +1413,9 @@ msgstr "Версия перевода"
 
 msgid "Translator's Email"
 msgstr "Почта переводчика"
+
+msgid "Translator's Email (optional)"
+msgstr "Электронная почта переводчика (опционально)"
 
 msgid "Translator's Name"
 msgstr "Имя переводчика"
