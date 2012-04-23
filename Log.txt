@@ -1,3 +1,6 @@
+23.4.2012
+* Updated Slovak translation (thanks to Sepp Winkler).
+
 17.4.2012
 * Old file previews should be now disregarded properly.
 * QuickView tab now closes on Detach.

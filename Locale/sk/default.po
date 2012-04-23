@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.03\n"
+"Project-Id-Version: 2.05\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1424\n"
+"CE-POT-Version: 1512\n"
 "CE-Language: Slovak\n"
 "Last-Translator: Sepp Winkler <sepp.winkler@gmail.com>\n"
 
@@ -130,6 +130,12 @@ msgstr "Naozaj chcete odstrániť túto reláciu?"
 
 msgid "Are you sure you want to do that?"
 msgstr "Skutočne to chcete vykonať?"
+
+msgid "Are you sure you want to quit?"
+msgstr "Skutočne chcete skončiť?"
+
+msgid "Are you sure you want to restore default layout?"
+msgstr "Skutočne chcete obnoviť základné rozloženie?"
 
 msgid "Are you sure you want to restore?"
 msgstr "Skutočne chcete obnoviť položku?"
@@ -311,6 +317,9 @@ msgstr "Obsah"
 msgid "Continue from last time"
 msgstr "Pokračovať z posledného"
 
+msgid "Controls"
+msgstr "Ovládanie"
+
 msgid "Copy"
 msgstr "Kopírovať"
 
@@ -383,6 +392,9 @@ msgstr "Limit dní"
 msgid "Default"
 msgstr "Predvolené"
 
+msgid "Default File Manager"
+msgstr "Predvolený správca súborov"
+
 msgid "Default hotkeys become available after restart!"
 msgstr "Predvolené klávesové skratky budú dostupné po reštarte!"
 
@@ -398,8 +410,14 @@ msgstr "Odstrániť duplicitné obľúbené položky!"
 msgid "Desktop"
 msgstr "Plocha"
 
+msgid "Detach to Window"
+msgstr "Odopnúť okno"
+
 msgid "Details"
 msgstr "Podrobnosti"
+
+msgid "Dialog found!"
+msgstr "Nájdený dialóg!"
 
 msgid "Direction"
 msgstr "Smer"
@@ -419,8 +437,11 @@ msgstr "Mód zobrazenia"
 msgid "Display Settings"
 msgstr "Nastavenia zobrazenia"
 
-msgid "Do you really want to update?"
+msgid "Do you really wan't to update?"
 msgstr "Naozaj chcete aktualizovať?"
+
+msgid "Do you really want to update?"
+msgstr "Skutočne chcete aktualizovať?"
 
 msgid "Do you want to override existing session?"
 msgstr "Chcete prpísať existujúcu reláciu?"
@@ -518,6 +539,15 @@ msgstr "Anglicky (predvolené)"
 msgid "Enter each file mask on a separate line."
 msgstr "Vložte každú súborovú masku do samostatného riadku."
 
+msgid "Error"
+msgstr "Chyba"
+
+msgid "Error: Could not connect!"
+msgstr "Chyba: Nedá sa pripojiť!"
+
+msgid "Exclude"
+msgstr "Okrem"
+
 msgid "Exclude File Masks:"
 msgstr "Súborové masky výnimiek:"
 
@@ -542,8 +572,14 @@ msgstr "Maska názvu súboru"
 msgid "File Search"
 msgstr "Hľadať súbor"
 
+msgid "File operation might be still running!"
+msgstr "Operácia so súbormi možno ešte prebieha!"
+
 msgid "File size format:"
 msgstr "Formát veľkosti súboru:"
+
+msgid "Filelist"
+msgstr "Zoznam súborov"
 
 msgid "Files to update"
 msgstr "Súborov na aktualizáciu"
@@ -596,8 +632,14 @@ msgstr "Zložky"
 msgid "Folders Panel Settings"
 msgstr "Nastavenia panelu zložiek"
 
+msgid "For testing"
+msgstr "Na testovanie"
+
 msgid "Format"
 msgstr "Formát"
+
+msgid "Format not supported"
+msgstr "Nepodporovaný formát"
 
 msgid "Forward"
 msgstr "Dopredu"
@@ -640,6 +682,9 @@ msgstr "Pomocník"
 
 msgid "Hex"
 msgstr "Hexadecimálne"
+
+msgid "Hibernate"
+msgstr "Dlhodobý spánok"
 
 msgid "Hidden"
 msgstr "Skrytý"
@@ -764,6 +809,24 @@ msgstr "Načítavanie..."
 msgid "Location"
 msgstr "Umiestnenie"
 
+msgid "Lock"
+msgstr "Zamknúť"
+
+msgid "Lock Toolbars"
+msgstr "Zamknúť panely nástrojov"
+
+msgid "Logoff"
+msgstr "Odhlásiť používateľa"
+
+msgid "Loop File"
+msgstr "Opakovanie súboru"
+
+msgid "Loop Filelist"
+msgstr "Opakovanie zoznamu súborov"
+
+msgid "Loop Playlist"
+msgstr "Opakovanie zoznamu titulov"
+
 msgid "MB"
 msgstr "MB"
 
@@ -821,6 +884,9 @@ msgstr "Nový"
 msgid "New Category"
 msgstr "Nová kategória"
 
+msgid "New File"
+msgstr "Nový súbor"
+
 msgid "New Folder"
 msgstr "Nová zložka"
 
@@ -836,11 +902,17 @@ msgstr "Nová verzia je dostupná"
 msgid "New Window"
 msgstr "Nové okno"
 
+msgid "New text file"
+msgstr "Nový textový súbor"
+
 msgid "New version (%s) is available. Do you want to update now?"
 msgstr "Nová verzia (%s) je dostupná. Chcete aktualizovať teraz?"
 
 msgid "No Extension"
 msgstr "Bez prípony"
+
+msgid "No Looping"
+msgstr "Bez opakovania"
 
 msgid "No Selection"
 msgstr "Žiadny výber"
@@ -947,6 +1019,9 @@ msgstr "Cesta"
 msgid "Pause"
 msgstr "Pozastaviť"
 
+msgid "Playlist"
+msgstr "Zoznam titulov"
+
 msgid "Please choose different hotkey."
 msgstr "Zvoľte inú klávesovú skratku."
 
@@ -983,6 +1058,9 @@ msgstr "Opätovné stiahnutie"
 msgid "Read Only"
 msgstr "Len na čítanie"
 
+msgid "Reboot"
+msgstr "Reštartovať"
+
 msgid "Recycle Bin"
 msgstr "Kôš"
 
@@ -991,6 +1069,18 @@ msgstr "Opkovať"
 
 msgid "Refresh"
 msgstr "Obnoviť"
+
+msgid "Refresh Fileview"
+msgstr "Obnoviť zobrazenie súborov"
+
+msgid "Register"
+msgstr "Registrovať"
+
+msgid "Registered successfully!"
+msgstr "Registrácia prebehla úspešne!"
+
+msgid "Registration failed!"
+msgstr "Registrácia zlyhala!"
 
 msgid "Regular expression"
 msgstr "Regulárny výraz"
@@ -1036,6 +1126,9 @@ msgstr "Obnoviť"
 
 msgid "Restore All"
 msgstr "Obnoviť všetky"
+
+msgid "Restore Default Layout"
+msgstr "Obnoviť základné rozloženie"
 
 msgid "Restore List"
 msgstr "Zoznam na obnovenie"
@@ -1114,6 +1207,9 @@ msgstr "Hľadať v zložke"
 
 msgid "Searching from"
 msgstr "Hľadať od"
+
+msgid "Seekbar"
+msgstr "Panel hľadania"
 
 msgid "Select All"
 msgstr "Vybrať všetko"
@@ -1217,6 +1313,9 @@ msgstr "Zobraziť viac kariet"
 msgid "Show/Hide"
 msgstr "Zobraziť/Skryť"
 
+msgid "Shut down"
+msgstr "Vypnúť"
+
 msgid "Single Instance Only"
 msgstr "Len jedna inštancia"
 
@@ -1235,11 +1334,17 @@ msgstr "Veľkosť"
 msgid "Size && Attributes"
 msgstr "Veľkosť && atribúty"
 
+msgid "Sleep"
+msgstr "Úsporný režim"
+
 msgid "Small"
 msgstr "Malé"
 
 msgid "Small Icons"
 msgstr "Malé ikony"
+
+msgid "Snapshot"
+msgstr "Snímka"
 
 msgid "Stack"
 msgstr "Box"
@@ -1250,11 +1355,17 @@ msgstr "Názov boxu"
 msgid "Stack Settings"
 msgstr "Nastavenia Boxu"
 
+msgid "Stacks"
+msgstr "Boxy"
+
 msgid "Start"
 msgstr "Štart"
 
 msgid "Start minimized to tray"
 msgstr "Spustiť minimalizovaný v oblasti oznámení"
+
+msgid "Starting CubicExplorer..."
+msgstr "CubicExplorer štartuje..."
 
 msgid "Status Bar"
 msgstr "Stavový riadok"
@@ -1264,6 +1375,9 @@ msgstr "Stop"
 
 msgid "Stretch"
 msgstr "Roztiahnuť"
+
+msgid "Stretcher"
+msgstr "Pružná medzera"
 
 msgid "Strict"
 msgstr "Presne"
@@ -1288,6 +1402,9 @@ msgstr "Systém"
 
 msgid "System Folders"
 msgstr "Systémové zložky"
+
+msgid "System Power"
+msgstr "Vypnúť"
 
 msgid "TB"
 msgstr "TB"
@@ -1376,6 +1493,9 @@ msgstr "Verzia prekladu"
 msgid "Translator's Email"
 msgstr "E-mail prekladateľa"
 
+msgid "Translator's Email (optional)"
+msgstr "E-mail prekladateľa (voliteľné)"
+
 msgid "Translator's Name"
 msgstr "Meno prekladateľa"
 
@@ -1402,6 +1522,15 @@ msgstr "Zrušiť zmazanie"
 
 msgid "Undo Tab Close"
 msgstr "Obnoviť zatvorenú kartu"
+
+msgid "Unregister"
+msgstr "Zrušiť registráciu"
+
+msgid "Unregistered successfully!"
+msgstr "Zrušenie registrácie prebehlo úspešne!"
+
+msgid "Unregistration failed!"
+msgstr "Zrušenie registrácie zlyhalo!"
 
 msgid "Untitled"
 msgstr "Neoznačené"

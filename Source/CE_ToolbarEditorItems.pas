@@ -61,11 +61,12 @@ type
     procedure KeyPress(var Key: Char); virtual;
   public
     constructor Create(AOwner: TComponent); override;
-    property DefaultWidth: Integer read fDefaultWidth write fDefaultWidth;
+    procedure SetFocus; virtual;
     property Viewer: TCEToolbarEditItemViewer read fViewer;
   published
     property AutoShowClearButton: Boolean read fAutoShowClearButton write
         fAutoShowClearButton;
+    property DefaultWidth: Integer read fDefaultWidth write fDefaultWidth;
     property ShowClearButton: Boolean read fShowClearButton write
         SetShowClearButton;
     property OnClearButtonClick: TCEClearButtonClickEvent read fOnClearButtonClick write
@@ -201,6 +202,14 @@ end;
 procedure TCEToolbarEditItem.KeyPress(var Key: Char);
 begin
 
+end;
+
+{-------------------------------------------------------------------------------
+  Set Focus
+-------------------------------------------------------------------------------}
+procedure TCEToolbarEditItem.SetFocus;
+begin
+  Viewer.DoExecute;
 end;
 
 {-------------------------------------------------------------------------------

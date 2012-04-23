@@ -42,6 +42,7 @@ requires
 contains
   CE_Toolbar in 'CE_Toolbar.pas',
   CE_ToolbarReg in 'CE_ToolbarReg.pas',
-  CE_SpTBXItems in 'CE_SpTBXItems.pas';
+  CE_SpTBXItems in 'CE_SpTBXItems.pas',
+  CE_ToolbarEditorItems in 'CE_ToolbarEditorItems.pas';
 
 end.
