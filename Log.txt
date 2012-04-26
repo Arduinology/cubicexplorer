@@ -1,7 +1,11 @@
+24.4.2012
++ Added FontSize to Options->Advanced->Tabs.
+
 23.4.2012
 * Updated Slovak translation (thanks to Sepp Winkler).
 * Updated Russian translation (thanks to lzsaver).
 * Updated Swedish translation (thanks to eson).
+* Dragging file/folder to tab bar will now open a new tab.
 
 17.4.2012
 * Old file previews should be now disregarded properly.

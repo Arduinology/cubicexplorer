@@ -44,14 +44,16 @@ uses
   // VSTools
   VirtualShellNewMenu, EasyListview, VirtualExplorerEasyListview,
   MPCommonObjects, VirtualShellNotifier, VirtualResources, MPShellTypes,
-  VirtualTrees, MPShellUtilities, MPCommonUtilities,
+  VirtualTrees, MPShellUtilities, MPCommonUtilities, MPDataObject,
   // Tnt Controls
   TntSystem, TntActnList, TntClasses, TntMenus, TntStdCtrls, TntSysUtils,
   TntDialogs, TntForms,
+  // JVCL
+  JvComponentBase, JvTrayIcon,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ShellAPI, Menus, ShlObj, XPMan, ActiveX,
-  ImgList, Registry, AppEvnts, ActnList, Math, JvComponentBase, JvTrayIcon,
+  ImgList, Registry, AppEvnts, ActnList, Math,
   Contnrs;
 
 type
@@ -268,6 +270,9 @@ type
     procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
     procedure WMSyscommand(var Message: TWmSysCommand); message WM_SYSCOMMAND;
     procedure CreateParams(var Params: TCreateParams); override;
+    procedure HandleTabSetOleDrop(ASender: TCESpTabSet; ADropTab: TCESpTabItem;
+        const dataObj: IDataObject; grfKeyState: Longint; pt: TPoint; var dwEffect:
+        Longint; var hr: HResult);
     procedure HandleUpdateFound(Sender: TObject; BuildType: TCEBuildType; Version:
         TCEVersionNumber; Notes: WideString; var DoUpdate: Boolean);
     procedure WMAppCommand(var Message: TWMAppCommand); message WM_APPCOMMAND;
@@ -556,6 +561,7 @@ begin
 
   // Create TabSet
   TabSet:= TCESpTabSet.Create(nil);
+  tabSet.OnOleDrop:= HandleTabSetOleDrop;
   TabSet.Parent:= MainPanel;
   TabSet.Align:= alTop;
   TabSet.Name:= 'TabBar';
@@ -1614,6 +1620,34 @@ begin
   Handled:= DoExecuteAction(AShortcut, TCECustomTabPage(GlobalPathCtrl.ActivePage).PageActionList);
   if not Handled then
   Handled:= DoExecuteAction(AShortcut, CEActions.ActionList);
+end;
+
+{-------------------------------------------------------------------------------
+  Handle TabSet.OleDrop
+-------------------------------------------------------------------------------}
+procedure TMainForm.HandleTabSetOleDrop(ASender: TCESpTabSet; ADropTab:
+    TCESpTabItem; const dataObj: IDataObject; grfKeyState: Longint; pt: TPoint;
+    var dwEffect: Longint; var hr: HResult);
+var
+  hd: TCommonShellIDList;
+  i: Integer;
+  ns: TNamespace;
+begin
+  // open new tab(s)
+  if not assigned(ADropTab) and assigned(dataObj) then
+  begin
+    dwEffect:= DROPEFFECT_LINK;
+    hd:= TCommonShellIDList.Create;
+    try
+      hd.LoadFromDataObject(dataObj);
+      for i:= 0 to hd.PIDLCount-1 do
+      begin
+        OpenPIDLInTab(TabSet, hd.AbsolutePIDL(i), TabSet.Settings.OpenTabSelect);
+      end;
+    finally
+      hd.Free;
+    end;
+  end;
 end;
 
 {-------------------------------------------------------------------------------

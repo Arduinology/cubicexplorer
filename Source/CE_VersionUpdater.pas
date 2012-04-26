@@ -25,7 +25,7 @@ interface
 
 uses
   // CC,CE Units
-  CC_Threads,
+  ccThreads,
   // Synapse
   HTTPSend, blcksock, 
   // fcl-xml

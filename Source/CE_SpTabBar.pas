@@ -76,6 +76,9 @@ type
   TCESpTabItemViewer = class(TSpTBXTabItemViewer)
   private
     function IsTabCloseButtonVisible: Boolean;
+  protected
+    // Custom Painting methods
+    procedure DoDrawAdjustFont(AFont: TFont; State: TSpTBXSkinStatesType); override;
   end;
 
   // Tab Item
@@ -85,6 +88,7 @@ type
     procedure SetPageVisibility(const Value: Boolean);
   protected
     fPage: TCECustomTabPage;
+    fUseToolbarFont: Boolean;
     procedure DoTabClosing(var Allow, CloseAndFree: Boolean); override;
     function GetItemViewerClass(AView: TTBView): TTBItemViewerClass; override;
   public
@@ -93,6 +97,8 @@ type
     function GetTabSet: TCESpTabSet;
     property Page: TCECustomTabPage read fPage;
     property PageVisibility: Boolean read GetPageVisibility write SetPageVisibility;
+  published
+    property UseToolbarFont: Boolean read fUseToolbarFont write fUseToolbarFont;
   end;
   
   // Tab Toolbar
@@ -163,6 +169,9 @@ type
     procedure SetAutoFitMaxSize(const Value: Integer);
     procedure SetCloseButton(const Value: TSpTBXTabCloseButton);
     procedure SetMaxTabSize(const Value: Integer);
+  protected
+    fFontSize: Integer;
+    procedure SetFontSize(const Value: Integer);
   public
     TabSet: TCESpTabSet;
     constructor Create; virtual;
@@ -184,6 +193,7 @@ type
         fClosedTabHistory default true;
     property DblClickCloseTab: Boolean read fDblClickCloseTab write
         fDblClickCloseTab;
+    property FontSize: Integer read fFontSize write SetFontSize;
     property MaxTabSize: Integer read GetMaxTabSize write SetMaxTabSize;
     property OpenNextToCurrent: Boolean read fOpenNextToCurrent write
         fOpenNextToCurrent;
@@ -192,7 +202,13 @@ type
     property UndoCount: Integer read fUndoCount write fUndoCount;
   end;
 
-  // Tab Set
+{-------------------------------------------------------------------------------
+  TCESpTabSet
+-------------------------------------------------------------------------------}
+  TCETabSetOleDropEvent = procedure(ASender: TCESpTabSet; ADropTab: TCESpTabItem;
+    const dataObj: IDataObject; grfKeyState: Longint; pt: TPoint; var dwEffect: Longint;
+    var hr: HResult) of object;
+
   TCESpTabSet = class(TSpTBXTabSet, IDropTarget)
   private
     fActivePopupTab: TCESpTabItem;
@@ -215,6 +231,7 @@ type
     fActiveTab: TCESpTabItem;
     fActiveTabHistory: TObjectList;
     fClosedTabHistory: TObjectList;
+    fOnOleDrop: TCETabSetOleDropEvent;
     function AddToClosedTabHistory(ATab: TCESpTabItem): TCEClosedTabHistoryItem;
         virtual;
     // Tabs
@@ -283,13 +300,15 @@ type
     property EnableClosedTabHistory: Boolean read fEnableClosedTabHistory write
         fEnableClosedTabHistory;
     property Settings: TCETabSettings read fSettings write fSettings;
+    property OnOleDrop: TCETabSetOleDropEvent read fOnOleDrop write fOnOleDrop;
   end;
 
 
 implementation
 
 uses
-  Main, dCE_Actions, fCE_FileView, CE_LanguageEngine, dCE_Images, Math;
+  Main, dCE_Actions, fCE_FileView, CE_LanguageEngine, dCE_Images, Math,
+  CE_VistaFuncs;
 
 {##############################################################################}
 
@@ -493,6 +512,7 @@ begin
   Exit;
 
   Result:= TCESpTabItem.Create(nil);
+  Result.UseToolbarFont:= true;
   page:= TabPageClass.Create(nil);
   TCECustomTabPageAccess(page).fTabItem:= Result;
   Result.fPage:= page;
@@ -926,7 +946,7 @@ begin
   end
   else
   begin
-    dwEffect:= DROPEFFECT_NONE;
+    dwEffect:= DROPEFFECT_MOVE;
     fDropTimer.Enabled:= false;
   end;
 end;
@@ -939,12 +959,19 @@ function TCESpTabSet.Drop(const dataObj: IDataObject; grfKeyState: Longint; pt:
 begin
   Result:= S_OK;
   fDropTimer.Enabled:= false;
-  if Settings.AllowDropToTab then
+  if assigned(fDropTab) then
   begin
-    // Send Drop to drop tab
-    if assigned(fDropTab) and assigned(fDropTab.Page) then
-    Result:= TCECustomTabPageAccess(fDropTab.Page).Drop(dataObj, grfKeyState, pt, dwEffect);
+    if Settings.AllowDropToTab then
+    begin
+      // Send Drop to drop tab
+      if assigned(fDropTab) and assigned(fDropTab.Page) then
+      Result:= TCECustomTabPageAccess(fDropTab.Page).Drop(dataObj, grfKeyState, pt, dwEffect);
+    end;
   end;
+
+  if assigned(fOnOleDrop) then
+  fOnOleDrop(Self, fDropTab, dataObj, grfKeyState, pt, dwEffect, Result);
+
   fDropTab:= nil;
 end;
 
@@ -2414,6 +2441,26 @@ begin
   OnMouseUp(Self, mbLeft, [ssLeft, ssDouble], Message.XPos, Message.YPos);
 end;
 
+{-------------------------------------------------------------------------------
+  DoDrawAdjustFont
+-------------------------------------------------------------------------------}
+procedure TCESpTabItemViewer.DoDrawAdjustFont(AFont: TFont; State:
+    TSpTBXSkinStatesType);
+begin
+  // Use toolbar font
+  if TCESpTabItem(Self.Item).UseToolbarFont then
+  begin
+    if assigned(Self.Item.Parent) and
+       assigned(Self.Item.Parent.ParentComponent) and
+       (Self.Item.Parent.ParentComponent is TSpTBXToolbar) then
+    begin
+      AFont.Assign(TSpTBXToolbar(Self.Item.Parent.ParentComponent).Font);
+    end;
+  end
+  else
+  inherited;
+end;
+
 {##############################################################################}
 
 {-------------------------------------------------------------------------------
@@ -2454,6 +2501,7 @@ begin
   fDblClickCloseTab:= false;
   fSwitchTabOnDragHover:= true;
   fAllowDropToTab:= true;
+  fFontSize:= -1;
 end;
 
 {-------------------------------------------------------------------------------
@@ -2540,6 +2588,24 @@ end;
 procedure TCETabSettings.SetCloseButton(const Value: TSpTBXTabCloseButton);
 begin
   TabSet.TabCloseButton:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  SetFontSize
+-------------------------------------------------------------------------------}
+procedure TCETabSettings.SetFontSize(const Value: Integer);
+begin
+  if fFontSize <> Value then
+  begin
+    fFontSize:= Value;
+    if assigned(TabSet) then
+    begin
+      if Value > 0 then
+      TabSet.Font.Size:= Value
+      else
+      SetDesktopIconFonts(TabSet.Font);
+    end;
+  end;
 end;
 
 {##############################################################################}

@@ -129,7 +129,6 @@ uses
   CE_XmlUtils in 'CE_XmlUtils.pas',
   fCE_UpdateDlg in 'fCE_UpdateDlg.pas' {CEUpdateDlg},
   fCE_VersionMgrForm in 'fCE_VersionMgrForm.pas' {CEVersionMgrForm: TTntForm},
-  CC_Threads in 'Components\CubicCore\CC_Threads.pas',
   CE_ArchiveTree in 'CE_ArchiveTree.pas',
   JclCompressionWide in 'Components\jcl\JclCompressionWide.pas',
   fCE_ArchivePanel in 'fCE_ArchivePanel.pas' {CEArchiverPanel},

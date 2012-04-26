@@ -291,8 +291,8 @@ procedure UpdateBookmarksCategory(ActionID: Integer; TargetAction: TTntAction);
 
 procedure MouseAction(var Msg: tagMSG; var Handled: Boolean);
 
-procedure OpenFileInTab(FilePath: WideString; SelectTab: Boolean = true;
-    ActivateApp: Boolean = false);
+function OpenFileInTab(FilePath: WideString; SelectTab: Boolean = true;
+    ActivateApp: Boolean = false): TCESpTabItem;
 
 function OpenFolderInTab(Sender: TObject; PIDL: PItemIDList; SelectTab: Boolean
     = true; ActivateApp: Boolean = false; ForceNewTab: Boolean = false;
@@ -345,6 +345,10 @@ procedure DoGlobalContextMenuCmd(Sender: TObject; Namespace: TNamespace; Verb:
     WideString; MenuItemID: Integer; var Handled: Boolean);
 
 function HandleExeCommands: Boolean;
+
+function OpenPIDLInTab(Sender: TObject; APIDL: PItemIDList; SelectTab: Boolean
+    = true; ActivateApp: Boolean = false; ForceNewTab: Boolean = false):
+    TCESpTabItem;
 
 var
   CEActions: TCEActions;
@@ -1263,24 +1267,27 @@ end;
 {*------------------------------------------------------------------------------
   Open file in a new tab
 -------------------------------------------------------------------------------}
-procedure OpenFileInTab(FilePath: WideString; SelectTab: Boolean = true;
-    ActivateApp: Boolean = false);
+function OpenFileInTab(FilePath: WideString; SelectTab: Boolean = true;
+    ActivateApp: Boolean = false): TCESpTabItem;
 var
   editor: TCETextEditorPage;
   quickview: TCEQuickViewPage;
 begin
+  Result:= nil;
   if WideFileExists(FilePath) then
   begin
     GlobalFileViewSettings.AssignFromActivePage;
 
     if GlobalQuickViewSettings.IsSupported(WideExtractFileExt(FilePath), true) then
     begin
-      quickview:= TCEQuickViewPage(MainForm.TabSet.AddTab(TCEQuickViewPage, SelectTab).Page);
+      Result:= MainForm.TabSet.AddTab(TCEQuickViewPage, SelectTab);
+      quickview:= TCEQuickViewPage(Result.Page);
       quickview.OpenFile(FilePath);
     end
     else
     begin
-      editor:= TCETextEditorPage(MainForm.TabSet.AddTab(TCETextEditorPage, SelectTab).Page);
+      Result:= MainForm.TabSet.AddTab(TCETextEditorPage, SelectTab);
+      editor:= TCETextEditorPage(Result.Page);
       editor.OpenDocument(FilePath);
     end;
 
@@ -1861,6 +1868,31 @@ begin
         end;
       end;
     end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  OpenPIDLInTab
+-------------------------------------------------------------------------------}
+function OpenPIDLInTab(Sender: TObject; APIDL: PItemIDList; SelectTab: Boolean
+    = true; ActivateApp: Boolean = false; ForceNewTab: Boolean = false):
+    TCESpTabItem;
+var
+  ns: TNamespace;
+begin
+  Result:= nil;
+  if not assigned(APIDL) then
+  Exit;
+
+  ns:= TNamespace.Create(APIDL, nil);
+  try
+    ns.FreePIDLOnDestroy:= false;
+    if ns.FileSystem and not ns.Folder then
+    Result:= OpenFileInTab(ns.NameForParsing, SelectTab, ActivateApp)
+    else
+    Result:= OpenFolderInTab(Sender, APIDL, SelectTab, ActivateApp, ForceNewTab);
+  finally
+    ns.Free;
   end;
 end;
 
