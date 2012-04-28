@@ -94,7 +94,7 @@ var
 implementation
 
 uses
-  Main, dCE_Actions, fCE_FileView, fCE_TextEditor, CE_FileUtils, TntSysUtils;
+  Main, dCE_Actions, fCE_FileView, CE_FileUtils, TntSysUtils;
 
 {##############################################################################}
 
@@ -335,7 +335,8 @@ begin
   // Select Next/Previous tab
   else if (Shift = [ssCtrl]) and (WheelDelta <> 0) then
   begin
-    if not (GlobalPathCtrl.ActivePage is TCETextEditorPage) or not fTextEditorBugFix then
+    // TODO: TextEditor Rewrite
+    if true then //not (GlobalPathCtrl.ActivePage is TCETextEditorPage) or not fTextEditorBugFix then
     begin
       if WheelDelta > 0 then
       MainForm.TabSet.SelectNextTab(true)
@@ -348,8 +349,9 @@ begin
   end
   else if (Shift = [ssLeft]) and (WheelDelta <> 0) then
   begin
-    if GlobalPathCtrl.ActivePage is TCETextEditorPage then
-    fTextEditorBugFix:= true;
+    // TODO: TextEditor Rewrite
+    //if GlobalPathCtrl.ActivePage is TCETextEditorPage then
+    //fTextEditorBugFix:= true;
   end;
 
   Handled:= false;

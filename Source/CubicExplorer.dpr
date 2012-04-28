@@ -55,7 +55,6 @@ uses
   Documents in 'Documents.pas',
   dCE_Images in 'dCE_Images.pas' {CE_Images: TDataModule},
   CEJvDockVSNetStyleTBX in 'CEJvDockVSNetStyleTBX.pas',
-  fCE_TextEditor in 'fCE_TextEditor.pas' {CETextEditorPage: TFrame},
   fCE_AboutBox in 'fCE_AboutBox.pas' {CEAboutBox},
   CE_DriveBar in 'CE_DriveBar.pas',
   CE_BookmarkBar in 'CE_BookmarkBar.pas',
@@ -141,7 +140,10 @@ uses
   CV_ImageView in 'CV_ImageView.pas',
   CV_MediaPlayer in 'CV_MediaPlayer.pas',
   CV_MediaPlayerEngines in 'CV_MediaPlayerEngines.pas',
-  CV_Playlist in 'CV_Playlist.pas';
+  CV_Playlist in 'CV_Playlist.pas',
+  CE_SynExporters in 'CE_SynExporters.pas',
+  fCE_TextEditor in 'fCE_TextEditor.pas' {CETextEditor: TFrame},
+  fCE_TextEditorOptions in 'fCE_TextEditorOptions.pas' {CETextEditorOptionsForm: TTntForm};
 
 {$R *.res}
 {$R 'CE_Resources.res'}

@@ -419,7 +419,7 @@ implementation
 uses
   madExcept, Clipbrd, CE_Stacks, MPResources,
   fCE_OptionsDialog, fCE_StackPanel, CE_Consts, CE_CommonObjects,
-  CE_ElevatedActions, CE_FileUtils;
+  CE_ElevatedActions, CE_FileUtils, fCE_TextEditorOptions;
 
 {$R *.dfm}
 
@@ -546,6 +546,9 @@ begin
   CEActions:= TCEActions.Create(self);
   CE_Images:= TCE_Images.Create(self);
   CEInput:= TCEInput.Create(self);
+
+  // Assign settings
+  GlobalAppSettings.AddItem('TextEditor', GlobalTextEditorSettings, true);
 
   // Create/Init layout controller
   Layouts:= TCELayoutController.Create(self);

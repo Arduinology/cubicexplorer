@@ -40,6 +40,7 @@ const
   IID_ICVMediaEngineVideo: TGUID   = '{0597AE0E-C7EA-4621-925D-8DC1979D3227}';
   IID_ICVMediaEngineAudio: TGUID   = '{74205AAD-17EB-4E7C-82C4-933412EBCC5B}';
   IID_ICVMediaEngineStill: TGUID   = '{F0A1381F-55F6-4509-8A93-8D87A807BE12}';
+  IID_ICVMediaEngineEditor: TGUID  = '{B81F8A3A-F77B-475B-BE7E-F44CEA14A9E2}';
 
 type
 {-------------------------------------------------------------------------------
@@ -56,6 +57,9 @@ type
 
   ICVMediaPlayer = interface(IInterface)
   ['{A5DE5CBA-62B5-4B07-81D6-4652FD29D40B}']
+    // CanClose
+    // - Returns true if currently loaded file can be closed
+    function CanClose: Boolean; stdcall;
     // Close
     // - Frees file from memory
     procedure Close; stdcall;
@@ -67,6 +71,10 @@ type
     // GetPosition
     // - Returns current position in milliseconds.
     function GetPosition: Int64; stdcall;
+    
+    // GetPlaybackEnabled
+    // - Return True if current engine wants playback support (play/pause toolbar, playlist... etc)
+    function GetPlaybackEnabled: Boolean; stdcall;
 
     // GetStatus
     function GetStatus: TCVMediaPlayerStatus; stdcall;
@@ -144,6 +152,10 @@ type
     // GetID
     // - Return unique TGuid
     function GetID: TGUID; stdcall;
+
+    // GetPlaybackEnabled
+    // - Return True if the engine wants playback support (play/pause toolbar, playlist... etc)
+    function GetPlaybackEnabled: Boolean; stdcall;
 
     // GetStatus
     function GetStatus: TCVMediaPlayerStatus; stdcall;
@@ -255,13 +267,26 @@ type
   end;
 
 {-------------------------------------------------------------------------------
+  ICVMediaEngineEditor
+  - Used when the engine can modifie the data.
+-------------------------------------------------------------------------------}
+  ICVMediaEngineEditor = interface(IInterface)
+  ['{B81F8A3A-F77B-475B-BE7E-F44CEA14A9E2}']
+    function CanClose: Boolean; stdcall;
+  end;
+
+{-------------------------------------------------------------------------------
   TCVCustomMediaEngine
 -------------------------------------------------------------------------------}
   TCVCustomMediaEngine = class(TInterfacedObject, ICVMediaEngine, ICCWindowCtrl)
   protected
+    fPlaybackEnabled: Boolean;
     fStatus: TCVMediaPlayerStatus;
     fStatusChangedEvent: TCVEngineNotifyEvent;
     procedure ChangeStatus(AStatus: TCVMediaPlayerStatus); virtual;
+    // GetPlaybackEnabled
+    // - Return True if the media player should show playback controls (play, pause, next file... etc.).
+    function GetPlaybackEnabled: Boolean; virtual; stdcall;
   public
     constructor Create; virtual;
     destructor Destroy; override;
@@ -286,6 +311,8 @@ type
     procedure SetParentWindow(AParentWindow: HWND); virtual; stdcall;
     procedure SetStatusChangedEvent(AHandler: TCVEngineNotifyEvent); virtual;
         stdcall;
+    property PlaybackEnabled: Boolean read GetPlaybackEnabled write
+        fPlaybackEnabled;
   end;
 
 
@@ -329,9 +356,15 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
+    // CanClose
+    // - Returns true if currently loaded file can be closed
+    function CanClose: Boolean; virtual; stdcall;
     procedure Close; virtual; stdcall;
     function GetDuration: Int64; virtual; stdcall;
     function GetPosition: Int64; virtual; stdcall;
+    // GetPlaybackEnabled
+    // - Return True if the media player should show playback controls (play, pause, next file... etc.).
+    function GetPlaybackEnabled: Boolean; virtual; stdcall;
     function GetStatus: TCVMediaPlayerStatus; virtual; stdcall;
     function GetStatusText: WideString; virtual; stdcall;
     // GetTitle
@@ -480,6 +513,19 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  CanClose
+-------------------------------------------------------------------------------}
+function TCVMediaPlayer.CanClose: Boolean;
+var
+  editor: ICVMediaEngineEditor;
+begin
+  if CheckEngine and supports(Engine, IID_ICVMediaEngineEditor, editor) then
+  Result:= editor.CanClose
+  else
+  Result:= true;
+end;
+
+{-------------------------------------------------------------------------------
   CreateParams
 -------------------------------------------------------------------------------}
 procedure TCVMediaPlayer.CreateParams(var Params: TCreateParams);
@@ -534,6 +580,17 @@ begin
   Result:= seeking.GetPosition
   else
   Result:= 0;
+end;
+
+{-------------------------------------------------------------------------------
+  Get PlaybackEnabled
+-------------------------------------------------------------------------------}
+function TCVMediaPlayer.GetPlaybackEnabled: Boolean;
+begin
+  if CheckEngine then
+  Result:= Engine.GetPlaybackEnabled
+  else
+  Result:= true;
 end;
 
 {-------------------------------------------------------------------------------
@@ -826,7 +883,7 @@ begin
     end
     else
     begin
-      Canvas.Brush.Color:= clBlack;
+      Canvas.Brush.Color:= clLime;
       Canvas.FillRect(ClientRect);
     end;
   end
@@ -933,6 +990,7 @@ begin
   inherited;
   // Initilize values
   fStatus:= mpsClosed;
+  fPlaybackEnabled:= true;
 end;
 
 {-------------------------------------------------------------------------------
@@ -968,6 +1026,14 @@ end;
 function TCVCustomMediaEngine.GetID: TGUID;
 begin
   // override from descendant
+end;
+
+{-------------------------------------------------------------------------------
+  GetPlaybackEnabled
+-------------------------------------------------------------------------------}
+function TCVCustomMediaEngine.GetPlaybackEnabled: Boolean;
+begin
+  Result:= fPlaybackEnabled;
 end;
 
 {-------------------------------------------------------------------------------

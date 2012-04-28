@@ -1,3 +1,9 @@
+28.4.2012
++ Rewrote text editor.
+
+27.4.2012
+- Fixed startup crash when CubicExplorer.exe is located in Unicode path.
+
 24.4.2012
 + Added FontSize to Options->Advanced->Tabs.
 

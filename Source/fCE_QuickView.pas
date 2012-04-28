@@ -121,6 +121,7 @@ type
     procedure PlayNextFile; virtual;
     procedure PopulateControlsToolbar(AToolbar: TCEToolbar); virtual;
     procedure PopulateSeekToolbar(AToolbar: TCEToolbar); virtual;
+    function CanClose: Boolean; virtual;
     property Active: Boolean read fActive write SetActive;
     property ActiveFilePath: WideString read fActiveFilePath write
         SetActiveFilePath;
@@ -685,7 +686,12 @@ begin
     begin
       status:= fMediaPlayer.GetStatus;
       if (status = mpsClosed) or (status = mpsDone) or (status = mpsError) or (status = mpsStopped)  then
-      Close;
+      begin
+        if CanClose then
+        Close
+        else
+        Exit;
+      end;
     end;
     // open file
     if not assigned(fMediaPlayer) then
@@ -732,22 +738,25 @@ procedure TCEQuickView.OpenFileInMediaPlayer(AFilePath: WideString);
 var
   Ext: WideString;
 begin
-  CurrentFilePath:= AFilePath;
-  
   if AFilePath = '' then
   Exit;
 
   // create media player
   CreateEmbededMediaPlayer;
-  // create media engine
-  Ext:= WideLowerCase(WideExtractFileExt(AFilePath));
-  fMediaPlayer.Engine:= GlobalQuickViewSettings.CreateMediaEngine(Ext);
-  // open file
-  fMediaPlayer.OpenFile(AFilePath);
-  // clear preview (no need to keep it in memory since it's hidden)
-  Preview.Clear;
-  
-  UpdateControlStates(Self);
+
+  if fMediaPlayer.CanClose then
+  begin
+    // create media engine
+    Ext:= WideLowerCase(WideExtractFileExt(AFilePath));
+    fMediaPlayer.Engine:= GlobalQuickViewSettings.CreateMediaEngine(Ext);
+    // open file
+    if fMediaPlayer.OpenFile(AFilePath) then
+    CurrentFilePath:= AFilePath;
+    // clear preview (no need to keep it in memory since it's hidden)
+    Preview.Clear;
+
+    UpdateControlStates(Self);
+  end;
 end;
 
 {-------------------------------------------------------------------------------
@@ -986,8 +995,10 @@ begin
     fActive:= Value;
     if fActive then
     OpenFile(fActiveFilePath)
+    else if CanClose then
+    Close
     else
-    Close;
+    fActive:= true;
   end;
 end;
 
@@ -1059,7 +1070,7 @@ var
   loaded: Boolean;
 begin
   // loaded, show toolbar(s)
-  if assigned(fMediaPlayer) then
+  if assigned(fMediaPlayer) and fMediaPlayer.GetPlaybackEnabled then
   begin
     status:= fMediaPlayer.GetStatus;
 
@@ -1296,6 +1307,17 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Can Close (returns false if close has been aborted)
+-------------------------------------------------------------------------------}
+function TCEQuickView.CanClose: Boolean;
+begin
+  if assigned(fMediaPlayer) then
+  Result:= fMediaPlayer.CanClose
+  else
+  Result:= true;
+end;
+
+{-------------------------------------------------------------------------------
   Write Global Settings
 -------------------------------------------------------------------------------}
 procedure TCEQuickView.WriteGlobalSettings;
@@ -1422,7 +1444,7 @@ begin
   inherited;
   // TODO: make the extension settings dynamic for plugin support.
   fImageExtensions:= 'bmp,ico,wmf,emf,jfif,jpg,jpe,jpeg,rle,dib,win,vst,vda,tga,icb,tiff,tif,fax,eps,pcx,pcc,scr,rpf,rla,sgi,rgba,rgb,bw,psd,pdd,ppm,pgm,pbm,cel,pic,pcd,cut,psp,png,gif';
-  fTextExtensions:= 'txt,ini,bat,html,htm,pas,css,xml,log,for,php,py,csv';
+  fTextExtensions:= 'txt,cpp,h,hpp,pas,pp,dpr,dpk,inc,sql,bas,java,cs,css,htm,html,asm,dfm,xfm,ini,iss,rc,for,cbl,cob,js,php,php3,phtml,inc,vbs,xml,xsd,xsl,xslt,dtd,bat,cmd,pl,pm,cgi,py,tcl,rb,rbw,sh';
   fMediaExtensions:= 'avi,wmv,mp4,mpg,mpeg,ogg,ogm,mkv,dvr-ms,mp3,vob,wav,flv';
   fWMPExtensions:= fMediaExtensions;
   fDirectShowExtensions:= fMediaExtensions;
@@ -1465,7 +1487,7 @@ begin
     // text
     list.DelimitedText:= fTextExtensions;
     if list.IndexOf(AExtension) > -1 then
-    Result:= TCVMemoEngine.Create;
+    Result:= TCVTextEngine.Create;
     // media
     if fMediaPlayer <> mptAuto then
     begin

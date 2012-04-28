@@ -113,7 +113,7 @@ end;
 procedure TCEQuickViewPanel.DoFormHide;
 begin
   inherited;
- QuickView.Active:= false;
+  QuickView.Active:= false;
 end;
 
 {*------------------------------------------------------------------------------

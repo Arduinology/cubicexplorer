@@ -41,6 +41,7 @@ type
     { Private declarations }
   protected
     function GetSettingsClass: TCECustomTabPageSettingsClass; override;
+    procedure HandleCurrentFileChange(Sender: TObject); virtual;
     procedure HandleDetach(Sender: TObject); virtual;
   public
     QuickView: TCEQuickView;
@@ -85,6 +86,7 @@ begin
   QuickView.Active:= true;
   QuickView.ShowPreview:= false;
   QuickView.OnDetach:= HandleDetach;
+  QuickView.OnCurrentFileChange:= HandleCurrentFileChange;
   Layout:= 'QuickView';
 end;
 
@@ -103,6 +105,15 @@ end;
 function TCEQuickViewPage.GetSettingsClass: TCECustomTabPageSettingsClass;
 begin
   Result:= TCEQuickViewPageSettings;
+end;
+
+{-------------------------------------------------------------------------------
+  HandleCurrentFileChange
+-------------------------------------------------------------------------------}
+procedure TCEQuickViewPage.HandleCurrentFileChange(Sender: TObject);
+begin
+  ActiveFile:= QuickView.CurrentFilePath;
+  UpdateCaption;
 end;
 
 {-------------------------------------------------------------------------------
@@ -172,8 +183,9 @@ end;
 -------------------------------------------------------------------------------}
 function TCEQuickViewPage.TabClosing: Boolean;
 begin
-  Result:= true;
-  if GlobalPathCtrl.ActivePage = Self then
+  Result:= QuickView.CanClose;
+  
+  if Result and (GlobalPathCtrl.ActivePage = Self) then
   GlobalPathCtrl.ActivePage:= nil;
 end;
 

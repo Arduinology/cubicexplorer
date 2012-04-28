@@ -29,6 +29,8 @@ uses
   ccTypes, ccFileUtils, ccClasses,
   // CubicViewer
   CV_MediaPlayer,
+  // CubicExplorer
+  fCE_TextEditor,
   // DirectShow
   DirectShow9,
   // WMP
@@ -44,7 +46,7 @@ const
   ID_CVDSEngine: TGUID          = '{31617FF4-C7B6-4FBD-A3AF-961FCE4954B3}';
   ID_CVWmpEngine: TGUID         = '{B41DD245-09F2-4DA8-AB8D-47751BA82D03}';
   ID_CVImageEngine: TGUID       = '{621F4159-A3C0-4A88-B257-43E296E8BFA6}';
-  ID_CVMemoEngine: TGUID        = '{4C7CB4CE-0761-4A87-8C16-FEDFFF24CBC2}';
+  ID_CVTextEngine: TGUID        = '{4C7CB4CE-0761-4A87-8C16-FEDFFF24CBC2}';
 
 type
 
@@ -246,20 +248,25 @@ type
     procedure Stop; virtual; stdcall;
   end;
 
-  TCVMemoEngine = class(TCVCustomMediaEngine, ICVMediaEngineControl,
-    ICVMediaEngineStill)
+  TCVTextEngine = class(TCVCustomMediaEngine, ICVMediaEngineControl,
+      ICVMediaEngineStill, ICVMediaEngineEditor)
   protected
     fBoundsRect: TRect;
-    fMemo: TMemo;
+    fEditor: TCETextEditor;
     fParentWindow: HWND;
     fPlayInterval: Cardinal;
     fPlayTimer: TTimer;
     fPlayTimerTick: Cardinal;
+    // GetPlaybackEnabled
+    // - Return True if the media player should show playback controls (play, pause, next file... etc.).
+    function GetPlaybackEnabled: Boolean; override; stdcall;
+    procedure HandleEnablePlaybackChanged(Sender: TObject); virtual;
     procedure HandlePlayTimer(Sender: TObject); virtual;
-    procedure InternalCreateImageView; virtual;
+    procedure InternalCreateEditor; virtual;
   public
     constructor Create; override;
     destructor Destroy; override;
+    function CanClose: Boolean; virtual; stdcall;
     procedure Close; override; stdcall;
     // GetID
     // - Return unique TGuid
@@ -298,7 +305,8 @@ const
 implementation
 
 uses
-  Graphics, GR32_Resamplers, GR32_LowLevel, CE_LanguageEngine;
+  Graphics, GR32_Resamplers, GR32_LowLevel, CE_LanguageEngine, Forms,
+  fCE_TextEditorOptions;
 
 {##############################################################################}
 // TCVDSEngine
@@ -1336,17 +1344,19 @@ begin
 end;
 
 {##############################################################################}
-// TCVMemoEngine
+// TCVTextEngine
 
 {-------------------------------------------------------------------------------
   Create
 -------------------------------------------------------------------------------}
-constructor TCVMemoEngine.Create;
+constructor TCVTextEngine.Create;
 begin
   inherited;
+  // initilize values
   fBoundsRect:= Rect(0,0,0,0);
   fParentWindow:= 0;
-  fPlayInterval:= 3000;  
+  fPlayInterval:= 3000;
+  PlaybackEnabled:= false;
   // create PlayTimer
   fPlayTimer:= TTimer.Create(nil);
   fPlayTimer.Enabled:= false;
@@ -1358,39 +1368,63 @@ end;
 {-------------------------------------------------------------------------------
   Destroy
 -------------------------------------------------------------------------------}
-destructor TCVMemoEngine.Destroy;
+destructor TCVTextEngine.Destroy;
 begin
   fPlayTimer.Enabled:= false;
   FreeAndNil(fPlayTimer);
   
-  if assigned(fMemo) then
-  FreeAndNil(fMemo);
+  if assigned(fEditor) then
+  FreeAndNil(fEditor);
   inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  CanClose
+-------------------------------------------------------------------------------}
+function TCVTextEngine.CanClose: Boolean;
+begin
+  Result:= fEditor.CanClose;
 end;
 
 {-------------------------------------------------------------------------------
   Close
 -------------------------------------------------------------------------------}
-procedure TCVMemoEngine.Close;
+procedure TCVTextEngine.Close;
 begin
   fPlayTimer.Enabled:= false;
-  if assigned(fMemo) then
-  FreeAndNil(fMemo);
+  if assigned(fEditor) then
+  FreeAndNil(fEditor);
   ChangeStatus(mpsClosed);
 end;
 
 {-------------------------------------------------------------------------------
   GetID
 -------------------------------------------------------------------------------}
-function TCVMemoEngine.GetID: TGUID;
+function TCVTextEngine.GetID: TGUID;
 begin
-  Result:= ID_CVMemoEngine;
+  Result:= ID_CVTextEngine;
+end;
+
+{-------------------------------------------------------------------------------
+  GetPlaybackEnabled
+-------------------------------------------------------------------------------}
+function TCVTextEngine.GetPlaybackEnabled: Boolean;
+begin
+  Result:= GlobalTextEditorSettings.EnablePlayback;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle EnablePlaybackChanged
+-------------------------------------------------------------------------------}
+procedure TCVTextEngine.HandleEnablePlaybackChanged(Sender: TObject);
+begin
+  ChangeStatus(fStatus);
 end;
 
 {-------------------------------------------------------------------------------
   Handle PlayTimer
 -------------------------------------------------------------------------------}
-procedure TCVMemoEngine.HandlePlayTimer(Sender: TObject);
+procedure TCVTextEngine.HandlePlayTimer(Sender: TObject);
 begin
   // reset PlayTimer.Interval (pause will change it, here we change it back)
   fPlayTimer.Interval:= fPlayInterval;
@@ -1401,7 +1435,7 @@ end;
 {-------------------------------------------------------------------------------
   Has Control
 -------------------------------------------------------------------------------}
-function TCVMemoEngine.HasControl: Boolean;
+function TCVTextEngine.HasControl: Boolean;
 begin
   Result:= true;
 end;
@@ -1409,15 +1443,18 @@ end;
 {-------------------------------------------------------------------------------
   Internal Create ImageView
 -------------------------------------------------------------------------------}
-procedure TCVMemoEngine.InternalCreateImageView;
+procedure TCVTextEngine.InternalCreateEditor;
 begin
-  if not assigned(fMemo) then
+  if not assigned(fEditor) then
   begin
-    fMemo:= TMemo.Create(nil);
+    fEditor:= TCETextEditor.Create(nil);
+    fEditor.OnEnablePlaybackChanged:= HandleEnablePlaybackChanged;
+    fEditor.BorderStyle:= bsNone;
     if fParentWindow <> 0 then
     begin
-      fMemo.ParentWindow:= fParentWindow;
-      fMemo.BoundsRect:= fBoundsRect;
+      fEditor.ParentWindow:= fParentWindow;
+      fEditor.BoundsRect:= fBoundsRect;
+      fEditor.Visible:= true;
     end;
   end;
 end;
@@ -1425,7 +1462,7 @@ end;
 {-------------------------------------------------------------------------------
   Is Still
 -------------------------------------------------------------------------------}
-function TCVMemoEngine.IsStill: Boolean;
+function TCVTextEngine.IsStill: Boolean;
 begin
   Result:= true;
 end;
@@ -1433,20 +1470,20 @@ end;
 {-------------------------------------------------------------------------------
   OpenFile
 -------------------------------------------------------------------------------}
-function TCVMemoEngine.OpenFile(AFilePath: WideString): Boolean;
+function TCVTextEngine.OpenFile(AFilePath: WideString): Boolean;
 begin
   Result:= true;
-  InternalCreateImageView;
+  InternalCreateEditor;
 
   ChangeStatus(mpsOpening);
-  fMemo.Lines.LoadFromFile(AFilePath);
+  fEditor.OpenFile(AFilePath);
   ChangeStatus(mpsStopped);
 end;
 
 {-------------------------------------------------------------------------------
   Pause
 -------------------------------------------------------------------------------}
-procedure TCVMemoEngine.Pause;
+procedure TCVTextEngine.Pause;
 var
   t: Integer;
 begin
@@ -1466,7 +1503,7 @@ end;
 {-------------------------------------------------------------------------------
   Play
 -------------------------------------------------------------------------------}
-procedure TCVMemoEngine.Play;
+procedure TCVTextEngine.Play;
 begin
   // start PlayTimer
   if fPlayInterval > 0 then
@@ -1480,41 +1517,41 @@ end;
 {-------------------------------------------------------------------------------
   Set Bounds
 -------------------------------------------------------------------------------}
-procedure TCVMemoEngine.SetBounds(ARect: TRect);
+procedure TCVTextEngine.SetBounds(ARect: TRect);
 begin
   fBoundsRect:= ARect;
-  if assigned(fMemo) then
-  fMemo.BoundsRect:= fBoundsRect;
+  if assigned(fEditor) then
+  fEditor.BoundsRect:= fBoundsRect;
 end;
 
 {-------------------------------------------------------------------------------
   SetFocus
 -------------------------------------------------------------------------------}
-procedure TCVMemoEngine.SetFocus;
+procedure TCVTextEngine.SetFocus;
 begin
-  if assigned(fMemo) then
+  if assigned(fEditor) then
   begin
-    Windows.SetFocus(fMemo.Handle);
+    Windows.SetFocus(fEditor.Handle);
   end;
 end;
 
 {-------------------------------------------------------------------------------
   Set Parent Window
 -------------------------------------------------------------------------------}
-procedure TCVMemoEngine.SetParentWindow(AParentWindow: HWND);
+procedure TCVTextEngine.SetParentWindow(AParentWindow: HWND);
 begin
   fParentWindow:= AParentWindow;
-  if assigned(fMemo) and (fParentWindow <> 0) then
+  if assigned(fEditor) and (fParentWindow <> 0) then
   begin
-    fMemo.ParentWindow:= fParentWindow;
-    fMemo.BoundsRect:= fBoundsRect;
+    fEditor.ParentWindow:= fParentWindow;
+    fEditor.BoundsRect:= fBoundsRect;
   end;
 end;
 
 {-------------------------------------------------------------------------------
   SetSlideshowInterval
 -------------------------------------------------------------------------------}
-procedure TCVMemoEngine.SetSlideshowInterval(AInterval: Integer);
+procedure TCVTextEngine.SetSlideshowInterval(AInterval: Integer);
 begin
   fPlayInterval:= AInterval;
   fPlayTimer.Interval:= fPlayInterval;
@@ -1523,7 +1560,7 @@ end;
 {-------------------------------------------------------------------------------
   Stop
 -------------------------------------------------------------------------------}
-procedure TCVMemoEngine.Stop;
+procedure TCVTextEngine.Stop;
 begin
   if (fStatus = mpsPlaying) or (fStatus = mpsPaused) then
   begin

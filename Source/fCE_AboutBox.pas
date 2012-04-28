@@ -31,10 +31,12 @@ uses
   // Syn Edit
   SynEditHighlighter, SynHighlighterURI, SynURIOpener, SynEdit, SynMemo,
   // Tnt
-  TntForms,
+  TntForms, TntStdCtrls, TntSystem,
+  // SpTBX
+  SpTBXItem, SpTBXControls, 
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, TntStdCtrls, jpeg, SpTBXItem, SpTBXControls;
+  Dialogs, StdCtrls, ExtCtrls, jpeg;
 
 type
   TCEAboutBox = class(TTntForm)
@@ -60,7 +62,7 @@ procedure ShowAboutBox;
 implementation
 
 uses
-  JclFileUtils, Main;
+  CE_Utils, Main;
   
 {$R *.dfm}
 
@@ -98,13 +100,16 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEAboutBox.FormCreate(Sender: TObject);
 var
-  ver: TJclFileVersionInfo;
+  ver: TCEFileVersionInfo;
 begin
   SetVistaFont(Font);
-  ver:= TJclFileVersionInfo.Create(Application.ExeName);
-  BuildLabel.Caption:= _('Version:') + ' ' + ver.FileVersion;
-  VersionLabel.Caption:= ver.ProductVersion;
-  ver.Free;
+  ver:= TCEFileVersionInfo.Create(WideParamStr(0));
+  try
+    BuildLabel.Caption:= _('Version:') + ' ' + ver.FileVersion;
+    VersionLabel.Caption:= ver.ProductVersion;
+  finally
+    ver.Free;
+  end;
   CEGlobalTranslator.TranslateComponent(Self);
 end;
 

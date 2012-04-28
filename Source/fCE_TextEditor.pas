@@ -1,260 +1,289 @@
-//******************************************************************************
-//  CubicExplorer                                                                             
-//  Version: 0.90                                                                             
-//                                                                                            
-//  The contents of this file are subject to the Mozilla Public License                       
-//  Version 1.1 (the "License"); you may not use this file except in                          
-//  compliance with the License. You may obtain a copy of the License at                      
-//  http://www.mozilla.org/MPL/                                                               
-//                                                                                            
-//  Software distributed under the License is distributed on an "AS IS"
-//  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-//  License for the specific language governing rights and limitations                        
-//  under the License.                                                                        
-//                                                                                            
-//  The Original Code is fCE_TextEditor.pas.                                                            
-//                                                                                            
-//  The Initial Developer of the Original Code is Marko Savolainen (cubicreality@gmail.com).  
-//  Portions created by Marko Savolainen Copyright (C) Marko Savolainen. All Rights Reserved. 
-//                                                                                            
-//******************************************************************************
-
 unit fCE_TextEditor;
 
 interface
 
 uses
-  // CE Units
-  CE_GlobalCtrl, fCE_TabPage, CE_Utils, CE_VistaFuncs, CE_LanguageEngine,
-  CE_AppSettings,
-  // Toolbar2000
-  TB2Dock, TB2Toolbar, TB2Item,
-  // SpTBXLib
-  SpTBXControls, SpTBXDkPanels, SpTBXItem, SpTBXSkins,
-  // Syn Edit
-  SynEdit, SynEditOptionsDialog, SynURIOpener, SynEditRegexSearch,
-  SynEditMiscClasses, SynEditSearch, SynEditTypes,
-  // Syn Highlighters
-  SynHighlighterURI, SynHighlighterDfm, SynHighlighterPerl, SynHighlighterJava,
-  SynHighlighterPas, SynHighlighterIni, SynHighlighterBat, SynHighlighterXML,
-  SynHighlighterJScript, SynHighlighterPHP, SynHighlighterHtml,
-  SynHighlighterCSS, SynEditHighlighter, SynHighlighterCpp,
-  // VSTools
-  MPCommonObjects, MPCommonUtilities,
-  // TNT Controls
-  TntActnList, TntStdCtrls, TntSysUtils, TntDialogs, TntClasses,
+  // CE
+  CE_ToolbarEditorItems, CE_Toolbar, CE_SynExporters, fCE_TextEditorOptions,
+  // SynEdit
+  SynEditRegexSearch, SynEditMiscClasses, SynEditSearch, SynEdit, SynMemo,
+  SynEditTypes, SynUnicode,
+  // SynEdit Highlighters
+  SynEditHighlighter, SynHighlighterPas,
+  SynHighlighterCobol, SynHighlighterFortran, SynHighlighterURI,
+  SynHighlighterRC, SynHighlighterInno, SynHighlighterIni, SynHighlighterDfm,
+  SynHighlighterAsm, SynHighlighterUNIXShellScript, SynHighlighterRuby,
+  SynHighlighterTclTk, SynHighlighterPython, SynHighlighterPerl,
+  SynHighlighterBat, SynHighlighterXML, SynHighlighterVBScript,
+  SynHighlighterPHP, SynHighlighterJScript, SynHighlighterHtml,
+  SynHighlighterCSS, SynHighlighterCS, SynHighlighterJava, SynHighlighterVB,
+  SynHighlighterSQL, SynHighlighterCpp, SynHighlighterMulti,
+  // SpTBX
+  SpTBXItem, TB2Toolbar, TB2Dock, TB2Item, SpTBXEditors, SpTBXSkins,
+  // Tnt
+  TntActnList, TntForms,
+  // Png
+  PngImageList,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  ExtCtrls, ActnList,  StdCtrls, fCE_FileView;
+  ImgList, ExtCtrls, ActnList, StrUtils, Menus;
 
 type
-  TCEActiveFileChangeEvent = procedure(Sender: TObject; FilePath: WideString) of object;
-
-  TCETextEditorPage = class(TCECustomTabPage)
+{-------------------------------------------------------------------------------
+  TCETextEditor
+-------------------------------------------------------------------------------}
+  TCETextEditor = class(TTntForm)
     TopDock: TSpTBXDock;
-    MainToolbar: TSpTBXToolbar;
+    toolbar_main: TCEToolbar;
+    StatusBar: TSpTBXStatusBar;
+    SynMemo: TSynMemo;
+    LeftDock: TSpTBXDock;
+    RightDock: TSpTBXDock;
     SpTBXSubmenuItem1: TSpTBXSubmenuItem;
-    SpTBXItem1: TSpTBXItem;
-    SpTBXItem2: TSpTBXItem;
+    SpTBXSubmenuItem2: TSpTBXSubmenuItem;
+    but_new: TSpTBXItem;
+    but_open: TSpTBXItem;
+    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    but_save: TSpTBXItem;
+    but_saveas: TSpTBXItem;
     SpTBXSeparatorItem2: TSpTBXSeparatorItem;
+    but_close: TSpTBXItem;
+    but_reload: TSpTBXItem;
+    label_status: TSpTBXLabelItem;
+    DockBottom: TSpTBXDock;
+    toolbar_find: TCEToolbar;
+    but_close_search: TSpTBXItem;
+    edit_search: TCEToolbarEditItem;
+    PngImageList1: TPngImageList;
+    but_search_next: TSpTBXItem;
+    but_search_prev: TSpTBXItem;
+    label_find: TSpTBXLabelItem;
+    but_search_options: TSpTBXSubmenuItem;
+    check_case_sensitive: TSpTBXItem;
+    check_whole_word: TSpTBXItem;
+    check_selected_text_only: TSpTBXItem;
+    check_regex: TSpTBXItem;
+    but_undo: TSpTBXItem;
+    but_redo: TSpTBXItem;
+    SpTBXSeparatorItem4: TSpTBXSeparatorItem;
+    but_copy: TSpTBXItem;
+    but_cut: TSpTBXItem;
+    but_paste: TSpTBXItem;
+    but_delete: TSpTBXItem;
+    SpTBXSeparatorItem5: TSpTBXSeparatorItem;
+    but_select_all: TSpTBXItem;
+    ActionList: TTntActionList;
+    act_new: TTntAction;
+    act_open: TTntAction;
+    act_reload: TTntAction;
+    act_save: TTntAction;
+    act_saveas: TTntAction;
+    act_close: TTntAction;
+    act_undo: TTntAction;
+    act_redo: TTntAction;
+    act_copy: TTntAction;
+    act_cut: TTntAction;
+    act_paste: TTntAction;
+    act_delete: TTntAction;
+    act_select_all: TTntAction;
+    act_find: TTntAction;
+    act_find_next: TTntAction;
+    act_find_previous: TTntAction;
+    act_replace: TTntAction;
+    SpTBXSubmenuItem3: TSpTBXSubmenuItem;
+    SpTBXItem2: TSpTBXItem;
     SpTBXItem3: TSpTBXItem;
     SpTBXItem4: TSpTBXItem;
-    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
     SpTBXItem5: TSpTBXItem;
-    SpTBXItem21: TSpTBXItem;
-    SpTBXSubmenuItem2: TSpTBXSubmenuItem;
-    SpTBXItem6: TSpTBXItem;
-    SpTBXItem7: TSpTBXItem;
-    SpTBXSeparatorItem3: TSpTBXSeparatorItem;
-    SpTBXItem8: TSpTBXItem;
-    SpTBXItem9: TSpTBXItem;
-    SpTBXItem10: TSpTBXItem;
-    SpTBXItem11: TSpTBXItem;
     SpTBXSeparatorItem6: TSpTBXSeparatorItem;
-    SpTBXItem12: TSpTBXItem;
-    SpTBXSeparatorItem4: TSpTBXSeparatorItem;
-    SpTBXItem13: TSpTBXItem;
-    SpTBXItem14: TSpTBXItem;
-    SpTBXItem15: TSpTBXItem;
-    SpTBXSubmenuItem3: TSpTBXSubmenuItem;
-    SpTBXItem17: TSpTBXItem;
-    SpTBXSeparatorItem5: TSpTBXSeparatorItem;
-    SpTBXItem19: TSpTBXItem;
-    SpTBXSubmenuItem4: TSpTBXSubmenuItem;
-    SpTBXItem20: TSpTBXItem;
-    SpTBXItem22: TSpTBXItem;
-    highlighterSubmenu: TSpTBXSubmenuItem;
-    SpTBXItem16: TSpTBXItem;
-    SpTBXItem18: TSpTBXItem;
-    SpTBXSeparatorItem8: TSpTBXSeparatorItem;
-    Editor: TSynEdit;
-    StatusBar: TSpTBXStatusBar;
+    toolbar_replace: TCEToolbar;
+    SpTBXItem1: TSpTBXItem;
+    label_replace: TSpTBXLabelItem;
+    edit_replace: TCEToolbarEditItem;
+    but_replace: TSpTBXItem;
+    but_replace_all: TSpTBXItem;
+    CEToolbarFixedSpacerItem1: TCEToolbarFixedSpacerItem;
+    label_position: TSpTBXLabelItem;
+    SpTBXSeparatorItem3: TSpTBXSeparatorItem;
+    label_stats: TSpTBXLabelItem;
     SpTBXSeparatorItem7: TSpTBXSeparatorItem;
-    label_input: TSpTBXLabelItem;
+    SpTBXSeparatorItem8: TSpTBXSeparatorItem;
+    but_insertmode: TSpTBXItem;
+    CEToolbarFixedSpacerItem2: TCEToolbarFixedSpacerItem;
+    CEToolbarFixedSpacerItem3: TCEToolbarFixedSpacerItem;
+    SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem;
     SpTBXSeparatorItem9: TSpTBXSeparatorItem;
-    label_modified: TSpTBXLabelItem;
     SpTBXSeparatorItem10: TSpTBXSeparatorItem;
-    label_path: TSpTBXLabelItem;
-    FindPanel: TSpTBXPanel;
-    SpTBXLabel1: TSpTBXLabel;
-    SearchMemo: TTntMemo;
-    SpTBXLabel2: TSpTBXLabel;
-    ReplaceMemo: TTntMemo;
-    SpTBXGroupBox1: TSpTBXGroupBox;
-    opt_check1: TSpTBXCheckBox;
-    opt_check2: TSpTBXCheckBox;
-    opt_check3: TSpTBXCheckBox;
-    opt_check4: TSpTBXCheckBox;
-    opt_check5: TSpTBXCheckBox;
-    SpTBXButton1: TSpTBXButton;
-    SpTBXButton2: TSpTBXButton;
-    SpTBXButton3: TSpTBXButton;
-    opt_radio: TSpTBXRadioGroup;
-    ActionList: TTntActionList;
-    text_file_new: TTntAction;
-    text_edit_undo: TTntAction;
-    text_file_open: TTntAction;
-    text_file_save: TTntAction;
-    text_file_saveas: TTntAction;
-    text_file_close: TTntAction;
-    text_edit_redo: TTntAction;
-    text_edit_copy: TTntAction;
-    text_edit_cut: TTntAction;
-    text_edit_paste: TTntAction;
-    text_edit_delete: TTntAction;
-    text_edit_selall: TTntAction;
-    text_edit_search: TTntAction;
-    text_edit_findnext: TTntAction;
-    text_edit_findprev: TTntAction;
-    text_format_wrap: TTntAction;
-    text_format_options: TTntAction;
-    text_view_toolbar: TTntAction;
-    text_file_reload: TTntAction;
-    text_view_statusbar: TTntAction;
-    SynEditSearch: TSynEditSearch;
-    SynEditRegexSearch: TSynEditRegexSearch;
+    label_modified: TSpTBXLabelItem;
+    sep_modified: TSpTBXSeparatorItem;
+    StatusTimer: TTimer;
+    NormalSearch: TSynEditSearch;
+    RegexSearch: TSynEditRegexSearch;
+    check_wrap_around: TSpTBXItem;
+    SpTBXSubmenuItem4: TSpTBXSubmenuItem;
+    act_wordwrap: TTntAction;
+    SpTBXItem6: TSpTBXItem;
+    SpTBXSeparatorItem11: TSpTBXSeparatorItem;
+    label_format: TSpTBXLabelItem;
+    sub_highlighter: TSpTBXSubmenuItem;
     SynCppSyn1: TSynCppSyn;
+    SynPasSyn1: TSynPasSyn;
+    SynSQLSyn1: TSynSQLSyn;
+    SynVBSyn1: TSynVBSyn;
+    SynJavaSyn1: TSynJavaSyn;
+    SynCSSyn1: TSynCSSyn;
     SynCssSyn1: TSynCssSyn;
     SynHTMLSyn1: TSynHTMLSyn;
-    SynPHPSyn1: TSynPHPSyn;
     SynJScriptSyn1: TSynJScriptSyn;
+    SynPHPSyn1: TSynPHPSyn;
+    SynVBScriptSyn1: TSynVBScriptSyn;
     SynXMLSyn1: TSynXMLSyn;
     SynBatSyn1: TSynBatSyn;
-    SynIniSyn1: TSynIniSyn;
-    SynPasSyn1: TSynPasSyn;
-    SynJavaSyn1: TSynJavaSyn;
     SynPerlSyn1: TSynPerlSyn;
+    SynPythonSyn1: TSynPythonSyn;
+    SynTclTkSyn1: TSynTclTkSyn;
+    SynRubySyn1: TSynRubySyn;
+    SynUNIXShellScriptSyn1: TSynUNIXShellScriptSyn;
+    SynAsmSyn1: TSynAsmSyn;
     SynDfmSyn1: TSynDfmSyn;
+    SynIniSyn1: TSynIniSyn;
+    SynInnoSyn1: TSynInnoSyn;
+    SynRCSyn1: TSynRCSyn;
     SynURISyn1: TSynURISyn;
-    SynURIOpener1: TSynURIOpener;
-    procedure EditorReplaceText(Sender: TObject; const ASearch, AReplace:
-        WideString; Line, Column: Integer; var Action: TSynReplaceAction);
-    procedure EditorStatusChange(Sender: TObject; Changes: TSynStatusChanges);
-    procedure SpTBXButton1Click(Sender: TObject);
-    procedure SpTBXButton3Click(Sender: TObject);
-    procedure text_edit_Execute(Sender: TObject);
-    procedure text_edit_Update(Sender: TObject);
-    procedure text_file_Execute(Sender: TObject);
-    procedure text_file_Update(Sender: TObject);
-    procedure text_format_Execute(Sender: TObject);
-    procedure text_format_Update(Sender: TObject);
-    procedure text_view_Execute(Sender: TObject);
-    procedure text_view_Update(Sender: TObject);
-    procedure SpTBXButton2Click(Sender: TObject);
+    SynFortranSyn1: TSynFortranSyn;
+    SynCobolSyn1: TSynCobolSyn;
+    SynMultiHighlighter: TSynMultiSyn;
+    SpTBXSeparatorItem12: TSpTBXSeparatorItem;
+    SpTBXItem7: TSpTBXItem;
+    act_export_html: TTntAction;
+    act_copy_as_html: TTntAction;
+    SpTBXSeparatorItem13: TSpTBXSeparatorItem;
+    SpTBXItem8: TSpTBXItem;
+    act_options: TTntAction;
+    SpTBXSeparatorItem14: TSpTBXSeparatorItem;
+    SpTBXItem9: TSpTBXItem;
+    act_special_chars: TTntAction;
+    SpTBXItem10: TSpTBXItem;
+    EditorPopupMenu: TSpTBXPopupMenu;
+    SpTBXItem11: TSpTBXItem;
+    SpTBXItem12: TSpTBXItem;
+    SpTBXItem13: TSpTBXItem;
+    SpTBXSeparatorItem15: TSpTBXSeparatorItem;
+    SpTBXItem14: TSpTBXItem;
+    SpTBXItem15: TSpTBXItem;
+    SpTBXSeparatorItem16: TSpTBXSeparatorItem;
+    act_bookmark_1: TTntAction;
+    act_bookmark_2: TTntAction;
+    act_bookmark_3: TTntAction;
+    act_bookmark_4: TTntAction;
+    act_bookmark_5: TTntAction;
+    act_bookmark_6: TTntAction;
+    act_bookmark_7: TTntAction;
+    act_bookmark_8: TTntAction;
+    act_bookmark_9: TTntAction;
+    SpTBXSubmenuItem5: TSpTBXSubmenuItem;
+    SpTBXItem16: TSpTBXItem;
+    SpTBXItem17: TSpTBXItem;
+    SpTBXItem18: TSpTBXItem;
+    SpTBXItem19: TSpTBXItem;
+    SpTBXItem20: TSpTBXItem;
+    SpTBXItem21: TSpTBXItem;
+    SpTBXItem22: TSpTBXItem;
+    SpTBXItem23: TSpTBXItem;
+    SpTBXItem24: TSpTBXItem;
+    toolbar_bookmarks: TSpTBXToolbar;
+    SpTBXSeparatorItem17: TSpTBXSeparatorItem;
+    SpTBXItem26: TSpTBXItem;
+    SpTBXItem27: TSpTBXItem;
+    SpTBXItem28: TSpTBXItem;
+    SpTBXItem29: TSpTBXItem;
+    SpTBXItem30: TSpTBXItem;
+    SpTBXItem31: TSpTBXItem;
+    SpTBXItem32: TSpTBXItem;
+    SpTBXItem33: TSpTBXItem;
+    SpTBXItem34: TSpTBXItem;
+    act_show_statusbar: TTntAction;
+    act_playback_enabled: TTntAction;
+    act_show_bookmark_toolbar: TTntAction;
+    SpTBXItem25: TSpTBXItem;
+    SpTBXItem35: TSpTBXItem;
+    SpTBXSeparatorItem18: TSpTBXSeparatorItem;
+    SpTBXItem36: TSpTBXItem;
+    SpTBXSubmenuItem6: TSpTBXSubmenuItem;
+    act_replace_selected: TTntAction;
+    act_replace_all: TTntAction;
+    procedure ActionExecute(Sender: TObject);
+    procedure ActionUpdate(Sender: TObject);
+    procedure edit_searchAcceptText(Sender: TObject; var NewText: WideString; var
+        Accept: Boolean);
+    procedure edit_searchChange(Sender: TObject; const AText: WideString);
+    procedure StatusTimerTimer(Sender: TObject);
+    procedure SynMemoChange(Sender: TObject);
+    procedure SynMemoStatusChange(Sender: TObject; Changes: TSynStatusChanges);
   private
-    fActiveFile: WideString;
-    fClosing: Boolean;
-    fOnActiveFileChange: TCEActiveFileChangeEvent;
-    fOnModifiedChange: TNotifyEvent;
-    procedure DoSearchReplaceText(AReplace: boolean; ABackwards: boolean);
-    procedure SetActiveFile(const Value: WideString);
     { Private declarations }
   protected
-    fReplaceAll: Boolean;
-    procedure ActiveFileChange;
-    procedure DoHighlighterClick(Sender: TObject);
-    function GetPageActionList: TActionList; override;
-    function GetSettingsClass: TCECustomTabPageSettingsClass; override;
-    procedure ModifiedChange;
+    fActiveFileName: WideString;
+    fActiveFilePath: WideString;
+    fActiveHighlighter: Integer;
+    fOnEnablePlaybackChanged: TNotifyEvent;
+    fPosStr: WideString;
+    fSettings: TCETextEditorSettings;
+    fStatsStr: WideString;
+    procedure DoHighlighterClick(Sender: TObject); virtual;
+    procedure DoHighlighterMenuPopup(Sender: TTBCustomItem; FromLink: Boolean);
+        virtual;
+    procedure SetActiveHighlighter(const Value: Integer);
+    procedure UpdateCaption; virtual;
   public
     Highlighters: TStringList;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    function CloseDocument: Boolean;
-    procedure LoadFromStream(AStream: TStream); override;
-    procedure NewDocument;
-    procedure OpenDocument(FilePath: WideString = '');
-    procedure PopuplateHighlighters;
-    procedure ReloadDocument;
-    function SaveDocument: Boolean;
-    function SaveDocumentAs: Boolean;
-    procedure SaveToStream(AStream: TStream); override;
-    procedure SelectPage; override;
-    procedure SetAutoHighlighter;
-    procedure ShowOptions;
-    function TabClosing: Boolean; override;
-    procedure UpdateCaption; override;
-    property ActiveFile: WideString read fActiveFile write SetActiveFile;
+    procedure ChangeStatus(AStatus: WideString); virtual;
+    procedure Close; virtual;
+    function Find(AText: WideString; ABackward: Boolean = false): Boolean; virtual;
+    function FindNext: Boolean; virtual;
+    function FindPrevious: Boolean; virtual;
+    function OpenFile(AFilePath: WideString): Boolean; virtual;
+    procedure PopuplateHighlighters(ASubMenu: TTBCustomItem); virtual;
+    procedure Reload; virtual;
+    function Save(ASaveAs: Boolean = false): Boolean; virtual;
+    function SaveFile(AFilePath: WideString): Boolean; virtual;
+    procedure ChangeAutoHighlighter; virtual;
+    procedure ExportToHTML(AToClipboard: Boolean; ASelectedOnly: Boolean;
+        AFilePath: WideString = ''; ATitle: WideString = ''); virtual;
+    procedure ReplaceAll(AFind, AReplace: WideString); virtual;
+    procedure ShowHideSearchReplace(AShowHideReplace: Boolean = false); virtual;
+    function CanClose: Boolean; virtual;
+    procedure UpdateStats; virtual;
+    property ActiveFileName: WideString read fActiveFileName;
+    property ActiveFilePath: WideString read fActiveFilePath;
+    property ActiveHighlighter: Integer read fActiveHighlighter write
+        SetActiveHighlighter;
     { Public declarations }
   published
-    property OnActiveFileChange: TCEActiveFileChangeEvent read fOnActiveFileChange
-        write fOnActiveFileChange;
-    property OnModifiedChange: TNotifyEvent read fOnModifiedChange write
-        fOnModifiedChange;
+    property Settings: TCETextEditorSettings read fSettings write fSettings;
+    property OnEnablePlaybackChanged: TNotifyEvent read fOnEnablePlaybackChanged
+        write fOnEnablePlaybackChanged;
   end;
 
-  TCETextEditorOptions = class(TPersistent)
-  private
-    fRememberPanelLayout: Boolean;
-    fRememberInnerToolbarLayout: Boolean;
-    fRememberOuterToolbarLayout: Boolean;
-    fWordWrap: Boolean;
-  public
-    EditorOptions: TSynEditorOptionsContainer;
-    constructor Create;
-    destructor Destroy; override;
-    procedure AssignSettingsTo(EditPage: TCETextEditorPage);
-  published
-    property RememberPanelLayout: Boolean read fRememberPanelLayout write
-        fRememberPanelLayout;
-    property RememberInnerToolbarLayout: Boolean read fRememberInnerToolbarLayout
-        write fRememberInnerToolbarLayout;
-    property RememberOuterToolbarLayout: Boolean read fRememberOuterToolbarLayout
-        write fRememberOuterToolbarLayout;
-    property WordWrap: Boolean read fWordWrap write fWordWrap;
-  end;
-
-
-  TCETextEditorPageSettings = class(TCECustomTabPageSettings)
-  private
-    function GetPath: WideString;
-    procedure SetPath(const Value: WideString);
-  protected
-    function GetRememberPanelLayout: Boolean; override;
-    function GetRememberInnerToolbarLayout: Boolean; override;
-    function GetRememberOuterToolbarLayout: Boolean; override;
-  public
-    TextEditorPage: TCETextEditorPage;
-  published
-    property Path: WideString read GetPath write SetPath;
-  end;
-
-
+{-------------------------------------------------------------------------------
+  Public Methods
+-------------------------------------------------------------------------------}
 function GetHighlighterFromFileExt(AHighlighters: TStringList;
   Extension: string): TSynCustomHighlighter;
-
-var
-  CETextEditorPage: TCETextEditorPage;
-  CETextEditorOptions: TCETextEditorOptions;
 
 implementation
 
 uses
-  dCE_Images, dCE_Actions;
-  
+  TntDialogs, ccFileUtils, CE_LanguageEngine, CE_VistaFuncs;
+
 {$R *.dfm}
 
-{*------------------------------------------------------------------------------
+{##############################################################################}
+// Public Methods
+
+{-------------------------------------------------------------------------------
   Get Highlighter From File Extension
 -------------------------------------------------------------------------------}
 function GetHighlighterFromFileExt(AHighlighters: TStringList;
@@ -265,111 +294,949 @@ var
   Highlighter: TSynCustomHighlighter;
   Filter: string;
 begin
-  Extension := LowerCase(Extension);
-  ExtLen := Length(Extension);
-  if Assigned(AHighlighters) and (ExtLen > 0) then begin
-    for i := 0 to AHighlighters.Count - 1 do begin
-      if not (AHighlighters.Objects[i] is TSynCustomHighlighter) then
-        continue;
-      Highlighter := TSynCustomHighlighter(AHighlighters.Objects[i]);
-      Filter := LowerCase(Highlighter.DefaultFilter);
-      j := Pos('|', Filter);
-      if j > 0 then begin
-        Delete(Filter, 1, j);
-        j := Pos(Extension, Filter);
-        if (j > 0) and
-           ((j + ExtLen > Length(Filter)) or (Filter[j + ExtLen] = ';'))
-        then begin
-          Result := Highlighter;
-          exit;
+  Extension:= LowerCase(Extension);
+  ExtLen:= Length(Extension);
+  if Assigned(AHighlighters) and (ExtLen > 0) then
+  begin
+    for i:= 0 to AHighlighters.Count - 1 do
+    begin
+      if (AHighlighters.Objects[i] is TSynCustomHighlighter) then
+      begin
+        Highlighter:= TSynCustomHighlighter(AHighlighters.Objects[i]);
+        Filter:= LowerCase(Highlighter.DefaultFilter);
+        j:= Pos('|', Filter);
+        if j > 0 then
+        begin
+          Delete(Filter, 1, j);
+          j:= Pos(Extension, Filter);
+          if (j > 0) and
+             ((j + ExtLen > Length(Filter)) or (Filter[j + ExtLen] = ';')) then
+          begin
+            Result:= Highlighter;
+            Exit;
+          end;
         end;
       end;
     end;
   end;
-  Result := nil;
+  Result:= nil;
 end;
 
 {##############################################################################}
+// TCETextEditor
 
-{=== File Action IDs ===}
-// 101 = New
-// 102 = Open
-// 103 = Save
-// 104 = Save As
-// 105 = Close
-// 106 = Reload
-{=== Edit Action IDs ===}
-// 201 = Undo
-// 202 = Redo
-// 203 = Copy
-// 204 = Cut
-// 205 = Paste
-// 206 = Delete
-// 207 = Select All
-// 208 = Search and Replace
-// 209 = Find Next
-// 210 = Find Previous
-{=== Format Action IDs ===}
-// 301 = Word Wrap
-// 302 = Editor Options
-{=== View Action IDs ===}
-// 401 = Show Toolbar
-// 402 = Show statusbar
-
-{*------------------------------------------------------------------------------
-  Get's called when TCETextEditorPage is created.
+{-------------------------------------------------------------------------------
+  Create an instance of TCETextEditor
 -------------------------------------------------------------------------------}
-constructor TCETextEditorPage.Create(AOwner: TComponent);
+constructor TCETextEditor.Create(AOwner: TComponent);
+var
+  IV, IV2: TTBItemViewer;
+  i: Integer;
+  Highlighter: TSynCustomHighlighter;                                            
 begin
-  inherited;
-  TCETextEditorPageSettings(Settings).TextEditorPage:= Self;
-  fClosing:= false;
-  Layout:= 'TextEditor';
+  inherited Create(AOwner);
+
+  // initialize values
+  check_wrap_around.Checked:= true;
+  toolbar_find.Visible:= false;
+  toolbar_replace.Visible:= false;
+  fActiveHighlighter:= -2;
+  fStatsStr:= _('Length: %d Lines: %d');
+  fPosStr:= _('Line: %d Char: %d Sel: %d'); 
+  // Assign Settings
+  fSettings:= GlobalTextEditorSettings;
+  GlobalTextEditorSettings.RegisterEditor(Self);
+  GlobalTextEditorSettings.AssignTo(Self);
+
+  // create Highlighters list
   Highlighters:= TStringList.Create;
-  Highlighters.Sorted:= true;
+  for i := Self.ComponentCount - 1 downto 0 do
+  begin
+    if (Self.Components[i] is TSynCustomHighlighter) then
+    begin
+      Highlighter:= Self.Components[i] as TSynCustomHighlighter;
+      // only one highlighter for each language
+      if (Highlighters.IndexOf(Highlighter.GetLanguageName) = -1) and
+         (Highlighter <> SynMultiHighlighter) then
+      Highlighters.AddObject(Highlighter.GetLanguageName, Highlighter);
+    end;
+  end;
+  Highlighters.Sort;
 
-  PopuplateHighlighters;
-  GlobalFocusCtrl.CtrlList.Add(Editor);
-  Editor.OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
-  self.Images:= CE_Images.SmallIcons;
-  self.ImageIndex:= 21;
-  CETextEditorOptions.AssignSettingsTo(self);
+  // add multi highlighter to top of the Highlighter list
+  Highlighters.InsertObject(0, _('HTML with CSS, JS or PHP'), SynMultiHighlighter);
 
-  CEGlobalTranslator.TranslateComponent(Self);
-  opt_radio.Items.Strings[0]:= _('Up');
-  opt_radio.Items.Strings[1]:= _('Down');
+  // populate highlighters menu
+  PopuplateHighlighters(sub_highlighter);
+
+  // update items
+  UpdateStats;
+  SynMemoStatusChange(Self, [scAll]);
+  UpdateCaption;
 end;
 
-{*------------------------------------------------------------------------------
-  Get's called when TCETextEditorPage is destoyed.
+{-------------------------------------------------------------------------------
+  Destroy TCETextEditor
 -------------------------------------------------------------------------------}
-destructor TCETextEditorPage.Destroy;
+destructor TCETextEditor.Destroy;
 begin
-  if CEActions.PageActionList = Self.ActionList then
-  CEActions.PageActionList:= nil;
-  if GlobalPathCtrl.ActivePage = Self then
-  GlobalPathCtrl.ActivePage:= nil;
-  CloseDocument;
+  GlobalTextEditorSettings.UnRegisterEditor(Self);
+  // Free instances
   Highlighters.Free;
-  inherited;
+  
+  inherited Destroy;
+end;
+
+{-------------------------------------------------------------------------------
+  On Action Execute
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.ActionExecute(Sender: TObject);
+var
+  openDlg: TTntOpenDialog;
+  saveDlg: TTntSaveDialog;
+  book: TBufferCoord;
+  bookIndex: Integer;
+begin
+  case TComponent(Sender).Tag of
+    // New
+    101: Close;
+    // Open
+    102: begin
+        openDlg:= TTntOpenDialog.Create(nil);
+        try
+          if openDlg.Execute then
+          OpenFile(openDlg.FileName);
+        finally
+          openDlg.Free;
+        end;
+      end;
+    // Reload
+    103: Reload;
+    // Save
+    104: Save;
+    // Save As
+    105: begin
+        Save(true);
+      end;
+    // Close
+    106: Close;
+    // Export as HTML
+    107: begin
+      saveDlg:= TTntSaveDialog.Create(nil);
+      try
+        saveDlg.DefaultExt:= 'html';
+        saveDlg.Filter:= 'HTML Documents (*.htm; *.html)|*.htm;*.html|All types (*.*)|*.*';
+        if saveDlg.Execute then
+        begin
+          ExportToHTML(false, false, saveDlg.FileName, WideExtractFileName(ActiveFilePath));
+        end;
+      finally
+        saveDlg.Free;
+      end;
+    end;
+    // Undo
+    201: SynMemo.Undo;
+    // Redo
+    202: SynMemo.Redo;
+    // Copy
+    203: SynMemo.CopyToClipboard;
+    // Cut
+    204: SynMemo.CutToClipboard;
+    // Paste
+    205: SynMemo.PasteFromClipboard;
+    // Delete
+    206: SynMemo.ClearSelection;
+    // Select All
+    207: SynMemo.SelectAll;
+    // Copy as HTML
+    208: begin
+      ExportToHTML(true, true);
+    end;
+    // Find
+    301: ShowHideSearchReplace;
+    // Find Next
+    302: FindNext;
+    // Find Previous
+    303: FindPrevious;
+    // Replace
+    304: ShowHideSearchReplace(true);
+    // Replace Selected
+    305: begin
+      if (edit_replace.Text <> '') and (SynMemo.SelLength > 0) then
+      SynMemo.SelText:= edit_replace.Text;
+    end;
+    306: ReplaceAll(edit_search.Text, edit_replace.Text);
+    // Word Wrap
+    401: SynMemo.WordWrap:= not SynMemo.WordWrap;
+    // Options
+    402: ShowTextEditorOptions(GlobalTextEditorSettings);
+    // Special Characters
+    403: begin
+      Settings.SetOptionFlag(eoShowSpecialChars, not Settings.GetOptionFlag(eoShowSpecialChars));
+      Settings.UpdateEditors;
+    end;
+    // Enable Playback
+    404: begin
+      Settings.EnablePlayback:= not Settings.EnablePlayback;
+      if assigned(fOnEnablePlaybackChanged) then
+      fOnEnablePlaybackChanged(Self);
+    end;
+    // Show Bookmarks
+    405: toolbar_bookmarks.Visible:= not toolbar_bookmarks.Visible;
+    // Show Statusbar
+    406: StatusBar.Visible:= not StatusBar.Visible;
+    // Bookmarks
+    501..510: begin
+      bookIndex:= TComponent(Sender).Tag - 500;
+      if SynMemo.GetBookMark(bookIndex, book.Char, book.Line) then
+      begin
+        if (SynMemo.CaretX = book.Char) and (SynMemo.CaretY = book.Line) then
+        SynMemo.ClearBookMark(bookIndex)
+        else
+        SynMemo.CaretXY:= book;
+      end
+      else
+      SynMemo.SetBookMark(bookIndex, SynMemo.CaretX, SynMemo.CaretY);
+    end;
+    // InsertMode
+    1001: SynMemo.InsertMode:= not SynMemo.InsertMode;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On Action Update
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.ActionUpdate(Sender: TObject);
+var
+  book: TBufferCoord;
+begin
+  if Sender is TTntAction then
+  begin
+    case TTntAction(Sender).Tag of
+      // New
+      101:;
+      // Open
+      102:;
+      // Reload
+      103: TTntAction(Sender).Enabled:= fActiveFilePath <> '';
+      // Save
+      104: TTntAction(Sender).Enabled:= SynMemo.Modified;
+      // Save As
+      105: TTntAction(Sender).Enabled:= true;
+      // Close
+      106:;
+      // Undo
+      201: TTntAction(Sender).Enabled:= SynMemo.CanUndo;
+      // Redo
+      202: TTntAction(Sender).Enabled:= SynMemo.CanRedo;
+      // Copy
+      203: TTntAction(Sender).Enabled:= SynMemo.SelLength > 0;
+      // Cut
+      204: TTntAction(Sender).Enabled:= SynMemo.SelLength > 0;
+      // Paste
+      205: TTntAction(Sender).Enabled:= SynMemo.CanPaste;
+      // Delete
+      206: TTntAction(Sender).Enabled:= SynMemo.SelLength > 0;
+      // Select All
+      207: TTntAction(Sender).Enabled:= true;
+      // Copy as HTML
+      208: TTntAction(Sender).Enabled:= SynMemo.SelAvail;
+      // Find
+      301: begin
+        TTntAction(Sender).Checked:= toolbar_find.Visible;
+      end;
+      // Find Next
+      302:;
+      // Find Previous
+      303:;
+      // Replace
+      304: begin
+        TTntAction(Sender).Checked:= toolbar_replace.Visible;
+      end;
+      // Replace Selected
+      305: TTntAction(Sender).Enabled:= (SynMemo.SelLength > 0) and (edit_replace.Text <> '');
+      // Replace All
+      306: TTntAction(Sender).Enabled:= (edit_search.Text <> '') and
+                                        (edit_replace.Text <> '') and
+                                        toolbar_find.Visible;
+      // Word Wrap
+      401: TTntAction(Sender).Checked:= SynMemo.WordWrap;
+      // Show Special Characters
+      403: TTntAction(Sender).Checked:= Settings.GetOptionFlag(eoShowSpecialChars);
+      // Enable Playback
+      404: TTntAction(Sender).Checked:= Settings.EnablePlayback;
+      // Show Bookmarks
+      405: TTntAction(Sender).Checked:= toolbar_bookmarks.Visible;
+      // Show Statusbar
+      406: TTntAction(Sender).Checked:= StatusBar.Visible;
+      // Bookmarks
+      501..510: begin
+        TTntAction(Sender).Checked:= SynMemo.GetBookMark(TComponent(Sender).Tag - 500, book.Char, book.Line);
+      end;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  ChangeStatus
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.ChangeStatus(AStatus: WideString);
+begin
+  StatusTimer.Enabled:= false;
+  label_status.Caption:= AStatus;
+  label_status.Enabled:= true;
+  StatusTimer.Enabled:= true;
+end;
+
+{-------------------------------------------------------------------------------
+  Close
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.Close;
+begin
+  fActiveFilePath:= '';
+  SynMemo.Clear;
+  UpdateStats;
+  StatusTimerTimer(self);
+  UpdateCaption;
+end;
+
+{-------------------------------------------------------------------------------
+  Do Highlighter Click
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.DoHighlighterClick(Sender: TObject);
+var
+  item: TSpTBXItem;
+begin
+  item:= TSpTBXItem(Sender);
+  ActiveHighlighter:= item.Tag;
+end;
+
+{-------------------------------------------------------------------------------
+  On edit_search.AcceptText
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.edit_searchAcceptText(Sender: TObject; var NewText:
+    WideString; var Accept: Boolean);
+begin
+  Accept:= true;
+  Find(NewText);
+end;
+
+{-------------------------------------------------------------------------------
+  Find
+-------------------------------------------------------------------------------}
+function TCETextEditor.Find(AText: WideString; ABackward: Boolean = false):
+    Boolean;
+var
+  opts: TSynSearchOptions;
+begin
+  Result:= false;
+  if AText = '' then
+  Exit;
+  
+  // search engine
+  if check_regex.Checked then
+  SynMemo.SearchEngine:= RegexSearch
+  else
+  SynMemo.SearchEngine:= NormalSearch;
+
+  // options
+  opts:= [];
+  if check_case_sensitive.Checked then
+  Include(opts, ssoMatchCase);
+  if check_whole_word.Checked then
+  Include(opts, ssoWholeWord);
+  if check_selected_text_only.Checked then
+  Include(opts, ssoSelectedOnly);
+  if ABackward then
+  Include(opts, ssoBackwards);
+  
+  Result:= SynMemo.SearchReplace(AText, '', opts) <> 0;
+  if not Result then
+  begin
+    // wrap around
+    if check_wrap_around.Checked then
+    begin
+      Include(opts, ssoEntireScope);
+      Result:= SynMemo.SearchReplace(AText, '', opts) <> 0;
+      if Result then
+      ChangeStatus(_('Wrapped around'));
+    end;
+
+    if not Result then
+    ChangeStatus(_('Not found'));
+  end
+  else
+  begin
+    ChangeStatus(_('Found'));
+  end;
+
+  if not ABackward and Result then // move caret in front of the selection
+  SynMemo.SetCaretAndSelection(SynMemo.BlockBegin, SynMemo.BlockBegin, SynMemo.BlockEnd);
+end;
+
+{-------------------------------------------------------------------------------
+  On Find Next
+-------------------------------------------------------------------------------}
+function TCETextEditor.FindNext: Boolean;
+begin
+  if (not check_selected_text_only.Checked and SynMemo.SelAvail) then
+  begin
+    // move caret at the end of selection if needed.
+    if (check_case_sensitive.Checked and (SynMemo.SelText = edit_search.Text)) or
+       (not check_case_sensitive.Checked and (WideCompareText(SynMemo.SelText, edit_search.Text) = 0)) then
+    begin
+      SynMemo.SetCaretAndSelection(SynMemo.BlockEnd, SynMemo.BlockBegin, SynMemo.BlockEnd);
+    end;
+  end;
+
+  Result:= Find(edit_search.Text);
+end;
+
+{-------------------------------------------------------------------------------
+  Find Previous
+-------------------------------------------------------------------------------}
+function TCETextEditor.FindPrevious: Boolean;
+begin
+  if (not check_selected_text_only.Checked and SynMemo.SelAvail) then
+  begin
+    // move caret at the beginning of selection if needed.
+    if (check_case_sensitive.Checked and (SynMemo.SelText = edit_search.Text)) or
+       (not check_case_sensitive.Checked and (WideCompareText(SynMemo.SelText, edit_search.Text) = 0)) then
+    begin
+      SynMemo.SetCaretAndSelection(SynMemo.BlockBegin, SynMemo.BlockBegin, SynMemo.BlockEnd);
+    end;
+  end;
+  
+  Result:= Find(edit_search.Text, true);
+end;
+
+{-------------------------------------------------------------------------------
+  OpenFile
+-------------------------------------------------------------------------------}
+function TCETextEditor.OpenFile(AFilePath: WideString): Boolean;
+var
+  ws, ws2: WideString;
+begin
+  Result:= false;
+  fActiveFilePath:= '';
+  if WideFileExists(AFilePath) then
+  begin
+    try
+      SynMemo.Modified:= false;
+      SynMemo.Lines.LoadFromFile(AFilePath);
+      fActiveFilePath:= AFilePath;
+      Result:= true;
+      StatusTimerTimer(self);
+    except
+      on E: Exception do
+      begin
+        ChangeStatus(_('Failed to open file!'));
+        ws:= _('Error');
+        ws2:= E.Message;
+        MessageBoxW(0, PWideChar(ws2), PWideChar(ws), MB_ICONERROR or MB_OK);
+      end;
+    end;
+
+    if fActiveHighlighter = -2 then
+    ChangeAutoHighlighter;
+    
+    UpdateStats;
+    SynMemoStatusChange(Self, [scAll]);
+  end;
+
+  UpdateCaption; 
+end;
+
+{-------------------------------------------------------------------------------
+  Popuplate Highlighters
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.PopuplateHighlighters(ASubMenu: TTBCustomItem);
+var
+  i: integer;
+  Highlighter: TSynCustomHighlighter;
+  item: TSpTBXItem;
+begin
+  // add highlighters to sub menu
+  if assigned(ASubMenu) then
+  begin
+    ASubMenu.OnPopup:= DoHighlighterMenuPopup;
+    ASubMenu.Clear;
+    // add None item
+    item:= TSpTBXItem.Create(ASubMenu);
+    item.Caption:= _('None');
+    item.Tag:= -1;
+    item.RadioItem:= true;
+    item.GroupIndex:= 1;
+    item.OnClick:= DoHighlighterClick;
+    ASubMenu.Add(item);
+    // add Automatic item
+    item:= TSpTBXItem.Create(ASubMenu);
+    item.Caption:= _('Automatic');
+    item.Tag:= -2;
+    item.RadioItem:= true;
+    item.GroupIndex:= 1;
+    item.OnClick:= DoHighlighterClick;
+    ASubMenu.Add(item);
+    // add Separator
+    ASubMenu.Add(TSpTBXSeparatorItem.Create(ASubMenu));
+    // add highlighters
+    for i:= 0 to Highlighters.Count - 1 do
+    begin
+      item:= TSpTBXItem.Create(ASubMenu);
+      item.Caption:= Highlighters.Strings[i];
+      item.Tag:= i;
+      item.RadioItem:= true;
+      item.GroupIndex:= 1;
+      item.OnClick:= DoHighlighterClick;
+      ASubMenu.Add(item);
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Reload
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.Reload;
+var
+  oldPos: TBufferCoord;
+  topLine: Integer;
+begin
+  if fActiveFilePath <> '' then
+  begin
+    oldPos:= SynMemo.CaretXY;
+    topLine:= SynMemo.TopLine;
+    if OpenFile(fActiveFilePath) then
+    begin
+      SynMemo.SetCaretAndSelection(oldPos, oldPos, oldPos);
+      SynMemo.TopLine:= topLine;
+      ChangeStatus(_('Reloaded from disk'));
+    end
+    else
+    ChangeStatus(_('Reload failed!'));
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Save
+-------------------------------------------------------------------------------}
+function TCETextEditor.Save(ASaveAs: Boolean = false): Boolean;
+var
+  saveDlg: TTntSaveDialog;
+begin
+  Result:= false;
+  // save
+  if not ASaveAs and WideFileExists(fActiveFilePath) then
+  begin
+    Result:= SaveFile(fActiveFilePath);
+  end
+  // save as
+  else
+  begin
+    saveDlg:= TTntSaveDialog.Create(nil);
+    try
+      if saveDlg.Execute then
+      Result:= SaveFile(saveDlg.FileName);
+    finally
+      saveDlg.Free;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  SaveFile
+-------------------------------------------------------------------------------}
+function TCETextEditor.SaveFile(AFilePath: WideString): Boolean;
+var
+  ws, ws2: WideString;
+begin
+  Result:= false;
+  try
+    SynMemo.Lines.SaveToFile(AFilePath);
+    SynMemo.Modified:= false;
+    fActiveFilePath:= AFilePath;
+    Result:= true;
+    ChangeStatus(WideFormat(_('Saved to "%s"'), [WideExtractFileName(AFilePath)]));
+  except
+    on E: Exception do
+    begin
+      ws:= _('Error');
+      ws2:= E.Message;
+      MessageBoxW(0, PWideChar(ws2), PWideChar(ws), MB_ICONERROR or MB_OK);
+      ChangeStatus(_('Failed to save file!'));
+    end;
+  end;
+  UpdateStats;
+  UpdateCaption;
 end;
 
 {*------------------------------------------------------------------------------
-  Close Document
+  Change AutoHighlighter
 -------------------------------------------------------------------------------}
-function TCETextEditorPage.CloseDocument: Boolean;
+procedure TCETextEditor.ChangeAutoHighlighter;
+var
+  ExtLen: integer;
+  i, j, i2, i3: integer;
+  Highlighter: TSynCustomHighlighter;
+  Filter: string;
+  Extension: String;
+  item: TSpTBXItem;
+begin
+  if ActiveFilePath = '' then
+  Exit;
+  
+  Extension:= ExtractFileExt(ActiveFilePath);
+  Extension:= LowerCase(Extension);
+  ExtLen:= Length(Extension);
+  
+  if (ExtLen > 0) then
+  begin
+    i3:= -1;
+    for i:= 0 to Highlighters.Count - 1 do
+    begin
+      if (Highlighters.Objects[i] is TSynCustomHighlighter) then
+      begin
+        Highlighter:= TSynCustomHighlighter(Highlighters.Objects[i]);
+        Filter:= LowerCase(Highlighter.DefaultFilter);
+        j:= Pos('|', Filter);
+        if j > 0 then
+        begin
+          Delete(Filter, 1, j);
+          j:= Pos(Extension, Filter);
+          if (j > 0) and ((j + ExtLen > Length(Filter)) or (Filter[j + ExtLen] = ';')) then
+          begin
+            // assign highglighter
+            SynMemo.Highlighter:= Highlighter;
+            Exit;
+          end
+          else if Pos('*.*', Filter) > 0 then
+          i3:= i;
+        end;
+      end;
+    end;
+
+    // assign highglighter that supports all files
+    if i3 > -1 then
+    begin
+      Highlighter:= TSynCustomHighlighter(Highlighters.Objects[i3]);
+      SynMemo.Highlighter:= Highlighter;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  DoHighlighterMenuPopup
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.DoHighlighterMenuPopup(Sender: TTBCustomItem; FromLink:
+    Boolean);
+var
+  i, i2: Integer;
+  item: TSpTBXItem;
+begin
+  // change active highlighter's font style to Bold
+  i2:= Highlighters.IndexOfObject(SynMemo.Highlighter);
+  for i:= 0 to Sender.Count - 1 do
+  begin
+    if Sender.Items[i] is TSpTBXItem then
+    begin
+      item:= TSpTBXItem(Sender.Items[i]);
+      item.Checked:= item.Tag = fActiveHighlighter;
+      
+      if (i2 = item.Tag) then
+      item.FontSettings.Style:= [fsBold]
+      else
+      item.FontSettings.Style:= [];
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On edit.Change
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.edit_searchChange(Sender: TObject; const AText:
+    WideString);
+begin
+  if Sender = edit_replace then
+  begin
+    act_replace_selected.Enabled:= (SynMemo.SelLength > 0) and (AText <> '');
+    act_replace_all.Enabled:= (edit_search.Text <> '') and (AText <> '') and toolbar_find.Visible;
+  end
+  else
+  begin
+    act_replace_selected.Enabled:= (SynMemo.SelLength > 0) and (edit_replace.Text <> '');
+    act_replace_all.Enabled:= (AText <> '') and (edit_replace.Text <> '') and toolbar_find.Visible;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  ExportToHTML
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.ExportToHTML(AToClipboard: Boolean; ASelectedOnly:
+    Boolean; AFilePath: WideString = ''; ATitle: WideString = '');
+var
+  exporter: TCESynExporterHTML;
+  lines: TUnicodeStrings;
+  spaces: String;
+  i: Integer;
+begin
+  Assert(Assigned(fSettings), 'TCETextEditor: Settings needs to be assigned');
+  
+  exporter:= TCESynExporterHTML.Create(Self);
+  try
+    exporter.Highlighter:= SynMemo.Highlighter;
+    exporter.Encoding:= seUTF8;
+    exporter.ExportAsText:= true;
+    exporter.UseBackground:= eoUseBackground in Settings.ExportOptions;
+    exporter.Color:= Settings.ExportBackgroundColor;
+    exporter.WrapperDivClass:= Settings.ExportWrapperClass;
+
+    if AToClipboard then
+    begin
+      exporter.IncludeHTMLWrapper:= false;
+      exporter.UseInlineCSS:= eoInlineCSSOnCopy in Settings.ExportOptions;
+    end
+    else
+    begin
+      exporter.HTMLTitle:= ATitle;
+      exporter.IncludeHTMLWrapper:= true;
+      exporter.UseInlineCSS:= eoInlineCSSOnExport in Settings.ExportOptions;
+      if ASelectedOnly then
+      exporter.ExportRange(SynMemo.Lines, SynMemo.BlockBegin, SynMemo.BlockEnd)
+      else
+      exporter.ExportAll(SynMemo.Lines);
+    end;
+
+    //  tabs to spaces export
+    if eoConvertTabsToSpaces in Settings.ExportOptions then
+    begin
+      lines:= TUnicodeStringList.Create;
+      try
+        // make space string
+        spaces:= StringOfChar(#32, SynMemo.TabWidth);
+        // replace tabs with space string
+        if ASelectedOnly then
+        lines.Text:= ReplaceStr(SynMemo.SelText, #9, spaces)
+        else
+        lines.Text:= ReplaceStr(SynMemo.Lines.Text, #9, spaces);
+        // export
+        exporter.ExportAll(lines);
+      finally
+        lines.Free;
+      end;
+    end
+    // normal export
+    else
+    begin
+      if ASelectedOnly then
+      exporter.ExportRange(SynMemo.Lines, SynMemo.BlockBegin, SynMemo.BlockEnd)
+      else
+      exporter.ExportAll(SynMemo.Lines);
+    end;
+
+    // save/copy to clipboard
+    if AToClipboard then
+    exporter.CopyToClipboard
+    else
+    exporter.SaveToFile(AFilePath);
+  finally
+    exporter.Free;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  ReplaceAll
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.ReplaceAll(AFind, AReplace: WideString);
+var
+  opts: TSynSearchOptions;
+  i: Integer;
+  xy: TBufferCoord;
+  dispXY: TDisplayCoord;
+begin
+  if (AFind <> '') and (AReplace <> '') then
+  begin
+    // search engine
+    if check_regex.Checked then
+    SynMemo.SearchEngine:= RegexSearch
+    else
+    SynMemo.SearchEngine:= NormalSearch;
+    
+    // options
+    opts:= [ssoEntireScope, ssoReplaceAll];
+    if check_case_sensitive.Checked then
+    Include(opts, ssoMatchCase);
+    if check_whole_word.Checked then
+    Include(opts, ssoWholeWord);
+    if check_selected_text_only.Checked then
+    Include(opts, ssoSelectedOnly);
+
+    xy:= SynMemo.CaretXY;
+    dispXY.Row:= SynMemo.TopLine;
+    dispXY.Column:= SynMemo.LeftChar;
+
+    i:= SynMemo.SearchReplace(AFind, AReplace, opts);
+
+    SynMemo.CaretXY:= xy;
+    SynMemo.TopLine:= dispXY.Row;
+    SynMemo.LeftChar:= dispXY.Column;
+
+    ChangeStatus(WideFormat(_('Replaced %d texts.'),[i]));
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set ActiveHighlighter
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.SetActiveHighlighter(const Value: Integer);
+begin
+  // validate Value
+  if (Value < -2) or (Value >= Highlighters.Count) then
+  fActiveHighlighter:= -1
+  else
+  fActiveHighlighter:= Value;
+
+  // manual highlighter
+  if fActiveHighlighter > -1 then
+  begin
+    SynMemo.Highlighter:= TSynCustomHighlighter(Highlighters.Objects[fActiveHighlighter]);
+  end
+  // automatic highlighter
+  else if fActiveHighlighter = -2 then
+  begin
+    ChangeAutoHighlighter;
+  end
+  // no highlighter
+  else
+  begin
+    SynMemo.Highlighter:= nil;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Show/Hide SearchReplace
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.ShowHideSearchReplace(AShowHideReplace: Boolean =
+    false);
+var
+  IV, IV2: TTBItemViewer;
+begin
+  if AShowHideReplace then
+  begin
+    toolbar_replace.Visible:= not toolbar_replace.Visible;
+    toolbar_find.Visible:= toolbar_replace.Visible;
+  end
+  else
+  toolbar_find.Visible:= not toolbar_find.Visible;
+
+  // resize find and replace labels
+  if toolbar_replace.Visible then
+  begin
+    IV:= toolbar_find.View.Find(label_find);
+    IV2:= toolbar_replace.View.Find(label_replace);
+    if assigned(IV) and assigned(IV2) then
+    begin
+      label_find.MinWidth:= IV2.BoundsRect.Right - IV2.BoundsRect.Left;
+      label_replace.MinWidth:= IV.BoundsRect.Right - IV.BoundsRect.Left;
+    end;
+  end
+  else
+  begin
+    label_find.MinWidth:= 0;
+  end;
+
+  // resize replace edit
+  if toolbar_replace.Visible then
+  begin
+    if edit_replace.DefaultWidth <> edit_search.DefaultWidth then
+    begin
+      edit_replace.DefaultWidth:= edit_search.DefaultWidth;
+      toolbar_replace.RightAlignItems;
+    end;
+  end;
+
+  if toolbar_find.Visible then
+  begin
+    toolbar_find.SetFocus;
+    edit_search.SetFocus;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On StatusTimer.Timer
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.StatusTimerTimer(Sender: TObject);
+begin
+  StatusTimer.Enabled:= false;
+  if fActiveFilePath <> '' then
+  begin
+    if SynMemo.Modified then
+    label_status.Caption:= '*' + WideExtractFileName(fActiveFilePath)
+    else
+    label_status.Caption:= WideExtractFileName(fActiveFilePath);
+    label_status.Enabled:= SynMemo.Modified;
+  end
+  else
+  begin
+    if SynMemo.Modified then
+    label_status.Caption:= '*' + _('New text file')
+    else
+    label_status.Caption:= _('New text file');
+    label_status.Enabled:= SynMemo.Modified;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On SynMemo.Change
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.SynMemoChange(Sender: TObject);
+begin
+  // Update stats
+  UpdateStats;
+end;
+
+{-------------------------------------------------------------------------------
+  On SynMemo.StatusChange
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.SynMemoStatusChange(Sender: TObject; Changes:
+    TSynStatusChanges);
+var
+  i: Integer;
+  len: Int64;
+begin
+  // Selection changed
+  if (scSelection in Changes) or (scCaretX in Changes) or (scCaretY in Changes) or (scAll in Changes) then
+  begin
+    // position label
+    label_position.Caption:= WideFormat(fPosStr,
+      [SynMemo.CaretXY.Line, SynMemo.CaretXY.Char, SynMemo.SelLength]);
+  end;
+
+  // Insert Mode
+  if (scInsertMode in Changes) or (scAll in Changes) then
+  begin
+    if SynMemo.InsertMode then
+    but_insertmode.Caption:= _('Insert')
+    else
+    but_insertmode.Caption:= _('Override');
+  end;
+  
+end;
+
+{-------------------------------------------------------------------------------
+  Can Close
+-------------------------------------------------------------------------------}
+function TCETextEditor.CanClose: Boolean;
 var
   s,s2: String;
   r: Integer;
   i: Integer;
 begin
   Result:= false;
-  if Editor.Modified then
+  if SynMemo.Modified then
   begin
     if not Visible then
     Show;
 
-    s:= 'The text in the ' + TabCaption + ' file has changed.' ;
+    s:= 'The text in the ' + fActiveFileName + ' file has changed.' ;
     s2:= 'Do you want to save changes before closing?';
     r:= TaskDialog(Application.MainFormHandle,
                    'Save before closing?',
@@ -380,786 +1247,73 @@ begin
 
     if r = TD_RESULT_YES then
     begin
-      if not SaveDocument then
+      if not Save then
       Exit;
     end
     else if r = TD_RESULT_CANCEL then
     begin
       Exit;
-    end
-    else
-    Editor.Clear;
+    end;
   end;
-
-  if (csDestroying in self.ComponentState) then
-  Exit;
-
-  if fClosing then
-  begin
-    Result:= true;
-    exit;
-  end;
-
-  ActiveFile:= '';
+  
   Result:= true;
-  for i:= 0 to highlighterSubmenu.Count - 1 do
-  begin
-    if highlighterSubmenu.Items[i] is TSpTBXItem then
-    TSpTBXItem(highlighterSubmenu.Items[i]).CaptionGlow:= gldNone;
-  end;
 end;
 
-{*------------------------------------------------------------------------------
-  New Document
+{-------------------------------------------------------------------------------
+  UpdateCaption
 -------------------------------------------------------------------------------}
-procedure TCETextEditorPage.NewDocument;
+procedure TCETextEditor.UpdateCaption;
 begin
-  if CloseDocument then
+  if ActiveFilePath <> '' then
   begin
-    ActiveFile:= '';
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Open Document.
-    -If FilePath is empty then will show a open file dialog.
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.OpenDocument(FilePath: WideString = '');
-var
-  open1: TTntOpenDialog;
-  S: TTntFileStream;
-begin
-  if FilePath = '' then
-  begin
-    open1:= TTntOpenDialog.Create(self);
-    if open1.Execute then
-    begin
-      if CloseDocument then
-      begin
-        try
-          s:= TTntFileStream.Create(open1.FileName, fmOpenRead or fmShareDenyNone);
-          try
-            Editor.Lines.LoadFromStream(s);
-            ActiveFile:= open1.FileName;
-          finally
-            s.Free;
-          end;
-        except
-          on E:EFOpenError do
-          WideMessageBox(Application.MainFormHandle, _('Error'), E.Message, MB_ICONERROR or MB_OK);
-        end;
-      end;
-    end;
-    open1.Free;
-  end
-  else if WideFileExists(FilePath) then
-  begin
-    if CloseDocument then
-    begin
-      try
-        s:= TTntFileStream.Create(FilePath, fmOpenRead or fmShareDenyNone);
-        try
-          Editor.Lines.LoadFromStream(s);
-          ActiveFile:= FilePath;
-        finally
-          s.Free;
-        end;
-      except
-        on E:EFOpenError do
-        WideMessageBox(Application.MainFormHandle, _('Error'), E.Message, MB_ICONERROR or MB_OK);
-      end;
-    end;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Save Document
--------------------------------------------------------------------------------}
-function TCETextEditorPage.SaveDocument: Boolean;
-var
-  S: TTntFileStream;
-begin
-  if WideFileExists(ActiveFile) then
-  begin
-    s:= TTntFileStream.Create(ActiveFile, fmCreate);
-    try
-      Editor.Lines.SaveToStream(s);
-    finally
-      s.Free;
-    end;
-    Editor.Modified:= false;
-    Result:= true;
+    Caption:= ActiveFilePath;
+    fActiveFileName:= WideExtractFileName(ActiveFilePath);
   end
   else
   begin
-    Result:= SaveDocumentAs;
+    fActiveFileName:= _('New text file');
+    Caption:= 'CubicNotepad';
   end;
 end;
 
-{*------------------------------------------------------------------------------
-  Save Document As
+{-------------------------------------------------------------------------------
+  UpdateStats
 -------------------------------------------------------------------------------}
-function TCETextEditorPage.SaveDocumentAs: Boolean;
+procedure TCETextEditor.UpdateStats;
 var
-  save1: TTntSaveDialog;
-  s: TTntFileStream;
-begin
-  Result:= false;
-  save1:= TTntSaveDialog.Create(self);
-  save1.DefaultExt:= 'txt';
-  if save1.Execute then
-  begin
-    s:= TTntFileStream.Create(save1.FileName, fmCreate);
-    try
-      Editor.Lines.SaveToStream(s);
-      ActiveFile:= save1.FileName;
-    finally
-      s.Free;
-    end;
-    Result:= true;
-    Editor.Modified:= false;
-  end;
-  save1.Free;
-end;
-
-{*------------------------------------------------------------------------------
-  Reload Document
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.ReloadDocument;
-begin
-  OpenDocument(ActiveFile);
-end;
-
-{*------------------------------------------------------------------------------
-  Get's called when active file is changed.
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.ActiveFileChange;
-begin
-  if csDestroying in self.ComponentState then
-  Exit;
-
-  if not fClosing then
-  UpdateCaption;
-end;
-
-{*------------------------------------------------------------------------------
-  Get's called when document's modified value is changed.
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.ModifiedChange;
-begin
-  UpdateCaption;
-  // TODO: TabSet
-  //TabItem.Modified:= Editor.Modified;
-end;
-
-{*------------------------------------------------------------------------------
-  Do SearchReplace Text
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.DoSearchReplaceText(AReplace: boolean; ABackwards:
-    boolean);
-var
-  Options: TSynSearchOptions;
-begin
-  if AReplace then
-    Options := [ssoPrompt, ssoReplace, ssoReplaceAll]
-  else
-    Options := [];
-  if opt_check1.Checked then
-  Include(Options, ssoMatchCase);
-  if opt_check2.Checked then
-  Include(Options, ssoWholeWord);
-  if not opt_check3.Checked then
-  Include(Options, ssoEntireScope);
-  if opt_check4.Checked then
-  Include(Options, ssoSelectedOnly);
-  if ABackwards then
-  Include(Options, ssoBackwards);
-
-  if opt_check5.Checked then
-  Editor.SearchEngine:= SynEditRegexSearch
-  else
-  Editor.SearchEngine:= SynEditSearch;
-
-  if Editor.SearchReplace(SearchMemo.Text, ReplaceMemo.Text, Options) = 0 then
-  begin
-    MessageBeep(MB_ICONASTERISK);
-    if ssoBackwards in Options then
-      Editor.BlockEnd := Editor.BlockBegin
-    else
-      Editor.BlockBegin := Editor.BlockEnd;
-    Editor.CaretXY := Editor.BlockBegin;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Popuplate Highlighters
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.PopuplateHighlighters;
-var
-  i: integer;
-  Highlighter: TSynCustomHighlighter;
-  item: TSpTBXItem;
-begin
-  for i := Self.ComponentCount - 1 downto 0 do
-  begin
-    if not (Self.Components[i] is TSynCustomHighlighter) then
-    Continue;
-    Highlighter:= Self.Components[i] as TSynCustomHighlighter;
-      // only one highlighter for each language
-    if Highlighters.IndexOf(Highlighter.GetLanguageName) = -1 then
-    Highlighters.AddObject(Highlighter.GetLanguageName, Highlighter);
-  end;
-  Highlighters.Sort;
-  for i:= 0 to Highlighters.Count - 1 do
-  begin
-    item:= TSpTBXItem.Create(self);
-    item.Caption:= Highlighters.Strings[i];
-    item.Tag:= i;
-    item.RadioItem:= true;
-    item.GroupIndex:= 1;
-    item.OnClick:= DoHighlighterClick;
-    highlighterSubmenu.Add(item);
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Set ActiveFile Value
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.SetActiveFile(const Value: WideString);
-begin
-  fActiveFile:= Value;
-  ActiveFileChange;
-  if SpTBXItem18.Checked then
-  begin
-    SetAutoHighlighter;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Set AutoHighlighter
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.SetAutoHighlighter;
-var
-  ExtLen: integer;
-  i, j, i2, i3: integer;
-  Highlighter: TSynCustomHighlighter;
-  Filter: string;
-  Extension: String;
-  item: TSpTBXItem;
-begin
-  Extension:= ExtractFileExt(ActiveFile);
-  Extension := LowerCase(Extension);
-  ExtLen := Length(Extension);
-  if (ExtLen > 0) then
-  begin
-    i3:= -1;
-    for i := 0 to Highlighters.Count - 1 do
-    begin
-      if not (Highlighters.Objects[i] is TSynCustomHighlighter) then
-      Continue;
-      Highlighter := TSynCustomHighlighter(Highlighters.Objects[i]);
-      Filter := LowerCase(Highlighter.DefaultFilter);
-      j := Pos('|', Filter);
-      if j > 0 then begin
-        Delete(Filter, 1, j);
-        j := Pos(Extension, Filter);
-        if (j > 0) and ((j + ExtLen > Length(Filter)) or (Filter[j + ExtLen] = ';')) then
-        begin
-          Editor.Highlighter:= Highlighter;
-          for i2:= 0 to highlighterSubmenu.Count - 1 do
-          begin
-            if highlighterSubmenu.Items[i2] is TSpTBXItem then
-            begin
-              item:= TSpTBXItem(highlighterSubmenu.Items[i2]);
-              if item.Tag = i then
-              item.CaptionGlow:= gldBottomRight
-              else
-              item.CaptionGlow:= gldNone;
-            end;
-          end;            
-          Exit;
-        end
-        else if Pos('*.*', Filter) > 0 then
-        i3:= i;     
-      end;
-    end;
-
-    if i3 > -1 then
-    begin
-      Highlighter := TSynCustomHighlighter(Highlighters.Objects[i3]);
-      Editor.Highlighter:= Highlighter;
-      for i2:= 0 to highlighterSubmenu.Count - 1 do
-      begin
-        if highlighterSubmenu.Items[i2] is TSpTBXItem then
-        begin
-          item:= TSpTBXItem(highlighterSubmenu.Items[i2]);
-          if item.Tag = i3 then
-          item.CaptionGlow:= gldBottomRight
-          else
-          item.CaptionGlow:= gldNone;
-        end;
-      end;
-
-    end;
-
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Show Editor Options
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.ShowOptions;
-var
-  cont: TSynEditorOptionsContainer;
-  dlg: TSynEditOptionsDialog;
-begin
-  cont:= TSynEditorOptionsContainer.Create(self);
-  dlg:= TSynEditOptionsDialog.Create(self);
-  try
-    cont.Assign(Editor);
-    if dlg.Execute(cont) then
-    begin
-      cont.AssignTo(Editor);
-      CETextEditorOptions.EditorOptions.Assign(Editor);
-    end;
-  finally
-    dlg.Free;
-    cont.Free;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Do Highlighter Click
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.DoHighlighterClick(Sender: TObject);
-var
-  item: TSpTBXItem;
   i: Integer;
+  len: Int64;
 begin
-  item:= TSpTBXItem(Sender);
-  if item.Tag > -1 then
+  // stats label
+  len:= 0;
+  if SynMemo.Lines.Count > 0 then
   begin
-    Editor.Highlighter:= TSynCustomHighlighter(Highlighters.Objects[item.Tag]);
-    for i:= 0 to highlighterSubmenu.Count - 1 do
+    for i:= 0 to SynMemo.Lines.Count-1 do
     begin
-      if highlighterSubmenu.Items[i] is TSpTBXItem then
-      TSpTBXItem(highlighterSubmenu.Items[i]).CaptionGlow:= gldNone;
+      len:= len + Length(SynMemo.Lines.Strings[i]);
     end;
-  end
-  else if item.Tag = -2 then
+    len:= len + ((SynMemo.Lines.Count-1) * 2); // <-- add line breaks to the count
+  end;
+
+  label_stats.Caption:= WideFormat(fStatsStr, [len, SynMemo.Lines.Count]);
+
+  // modified label
+  if SynMemo.Modified <> label_modified.Visible then
   begin
-    SetAutoHighlighter;
-  end
-  else
-  begin
-    Editor.Highlighter:= nil;
-    for i:= 0 to highlighterSubmenu.Count - 1 do
-    begin
-      if highlighterSubmenu.Items[i] is TSpTBXItem then
-      TSpTBXItem(highlighterSubmenu.Items[i]).CaptionGlow:= gldNone;
-    end;
-  end;
-  item.Checked:= true;
-end;
-
-{*------------------------------------------------------------------------------
-  EditorReplaceText
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.EditorReplaceText(Sender: TObject; const ASearch,
-    AReplace: WideString; Line, Column: Integer; var Action: TSynReplaceAction);
-var
-  s: String;
-  r: Integer;
-begin
-  if ASearch = AReplace then
-    Action := raSkip
-  else if fReplaceAll then
-  begin
-    Action:= raReplaceAll;
-  end
-  else
-  begin
-    s:= 'Replace this occurence of "' + ASearch + '"';
-    r:= MessageBox(0, PChar(s), 'Replace?', MB_ICONQUESTION or MB_YESNOCANCEL);
-    case r of
-      idYes: Action:= raReplace;
-      idNo: Action:= raSkip;
-      idCancel: Action:= raCancel;
-    end;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Get's called on Editor status change
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.EditorStatusChange(Sender: TObject; Changes:
-    TSynStatusChanges);
-begin
-  if (scInsertMode in Changes) then
-  begin
-    if Editor.InsertMode then
-    label_input.Caption:= _('Insert')
-    else
-    label_input.Caption:= _('Override');
-  end;
-  if (scModified in Changes) then
-  begin
-    if Editor.Modified then
-    label_modified.Caption:= _('Modified')
-    else
-    label_modified.Caption:= '';
-    ModifiedChange;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
-  Get Page Action List
--------------------------------------------------------------------------------}
-function TCETextEditorPage.GetPageActionList: TActionList;
-begin
-  Result:= ActionList;
-end;
-
-{-------------------------------------------------------------------------------
-  Get Settings Class
--------------------------------------------------------------------------------}
-function TCETextEditorPage.GetSettingsClass: TCECustomTabPageSettingsClass;
-begin
-  Result:= TCETextEditorPageSettings;
-end;
-
-{-------------------------------------------------------------------------------
-  Load from stream
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.LoadFromStream(AStream: TStream);
-var
-  ws: WideString;
-begin
-  LoadWideString(AStream, ws);
-  if ws <> '' then
-  OpenDocument(ws);
-end;
-
-{-------------------------------------------------------------------------------
-  Save to stream
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.SaveToStream(AStream: TStream);
-begin
-  SaveWideString(AStream, ActiveFile);
-end;
-
-{*------------------------------------------------------------------------------
-  Search button click
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.SpTBXButton1Click(Sender: TObject);
-begin
-  DoSearchReplaceText(false, (opt_radio.ItemIndex = 0));
-end;
-
-{*------------------------------------------------------------------------------
-  Replace button click
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.SpTBXButton2Click(Sender: TObject);
-begin
-  fReplaceAll:= false;
-  DoSearchReplaceText(true, (opt_radio.ItemIndex = 0));
-end;
-
-{*------------------------------------------------------------------------------
-  Replace All button click
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.SpTBXButton3Click(Sender: TObject);
-begin
-  fReplaceAll:= true;
-  DoSearchReplaceText(true, (opt_radio.ItemIndex = 0));
-end;
-
-{*------------------------------------------------------------------------------
-  Edit actions Execute
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.text_edit_Execute(Sender: TObject);
-var
-  act: TTntAction;
-  r: TRect;
-begin
-  act:= TTntAction(Sender);
-  case act.Tag of
-    201: Editor.Undo;
-    202: Editor.Redo;
-    203: Editor.CopyToClipboard;
-    204: Editor.CutToClipboard;
-    205: Editor.PasteFromClipboard;
-    206: Editor.ClearSelection;
-    207: Editor.SelectAll;
-    208: begin
-           if not FindPanel.Visible then
-           begin
-            r:= self.ClientRect;
-            if StatusBar.Visible then
-            r.Bottom:= StatusBar.BoundsRect.Top;
-            r.Top:= r.Bottom - FindPanel.Height;
-            FindPanel.BoundsRect:= r;
-            //FindPanel.Realign;
-           end;
-           FindPanel.Visible:= not FindPanel.Visible;
-           if FindPanel.Visible then
-           SearchMemo.SetFocus;
-         end;
-    209: DoSearchReplaceText(false, false);
-    210: DoSearchReplaceText(false, true);
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Edit actions Update
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.text_edit_Update(Sender: TObject);
-var
-  act: TTntAction;
-begin
-  act:= TTntAction(Sender);
-  act.Enabled:= true;
-  case act.Tag of
-    201: act.Enabled:= Editor.CanUndo;
-    202: act.Enabled:= Editor.CanRedo;
-    205: act.Enabled:= Editor.CanPaste;
-    208: act.Checked:= FindPanel.Visible;
-    //208..211: act.Enabled:= false;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  File Actions Execute
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.text_file_Execute(Sender: TObject);
-var
-  act: TTntAction;
-begin
-  act:= TTntAction(Sender);
-  case act.Tag of
-    101: NewDocument;
-    102: OpenDocument;
-    103: SaveDocument;
-    104: SaveDocumentAs;
-    105: CloseDocument;
-    106: ReloadDocument;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  File Action Update
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.text_file_Update(Sender: TObject);
-var
-  act: TTntAction;
-begin
-  act:= TTntAction(Sender);
-  act.Enabled:= true;
-  case act.Tag of
-    103: act.Enabled:= Editor.Modified;
-    106: act.Enabled:= WideFileExists(fActiveFile);
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Format Action Execute
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.text_format_Execute(Sender: TObject);
-var
-  act: TTntAction;
-begin
-  act:= TTntAction(Sender);
-  case act.Tag of
-    301: Editor.WordWrap:= not Editor.WordWrap;
-    302: ShowOptions;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Format Action Update
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.text_format_Update(Sender: TObject);
-var
-  act: TTntAction;
-begin
-  act:= TTntAction(Sender);
-  act.Enabled:= true;
-  case act.Tag of
-    301: act.Checked:= Editor.WordWrap;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  View Actions Execute
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.text_view_Execute(Sender: TObject);
-var
-  act: TTntAction;
-  r: TRect;
-begin
-  act:= TTntAction(Sender);
-  case act.Tag of
-    402: begin
-           if not StatusBar.Visible then
-           begin
-             if FindPanel.Visible then
-             begin
-               r:= FindPanel.BoundsRect;
-               r.Top:= r.Bottom;
-               r.Bottom:= r.Top + StatusBar.Height;
-               StatusBar.BoundsRect:= r;
-             end;
-           end;
-           StatusBar.Visible:= not StatusBar.Visible;
-         end;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  View Actions Update
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.text_view_Update(Sender: TObject);
-var
-  act: TTntAction;
-begin
-  act:= TTntAction(Sender);
-  act.Enabled:= true;
-  case act.Tag of
-    402: act.Checked:= StatusBar.Visible;  
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Select Page
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.SelectPage;
-begin
-  GlobalPathCtrl.ActivePage:= Self;
-  CEActions.PageActionList:= Self.ActionList;
-  Editor.SetFocus;
-  GlobalPathCtrl.GlobalPathCaption:= label_path.Caption;
-end;
-
-{*------------------------------------------------------------------------------
-  Update Tab item Caption
--------------------------------------------------------------------------------}
-procedure TCETextEditorPage.UpdateCaption;
-begin
-  if fActiveFile = '' then
-  begin
-    TabCaption:= _('New text file');
-    label_path.Caption:= _('New text file');  
-    TabItem.Images:= CE_Images.SmallIcons;
-    TabItem.ImageIndex:= 21;
-  end
-  else
-  begin
-    TabCaption:= WideExtractFileName(fActiveFile);
-    label_path.Caption:= fActiveFile;
-    TabItem.Images:= SmallSysImages;
-    TabItem.ImageIndex:= GetIconIndex(fActiveFile);
+    label_modified.Visible:= SynMemo.Modified;
+    sep_modified.Visible:= label_modified.Visible;
+    if not StatusTimer.Enabled then
+    StatusTimerTimer(self);
   end;
 
-  if GlobalPathCtrl.ActivePage = Self then
-  GlobalPathCtrl.GlobalPathCaption:= label_path.Caption;
+  // format
+  case SynMemo.Lines.SaveFormat of
+    sfUTF16LSB: label_format.Caption:= 'UTF-16 Little-endian';
+    sfUTF16MSB: label_format.Caption:= 'UTF-16 Big-endian';
+    sfUTF8: label_format.Caption:= 'UTF-8';
+    sfAnsi: label_format.Caption:= 'ANSI';
+  end;
 end;
-
-{*------------------------------------------------------------------------------
-  Get's called when tab is closing.
--------------------------------------------------------------------------------}
-function TCETextEditorPage.TabClosing: Boolean;
-begin
-  fClosing:= true;
-  Result:= CloseDocument;
-  if Result then
-  begin
-    CETextEditorOptions.WordWrap:= Editor.WordWrap;
-  end
-  else
-  fClosing:= false;
-end;
-
-{##############################################################################}
-
-{*------------------------------------------------------------------------------
-  Create an instance of TCETextEditorOptions
--------------------------------------------------------------------------------}
-constructor TCETextEditorOptions.Create;
-begin
-  inherited;
-  EditorOptions:= TSynEditorOptionsContainer.Create(nil);
-  fRememberInnerToolbarLayout:= true;
-end;
-
-{*------------------------------------------------------------------------------
-  Destroy TCETextEditorOptions
--------------------------------------------------------------------------------}
-destructor TCETextEditorOptions.Destroy;
-begin
-  EditorOptions.Free;
-  inherited;
-end;
-
-{*------------------------------------------------------------------------------
-  Assign options to TCETextEditorPage
--------------------------------------------------------------------------------}
-procedure TCETextEditorOptions.AssignSettingsTo(EditPage: TCETextEditorPage);
-begin
-  if not assigned(EditPage) then
-  Exit;
-
-  EditorOptions.AssignTo(EditPage.Editor);
-  EditPage.Editor.WordWrap:= fWordWrap;
-end;
-
-{##############################################################################}
-
-{-------------------------------------------------------------------------------
-  Get/Set Path
--------------------------------------------------------------------------------}
-function TCETextEditorPageSettings.GetPath: WideString;
-begin
-  Result:= TextEditorPage.ActiveFile;
-end;
-
-{-------------------------------------------------------------------------------
-  Get RememberPanelLayout
--------------------------------------------------------------------------------}
-function TCETextEditorPageSettings.GetRememberPanelLayout: Boolean;
-begin
-  Result:= CETextEditorOptions.RememberPanelLayout;
-end;
-
-{-------------------------------------------------------------------------------
-  Get RememberInnerToolbarLayout
--------------------------------------------------------------------------------}
-function TCETextEditorPageSettings.GetRememberInnerToolbarLayout: Boolean;
-begin
-  Result:= CETextEditorOptions.RememberInnerToolbarLayout;
-end;
-
-{-------------------------------------------------------------------------------
-  Get RememberOuterToolbarLayout
--------------------------------------------------------------------------------}
-function TCETextEditorPageSettings.GetRememberOuterToolbarLayout: Boolean;
-begin
-  Result:= CETextEditorOptions.RememberOuterToolbarLayout;
-end;
-
-procedure TCETextEditorPageSettings.SetPath(const Value: WideString);
-begin
-  if Value <> '' then
-  TextEditorPage.OpenDocument(Value);
-end;
-
-{##############################################################################}
-
-initialization
-  CETextEditorOptions:= TCETextEditorOptions.Create;
-  GlobalAppSettings.AddItem('TextEditor', CETextEditorOptions, true);
-  TabPageClassList.RegisterClass('TextEditor', TCETextEditorPage, TCETextEditorPageSettings);
-
-finalization
-  FreeAndNil(CETextEditorOptions);
 
 end.
+

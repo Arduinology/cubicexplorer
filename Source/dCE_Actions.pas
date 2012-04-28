@@ -360,7 +360,7 @@ implementation
 
 uses
   Main, fCE_FolderPanel, fCE_QuickViewPanel, fCE_BookmarkPanel,
-  fCE_TextEditor, fCE_FileView, CE_FileView, 
+  fCE_FileView, CE_FileView, 
   CE_Bookmarks, CE_BookmarkTree, fCE_AboutBox,
   CE_ToolbarButtons, fCE_Customizer, fCE_TabPage, fCE_FiltersPanel,
   fCE_PoEditor, fCE_OptionsDialog, CE_Sessions, fCE_StackPanel,
@@ -926,7 +926,6 @@ var
   ws,ext: WideString;
   ns: TNamespace;
   item: TEasyItem;
-  editor: TCETextEditorPage;
   quickview: TCEQuickViewPage;
 begin
   case ActionID of
@@ -990,14 +989,14 @@ begin
                end;
              end;
            end;
-
-           editor:= TCETextEditorPage(MainForm.TabSet.AddTab(TCETextEditorPage, MainForm.TabSet.Settings.NewTabSelect).Page);
-           if (ws <> '') then
-           begin
-            ext:= WideUpperCase(WideExtractFileExt(ws));
-            if (ext <> '.EXE') and (ext <> '.DLL') then
-            editor.OpenDocument(ws);
-           end;
+           // TODO: TextEditor Rewrite
+//           editor:= TCETextEditorPage(MainForm.TabSet.AddTab(TCETextEditorPage, MainForm.TabSet.Settings.NewTabSelect).Page);
+//           if (ws <> '') then
+//           begin
+//            ext:= WideUpperCase(WideExtractFileExt(ws));
+//            if (ext <> '.EXE') and (ext <> '.DLL') then
+//            editor.OpenDocument(ws);
+//           end;
          end;
     // Open Search
     651: begin
@@ -1270,7 +1269,8 @@ end;
 function OpenFileInTab(FilePath: WideString; SelectTab: Boolean = true;
     ActivateApp: Boolean = false): TCESpTabItem;
 var
-  editor: TCETextEditorPage;
+  // TODO: TextEditor Rewrite
+  //editor: TCETextEditorPage;
   quickview: TCEQuickViewPage;
 begin
   Result:= nil;
@@ -1278,7 +1278,7 @@ begin
   begin
     GlobalFileViewSettings.AssignFromActivePage;
 
-    if GlobalQuickViewSettings.IsSupported(WideExtractFileExt(FilePath), true) then
+    if GlobalQuickViewSettings.IsSupported(WideExtractFileExt(FilePath), false) then
     begin
       Result:= MainForm.TabSet.AddTab(TCEQuickViewPage, SelectTab);
       quickview:= TCEQuickViewPage(Result.Page);
@@ -1286,9 +1286,10 @@ begin
     end
     else
     begin
-      Result:= MainForm.TabSet.AddTab(TCETextEditorPage, SelectTab);
-      editor:= TCETextEditorPage(Result.Page);
-      editor.OpenDocument(FilePath);
+    // TODO: TextEditor Rewrite
+//      Result:= MainForm.TabSet.AddTab(TCETextEditorPage, SelectTab);
+//      editor:= TCETextEditorPage(Result.Page);
+//      editor.OpenDocument(FilePath);
     end;
 
     if ActivateApp then
