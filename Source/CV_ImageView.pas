@@ -185,15 +185,19 @@ type
 
   TJPEGImageAccess = class(TJPEGImage);
 
-function LoadGraphic(AFilePath: WideString; var FullWidth, FullHeight: Integer;
-    AOptimalWidth: Integer = -1; AOptimalHeight: Integer = -1): TGraphic;
-function LoadThumbnail(AFilePath: WideString; ThumbWidth, ThumbHeight: Integer;
-    BackgroundColor: TColor; UseFallback: Boolean = false): TBitmap;
-procedure StretchDrawGraphic(AGraphic: TGraphic; ADestCanvas: TCanvas;
-    ADestRect: TRect; ASubsampling: Boolean = true);
-procedure DrawGraphic(AGraphic: TGraphic; ADestCanvas: TCanvas; X, Y: Integer);
-
-
+{-------------------------------------------------------------------------------
+  Public Methods
+-------------------------------------------------------------------------------}
+  function LoadGraphic(AFilePath: WideString; var FullWidth, FullHeight: Integer;
+      AOptimalWidth: Integer = -1; AOptimalHeight: Integer = -1): TGraphic;
+  function LoadThumbnail(AFilePath: WideString; ThumbWidth, ThumbHeight: Integer;
+      BackgroundColor: TColor; UseFallback: Boolean = false): TBitmap;
+  procedure StretchDrawGraphic(AGraphic: TGraphic; ADestCanvas: TCanvas;
+      ADestRect: TRect; ASubsampling: Boolean = true);
+  procedure DrawGraphic(AGraphic: TGraphic; ADestCanvas: TCanvas; X, Y: Integer);
+  function CreateTextThumbnail(AFilePath: WideString; AWidth, AHeight: Integer;
+      ABackgroundColor, ATextColor: TColor; AFont: TFont = nil; AMaxLength:
+      Integer = 1024; AEmptyFileText: WideString = ''): TBitmap;
 
 implementation
 
@@ -500,6 +504,129 @@ begin
 
       if freeBit then
       bit.Free;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  CreateTextThumbnail
+-------------------------------------------------------------------------------}
+function CreateTextThumbnail(AFilePath: WideString; AWidth, AHeight: Integer;
+    ABackgroundColor, ATextColor: TColor; AFont: TFont = nil; AMaxLength:
+    Integer = 1024; AEmptyFileText: WideString = ''): TBitmap;
+
+const
+  borderSize = 3;
+  
+var
+  s: TCCFileStream;
+  buf: String;
+  bufW: WideString;
+  r: TRect;
+  w: word;
+  b: Byte;
+  isUnicode: Boolean;
+  hasUTF8_BOM: Boolean;
+  i: Integer;
+begin
+  Result:= nil;
+  if WideFileExists(AFilePath) then
+  begin
+    Result:= TBitmap.Create;
+    Result.SetSize(AWidth, AHeight);
+    Result.Canvas.Lock;
+    try
+      // paint background
+      Result.Canvas.Brush.Color:= ABackgroundColor;
+      Result.Canvas.FillRect(Rect(0,0,AWidth,AHeight));
+      // assign font
+      if assigned(AFont) then
+      Result.Canvas.Font.Assign(AFont);
+      Result.Canvas.Font.Color:= ATextColor;
+      
+      // load file
+      s:= TCCFileStream.Create(AFilePath, fmOpenRead or fmShareDenyNone);
+      try
+        if s.Size > 0 then
+        begin
+          // init
+          s.Position:= 0;
+          isUnicode:= false;
+          hasUTF8_BOM:= false;
+          bufW:= '';
+
+          // read BOM
+          if s.Read(w, SizeOf(w)) = SizeOf(w) then
+          begin
+            isUnicode:= (w = $FEFF) or // normal byte order mark
+                        (w = $FFFE);   // byte order is big-endian
+            if not isUnicode and (w = $BBEF) then
+            begin
+              if s.Read(b, SizeOf(b)) = SizeOf(b) then
+              hasUTF8_BOM:= b = $BF;
+            end;
+          end;
+
+          // read ansi/utf8
+          if not isUnicode then
+          begin
+            if not hasUTF8_BOM then
+            s.Position:= 0;
+            // set buffer length
+            if (s.Size-s.Position) < AMaxLength then
+            AMaxLength:= s.Size - s.Position;
+
+            if AMaxLength > 0 then
+            begin
+              SetLength(buf, AMaxLength);
+              // read
+              s.Read(buf[1], Length(buf));
+              // decode UTF-8
+              if buf <> '' then
+              begin
+                bufW:= UTF8Decode(buf);
+                if bufW = '' then // in case of decoding error, use ansi only.
+                bufW:= buf;
+              end;
+            end;
+          end
+          // read unicode
+          else
+          begin
+            // set buffer length
+            if (s.Size-s.Position) < (AMaxLength*2) then
+            AMaxLength:= s.Size - s.Position;
+
+            if AMaxLength > 0 then
+            begin
+              SetLength(bufW, AMaxLength div 2);
+              // read
+              s.Read(bufW[1], Length(bufW)*2);
+              // swap byte order if big-endian is detected
+              if w = $FFFE then
+              begin
+                for i:= 1 to Length(bufW) do
+                bufW[i]:= WideChar(System.Swap(Word(bufW[i])));
+              end;              
+            end;
+          end;
+
+          // draw
+          r:= Rect(borderSize,borderSize,AWidth-borderSize,AHeight-borderSize);
+          if bufW <> '' then
+          begin
+            DrawTextW(Result.Canvas.Handle, PWideChar(bufW), Length(bufW), r, DT_WORDBREAK);
+          end
+          else if AEmptyFileText <> '' then
+          begin
+            DrawTextW(Result.Canvas.Handle, PWideChar(AEmptyFileText), Length(AEmptyFileText), r, DT_SINGLELINE or DT_VCENTER or DT_CENTER);
+          end;
+        end;
+      finally
+        s.Free;
+      end;
+    finally
+      Result.Canvas.Unlock;
     end;
   end;
 end;

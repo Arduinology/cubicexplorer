@@ -87,6 +87,7 @@ begin
   QuickView.ShowPreview:= false;
   QuickView.OnDetach:= HandleDetach;
   QuickView.OnCurrentFileChange:= HandleCurrentFileChange;
+  QuickView.OnEditorClose:= HandleDetach;
   Layout:= 'QuickView';
 end;
 

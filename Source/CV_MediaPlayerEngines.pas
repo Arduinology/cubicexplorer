@@ -252,6 +252,7 @@ type
       ICVMediaEngineStill, ICVMediaEngineEditor)
   protected
     fBoundsRect: TRect;
+    fCloseEventHandler: TNotifyEvent;
     fEditor: TCETextEditor;
     fParentWindow: HWND;
     fPlayInterval: Cardinal;
@@ -284,6 +285,10 @@ type
     // Play
     procedure Play; virtual; stdcall;
     procedure SetBounds(ARect: TRect); override; stdcall;
+    // SetEditorCloseEvent
+    // - MediaPlayer will call this to set a Close event handler.
+    // - If the engine want's to close itself, it can call the AHandler.
+    procedure SetEditorCloseEvent(AHandler: TNotifyEvent); virtual; stdcall;
     // SetFocus
     procedure SetFocus; override; stdcall;
     procedure SetParentWindow(AParentWindow: HWND); override; stdcall;
@@ -1449,6 +1454,9 @@ begin
   begin
     fEditor:= TCETextEditor.Create(nil);
     fEditor.OnEnablePlaybackChanged:= HandleEnablePlaybackChanged;
+    if assigned(fCloseEventHandler) then
+    fEditor.act_close.OnExecute:= fCloseEventHandler;
+      
     fEditor.BorderStyle:= bsNone;
     if fParentWindow <> 0 then
     begin
@@ -1522,6 +1530,16 @@ begin
   fBoundsRect:= ARect;
   if assigned(fEditor) then
   fEditor.BoundsRect:= fBoundsRect;
+end;
+
+{-------------------------------------------------------------------------------
+  SetEditorCloseEvent
+-------------------------------------------------------------------------------}
+procedure TCVTextEngine.SetEditorCloseEvent(AHandler: TNotifyEvent);
+begin
+  fCloseEventHandler:= AHandler;
+  if assigned(fEditor) and assigned(fCloseEventHandler) then
+  fEditor.act_close.OnExecute:= fCloseEventHandler;
 end;
 
 {-------------------------------------------------------------------------------

@@ -43,6 +43,7 @@ type
     fStartTick: Cardinal;
   public
     BackgroundColor: TColor;
+    Font: TFont;
     FilePath: WideString;
     Thumbnail: TBitmap;
     ThumbSize: TPoint;
@@ -241,6 +242,13 @@ begin
           task.Thumbnail:= LoadThumbnail(task.FilePath,
                                          task.ThumbSize.X,task.ThumbSize.Y,
                                          task.BackgroundColor,true);
+
+          if not assigned(task.Thumbnail) then
+          begin
+            task.Thumbnail:= CreateTextThumbnail(task.FilePath, task.ThumbSize.X, task.ThumbSize.Y,
+                                                 task.BackgroundColor, task.Font.Color, task.Font,
+                                                 1024, 'Empty file');
+          end;
         end
         // info
         else if task.TaskType = fpttInfo then
@@ -337,6 +345,8 @@ begin
     task.FilePath:= fFilePath;
     task.ThumbSize:= Point(ClientWidth, ClientHeight);
     task.BackgroundColor:= Color;
+    task.Font:= TFont.Create;
+    task.Font.Assign(Self.Font);
     task.TaskType:= fpttThumbnail;
     task.fStartTick:= Max(GetTickCount, fLastAbort);
     GlobalTaskPool.AddTask(nil, task, true, true, fTaskTag, HandleExecuteTask, HandleTaskDone);
@@ -748,6 +758,8 @@ destructor TCEFilePreviewTask.Destroy;
 begin
   if assigned(Thumbnail) then
   FreeAndNil(Thumbnail);
+  if assigned(Font) then
+  FreeAndNil(Font);
   inherited Destroy;
 end;
 

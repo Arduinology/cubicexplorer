@@ -1,3 +1,6 @@
+29.4.2012
++ Added file preview for text files.
+
 28.4.2012
 + Rewrote text editor.
 

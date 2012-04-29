@@ -38,6 +38,9 @@ uses
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Contnrs, ImgList, ComCtrls, ExtCtrls, Menus;
+  
+const
+  WM_QuickViewCtrl = WM_APP + 100;
 
 type
   TCEQuickViewForm = class;
@@ -83,6 +86,7 @@ type
     fMediaPlayer: TCVMediaPlayer;
     fOnCurrentFileChange: TNotifyEvent;
     fOnDetach: TNotifyEvent;
+    fOnEditorClose: TNotifyEvent;
     fShowPreview: Boolean;
     Preview: TCEFilePreview;
     procedure AssignTo(Dest: TPersistent); override;
@@ -90,6 +94,7 @@ type
     procedure CreateEmbededMediaPlayer; virtual;
     procedure HandleControlClick(Sender: TObject); virtual;
     procedure HandleActiveChange(Sender: TObject); virtual;
+    procedure HandleEditorClose(Sender: TObject); virtual;
     procedure HandleNavigationStateChange(Sender: TObject); virtual;
     procedure HandleIsSupported(Sender: TObject; AExtension: WideString; var
         AIsSupported: Boolean); virtual;
@@ -108,6 +113,7 @@ type
     procedure WriteGlobalSettings; virtual;
     procedure UpdateSeekbarState(Sender: TObject; APosition: Int64; ADuration:
         Int64); virtual;
+    procedure WMQuickViewCtrl(var Message: TMessage); message WM_QuickViewCtrl;
   public
     Filelist: TCVFilelist;
     Playlist: TCVPlaylist;
@@ -135,6 +141,7 @@ type
     property OnCurrentFileChange: TNotifyEvent read fOnCurrentFileChange write
         fOnCurrentFileChange;
     property OnDetach: TNotifyEvent read fOnDetach write fOnDetach;
+    property OnEditorClose: TNotifyEvent read fOnEditorClose write fOnEditorClose;
   end;
 
 {-------------------------------------------------------------------------------
@@ -342,6 +349,7 @@ begin
     fLastMute:= fMediaPlayer.Mute;
     fMediaPlayer.OnPositionChange:= UpdateSeekbarState;
     fMediaPlayer.OnStatusChanged:= UpdateControlStates;
+    fMediaPlayer.OnEditorClose:= HandleEditorClose;
   end;
 end;
 
@@ -389,7 +397,7 @@ begin
   // create form
   Result:= TCEQuickViewForm.CreateNew(Application.MainForm);
   // initilize values
-  Result.FormStyle:= fsStayOnTop;
+  Result.FormStyle:= fsStayOnTop; 
   Result.ScreenSnap:= true;
   // size
   p:= Self.ClientToScreen(Point(0,0));
@@ -420,6 +428,7 @@ begin
     fMediaPlayer.BringToFront;
     fMediaPlayer.OnPositionChange:= UpdateSeekbarState;
     fMediaPlayer.OnStatusChanged:= UpdateControlStates;
+    fMediaPlayer.OnEditorClose:= HandleEditorClose;
     fMediaPlayer.PopupMenu:= QuickViewPopup;
     fMediaPlayer.SetSlideshowInterval(GlobalQuickViewSettings.SlideshowInterval);
   end;
@@ -464,7 +473,7 @@ begin
           else
           fMediaPlayer.Play;
         end;
-        // stop
+        // stop/close
         2: begin
           if TSpTBXItem(Sender).ImageIndex = 2 then
           fMediaPlayer.Stop
@@ -1318,6 +1327,14 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Handle EditorClose
+-------------------------------------------------------------------------------}
+procedure TCEQuickView.HandleEditorClose(Sender: TObject);
+begin
+  PostMessage(Self.Handle, WM_QuickViewCtrl, 2, 0);
+end;
+
+{-------------------------------------------------------------------------------
   Write Global Settings
 -------------------------------------------------------------------------------}
 procedure TCEQuickView.WriteGlobalSettings;
@@ -1388,6 +1405,28 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  WMQuickViewCtrl
+-------------------------------------------------------------------------------}
+procedure TCEQuickView.WMQuickViewCtrl(var Message: TMessage);
+begin
+  // Close
+  case Message.WParam of
+    2: begin
+      if CanClose then
+      begin
+        Close;
+        if fShowPreview then
+        SetActiveFilePath(fActiveFilePath);
+        if assigned(fOnEditorClose) then
+        fOnEditorClose(Self);
+      end;
+    end;
+  end;
+
+  inherited;
+end;
+
 {##############################################################################}
 // TCEQuickViewForm
 
@@ -1402,6 +1441,7 @@ begin
   QuickView.Align:= alClient;
   QuickView.OnCurrentFileChange:= HandleCurrentFileChange;
   QuickView.fIsDetached:= true;
+  Self.PopupMode:= pmAuto;
 end;
 
 {-------------------------------------------------------------------------------

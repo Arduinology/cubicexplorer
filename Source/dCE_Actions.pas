@@ -412,7 +412,7 @@ begin
   act_sessions_menu.ItemClass:= TCESessionsButton;
   act_tabs_undo.ItemClass:= TCEClosedTabsListButton;
   act_filters_menu.ItemClass:= TCEFiltersMenuButton;
-  act_filters_pattern.ItemClass:= TCEFilterPatternItem;
+  act_filters_pattern.ItemClass:= TCEFilterPatternItem2;
   act_edit_undo_delete.ItemClass:= TCEUndoDeleteButton;
   act_tools_systempower.ItemClass:= TCESystemPowerButton;
   act_tabs_menu.ItemClass:= TCETabsButton;
@@ -989,6 +989,12 @@ begin
                end;
              end;
            end;
+
+           quickview:= TCEQuickViewPage(MainForm.TabSet.AddTab(TCEQuickViewPage, MainForm.TabSet.Settings.NewTabSelect).Page);
+           //quickview.QuickView.
+           if ws <> '' then
+           quickview.OpenFile(ws);
+
            // TODO: TextEditor Rewrite
 //           editor:= TCETextEditorPage(MainForm.TabSet.AddTab(TCETextEditorPage, MainForm.TabSet.Settings.NewTabSelect).Page);
 //           if (ws <> '') then

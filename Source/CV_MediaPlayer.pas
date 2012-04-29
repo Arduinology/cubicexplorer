@@ -272,7 +272,14 @@ type
 -------------------------------------------------------------------------------}
   ICVMediaEngineEditor = interface(IInterface)
   ['{B81F8A3A-F77B-475B-BE7E-F44CEA14A9E2}']
+    // CanClose
+    // - Return true if currently loaded file can be closed.
+    // - The engine should save modifications to the file when this is called.
     function CanClose: Boolean; stdcall;
+    // SetEditorCloseEvent
+    // - MediaPlayer will call this to set a EditorClose event handler.
+    // - If the engine want's to close itself, it can call the AHandler.
+    procedure SetEditorCloseEvent(AHandler: TNotifyEvent); stdcall;
   end;
 
 {-------------------------------------------------------------------------------
@@ -333,6 +340,7 @@ type
     fEngine: ICVMediaEngine;
     fEngineWindow: ICCWindowCtrl;
     fMute: Boolean;
+    fOnEditorClose: TNotifyEvent;
     fPositionInterval: Integer;
     fProgressTimer: TTimer;
     fSlideshowInterval: Integer;
@@ -396,6 +404,7 @@ type
         SetSlideshowInterval;
     property Volume: Integer read fVolume write SetVolume;
   published
+    property OnEditorClose: TNotifyEvent read fOnEditorClose write fOnEditorClose;
     property OnPositionChange: TCVMediaPlayerPositionEvent read fOnPositionChange
         write fOnPositionChange;
     property OnStatusChanged: TNotifyEvent read fOnStatusChanged write
@@ -808,6 +817,8 @@ end;
   Set Engine
 -------------------------------------------------------------------------------}
 procedure TCVMediaPlayer.SetEngine(const Value: ICVMediaEngine);
+var
+  editor: ICVMediaEngineEditor;
 begin
   // Disable position timer
   fProgressTimer.Enabled:= false;
@@ -817,6 +828,9 @@ begin
   fEngineWindow:= nil;
   if assigned(fEngine) then
   begin
+    if Supports(value, IID_ICVMediaEngineEditor, editor) then
+    editor.SetEditorCloseEvent(nil);
+    
     fEngine.Close;
     fEngine:= nil;
   end;
@@ -834,6 +848,10 @@ begin
       fEngineWindow.SetParentWindow(Self.Handle);
       fEngineWindow.SetBounds(Self.ClientRect);
     end;
+
+    // setup editor
+    if Supports(value, IID_ICVMediaEngineEditor, editor) then
+    editor.SetEditorCloseEvent(fOnEditorClose);
   end;
 end;
 

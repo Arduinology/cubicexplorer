@@ -207,6 +207,15 @@ type
     constructor Create(AOwner: TComponent); override;
   end;
 
+  TCEFilterPatternItem2 = class(TCEToolbarEditItem)
+  protected
+    procedure DoChange(const AText: WideString); override;
+    procedure DoClearButtonClick(Shift: TShiftState); override;
+  public
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+  end;
+
 var
   GlobalButtonSettings: TCEButtonSettings;
 
@@ -1357,6 +1366,46 @@ procedure TCEStackSaveButton.DoPopup(Sender: TTBCustomItem; FromLink:
     Boolean);
 begin
   CEStackPanel.PopulateStackSaveMenuItem(Sender, true);
+end;
+
+{##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Create an instance of PatternNotifyList
+-------------------------------------------------------------------------------}
+constructor TCEFilterPatternItem2.Create(AOwner: TComponent);
+begin
+  inherited;
+  CEFiltersPanel.PatternNotifyList.Add(Self);
+  Self.AutoShowClearButton:= true;
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy PatternNotifyList
+-------------------------------------------------------------------------------}
+destructor TCEFilterPatternItem2.Destroy;
+begin
+  if assigned(CEFiltersPanel) then
+  CEFiltersPanel.PatternNotifyList.Remove(Self);
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Do Change
+-------------------------------------------------------------------------------}
+procedure TCEFilterPatternItem2.DoChange(const AText: WideString);
+begin
+  inherited;
+  CEFiltersPanel.PatternText:= AText;
+end;
+
+{-------------------------------------------------------------------------------
+  Do ClearButtonClick
+-------------------------------------------------------------------------------}
+procedure TCEFilterPatternItem2.DoClearButtonClick(Shift: TShiftState);
+begin
+  inherited;
+  CEFiltersPanel.PatternText:= '';
 end;
 
 {##############################################################################}

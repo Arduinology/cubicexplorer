@@ -92,6 +92,7 @@ type
     procedure DoTabClosing(var Allow, CloseAndFree: Boolean); override;
     function GetItemViewerClass(AView: TTBView): TTBItemViewerClass; override;
   public
+    constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     function CloseTab: Boolean;
     function GetTabSet: TCESpTabSet;
@@ -311,6 +312,16 @@ uses
   CE_VistaFuncs;
 
 {##############################################################################}
+
+{-------------------------------------------------------------------------------
+  Create an instance of TCESpTabItem
+-------------------------------------------------------------------------------}
+constructor TCESpTabItem.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  fPage:= nil;
+  
+end;
 
 {-------------------------------------------------------------------------------
   Destroy
