@@ -4,12 +4,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1494\n"
+"CE-POT-Version: 1512\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
-"POT-Creation-Date:          \n"
-"PO-Revision-Date:          \n"
-"Language-Team:          \n"
+"POT-Creation-Date:                \n"
+"PO-Revision-Date:                \n"
+"Language-Team:                \n"
 
 msgid "%d file(s) failed to download!"
 msgstr "Echec du téléchargement de %d fichier(s) !"
@@ -114,7 +114,7 @@ msgid "Apply changes now?"
 msgstr "Appliquer les modifications maintenant ?"
 
 msgid "Apply changes."
-msgstr "Appliquer les changements"
+msgstr "Appliquer les modifications"
 
 msgid "Archiver"
 msgstr "Archiveur"
@@ -326,6 +326,9 @@ msgstr "Contenu"
 msgid "Continue from last time"
 msgstr " Poursuivre depuis la dernière fois"
 
+msgid "Controls"
+msgstr "Contrôles"
+
 msgid "Copy"
 msgstr "Copier"
 
@@ -345,7 +348,7 @@ msgid "Create Symbolic Link"
 msgstr "Créer un lien symbolique"
 
 msgid "Create new translation."
-msgstr "Créer une nouvelle traduction."
+msgstr "Créer une nouvelle traduction"
 
 msgid "Created"
 msgstr "Créé le"
@@ -415,6 +418,9 @@ msgstr "Suppression de plusieurs favoris !"
 
 msgid "Desktop"
 msgstr " Bureau"
+
+msgid "Detach to Window"
+msgstr "Détacher dans une fenêtre"
 
 msgid "Details"
 msgstr "Détails"
@@ -581,6 +587,9 @@ msgstr "Une opération sur un ou des fichiers est peut être encore en cours d'e
 msgid "File size format:"
 msgstr "Format pour la taille des fichiers :"
 
+msgid "Filelist"
+msgstr "Liste des fichiers"
+
 msgid "Files to update"
 msgstr "Fichiers à mettre à jour"
 
@@ -637,6 +646,9 @@ msgstr "En test"
 
 msgid "Format"
 msgstr "Format"
+
+msgid "Format not supported"
+msgstr "Format non supporté"
 
 msgid "Forward"
 msgstr "Suivant"
@@ -818,6 +830,15 @@ msgstr "Verrouiller les barres d'outils"
 msgid "Logoff"
 msgstr "Fermer la session"
 
+msgid "Loop File"
+msgstr "Répéter le fichier"
+
+msgid "Loop Filelist"
+msgstr "Répéter la liste des fichiers"
+
+msgid "Loop Playlist"
+msgstr "Répéter la liste de lecture"
+
 msgid "MB"
 msgstr "Mo"
 
@@ -904,6 +925,9 @@ msgstr "Une nouvelle version (%s) est disponible. Souhaitez-vous mettre à jour 
 
 msgid "No Extension"
 msgstr "Pas d'extension"
+
+msgid "No Looping"
+msgstr "Ne pas répéter"
 
 msgid "No Selection"
 msgstr "Aucune sélection"
@@ -1012,6 +1036,9 @@ msgstr "Chemin"
 
 msgid "Pause"
 msgstr "Pause"
+
+msgid "Playlist"
+msgstr "Liste de lecture"
 
 msgid "Please choose different hotkey."
 msgstr "S'il vous plaît, choisissez un raccourci clavier différent."
@@ -1201,6 +1228,9 @@ msgstr "Rechercher dans le répertoire"
 
 msgid "Searching from"
 msgstr "Recherche dans "
+
+msgid "Seekbar"
+msgstr "Barre de progression"
 
 msgid "Select All"
 msgstr "Sélectionner tout"
@@ -1489,6 +1519,9 @@ msgstr "Version de la traduction"
 
 msgid "Translator's Email"
 msgstr "Courriel du traducteur"
+
+msgid "Translator's Email (optional)"
+msgstr "Courriel du traducteur (optionnel)"
 
 msgid "Translator's Name"
 msgstr "Nom du traducteur"

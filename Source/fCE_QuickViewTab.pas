@@ -88,6 +88,7 @@ begin
   QuickView.OnDetach:= HandleDetach;
   QuickView.OnCurrentFileChange:= HandleCurrentFileChange;
   QuickView.OnEditorClose:= HandleDetach;
+  CEGlobalTranslator.TranslateComponent(QuickView);
   Layout:= 'QuickView';
 end;
 
@@ -194,10 +195,17 @@ end;
   Update Tab item Caption
 -------------------------------------------------------------------------------}
 procedure TCEQuickViewPage.UpdateCaption;
+var
+  ws: WideString;
 begin
   if ActiveFile = '' then
   begin
+    ws:= QuickView.GetCurrentTitle;
+    if ws <> '' then
+    TabCaption:= ws
+    else
     TabCaption:= _('QuickView');
+
     TabItem.Images:= CE_Images.SmallIcons;
     TabItem.ImageIndex:= 20;
   end

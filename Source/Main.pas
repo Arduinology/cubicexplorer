@@ -1400,6 +1400,7 @@ begin
   begin
     CEGlobalTranslator.TranslateComponent(Self);
   end;
+  CEGlobalTranslator.TranslateComponent(CEQuickViewPanel.QuickView);
   EndUIUpdate;
 end;
 

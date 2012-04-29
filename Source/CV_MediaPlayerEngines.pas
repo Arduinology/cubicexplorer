@@ -272,6 +272,9 @@ type
     // GetID
     // - Return unique TGuid
     function GetID: TGUID; override; stdcall;
+    // GetTitle
+    // - Return the title of currently loaded media
+    function GetTitle: WideString; override; stdcall;
     // HasControl
     // - Return TRUE if currently loaded file supports play/pause/stop.
     // - Return FALSE with still media like images.
@@ -1416,6 +1419,14 @@ end;
 function TCVTextEngine.GetPlaybackEnabled: Boolean;
 begin
   Result:= GlobalTextEditorSettings.EnablePlayback;
+end;
+
+{-------------------------------------------------------------------------------
+  Get Title
+-------------------------------------------------------------------------------}
+function TCVTextEngine.GetTitle: WideString;
+begin
+  Result:= fEditor.ActiveFileName;
 end;
 
 {-------------------------------------------------------------------------------

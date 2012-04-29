@@ -1,5 +1,9 @@
 29.4.2012
 + Added file preview for text files.
+---
+* Updated French translation (thanks to BB).
+- Fixed translation issues.
+* QuickView video/audio player now moves to click position.
 
 28.4.2012
 + Rewrote text editor.

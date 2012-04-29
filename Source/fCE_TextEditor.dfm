@@ -766,7 +766,7 @@ object CETextEditor: TCETextEditor
     object act_show_statusbar: TTntAction
       Tag = 406
       Category = 'View'
-      Caption = 'Statusbar'
+      Caption = 'Status Bar'
       OnExecute = ActionExecute
       OnUpdate = ActionUpdate
     end

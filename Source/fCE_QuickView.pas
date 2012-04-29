@@ -128,6 +128,8 @@ type
     procedure PopulateControlsToolbar(AToolbar: TCEToolbar); virtual;
     procedure PopulateSeekToolbar(AToolbar: TCEToolbar); virtual;
     function CanClose: Boolean; virtual;
+    function GetCurrentTitle: WideString; virtual;
+    procedure OpenTextFile(AFilePath: WideString); virtual;
     property Active: Boolean read fActive write SetActive;
     property ActiveFilePath: WideString read fActiveFilePath write
         SetActiveFilePath;
@@ -282,6 +284,8 @@ begin
   PopulateControlsToolbar(toolbar_controls);
   PopulateSeekToolbar(toolbar_seekbar);
   UpdateControlStates(Self);
+  
+  // translate
 end;
 
 {-------------------------------------------------------------------------------
@@ -811,7 +815,7 @@ begin
   // play (1)
   item:= TSpTBXItem.Create(AToolbar);
   item.Tag:= 1;
-  item.Caption:= 'Play';
+  item.Caption:= _('Play');
   item.ImageIndex:= 0;
   item.OnClick:= HandleControlClick;
   AToolbar.Items.Add(item);
@@ -819,7 +823,7 @@ begin
   // stop (2)
   item:= TSpTBXItem.Create(AToolbar);
   item.Tag:= 2;
-  item.Caption:= 'Stop';
+  item.Caption:= _('Stop');
   item.ImageIndex:= 2;
   item.OnClick:= HandleControlClick;
   AToolbar.Items.Add(item);
@@ -827,7 +831,7 @@ begin
   // previous (3)
   item:= TSpTBXItem.Create(AToolbar);
   item.Tag:= 3;
-  item.Caption:= 'Previous';
+  item.Caption:= _('Previous');
   item.ImageIndex:= 3;
   item.OnClick:= HandleControlClick;
   AToolbar.Items.Add(item);
@@ -835,7 +839,7 @@ begin
   // next (4)
   item:= TSpTBXItem.Create(AToolbar);
   item.Tag:= 4;
-  item.Caption:= 'Next';
+  item.Caption:= _('Next');
   item.ImageIndex:= 4;
   item.OnClick:= HandleControlClick;
   AToolbar.Items.Add(item);
@@ -844,7 +848,7 @@ begin
   // previous file (5)
   item:= TSpTBXItem.Create(AToolbar);
   item.Tag:= 5;
-  item.Caption:= 'Previous File';
+  item.Caption:= _('Previous File');
   item.ImageIndex:= 5;
   item.OnClick:= HandleControlClick;
   AToolbar.Items.Add(item);
@@ -853,7 +857,7 @@ begin
   // next file (6)
   item:= TSpTBXItem.Create(AToolbar);
   item.Tag:= 6;
-  item.Caption:= 'Next File';
+  item.Caption:= _('Next File');
   item.ImageIndex:= 6;
   item.OnClick:= HandleControlClick;
   AToolbar.Items.Add(item);
@@ -905,7 +909,7 @@ begin
   // playlist (8)
   item:= TSpTBXItem.Create(AToolbar);
   item.Tag:= 8;
-  item.Caption:= 'Playlist';
+  item.Caption:= _('Playlist');
   item.ImageIndex:= 7;
   item.OnClick:= HandleControlClick;
   AToolbar.Items.Add(item);
@@ -913,13 +917,14 @@ begin
   // mute (9)
   item:= TSpTBXItem.Create(AToolbar);
   item.Tag:= 9;
-  item.Caption:= 'Mute';
+  item.Caption:= _('Mute');
   item.ImageIndex:= 8;
   item.OnClick:= HandleControlClick;
   AToolbar.Items.Add(item);
   fControlItems.Add(item);
   // volume (10)
   track:= TCETrackBar.Create(AToolbar);
+  track.Hint:= _('Volume');
   track.Tag:= 10;
   track.Parent:= AToolbar;
   track.ShowFocusRect:= false;
@@ -1106,10 +1111,16 @@ begin
                          ((fLoopMode = lmPlaylist) and not Playlist.IsEmpty) or
                          ((fLoopMode = lmFilelist) and not Filelist.IsEmpty);
 
-          if (status = mpsPlaying) then
-          item.ImageIndex:= 1
-          else
-          item.ImageIndex:= 0;
+          if (status = mpsPlaying) and (item.ImageIndex <> 1) then
+          begin
+            item.ImageIndex:= 1;
+            item.Caption:= _('Pause');
+          end
+          else if (status <> mpsPlaying) and (item.ImageIndex <> 0) then
+          begin
+            item.ImageIndex:= 0;
+            item.Caption:= _('Play');
+          end;
         end;
         // stop/close
         2: begin
@@ -1228,7 +1239,7 @@ begin
         21: begin
           if status = mpsError then
           begin
-            TSpTBXLabelItem(fControlItems.Items[i]).Caption:= 'Error';
+            TSpTBXLabelItem(fControlItems.Items[i]).Caption:= _('Error');
             TSpTBXLabelItem(fControlItems.Items[i]).Hint:= fMediaPlayer.GetStatusText;
           end;
         end;
@@ -1327,11 +1338,45 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  GetCurrentTitle
+-------------------------------------------------------------------------------}
+function TCEQuickView.GetCurrentTitle: WideString;
+begin
+  if assigned(fMediaPlayer) then
+  Result:= fMediaPlayer.GetTitle
+  else
+  Result:= '';
+end;
+
+{-------------------------------------------------------------------------------
   Handle EditorClose
 -------------------------------------------------------------------------------}
 procedure TCEQuickView.HandleEditorClose(Sender: TObject);
 begin
   PostMessage(Self.Handle, WM_QuickViewCtrl, 2, 0);
+end;
+
+{-------------------------------------------------------------------------------
+  OpenTextFile
+-------------------------------------------------------------------------------}
+// TODO: temporary solution
+procedure TCEQuickView.OpenTextFile(AFilePath: WideString);
+begin
+  // create media player
+  CreateEmbededMediaPlayer;
+
+  if fMediaPlayer.CanClose then
+  begin
+    // create media engine
+    fMediaPlayer.Engine:= TCVTextEngine.Create;
+    // open file
+    fMediaPlayer.OpenFile(AFilePath);
+    CurrentFilePath:= AFilePath;
+    // clear preview (no need to keep it in memory since it's hidden)
+    Preview.Clear;
+
+    UpdateControlStates(Self);
+  end;
 end;
 
 {-------------------------------------------------------------------------------

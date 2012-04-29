@@ -14,6 +14,7 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
   OldCreateOrder = False
   Position = poMainFormCenter
   OnClose = FormClose
+  OnCreate = TntFormCreate
   DesignSize = (
     401
     426)
@@ -24,15 +25,11 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
     Top = 8
     Width = 385
     Height = 379
-    ActivePage = sheet_export
+    ActivePage = sheet_display
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
     object sheet_display: TTntTabSheet
       Caption = 'Display'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object TntLabel9: TTntLabel
         Left = 197
         Top = 287
@@ -201,8 +198,7 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
           Width = 121
           Height = 21
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 0
-          ItemIndex = 0
+          ItemHeight = 13
           TabOrder = 0
           Text = 'Vertical Line'
           Items.Strings = (
@@ -217,7 +213,7 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
           Width = 121
           Height = 21
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 0
+          ItemHeight = 13
           ItemIndex = 3
           TabOrder = 1
           Text = 'Block'
@@ -242,10 +238,6 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
     end
     object sheet_gutter: TTntTabSheet
       Caption = 'Gutter'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         377
         351)
@@ -470,7 +462,7 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
           Width = 121
           Height = 21
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 1
           Text = 'Middle'
           Items.Strings = (
@@ -482,10 +474,6 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
     end
     object sheet_options: TTntTabSheet
       Caption = 'Options'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         377
         351)

@@ -1003,3 +1003,62 @@ msgstr ""
 # dCE_Images.dfm:9224
 msgid "PngImage71"
 msgstr ""
+
+#. CETextEditor..SynCppSyn1..DefaultFilter
+#: fCE_TextEditor.dfm:804
+msgid "C++ files (*.cpp,*.h,*.hpp)|*.cpp;*.h;*.hpp"
+msgstr ""
+
+#. CETextEditor..SynSQLSyn1..DefaultFilter
+#: fCE_TextEditor.dfm:836
+msgid "SQL files (*.sql)|*.sql"
+msgstr ""
+
+#. CETextEditor..SynMultiHighlighter....DefaultFilter
+#: fCE_TextEditor.dfm:1067
+msgid ""
+"HTML and PHP (*.htm;*.html;*.php;*.php3;*.phtml)|*.htm;*.html;*.php;*.php3;*."
+"phtml"
+msgstr ""
+
+#. CETextEditor..SynMultiHighlighter......StartExpr
+#. CETextEditor..SynMultiHighlighter......StartExprW
+#: fCE_TextEditor.dfm:1071
+# fCE_TextEditor.dfm:1077
+msgid "<[ \\t]*style\\b[^>]*>"
+msgstr ""
+
+#. CETextEditor..SynMultiHighlighter......EndExpr
+#. CETextEditor..SynMultiHighlighter......EndExprW
+#: fCE_TextEditor.dfm:1072
+# fCE_TextEditor.dfm:1078
+msgid "</[ \\t]*style[ \\t]*>"
+msgstr ""
+
+#. CETextEditor..SynMultiHighlighter......StartExpr
+#. CETextEditor..SynMultiHighlighter......StartExprW
+#: fCE_TextEditor.dfm:1082
+# fCE_TextEditor.dfm:1088
+msgid "<[ \\t]*script\\b[^>]*>"
+msgstr ""
+
+#. CETextEditor..SynMultiHighlighter......EndExpr
+#. CETextEditor..SynMultiHighlighter......EndExprW
+#: fCE_TextEditor.dfm:1083
+# fCE_TextEditor.dfm:1089
+msgid "</[ \\t]*script[ \\t]*>"
+msgstr ""
+
+#. CETextEditor..SynMultiHighlighter......StartExpr
+#. CETextEditor..SynMultiHighlighter......StartExprW
+#: fCE_TextEditor.dfm:1092
+# fCE_TextEditor.dfm:1098
+msgid "<\\?[ \\t]*php\\b"
+msgstr ""
+
+#. CETextEditor..SynMultiHighlighter......EndExpr
+#. CETextEditor..SynMultiHighlighter......EndExprW
+#: fCE_TextEditor.dfm:1093
+# fCE_TextEditor.dfm:1099
+msgid "\\?>"
+msgstr ""

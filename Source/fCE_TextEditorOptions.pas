@@ -153,6 +153,7 @@ type
     edit_export_wrapper_class: TTntEdit;
     color_export_background_color: TColorBox;
     check_export_tabs_to_spaces: TTntCheckBox;
+    procedure TntFormCreate(Sender: TObject);
     procedure but_applyClick(Sender: TObject);
     procedure but_fontClick(Sender: TObject);
     procedure but_gutter_fontClick(Sender: TObject);
@@ -182,7 +183,7 @@ function GlobalTextEditorSettings: TCETextEditorSettings;
 implementation
 
 uses
-  fCE_TextEditor;
+  fCE_TextEditor, CE_LanguageEngine;
 
 var
   fGlobalTextEditorSettings: TCETextEditorSettings;
@@ -219,6 +220,19 @@ end;
 
 {##############################################################################}
 // TCETextEditorOptionsForm
+
+{-------------------------------------------------------------------------------
+  On TCETextEditorOptionsForm.Create
+-------------------------------------------------------------------------------}
+procedure TCETextEditorOptionsForm.TntFormCreate(Sender: TObject);
+begin
+  CEGlobalTranslator.TranslateComponent(Self);
+  combo_insert_caret.Items.Strings[0]:= _('Vertical Line');
+  combo_insert_caret.Items.Strings[1]:= _('Horizontal Line');
+  combo_insert_caret.Items.Strings[2]:= _('Half Block');
+  combo_insert_caret.Items.Strings[3]:= _('Block');
+  combo_override_caret.Items.Assign(combo_insert_caret.Items);
+end;
 
 {-------------------------------------------------------------------------------
   Assign Values From

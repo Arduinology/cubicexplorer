@@ -369,6 +369,9 @@ begin
   // populate highlighters menu
   PopuplateHighlighters(sub_highlighter);
 
+  // translate
+  CEGlobalTranslator.TranslateComponent(Self);
+
   // update items
   UpdateStats;
   SynMemoStatusChange(Self, [scAll]);

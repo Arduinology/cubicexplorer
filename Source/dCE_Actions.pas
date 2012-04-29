@@ -991,18 +991,7 @@ begin
            end;
 
            quickview:= TCEQuickViewPage(MainForm.TabSet.AddTab(TCEQuickViewPage, MainForm.TabSet.Settings.NewTabSelect).Page);
-           //quickview.QuickView.
-           if ws <> '' then
-           quickview.OpenFile(ws);
-
-           // TODO: TextEditor Rewrite
-//           editor:= TCETextEditorPage(MainForm.TabSet.AddTab(TCETextEditorPage, MainForm.TabSet.Settings.NewTabSelect).Page);
-//           if (ws <> '') then
-//           begin
-//            ext:= WideUpperCase(WideExtractFileExt(ws));
-//            if (ext <> '.EXE') and (ext <> '.DLL') then
-//            editor.OpenDocument(ws);
-//           end;
+           quickview.QuickView.OpenTextFile(ws);
          end;
     // Open Search
     651: begin

@@ -45,6 +45,7 @@ type
   protected
     fChanging: Boolean;
     fChannelSize: Integer;
+    fEnableClickPositionChange: Boolean;
     fPositionHintWindow: THintWindow;
     fOnAfterChange: TNotifyEvent;
     fOnShowHintQueryEvent: TCEShowHintQueryEvent;
@@ -69,6 +70,8 @@ type
     property PositionHintWindow: THintWindow read fPositionHintWindow;
   published
     property ChannelSize: Integer read fChannelSize write SetChannelSize default -1;
+    property EnableClickPositionChange: Boolean read fEnableClickPositionChange
+        write fEnableClickPositionChange;
     property PositionHintOrientation: TCEPositionHintOrientation read
         fPositionHintOrientation write fPositionHintOrientation;
     property ShowFocusRect: Boolean read fShowFocusRect write SetShowFocusRect
@@ -102,6 +105,7 @@ begin
   fPositionHintWindow.Parent:= Self;
   fPositionHintOrientation:= phoAbove;
   fShowPositionHint:= false;
+  fEnableClickPositionChange:= true;
 end;
 
 {-------------------------------------------------------------------------------
@@ -302,10 +306,21 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCETrackBar.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y:
     Integer);
+var
+  i: Integer;
+  r: TRect;
 begin
   fChanging:= Shift = [ssLeft];
   if fShowPositionHint and fChanging then
   DoShowHint;
+
+  if fEnableClickPositionChange then
+  begin
+    r:= ChannelRect;
+    i:= Round( (X-r.Left) / ((r.Right-r.Left) / (Self.Max- Self.Min)) );
+    Self.Position:= i;
+  end;
+
   inherited;
 end;
 
