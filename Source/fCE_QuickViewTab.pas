@@ -53,18 +53,24 @@ type
     procedure SelectPage; override;
     function TabClosing: Boolean; override;
     procedure UpdateCaption; override;
-    property ActiveFile: WideString read fActiveFile write fActiveFile;
+    property ActiveFile: WideString read fActiveFile;
   end;
 
 type
   TCEQuickViewPageSettings = class(TCECustomTabPageSettings)
   private
   protected
+    fQuickViewPage: TCEQuickViewPage;
+    function GetPath: WideString;
     function GetRememberPanelLayout: Boolean; override;
     function GetRememberInnerToolbarLayout: Boolean; override;
     function GetRememberOuterToolbarLayout: Boolean; override;
+    procedure SetPath(const Value: WideString);
   public
+    property QuickViewPage: TCEQuickViewPage read fQuickViewPage write
+        fQuickViewPage;
   published
+    property Path: WideString read GetPath write SetPath;
   end;
 
 implementation
@@ -80,6 +86,8 @@ uses
 constructor TCEQuickViewPage.Create(AOwner: TComponent);
 begin
   inherited;
+  TCEQuickViewPageSettings(Settings).QuickViewPage:= Self;
+  
   QuickView:= TCEQuickView.Create(nil);
   QuickView.Parent:= Self;
   QuickView.Align:= alClient;
@@ -90,6 +98,8 @@ begin
   QuickView.OnEditorClose:= HandleDetach;
   CEGlobalTranslator.TranslateComponent(QuickView);
   Layout:= 'QuickView';
+
+  TabPageClassList
 end;
 
 {-------------------------------------------------------------------------------
@@ -114,7 +124,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEQuickViewPage.HandleCurrentFileChange(Sender: TObject);
 begin
-  ActiveFile:= QuickView.CurrentFilePath;
+  fActiveFile:= QuickView.CurrentFilePath;
   UpdateCaption;
 end;
 
@@ -151,14 +161,14 @@ procedure TCEQuickViewPage.OpenFile(AFilePath: WideString);
 begin
   if WideFileExists(AFilePath) then
   begin
-    ActiveFile:= AFilePath;
+    fActiveFile:= AFilePath;
     UpdateCaption;
     Application.ProcessMessages;
     QuickView.ActiveFilePath:= AFilePath;
   end
   else
   begin
-    ActiveFile:= '';
+    fActiveFile:= '';
     UpdateCaption;
   end;
 end;
@@ -245,5 +255,24 @@ function TCEQuickViewPageSettings.GetRememberOuterToolbarLayout: Boolean;
 begin
   Result:= GlobalQuickViewSettings.RememberOuterToolbarLayout;
 end;
+
+{-------------------------------------------------------------------------------
+  Get/Set Path
+-------------------------------------------------------------------------------}
+function TCEQuickViewPageSettings.GetPath: WideString;
+begin
+  Result:= QuickViewPage.QuickView.ActiveFilePath;
+end;
+procedure TCEQuickViewPageSettings.SetPath(const Value: WideString);
+begin
+  QuickViewPage.OpenFile(Value);
+end;
+
+{##############################################################################}
+
+initialization
+  TabPageClassList.RegisterClass('QuickView', TCEQuickViewPage, TCEQuickViewPageSettings);
+
+finalization
 
 end.

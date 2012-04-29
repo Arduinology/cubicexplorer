@@ -12,6 +12,7 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  PopupMode = pmExplicit
   Position = poMainFormCenter
   OnClose = FormClose
   OnCreate = TntFormCreate
@@ -238,6 +239,10 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
     end
     object sheet_gutter: TTntTabSheet
       Caption = 'Gutter'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         377
         351)
@@ -462,7 +467,7 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
           Width = 121
           Height = 21
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 13
+          ItemHeight = 0
           TabOrder = 1
           Text = 'Middle'
           Items.Strings = (
@@ -474,6 +479,10 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
     end
     object sheet_options: TTntTabSheet
       Caption = 'Options'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         377
         351)
@@ -615,6 +624,10 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
     end
     object sheet_export: TTntTabSheet
       Caption = 'Export'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         377
         351)

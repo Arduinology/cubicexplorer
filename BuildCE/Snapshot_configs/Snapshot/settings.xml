@@ -1,13 +1,17 @@
 <CubicExplorer>
   <QuickView>
-    <ImageExts>bmp,ico,wmf,emf,jfif,jpg,jpe,jpeg,rle,dib,win,vst,vda,tga,icb,tiff,tif,fax,eps,pcx,pcc,scr,rpf,rla,sgi,rgba,rgb,bw,psd,pdd,ppm,pgm,pbm,cel,pic,pcd,cut,psp,png,gif</ImageExts>
-    <MemoExts>txt,ini,bat,html,htm,pas,css,xml,log,for,php,py</MemoExts>
-    <Muted>False</Muted>
-    <RememberPanelLayout>False</RememberPanelLayout>
+    <DirectShowExtensions>avi,wmv,mp4,mpg,mpeg,ogg,ogm,mkv,dvr-ms,mp3,vob,wav,flv</DirectShowExtensions>
+    <ImageExtensions>bmp,ico,wmf,emf,jfif,jpg,jpe,jpeg,rle,dib,win,vst,vda,tga,icb,tiff,tif,fax,eps,pcx,pcc,scr,rpf,rla,sgi,rgba,rgb,bw,psd,pdd,ppm,pgm,pbm,cel,pic,pcd,cut,psp,png,gif</ImageExtensions>
+    <LoopMode>0</LoopMode>
+    <MediaPlayer>1</MediaPlayer>
+    <TextExtensions>txt,cpp,h,hpp,pas,pp,dpr,dpk,inc,sql,bas,java,cs,css,htm,html,asm,dfm,xfm,ini,iss,rc,for,cbl,cob,js,php,php3,phtml,inc,vbs,xml,xsd,xsl,xslt,dtd,bat,cmd,pl,pm,cgi,py,tcl,rb,rbw,sh</TextExtensions>
     <RememberInnerToolbarLayout>True</RememberInnerToolbarLayout>
     <RememberOuterToolbarLayout>False</RememberOuterToolbarLayout>
-    <VideoExts>avi,wmv,mp4,mpg,mpeg,ogg,ogm,mkv,dvr-ms,mp3,vob,wav,flv</VideoExts>
-    <Volume>200</Volume>
+    <RememberPanelLayout>False</RememberPanelLayout>
+    <MediaExtensions>avi,wmv,mp4,mpg,mpeg,ogg,ogm,mkv,dvr-ms,mp3,vob,wav,flv</MediaExtensions>
+    <PlaylistVisibility>0</PlaylistVisibility>
+    <SlideshowInterval>5000</SlideshowInterval>
+    <WMPExtensions>avi,wmv,mp4,mpg,mpeg,ogg,ogm,mkv,dvr-ms,mp3,vob,wav,flv</WMPExtensions>
   </QuickView>
   <FileView>
     <ArrowBrowse>True</ArrowBrowse>
@@ -80,12 +84,6 @@
     <AutoSaveHistory>False</AutoSaveHistory>
     <HistoryCount>10</HistoryCount>
   </Sessions>
-  <TextEditor>
-    <RememberPanelLayout>False</RememberPanelLayout>
-    <RememberInnerToolbarLayout>True</RememberInnerToolbarLayout>
-    <RememberOuterToolbarLayout>False</RememberOuterToolbarLayout>
-    <WordWrap>False</WordWrap>
-  </TextEditor>
   <FileSearch>
     <Columns>0,0,180,0|1,1,96,0|2,2,120,0|3,3,120,0|284,284,250,2</Columns>
     <FontSize>-1</FontSize>
@@ -136,6 +134,57 @@
   </MainForm>
   <Hotkeys/>
   <GlobalHotkeys/>
+  <TextEditor>
+    <BackgroundColor>-16777211</BackgroundColor>
+    <EnablePlayback>False</EnablePlayback>
+    <ExportBackgroundColor>-16777211</ExportBackgroundColor>
+    <ExportOptions>9</ExportOptions>
+    <ExportWrapperClass>ce_export</ExportWrapperClass>
+    <ExtraLineSpacing>0</ExtraLineSpacing>
+    <Font>
+      <Charset>1</Charset>
+      <Color>-16777208</Color>
+      <Height>-13</Height>
+      <Name>Courier New</Name>
+      <Orientation>0</Orientation>
+      <Pitch>0</Pitch>
+      <Size>10</Size>
+      <Style>0</Style>
+    </Font>
+    <Gutter>
+      <AutoSize>True</AutoSize>
+      <BorderStyle>1</BorderStyle>
+      <Color>-16777201</Color>
+      <BorderColor>-16777211</BorderColor>
+      <Cursor>0</Cursor>
+      <DigitCount>4</DigitCount>
+      <Font>
+        <Charset>1</Charset>
+        <Color>-16777208</Color>
+        <Height>-13</Height>
+        <Name>Courier New</Name>
+        <Orientation>0</Orientation>
+        <Pitch>0</Pitch>
+        <Size>10</Size>
+        <Style>0</Style>
+      </Font>
+      <LeftOffset>16</LeftOffset>
+      <RightOffset>2</RightOffset>
+      <ShowLineNumbers>True</ShowLineNumbers>
+      <Width>30</Width>
+      <LineNumberStart>1</LineNumberStart>
+      <GradientStartColor>-16777211</GradientStartColor>
+      <GradientEndColor>-16777201</GradientEndColor>
+      <GradientSteps>48</GradientSteps>
+    </Gutter>
+    <InsertCaret>0</InsertCaret>
+    <MaxUndo>1024</MaxUndo>
+    <Options>86772819</Options>
+    <OverwriteCaret>3</OverwriteCaret>
+    <RightEdge>80</RightEdge>
+    <RightEdgeColor>12632256</RightEdgeColor>
+    <TabWidth>2</TabWidth>
+  </TextEditor>
   <Tabs>
     <AllowDropToTab>True</AllowDropToTab>
     <NewTabPath>PIDL:FgAAABQAH1DgT9Ag6jppEKLYCAArMDCdAAA=</NewTabPath>
@@ -147,6 +196,7 @@
     <AutoFitMaxSize>200</AutoFitMaxSize>
     <CloseButton>2</CloseButton>
     <DblClickCloseTab>True</DblClickCloseTab>
+    <FontSize>-1</FontSize>
     <MaxTabSize>-1</MaxTabSize>
     <OpenNextToCurrent>False</OpenNextToCurrent>
     <SwitchTabOnDragHover>True</SwitchTabOnDragHover>
