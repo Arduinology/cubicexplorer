@@ -238,6 +238,7 @@ type
     act_stack_remove: TTntAction;
     act_stack_clear: TTntAction;
     act_stack_allowmove: TTntAction;
+    act_gen_makevisible: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -517,6 +518,7 @@ begin
       fDisableSingleInstanceTemporarily:= GetTickCount;
       WideShellExecute(0, 'open', WideParamStr(0), '', '', SW_SHOWNORMAL);
     end;
+    104: MainForm.MakeVisible;
   end;
 end;
 

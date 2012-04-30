@@ -2,6 +2,9 @@
 * It's now possible to open links from the text editor.
 + Added Panels popupmenu.
 * Fixed issues in tab bar.
+---
++ Added Bookmarks to Tray icon.
++ Added Make Visible action.
 
 29.4.2012
 + Added file preview for text files.

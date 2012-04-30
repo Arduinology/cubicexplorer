@@ -786,6 +786,12 @@ object CEActions: TCEActions
       ImageIndex = 70
       OnExecute = ActionExecute
     end
+    object act_gen_makevisible: TTntAction
+      Tag = 104
+      Category = 'General'
+      Caption = 'Make Visible'
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

@@ -101,7 +101,7 @@ var
 implementation
 
 uses
-  CE_StdBookmarkComps, CE_Utils;
+  CE_StdBookmarkComps, CE_Utils, dCE_Input;
 
 {*------------------------------------------------------------------------------
   Populate BookmarkItem
@@ -271,6 +271,8 @@ begin
   BookmarkData.BookComp.MouseClick([ssMiddle], mbMiddle)
   else if (ss = [ssLeft, ssAlt, ssShift]) or (ss = [ssLeft, ssCtrl, ssShift]) then
   BookmarkData.BookComp.MouseClick([ssMiddle, ssShift], mbMiddle);
+
+  PostMessage(CEInput.MsgInput.Handle, WM_MakeVisible, 0, 0);
 end;
 
 {*------------------------------------------------------------------------------
@@ -338,6 +340,8 @@ begin
   BookmarkData.BookComp.MouseClick([ssMiddle], mbMiddle)
   else if (ss = [ssLeft, ssAlt, ssShift]) or (ss = [ssLeft, ssCtrl, ssShift]) then
   BookmarkData.BookComp.MouseClick([ssMiddle, ssShift], mbMiddle);
+
+  PostMessage(CEInput.MsgInput.Handle, WM_MakeVisible, 0, 0);
 end;
 
 {*------------------------------------------------------------------------------

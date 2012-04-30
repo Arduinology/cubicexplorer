@@ -605,6 +605,7 @@ object MainForm: TMainForm
     Top = 64
   end
   object TrayPopupMenu: TSpTBXPopupMenu
+    OnPopup = TrayPopupMenuPopup
     Left = 196
     Top = 96
     object SpTBXItem93: TSpTBXItem

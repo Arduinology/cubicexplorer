@@ -241,6 +241,7 @@ type
     procedure TntFormResize(Sender: TObject);
     procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer);
+    procedure TrayPopupMenuPopup(Sender: TObject);
   private
     fFullscreen: Boolean;
     fActiveLanguage: WideString;
@@ -1784,6 +1785,28 @@ begin
   // resize curtain
   if assigned(panel_curtain) then
   panel_curtain.BoundsRect:= ClientRect;
+end;
+
+{-------------------------------------------------------------------------------
+  On TrayPopupMenu.Popup
+-------------------------------------------------------------------------------}
+procedure TMainForm.TrayPopupMenuPopup(Sender: TObject);
+var
+  item: TSpTBXItem;
+begin
+  PopulateBookmarkItem(TrayPopupMenu.Items, CEBookmarkPanel.BookmarkTree);
+  // separator
+  TrayPopupMenu.Items.Add(TSpTBXSeparatorItem.Create(TrayPopupMenu));  
+  // show/hide
+  item:= TSpTBXItem.Create(TrayPopupMenu);
+  item.Action:= CEActions.act_gen_showhide;
+  TrayPopupMenu.Items.Add(item);
+  // separator
+  TrayPopupMenu.Items.Add(TSpTBXSeparatorItem.Create(TrayPopupMenu));
+  // exit
+  item:= TSpTBXItem.Create(TrayPopupMenu);
+  item.Action:= CEActions.act_gen_exit;
+  TrayPopupMenu.Items.Add(item);
 end;
 
 {-------------------------------------------------------------------------------

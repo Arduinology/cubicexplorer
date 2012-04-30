@@ -33,6 +33,7 @@ Unit Documents;
 // 101 = Show/Hide Application
 // 102 = Restart Application
 // 103 = New instance
+// 104 = Make Visible
 
 
 // **** Edit (200) ****
