@@ -246,7 +246,7 @@ object CETextEditor: TCETextEditor
     Left = 9
     Top = 25
     Width = 666
-    Height = 315
+    Height = 317
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -265,26 +265,29 @@ object CETextEditor: TCETextEditor
     WantTabs = True
     OnChange = SynMemoChange
     OnStatusChange = SynMemoStatusChange
+    ExplicitHeight = 315
   end
   object LeftDock: TSpTBXDock
     Left = 0
     Top = 25
     Width = 9
-    Height = 315
+    Height = 317
     Position = dpLeft
+    ExplicitHeight = 315
   end
   object RightDock: TSpTBXDock
     Left = 675
     Top = 25
     Width = 9
-    Height = 315
+    Height = 317
     Position = dpRight
+    ExplicitHeight = 315
   end
   object DockBottom: TSpTBXDock
     Left = 0
-    Top = 340
+    Top = 342
     Width = 684
-    Height = 54
+    Height = 52
     Position = dpBottom
     object toolbar_find: TCEToolbar
       Left = 0
@@ -296,9 +299,10 @@ object CETextEditor: TCETextEditor
       FullSize = True
       Images = PngImageList1
       TabOrder = 0
+      Visible = False
       Caption = 'Find'
       object but_close_search: TSpTBXItem
-        Tag = 301
+        Tag = 307
         Caption = 'Close'
         ImageIndex = 0
         OnClick = ActionExecute
@@ -309,13 +313,8 @@ object CETextEditor: TCETextEditor
         Caption = 'Find:'
         Alignment = taRightJustify
       end
-      object edit_search: TCEToolbarEditItem
-        CustomWidth = 128
-        OnAcceptText = edit_searchAcceptText
-        OnChange = edit_searchChange
-        AutoShowClearButton = True
-        DefaultWidth = 128
-        ShowClearButton = False
+      object TBControlItem1: TTBControlItem
+        Control = edit_find
       end
       object CEToolbarFixedSpacerItem2: TCEToolbarFixedSpacerItem
         CustomHeight = 16
@@ -364,10 +363,18 @@ object CETextEditor: TCETextEditor
           AutoCheck = True
         end
       end
+      object edit_find: TSpTBXEdit
+        Left = 65
+        Top = 0
+        Width = 121
+        Height = 21
+        TabOrder = 0
+        OnKeyPress = edit_findKeyPress
+      end
     end
     object toolbar_replace: TCEToolbar
       Left = 0
-      Top = 27
+      Top = 26
       BorderStyle = bsNone
       DockMode = dmCannotFloatOrChangeDocks
       DockPos = 0
@@ -377,8 +384,8 @@ object CETextEditor: TCETextEditor
       Images = PngImageList1
       TabOrder = 1
       Caption = 'Replace'
-      object SpTBXItem1: TSpTBXItem
-        Tag = 304
+      object but_replace_close: TSpTBXItem
+        Tag = 308
         Caption = 'Close'
         ImageIndex = 0
         OnClick = ActionExecute
@@ -389,12 +396,8 @@ object CETextEditor: TCETextEditor
         Caption = 'Replace:'
         Alignment = taRightJustify
       end
-      object edit_replace: TCEToolbarEditItem
-        CustomWidth = 128
-        OnChange = edit_searchChange
-        AutoShowClearButton = True
-        DefaultWidth = 128
-        ShowClearButton = False
+      object TBControlItem2: TTBControlItem
+        Control = edit_replace
       end
       object CEToolbarFixedSpacerItem3: TCEToolbarFixedSpacerItem
         CustomHeight = 16
@@ -405,6 +408,15 @@ object CETextEditor: TCETextEditor
       end
       object but_replace_all: TSpTBXItem
         Action = act_replace_all
+      end
+      object edit_replace: TSpTBXEdit
+        Left = 83
+        Top = 0
+        Width = 121
+        Height = 21
+        TabOrder = 0
+        OnChange = editChange
+        OnKeyPress = edit_replaceKeyPress
       end
     end
   end

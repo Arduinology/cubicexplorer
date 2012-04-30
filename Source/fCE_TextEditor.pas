@@ -26,7 +26,7 @@ uses
   PngImageList,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  ImgList, ExtCtrls, ActnList, StrUtils, Menus, SynURIOpener;
+  ImgList, ExtCtrls, ActnList, StrUtils, Menus, SynURIOpener, StdCtrls;
 
 type
 {-------------------------------------------------------------------------------
@@ -53,7 +53,6 @@ type
     DockBottom: TSpTBXDock;
     toolbar_find: TCEToolbar;
     but_close_search: TSpTBXItem;
-    edit_search: TCEToolbarEditItem;
     PngImageList1: TPngImageList;
     but_search_next: TSpTBXItem;
     but_search_prev: TSpTBXItem;
@@ -97,9 +96,8 @@ type
     SpTBXItem5: TSpTBXItem;
     SpTBXSeparatorItem6: TSpTBXSeparatorItem;
     toolbar_replace: TCEToolbar;
-    SpTBXItem1: TSpTBXItem;
+    but_replace_close: TSpTBXItem;
     label_replace: TSpTBXLabelItem;
-    edit_replace: TCEToolbarEditItem;
     but_replace: TSpTBXItem;
     but_replace_all: TSpTBXItem;
     CEToolbarFixedSpacerItem1: TCEToolbarFixedSpacerItem;
@@ -213,11 +211,15 @@ type
     act_replace_selected: TTntAction;
     act_replace_all: TTntAction;
     URIOpener: TSynURIOpener;
+    edit_find: TSpTBXEdit;
+    TBControlItem1: TTBControlItem;
+    edit_replace: TSpTBXEdit;
+    TBControlItem2: TTBControlItem;
     procedure ActionExecute(Sender: TObject);
     procedure ActionUpdate(Sender: TObject);
-    procedure edit_searchAcceptText(Sender: TObject; var NewText: WideString; var
-        Accept: Boolean);
-    procedure edit_searchChange(Sender: TObject; const AText: WideString);
+    procedure edit_findKeyPress(Sender: TObject; var Key: Char);
+    procedure editChange(Sender: TObject);
+    procedure edit_replaceKeyPress(Sender: TObject; var Key: Char);
     procedure StatusTimerTimer(Sender: TObject);
     procedure SynMemoChange(Sender: TObject);
     procedure SynMemoStatusChange(Sender: TObject; Changes: TSynStatusChanges);
@@ -254,8 +256,9 @@ type
     procedure ExportToHTML(AToClipboard: Boolean; ASelectedOnly: Boolean;
         AFilePath: WideString = ''; ATitle: WideString = ''); virtual;
     procedure ReplaceAll(AFind, AReplace: WideString); virtual;
-    procedure ShowHideSearchReplace(AShowHideReplace: Boolean = false); virtual;
+    procedure ShowSearchReplace(AShowReplace: Boolean = false); virtual;
     function CanClose: Boolean; virtual;
+    procedure HideSearchReplace(AHideReplace: Boolean = false); virtual;
     procedure UpdateStats; virtual;
     property ActiveFileName: WideString read fActiveFileName;
     property ActiveFilePath: WideString read fActiveFilePath;
@@ -457,19 +460,24 @@ begin
       ExportToHTML(true, true);
     end;
     // Find
-    301: ShowHideSearchReplace;
+    301: ShowSearchReplace;
     // Find Next
     302: FindNext;
     // Find Previous
     303: FindPrevious;
     // Replace
-    304: ShowHideSearchReplace(true);
+    304: ShowSearchReplace(true);
     // Replace Selected
     305: begin
       if (edit_replace.Text <> '') and (SynMemo.SelLength > 0) then
       SynMemo.SelText:= edit_replace.Text;
     end;
-    306: ReplaceAll(edit_search.Text, edit_replace.Text);
+    // Replace All
+    306: ReplaceAll(edit_find.Text, edit_replace.Text);
+    // Close Find
+    307: HideSearchReplace;
+    // Close Replace
+    308: HideSearchReplace(true);
     // Word Wrap
     401: SynMemo.WordWrap:= not SynMemo.WordWrap;
     // Options
@@ -546,9 +554,7 @@ begin
       // Copy as HTML
       208: TTntAction(Sender).Enabled:= SynMemo.SelAvail;
       // Find
-      301: begin
-        TTntAction(Sender).Checked:= toolbar_find.Visible;
-      end;
+      301:;
       // Find Next
       302:;
       // Find Previous
@@ -560,7 +566,7 @@ begin
       // Replace Selected
       305: TTntAction(Sender).Enabled:= (SynMemo.SelLength > 0) and (edit_replace.Text <> '');
       // Replace All
-      306: TTntAction(Sender).Enabled:= (edit_search.Text <> '') and
+      306: TTntAction(Sender).Enabled:= (edit_find.Text <> '') and
                                         (edit_replace.Text <> '') and
                                         toolbar_find.Visible;
       // Word Wrap
@@ -613,16 +619,6 @@ var
 begin
   item:= TSpTBXItem(Sender);
   ActiveHighlighter:= item.Tag;
-end;
-
-{-------------------------------------------------------------------------------
-  On edit_search.AcceptText
--------------------------------------------------------------------------------}
-procedure TCETextEditor.edit_searchAcceptText(Sender: TObject; var NewText:
-    WideString; var Accept: Boolean);
-begin
-  Accept:= true;
-  Find(NewText);
 end;
 
 {-------------------------------------------------------------------------------
@@ -686,14 +682,14 @@ begin
   if (not check_selected_text_only.Checked and SynMemo.SelAvail) then
   begin
     // move caret at the end of selection if needed.
-    if (check_case_sensitive.Checked and (SynMemo.SelText = edit_search.Text)) or
-       (not check_case_sensitive.Checked and (WideCompareText(SynMemo.SelText, edit_search.Text) = 0)) then
+    if (check_case_sensitive.Checked and (SynMemo.SelText = edit_find.Text)) or
+       (not check_case_sensitive.Checked and (WideCompareText(SynMemo.SelText, edit_find.Text) = 0)) then
     begin
       SynMemo.SetCaretAndSelection(SynMemo.BlockEnd, SynMemo.BlockBegin, SynMemo.BlockEnd);
     end;
   end;
 
-  Result:= Find(edit_search.Text);
+  Result:= Find(edit_find.Text);
 end;
 
 {-------------------------------------------------------------------------------
@@ -704,14 +700,14 @@ begin
   if (not check_selected_text_only.Checked and SynMemo.SelAvail) then
   begin
     // move caret at the beginning of selection if needed.
-    if (check_case_sensitive.Checked and (SynMemo.SelText = edit_search.Text)) or
-       (not check_case_sensitive.Checked and (WideCompareText(SynMemo.SelText, edit_search.Text) = 0)) then
+    if (check_case_sensitive.Checked and (SynMemo.SelText = edit_find.Text)) or
+       (not check_case_sensitive.Checked and (WideCompareText(SynMemo.SelText, edit_find.Text) = 0)) then
     begin
       SynMemo.SetCaretAndSelection(SynMemo.BlockBegin, SynMemo.BlockBegin, SynMemo.BlockEnd);
     end;
   end;
   
-  Result:= Find(edit_search.Text, true);
+  Result:= Find(edit_find.Text, true);
 end;
 
 {-------------------------------------------------------------------------------
@@ -954,24 +950,6 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  On edit.Change
--------------------------------------------------------------------------------}
-procedure TCETextEditor.edit_searchChange(Sender: TObject; const AText:
-    WideString);
-begin
-  if Sender = edit_replace then
-  begin
-    act_replace_selected.Enabled:= (SynMemo.SelLength > 0) and (AText <> '');
-    act_replace_all.Enabled:= (edit_search.Text <> '') and (AText <> '') and toolbar_find.Visible;
-  end
-  else
-  begin
-    act_replace_selected.Enabled:= (SynMemo.SelLength > 0) and (edit_replace.Text <> '');
-    act_replace_all.Enabled:= (AText <> '') and (edit_replace.Text <> '') and toolbar_find.Visible;
-  end;
-end;
-
-{-------------------------------------------------------------------------------
   ExportToHTML
 -------------------------------------------------------------------------------}
 procedure TCETextEditor.ExportToHTML(AToClipboard: Boolean; ASelectedOnly:
@@ -1116,20 +1094,19 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Show/Hide SearchReplace
+  Show SearchReplace
 -------------------------------------------------------------------------------}
-procedure TCETextEditor.ShowHideSearchReplace(AShowHideReplace: Boolean =
-    false);
+procedure TCETextEditor.ShowSearchReplace(AShowReplace: Boolean = false);
 var
   IV, IV2: TTBItemViewer;
 begin
-  if AShowHideReplace then
+  if AShowReplace then
   begin
-    toolbar_replace.Visible:= not toolbar_replace.Visible;
-    toolbar_find.Visible:= toolbar_replace.Visible;
+    toolbar_replace.Visible:= true;
+    toolbar_find.Visible:= true;
   end
   else
-  toolbar_find.Visible:= not toolbar_find.Visible;
+  toolbar_find.Visible:= true;
 
   // resize find and replace labels
   if toolbar_replace.Visible then
@@ -1150,18 +1127,18 @@ begin
   // resize replace edit
   if toolbar_replace.Visible then
   begin
-    if edit_replace.DefaultWidth <> edit_search.DefaultWidth then
+    if edit_replace.Width <> edit_find.Width then
     begin
-      edit_replace.DefaultWidth:= edit_search.DefaultWidth;
+      edit_replace.Width:= edit_find.Width;
       toolbar_replace.RightAlignItems;
     end;
   end;
 
-  if toolbar_find.Visible then
-  begin
-    toolbar_find.SetFocus;
-    edit_search.SetFocus;
-  end;
+  // set focus
+  if AShowReplace and toolbar_replace.Visible then
+  edit_replace.SetFocus
+  else if not AShowReplace and toolbar_find.Visible then
+  edit_find.SetFocus;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1261,6 +1238,73 @@ begin
   end;
   
   Result:= true;
+end;
+
+{-------------------------------------------------------------------------------
+  On edit_find.KeyPress
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.edit_findKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #9 then
+  begin
+    Key:= #0;
+    if toolbar_replace.Visible then
+    edit_replace.SetFocus;
+  end
+  else if Key = #13 then
+  begin
+    Key:= #0;
+    FindNext;
+    if not Settings.FindNextWithEnter then
+    SynMemo.SetFocus;
+  end
+  else if Key = #27 then
+  begin
+    Key:= #0;
+    HideSearchReplace;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On edit_replace.KeyPress
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.edit_replaceKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #9 then
+  begin
+    Key:= #0;
+    SynMemo.SetFocus;
+  end
+  else if Key = #13 then
+  begin
+    Key:= #0;
+    act_replace_selected.Execute;
+  end
+  else if Key = #27 then
+  begin
+    Key:= #0;
+    HideSearchReplace(true);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On editChange
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.editChange(Sender: TObject);
+begin
+  act_replace_selected.Enabled:= (SynMemo.SelLength > 0) and (edit_replace.Text <> '');
+  act_replace_all.Enabled:= (edit_find.Text <> '') and (edit_replace.Text <> '') and toolbar_find.Visible;
+end;
+
+{-------------------------------------------------------------------------------
+  HideSearchReplace
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.HideSearchReplace(AHideReplace: Boolean = false);
+begin
+  if AHideReplace then
+  toolbar_replace.Visible:= false;
+  toolbar_find.Visible:= false;
+  SynMemo.SetFocus;
 end;
 
 {-------------------------------------------------------------------------------

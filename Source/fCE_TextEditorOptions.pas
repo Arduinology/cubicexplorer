@@ -27,6 +27,7 @@ type
     fExportOptions: TCETextEditorExportOptions;
     fExportWrapperClass: String;
     fExtraLineSpacing: Integer;
+    fFindNextWithEnter: Boolean;
     fFont: TFont;
     fGutter: TSynGutter;
     fInsertCaret: TSynEditCaretType;
@@ -62,6 +63,8 @@ type
         fExportWrapperClass;
     property ExtraLineSpacing: Integer read fExtraLineSpacing write
         fExtraLineSpacing;
+    property FindNextWithEnter: Boolean read fFindNextWithEnter write
+        fFindNextWithEnter;
     property Font: TFont read fFont write SetFont;
     property Gutter: TSynGutter read fGutter write SetGutter;
     property InsertCaret: TSynEditCaretType read fInsertCaret write fInsertCaret;
@@ -550,6 +553,7 @@ begin
   fExportWrapperClass:= 'ce_export';
   fEnablePlayback:= false;
   fCtrlActivatesLinks:= true;
+  fFindNextWithEnter:= true;
 end;
 
 {-------------------------------------------------------------------------------

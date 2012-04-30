@@ -260,6 +260,8 @@ begin
   Preview.Align:= alClient;
   Preview.OnClick:= HandlePreviewClick;
   Preview.PopupMenu:= QuickViewPopup;
+  Preview.Color:= clBlack;
+  Preview.Font.Color:= clWhite;
 
   // create Playlist
   Playlist:= TCVPlaylist.Create(Self);

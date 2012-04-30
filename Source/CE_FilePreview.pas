@@ -72,6 +72,7 @@ type
     fShowInformation: Boolean;
     fShowThumbnail: Boolean;
     fTaskTag: Integer;
+    fTextThumbFont: TFont;
     fThumbBuffer: TBitmap;
     procedure AssignTo(Dest: TPersistent); override;
     procedure CreateParams(var Params: TCreateParams); override;
@@ -140,6 +141,9 @@ begin
   fResizeTimer:= TTimer.Create(Self);
   fResizeTimer.Interval:= 250;
   fResizeTimer.OnTimer:= HandleResizeTimer;
+
+  fTextThumbFont:= TFont.Create;
+  fTextThumbFont.Name:= 'Courier New';
 end;
 
 {-------------------------------------------------------------------------------
@@ -154,6 +158,7 @@ begin
   FreeAndNil(fInfoBuffer);
   if assigned(fThumbBuffer) then
   FreeAndNil(fThumbBuffer);
+  fTextThumbFont.Free;
   inherited;
 end;
 
@@ -231,7 +236,7 @@ var
 begin
   if (ATag = fTaskTag) and (AObject is TCEFilePreviewTask) then
   begin
-    task:= TCEFilePreviewTask(AObject);
+    task:= TCEFilePreviewTask(AObject);                                                                       
     try
       CoInitialize(nil);
       ns:= TNamespace.CreateFromFileName(task.FilePath);
@@ -246,7 +251,7 @@ begin
           if not assigned(task.Thumbnail) then
           begin
             task.Thumbnail:= CreateTextThumbnail(task.FilePath, task.ThumbSize.X, task.ThumbSize.Y,
-                                                 task.BackgroundColor, task.Font.Color, task.Font,
+                                                 clWindow, clWindowText, task.Font,
                                                  1024, 'Empty file');
           end;
         end
@@ -346,7 +351,7 @@ begin
     task.ThumbSize:= Point(ClientWidth, ClientHeight);
     task.BackgroundColor:= Color;
     task.Font:= TFont.Create;
-    task.Font.Assign(Self.Font);
+    task.Font.Assign(fTextThumbFont);
     task.TaskType:= fpttThumbnail;
     task.fStartTick:= Max(GetTickCount, fLastAbort);
     GlobalTaskPool.AddTask(nil, task, true, true, fTaskTag, HandleExecuteTask, HandleTaskDone);
@@ -475,11 +480,14 @@ begin
     fInfoBuffer.Canvas.Font.Assign(Self.Canvas.Font);
     for i:= 0 to list.Count - 1 do
     begin
+      // draw file name
       if i = 0 then
       begin
+        fInfoBuffer.Canvas.Font.Color:= Self.Font.Color;
         fInfoBuffer.Canvas.Font.Style:= [fsBold];
         Windows.DrawTextW(fInfoBuffer.Canvas.Handle, PWideChar(list.Strings[i]), -1, posArray[i], DT_END_ELLIPSIS or DT_SINGLELINE);
       end
+      // draw info
       else
       begin
         fInfoBuffer.Canvas.Font.Style:= [];

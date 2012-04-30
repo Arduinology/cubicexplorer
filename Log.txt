@@ -5,6 +5,9 @@
 ---
 + Added Bookmarks to Tray icon.
 + Added Make Visible action.
+---
+- Fixed focus and usability issues in Text editor's Find and Replace.
+
 
 29.4.2012
 + Added file preview for text files.
