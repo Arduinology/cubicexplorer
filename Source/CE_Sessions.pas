@@ -754,6 +754,7 @@ procedure TCESessionList.LoadSession(ASession: TCESessionItem);
       chNode:= chNode.NextSibling;
     end;
     MainForm.TabSet.CEActiveTabIndex:= StrToIntDef(TDOMElement(ATabsNode).AttribStrings['active'], 0);
+    MainForm.TabSet.MakeSureTabIsSelected;
   end;
 
 var

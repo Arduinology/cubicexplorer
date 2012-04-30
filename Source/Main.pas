@@ -97,7 +97,7 @@ type
     SpTBXItem5: TSpTBXItem;
     toolbarsMenuItem: TSpTBXSubmenuItem;
     SpTBXSeparatorItem4: TSpTBXSeparatorItem;
-    SpTBXSubmenuItem9: TSpTBXSubmenuItem;
+    sub_panels: TSpTBXSubmenuItem;
     SpTBXItem18: TSpTBXItem;
     SpTBXItem26: TSpTBXItem;
     SpTBXItem27: TSpTBXItem;
@@ -151,7 +151,6 @@ type
     SpTBXItem53: TSpTBXItem;
     ToolbarPopupMenu: TSpTBXPopupMenu;
     SpTBXItem52: TSpTBXItem;
-    SpTBXSeparatorItem17: TSpTBXSeparatorItem;
     SpTBXItem56: TSpTBXItem;
     SpTBXItem74: TSpTBXItem;
     StartUpTimer: TTimer;
@@ -224,6 +223,8 @@ type
     SpTBXSeparatorItem31: TSpTBXSeparatorItem;
     but_reset_layout: TSpTBXItem;
     panel_curtain: TPanel;
+    SpTBXSeparatorItem32: TSpTBXSeparatorItem;
+    PanelsPopupMenu: TSpTBXPopupMenu;
     procedure AutoUpdateTimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -575,12 +576,9 @@ begin
   TabSet.LayoutController:= Layouts;
   TabSet.Toolbar.Customizable:= true;
   TabSet.Images:= CE_Images.SmallIcons;
-  TabSet.TabPopupMenu:= TabPopupMenu;
+  //TabSet.TabPopupMenu:= TabPopupMenu;
+  TabSet.PopupMenu:= TabPopupMenu;
   GlobalFocusCtrl.CtrlList.Add(TabSet.Toolbar);
-
-    // Add panes
-  //Tabset.Panes.Add(DockHostForm.DualViewHost.MainPane);
-  //Tabset.Panes.Add(DockHostForm.DualViewHost.DualPane);
 
   //TCESpTabToolbar(TabSet.Toolbar).OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
 
@@ -653,7 +651,6 @@ begin
   CELayoutItems.Add(BreadcrumbBar);
   CELayoutItems.Add(TabSet);
   CELayoutItems.Add(StatusBar);
-  //CELayoutItems.Add(DockHostForm.DualViewHost.Toolbar);
   // Add Toolbar Docks
   CEToolbarDocks.Add(LeftToolDock);
   CEToolbarDocks.Add(TopToolDock);

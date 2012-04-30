@@ -26,7 +26,7 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
     Top = 8
     Width = 385
     Height = 379
-    ActivePage = sheet_display
+    ActivePage = sheet_options
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 0
     object sheet_display: TTntTabSheet
@@ -239,10 +239,6 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
     end
     object sheet_gutter: TTntTabSheet
       Caption = 'Gutter'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         377
         351)
@@ -467,7 +463,7 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
           Width = 121
           Height = 21
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 1
           Text = 'Middle'
           Items.Strings = (
@@ -479,10 +475,6 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
     end
     object sheet_options: TTntTabSheet
       Caption = 'Options'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         377
         351)
@@ -621,13 +613,18 @@ object CETextEditorOptionsForm: TCETextEditorOptionsForm
         Caption = 'Trim trailing spaces'
         TabOrder = 14
       end
+      object check_ctrl_activates_links: TTntCheckBox
+        Left = 16
+        Top = 301
+        Width = 358
+        Height = 17
+        Anchors = [akLeft, akTop, akRight]
+        Caption = 'Ctrl activates links'
+        TabOrder = 15
+      end
     end
     object sheet_export: TTntTabSheet
       Caption = 'Export'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         377
         351)

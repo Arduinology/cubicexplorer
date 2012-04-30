@@ -1,3 +1,8 @@
+30.4.2012
+* It's now possible to open links from the text editor.
++ Added Panels popupmenu.
+* Fixed issues in tab bar.
+
 29.4.2012
 + Added file preview for text files.
 ---

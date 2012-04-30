@@ -20,6 +20,7 @@ type
   TCETextEditorSettings = class(TPersistent)
   protected
     fBackgroundColor: TColor;
+    fCtrlActivatesLinks: Boolean;
     fEditorList: TObjectList;
     fEnablePlayback: Boolean;
     fExportBackgroundColor: TColor;
@@ -50,6 +51,8 @@ type
     procedure UpdateEditors; virtual;
   published
     property BackgroundColor: TColor read fBackgroundColor write fBackgroundColor;
+    property CtrlActivatesLinks: Boolean read fCtrlActivatesLinks write
+        fCtrlActivatesLinks;
     property EnablePlayback: Boolean read fEnablePlayback write fEnablePlayback;
     property ExportBackgroundColor: TColor read fExportBackgroundColor write
         fExportBackgroundColor;
@@ -153,6 +156,7 @@ type
     edit_export_wrapper_class: TTntEdit;
     color_export_background_color: TColorBox;
     check_export_tabs_to_spaces: TTntCheckBox;
+    check_ctrl_activates_links: TTntCheckBox;
     procedure TntFormCreate(Sender: TObject);
     procedure but_applyClick(Sender: TObject);
     procedure but_fontClick(Sender: TObject);
@@ -301,6 +305,8 @@ begin
   check_inline_css_on_copy.Checked:= eoInlineCSSOnCopy in AFrom.ExportOptions;
   check_inline_css_on_export.Checked:= eoInlineCSSOnExport in AFrom.ExportOptions;
   check_export_tabs_to_spaces.Checked:= eoConvertTabsToSpaces in AFrom.ExportOptions;
+  // misc
+  check_ctrl_activates_links.Checked:= AFrom.CtrlActivatesLinks;
 end;
 
 {-------------------------------------------------------------------------------
@@ -389,6 +395,8 @@ begin
   ATo.ExportOptions:= tmpExportOptions;
   ATo.ExportBackgroundColor:= color_export_background_color.Selected;
   ATo.ExportWrapperClass:= edit_export_wrapper_class.Text;
+  // misc
+  ATo.CtrlActivatesLinks:= check_ctrl_activates_links.Checked;
 end;
 
 {-------------------------------------------------------------------------------
@@ -541,6 +549,7 @@ begin
   fExportBackgroundColor:= clWindow;
   fExportWrapperClass:= 'ce_export';
   fEnablePlayback:= false;
+  fCtrlActivatesLinks:= true;
 end;
 
 {-------------------------------------------------------------------------------
@@ -564,6 +573,7 @@ begin
 
   if Source is TCETextEditor then
   begin
+    fCtrlActivatesLinks:= TCETextEditor(Source).URIOpener.CtrlActivatesLinks;
     Source:= TCETextEditor(Source).SynMemo;
   end;
 
@@ -593,6 +603,7 @@ begin
 
   if Dest is TCETextEditor then
   begin
+    TCETextEditor(Dest).URIOpener.CtrlActivatesLinks:= Self.CtrlActivatesLinks;
     Dest:= TCETextEditor(Dest).SynMemo;
   end;
 

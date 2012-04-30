@@ -1102,8 +1102,11 @@ begin
   end;
 
   case ActionID of
+    // Close Tab
     661: MainForm.TabSet.CloseTab(MainForm.TabSet.ActivePopupTab);
+    // Close Other Tabs
     662: MainForm.TabSet.CloseAllTabs(MainForm.TabSet.ActivePopupTab);
+    // Add Tab
     663: begin
            GlobalFileViewSettings.AssignFromActivePage;
            if MainForm.TabSet.Settings.NewTabType = 1 then // Clone active tab
@@ -1128,6 +1131,7 @@ begin
              OpenFolderInTab(nil, nil, MainForm.TabSet.Settings.NewTabSelect, false, true);
            end;
          end;
+    // Duplicate Tab
     664: begin
            if assigned(MainForm.TabSet.ActivePopupTab) then
            begin
@@ -1136,10 +1140,15 @@ begin
                              TCEFileViewPage(MainForm.TabSet.ActivePopupTab.Page).FileView.RootFolderNamespace.AbsolutePIDL, MainForm.TabSet.Settings.NewTabSelect, false, true);
            end;
          end;
+    // Close Tabs on Left
     665: MainForm.TabSet.CloseTabsOnLeft(MainForm.TabSet.ActivePopupTab);
+    // Close Tabs on Right
     666: MainForm.TabSet.CloseTabsOnRight(MainForm.TabSet.ActivePopupTab);
+    // Undo Tab Close
     667: MainForm.TabSet.UndoTabClose;
+    // Switch to Next Tab
     668: MainForm.TabSet.SelectNextTab(true);
+    // Swith to Previous Tab
     669: MainForm.TabSet.SelectNextTab(false);
   end;
 

@@ -26,7 +26,7 @@ uses
   PngImageList,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  ImgList, ExtCtrls, ActnList, StrUtils, Menus;
+  ImgList, ExtCtrls, ActnList, StrUtils, Menus, SynURIOpener;
 
 type
 {-------------------------------------------------------------------------------
@@ -212,6 +212,7 @@ type
     SpTBXSubmenuItem6: TSpTBXSubmenuItem;
     act_replace_selected: TTntAction;
     act_replace_all: TTntAction;
+    URIOpener: TSynURIOpener;
     procedure ActionExecute(Sender: TObject);
     procedure ActionUpdate(Sender: TObject);
     procedure edit_searchAcceptText(Sender: TObject; var NewText: WideString; var

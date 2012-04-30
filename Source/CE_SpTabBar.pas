@@ -282,6 +282,7 @@ type
     function GetPrevTab(From: TSpTBXTabItem): TCESpTabItem;
     function GetTabAt(X, Y: Integer): TCESpTabItem;
     function PopulateUndoList(ASubMenu: TTBCustomItem): Integer;
+    procedure MakeSureTabIsSelected;
     procedure SelectNextTab(GoForward: Boolean = true);
     procedure SelectPrevSelectedTab;
     procedure SelectTab(ATab: TSpTBXTabItem);
@@ -662,6 +663,7 @@ begin
     Result:= true;
   finally
     Self.Toolbar.EndUpdate;
+    MakeSureTabIsSelected;
   end;
 end;
 
@@ -1377,6 +1379,15 @@ end;
 function TCESpTabSet.GetCEAutoFit: Boolean;
 begin
   Result:= TCESpTabToolbar(Toolbar).CEAutoFit;
+end;
+
+{-------------------------------------------------------------------------------
+  MakeSureTabIsSelected
+-------------------------------------------------------------------------------}
+procedure TCESpTabSet.MakeSureTabIsSelected;
+begin
+  if ActiveTabIndex < 0 then
+  SelectTab(GetFirstTab);
 end;
 
 {-------------------------------------------------------------------------------

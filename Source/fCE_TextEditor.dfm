@@ -793,12 +793,12 @@ object CETextEditor: TCETextEditor
     Top = 288
   end
   object NormalSearch: TSynEditSearch
-    Left = 608
-    Top = 328
+    Left = 592
+    Top = 288
   end
   object RegexSearch: TSynEditRegexSearch
-    Left = 640
-    Top = 328
+    Left = 624
+    Top = 288
   end
   object SynCppSyn1: TSynCppSyn
     DefaultFilter = 'C++ files (*.cpp,*.h,*.hpp)|*.cpp;*.h;*.hpp'
@@ -1155,5 +1155,11 @@ object CETextEditor: TCETextEditor
         Action = act_bookmark_9
       end
     end
+  end
+  object URIOpener: TSynURIOpener
+    Editor = SynMemo
+    URIHighlighter = SynURISyn1
+    Left = 120
+    Top = 200
   end
 end

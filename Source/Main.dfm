@@ -12,6 +12,7 @@ object MainForm: TMainForm
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
+  PopupMenu = PanelsPopupMenu
   Position = poDefault
   ShowHint = True
   OnClick = FormCreate
@@ -57,6 +58,8 @@ object MainForm: TMainForm
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
+    ExplicitLeft = 10
+    ExplicitTop = 60
   end
   object RightToolDock: TSpTBXDock
     Left = 619
@@ -213,7 +216,7 @@ object MainForm: TMainForm
         object toolbarsMenuItem: TSpTBXSubmenuItem
           Caption = 'Toolbars'
         end
-        object SpTBXSubmenuItem9: TSpTBXSubmenuItem
+        object sub_panels: TSpTBXSubmenuItem
           Caption = 'Panels'
           object SpTBXItem26: TSpTBXItem
             Action = CEActions.act_view_folders
@@ -540,7 +543,7 @@ object MainForm: TMainForm
     object SpTBXItem52: TSpTBXItem
       Action = CEActions.act_tools_showcustomizer
     end
-    object SpTBXSeparatorItem17: TSpTBXSeparatorItem
+    object SpTBXSeparatorItem32: TSpTBXSeparatorItem
     end
   end
   object StartUpTimer: TTimer
@@ -618,6 +621,11 @@ object MainForm: TMainForm
     Interval = 2000
     OnTimer = AutoUpdateTimerTimer
     Left = 48
+    Top = 96
+  end
+  object PanelsPopupMenu: TSpTBXPopupMenu
+    LinkSubitems = sub_panels
+    Left = 16
     Top = 96
   end
 end
