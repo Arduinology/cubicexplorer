@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: CE 0.95.1.1494 - 2012.03.20\n"
+"Project-Id-Version: CE 0.96.0.1528 - 2012.04.30\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1494\n"
+"CE-POT-Version: 1528\n"
 "CE-Language: Italian\n"
 "Last-Translator: Folgore101 <andrea.gramegna@gmail.com>\n"
 
@@ -176,6 +176,9 @@ msgstr "Espandi automaticamente albero cartelle"
 msgid "Auto fit tabs"
 msgstr "Adatta automaticamente le schede"
 
+msgid "Auto indent"
+msgstr "Rientro automatico"
+
 msgid "Auto size cells in list view style."
 msgstr "Ridimensiona automatica delle celle nella vista elenco"
 
@@ -184,6 +187,9 @@ msgstr "Automatico"
 
 msgid "Back"
 msgstr "Precedente"
+
+msgid "Background Color:"
+msgstr "Colore di sfondo:"
 
 msgid "Backups"
 msgstr "Backup"
@@ -197,11 +203,47 @@ msgstr "Prima della Data:"
 msgid "Before Time:"
 msgstr "Prima dell'Ora"
 
+msgid "Block"
+msgstr "Blocco"
+
+msgid "Bookmark 1"
+msgstr "Segnalibro 1"
+
+msgid "Bookmark 2"
+msgstr "Segnalibro 2"
+
+msgid "Bookmark 3"
+msgstr "Segnalibro 3"
+
+msgid "Bookmark 4"
+msgstr "Segnalibro 4"
+
+msgid "Bookmark 5"
+msgstr "Segnalibro 5"
+
+msgid "Bookmark 6"
+msgstr "Segnalibro 6"
+
+msgid "Bookmark 7"
+msgstr "Segnalibro 7"
+
+msgid "Bookmark 8"
+msgstr "Segnalibro 8"
+
+msgid "Bookmark 9"
+msgstr "Segnalibro 9"
+
 msgid "Bookmarks"
 msgstr "Preferiti"
 
 msgid "Bookmarks Panel Settings"
 msgstr "Impostazioni Pannello Preferiti"
+
+msgid "Border"
+msgstr "Bordo"
+
+msgid "Border Style:"
+msgstr "Stile Bordo:"
 
 msgid "Borders"
 msgstr "Bordi"
@@ -224,17 +266,26 @@ msgstr "Pulsanti"
 msgid "Bytes"
 msgstr "Bytes"
 
+msgid "CSS"
+msgstr "CSS"
+
 msgid "Cancel"
 msgstr "Annulla"
 
 msgid "Cancelled"
 msgstr "Cancellato"
 
+msgid "Caret"
+msgstr "Segno di omissione"
+
 msgid "Case Sensitive"
-msgstr "Maiusc. / Minusc."
+msgstr "Maiusc./ Minusc."
+
+msgid "Case sensitive"
+msgstr "Maiusc./ Minusc."
 
 msgid "Case sensitivity"
-msgstr "Maiusc. / Minusc."
+msgstr "Maiusc./ Minusc."
 
 msgid "Change order by dragging"
 msgstr "Modifica ordine trascinando"
@@ -296,6 +347,9 @@ msgstr "Chiudi le schede con doppio click"
 msgid "Close to tray"
 msgstr "Chiudi nel tray"
 
+msgid "Color:"
+msgstr "Colore:"
+
 msgid "Column Settings"
 msgstr "Impostazioni Colonna"
 
@@ -320,11 +374,20 @@ msgstr "Contenuto"
 msgid "Continue from last time"
 msgstr "Continua dall'ultima volta"
 
+msgid "Controls"
+msgstr "Controlli"
+
+msgid "Convert Tabs to Spaces"
+msgstr "Converti Tabulazioni in Spazi"
+
 msgid "Copy"
 msgstr "Copia"
 
 msgid "Copy Path"
 msgstr "Copia Percorso"
+
+msgid "Copy as HTML"
+msgstr "Copia come HTML"
 
 msgid "Copy of active tab"
 msgstr "Copia della scheda attiva"
@@ -368,6 +431,9 @@ msgstr "Personalizza..."
 msgid "Cut"
 msgstr "Taglia"
 
+msgid "DIV wrapper class"
+msgstr "Classe DIV wrapper"
+
 msgid "Daily"
 msgstr "Giornaliero"
 
@@ -409,6 +475,9 @@ msgstr "Eliminazione di più segnalibri!"
 
 msgid "Desktop"
 msgstr "Desktop"
+
+msgid "Detach to Window"
+msgstr "Stacca dalla finestra"
 
 msgid "Details"
 msgstr "Dettagli"
@@ -506,6 +575,9 @@ msgstr "Spazio Dinamico"
 msgid "Earlier this year"
 msgstr "All'inizio di quest'anno"
 
+msgid "Edge Column:"
+msgstr "Bordo Colonna:"
+
 msgid "Edit"
 msgstr "Modifica"
 
@@ -514,6 +586,9 @@ msgstr "Modifica Sessione"
 
 msgid "Edit session properties."
 msgstr "Modifica proprietà sessione"
+
+msgid "Editor Options"
+msgstr "Editor Opzioni"
 
 msgid "Editor Options..."
 msgstr "Editor Opzioni..."
@@ -533,8 +608,20 @@ msgstr "Abilita"
 msgid "Enable Auto Save"
 msgstr "Abilita Salvataggio Automatico"
 
+msgid "Enable Playback"
+msgstr "Abilita riproduzione"
+
+msgid "End Color:"
+msgstr "Colore finale:"
+
 msgid "English (default)"
 msgstr "Inglese (predefinita)"
+
+msgid "Enhance End Key"
+msgstr "Migliora Tasto Fine"
+
+msgid "Enhance Home Key"
+msgstr "Migliora Tasto Home"
 
 msgid "Enter each file mask on a separate line."
 msgstr "Immetti ogni maschera di file su una linea separata."
@@ -560,6 +647,21 @@ msgstr "Esci dal programma quando l'ultima scheda sarà chiusa"
 msgid "Explorer"
 msgstr "Explorer"
 
+msgid "Export"
+msgstr "Esporta"
+
+msgid "Export as HTML..."
+msgstr "Esporta come HTML..."
+
+msgid "Extra Lines:"
+msgstr "Linee extra:"
+
+msgid "Failed to open file!"
+msgstr "Impossibile aprire il file!"
+
+msgid "Failed to save file!"
+msgstr "Impossibile salvare il file!"
+
 msgid "File"
 msgstr "File"
 
@@ -578,6 +680,9 @@ msgstr "L'operazione sul file potrebbe essere ancora in esecuzione!"
 msgid "File size format:"
 msgstr "Formato dimensione file:"
 
+msgid "Filelist"
+msgstr "Lista file"
+
 msgid "Files to update"
 msgstr "File per l'aggiornamento"
 
@@ -593,11 +698,17 @@ msgstr "Sequenza"
 msgid "Filters"
 msgstr "Filtri"
 
+msgid "Find"
+msgstr "Trova"
+
 msgid "Find Next"
 msgstr "Trova Successivo"
 
 msgid "Find Previous"
 msgstr "Trova Precedente"
+
+msgid "Find:"
+msgstr "Trova:"
 
 msgid "Finished"
 msgstr "Finito"
@@ -629,14 +740,23 @@ msgstr "Cartelle"
 msgid "Folders Panel Settings"
 msgstr "Impostazioni Pannello Cartelle"
 
+msgid "Font"
+msgstr "Carattere"
+
 msgid "For testing"
 msgstr "Per provare"
 
 msgid "Format"
-msgstr "Formatta"
+msgstr "Formato"
+
+msgid "Format not supported"
+msgstr "Formato non supportato"
 
 msgid "Forward"
 msgstr "Successivo"
+
+msgid "Found"
+msgstr "Trovato"
 
 msgid "Four months ago"
 msgstr "Quattro mesi fa"
@@ -665,11 +785,32 @@ msgstr "Globale"
 msgid "Global Hotkey Settings"
 msgstr "Tasti di scelta rapida delle Impostazioni Globali"
 
+msgid "Gradient"
+msgstr "Gradiente"
+
 msgid "Group"
 msgstr "Gruppo"
 
 msgid "Group By"
 msgstr "Raggruppa per"
+
+msgid "Group undo"
+msgstr "Annullamento gruppo"
+
+msgid "Gutter"
+msgstr "Colonna"
+
+msgid "HTML"
+msgstr "HTML"
+
+msgid "HTML with CSS, JS or PHP"
+msgstr "HTML con CSS, JS o PHP"
+
+msgid "Half Block"
+msgstr "Semiblocco"
+
+msgid "Half page scroll"
+msgstr "Scorrimento di mezza pagina"
 
 msgid "Help"
 msgstr "Aiuto"
@@ -691,6 +832,9 @@ msgstr "Evidenziatore"
 
 msgid "History"
 msgstr "Cronologia"
+
+msgid "Horizontal Line"
+msgstr "Linea orizzontale"
 
 msgid "Hotkey Settings"
 msgstr "Impostazioni del tasto di scelta rapida"
@@ -722,6 +866,9 @@ msgstr "Barra Informazioni"
 msgid "Insert"
 msgstr "Inserisci"
 
+msgid "Insert Caret:"
+msgstr "Inserisci segno di omissione:"
+
 msgid "Invalid update!"
 msgstr "Aggiornamento non valido!"
 
@@ -733,6 +880,9 @@ msgstr "Conteggio"
 
 msgid "Item(s)"
 msgstr "Elementi"
+
+msgid "JavaScript"
+msgstr "JavaScript"
 
 msgid "KB"
 msgstr "KB"
@@ -769,6 +919,12 @@ msgstr "Viste"
 
 msgid "Left"
 msgstr "Sinistra"
+
+msgid "Length: %d Lines: %d"
+msgstr "Lunghezza: %d Linee: %d"
+
+msgid "Line: %d Char: %d Sel: %d"
+msgstr "Linea: %d Caratteri: %d Selezione: %d"
 
 msgid "Link Name"
 msgstr "Nome Collegamento"
@@ -812,6 +968,15 @@ msgstr "Blocca la Barre degli Strumenti"
 msgid "Logoff"
 msgstr "Disconnetti"
 
+msgid "Loop File"
+msgstr "Ripeti File"
+
+msgid "Loop Filelist"
+msgstr "Ripeti Lista File"
+
+msgid "Loop Playlist"
+msgstr "Ripetri Playlist"
+
 msgid "MB"
 msgstr "MB"
 
@@ -836,6 +1001,9 @@ msgstr "Medio"
 msgid "Menu"
 msgstr "Menù"
 
+msgid "Middle"
+msgstr "Mezzo"
+
 msgid "Min Level:"
 msgstr "Minimo Livello:"
 
@@ -850,6 +1018,9 @@ msgstr "Modifica tasti di scelta rapida"
 
 msgid "More..."
 msgstr "Altro..."
+
+msgid "Mute"
+msgstr "Muto"
 
 msgid "Name"
 msgstr "Nome"
@@ -893,8 +1064,17 @@ msgstr "Nuovo file di testo"
 msgid "New version (%s) is available. Do you want to update now?"
 msgstr "La nuova versione (%s) è disponibile. Vuoi aggiornare ora?"
 
+msgid "Next"
+msgstr "Successivo"
+
+msgid "Next File"
+msgstr "File Successivo"
+
 msgid "No Extension"
 msgstr "Nessuna Estensione"
+
+msgid "No Looping"
+msgstr "Non Ripetere"
 
 msgid "No Selection"
 msgstr "Nessuna Selezione"
@@ -907,6 +1087,9 @@ msgstr "Nessun nuovo aggiornamento"
 
 msgid "None"
 msgstr "Nessuna"
+
+msgid "Not found"
+msgstr "Non trovato"
 
 msgid "Notify only about following update types"
 msgstr "Notifica solo i seguenti tipi di aggiornamento"
@@ -977,11 +1160,17 @@ msgstr "Originale"
 msgid "Override"
 msgstr "Sovrascrivi"
 
+msgid "Override Caret:"
+msgstr "Annulla segno di omissione:"
+
 msgid "Override existing session?"
 msgstr "Sovrascrivi la sessione esistente?"
 
 msgid "Override existing stack?"
 msgstr "Sovrascrivi lo stack esistente?"
+
+msgid "PHP"
+msgstr "PHP"
 
 msgid "Panels"
 msgstr "Pannelli"
@@ -1001,6 +1190,12 @@ msgstr "Percorso"
 msgid "Pause"
 msgstr "Pausa"
 
+msgid "Play"
+msgstr "Play"
+
+msgid "Playlist"
+msgstr "Playlist"
+
 msgid "Please choose different hotkey."
 msgstr "Si prega di scegliere un tasto di scelta rapida diverso"
 
@@ -1009,6 +1204,12 @@ msgstr "PngImage31"
 
 msgid "Port"
 msgstr "Porta"
+
+msgid "Previous"
+msgstr "Precedente"
+
+msgid "Previous File"
+msgstr "File Precedente"
 
 msgid "Properties"
 msgstr "Proprietà"
@@ -1073,6 +1274,15 @@ msgstr "Relativo"
 msgid "Reload"
 msgstr "Ricarica"
 
+msgid "Reload failed!"
+msgstr "Ricarica fallita!"
+
+msgid "Reload from Disk"
+msgstr "Ricarica dal Disco"
+
+msgid "Reloaded from disk"
+msgstr "Ricaricato dal disco"
+
 msgid "Remember"
 msgstr "Ricorda"
 
@@ -1093,6 +1303,12 @@ msgstr "Sostituisci"
 
 msgid "Replace All"
 msgstr "Sostituisci Tutto"
+
+msgid "Replace:"
+msgstr "Sostituire:"
+
+msgid "Replaced %d texts."
+msgstr "Sostituito %d testi."
 
 msgid "Reset hotkeys?"
 msgstr "Ripristina tasti di scelta rapida?"
@@ -1126,6 +1342,12 @@ msgstr "Riusa schede già aperte"
 
 msgid "Right"
 msgstr "Destra"
+
+msgid "Right Edge"
+msgstr "Bordo Destro"
+
+msgid "Right mouse moves cursor"
+msgstr "Tasto destro del mouse sposta il cursore"
 
 msgid "Save"
 msgstr "Salva"
@@ -1163,11 +1385,20 @@ msgstr "Salva..."
 msgid "Save/Load Settings"
 msgstr "Salva/Carica Impostazioni"
 
+msgid "Saved to \"%s\""
+msgstr "Salvati \"%s\""
+
 msgid "Scroll Left"
 msgstr "Scorrimento sinistro"
 
 msgid "Scroll Right"
 msgstr "Scorrimento destro"
+
+msgid "Scroll past end of file"
+msgstr "Scorri oltre la fine del file"
+
+msgid "Scroll past end of line"
+msgstr "Scorri oltre la fine della linea"
 
 msgid "Search"
 msgstr "Cerca"
@@ -1189,6 +1420,9 @@ msgstr "Cerca nella Cartella"
 
 msgid "Searching from"
 msgstr "Cerca da"
+
+msgid "Seekbar"
+msgstr "Barra di ricerca"
 
 msgid "Select All"
 msgstr "Seleziona Tutto"
@@ -1280,6 +1514,9 @@ msgstr "Mostra il percorso nella Barra del Titolo"
 msgid "Show Session Manager"
 msgstr "Mostra Gestione Sessioni"
 
+msgid "Show Special Characters"
+msgstr "Visualizza Caratteri Speciali"
+
 msgid "Show Statusbar"
 msgstr "Mostra Barra di Stato"
 
@@ -1289,8 +1526,20 @@ msgstr "Mostra Barra degli Strumenti"
 msgid "Show in Groups"
 msgstr "Mostra in Gruppi"
 
+msgid "Show leading zeros"
+msgstr "Visualizza gli zeri iniziali"
+
+msgid "Show line numbers"
+msgstr "Visualizza i numeri di riga"
+
 msgid "Show more tabs"
 msgstr "Mostra più schede"
+
+msgid "Show scroll hint"
+msgstr "Visualizza suggerimento scorrevole"
+
+msgid "Show special characters"
+msgstr "Visualizza caratteri speciali"
 
 msgid "Show/Hide"
 msgstr "Mostra/Nascondi"
@@ -1325,11 +1574,20 @@ msgstr "Piccolo"
 msgid "Small Icons"
 msgstr "Icone Piccole"
 
+msgid "Smart tab delete"
+msgstr "Scheda intelligente elimina"
+
+msgid "Smart tabs"
+msgstr "Schede intelligenti"
+
 msgid "Smooth Scroll"
 msgstr "Scorrimento dolce"
 
 msgid "Snapshot"
 msgstr "Istantanea"
+
+msgid "Spacing"
+msgstr "Spaziatura"
 
 msgid "Stack"
 msgstr "Stack"
@@ -1346,6 +1604,12 @@ msgstr "Stack"
 msgid "Start"
 msgstr "Avvio"
 
+msgid "Start Color:"
+msgstr "Avvio Colore:"
+
+msgid "Start at zero"
+msgstr "Iniziare da zero"
+
 msgid "Start minimized to tray"
 msgstr "Avvio minimizzato nel Tray"
 
@@ -1354,6 +1618,9 @@ msgstr "Avvio di CubicExplorer..."
 
 msgid "Status Bar"
 msgstr "Barra di Stato"
+
+msgid "Steps"
+msgstr "Passi"
 
 msgid "Stop"
 msgstr "Stop"
@@ -1397,11 +1664,20 @@ msgstr "Alimentazione Sistema"
 msgid "TB"
 msgstr "TB"
 
+msgid "Tab Width:"
+msgstr "Larghezza Scheda:"
+
+msgid "Tab indent"
+msgstr "Trattino scheda"
+
 msgid "Tabs"
 msgstr "Schede"
 
 msgid "Tabs Settings"
 msgstr "Impostazioni Schede"
+
+msgid "Tabs to spaces"
+msgstr "Tabulazioni in spazi"
 
 msgid "Target"
 msgstr "Destinazione"
@@ -1484,6 +1760,9 @@ msgstr "Versione Traduzione"
 msgid "Translator's Email"
 msgstr "Email del Traduttore"
 
+msgid "Translator's Email (optional)"
+msgstr "Email del traduttore (opzionale)"
+
 msgid "Translator's Name"
 msgstr "Nome Traduttore"
 
@@ -1492,6 +1771,9 @@ msgstr "Trasparenza"
 
 msgid "Tray Icon"
 msgstr "Icona Tray"
+
+msgid "Trim trailing spaces"
+msgstr "Taglia gli spazi finali"
 
 msgid "Two months ago"
 msgstr "Due mesi fa"
@@ -1544,6 +1826,15 @@ msgstr "Aggiornamenti Impostazioni"
 msgid "Use Options->Updates to change them."
 msgstr "Usa Opzioni->Aggiornamenti per cambiarli"
 
+msgid "Use custom font"
+msgstr "Carattere personalizzato"
+
+msgid "Use inline CSS on copy"
+msgstr "Usa CSS in linea su copia"
+
+msgid "Use inline CSS on export"
+msgstr "Usa CSS in linea all'esportazione"
+
 msgid "Use strict filtering (wildcards are ? and *)"
 msgstr "Usa livello massimo di filtraggio (caratteri jolly: ? e * )"
 
@@ -1568,11 +1859,20 @@ msgstr "Versione:"
 msgid "Versions"
 msgstr "Versioni"
 
+msgid "Vertical Line"
+msgstr "Linea Verticale"
+
 msgid "View"
 msgstr "Visualizza"
 
 msgid "View Style"
 msgstr "Tipo Vista"
+
+msgid "Visible"
+msgstr "Visibile"
+
+msgid "Volume"
+msgstr "Volume"
 
 msgid "WARNING! You are about to restore %d items."
 msgstr "ATTENZIONE! Stai per ripristinare %d elementi."
@@ -1612,6 +1912,12 @@ msgstr "A capo automatico"
 
 msgid "Word or Phrase in File Name"
 msgstr "Parola o Frase nel Nome del File"
+
+msgid "Wrap around"
+msgstr "Avvolgi intorno"
+
+msgid "Wrapped around"
+msgstr "Avvolto intorno"
 
 msgid "You have no update type notifications selected."
 msgstr "Non hai selezionato il tipo di notifiche di aggiornamento"

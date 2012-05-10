@@ -58,8 +58,6 @@ object MainForm: TMainForm
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitLeft = 10
-    ExplicitTop = 60
   end
   object RightToolDock: TSpTBXDock
     Left = 619

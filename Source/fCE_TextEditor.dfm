@@ -265,7 +265,6 @@ object CETextEditor: TCETextEditor
     WantTabs = True
     OnChange = SynMemoChange
     OnStatusChange = SynMemoStatusChange
-    ExplicitHeight = 315
   end
   object LeftDock: TSpTBXDock
     Left = 0
@@ -273,7 +272,6 @@ object CETextEditor: TCETextEditor
     Width = 9
     Height = 317
     Position = dpLeft
-    ExplicitHeight = 315
   end
   object RightDock: TSpTBXDock
     Left = 675
@@ -281,7 +279,6 @@ object CETextEditor: TCETextEditor
     Width = 9
     Height = 317
     Position = dpRight
-    ExplicitHeight = 315
   end
   object DockBottom: TSpTBXDock
     Left = 0
