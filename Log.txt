@@ -1,3 +1,10 @@
+10.5.2012
+* Updated Italian translation (thanks to Folgore101).
+---
+- Fixed bug when closing detached QuickView.
+* Unknown files are now opened in Text Editor by default.
++ Added PerFolder settings to FileView.
+
 30.4.2012
 * It's now possible to open links from the text editor.
 + Added Panels popupmenu.

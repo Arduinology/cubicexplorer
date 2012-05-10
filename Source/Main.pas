@@ -225,6 +225,7 @@ type
     panel_curtain: TPanel;
     SpTBXSeparatorItem32: TSpTBXSeparatorItem;
     PanelsPopupMenu: TSpTBXPopupMenu;
+    SpTBXItem99: TSpTBXItem;
     procedure AutoUpdateTimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -512,6 +513,8 @@ begin
   end;
 
   fPanels:= TComponentList.Create(false);
+
+  Self.OnContextPopup:= CEActions.HandleGlobalContextPopup;
 end;
 
 {-------------------------------------------------------------------------------
@@ -787,6 +790,9 @@ begin
   else
   GlobalSessions.LoadFromFile(exePath + 'sessions.xml');
   SessionsToolbar.Recreate;
+  // Set Storage path
+  GlobalFileViewSettings.StorageFilePath:= SettingsDirPath + 'perfolder.dat';
+
   // Load Settings
   if WideFileExists(SettingsDirPath + 'settings.xml') then
   GlobalAppSettings.LoadFromFile(SettingsDirPath + 'settings.xml')
@@ -900,6 +906,9 @@ procedure TMainForm.Shutdown;
 begin
   if not ReadOnlySettings and SaveSettingsOnClose then
   begin
+    if GlobalFileViewSettings.PerFolderSettings then
+    GlobalFileViewSettings.SaveStorage;
+
     GlobalSessions.SaveToFile(SettingsDirPath + 'sessions.xml');
 
     Settings.UpdatePositionInfo;

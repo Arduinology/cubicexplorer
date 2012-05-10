@@ -87,7 +87,9 @@ type
     procedure SetUseKernelNotification(const Value: Boolean);
   protected
     fDoubleClicking: Boolean;
+    fHistoryUpdateCount: Integer;
     fLastPaste: Integer;
+    fPerFolderSettings: Boolean;
     fSingleClickBrowsing: Boolean;
     procedure DoAfterShellNotify(ShellEvent: TVirtualShellEvent); override;
     procedure DoCustomColumnAdd; override;
@@ -119,17 +121,18 @@ type
     procedure WMSetFocus(var Msg: TWMSetFocus); message WM_SETFOCUS;
     property ColumnIndex: Integer read fColumnIndex write fColumnIndex;
   public
-    fChangeHistory: Boolean;
     History: TVirtualShellHistory;
     ShellNewMenu: TVirtualShellNewMenu;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     function AddCustomItem(Group: TEasyGroup; NS: TNamespace; LockoutSort:
         Boolean): TExplorerItem; override;
+    procedure BeginHistoryUpdate;
     procedure CalculateFolderSizes;
     procedure ClearHistory;
     procedure CreateEmptyFile;
     procedure CreateNewFolder;
+    procedure EndHistoryUpdate;
     procedure GoBackInHistory;
     procedure GoFolderUp;
     procedure GoForwardInHistory;
@@ -147,6 +150,8 @@ type
     property LeftMouseButton_IsDown: Boolean read fLeftMouseButton_IsDown;
     property LeftMouseButton_RockerClicks: Integer read
         fLeftMouseButton_RockerClicks;
+    property PerFolderSettings: Boolean read fPerFolderSettings write
+        fPerFolderSettings;
     property RightMouseButton_IsDown: Boolean read fRightMouseButton_IsDown;
     property RightMouseButton_RockerClicks: Integer read
         fRightMouseButton_RockerClicks;
@@ -221,11 +226,9 @@ type
   private
     fThumbPos: TAlign;
     fThumbSize: Integer;
-    fThumbStyle: TEasyListStyle;
   published
     property ThumbPos: TAlign read fThumbPos write fThumbPos;
     property ThumbSize: Integer read fThumbSize write fThumbSize;
-    property ThumbStyle: TEasyListStyle read fThumbStyle write fThumbStyle;
   end;
 
   TCECellSizeSettings = class(TPersistent)
@@ -346,15 +349,15 @@ end;
 -------------------------------------------------------------------------------}
 constructor TCEFileView.Create(AOwner: TComponent);
 begin
+  BeginHistoryUpdate;
   inherited;
   fCellWidth:= 0;
-  fChangeHistory:= false;
   fTranslateHeader:= false;
   History:= TVirtualShellHistory.Create(self);
   History.Add(TNamespace.Create(nil,nil),true); // Add Desktop to history
+  EndHistoryUpdate;
   //History.ItemIndex:= -1;
   History.OnChange:= HistoryChange;
-  fChangeHistory:= true;
   fOldHistoryIndex:= -1;
 
   ShellNewMenu:= TVirtualShellNewMenu.Create(self);
@@ -387,6 +390,7 @@ begin
   fLastPaste:= 0;
   fSelectPasted:= true;
   fSortAfterPaste:= true;
+  fPerFolderSettings:= false;
 end;
 
 {-------------------------------------------------------------------------------
@@ -394,12 +398,12 @@ end;
 -------------------------------------------------------------------------------}
 destructor TCEFileView.Destroy;
 begin
-  fChangeHistory:= false;
+  if PerFolderSettings and Active then
+  StoreFolderToPropertyBag(true, true);
+
+  BeginHistoryUpdate;
   if fUseKernelNotification then
   ChangeNotifier.UnRegisterKernelChangeNotify(Self);
-  //ClearHistory;
-  //History.Free;
-  //ShellNewMenu.Free;
   inherited;
 end;
 
@@ -423,6 +427,14 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Begin History Update
+-------------------------------------------------------------------------------}
+procedure TCEFileView.BeginHistoryUpdate;
+begin
+  fHistoryUpdateCount:= fHistoryUpdateCount + 1;
+end;
+
+{-------------------------------------------------------------------------------
   Calculate Folder Sizes
 -------------------------------------------------------------------------------}
 procedure TCEFileView.CalculateFolderSizes;
@@ -442,11 +454,11 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFileView.ClearHistory;
 begin
-  fChangeHistory:= false;
+  BeginHistoryUpdate;
   try
     History.Clear;
   finally
-    fChangeHistory:= true;
+    EndHistoryUpdate;
   end;
 end;
 
@@ -863,16 +875,20 @@ procedure TCEFileView.DoRootChange;
 begin
   inherited;
   // TODO: Redesign history feature
-  if fChangeHistory then
+  if fHistoryUpdateCount = 0 then
   begin
-    fChangeHistory:= false;
+    BeginHistoryUpdate;
     if History.ItemIndex > -1 then
     begin
       if RootFolderNamespace.ComparePIDL(History.Items[History.ItemIndex].AbsolutePIDL, true) <> 0 then
       History.Add(RootFolderNamespace, false, true);
     end;    
-    fChangeHistory:= true;
+    EndHistoryUpdate;
   end;
+
+  // per folder settings
+  if PerFolderSettings and Active then
+  LoadFolderFromPropertyBag(true);
 end;
 
 {-------------------------------------------------------------------------------
@@ -882,6 +898,10 @@ procedure TCEFileView.DoRootChanging(const NewRoot: TRootFolder; Namespace:
     TNamespace; var Allow: Boolean);
 begin
   inherited;
+  // per folder settings
+  if PerFolderSettings and Active then
+  StoreFolderToPropertyBag(true, true);
+  
   fLastPaste:= 0;
   fPasteFocusSet:= false;
   SetNotifyFolder(Namespace);
@@ -904,6 +924,17 @@ procedure TCEFileView.DoShellNotify(ShellEvent: TVirtualShellEvent);
 begin
   inherited;
   UpdateBackgroundText;
+end;
+
+{-------------------------------------------------------------------------------
+  End History Update
+-------------------------------------------------------------------------------}
+procedure TCEFileView.EndHistoryUpdate;
+begin
+  if fHistoryUpdateCount > 0 then
+  fHistoryUpdateCount:= fHistoryUpdateCount - 1
+  else
+  fHistoryUpdateCount:= 0;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1078,14 +1109,17 @@ end;
 procedure TCEFileView.HistoryChange(Sender: TBaseVirtualShellPersistent;
     ItemIndex: Integer; ChangeType: TVSHChangeType);
 begin
-  if fChangeHistory then
+  if fHistoryUpdateCount = 0 then
   begin
     if (ChangeType = hctSelected) and (ItemIndex > -1) then
     begin
-      fChangeHistory:= false;
-      if assigned(History.Items[ItemIndex]) then
-      BrowseToByPIDL(History.Items[ItemIndex].AbsolutePIDL, false);
-      fChangeHistory:= true;
+      BeginHistoryUpdate;
+      try
+        if assigned(History.Items[ItemIndex]) then
+        BrowseToByPIDL(History.Items[ItemIndex].AbsolutePIDL, false);
+      finally
+        EndHistoryUpdate;
+      end;
     end;
   end;
 end;

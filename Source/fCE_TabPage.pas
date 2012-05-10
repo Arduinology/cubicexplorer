@@ -132,6 +132,9 @@ var
 
 implementation
 
+uses
+  dCE_Actions;
+
 {$R *.dfm}
 
 {-------------------------------------------------------------------------------
@@ -159,6 +162,8 @@ begin
   fImageIndex:= -1;
   fActive:= false;
   Layout:= 'CustomPage';
+
+  Self.OnContextPopup:= CEActions.HandleGlobalContextPopup;
 end;
 
 {*------------------------------------------------------------------------------

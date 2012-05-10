@@ -63,6 +63,7 @@ Unit Documents;
 // 304 = Filters, toggle visibility.
 // 305 = Drop Stack, toggle visibility.
 // 306 = Archiver, toggle visibility.
+// 307 = Workspace, toggle visibility.
 // 330 = Show Hints
 // 331 = Smooth Scroll
 // 332 = Show Hidden files

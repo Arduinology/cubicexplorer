@@ -64,8 +64,6 @@ type
 var
   CEQuickViewPanel: TCEQuickViewPanel;
 
-
-
 implementation
 
 {$R *.dfm}

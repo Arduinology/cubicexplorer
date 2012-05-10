@@ -206,6 +206,12 @@ object CEActions: TCEActions
         'Ctrl+Ins')
       OnExecute = ActionExecute
     end
+    object act_view_workspace: TTntAction
+      Tag = 307
+      Category = 'View'
+      Caption = 'Workspace'
+      OnExecute = ActionExecute
+    end
     object act_edit_cut: TTntAction
       Tag = 202
       Category = 'Edit'

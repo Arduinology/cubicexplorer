@@ -1489,6 +1489,7 @@ begin
   QuickView.OnCurrentFileChange:= HandleCurrentFileChange;
   QuickView.fIsDetached:= true;
   Self.PopupMode:= pmAuto;
+  Self.PopupParent:= Application.MainForm;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1506,7 +1507,10 @@ end;
 procedure TCEQuickViewForm.DoClose(var Action: TCloseAction);
 begin
   inherited;
-  Action:= caFree;
+  if QuickView.CanClose then
+  Action:= caFree
+  else
+  Action:= caNone;
 end;
 
 {-------------------------------------------------------------------------------

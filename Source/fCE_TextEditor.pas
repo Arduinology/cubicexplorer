@@ -1219,7 +1219,7 @@ begin
 
     s:= 'The text in the ' + fActiveFileName + ' file has changed.' ;
     s2:= 'Do you want to save changes before closing?';
-    r:= TaskDialog(Application.MainFormHandle,
+    r:= TaskDialog(Self.Handle,
                    'Save before closing?',
                    s,
                    s2,

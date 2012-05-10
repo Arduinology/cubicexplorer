@@ -100,6 +100,8 @@ type
         stdcall;
     procedure GlobalPIDLChanged(Sender: TObject; NewPIDL: PItemIDList); override;
         stdcall;
+    procedure HandleFileViewResize(Sender: TObject); virtual;
+    procedure HandleViewStyleChange(Sender: TObject); virtual;
     procedure InfoBarSplitterMouseUp(Sender: TObject; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer);
     procedure InfoBarSplitterMoving(Sender: TObject; var NewSize: Integer; var
@@ -113,9 +115,12 @@ type
     procedure OnShellNotify(Sender: TCustomVirtualExplorerEasyListview; ShellEvent:
         TVirtualShellEvent);
     procedure SetActive(const Value: Boolean); override;
+    procedure OnGetStorage(Sender: TCustomVirtualExplorerEasyListview; var Storage:
+        TRootNodeStorage);
+    procedure SetThumbViewSize(const Value: Integer);
   public
     FileView: TCEFileView;
-    ThumbViewSize: Integer;
+    fThumbViewSize: Integer;
     InfoBar: TCEInfoBar;
     InfoBarSplitter: TSpTBXSplitter;
     constructor Create(AOwner: TComponent); override;
@@ -140,6 +145,7 @@ type
     procedure ShowHeaderSelector;
     property ShowInfoBar: Boolean read fShowInfoBar write SetShowInfoBar;
     property ThumbPosition: TAlign read fThumbPosition write SetThumbPosition;
+    property ThumbViewSize: Integer read fThumbViewSize write SetThumbViewSize;
     property ViewStyle: TEasyListStyle read fViewStyle write SetViewStyle;
     property ThumbViewStyle: TEasyListStyle read fThumbViewStyle write
         SetThumbViewStyle;
@@ -228,8 +234,13 @@ type
     procedure SetThreadedImages(const Value: Boolean);
     procedure SetUse_JumboIcons_in_InfoBar(const Value: Boolean);
   protected
+    fPerFolderSettings: Boolean;
+    fStorage: TRootNodeStorage;
+    fStorageFilePath: WideString;
+    fStorageIsLoaded: Boolean;
     fUpdateCount: Integer;
     fViewStyle: TEasyListStyle;
+    procedure SetPerFolderSettings(const Value: Boolean);
   public
     constructor Create;
     destructor Destroy; override;
@@ -244,6 +255,11 @@ type
     procedure BeginUpdate;
     procedure ClearFilters;
     procedure EndUpdate(ASendChanges: Boolean = false);
+    procedure LoadStorage;
+    procedure SaveStorage;
+    property Storage: TRootNodeStorage read fStorage;
+    property StorageFilePath: WideString read fStorageFilePath write
+        fStorageFilePath;
   published
     property ArrowBrowse: Boolean read fArrowBrowse write SetArrowBrowse;
     property SelectPreviousFolder: Boolean read fSelectPreviousFolder write
@@ -270,6 +286,8 @@ type
     property GroupBy: TCEGroupBySettings read fGroupBy write fGroupBy;
     property HiddenFiles: Boolean read fHiddenFiles write SetHiddenFiles;
     property InfoBarSize: Integer read fInfoBarSize write fInfoBarSize;
+    property PerFolderSettings: Boolean read fPerFolderSettings write
+        SetPerFolderSettings;
     property ShowInfoTips: Boolean read fShowInfoTips write SetShowInfoTips;
     property RememberPanelLayout: Boolean read fRememberPanelLayout write
         fRememberPanelLayout;
@@ -319,12 +337,14 @@ constructor TCEFileViewPage.Create(AOwner: TComponent);
 begin
   inherited;
   TCEFileViewPageSettings(Settings).FileViewPage:= Self;
-  ThumbViewSize:= 100;
+  fThumbViewSize:= 100;
   fThumbPosition:= alBottom;
   fThumbViewStyle:= elsFilmStrip;
   Layout:= 'FileView';
   Images:= SmallSysImages;
   FileView:= TCEFileView.Create(Self);
+  fViewStyle:= FileView.View;
+  FileView.View:= GlobalFileViewSettings.ViewStyle;
   FileView.Parent:= self;
   FileView.Align:= alClient;
   FileView.Themed:= false;
@@ -341,6 +361,9 @@ begin
   FileView.OnMouseUp:= OnMouseUp;
   FileView.OnShellNotify:= OnShellNotify;
   FileView.OnEnumFinished:= OnEnumFinished;
+  FileView.OnGetStorage:= OnGetStorage;
+  FileView.OnViewStyleChange:= HandleViewStyleChange;
+  FileView.OnResize:= HandleFileViewResize;
   FileView.FileObjects:= [foFolders,
                           foNonFolders];
   FileView.DragManager.MouseButton:= [cmbLeft,cmbRight];
@@ -650,7 +673,7 @@ begin
       if not fPathChanging then
       GlobalPathCtrl.ChangeGlobalPathPIDL(Self, Namespace.AbsolutePIDL);
 
-      if FileView.Active then
+      if not GlobalFileViewSettings.PerFolderSettings and FileView.Active then
       GlobalFileViewSettings.AssignColumnSettingsFrom(FileView);
     end;
   end;
@@ -663,6 +686,7 @@ end;
 procedure TCEFileViewPage.RootChange(
   Sender: TCustomVirtualExplorerEasyListview);
 begin
+  if not GlobalFileViewSettings.PerFolderSettings then
   GlobalFileViewSettings.AssignColumnSettingsTo(FileView);
 end;
 
@@ -682,12 +706,15 @@ end;
 procedure TCEFileViewPage.SelectPage;
 begin
   inherited;
-  // Save old tab's column settings
-  if GlobalPathCtrl.ActivePage is TCEFileViewPage then
-  GlobalFileViewSettings.AssignColumnSettingsFrom(TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView);
+  if not GlobalFileViewSettings.PerFolderSettings then
+  begin
+    // Save old tab's column settings
+    if GlobalPathCtrl.ActivePage is TCEFileViewPage then
+    GlobalFileViewSettings.AssignColumnSettingsFrom(TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView);
 
-  // Load column settings
-  GlobalFileViewSettings.AssignColumnSettingsTo(FileView);
+    // Load column settings
+    GlobalFileViewSettings.AssignColumnSettingsTo(FileView);
+  end;
   // Set Page as active
   GlobalPathCtrl.ActivePage:= Self;
   GlobalPathCtrl.ChangeGlobalPathPIDL(Self, FileView.RootFolderNamespace.AbsolutePIDL);
@@ -702,6 +729,7 @@ procedure TCEFileViewPage.SetActive(const Value: Boolean);
 begin
   inherited;
   FileView.Active:= Value;
+  if not GlobalFileViewSettings.PerFolderSettings then
   GlobalFileViewSettings.AssignColumnSettingsTo(FileView);
 end;
 
@@ -729,7 +757,8 @@ end;
 procedure TCEFileViewPage.OnColumnSizeChanged(Sender: TCustomEasyListview;
     Column: TEasyColumn);
 begin
-  if GlobalPathCtrl.ActivePage = Self then
+  if not GlobalFileViewSettings.PerFolderSettings and
+     (GlobalPathCtrl.ActivePage = Self) then
   GlobalFileViewSettings.AssignColumnSettingsFrom(FileView);
 end;
 
@@ -739,6 +768,87 @@ end;
 function TCEFileViewPage.GetSettingsClass: TCECustomTabPageSettingsClass;
 begin
   Result:= TCEFileViewPageSettings;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle FileView Resize
+-------------------------------------------------------------------------------}
+procedure TCEFileViewPage.HandleFileViewResize(Sender: TObject);
+begin
+  if fViewStyle = elsFilmStrip then
+  begin
+    FileView.CellSizes.FilmStrip.SetSize(FileView.ClientHeight, FileView.ClientHeight-2);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle ViewChange
+-------------------------------------------------------------------------------}
+procedure TCEFileViewPage.HandleViewStyleChange(Sender: TObject);
+begin
+  if fViewStyle = FileView.View then
+  Exit;
+
+  // save columns if needed
+  if not GlobalFileViewSettings.PerFolderSettings and
+     FileView.Active and ((fViewStyle = elsReport) or
+     GlobalFileViewSettings.ShowHeaderAlways) then
+  GlobalFileViewSettings.AssignColumnSettingsFrom(FileView);
+
+  fViewStyle:= FileView.View;
+
+  // show quickview
+  if fViewStyle = elsFilmStrip then
+  begin
+    if not assigned(fQuickView) then
+    begin
+      fQuickView:= TCEQuickView.Create(self);
+      fQuickView.Parent:= self;
+      fQuickView.Align:= alClient;
+      fQuickview.PopupMenu:= QuickViewPopupMenu;
+      fQuickview.Active:= true;
+    end;
+
+    FileView.Align:= fThumbPosition;
+    if fThumbViewSize < 20 then
+    fThumbViewSize:= 20;
+
+    if (fThumbPosition = alTop) or (fThumbPosition = alBottom) then
+    begin
+      FileView.Height:= fThumbViewSize;
+    end
+    else
+    begin
+      FileView.Width:= fThumbViewSize;
+    end;
+    QuickViewSplitter.Align:= fThumbPosition;
+    QuickViewSplitter.Visible:= true;
+
+    case fThumbPosition of
+      alLeft: QuickViewSplitter.Left:= FileView.BoundsRect.Right;
+      alRight: QuickViewSplitter.Left:= FileView.BoundsRect.Left-QuickViewSplitter.Width;
+      alTop: QuickViewSplitter.Top:= FileView.BoundsRect.Bottom;
+      alBottom: QuickViewSplitter.Top:= FileView.BoundsRect.Top-QuickViewSplitter.Height;
+    end;
+  end
+  // hide quickview
+  else
+  begin
+    FileView.Align:= alClient;
+
+    if assigned(fQuickView) then
+    begin
+      FreeAndNil(fQuickView);
+    end;
+    QuickViewSplitter.Visible:= false;
+
+    // load columns if needed
+    if not GlobalFileViewSettings.PerFolderSettings and FileView.Active and
+      ((fViewStyle = elsReport) or GlobalFileViewSettings.ShowHeaderAlways) then
+    GlobalFileViewSettings.AssignColumnSettingsTo(FileView);
+  end;
+
+  GlobalFileViewSettings.ViewStyle:= fViewStyle;
 end;
 
 {*------------------------------------------------------------------------------
@@ -767,11 +877,11 @@ begin
     FileView.Align:= fThumbPosition;
     if (fThumbPosition = alTop) or (fThumbPosition = alBottom) then
     begin
-      FileView.Height:= ThumbViewSize;
+      FileView.Height:= fThumbViewSize;
     end
     else
     begin
-      FileView.Width:= ThumbViewSize;
+      FileView.Width:= fThumbViewSize;
     end;
     
     QuickViewSplitter.Align:= fThumbPosition;
@@ -791,62 +901,11 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFileViewPage.SetViewStyle(const Value: TEasyListStyle);
 begin
-  if fViewStyle = Value then Exit;
-
-  if FileView.Active and ((fViewStyle = elsReport) or GlobalFileViewSettings.ShowHeaderAlways) then
-  GlobalFileViewSettings.AssignColumnSettingsFrom(FileView);
-
-  fViewStyle:= Value;
-
-  if fViewStyle = elsFilmStrip then
+  if Value <> FileView.View then
   begin
-    if not assigned(fQuickView) then
-    begin
-      fQuickView:= TCEQuickView.Create(self);
-      fQuickView.Parent:= self;
-      fQuickView.Align:= alClient;
-      fQuickview.PopupMenu:= QuickViewPopupMenu;
-      fQuickview.Active:= true;
-    end;
-
-    FileView.Align:= fThumbPosition;
-    FileView.View:= fThumbViewStyle;
-    if ThumbViewSize < 20 then
-    ThumbViewSize:= 20;
-    
-    if (fThumbPosition = alTop) or (fThumbPosition = alBottom) then
-    begin
-      FileView.Height:= ThumbViewSize;
-    end
-    else
-    begin
-      FileView.Width:= ThumbViewSize;
-    end;
-    QuickViewSplitter.Align:= fThumbPosition;
-    QuickViewSplitter.Visible:= true;
-
-    case fThumbPosition of
-      alLeft: QuickViewSplitter.Left:= FileView.BoundsRect.Right;
-      alRight: QuickViewSplitter.Left:= FileView.BoundsRect.Left-QuickViewSplitter.Width;
-      alTop: QuickViewSplitter.Top:= FileView.BoundsRect.Bottom;
-      alBottom: QuickViewSplitter.Top:= FileView.BoundsRect.Top-QuickViewSplitter.Height;
-    end;
-  end
-  else
-  begin
-    FileView.Align:= alClient;
-
-    if assigned(fQuickView) then
-    begin
-      FreeAndNil(fQuickView);
-    end;
-    QuickViewSplitter.Visible:= false;
-    FileView.View:= fViewStyle;
-    if FileView.Active and ((fViewStyle = elsReport) or GlobalFileViewSettings.ShowHeaderAlways) then
-    GlobalFileViewSettings.AssignColumnSettingsTo(FileView);
+    FileView.View:= Value;
+    FileView.StoreFolderToPropertyBag(true);
   end;
-
-  GlobalFileViewSettings.ViewStyle:= fViewStyle;
 end;
 
 {*------------------------------------------------------------------------------
@@ -909,9 +968,9 @@ begin
   if fViewStyle = elsFilmStrip then
   begin
     if (fThumbPosition = alTop) or (fThumbPosition = alBottom) then
-    ThumbViewSize:= FileView.Height
+    fThumbViewSize:= FileView.Height
     else
-    ThumbViewSize:= FileView.Width;
+    fThumbViewSize:= FileView.Width;
 
     GlobalFileViewSettings.AssignSettingsFrom(Self);
   end;
@@ -1070,6 +1129,34 @@ begin
   FileView.ShowHeaderSelector;
 end;
 
+{-------------------------------------------------------------------------------
+  On Get Storage
+-------------------------------------------------------------------------------}
+procedure TCEFileViewPage.OnGetStorage(Sender:
+    TCustomVirtualExplorerEasyListview; var Storage: TRootNodeStorage);
+begin
+  Storage:= GlobalFileViewSettings.Storage;
+end;
+
+{-------------------------------------------------------------------------------
+  Set ThumbViewSize
+-------------------------------------------------------------------------------}
+procedure TCEFileViewPage.SetThumbViewSize(const Value: Integer);
+begin
+  fThumbViewSize:= Value;
+  if fViewStyle = elsFilmStrip then
+  begin
+    if (fThumbPosition = alTop) or (fThumbPosition = alBottom) then
+    begin
+      FileView.Height:= fThumbViewSize;
+    end
+    else
+    begin
+      FileView.Width:= fThumbViewSize;
+    end;
+  end;
+end;
+
 {##############################################################################}
 
 {*------------------------------------------------------------------------------
@@ -1078,6 +1165,9 @@ end;
 constructor TCEFileViewSettings.Create;
 begin
   inherited;
+  // create instances
+  fStorage:= TRootNodeStorage.Create;
+  // initialize values
   fUpdateCount:= 0;
   NotifyList:= TComponentList.Create(false);
   fColumns:= TCEColumnSettings.Create;
@@ -1085,7 +1175,6 @@ begin
   fCellSizes:= TCECellSizeSettings.Create;
   fFilmstrip:= TCEFilmstripSettings.Create;
   Filmstrip.ThumbPos:= alBottom;
-  Filmstrip.ThumbStyle:= elsFilmstrip;
   Filmstrip.ThumbSize:= 120;
   fRememberInnerToolbarLayout:= true;
   fInfoBarSize:= 3;
@@ -1099,6 +1188,9 @@ begin
   fFullRowDblClick:= false;
   fSelectPasted:= true;
   fSortAfterPaste:= true;
+  fPerFolderSettings:= false;
+  fStorageFilePath:= '';
+  fStorageIsLoaded:= false;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1111,6 +1203,7 @@ begin
   fGroupBy.Free;
   fCellSizes.Free;
   fFilmstrip.Free;
+  fStorage.Free;
   inherited;
 end;
 
@@ -1126,7 +1219,6 @@ begin
   Exit;
 
   ViewStyle:= FileViewPage.ViewStyle;
-  Filmstrip.ThumbStyle:= FileViewPage.ThumbViewStyle;
   Filmstrip.ThumbPos:= FileViewPage.ThumbPosition;
   Filmstrip.ThumbSize:= FileViewPage.ThumbViewSize;
 end;
@@ -1145,9 +1237,10 @@ begin
   Self.BeginUpdate;
   FileViewPage.FileView.BeginUpdate;
   try
-    FileViewPage.ThumbViewSize:= Filmstrip.ThumbSize;
+    if not PerFolderSettings then
     FileViewPage.ViewStyle:= ViewStyle;
-    FileViewPage.ThumbViewStyle:= Filmstrip.ThumbStyle;
+
+    FileViewPage.ThumbViewSize:= Filmstrip.ThumbSize;
     FileViewPage.ThumbPosition:= Filmstrip.ThumbPos;
     // Toggles
     FileViewPage.FileView.SmoothScroll:= fSmoothScroll;
@@ -1176,6 +1269,7 @@ begin
     FileViewPage.FileView.FullRowDblClick:= fFullRowDblClick;
     FileViewPage.FileView.SelectPasted:= fSelectPasted;
     FileViewPage.FileView.SortAfterPaste:= fSortAfterPaste;
+    FileViewPage.FileView.PerFolderSettings:= fPerFolderSettings;
     // Options
     options:= FileViewPage.FileView.Options;
     if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
@@ -1183,6 +1277,7 @@ begin
     if fThreadedEnumeration then Include(options, eloThreadedEnumeration) else Exclude(options, eloThreadedEnumeration);
     if fThreadedDetails then Include(options, eloThreadedDetails) else Exclude(options, eloThreadedDetails);
     if fShowInfoTips then Include(options, eloQueryInfoHints) else Exclude(options, eloQueryInfoHints);
+    //if fPerFolderSettings then Include(options, eloPerFolderStorage) else Exclude(options, eloPerFolderStorage);
 
     FileViewPage.FileView.Options:= options;
 
@@ -1230,7 +1325,7 @@ begin
     else
     FileViewPage.FileView.CellSizes.FilmStrip.SetSize(CellSizes.Filmstrip_Width, CellSizes.Filmstrip_Height);
     
-    if AssignColumnSettings then
+    if not PerFolderSettings and AssignColumnSettings then
     AssignColumnSettingsTo(FileViewPage.FileView);
   finally
     FileViewPage.FileView.EndUpdate(FileViewPage.Visible);
@@ -1521,6 +1616,32 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Load Storage
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.LoadStorage;
+begin
+  try
+    fStorageIsLoaded:= true;
+    if WideFileExists(StorageFilePath) then
+    Storage.LoadFromFile(StorageFilePath);
+  except
+    // catch exceptions
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Save Storage
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SaveStorage;
+begin
+  try
+    Storage.SaveToFile(StorageFilePath);
+  except
+    // catch exceptions
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   Set ArrowBrowse
 -------------------------------------------------------------------------------}
 procedure TCEFileViewSettings.SetArrowBrowse(const Value: Boolean);
@@ -1607,6 +1728,23 @@ begin
   SendChanges;
 end;
 
+{-------------------------------------------------------------------------------
+  Set Per Folder Settings
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetPerFolderSettings(const Value: Boolean);
+begin
+  if Value <> fPerFolderSettings then
+  begin
+    fPerFolderSettings:= Value;
+    if fPerFolderSettings and not fStorageIsLoaded then
+    LoadStorage;    
+  end;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set Select Pasted
+-------------------------------------------------------------------------------}
 procedure TCEFileViewSettings.SetSelectPasted(const Value: Boolean);
 begin
   fSelectPasted:= Value;
@@ -1804,10 +1942,10 @@ begin
     if assigned(PIDL) then
     begin
       FileViewPage.FileView.BrowseToByPIDL(PIDL);
+      FileViewPage.FileView.BeginHistoryUpdate;
       FileViewPage.FileView.ClearHistory;
-      FileViewPage.FileView.fChangeHistory:= false;
       FileViewPage.FileView.History.Add(TNamespace.Create(PIDLMgr.CopyPIDL(PIDL),nil),true);
-      FileViewPage.FileView.fChangeHistory:= true;
+      FileViewPage.FileView.EndHistoryUpdate;
     end;
   finally
     FileViewPage.FileView.EndUpdate(false);

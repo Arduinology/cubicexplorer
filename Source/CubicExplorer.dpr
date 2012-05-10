@@ -143,7 +143,8 @@ uses
   CV_Playlist in 'CV_Playlist.pas',
   CE_SynExporters in 'CE_SynExporters.pas',
   fCE_TextEditor in 'fCE_TextEditor.pas' {CETextEditor: TFrame},
-  fCE_TextEditorOptions in 'fCE_TextEditorOptions.pas' {CETextEditorOptionsForm: TTntForm};
+  fCE_TextEditorOptions in 'fCE_TextEditorOptions.pas' {CETextEditorOptionsForm: TTntForm},
+  fCE_WorkspacePanel in 'fCE_WorkspacePanel.pas' {CEWorkspacePanel};
 
 {$R *.res}
 {$R 'CE_Resources.res'}
@@ -228,6 +229,10 @@ begin
   // Create Archiver Panel
 //  CEArchiverPanel:= TCEArchiverPanel.Create(MainForm);
 //  CEArchiverPanel.Name:= 'ArchiverPanel';
+
+  // Create Workspace Panel
+  CEWorkspacePanel:= TCEWorkspacePanel.Create(MainForm);
+  CEWorkspacePanel.Name:= 'WorkspacePanel';
 
   // Run Start up code.
   MainForm.StartUp;

@@ -12,7 +12,6 @@ object MainForm: TMainForm
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
-  PopupMenu = PanelsPopupMenu
   Position = poDefault
   ShowHint = True
   OnClick = FormCreate
@@ -233,6 +232,9 @@ object MainForm: TMainForm
           end
           object SpTBXItem80: TSpTBXItem
             Action = CEActions.act_view_archiver
+          end
+          object SpTBXItem99: TSpTBXItem
+            Action = CEActions.act_view_workspace
           end
         end
         object SpTBXItem87: TSpTBXItem

@@ -239,6 +239,7 @@ type
     act_stack_clear: TTntAction;
     act_stack_allowmove: TTntAction;
     act_gen_makevisible: TTntAction;
+    act_view_workspace: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -260,6 +261,8 @@ type
         MenuItemID: Integer;  var Handled: Boolean);
     procedure DoGlobalContextMenuShow(Namespace: TNamespace; Menu: hMenu; var
         Allow: Boolean);
+    procedure HandleGlobalContextPopup(Sender: TObject; MousePos: TPoint; var
+        Handled: Boolean);
     procedure UpdateAll;
     property PageActionList: TTntActionList read fPageActionList write
         fPageActionList;
@@ -366,7 +369,8 @@ uses
   CE_ToolbarButtons, fCE_Customizer, fCE_TabPage, fCE_FiltersPanel,
   fCE_PoEditor, fCE_OptionsDialog, CE_Sessions, fCE_StackPanel,
   CE_BaseFileView, fCE_QuickViewTab, fCE_SearchPage, fCE_CreateSymlink,
-  fCE_VersionMgrForm, fCE_ArchivePanel, CE_CommonObjects, fCE_QuickView;
+  fCE_VersionMgrForm, fCE_ArchivePanel, CE_CommonObjects, fCE_QuickView,
+  fCE_WorkspacePanel;
 
 {##############################################################################}
 
@@ -708,6 +712,8 @@ begin
     304: if GetFormVisible(CEFiltersPanel) then HideDockForm(CEFiltersPanel) else ShowDockForm(CEFiltersPanel);
     305: if GetFormVisible(CEStackPanel) then HideDockForm(CEStackPanel) else ShowDockForm(CEStackPanel);
 //    306: if GetFormVisible(CEArchiverPanel) then HideDockForm(CEArchiverPanel) else ShowDockForm(CEArchiverPanel);
+    307: if GetFormVisible(CEWorkspacePanel) then HideDockForm(CEWorkspacePanel) else ShowDockForm(CEWorkspacePanel);
+
     330: MainForm.ShowHint:= not MainForm.ShowHint;
     332: begin
       GlobalFileViewSettings.HiddenFiles:= not GlobalFileViewSettings.HiddenFiles;
@@ -745,6 +751,7 @@ begin
     304: TargetAction.Checked:= CEFiltersPanel.IsVisible;
     305: TargetAction.Checked:= CEStackPanel.IsVisible;
 //    306: TargetAction.Checked:= CEArchiverPanel.IsVisible;
+    307: TargetAction.Checked:= CEWorkspacePanel.IsVisible;
     330: TargetAction.Checked:= MainForm.ShowHint;
     332: TargetAction.Checked:= GlobalFileViewSettings.HiddenFiles;
     333: TargetAction.Checked:= GlobalFileViewSettings.ShowHeaderAlways;
@@ -1275,8 +1282,6 @@ end;
 function OpenFileInTab(FilePath: WideString; SelectTab: Boolean = true;
     ActivateApp: Boolean = false): TCESpTabItem;
 var
-  // TODO: TextEditor Rewrite
-  //editor: TCETextEditorPage;
   quickview: TCEQuickViewPage;
 begin
   Result:= nil;
@@ -1292,10 +1297,9 @@ begin
     end
     else
     begin
-    // TODO: TextEditor Rewrite
-//      Result:= MainForm.TabSet.AddTab(TCETextEditorPage, SelectTab);
-//      editor:= TCETextEditorPage(Result.Page);
-//      editor.OpenDocument(FilePath);
+      Result:= MainForm.TabSet.AddTab(TCEQuickViewPage, SelectTab);
+      quickview:= TCEQuickViewPage(Result.Page);
+      quickview.QuickView.OpenTextFile(FilePath);
     end;
 
     if ActivateApp then
@@ -1379,16 +1383,26 @@ begin
       if assigned(Result) then
       begin
         page:= TCEFileViewPage(Result.Page);
-        page.FileView.fChangeHistory:= false;
+        page.FileView.BeginHistoryUpdate;
+
         page.FileView.Selection.ClearAll;
+
         page.FileView.RootFolderCustomPIDL:= browsePIDL;
-        page.UpdateCaption;
+
         if page.FileView.Selection.First <> nil then
         page.FileView.Selection.First.MakeVisible(emvMiddle);
+
         page.FileView.ClearHistory;
         page.FileView.History.Add(TNamespace.Create(PIDLMgr.CopyPIDL(browsePIDL),nil),true);
-        page.FileView.fChangeHistory:= true;
+        page.FileView.EndHistoryUpdate;
         page.Active:= true;
+
+        //page.FileView.RootFolderCustomPIDL:= browsePIDL;
+        //page.FileView.BrowseToByPIDL(browsePIDL);
+        //page.UpdateCaption;
+
+        page.FileView.LoadFolderFromPropertyBag(true);
+
         if SelectTab or (MainForm.TabSet.Toolbar.GetTabsCount(true) = 1) then
         MainForm.TabSet.SelectTab(Result);
         if ActivateApp then
@@ -2091,6 +2105,20 @@ begin
     if assigned(col) then
     page.FileView.GroupingColumn:= col.Index;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  Handle Global ContextPopup
+-------------------------------------------------------------------------------}
+procedure TCEActions.HandleGlobalContextPopup(Sender: TObject; MousePos:
+    TPoint; var Handled: Boolean);
+begin
+  if Sender = MainForm then
+  begin
+    MousePos:= MainForm.ClientToScreen(MousePos);
+    MainForm.PanelsPopupMenu.Popup(MousePos.X, MousePos.Y);
+  end;
+  Handled:= true;
 end;
 
 {-------------------------------------------------------------------------------
