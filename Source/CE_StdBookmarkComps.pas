@@ -119,7 +119,8 @@ var
 implementation
 
 uses
-  CE_GlobalCtrl, dCE_Images, dCE_Actions, Main, CE_Sessions, CE_LanguageEngine;
+  CE_GlobalCtrl, dCE_Images, dCE_Actions, Main, CE_Sessions, CE_LanguageEngine,
+  fCE_BookmarkPanel;
 
 {*------------------------------------------------------------------------------
   Create an instance of TCECategoryComp object.
@@ -608,22 +609,32 @@ begin
     end
     else
     begin
-      PIDL:= PathToPIDL(Namespace.NameForParsing);
-      if assigned(PIDL) or fIsPath then // Save Path
-      begin
-        if fRelative then
-        begin
-          XmlNode.Properties.Add('path',UTF8Encode(EncodeRelativePath(Namespace.NameForParsing)));
-          XmlNode.Properties.Add('relative', '1');
-        end
-        else
-        XmlNode.Properties.Add('path',UTF8Encode(Namespace.NameForParsing));
-
-        PIDLMgr.FreePIDL(PIDL);
-      end
-      else // Save PIDL
+      // force save PIDL 
+      if CEBookmarkPanel.Settings.AlwaysSaveAsPIDL and not fRelative then
       begin
         XmlNode.Properties.Add('pidl', SavePIDLToMime(Namespace.AbsolutePIDL));
+      end
+      else
+      begin
+        PIDL:= PathToPIDL(Namespace.NameForParsing);
+        // save Path
+        if assigned(PIDL) or fIsPath then 
+        begin
+          if fRelative then
+          begin
+            XmlNode.Properties.Add('path',UTF8Encode(EncodeRelativePath(Namespace.NameForParsing)));
+            XmlNode.Properties.Add('relative', '1');
+          end
+          else
+          XmlNode.Properties.Add('path',UTF8Encode(Namespace.NameForParsing));
+
+          PIDLMgr.FreePIDL(PIDL);
+        end
+        // save PIDL
+        else 
+        begin
+          XmlNode.Properties.Add('pidl', SavePIDLToMime(Namespace.AbsolutePIDL));
+        end;
       end;
     end;
   end

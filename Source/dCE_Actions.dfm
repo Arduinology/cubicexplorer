@@ -8,6 +8,13 @@ object CEActions: TCEActions
     Images = CE_Images.SmallIcons
     Left = 28
     Top = 12
+    object act_workspace_forward: TTntAction
+      Tag = 933
+      Category = 'Workspace'
+      Caption = 'Forward'
+      ImageIndex = 6
+      OnExecute = ActionExecute
+    end
     object act_tabs_closetab: TTntAction
       Tag = 661
       Category = 'Tabs'
@@ -796,6 +803,28 @@ object CEActions: TCEActions
       Tag = 104
       Category = 'General'
       Caption = 'Make Visible'
+      OnExecute = ActionExecute
+    end
+    object act_workspace_folder_up: TTntAction
+      Tag = 931
+      Category = 'Workspace'
+      Caption = 'Folder Up'
+      ImageIndex = 7
+      OnExecute = ActionExecute
+    end
+    object act_workspace_back: TTntAction
+      Tag = 932
+      Category = 'Workspace'
+      Caption = 'Back'
+      ImageIndex = 5
+      OnExecute = ActionExecute
+    end
+    object act_workspace_open: TTntAction
+      Tag = 934
+      Category = 'Workspace'
+      Caption = 'Browse To'
+      ImageIndex = 28
+      ShortCut = 16453
       OnExecute = ActionExecute
     end
   end

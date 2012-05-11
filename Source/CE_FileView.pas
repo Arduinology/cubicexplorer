@@ -105,6 +105,7 @@ type
         Allow: Boolean); override;
     procedure DoRootRebuild; override;
     procedure DoShellNotify(ShellEvent: TVirtualShellEvent); override;
+    procedure DoViewChange; override;
     procedure HandleDblClick(Button: TCommonMouseButton; Msg: TWMMouse); override;
     procedure HandleMouseDown(Button: TCommonMouseButton; Msg: TWMMouse); override;
     procedure HandleMouseUp(Button: TCommonMouseButton; Msg: TWMMouse); override;
@@ -115,6 +116,7 @@ type
     procedure OnCreateNewFile(Sender: TMenu; const NewMenuItem:
         TVirtualShellNewItem; var Path, FileName: WideString; var Allow: Boolean);
     procedure SetNotifyFolder(Namespace: TNamespace);
+    procedure SetPerFolderSettings(const Value: Boolean);
     procedure SetView(Value: TEasyListStyle); override;
     procedure UpdateBackgroundText;
     procedure WMKillFocus(var Message: TWMKillFocus); message WM_KillFocus;
@@ -151,7 +153,7 @@ type
     property LeftMouseButton_RockerClicks: Integer read
         fLeftMouseButton_RockerClicks;
     property PerFolderSettings: Boolean read fPerFolderSettings write
-        fPerFolderSettings;
+        SetPerFolderSettings;
     property RightMouseButton_IsDown: Boolean read fRightMouseButton_IsDown;
     property RightMouseButton_RockerClicks: Integer read
         fRightMouseButton_RockerClicks;
@@ -927,6 +929,16 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Do ViewChange
+-------------------------------------------------------------------------------}
+procedure TCEFileView.DoViewChange;
+begin
+  inherited;
+  if PerFolderSettings and Active then
+  StoreFolderToPropertyBag(true, true);  
+end;
+
+{-------------------------------------------------------------------------------
   End History Update
 -------------------------------------------------------------------------------}
 procedure TCEFileView.EndHistoryUpdate;
@@ -1239,6 +1251,19 @@ begin
       else
       ChangeNotifier.NotifyWatchFolder(Self, '');
     end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Set PerFolderSettings
+-------------------------------------------------------------------------------}
+procedure TCEFileView.SetPerFolderSettings(const Value: Boolean);
+begin
+  if fPerFolderSettings <> Value then
+  begin
+    fPerFolderSettings:= Value;
+    if fPerFolderSettings then
+    LoadFolderFromPropertyBag(true);
   end;
 end;
 

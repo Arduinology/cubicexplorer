@@ -1,3 +1,8 @@
+11.5.2012
++ Added Workspace panel.
++ Added AlwaysSaveAsPIDL option to Bookmarks.
+- Fixed bug in text file preview.
+
 10.5.2012
 * Updated Italian translation (thanks to Folgore101).
 ---

@@ -578,9 +578,10 @@ begin
 
             if AMaxLength > 0 then
             begin
-              SetLength(buf, AMaxLength);
+              SetLength(buf, AMaxLength + 1);
               // read
               s.Read(buf[1], Length(buf));
+              buf[Length(buf)]:= #0;
               // decode UTF-8
               if buf <> '' then
               begin
@@ -599,9 +600,10 @@ begin
 
             if AMaxLength > 0 then
             begin
-              SetLength(bufW, AMaxLength div 2);
+              SetLength(bufW, (AMaxLength div 2) + 1);
               // read
               s.Read(bufW[1], Length(bufW)*2);
+              bufW[Length(bufW)]:= #0;
               // swap byte order if big-endian is detected
               if w = $FFFE then
               begin

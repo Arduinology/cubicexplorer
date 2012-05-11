@@ -216,6 +216,13 @@ type
     destructor Destroy; override;
   end;
 
+  TCEWorkspaceOpenButton = class(TCEToolbarSubmenuItem)
+  protected
+    procedure DoPopup(Sender: TTBCustomItem; FromLink: Boolean); override;
+  public
+    constructor Create(AOwner: TComponent); override;
+  end;
+
 var
   GlobalButtonSettings: TCEButtonSettings;
 
@@ -224,7 +231,8 @@ implementation
 uses
   CE_FileView, fCE_FileView, CE_BaseFileView, dCE_Actions, dCE_Images, Main,
   CE_Sessions, fCE_FiltersPanel, CE_Utils, MPShellTypes, CE_CommonObjects,
-  CE_AppSettings, CE_SystemUtils, CE_SpTabBar, SpTBXTabs, fCE_StackPanel;
+  CE_AppSettings, CE_SystemUtils, CE_SpTabBar, SpTBXTabs, fCE_StackPanel,
+  fCE_WorkspacePanel;
 
 {##############################################################################}
 
@@ -1406,6 +1414,28 @@ procedure TCEFilterPatternItem2.DoClearButtonClick(Shift: TShiftState);
 begin
   inherited;
   CEFiltersPanel.PatternText:= '';
+end;
+
+{##############################################################################}
+// TCEWorkspaceOpenButton
+
+{*------------------------------------------------------------------------------
+  Create an instance of TCEWorkspaceOpenButton
+-------------------------------------------------------------------------------}
+constructor TCEWorkspaceOpenButton.Create(AOwner: TComponent);
+begin
+  inherited;
+  Self.DropdownCombo:= true;
+  Self.Options:= [tboDropdownArrow];
+end;
+
+{*------------------------------------------------------------------------------
+  Do Button Popup
+-------------------------------------------------------------------------------}
+procedure TCEWorkspaceOpenButton.DoPopup(Sender: TTBCustomItem; FromLink:
+    Boolean);
+begin
+  CEWorkspacePanel.PopulateOpenMenuItem(Sender);
 end;
 
 {##############################################################################}

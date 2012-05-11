@@ -43,6 +43,7 @@ type
     check_singleclick: TTntCheckBox;
     combo_sizeformat: TTntComboBox;
     TntLabel1: TTntLabel;
+    check_perfolder: TTntCheckBox;
     procedure HandleChange(Sender: TObject);
   private
     { Private declarations }
@@ -94,6 +95,7 @@ begin
     GlobalFileViewSettings.SortFolderFirstAlways:= check_sortfoldersfirst.Checked;
     GlobalFileViewSettings.ShowInfoTips:= check_infotips.Checked;
     GlobalFileViewSettings.SingleClickBrowse:= check_singleclick.Checked;
+    GlobalFileViewSettings.PerFolderSettings:= check_perfolder.Checked;
     GlobalFileViewSettings.FileSizeFormat:= TVirtualFileSizeFormat(combo_sizeformat.ItemIndex);
   finally
     GlobalFileViewSettings.EndUpdate(true);
@@ -117,7 +119,7 @@ begin
   check_sortfoldersfirst.Checked:= GlobalFileViewSettings.SortFolderFirstAlways;
   check_infotips.Checked:= GlobalFileViewSettings.ShowInfoTips;
   check_singleclick.Checked:= GlobalFileViewSettings.SingleClickBrowse;
-
+  check_perfolder.Checked:= GlobalFileViewSettings.PerFolderSettings;
   combo_sizeformat.ItemIndex:= Ord(GlobalFileViewSettings.FileSizeFormat);
 end;
 

@@ -160,6 +160,12 @@ Unit Documents;
 // 924 = Clear list
 // 925 = Allow Move
 
+// **** Workspace (930) ****
+// 931 = Folder Up
+// 932 = Back
+// 933 = Forward
+// 934 = Open
+
 // **** Focus (950) ****
 // 951 = Set focus to address bar
 

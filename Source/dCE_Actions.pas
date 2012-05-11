@@ -240,6 +240,10 @@ type
     act_stack_allowmove: TTntAction;
     act_gen_makevisible: TTntAction;
     act_view_workspace: TTntAction;
+    act_workspace_folder_up: TTntAction;
+    act_workspace_back: TTntAction;
+    act_workspace_forward: TTntAction;
+    act_workspace_open: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -546,7 +550,9 @@ var
   s: String;
 begin
   fileview:= nil;
-  if GlobalPathCtrl.ActivePage is TCEFileViewPage then
+  if CEWorkspacePanel.FileView.Focused then
+  fileview:= CEWorkspacePanel.FileView
+  else if GlobalPathCtrl.ActivePage is TCEFileViewPage then
   fileview:= TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView;
 
   if CEFolderPanel.FolderTree.Focused then
@@ -624,9 +630,11 @@ var
 begin
   TargetAction.Enabled:= false;
   fileview:= nil;
-  if GlobalPathCtrl.ActivePage is TCEFileViewPage then
+  if CEWorkspacePanel.FileView.Focused then
+  fileview:= CEWorkspacePanel.FileView
+  else if GlobalPathCtrl.ActivePage is TCEFileViewPage then
   fileview:= TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView;
-
+  // FolderTree focused
   if CEFolderPanel.FolderTree.Focused then
   begin
     case ActionID of
@@ -645,6 +653,7 @@ begin
            end;
     end;
   end
+  // FileView focused
   else if assigned(fileview) then
   begin
     if fileview.Focused then
@@ -904,6 +913,14 @@ begin
     923: CEStackPanel.StackTree.DeleteSelectedNodes;
     924: CEStackPanel.ClearList;
     925: CEStackPanel.StackTree.SafeOperationsOnly:= not CEStackPanel.StackTree.SafeOperationsOnly;
+    // Workspace
+    931: CEWorkspacePanel.FileView.GoFolderUp;
+    932: CEWorkspacePanel.FileView.GoBackInHistory;
+    933: CEWorkspacePanel.FileView.GoForwardInHistory;
+    934: begin
+      if GlobalPathCtrl.ActivePage is TCEFileViewPage then
+      CEWorkspacePanel.FileView.BrowseToByPIDL(TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.RootFolderNamespace.AbsolutePIDL);
+    end;
   end;
 end;
 
@@ -921,6 +938,9 @@ begin
     923: TargetAction.Enabled:= CEStackPanel.StackTree.SelectedCount > 0;
     924: TargetAction.Enabled:= CEStackPanel.StackTree.RootNode.ChildCount > 0;
     925: TargetAction.Checked:= not CEStackPanel.StackTree.SafeOperationsOnly;
+    // Workspace
+    932: TargetAction.Enabled:= CEWorkspacePanel.FileView.History.HasBackItems;
+    933: TargetAction.Enabled:= CEWorkspacePanel.FileView.History.HasNextItems;
   end;
 end;
 
@@ -958,8 +978,9 @@ begin
          end;
     606: begin
            if GlobalPathCtrl.ActivePage is TCEFileViewPage then
-           TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.Rebuild;
+           TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.Rebuild(true);
            CEFolderPanel.FolderTree.Refresh;
+           CEWorkspacePanel.FileView.Rebuild(true);
            MainForm.DriveToolbar.Populate;
            MainForm.StatusBar.UpdateLabels(true);
          end;
@@ -1397,12 +1418,6 @@ begin
         page.FileView.EndHistoryUpdate;
         page.Active:= true;
 
-        //page.FileView.RootFolderCustomPIDL:= browsePIDL;
-        //page.FileView.BrowseToByPIDL(browsePIDL);
-        //page.UpdateCaption;
-
-        page.FileView.LoadFolderFromPropertyBag(true);
-
         if SelectTab or (MainForm.TabSet.Toolbar.GetTabsCount(true) = 1) then
         MainForm.TabSet.SelectTab(Result);
         if ActivateApp then
@@ -1773,25 +1788,21 @@ end;
 procedure DoGlobalContextMenuShow(Sender: TObject; Namespace: TNamespace; Menu:
     hMenu; var Allow: Boolean);
 
-var
-  infoA: TMenuItemInfoA;
-  infoW: TMenuItemInfoW;
-  ws: WideString;
-begin
-  // Add "Open in new tab" item
-  if Namespace.Folder then
+  procedure DoInsertMenuItem(const ACaption: WideString; AID: Cardinal; APos: Cardinal = 0);
+  var
+    infoA: TMenuItemInfoA;
+    infoW: TMenuItemInfoW;
   begin
-    ws:= _('Open in new tab');
     if IsUnicode then
     begin
       FillChar(infoW, SizeOf(infoW), #0);
       infoW.cbSize:= SizeOf(infoW);
       infoW.fMask:= MIIM_TYPE or MIIM_ID or MIIM_STATE;
       infoW.fType:= MFT_STRING;
-      infoW.dwTypeData:= PWideChar(ws);
-      infoW.cch:= Length(ws) + 1;
-      infoW.wID:= 664;
-      InsertMenuItemW(Menu, 0, true, infoW);
+      infoW.dwTypeData:= PWideChar(ACaption);
+      infoW.cch:= Length(ACaption) + 1;
+      infoW.wID:= AID;
+      InsertMenuItemW(Menu, APos, true, infoW);
     end
     else
     begin
@@ -1799,18 +1810,33 @@ begin
       infoA.cbSize:= SizeOf(infoA);
       infoA.fMask:= MIIM_TYPE or MIIM_ID or MIIM_STATE;
       infoA.fType:= MFT_STRING;
-      infoA.dwTypeData:= PChar(String(ws));
-      infoA.cch:= Length(ws) + 1;
-      infoA.wID:= 664;
-      InsertMenuItemA(Menu, 0, true, infoA);
+      infoA.dwTypeData:= PChar(String(ACaption));
+      infoA.cch:= Length(ACaption) + 1;
+      infoA.wID:= AID;
+      InsertMenuItemA(Menu, APos, true, infoA);
     end;
+  end;
+
+var
+  infoA: TMenuItemInfoA;
+  ws: WideString;
+begin
+  
+  if Namespace.Folder then
+  begin
+    // Add "Open in new tab" item
+    ws:= _('Open in new tab');
+    DoInsertMenuItem(ws, 664, 0);
+    // Add "Open in Workspace" item
+    ws:= _('Open in Workspace');
+    DoInsertMenuItem(ws, 934, 1);
 
     // Add Separator
     FillChar(infoA, SizeOf(infoA), #0);
     infoA.cbSize:= SizeOf(infoA);
     infoA.fMask:= MIIM_TYPE or MIIM_ID;
     infoA.fType:= MFT_SEPARATOR;
-    InsertMenuItemA(Menu, 1, true, infoA);
+    InsertMenuItemA(Menu, 2, true, infoA);
   end;
 end;
 
@@ -1846,6 +1872,11 @@ begin
     end
     else
     OpenFolderInTab(Sender, Namespace.AbsolutePIDL, MainForm.TabSet.Settings.OpenTabSelect);
+  end
+  // Handle "Open in Workspace" item
+  else if MenuItemID = 934 then
+  begin
+    CEWorkspacePanel.FileView.BrowseToByPIDL(Namespace.AbsolutePIDL);
   end;
 end;
 

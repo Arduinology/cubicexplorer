@@ -110,9 +110,13 @@ type
     procedure SetShowOpenAllAtTop(const Value: Boolean);
     procedure SetShowOpenAllItem(const Value: Boolean);
     procedure SetSingleClickMode(const Value: Boolean);
+  protected
+    fAlwaysSaveAsPIDL: Boolean;
   public
     BookmarkPanel: TCEBookmarkPanel;
   published
+    property AlwaysSaveAsPIDL: Boolean read fAlwaysSaveAsPIDL write
+        fAlwaysSaveAsPIDL;
     property AutoCollapse: Boolean read GetAutoCollapse write SetAutoCollapse;
     property AutoExpand: Boolean read GetAutoExpand write SetAutoExpand;
     property FontSize: Integer read fFontSize write SetFontSize;
@@ -152,6 +156,7 @@ begin
   fSettings.fFontSize:= -1;
   fSettings.fLineHeight:= -1;
   fSettings.fShowOpenAllItem:= true;
+  fSettings.fAlwaysSaveAsPIDL:= true;
   
   BookmarkMenuItems:= TComponentList.Create(false);
   TopDock.Name:= 'BookmarkPanel_TopDock';

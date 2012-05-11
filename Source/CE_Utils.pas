@@ -1470,7 +1470,7 @@ begin
   if IsUnicode then
   Win32Check(GetFileVersionInfoW(PWideChar(FileName), Handle, Size, PAnsiChar(FBuffer)))
   else
-  Win32Check(GetFileVersionInfoA(PChar(FileName), Handle, Size, PAnsiChar(FBuffer)));
+  Win32Check(GetFileVersionInfoA(PChar(String(FileName)), Handle, Size, PAnsiChar(FBuffer)));
 
   // extract data
   ExtractData;

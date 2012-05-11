@@ -226,6 +226,7 @@ type
     SpTBXSeparatorItem32: TSpTBXSeparatorItem;
     PanelsPopupMenu: TSpTBXPopupMenu;
     SpTBXItem99: TSpTBXItem;
+    SpTBXItem100: TSpTBXItem;
     procedure AutoUpdateTimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -243,6 +244,7 @@ type
     procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer);
     procedure TrayPopupMenuPopup(Sender: TObject);
+    procedure SpTBXItem100Click(Sender: TObject);
   private
     fFullscreen: Boolean;
     fActiveLanguage: WideString;
@@ -422,7 +424,7 @@ implementation
 uses
   madExcept, Clipbrd, CE_Stacks, MPResources,
   fCE_OptionsDialog, fCE_StackPanel, CE_Consts, CE_CommonObjects,
-  CE_ElevatedActions, CE_FileUtils, fCE_TextEditorOptions;
+  CE_ElevatedActions, CE_FileUtils, fCE_TextEditorOptions, fCE_WorkspacePanel;
 
 {$R *.dfm}
 
@@ -790,7 +792,8 @@ begin
   else
   GlobalSessions.LoadFromFile(exePath + 'sessions.xml');
   SessionsToolbar.Recreate;
-  // Set Storage path
+  
+  // Set PerFolder Storage path
   GlobalFileViewSettings.StorageFilePath:= SettingsDirPath + 'perfolder.dat';
 
   // Load Settings
@@ -917,6 +920,12 @@ begin
     Layouts.SaveSettingsForToolbars;
     Layouts.SaveToFile(SettingsDirPath + 'layout.xml');
   end;
+end;
+
+procedure TMainForm.SpTBXItem100Click(Sender: TObject);
+begin
+  if assigned(GlobalPathCtrl.ActivePage) and (GlobalPathCtrl.ActivePage is TCEFileViewPage) then
+  TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.LoadFolderFromPropertyBag(true);
 end;
 
 {*------------------------------------------------------------------------------

@@ -179,6 +179,8 @@ type
     fRememberPanelLayout: Boolean;
   protected
     fDirectShowExtensions: WideString;
+    fFilePreviewBackgroundColor: TColor;
+    fFilePreviewTextColor: TColor;
     fImageExtensions: WideString;
     fLoopMode: TCEQuickViewLoopMode;
     fMediaPlayer: TCEMediaPlayerType;
@@ -201,6 +203,10 @@ type
   published
     property DirectShowExtensions: WideString read fDirectShowExtensions write
         SetDirectShowExtensions;
+    property FilePreviewBackgroundColor: TColor read fFilePreviewBackgroundColor
+        write fFilePreviewBackgroundColor;
+    property FilePreviewTextColor: TColor read fFilePreviewTextColor write
+        fFilePreviewTextColor;
     property ImageExtensions: WideString read fImageExtensions write
         SetImageExtensions;
     property LoopMode: TCEQuickViewLoopMode read fLoopMode write fLoopMode;
@@ -260,8 +266,6 @@ begin
   Preview.Align:= alClient;
   Preview.OnClick:= HandlePreviewClick;
   Preview.PopupMenu:= QuickViewPopup;
-  Preview.Color:= clBlack;
-  Preview.Font.Color:= clWhite;
 
   // create Playlist
   Playlist:= TCVPlaylist.Create(Self);
@@ -711,6 +715,8 @@ begin
     // open file
     if not assigned(fMediaPlayer) then
     begin
+      Preview.Color:= GlobalQuickViewSettings.fFilePreviewBackgroundColor;
+      Preview.Font.Color:= GlobalQuickViewSettings.fFilePreviewTextColor;
       Preview.OpenFile(AFilePath);
       CurrentFilePath:= AFilePath;
     end;  
@@ -1542,6 +1548,8 @@ begin
   fMediaPlayer:= mptWMP;
   fLoopMode:= lmNoLooping;
   fSlideshowInterval:= 5000;
+  fFilePreviewBackgroundColor:= clWindow;
+  fFilePreviewTextColor:= clWindowText;
 end;
 
 {-------------------------------------------------------------------------------

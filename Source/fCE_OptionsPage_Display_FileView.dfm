@@ -1,7 +1,7 @@
 inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
   object TntLabel1: TTntLabel
     Left = 16
-    Top = 185
+    Top = 209
     Width = 76
     Height = 13
     Caption = 'File size format:'
@@ -71,12 +71,21 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
   end
   object combo_sizeformat: TTntComboBox
     Left = 16
-    Top = 200
+    Top = 224
     Width = 145
     Height = 21
     Style = csDropDownList
     ItemHeight = 13
     TabOrder = 7
     OnChange = HandleChange
+  end
+  object check_perfolder: TTntCheckBox
+    Left = 16
+    Top = 177
+    Width = 401
+    Height = 17
+    Caption = 'Use per folder settings'
+    TabOrder = 8
+    OnClick = HandleChange
   end
 end

@@ -236,7 +236,10 @@ var
 begin
   if (ATag = fTaskTag) and (AObject is TCEFilePreviewTask) then
   begin
-    task:= TCEFilePreviewTask(AObject);                                                                       
+    task:= TCEFilePreviewTask(AObject);
+    if not WideFileExists(task.FilePath) then
+    Exit;
+
     try
       CoInitialize(nil);
       ns:= TNamespace.CreateFromFileName(task.FilePath);
@@ -270,6 +273,7 @@ begin
         CoUninitialize;
       end;
     except
+      CoUninitialize;
     end;
   end;
 end;

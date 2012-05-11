@@ -52,24 +52,7 @@ type
   TCEFileViewHack = class(TCEFileView);
 
   TCEFileViewPage = class(TCECustomTabPage)
-    QuickViewPopupMenu: TSpTBXPopupMenu;
-    SpTBXSubmenuItem1: TSpTBXSubmenuItem;
-    but_thumbpos_left: TSpTBXItem;
-    but_thumbpos_top: TSpTBXItem;
-    but_thumbpos_right: TSpTBXItem;
-    but_thumbpos_bottom: TSpTBXItem;
     QuickViewSplitter: TSpTBXSplitter;
-    SpTBXSubmenuItem2: TSpTBXSubmenuItem;
-    but_thumbstyle_icon: TSpTBXItem;
-    but_thumbstyle_smallicon: TSpTBXItem;
-    but_thumbstyle_list: TSpTBXItem;
-    but_thumbstyle_details: TSpTBXItem;
-    but_thumbstyle_tiles: TSpTBXItem;
-    but_thumbstyle_thumbnails: TSpTBXItem;
-    but_thumbstyle_filmstrip: TSpTBXItem;
-    procedure ThumbPositionClick(Sender: TObject);
-    procedure QuickViewPopupMenuPopup(Sender: TObject);
-    procedure ThumbViewStyleClick(Sender: TObject);
     procedure QuickViewSplitterMoved(Sender: TObject);
     procedure View(Sender: TObject);
   private
@@ -86,6 +69,8 @@ type
     procedure SetThumbViewStyle(const Value: TEasyListStyle);
   protected
     fQuickView: TCEQuickView;
+    fShowCaptionsInFilmstrip: Boolean;
+    fShowCaptionsInThumbnails: Boolean;
     function DragEnter(const dataObj: IDataObject; grfKeyState: Longint; pt:
         TPoint; var dwEffect: Longint): HResult; override; stdcall;
     function DragLeave: HResult; override; stdcall;
@@ -117,6 +102,8 @@ type
     procedure SetActive(const Value: Boolean); override;
     procedure OnGetStorage(Sender: TCustomVirtualExplorerEasyListview; var Storage:
         TRootNodeStorage);
+    procedure SetShowCaptionsInFilmstrip(const Value: Boolean);
+    procedure SetShowCaptionsInThumbnails(const Value: Boolean);
     procedure SetThumbViewSize(const Value: Integer);
   public
     FileView: TCEFileView;
@@ -149,6 +136,11 @@ type
     property ViewStyle: TEasyListStyle read fViewStyle write SetViewStyle;
     property ThumbViewStyle: TEasyListStyle read fThumbViewStyle write
         SetThumbViewStyle;
+  published
+    property ShowCaptionsInFilmstrip: Boolean read fShowCaptionsInFilmstrip write
+        SetShowCaptionsInFilmstrip;
+    property ShowCaptionsInThumbnails: Boolean read fShowCaptionsInThumbnails write
+        SetShowCaptionsInThumbnails;
   end;
 
   TCEFileViewPageSettings = class(TCECustomTabPageSettings)
@@ -235,20 +227,24 @@ type
     procedure SetUse_JumboIcons_in_InfoBar(const Value: Boolean);
   protected
     fPerFolderSettings: Boolean;
+    fShowCaptionsInFilmstrip: Boolean;
+    fShowCaptionsInThumbnails: Boolean;
     fStorage: TRootNodeStorage;
     fStorageFilePath: WideString;
     fStorageIsLoaded: Boolean;
     fUpdateCount: Integer;
     fViewStyle: TEasyListStyle;
     procedure SetPerFolderSettings(const Value: Boolean);
+    procedure SetShowCaptionsInFilmstrip(const Value: Boolean);
+    procedure SetShowCaptionsInThumbnails(const Value: Boolean);
   public
     constructor Create;
     destructor Destroy; override;
-    procedure AssignSettingsTo(FileViewPage: TCEFileViewPage; AssignColumnSettings:
-        Boolean = true);
+    procedure AssignSettingsTo(ATo: TComponent; AssignColumnSettings: Boolean =
+        true);
     procedure AssignSettingsFrom(FileViewPage: TCEFileViewPage);
     procedure AssignFromActivePage;
-    procedure RegisterNotify(FileViewPage: TComponent);
+    procedure RegisterNotify(AView: TComponent);
     procedure AssignColumnSettingsTo(FileView: TVirtualExplorerEasyListview);
     procedure SendChanges;
     procedure AssignColumnSettingsFrom(FileView: TVirtualExplorerEasyListview);
@@ -296,11 +292,15 @@ type
     property RememberOuterToolbarLayout: Boolean read fRememberOuterToolbarLayout
         write fRememberOuterToolbarLayout;
     property SelectPasted: Boolean read fSelectPasted write SetSelectPasted;
+    property ShowCaptionsInFilmstrip: Boolean read fShowCaptionsInFilmstrip write
+        SetShowCaptionsInFilmstrip;
     property ShowExtensions: Boolean read fShowExtensions write SetShowExtensions;
     property ShowGridLines: Boolean read fShowGridLines write SetShowGridLines;
     property ShowHeaderAlways: Boolean read fShowHeaderAlways write
         SetShowHeaderAlways;
     property ShowInfoBar: Boolean read fShowInfoBar write SetShowInfoBar;
+    property ShowCaptionsInThumbnails: Boolean read fShowCaptionsInThumbnails write
+        SetShowCaptionsInThumbnails;
     property SingleClickBrowse: Boolean read fSingleClickBrowse write
         SetSingleClickBrowse;
     property SingleClickExecute: Boolean read fSingleClickExecute write
@@ -342,48 +342,59 @@ begin
   fThumbViewStyle:= elsFilmStrip;
   Layout:= 'FileView';
   Images:= SmallSysImages;
-  FileView:= TCEFileView.Create(Self);
-  fViewStyle:= FileView.View;
-  FileView.View:= GlobalFileViewSettings.ViewStyle;
-  FileView.Parent:= self;
-  FileView.Align:= alClient;
-  FileView.Themed:= false;
-  FileView.BorderStyle:= bsNone;
-  FileView.BoundsRect:= Rect(0,0, self.ClientWidth, self.ClientHeight);
-  FileView.OnRootRebuild:= RootRebuild;
-  FileView.OnRootChanging:= RootChanging;
-  FileView.OnRootChange:= RootChange;
-  FileView.OnItemSelectionsChanged:= ItemSelectionsChanged;
-  FileView.OnColumnSizeChanged:= OnColumnSizeChanged;
-  FileView.OnContextMenu:= OnContextMenu;
-  FileView.OnItemContextMenu:= OnItemContextMenu;
-  FileView.OnMouseDown:= OnMouseDown;
-  FileView.OnMouseUp:= OnMouseUp;
-  FileView.OnShellNotify:= OnShellNotify;
-  FileView.OnEnumFinished:= OnEnumFinished;
-  FileView.OnGetStorage:= OnGetStorage;
-  FileView.OnViewStyleChange:= HandleViewStyleChange;
-  FileView.OnResize:= HandleFileViewResize;
-  FileView.FileObjects:= [foFolders,
-                          foNonFolders];
-  FileView.DragManager.MouseButton:= [cmbLeft,cmbRight];
-  FileView.Selection.MouseButton:= [cmbLeft,cmbRight];
-  FileView.ParentShowHint:= true;
-  FileView.HintType:= ehtText;
-  FileView.TabOrder:= 1;
-  // translate header
-  FileView.TranslateHeader:= false;
+  fShowCaptionsInFilmstrip:= false;
+  fShowCaptionsInThumbnails:= true;
 
-  FileView.PaintInfoGroup.BandThickness:= 2;
-  FileView.PaintInfoGroup.BandColor:= clWindowText;
-  FileView.PaintInfoGroup.BandColorFade:= clWindow;
-  FileView.CompressedFile.Hilight:= false;
-  FileView.EncryptedFile.Hilight:= false;
-  FileView.GroupFont.Style:= [fsBold];
-  GlobalFocusCtrl.CtrlList.Add(FileView);
-  FileView.OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
-  GlobalFileViewSettings.RegisterNotify(Self);
-  SetDesktopIconFonts(FileView.Font);
+  // create FileView
+  FileView:= TCEFileView.Create(Self);
+  FileView.BeginUpdate;
+  try
+    fViewStyle:= FileView.View;
+    FileView.View:= GlobalFileViewSettings.ViewStyle;
+    FileView.Parent:= self;
+    FileView.Align:= alClient;
+    FileView.Themed:= false;
+    FileView.BorderStyle:= bsNone;
+    FileView.BoundsRect:= Rect(0,0, self.ClientWidth, self.ClientHeight);
+    FileView.OnRootRebuild:= RootRebuild;
+    FileView.OnRootChanging:= RootChanging;
+    FileView.OnRootChange:= RootChange;
+    FileView.OnItemSelectionsChanged:= ItemSelectionsChanged;
+    FileView.OnColumnSizeChanged:= OnColumnSizeChanged;
+    FileView.OnContextMenu:= OnContextMenu;
+    FileView.OnItemContextMenu:= OnItemContextMenu;
+    FileView.OnMouseDown:= OnMouseDown;
+    FileView.OnMouseUp:= OnMouseUp;
+    FileView.OnShellNotify:= OnShellNotify;
+    FileView.OnEnumFinished:= OnEnumFinished;
+    FileView.OnGetStorage:= OnGetStorage;
+    FileView.OnViewStyleChange:= HandleViewStyleChange;
+    FileView.OnResize:= HandleFileViewResize;
+    FileView.FileObjects:= [foFolders,
+                            foNonFolders];
+    FileView.DragManager.MouseButton:= [cmbLeft,cmbRight];
+    FileView.Selection.MouseButton:= [cmbLeft,cmbRight];
+    FileView.ParentShowHint:= true;
+    FileView.HintType:= ehtText;
+    FileView.TabOrder:= 1;
+    // translate header
+    FileView.TranslateHeader:= false;
+
+    FileView.PaintInfoGroup.BandThickness:= 2;
+    FileView.PaintInfoGroup.BandColor:= clWindowText;
+    FileView.PaintInfoGroup.BandColorFade:= clWindow;
+    FileView.CompressedFile.Hilight:= false;
+    FileView.EncryptedFile.Hilight:= false;
+    FileView.GroupFont.Style:= [fsBold];
+    SetDesktopIconFonts(FileView.Font);
+
+    GlobalFocusCtrl.CtrlList.Add(FileView);
+    FileView.OnMouseWheel:= GlobalFocusCtrl.DoMouseWheel;
+    GlobalFileViewSettings.RegisterNotify(Self);
+
+  finally
+    FileView.EndUpdate;
+  end;
 
 
   InfoBar:= TCEInfoBar.Create(nil);
@@ -730,7 +741,9 @@ begin
   inherited;
   FileView.Active:= Value;
   if not GlobalFileViewSettings.PerFolderSettings then
-  GlobalFileViewSettings.AssignColumnSettingsTo(FileView);
+  GlobalFileViewSettings.AssignColumnSettingsTo(FileView)
+  else if Value then
+  FileView.LoadFolderFromPropertyBag(true);
 end;
 
 {*------------------------------------------------------------------------------
@@ -777,7 +790,7 @@ procedure TCEFileViewPage.HandleFileViewResize(Sender: TObject);
 begin
   if fViewStyle = elsFilmStrip then
   begin
-    FileView.CellSizes.FilmStrip.SetSize(FileView.ClientHeight, FileView.ClientHeight-2);
+    FileView.CellSizes.FilmStrip.SetSize(Round(FileView.ClientHeight*1.2), FileView.ClientHeight-2);
   end;
 end;
 
@@ -800,12 +813,13 @@ begin
   // show quickview
   if fViewStyle = elsFilmStrip then
   begin
+    FileView.PaintInfoItem.HideCaption:= not fShowCaptionsInFilmstrip;
+    
     if not assigned(fQuickView) then
     begin
       fQuickView:= TCEQuickView.Create(self);
       fQuickView.Parent:= self;
       fQuickView.Align:= alClient;
-      fQuickview.PopupMenu:= QuickViewPopupMenu;
       fQuickview.Active:= true;
     end;
 
@@ -834,6 +848,11 @@ begin
   // hide quickview
   else
   begin
+    if fViewStyle = elsThumbnail then
+    FileView.PaintInfoItem.HideCaption:= not fShowCaptionsInThumbnails
+    else
+    FileView.PaintInfoItem.HideCaption:= false;
+
     FileView.Align:= alClient;
 
     if assigned(fQuickView) then
@@ -904,59 +923,6 @@ begin
   if Value <> FileView.View then
   begin
     FileView.View:= Value;
-    FileView.StoreFolderToPropertyBag(true);
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  ThumbViewStyle Click
--------------------------------------------------------------------------------}
-procedure TCEFileViewPage.ThumbViewStyleClick(Sender: TObject);
-begin
-  case TSpTBXitem(Sender).Tag of
-    1: ThumbViewStyle:= elsIcon;
-    2: ThumbViewStyle:= elsSmallIcon;
-    3: ThumbViewStyle:= elsList;
-    4: ThumbViewStyle:= elsReport;
-    5: ThumbViewStyle:= elsTile;
-    6: ThumbViewStyle:= elsThumbnail;
-    7: ThumbViewStyle:= elsFilmStrip;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Change Thumbnails position (menu item click)
--------------------------------------------------------------------------------}
-procedure TCEFileViewPage.ThumbPositionClick(Sender: TObject);
-begin
-  case TSpTBXitem(Sender).Tag of
-    0: ThumbPosition:= alLeft;
-    1: ThumbPosition:= alTop;
-    2: ThumbPosition:= alRight;
-    3: ThumbPosition:= alBottom;
-  end;
-end;
-
-{*------------------------------------------------------------------------------
-  Get's called on QuickView PopupMenu Popup
--------------------------------------------------------------------------------}
-procedure TCEFileViewPage.QuickViewPopupMenuPopup(Sender: TObject);
-begin
-  case ThumbPosition of
-    alLeft: but_thumbpos_left.Checked:= true;
-    alTop: but_thumbpos_top.Checked:= true;
-    alRight: but_thumbpos_right.Checked:= true;
-    alBottom: but_thumbpos_bottom.Checked:= true;
-  end;
-
-  case ThumbViewStyle of
-    elsIcon: but_thumbstyle_icon.Checked:= true;
-    elsSmallIcon: but_thumbstyle_smallicon.Checked:= true;
-    elsList: but_thumbstyle_list.Checked:= true;
-    elsReport: but_thumbstyle_details.Checked:= true;
-    elsTile: but_thumbstyle_tiles.Checked:= true;
-    elsThumbnail: but_thumbstyle_thumbnails.Checked:= true;
-    elsFilmstrip: but_thumbstyle_filmstrip.Checked:= true;
   end;
 end;
 
@@ -1139,6 +1105,26 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Set ShowCaptionsInFilmstrip
+-------------------------------------------------------------------------------}
+procedure TCEFileViewPage.SetShowCaptionsInFilmstrip(const Value: Boolean);
+begin
+  fShowCaptionsInFilmstrip:= Value;
+  if fViewStyle = elsFilmStrip then
+  FileView.PaintInfoItem.HideCaption:= not fShowCaptionsInFilmstrip;
+end;
+
+{-------------------------------------------------------------------------------
+  Set ShowCaptionsInThumbnails
+-------------------------------------------------------------------------------}
+procedure TCEFileViewPage.SetShowCaptionsInThumbnails(const Value: Boolean);
+begin
+  fShowCaptionsInThumbnails:= Value;
+  if fViewStyle = elsThumbnail then
+  FileView.PaintInfoItem.HideCaption:= not fShowCaptionsInThumbnails;
+end;
+
+{-------------------------------------------------------------------------------
   Set ThumbViewSize
 -------------------------------------------------------------------------------}
 procedure TCEFileViewPage.SetThumbViewSize(const Value: Integer);
@@ -1191,6 +1177,8 @@ begin
   fPerFolderSettings:= false;
   fStorageFilePath:= '';
   fStorageIsLoaded:= false;
+  fShowCaptionsInFilmstrip:= false;
+  fShowCaptionsInThumbnails:= true;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1226,111 +1214,136 @@ end;
 {*------------------------------------------------------------------------------
   Assign options to FileView.
 -------------------------------------------------------------------------------}
-procedure TCEFileViewSettings.AssignSettingsTo(FileViewPage: TCEFileViewPage;
+procedure TCEFileViewSettings.AssignSettingsTo(ATo: TComponent;
     AssignColumnSettings: Boolean = true);
 var
   options: TVirtualEasyListviewOptions;
+  fileViewPage: TCEFileViewPage;
+  fileView: TCEFileView;
 begin
-  if not assigned(FileViewPage) then
+  if not assigned(ATo) then
   Exit;
 
   Self.BeginUpdate;
-  FileViewPage.FileView.BeginUpdate;
-  try
-    if not PerFolderSettings then
-    FileViewPage.ViewStyle:= ViewStyle;
 
-    FileViewPage.ThumbViewSize:= Filmstrip.ThumbSize;
-    FileViewPage.ThumbPosition:= Filmstrip.ThumbPos;
-    // Toggles
-    FileViewPage.FileView.SmoothScroll:= fSmoothScroll;
-    if fHiddenFiles then
-    FileViewPage.FileView.FileObjects:= [foFolders,foNonFolders,foHidden] //,foShareable,foNetworkPrinters]
-    else
-    FileViewPage.FileView.FileObjects:= [foFolders,foNonFolders]; //,foShareable,foNetworkPrinters];
-    FileViewPage.InfoBar.CalculateHiddenItems:= fHiddenFiles;
-    FileViewPage.FileView.Header.ShowInAllViews:= fShowHeaderAlways;
-    if fShowHeaderAlways then
-    FileViewPage.FileView.Header.Visible:= true;
-    FileViewPage.FileView.Selection.FullRowSelect:= fFullRowSelect;
-    FileViewPage.FileView.ShowExtension:= fShowExtensions;
-    FileViewPage.FileView.SelectPreviousFolder:= fSelectPreviousFolder;
-    FileViewPage.FileView.AutoSelectFirstItem:= fAutoSelectFirstItem;
-    FileViewPage.FileView.AutosizeListViewStyle:= fAutosizeListViewStyle;
-    FileViewPage.FileView.SortFolderFirstAlways:= fSortFolderFirstAlways;
-    FileViewPage.ShowInfoBar:= fShowInfoBar;
-    FileViewPage.InfoBar.Height:= fInfoBarSize;
-    FileViewPage.InfoBar.UseJumboIcons:= fUse_JumboIcons_in_InfoBar;
-    FileViewPage.FileView.SingleClickBrowse:= fSingleClickBrowse;
-    FileViewPage.FileView.SingleClickExecute:= fSingleClickExecute;
-    FileViewPage.FileView.CheckBoxSelection:= fCheckBoxSelection;
-    FileViewPage.FileView.PaintInfoItem.GridLines:= fShowGridLines;
-    FileViewPage.FileView.FolderUpOnDblClick:= fFolderUpOnDblClick;
-    FileViewPage.FileView.FullRowDblClick:= fFullRowDblClick;
-    FileViewPage.FileView.SelectPasted:= fSelectPasted;
-    FileViewPage.FileView.SortAfterPaste:= fSortAfterPaste;
-    FileViewPage.FileView.PerFolderSettings:= fPerFolderSettings;
-    // Options
-    options:= FileViewPage.FileView.Options;
-    if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
-    if fThreadedImages then Include(options, eloThreadedImages) else Exclude(options, eloThreadedImages);
-    if fThreadedEnumeration then Include(options, eloThreadedEnumeration) else Exclude(options, eloThreadedEnumeration);
-    if fThreadedDetails then Include(options, eloThreadedDetails) else Exclude(options, eloThreadedDetails);
-    if fShowInfoTips then Include(options, eloQueryInfoHints) else Exclude(options, eloQueryInfoHints);
-    //if fPerFolderSettings then Include(options, eloPerFolderStorage) else Exclude(options, eloPerFolderStorage);
+  fileView:= nil;
+  fileViewPage:= nil;
 
-    FileViewPage.FileView.Options:= options;
-
-    // Misc
-    FileViewPage.FileView.FileSizeFormat:= fFileSizeFormat;
-    FileViewPage.FileView.ArrowBrowse:= fArrowBrowse;
-    if FontSize > 0 then
-    FileViewPage.FileView.Font.Size:= FontSize
-    else
-    SetDesktopIconFonts(FileViewPage.FileView.Font);
-
-    // Cell Sizes
-    if (CellSizes.LargeIcons_Width < 1) or (CellSizes.LargeIcons_Height < 1) then
-    FileViewPage.FileView.CellSizes.Icon.RestoreDefaults
-    else
-    FileViewPage.FileView.CellSizes.Icon.SetSize(CellSizes.LargeIcons_Width, CellSizes.LargeIcons_Height);
-
-    if (CellSizes.SmallIcons_Width < 1) or (CellSizes.SmallIcons_Height < 1) then
-    FileViewPage.FileView.CellSizes.SmallIcon.RestoreDefaults
-    else
-    FileViewPage.FileView.CellSizes.SmallIcon.SetSize(CellSizes.SmallIcons_Width, CellSizes.SmallIcons_Height);
-
-    if (CellSizes.List_Width < 1) or (CellSizes.List_Height < 1) then
-    FileViewPage.FileView.CellSizes.List.RestoreDefaults
-    else
-    FileViewPage.FileView.CellSizes.List.SetSize(CellSizes.List_Width, CellSizes.List_Height);
-
-    if (CellSizes.Details_Width < 1) or (CellSizes.Details_Height < 1) then
-    FileViewPage.FileView.CellSizes.Report.RestoreDefaults
-    else
-    FileViewPage.FileView.CellSizes.Report.SetSize(CellSizes.Details_Width, CellSizes.Details_Height);
-
-    if (CellSizes.Tiles_Width < 1) or (CellSizes.Tiles_Height < 1) then
-    FileViewPage.FileView.CellSizes.Tile.RestoreDefaults
-    else
-    FileViewPage.FileView.CellSizes.Tile.SetSize(CellSizes.Tiles_Width, CellSizes.Tiles_Height);
-
-    if (CellSizes.Thumbnails_Width < 1) or (CellSizes.Thumbnails_Height < 1) then
-    FileViewPage.FileView.CellSizes.Thumbnail.RestoreDefaults
-    else
-    FileViewPage.FileView.CellSizes.Thumbnail.SetSize(CellSizes.Thumbnails_Width, CellSizes.Thumbnails_Height);
-
-    if (CellSizes.Filmstrip_Width < 1) or (CellSizes.Filmstrip_Height < 1) then
-    FileViewPage.FileView.CellSizes.FilmStrip.RestoreDefaults
-    else
-    FileViewPage.FileView.CellSizes.FilmStrip.SetSize(CellSizes.Filmstrip_Width, CellSizes.Filmstrip_Height);
-    
-    if not PerFolderSettings and AssignColumnSettings then
-    AssignColumnSettingsTo(FileViewPage.FileView);
-  finally
-    FileViewPage.FileView.EndUpdate(FileViewPage.Visible);
-    Self.EndUpdate;
+  if ATo is TCEFileView then
+  fileView:= TCEFileView(ATo)
+  else if ATo is TCEFileViewPage then
+  begin
+    fileViewPage:= TCEFileViewPage(ATo);
+    fileView:= fileViewPage.FileView;
   end;
+
+  // FileViewPage
+  if assigned(fileViewPage) then
+  begin
+    fileViewPage.ThumbViewSize:= Filmstrip.ThumbSize;
+    fileViewPage.ThumbPosition:= Filmstrip.ThumbPos;
+    fileViewPage.InfoBar.CalculateHiddenItems:= fHiddenFiles;
+    fileViewPage.ShowInfoBar:= fShowInfoBar;
+    fileViewPage.InfoBar.Height:= fInfoBarSize;
+    fileViewPage.InfoBar.UseJumboIcons:= fUse_JumboIcons_in_InfoBar;
+    fileViewPage.ShowCaptionsInFilmstrip:= fShowCaptionsInFilmstrip;
+    fileViewPage.ShowCaptionsInThumbnails:= fShowCaptionsInThumbnails;
+    fileViewPage.FileView.PerFolderSettings:= fPerFolderSettings;
+  end;
+
+  if assigned(fileView) then
+  begin
+    fileView.BeginUpdate;
+    try
+      // Toggles
+      fileView.SmoothScroll:= fSmoothScroll;
+      if fHiddenFiles then
+      fileView.FileObjects:= [foFolders,foNonFolders,foHidden] //,foShareable,foNetworkPrinters]
+      else
+      fileView.FileObjects:= [foFolders,foNonFolders]; //,foShareable,foNetworkPrinters];
+      fileView.Header.ShowInAllViews:= fShowHeaderAlways;
+      if fShowHeaderAlways then
+      fileView.Header.Visible:= true;
+      fileView.Selection.FullRowSelect:= fFullRowSelect;
+      fileView.ShowExtension:= fShowExtensions;
+      fileView.SelectPreviousFolder:= fSelectPreviousFolder;
+      fileView.AutoSelectFirstItem:= fAutoSelectFirstItem;
+      fileView.AutosizeListViewStyle:= fAutosizeListViewStyle;
+      fileView.SortFolderFirstAlways:= fSortFolderFirstAlways;
+      fileView.SingleClickBrowse:= fSingleClickBrowse;
+      fileView.SingleClickExecute:= fSingleClickExecute;
+      fileView.CheckBoxSelection:= fCheckBoxSelection;
+      fileView.PaintInfoItem.GridLines:= fShowGridLines;
+      fileView.FolderUpOnDblClick:= fFolderUpOnDblClick;
+      fileView.FullRowDblClick:= fFullRowDblClick;
+      fileView.SelectPasted:= fSelectPasted;
+      fileView.SortAfterPaste:= fSortAfterPaste;
+
+      // Options
+      options:= fileView.Options;
+      if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
+      if fThreadedImages then Include(options, eloThreadedImages) else Exclude(options, eloThreadedImages);
+      if fThreadedEnumeration then Include(options, eloThreadedEnumeration) else Exclude(options, eloThreadedEnumeration);
+      if fThreadedDetails then Include(options, eloThreadedDetails) else Exclude(options, eloThreadedDetails);
+      if fShowInfoTips then Include(options, eloQueryInfoHints) else Exclude(options, eloQueryInfoHints);
+      fileView.Options:= options;
+
+      // Misc
+      fileView.FileSizeFormat:= fFileSizeFormat;
+      fileView.ArrowBrowse:= fArrowBrowse;
+      if FontSize > 0 then
+      fileView.Font.Size:= FontSize
+      else
+      SetDesktopIconFonts(fileView.Font);
+
+      // Cell Sizes
+      if (CellSizes.LargeIcons_Width < 1) or (CellSizes.LargeIcons_Height < 1) then
+      fileView.CellSizes.Icon.RestoreDefaults
+      else
+      fileView.CellSizes.Icon.SetSize(CellSizes.LargeIcons_Width, CellSizes.LargeIcons_Height);
+
+      if (CellSizes.SmallIcons_Width < 1) or (CellSizes.SmallIcons_Height < 1) then
+      fileView.CellSizes.SmallIcon.RestoreDefaults
+      else
+      fileView.CellSizes.SmallIcon.SetSize(CellSizes.SmallIcons_Width, CellSizes.SmallIcons_Height);
+
+      if (CellSizes.List_Width < 1) or (CellSizes.List_Height < 1) then
+      fileView.CellSizes.List.RestoreDefaults
+      else
+      fileView.CellSizes.List.SetSize(CellSizes.List_Width, CellSizes.List_Height);
+
+      if (CellSizes.Details_Width < 1) or (CellSizes.Details_Height < 1) then
+      fileView.CellSizes.Report.RestoreDefaults
+      else
+      fileView.CellSizes.Report.SetSize(CellSizes.Details_Width, CellSizes.Details_Height);
+
+      if (CellSizes.Tiles_Width < 1) or (CellSizes.Tiles_Height < 1) then
+      fileView.CellSizes.Tile.RestoreDefaults
+      else
+      fileView.CellSizes.Tile.SetSize(CellSizes.Tiles_Width, CellSizes.Tiles_Height);
+
+      if (CellSizes.Thumbnails_Width < 1) or (CellSizes.Thumbnails_Height < 1) then
+      fileView.CellSizes.Thumbnail.RestoreDefaults
+      else
+      fileView.CellSizes.Thumbnail.SetSize(CellSizes.Thumbnails_Width, CellSizes.Thumbnails_Height);
+
+      if not assigned(fileViewPage) then
+      begin
+        if (CellSizes.Filmstrip_Width < 1) or (CellSizes.Filmstrip_Height < 1) then
+        fileView.CellSizes.FilmStrip.RestoreDefaults
+        else
+        fileView.CellSizes.FilmStrip.SetSize(CellSizes.Filmstrip_Width, CellSizes.Filmstrip_Height);
+      end;
+
+      // Column settings
+      if not PerFolderSettings and AssignColumnSettings then
+      AssignColumnSettingsTo(FileView);
+    finally
+      fileView.EndUpdate(not (assigned(FileViewPage) and not FileViewPage.Visible));
+    end;
+  end;
+
+  Self.EndUpdate;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1348,9 +1361,9 @@ end;
 {*------------------------------------------------------------------------------
   Register Notify
 -------------------------------------------------------------------------------}
-procedure TCEFileViewSettings.RegisterNotify(FileViewPage: TComponent);
+procedure TCEFileViewSettings.RegisterNotify(AView: TComponent);
 begin
-  NotifyList.Add(FileViewPage);
+  NotifyList.Add(AView);
 end;
 
 {*------------------------------------------------------------------------------
@@ -1426,7 +1439,7 @@ end;
 procedure TCEFileViewSettings.SendChanges;
 var
   i: Integer;
-  FileViewPage: TCEFileViewPage;
+  fileView: TCEFileView;
   doRebuild: Boolean;
 begin
   if fUpdateCount > 0 then
@@ -1434,15 +1447,19 @@ begin
   
   for i:= 0 to NotifyList.Count - 1 do
   begin
-    if NotifyList.Items[i] is TCEFileViewPage then
+    if (NotifyList.Items[i] is TCEFileViewPage) or (NotifyList.Items[i] is TCEFileView) then
     begin
-      FileViewPage:= TCEFileViewPage(NotifyList.Items[i]);
-      doRebuild:= FileViewPage.FileView.ShowExtension <> ShowExtensions;
-      AssignSettingsTo(FileViewPage, false);
-      if CellSizes.IsChanged(FileViewPage.FileView) then
-      FileViewPage.FileView.Groups.Rebuild;
+      if (NotifyList.Items[i] is TCEFileViewPage) then
+      fileView:= TCEFileViewPage(NotifyList.Items[i]).FileView
+      else
+      fileView:= TCEFileView(NotifyList.Items[i]);
+      
+      doRebuild:= fileView.ShowExtension <> ShowExtensions;
+      AssignSettingsTo(NotifyList.Items[i], false);
+      if CellSizes.IsChanged(fileView) then
+      fileView.Groups.Rebuild;
       if doRebuild then
-      FileViewPage.FileView.Rebuild;
+      fileView.Rebuild;
     end
     else if NotifyList.Items[i] is TVirtualExplorerTree then
     begin
@@ -1450,7 +1467,8 @@ begin
       TVirtualExplorerTree(NotifyList.Items[i]).FileObjects:= [foFolders,foNonFolders,foHidden] //,foShareable,foNetworkPrinters]
       else
       TVirtualExplorerTree(NotifyList.Items[i]).FileObjects:= [foFolders,foNonFolders];
-    end;
+    end
+
   end;
   CEFolderPanel.FolderTree.HiddenFiles:= fHiddenFiles;
 end;
@@ -1752,6 +1770,15 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Set ShowCaptionsInFilmstrip
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetShowCaptionsInFilmstrip(const Value: Boolean);
+begin
+  fShowCaptionsInFilmstrip:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
   Set ShowGridLines
 -------------------------------------------------------------------------------}
 procedure TCEFileViewSettings.SetShowGridLines(const Value: Boolean);
@@ -1775,6 +1802,15 @@ end;
 procedure TCEFileViewSettings.SetShowInfoTips(const Value: Boolean);
 begin
   fShowInfoTips:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set ShowCaptionsInThumbnails
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetShowCaptionsInThumbnails(const Value: Boolean);
+begin
+  fShowCaptionsInThumbnails:= Value;
   SendChanges;
 end;
 
