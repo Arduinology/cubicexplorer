@@ -262,6 +262,7 @@ object CETextEditor: TCETextEditor
     Gutter.Font.Name = 'Courier New'
     Gutter.Font.Style = []
     Options = [eoAutoIndent, eoDragDropEditing, eoDropFiles, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
+    ScrollHintFormat = shfTopToBottom
     WantTabs = True
     OnChange = SynMemoChange
     OnStatusChange = SynMemoStatusChange
@@ -568,6 +569,7 @@ object CETextEditor: TCETextEditor
       Tag = 106
       Category = 'File'
       Caption = 'Close'
+      ShortCut = 27
       OnExecute = ActionExecute
       OnUpdate = ActionUpdate
     end

@@ -144,6 +144,7 @@ begin
 
   fTextThumbFont:= TFont.Create;
   fTextThumbFont.Name:= 'Courier New';
+  fTextThumbFont.Size:= 10;
 end;
 
 {-------------------------------------------------------------------------------
@@ -237,8 +238,6 @@ begin
   if (ATag = fTaskTag) and (AObject is TCEFilePreviewTask) then
   begin
     task:= TCEFilePreviewTask(AObject);
-    if not WideFileExists(task.FilePath) then
-    Exit;
 
     try
       CoInitialize(nil);

@@ -602,4 +602,15 @@ begin
   but_close.Click;
 end;
 
+{##############################################################################}
+
+initialization
+
+finalization
+  if assigned(CEVersionMgrForm) then
+  begin
+    CEVersionMgrForm.Free;
+    CEVersionMgrForm:= nil;
+  end;
+
 end.

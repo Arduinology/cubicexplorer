@@ -226,7 +226,6 @@ type
     SpTBXSeparatorItem32: TSpTBXSeparatorItem;
     PanelsPopupMenu: TSpTBXPopupMenu;
     SpTBXItem99: TSpTBXItem;
-    SpTBXItem100: TSpTBXItem;
     procedure AutoUpdateTimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -244,7 +243,6 @@ type
     procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer);
     procedure TrayPopupMenuPopup(Sender: TObject);
-    procedure SpTBXItem100Click(Sender: TObject);
   private
     fFullscreen: Boolean;
     fActiveLanguage: WideString;
@@ -424,7 +422,8 @@ implementation
 uses
   madExcept, Clipbrd, CE_Stacks, MPResources,
   fCE_OptionsDialog, fCE_StackPanel, CE_Consts, CE_CommonObjects,
-  CE_ElevatedActions, CE_FileUtils, fCE_TextEditorOptions, fCE_WorkspacePanel;
+  CE_ElevatedActions, CE_FileUtils, fCE_TextEditorOptions, fCE_WorkspacePanel,
+  TntComCtrls, VistaAltFixUnit2;
 
 {$R *.dfm}
 
@@ -517,6 +516,8 @@ begin
   fPanels:= TComponentList.Create(false);
 
   Self.OnContextPopup:= CEActions.HandleGlobalContextPopup;
+
+  TVistaAltFix2.Create(Self);
 end;
 
 {-------------------------------------------------------------------------------
@@ -558,7 +559,7 @@ begin
   GlobalAppSettings.AddItem('TextEditor', GlobalTextEditorSettings, true);
 
   // Create/Init layout controller
-  Layouts:= TCELayoutController.Create(self);
+  Layouts:= TCELayoutController.Create(nil);
   // Create/Init DockingFrame
   DockHostForm:= TCEDockHostForm.Create(self);
   DockHostForm.Name:= 'DockHost';
@@ -922,12 +923,6 @@ begin
   end;
 end;
 
-procedure TMainForm.SpTBXItem100Click(Sender: TObject);
-begin
-  if assigned(GlobalPathCtrl.ActivePage) and (GlobalPathCtrl.ActivePage is TCEFileViewPage) then
-  TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.LoadFolderFromPropertyBag(true);
-end;
-
 {*------------------------------------------------------------------------------
   Get's called on MainForm Close.
 -------------------------------------------------------------------------------}
@@ -1245,6 +1240,8 @@ begin
   GetLanguageList;
   // Add Ignore items
   CEGlobalTranslator.RegisterIgnoredClass(TFont);
+
+  // Add Include items
   CEGlobalTranslator.UseIncludeList:= true;
   CEGlobalTranslator.IncludeInheritedAlso:= true;
   CEGlobalTranslator.IncludeClasses.Add(TTntAction);
@@ -1264,6 +1261,8 @@ begin
   CEGlobalTranslator.IncludeClasses.Add(TSpTBXRadioGroup);
   CEGlobalTranslator.IncludeClasses.Add(TSpTBXRadioButton);
   CEGlobalTranslator.IncludeClasses.Add(TSpTBXLabel);
+  CEGlobalTranslator.IncludeClasses.Add(TSpTBXLabelItem);
+  CEGlobalTranslator.IncludeClasses.Add(TTntTabSheet);
 
   CEGlobalTranslator.IgnoredProperties.Add('HelpKeyword');
   CEGlobalTranslator.IgnoredProperties.Add('ImeName');
@@ -1318,6 +1317,9 @@ begin
   IsIgnored:= TSpTBXItem(Obj).Action <> nil;  
 end;
 
+{-------------------------------------------------------------------------------
+  OpenSkin
+-------------------------------------------------------------------------------}
 procedure TMainForm.OpenSkin;
 var
   open: TTntOpenDialog;

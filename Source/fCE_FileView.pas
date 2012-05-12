@@ -529,8 +529,8 @@ var
   Item: TEasyItem;
   lastItem, tmpItem: TEasyItem;
 begin
-  if FileView.UpdateCount > 0 then
-  Exit;
+//  if FileView.UpdateCount > 0 then
+//  Exit;
   
   if assigned(FileView.Selection.FocusedItem) and (FileView.Selection.Count > 0) then
   Item:= FileView.Selection.FocusedItem

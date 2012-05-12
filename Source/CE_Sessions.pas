@@ -177,8 +177,9 @@ function GetSessionNames(AResults: TTntStrings): Integer;
 function CreateSaveSessionDlg(SelectActiveSession: Boolean = true):
     TCEItemSelectSaveDlg;
 
-var
-  GlobalSessions: TCESessions;
+function GlobalSessions: TCESessions;
+
+
 
 implementation
 
@@ -186,6 +187,9 @@ uses
   fCE_TabPage, WideSupport, XMLWrite, Main, CE_SpTabBar,
   fCE_SessionManager, CE_LanguageEngine, dCE_Images, fCE_FileView,
   CE_VistaFuncs, Forms;
+
+var
+  fGlobalSessions: TCESessions;  
 
 {-------------------------------------------------------------------------------
   CompareSessionTime
@@ -249,6 +253,19 @@ begin
     Result.combo.ItemIndex:= GlobalSessions.ActiveSessionIndex;
   end;
   Result.AllowEmptyText:= false;
+end;
+
+{-------------------------------------------------------------------------------
+  GlobalSessions
+-------------------------------------------------------------------------------}
+function GlobalSessions: TCESessions;
+begin
+  if not assigned(fGlobalSessions) then
+  begin
+    fGlobalSessions:= TCESessions.Create;
+    GlobalAppSettings.AddItem('Sessions', fGlobalSessions);
+  end;
+  Result:= fGlobalSessions;
 end;
 
 {##############################################################################}
@@ -1148,10 +1165,9 @@ end;
 {##############################################################################}
 
 initialization
-  GlobalSessions:= TCESessions.Create;
-  GlobalAppSettings.AddItem('Sessions', GlobalSessions);
 
 finalization
-  FreeAndNil(GlobalSessions);
+  if assigned(fGlobalSessions) then
+  FreeAndNil(fGlobalSessions);
   
 end.

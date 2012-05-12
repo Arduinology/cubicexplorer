@@ -239,6 +239,10 @@ begin
   combo_insert_caret.Items.Strings[2]:= _('Half Block');
   combo_insert_caret.Items.Strings[3]:= _('Block');
   combo_override_caret.Items.Assign(combo_insert_caret.Items);
+
+  combo_gutter_border_style.Items.Strings[0]:= _('None');
+  combo_gutter_border_style.Items.Strings[1]:= _('Middle');
+  combo_gutter_border_style.Items.Strings[2]:= _('Right');
 end;
 
 {-------------------------------------------------------------------------------

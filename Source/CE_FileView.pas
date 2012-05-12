@@ -1033,7 +1033,6 @@ var
   itemHitInfo: TEasyItemHitTestInfoSet;
   ns: TNamespace;
   PIDL: PItemIDList;
-  KeyState: TCommonKeyStates;
 begin
   fSingleClickBrowsing:= false;
   doDefault:= true;
@@ -1046,11 +1045,11 @@ begin
   begin
     fRightMouseButton_IsDown:= false;
   end;
-  KeyState := KeyToKeyStates(Msg.Keys);
+
   // SingleClickBrowse and SingleClickExecute
   if (SingleClickBrowse or SingleClickExecute)
       and (Button = cmbLeft)
-      and not ((cksControl in KeyState) or (cksShift in KeyState))
+      and not ((GetkeyState(VK_MENU) < 0) or (GetkeyState(VK_CONTROL) < 0) or (GetkeyState(VK_SHIFT) < 0) )
       and not fRightMouseButton_IsDown
       and not fDoubleClicking
       and not Self.DragInitiated then

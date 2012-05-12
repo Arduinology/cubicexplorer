@@ -874,11 +874,20 @@ begin
   end;
 
   rangeSize:= GetViewRangeSize;
-  MousePos:= Self.ScreenToClient(MousePos);
-  fAnchor.X:= MousePos.X;
-  fAnchor.Y:= MousePos.Y;
-  fAnchorOffset.X:= (fOffset.X + fAnchor.X) / rangeSize.X;
-  fAnchorOffset.Y:= (fOffset.Y + fAnchor.Y) / rangeSize.Y;
+  if (rangeSize.X > 0) and (rangeSize.Y > 0) then
+  begin
+    MousePos:= Self.ScreenToClient(MousePos);
+    fAnchor.X:= MousePos.X;
+    fAnchor.Y:= MousePos.Y;
+    
+    fAnchorOffset.X:= (fOffset.X + fAnchor.X);
+    if fAnchorOffset.X <> 0 then
+    fAnchorOffset.X:= fAnchorOffset.X / rangeSize.X;
+
+    fAnchorOffset.Y:= (fOffset.Y + fAnchor.Y);
+    if fAnchorOffset.Y <> 0 then
+    fAnchorOffset.Y:= fAnchorOffset.Y / rangeSize.Y;
+  end;
 
   DoPanAndZoom;
   UpdateScrollbars;
@@ -1396,10 +1405,13 @@ begin
   begin
     rangeSize:= GetViewRangeSize;
 
-    fAnchorOffset.X:= fOffset.X / rangeSize.X;
-    fAnchorOffset.Y:= fOffset.Y / rangeSize.Y;
-    fAnchorOffset.X:=  fAnchorOffset.X - ((X - fDragPoint.X) / rangeSize.X);
-    fAnchorOffset.Y:=  fAnchorOffset.Y - ((Y - fDragPoint.Y) / rangeSize.Y);
+    if (rangeSize.X > 0) and (rangeSize.Y > 0) then
+    begin
+      fAnchorOffset.X:= fOffset.X / rangeSize.X;
+      fAnchorOffset.Y:= fOffset.Y / rangeSize.Y;
+      fAnchorOffset.X:=  fAnchorOffset.X - ((X - fDragPoint.X) / rangeSize.X);
+      fAnchorOffset.Y:=  fAnchorOffset.Y - ((Y - fDragPoint.Y) / rangeSize.Y);
+    end;
     fAnchor.X:= 0;
     fAnchor.Y:= 0;
 

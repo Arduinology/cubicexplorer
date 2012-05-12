@@ -603,12 +603,12 @@ begin
       end
       else if AnsiSameText(Copy(S[i], 1, 6), 'msgid ') then
       begin
-        AEntry.MsgId:= StripQuotes(Copy(S[i], 7, MaxInt), '"');
+        AEntry.MsgId:= UnescapeString(StripQuotes(Copy(S[i], 7, MaxInt), '"'));
         AState:= esID;
       end
       else if AnsiSameText(Copy(S[i], 1, 7), 'msgstr ') then
       begin
-        AEntry.MsgStr:= StripQuotes(Copy(S[i], 8, MaxInt), '"');
+        AEntry.MsgStr:= UnescapeString(StripQuotes(Copy(S[i], 8, MaxInt), '"'));
         AState:= esStr;
       end
       else if S[i] <> '' then
@@ -726,12 +726,12 @@ begin
         S.Add('msgid ""');
         for j:= 0 to T.Count - 1 do
         begin
-          S.Add(Format('"%s"', [T[j]]));
+          S.Add(Format('"%s"', [ EscapeString(T[j]) ]));
         end;
       end
       else
       begin
-        S.Add(Format('msgid "%s"', [T[0]]));
+        S.Add(Format('msgid "%s"', [ EscapeString(T[0]) ]));
       end;
       // MsgStr
       T.Text:= StringReplace(Items[i].MsgStr, '\n', '\n'#13#10, [rfReplaceAll]);
@@ -744,12 +744,12 @@ begin
         S.Add('msgstr ""');
         for j := 0 to T.Count - 1 do
         begin
-          S.Add(Format('"%s"', [T[j]]));
+          S.Add(Format('"%s"', [ EscapeString(T[j]) ]));
         end;
       end
       else
       begin
-        S.Add(Format('msgstr "%s"', [T[0]]));
+        S.Add(Format('msgstr "%s"', [ EscapeString(T[0])]));
       end;
       // empty line between entries
       S.Add('');

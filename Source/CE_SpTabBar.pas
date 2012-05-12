@@ -1369,7 +1369,7 @@ var
   i: Integer;
 begin
   i:= Items.IndexOf(ATab);
-  if i <> -1 then
+  if i > -1 then
   ActiveTabIndex:= i;
 end;
 
@@ -1758,32 +1758,35 @@ begin
   if TabDragReorder and Assigned(Source) and (Source is TSpTBXTabItemDragObject) then
   begin
     D:= TSpTBXTabItemDragObject(Source);
-    OrigItem:= D.SouceItem;
-    OrigPos:= OrigItem.Parent.IndexOf(OrigItem);
-
-    // Move the dragging item in the toolbar
-    if OrigItem.Parent = Items then
+    if assigned(D.SouceItem) and assigned(D.SouceItem.Parent) then
     begin
-      Accept:= true;
-      SpGetDropPosItemViewer(Items, View, Point(X, Y), OrigPos, DestIV, DestPos);
+      OrigItem:= D.SouceItem;
+      OrigPos:= OrigItem.Parent.IndexOf(OrigItem);
 
-      if (OrigPos <> DestPos) and (DestPos > -1) and (DestPos < Items.Count) and (OrigItem <> DestIV.Item) and
-        (DestPos > Items.IndexOf(LeftArrow)) and (DestPos < Items.IndexOf(RightArrow)) then
+      // Move the dragging item in the toolbar
+      if OrigItem.Parent = Items then
       begin
-        if TSpTBXCustomTabSetAccess(FOwnerTabControl).CanActiveTabReorder(OrigPos, DestPos) then
+        Accept:= true;
+        SpGetDropPosItemViewer(Items, View, Point(X, Y), OrigPos, DestIV, DestPos);
+
+        if (OrigPos <> DestPos) and (DestPos > -1) and (DestPos < Items.Count) and (OrigItem <> DestIV.Item) and
+          (DestPos > Items.IndexOf(LeftArrow)) and (DestPos < Items.IndexOf(RightArrow)) then
         begin
-          BeginUpdate;
-          BeginItemMove;
-          try
-            // The item is the active tab, we need to update the ActiveTabIndex
-            // Just set the internal value because the page didn't change
-            FActiveTabIndex := DestPos;
-            Items.Move(OrigPos, DestPos);
-            TSpTBXCustomTabSetAccess(FOwnerTabControl).DoActiveTabReorder(DestPos);
-          finally
-            EndItemMove;
-            EndUpdate;
-            //InvalidateNC;
+          if TSpTBXCustomTabSetAccess(FOwnerTabControl).CanActiveTabReorder(OrigPos, DestPos) then
+          begin
+            BeginUpdate;
+            BeginItemMove;
+            try
+              // The item is the active tab, we need to update the ActiveTabIndex
+              // Just set the internal value because the page didn't change
+              FActiveTabIndex := DestPos;
+              Items.Move(OrigPos, DestPos);
+              TSpTBXCustomTabSetAccess(FOwnerTabControl).DoActiveTabReorder(DestPos);
+            finally
+              EndItemMove;
+              EndUpdate;
+              //InvalidateNC;
+            end;
           end;
         end;
       end;

@@ -221,6 +221,10 @@ begin
   end
   else
   begin
+    ws:= QuickView.GetCurrentTitle;
+    if ws <> '' then
+    TabCaption:= ws
+    else
     TabCaption:= WideExtractFileName(ActiveFile);
     TabItem.Images:= SmallSysImages;
     TabItem.ImageIndex:= GetIconIndex(ActiveFile);

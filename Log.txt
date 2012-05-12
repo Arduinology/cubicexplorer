@@ -1,3 +1,14 @@
+12.5.2012
+* Updated French translation (thanks to BB).
+* Updated Japanese translation (thanks to Benok).
+- Fixed translation bugs.
+- Fixed Alt key bug in Options dialogs.
+* Esc now closes Text Editor.
+- Fixed Alt+Click issue in FileView's Single click mode.
+- Fixed memory leak and dialog visibility issue in Version Manager.
+- Fixed crashes in QuickView's image viewer.
+- Misc changes to fix possible crashes.
+
 11.5.2012
 + Added Workspace panel.
 + Added AlwaysSaveAsPIDL option to Bookmarks.

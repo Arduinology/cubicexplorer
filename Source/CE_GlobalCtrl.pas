@@ -87,14 +87,39 @@ type
               WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
   end;
 
-var
-  GlobalPathCtrl: TCEPathCtrl;
-  GlobalFocusCtrl: TCEMouseCtrl;
+function GlobalPathCtrl: TCEPathCtrl;
+
+function GlobalFocusCtrl: TCEMouseCtrl;
 
 implementation
 
 uses
   Main, dCE_Actions, fCE_FileView, CE_FileUtils, TntSysUtils;
+
+var
+  fGlobalPathCtrl: TCEPathCtrl;
+  fGlobalFocusCtrl: TCEMouseCtrl;
+
+{-------------------------------------------------------------------------------
+  GlobalPathCtrl
+-------------------------------------------------------------------------------}
+function GlobalPathCtrl: TCEPathCtrl;
+begin
+  if not assigned(fGlobalPathCtrl) then
+  fGlobalPathCtrl:= TCEPathCtrl.Create;
+  Result:= fGlobalPathCtrl;
+end;
+
+{-------------------------------------------------------------------------------
+  GlobalFocusCtrl
+-------------------------------------------------------------------------------}
+function GlobalFocusCtrl: TCEMouseCtrl;
+begin
+  if not assigned(fGlobalFocusCtrl) then
+  fGlobalFocusCtrl:= TCEMouseCtrl.Create;
+  Result:= fGlobalFocusCtrl;
+end;
+
 
 {##############################################################################}
 
@@ -399,11 +424,11 @@ end;
 {##############################################################################}
 
 initialization
-  GlobalPathCtrl:= TCEPathCtrl.Create;
-  GlobalFocusCtrl:= TCEMouseCtrl.Create;
 
 finalization
-  FreeAndNil(GlobalPathCtrl);
-  FreeAndNil(GlobalFocusCtrl);
+  if assigned(fGlobalPathCtrl) then
+  FreeAndNil(fGlobalPathCtrl);
+  if assigned(fGlobalFocusCtrl) then
+  FreeAndNil(fGlobalFocusCtrl);
 
 end.

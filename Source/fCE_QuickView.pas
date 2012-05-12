@@ -439,6 +439,7 @@ begin
     fMediaPlayer.OnPositionChange:= UpdateSeekbarState;
     fMediaPlayer.OnStatusChanged:= UpdateControlStates;
     fMediaPlayer.OnEditorClose:= HandleEditorClose;
+    fMediaPlayer.OnTitleChange:= fOnCurrentFileChange;
     fMediaPlayer.PopupMenu:= QuickViewPopup;
     fMediaPlayer.SetSlideshowInterval(GlobalQuickViewSettings.SlideshowInterval);
   end;
@@ -1034,14 +1035,18 @@ begin
   // get file location from LNK file.
   if WideLowerCase(WideExtractFileExt(Value)) = '.lnk' then
   begin
-    ns:= TNamespace.CreateFromFileName(Value);
     try
-      if ns.Link then
-      fActiveFilePath:= ns.ShellLink.TargetPath
-      else
-      fActiveFilePath:= Value;
-    finally
-      ns.Free;
+      ns:= TNamespace.CreateFromFileName(Value);
+      try
+        if ns.Link and assigned(ns.ShellLink) then
+        fActiveFilePath:= ns.ShellLink.TargetPath
+        else
+        fActiveFilePath:= Value;
+      finally
+        ns.Free;
+      end;
+    except
+      // catch exceptions
     end;
   end
   else  

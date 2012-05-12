@@ -229,10 +229,12 @@ type
     fActiveFileName: WideString;
     fActiveFilePath: WideString;
     fActiveHighlighter: Integer;
+    fOnActiveFileChange: TNotifyEvent;
     fOnEnablePlaybackChanged: TNotifyEvent;
     fPosStr: WideString;
     fSettings: TCETextEditorSettings;
     fStatsStr: WideString;
+    procedure DoActiveFileChange;
     procedure DoHighlighterClick(Sender: TObject); virtual;
     procedure DoHighlighterMenuPopup(Sender: TTBCustomItem; FromLink: Boolean);
         virtual;
@@ -267,6 +269,8 @@ type
     { Public declarations }
   published
     property Settings: TCETextEditorSettings read fSettings write fSettings;
+    property OnActiveFileChange: TNotifyEvent read fOnActiveFileChange write
+        fOnActiveFileChange;
     property OnEnablePlaybackChanged: TNotifyEvent read fOnEnablePlaybackChanged
         write fOnEnablePlaybackChanged;
   end;
@@ -375,6 +379,7 @@ begin
 
   // translate
   CEGlobalTranslator.TranslateComponent(Self);
+//  label_modified.Caption:= _(label_modified.Caption);
 
   // update items
   UpdateStats;
@@ -432,7 +437,7 @@ begin
       saveDlg:= TTntSaveDialog.Create(nil);
       try
         saveDlg.DefaultExt:= 'html';
-        saveDlg.Filter:= 'HTML Documents (*.htm; *.html)|*.htm;*.html|All types (*.*)|*.*';
+        saveDlg.Filter:= _('HTML Documents')+' (*.htm; *.html)|*.htm;*.html|'+ _('All types') + ' (*.*)|*.*';
         if saveDlg.Execute then
         begin
           ExportToHTML(false, false, saveDlg.FileName, WideExtractFileName(ActiveFilePath));
@@ -608,6 +613,7 @@ begin
   UpdateStats;
   StatusTimerTimer(self);
   UpdateCaption;
+  DoActiveFileChange;
 end;
 
 {-------------------------------------------------------------------------------
@@ -744,7 +750,8 @@ begin
     SynMemoStatusChange(Self, [scAll]);
   end;
 
-  UpdateCaption; 
+  UpdateCaption;
+  DoActiveFileChange;
 end;
 
 {-------------------------------------------------------------------------------
@@ -783,6 +790,10 @@ begin
     for i:= 0 to Highlighters.Count - 1 do
     begin
       item:= TSpTBXItem.Create(ASubMenu);
+      Highlighter:= TSynCustomHighlighter(Highlighters.Objects[i]);
+      if Highlighter <> SynMultiHighlighter then
+      item.Caption:= Highlighter.GetFriendlyLanguageName
+      else
       item.Caption:= Highlighters.Strings[i];
       item.Tag:= i;
       item.RadioItem:= true;
@@ -867,6 +878,7 @@ begin
   end;
   UpdateStats;
   UpdateCaption;
+  DoActiveFileChange;  
 end;
 
 {*------------------------------------------------------------------------------
@@ -1207,7 +1219,7 @@ end;
 -------------------------------------------------------------------------------}
 function TCETextEditor.CanClose: Boolean;
 var
-  s,s2: String;
+  s,s2: WideString;
   r: Integer;
   i: Integer;
 begin
@@ -1217,10 +1229,10 @@ begin
     if not Visible then
     Show;
 
-    s:= 'The text in the ' + fActiveFileName + ' file has changed.' ;
-    s2:= 'Do you want to save changes before closing?';
+    s:= WideFormat(_('The text in %s has changed.'), [fActiveFileName]);
+    s2:= _('Do you want to save changes before closing?');
     r:= TaskDialog(Self.Handle,
-                   'Save before closing?',
+                   _('Save before closing?'),
                    s,
                    s2,
                    TD_ICON_WARNING,
@@ -1238,6 +1250,14 @@ begin
   end;
   
   Result:= true;
+end;
+
+{-------------------------------------------------------------------------------
+  DoActiveFileChange
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.DoActiveFileChange;
+begin
+  if Assigned(fOnActiveFileChange) then fOnActiveFileChange(Self);
 end;
 
 {-------------------------------------------------------------------------------

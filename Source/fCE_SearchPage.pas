@@ -291,6 +291,8 @@ uses
   Create an instance of TCESearchPage
 -------------------------------------------------------------------------------}
 constructor TCESearchPage.Create(AOwner: TComponent);
+var
+  i: Integer;
 begin
   inherited;
   TCEFileSearchPageSettings(Settings).FileSearchPage:= Self;
@@ -637,7 +639,7 @@ begin
   inherited;
   if (TargetObj is TExplorerItem) then
   begin
-    Info.Text:= Info.Text + #13#10 + 'Path: ' + WideExtractFilePath(TExplorerItem(TargetObj).Namespace.NameForParsing);
+    Info.Text:= Info.Text + #13#10 + _('Path') + ': ' + WideExtractFilePath(TExplorerItem(TargetObj).Namespace.NameForParsing);
   end;
 end;
 

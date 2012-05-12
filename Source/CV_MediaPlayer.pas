@@ -180,6 +180,9 @@ type
     // - AHandler is called when status changes
     procedure SetStatusChangedEvent(AHandler: TCVEngineNotifyEvent); stdcall;
 
+    // SetTitleChangedEvent
+    // - AHandler is called when title changes
+    procedure SetTitleChangedEvent(AHandler: TCVEngineNotifyEvent); stdcall;
   end;
 
 {-------------------------------------------------------------------------------
@@ -290,7 +293,9 @@ type
     fPlaybackEnabled: Boolean;
     fStatus: TCVMediaPlayerStatus;
     fStatusChangedEvent: TCVEngineNotifyEvent;
+    fTitleChangedEvent: TCVEngineNotifyEvent;
     procedure ChangeStatus(AStatus: TCVMediaPlayerStatus); virtual;
+    procedure DoTitleChanged; virtual;
     // GetPlaybackEnabled
     // - Return True if the media player should show playback controls (play, pause, next file... etc.).
     function GetPlaybackEnabled: Boolean; virtual; stdcall;
@@ -318,6 +323,10 @@ type
     procedure SetParentWindow(AParentWindow: HWND); virtual; stdcall;
     procedure SetStatusChangedEvent(AHandler: TCVEngineNotifyEvent); virtual;
         stdcall;
+    // SetTitleChangedEvent
+    // - AHandler is called when title changes
+    procedure SetTitleChangedEvent(AHandler: TCVEngineNotifyEvent); virtual;
+        stdcall;
     property PlaybackEnabled: Boolean read GetPlaybackEnabled write
         fPlaybackEnabled;
   end;
@@ -341,6 +350,7 @@ type
     fEngineWindow: ICCWindowCtrl;
     fMute: Boolean;
     fOnEditorClose: TNotifyEvent;
+    fOnTitleChange: TNotifyEvent;
     fPositionInterval: Integer;
     fProgressTimer: TTimer;
     fSlideshowInterval: Integer;
@@ -352,6 +362,7 @@ type
     function GetVolume: Integer; virtual; stdcall;
     procedure HandleProgressTimer(Sender: TObject); virtual;
     procedure HandleStatusChange(ASender: ICVMediaEngine); virtual;
+    procedure HandleTitleChange(ASender: ICVMediaEngine); virtual;
     procedure Paint; override;
     procedure Resize; override;
     procedure SetEngine(const Value: ICVMediaEngine); virtual;
@@ -409,6 +420,7 @@ type
         write fOnPositionChange;
     property OnStatusChanged: TNotifyEvent read fOnStatusChanged write
         fOnStatusChanged;
+    property OnTitleChange: TNotifyEvent read fOnTitleChange write fOnTitleChange;
     property PopupMenu;
     property Color;
   end;
@@ -671,6 +683,15 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Handle TitleChange
+-------------------------------------------------------------------------------}
+procedure TCVMediaPlayer.HandleTitleChange(ASender: ICVMediaEngine);
+begin
+  if assigned(fOnTitleChange) then
+  fOnTitleChange(Self);
+end;
+
+{-------------------------------------------------------------------------------
   HasAudio
 -------------------------------------------------------------------------------}
 function TCVMediaPlayer.HasAudio: Boolean;
@@ -841,6 +862,7 @@ begin
     fEngine:= Value;
     // assign events
     fEngine.SetStatusChangedEvent(HandleStatusChange);
+    fEngine.SetTitleChangedEvent(HandleTitleChange);
 
     // setup window
     if Supports(value, IID_ICCWindowCtrl, fEngineWindow) then
@@ -1009,6 +1031,8 @@ begin
   // Initilize values
   fStatus:= mpsClosed;
   fPlaybackEnabled:= true;
+  fStatusChangedEvent:= nil;
+  fTitleChangedEvent:= nil;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1036,6 +1060,15 @@ begin
   fStatus:= AStatus;  
   if assigned(fStatusChangedEvent) then
   fStatusChangedEvent(Self);
+end;
+
+{-------------------------------------------------------------------------------
+  Do TitleChanged
+-------------------------------------------------------------------------------}
+procedure TCVCustomMediaEngine.DoTitleChanged;
+begin
+  if assigned(fTitleChangedEvent) then
+  fTitleChangedEvent(self);
 end;
 
 {-------------------------------------------------------------------------------
@@ -1134,6 +1167,15 @@ procedure TCVCustomMediaEngine.SetStatusChangedEvent(AHandler:
     TCVEngineNotifyEvent);
 begin
   fStatusChangedEvent:= AHandler;
+end;
+
+{-------------------------------------------------------------------------------
+  SetTitleChangedEvent
+-------------------------------------------------------------------------------}
+procedure TCVCustomMediaEngine.SetTitleChangedEvent(AHandler:
+    TCVEngineNotifyEvent);
+begin
+  fTitleChangedEvent:= AHandler; 
 end;
 
 {##############################################################################}

@@ -88,8 +88,6 @@ object CEPoEditor: TCEPoEditor
     Align = alClient
     Visible = False
     ActiveTabIndex = 0
-    ExplicitTop = 25
-    ExplicitHeight = 476
     HiddenItems = <>
     object SpTBXTabItem2: TSpTBXTabItem
       Caption = 'Translation'
@@ -346,7 +344,7 @@ object CEPoEditor: TCEPoEditor
           Width = 145
           Height = 21
           Style = csDropDownList
-          ItemHeight = 13
+          ItemHeight = 0
           TabOrder = 0
           OnChange = LanguageListChange
         end

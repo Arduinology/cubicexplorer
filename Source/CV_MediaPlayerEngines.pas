@@ -261,6 +261,7 @@ type
     // GetPlaybackEnabled
     // - Return True if the media player should show playback controls (play, pause, next file... etc.).
     function GetPlaybackEnabled: Boolean; override; stdcall;
+    procedure HandleActiveFileChange(Sender: TObject); virtual;
     procedure HandleEnablePlaybackChanged(Sender: TObject); virtual;
     procedure HandlePlayTimer(Sender: TObject); virtual;
     procedure InternalCreateEditor; virtual;
@@ -1430,6 +1431,14 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Handle ActiveFileChange
+-------------------------------------------------------------------------------}
+procedure TCVTextEngine.HandleActiveFileChange(Sender: TObject);
+begin
+  DoTitleChanged;
+end;
+
+{-------------------------------------------------------------------------------
   Handle EnablePlaybackChanged
 -------------------------------------------------------------------------------}
 procedure TCVTextEngine.HandleEnablePlaybackChanged(Sender: TObject);
@@ -1465,6 +1474,7 @@ begin
   begin
     fEditor:= TCETextEditor.Create(nil);
     fEditor.OnEnablePlaybackChanged:= HandleEnablePlaybackChanged;
+    fEditor.OnActiveFileChange:= HandleActiveFileChange;
     if assigned(fCloseEventHandler) then
     fEditor.act_close.OnExecute:= fCloseEventHandler;
       

@@ -173,7 +173,7 @@ begin
     PageTree.FocusedNode:= node;
     PageTree.Selected[node]:= true;
   end;
-  
+
   CEGlobalTranslator.TranslateComponent(Self);
 end;
 

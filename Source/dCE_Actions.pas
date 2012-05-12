@@ -1820,23 +1820,30 @@ procedure DoGlobalContextMenuShow(Sender: TObject; Namespace: TNamespace; Menu:
 var
   infoA: TMenuItemInfoA;
   ws: WideString;
+  pos: Integer;
 begin
-  
-  if Namespace.Folder then
+  pos:= 0;
+  if Namespace.FileSystem then
   begin
     // Add "Open in new tab" item
     ws:= _('Open in new tab');
-    DoInsertMenuItem(ws, 664, 0);
-    // Add "Open in Workspace" item
-    ws:= _('Open in Workspace');
-    DoInsertMenuItem(ws, 934, 1);
+    DoInsertMenuItem(ws, 664, pos);
+    pos:= pos + 1;
+
+    if Namespace.Folder then
+    begin
+      // Add "Open in Workspace" item
+      ws:= _('Open in Workspace');
+      DoInsertMenuItem(ws, 934, pos);
+      pos:= pos + 1;
+    end;
 
     // Add Separator
     FillChar(infoA, SizeOf(infoA), #0);
     infoA.cbSize:= SizeOf(infoA);
     infoA.fMask:= MIIM_TYPE or MIIM_ID;
     infoA.fType:= MFT_SEPARATOR;
-    InsertMenuItemA(Menu, 2, true, infoA);
+    InsertMenuItemA(Menu, pos, true, infoA);
   end;
 end;
 
@@ -1865,6 +1872,12 @@ begin
           begin
             OpenFolderInTab(Sender, ns.AbsolutePIDL,
               MainForm.TabSet.Settings.OpenTabSelect);
+          end
+          else if ns.FileSystem then
+          begin
+            //if ns.Link then
+            //ns.ShellLink.
+            OpenFileInTab(ns.NameForParsing, MainForm.TabSet.Settings.OpenTabSelect);
           end;
         end;
         item:= TCECustomFileView(Sender).Selection.Next(item);
