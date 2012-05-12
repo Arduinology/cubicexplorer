@@ -255,6 +255,7 @@ object CETextEditor: TCETextEditor
     Font.Style = []
     PopupMenu = EditorPopupMenu
     TabOrder = 2
+    OnKeyPress = SynMemoKeyPress
     BorderStyle = bsNone
     Gutter.Font.Charset = DEFAULT_CHARSET
     Gutter.Font.Color = clWindowText
@@ -569,7 +570,6 @@ object CETextEditor: TCETextEditor
       Tag = 106
       Category = 'File'
       Caption = 'Close'
-      ShortCut = 27
       OnExecute = ActionExecute
       OnUpdate = ActionUpdate
     end

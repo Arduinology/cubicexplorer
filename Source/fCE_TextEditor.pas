@@ -222,6 +222,7 @@ type
     procedure edit_replaceKeyPress(Sender: TObject; var Key: Char);
     procedure StatusTimerTimer(Sender: TObject);
     procedure SynMemoChange(Sender: TObject);
+    procedure SynMemoKeyPress(Sender: TObject; var Key: WideChar);
     procedure SynMemoStatusChange(Sender: TObject; Changes: TSynStatusChanges);
   private
     { Private declarations }
@@ -1367,6 +1368,15 @@ begin
   toolbar_replace.Visible:= false;
   toolbar_find.Visible:= false;
   SynMemo.SetFocus;
+end;
+
+{-------------------------------------------------------------------------------
+  On SynMemo.KeyPress
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.SynMemoKeyPress(Sender: TObject; var Key: WideChar);
+begin
+  if Settings.CloseWithEsc and (Key = #27) then
+  act_close.Execute;
 end;
 
 {-------------------------------------------------------------------------------

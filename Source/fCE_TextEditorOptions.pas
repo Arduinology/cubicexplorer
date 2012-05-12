@@ -20,6 +20,7 @@ type
   TCETextEditorSettings = class(TPersistent)
   protected
     fBackgroundColor: TColor;
+    fCloseWithEsc: Boolean;
     fCtrlActivatesLinks: Boolean;
     fEditorList: TObjectList;
     fEnablePlayback: Boolean;
@@ -52,6 +53,7 @@ type
     procedure UpdateEditors; virtual;
   published
     property BackgroundColor: TColor read fBackgroundColor write fBackgroundColor;
+    property CloseWithEsc: Boolean read fCloseWithEsc write fCloseWithEsc;
     property CtrlActivatesLinks: Boolean read fCtrlActivatesLinks write
         fCtrlActivatesLinks;
     property EnablePlayback: Boolean read fEnablePlayback write fEnablePlayback;
@@ -558,6 +560,7 @@ begin
   fEnablePlayback:= false;
   fCtrlActivatesLinks:= true;
   fFindNextWithEnter:= true;
+  fCloseWithEsc:= true;
 end;
 
 {-------------------------------------------------------------------------------
