@@ -4,7 +4,6 @@ inherited CEQuickViewPanel: TCEQuickViewPanel
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   ExplicitWidth = 444
-  ExplicitHeight = 330
   PixelsPerInch = 96
   TextHeight = 13
   inherited TopDock: TSpTBXDock

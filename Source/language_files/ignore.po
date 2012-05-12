@@ -1062,3 +1062,18 @@ msgstr ""
 # fCE_TextEditor.dfm:1099
 msgid "\\?>"
 msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#: dCE_Images.dfm:5201
+msgid "PngImage72"
+msgstr ""
+
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:9264
+msgid "PngImage73"
+msgstr ""
+
+#. CEWorkspacePanel..TopDock..WorkspaceToolbar..combo_path..Path
+#: fCE_WorkspacePanel.dfm:32
+msgid "combo_path"
+msgstr ""

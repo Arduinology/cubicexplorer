@@ -447,19 +447,61 @@ begin
       end;
     end;
     // Undo
-    201: SynMemo.Undo;
+    201: begin
+      if SynMemo.Focused then
+      SynMemo.Undo
+      else if edit_find.Focused then
+      edit_find.Undo
+      else if edit_replace.Focused then
+      edit_replace.Undo;
+    end;
     // Redo
-    202: SynMemo.Redo;
+    202: if SynMemo.Focused then SynMemo.Redo;
     // Copy
-    203: SynMemo.CopyToClipboard;
+    203: begin
+      if SynMemo.Focused then
+      SynMemo.CopyToClipboard
+      else if edit_find.Focused then
+      edit_find.CopyToClipboard
+      else if edit_replace.Focused then
+      edit_replace.CopyToClipboard;
+    end;
     // Cut
-    204: SynMemo.CutToClipboard;
+    204: begin
+      if SynMemo.Focused then
+      SynMemo.CutToClipboard
+      else if edit_find.Focused then
+      edit_find.CutToClipboard
+      else if edit_replace.Focused then
+      edit_replace.CutToClipboard;
+    end;
     // Paste
-    205: SynMemo.PasteFromClipboard;
+    205: begin
+      if SynMemo.Focused then
+      SynMemo.PasteFromClipboard
+      else if edit_find.Focused then
+      edit_find.PasteFromClipboard
+      else if edit_replace.Focused then
+      edit_replace.PasteFromClipboard;
+    end;
     // Delete
-    206: SynMemo.ClearSelection;
+    206: begin
+      if SynMemo.Focused then
+      SynMemo.ClearSelection
+      else if edit_find.Focused then
+      edit_find.ClearSelection
+      else if edit_replace.Focused then
+      edit_replace.ClearSelection;
+    end;
     // Select All
-    207: SynMemo.SelectAll;
+    207: begin
+      if SynMemo.Focused then
+      SynMemo.SelectAll
+      else if edit_find.Focused then
+      edit_find.SelectAll
+      else if edit_replace.Focused then
+      edit_replace.SelectAll;
+    end;
     // Copy as HTML
     208: begin
       ExportToHTML(true, true);
@@ -543,17 +585,17 @@ begin
       // Close
       106:;
       // Undo
-      201: TTntAction(Sender).Enabled:= SynMemo.CanUndo;
+      201: TTntAction(Sender).Enabled:= SynMemo.CanUndo or edit_find.Focused or edit_replace.Focused;
       // Redo
       202: TTntAction(Sender).Enabled:= SynMemo.CanRedo;
       // Copy
-      203: TTntAction(Sender).Enabled:= SynMemo.SelLength > 0;
+      203: TTntAction(Sender).Enabled:= (SynMemo.SelLength > 0) or  edit_find.Focused or edit_replace.Focused;
       // Cut
-      204: TTntAction(Sender).Enabled:= SynMemo.SelLength > 0;
+      204: TTntAction(Sender).Enabled:= (SynMemo.SelLength > 0) or edit_find.Focused or edit_replace.Focused;
       // Paste
-      205: TTntAction(Sender).Enabled:= SynMemo.CanPaste;
+      205: TTntAction(Sender).Enabled:= SynMemo.CanPaste or edit_find.Focused or edit_replace.Focused;
       // Delete
-      206: TTntAction(Sender).Enabled:= SynMemo.SelLength > 0;
+      206: TTntAction(Sender).Enabled:= (SynMemo.SelLength > 0) or edit_find.Focused or edit_replace.Focused;
       // Select All
       207: TTntAction(Sender).Enabled:= true;
       // Copy as HTML

@@ -217,6 +217,8 @@ object CEActions: TCEActions
       Tag = 307
       Category = 'View'
       Caption = 'Workspace'
+      ImageIndex = 72
+      ShortCut = 16438
       OnExecute = ActionExecute
     end
     object act_edit_cut: TTntAction
