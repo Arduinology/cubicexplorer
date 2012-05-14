@@ -58,19 +58,19 @@ type
   TCEScrollToolbar = class(TImage32)  
   private
     fAnimTimer: TTimer;
-    fArrowSize: Integer;
     fDestOffset: Integer;
-    fItems: TObjectList;
-    fLeftArrowVisible: Boolean;
     fOffset: Integer;
     fMouseDown: Boolean;
-    fOnBackgroundClick: TNotifyEvent;
-    fRightArrowVisible: Boolean;
     fSelectedIndex: Integer;
-    fSeparatorSize: Integer;
-    procedure SetOffset(const Value: Integer);
     procedure SpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
+    fArrowSize: Integer;
+    fItems: TObjectList;
+    fLeftArrowVisible: Boolean;
+    fMaxItemWidth: Integer;
+    fOnBackgroundClick: TNotifyEvent;
+    fRightArrowVisible: Boolean;
+    fSeparatorSize: Integer;
     procedure ClickLeftArrow; virtual;
     procedure ClickRightArrow; virtual;
     procedure DoBackgroundClick; virtual;
@@ -78,23 +78,25 @@ type
     procedure DrawLeftArrow(ItemStyle: TItemStyle = itNormal); virtual;
     procedure DrawRightArrow(ItemStyle: TItemStyle = itNormal); virtual;
     procedure DrawSeparator(ARect: TRect); virtual;
-    function GetItemRect(Index: Integer): TRect;
+    function GetItemRect(Index: Integer): TRect; virtual;
+    function GetMaxItemWidth: Integer; virtual;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
         overload; override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
         overload; override;
     procedure MouseLeave; override;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); overload; override;
-    procedure OnAnimTimer(Sender: TObject);
+    procedure OnAnimTimer(Sender: TObject); virtual;
     procedure Paint; override;
+    procedure SetOffset(const Value: Integer); virtual;
     procedure SetSelectedIndex(const Value: Integer); virtual;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     function AddItem(ItemClass: TCEScrollToolbarItemClass): TCEScrollToolbarItem;
         virtual;
-    procedure MakeItemVisible(Index: Integer);
-    procedure Clear;
+    procedure MakeItemVisible(Index: Integer); virtual;
+    procedure Clear; virtual;
     procedure DrawBar; virtual;
     function GetItem(Index: Integer): TCEScrollToolbarItem; virtual;
     function IndexByPos(X, Y: Integer): Integer; virtual;
@@ -104,6 +106,7 @@ type
     property ArrowSize: Integer read fArrowSize write fArrowSize;
     property Items: TObjectList read fItems;
     property LeftArrowVisible: Boolean read fLeftArrowVisible;
+    property MaxItemWidth: Integer read GetMaxItemWidth write fMaxItemWidth;
     property Offset: Integer read fOffset write SetOffset;
     property RightArrowVisible: Boolean read fRightArrowVisible;
     property SelectedIndex: Integer read fSelectedIndex write SetSelectedIndex;
@@ -215,6 +218,7 @@ begin
   fOffset:= 0;
   fArrowSize:= 12;
   fSeparatorSize:= 0;
+  fMaxItemWidth:= -1;
   fAnimTimer:= TTimer.Create(Self);
   fAnimTimer.Interval:= 10;
   fAnimTimer.Enabled:= false;
@@ -313,12 +317,16 @@ end;
 function TCEScrollToolbar.GetItemRect(Index: Integer): TRect;
 var
   i: Integer;
+  w: Integer;
 begin
   Result.Left:= 0;
   for i:= 0 to fItems.Count - 1 do
   begin
     Inc(Result.Left,fSeparatorSize);
-    Result.Right:= Result.Left + TCEScrollToolbarItem(fItems.Items[i]).GetWidth(Bitmap);
+    w:= TCEScrollToolbarItem(fItems.Items[i]).GetWidth(Bitmap);
+    if (fMaxItemWidth > 0) and (w > fMaxItemWidth) then
+    w:= fMaxItemWidth;
+    Result.Right:= Result.Left + w;
     if i = Index then
     begin
       Break;
@@ -623,6 +631,7 @@ var
   item: TCEScrollToolbarItem;
   r: TRect;
   it: TItemStyle;
+  w: Integer;
 begin
   if (Self.Width < 1) or (Self.Height < 1) then  // Nothing is visible so exit
   Exit;
@@ -652,7 +661,11 @@ begin
       r.Left:= r.Right;
 
       // Draw item
-      r.Right:= r.Left + item.GetWidth(Bitmap);
+      w:= item.GetWidth(Bitmap);
+      if (MaxItemWidth > 0) and (w > MaxItemWidth) then
+      r.Right:= r.Left + MaxItemWidth
+      else
+      r.Right:= r.Left + w;
       if fSelectedIndex = i then
       it:= itSelected
       else
@@ -703,6 +716,14 @@ begin
   DrawEdge(Bitmap.Handle, ARect, EDGE_ETCHED, BF_LEFT)
   else
   SpDrawXPMenuSeparator(Bitmap.Canvas, ARect, true, true);
+end;
+
+{-------------------------------------------------------------------------------
+  Get MaxItemWidth
+-------------------------------------------------------------------------------}
+function TCEScrollToolbar.GetMaxItemWidth: Integer;
+begin
+  Result:= fMaxItemWidth;
 end;
 
 {*------------------------------------------------------------------------------
@@ -773,13 +794,15 @@ begin
   if Checked then
   state:= sknsChecked;
 
+  // draw button
   DrawMenuItem(Buffer, ARect, Checked, ItemStyle);
 
+  // draw text
   Buffer.Font.Color:= SkinManager.CurrentSkin.GetTextColor(skncToolbarItem, state);
   if Win32Platform = VER_PLATFORM_WIN32_WINDOWS then
-  Buffer.Textout(ARect,DT_CENTER+DT_VCENTER+DT_SINGLELINE,fCaption)
+  Buffer.Textout(ARect,DT_CENTER or DT_VCENTER or DT_SINGLELINE or DT_END_ELLIPSIS, fCaption)
   else
-  Buffer.TextoutW(ARect,DT_CENTER+DT_VCENTER+DT_SINGLELINE,fCaption);
+  Buffer.TextoutW(ARect,DT_CENTER or DT_VCENTER or DT_SINGLELINE or DT_END_ELLIPSIS, fCaption);
 end;
 
 {*------------------------------------------------------------------------------

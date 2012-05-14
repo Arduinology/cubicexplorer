@@ -377,6 +377,7 @@ begin
   DropButton:= TCE_AButton.Create(nil);
   BreadToggleButton:= TCE_AButton.Create(nil);
   Breadcrumbs:= TCEBreadcrumb.Create(nil);
+  Breadcrumbs.Settings:= GlobalBreadcrumbSettings;
   Breadcrumbs.OnBackgroundClick:= OnBreadBackgroundClick;
 
   FolderPopupMenu:= TCE_AFormPopupMenu.Create(nil);

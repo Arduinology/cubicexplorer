@@ -150,7 +150,7 @@
 			<VersionInfo Name="MajorVer">0</VersionInfo>
 			<VersionInfo Name="MinorVer">96</VersionInfo>
 			<VersionInfo Name="Release">0</VersionInfo>
-			<VersionInfo Name="Build">1544</VersionInfo>
+			<VersionInfo Name="Build">1547</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">False</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
@@ -162,7 +162,7 @@
 		<VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName">Cubic Reality Software</VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription">File Manager</VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">0.96.0.1544</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">0.96.0.1547</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName"></VersionInfoKeys>
 			<VersionInfoKeys Name="LegalCopyright">Marko Savolainen 2006-2012</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
@@ -170,13 +170,7 @@
 			<VersionInfoKeys Name="ProductName">CubicExplorer</VersionInfoKeys>
 			<VersionInfoKeys Name="ProductVersion">SVN Snapshot</VersionInfoKeys>
 			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
-		</VersionInfoKeys>  
-    
-    
-    
-    
-    
-    <Excluded_Packages>
+		</VersionInfoKeys>  <Excluded_Packages>
       <Excluded_Packages Name="C:\Users\Marko\Documents\Borland Studio Projects\Bpl\JvDlgsDesign100.bpl">JVCL Dialog Components</Excluded_Packages>
     </Excluded_Packages>
   </Delphi.Personality>

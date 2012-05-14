@@ -1249,22 +1249,26 @@ begin
     end;
 
     Result := (GetForegroundWindow = hwnd);
-  end;
+  end;                                                                
 end;
 
 {-------------------------------------------------------------------------------
-  ForceForegroundWindow2
+  ForceForegroundWindow2 (sketchy hack)
 -------------------------------------------------------------------------------}
 procedure ForceForegroundWindow2(hwnd: THandle);
 var
   hlp: TForm;
+  p: TPoint;
 begin
   hlp:= TForm.Create(nil);
   try
     hlp.BorderStyle := bsNone;
-    hlp.SetBounds(0, 0, 1, 1);
     hlp.FormStyle := fsStayOnTop;
+    GetCursorPos(p);
+    hlp.SetBounds(p.X, p.Y, 1, 1);
     hlp.Show;
+    hlp.Left:= p.X;
+    hlp.Top:= p.Y;
     mouse_event(MOUSEEVENTF_ABSOLUTE or MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0);
     mouse_event(MOUSEEVENTF_ABSOLUTE or MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
     SetForegroundWindow(hwnd);

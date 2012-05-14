@@ -600,6 +600,7 @@ object MainForm: TMainForm
     Hint = 'CubicExplorer'
     PopupMenu = TrayPopupMenu
     Visibility = [tvVisibleTaskBar, tvVisibleTaskList]
+    OnClick = TrayIconClick
     OnMouseUp = TrayIconMouseUp
     Left = 196
     Top = 64
@@ -608,9 +609,6 @@ object MainForm: TMainForm
     OnPopup = TrayPopupMenuPopup
     Left = 196
     Top = 96
-    object SpTBXItem93: TSpTBXItem
-      Action = CEActions.act_gen_showhide
-    end
     object SpTBXSeparatorItem25: TSpTBXSeparatorItem
     end
     object SpTBXItem92: TSpTBXItem

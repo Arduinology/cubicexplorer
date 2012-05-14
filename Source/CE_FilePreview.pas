@@ -49,6 +49,7 @@ type
     ThumbSize: TPoint;
     Info: WideString;
     IconIndex: Integer;
+    IsTextThumbnail: Boolean;
     TaskType: TCEFilePreviewTaskType;
     destructor Destroy; override;
   end;
@@ -71,6 +72,7 @@ type
     fShowIcon: Boolean;
     fShowInformation: Boolean;
     fShowThumbnail: Boolean;
+    fStretchThumbnail: Boolean;
     fTaskTag: Integer;
     fTextThumbFont: TFont;
     fThumbBuffer: TBitmap;
@@ -118,7 +120,7 @@ implementation
 uses
   MPShellUtilities, MPShellTypes, ActiveX, MPCommonUtilities, SpTBXSkins,
   ccClasses, VirtualThumbnails, Math, SpTBXControls, MPCommonObjects,
-  CV_ImageView;
+  CV_ImageView, CE_LanguageEngine;
 
 {##############################################################################}
 // TCEFilePreview
@@ -137,6 +139,7 @@ begin
   fInfoAlign:= iaBottom;
   fFileIconIndex:= -1;
   fLastAbort:= 0;
+  fStretchThumbnail:= true;
   // create instances
   fResizeTimer:= TTimer.Create(Self);
   fResizeTimer.Interval:= 250;
@@ -144,7 +147,7 @@ begin
 
   fTextThumbFont:= TFont.Create;
   fTextThumbFont.Name:= 'Courier New';
-  fTextThumbFont.Size:= 10;
+  fTextThumbFont.Size:= 8;
 end;
 
 {-------------------------------------------------------------------------------
@@ -252,9 +255,10 @@ begin
 
           if not assigned(task.Thumbnail) then
           begin
+            task.IsTextThumbnail:= true;
             task.Thumbnail:= CreateTextThumbnail(task.FilePath, task.ThumbSize.X, task.ThumbSize.Y,
                                                  clWindow, clWindowText, task.Font,
-                                                 1024, 'Empty file');
+                                                 1024, _('Empty file'));
           end;
         end
         // info
@@ -313,6 +317,7 @@ begin
       FreeAndNil(fThumbBuffer);
       // assign new thumbnail
       fThumbBuffer:= task.Thumbnail;
+      fStretchThumbnail:= not task.IsTextThumbnail;
       task.Thumbnail:= nil; // set to nil, otherwise the thumbnail will be freed on task destroy
     end
     else if (task.TaskType = fpttIconIndex) then
@@ -357,6 +362,7 @@ begin
     task.Font.Assign(fTextThumbFont);
     task.TaskType:= fpttThumbnail;
     task.fStartTick:= Max(GetTickCount, fLastAbort);
+    task.IsTextThumbnail:= false;
     GlobalTaskPool.AddTask(nil, task, true, true, fTaskTag, HandleExecuteTask, HandleTaskDone);
   end;
 end;
@@ -639,25 +645,35 @@ begin
       h:= r.Bottom - r.Top;
       if (w > 0) and (h > 0) then
       begin
-        ar:= fThumbBuffer.Width / fThumbBuffer.Height;
-        if ar > (w / h) then
+        if fStretchThumbnail then
         begin
-          size:= w / ar;
-          r.Top:= r.Top + Round((h - size) / 2);
-          r.Bottom:= Round(r.Top + size);
+          ar:= fThumbBuffer.Width / fThumbBuffer.Height;
+          if ar > (w / h) then
+          begin
+            size:= w / ar;
+            r.Top:= r.Top + Round((h - size) / 2);
+            r.Bottom:= Round(r.Top + size);
+          end
+          else
+          begin
+            size:= h * ar;
+            r.Left:= r.Left + Round((w - size) / 2);
+            r.Right:= Round(r.Left + size);
+          end;
+          // stretchblt to buf
+          SetStretchBltMode(buf.Canvas.Handle, STRETCH_HALFTONE);
+          SetBrushOrgEx(buf.Canvas.Handle, 0, 0, nil);
+          StretchBlt(buf.Canvas.Handle, r.Left, r.Top, r.Right-r.Left, r.Bottom-r.Top,
+                     fThumbBuffer.Canvas.Handle, 0,0,fThumbBuffer.Width, fThumbBuffer.Height,
+                     SRCCopy);
         end
+        // bitblt to buf
         else
         begin
-          size:= h * ar;
-          r.Left:= r.Left + Round((w - size) / 2);
-          r.Right:= Round(r.Left + size);
+          BitBlt(buf.Canvas.Handle, r.Left, r.Top, w, h,
+                 fThumbBuffer.Canvas.Handle, 0, 0,
+                 SRCCOPY);
         end;
-        // blt to buf
-        SetStretchBltMode(buf.Canvas.Handle, STRETCH_HALFTONE);
-        SetBrushOrgEx(buf.Canvas.Handle, 0, 0, nil);
-        StretchBlt(buf.Canvas.Handle, r.Left, r.Top, r.Right-r.Left, r.Bottom-r.Top,
-                   fThumbBuffer.Canvas.Handle, 0,0,fThumbBuffer.Width, fThumbBuffer.Height,
-                   SRCCopy);
       end;
     end
     // draw icon

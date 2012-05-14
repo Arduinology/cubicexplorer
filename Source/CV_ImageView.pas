@@ -578,10 +578,9 @@ begin
 
             if AMaxLength > 0 then
             begin
-              SetLength(buf, AMaxLength + 1);
+              SetLength(buf, AMaxLength );
               // read
               s.Read(buf[1], Length(buf));
-              buf[Length(buf)]:= #0;
               // decode UTF-8
               if buf <> '' then
               begin
@@ -600,10 +599,9 @@ begin
 
             if AMaxLength > 0 then
             begin
-              SetLength(bufW, (AMaxLength div 2) + 1);
+              SetLength(bufW, (AMaxLength div 2));
               // read
               s.Read(bufW[1], Length(bufW)*2);
-              bufW[Length(bufW)]:= #0;
               // swap byte order if big-endian is detected
               if w = $FFFE then
               begin
@@ -617,11 +615,16 @@ begin
           r:= Rect(borderSize,borderSize,AWidth-borderSize,AHeight-borderSize);
           if bufW <> '' then
           begin
-            DrawTextW(Result.Canvas.Handle, PWideChar(bufW), Length(bufW), r, DT_WORDBREAK);
+            if IsWinVista then
+            bufW:= bufW+#0; // not sure why this is needed in Vista+. in XP it will show up as a square character.
+            Windows.DrawTextW(Result.Canvas.Handle, PWideChar(bufW), Length(bufW), r, DT_LEFT or DT_TOP);
           end
           else if AEmptyFileText <> '' then
           begin
-            DrawTextW(Result.Canvas.Handle, PWideChar(AEmptyFileText), Length(AEmptyFileText), r, DT_SINGLELINE or DT_VCENTER or DT_CENTER);
+            bufW:= AEmptyFileText;
+            if IsWinVista then
+            bufW:= bufW+#0;
+            Windows.DrawTextW(Result.Canvas.Handle, PWideChar(bufW), Length(bufW), r, DT_SINGLELINE or DT_VCENTER or DT_CENTER);
           end;
         end;
       finally

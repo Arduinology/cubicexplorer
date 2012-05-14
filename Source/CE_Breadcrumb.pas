@@ -37,17 +37,38 @@ uses
   Windows, SysUtils, Messages, Classes, Controls, ShlObj, Graphics, Math, Forms;
 
 type
+  TCEBreadcrumbSettings = class(TPersistent)
+  protected
+    fMaxCrumbSize: Integer;
+    fHideComputerCrumb: Boolean;
+    fHideDesktopCrumb: Boolean;
+  public
+    constructor Create;
+  published
+    property MaxCrumbSize: Integer read fMaxCrumbSize write fMaxCrumbSize;
+    property HideComputerCrumb: Boolean read fHideComputerCrumb write
+        fHideComputerCrumb;
+    property HideDesktopCrumb: Boolean read fHideDesktopCrumb write
+        fHideDesktopCrumb;
+  end;
+  
   TCEBreadcrumb = class(TCEScrollToolbar, ICEPathChangeHandler)
   private
     fShowBorder: Boolean;
   protected
+    fSettings: TCEBreadcrumbSettings;
     procedure DrawBackground; override;
+    function GetItemRect(Index: Integer): TRect; override;
+    function GetMaxItemWidth: Integer; override;
     procedure GlobalActivePageChange(OldPage, NewPage: TComponent); virtual;
         stdcall;
     procedure GlobalContentChange(Sender: TObject); virtual; stdcall;
-    procedure GlobalFocusChanged(Sender: TObject; NewPath: WideString); stdcall;
-    procedure GlobalPathChanged(Sender: TObject; NewPath: WideString); stdcall;
-    procedure GlobalPIDLChanged(Sender: TObject; NewPIDL: PItemIDList); stdcall;
+    procedure GlobalFocusChanged(Sender: TObject; NewPath: WideString); virtual;
+        stdcall;
+    procedure GlobalPathChanged(Sender: TObject; NewPath: WideString); virtual;
+        stdcall;
+    procedure GlobalPIDLChanged(Sender: TObject; NewPIDL: PItemIDList); virtual;
+        stdcall;
     procedure OnClosePopup(Sender: TObject; Selected: Boolean); virtual;
     procedure PopupFolderForm(X, Y: Integer; APIDL: PItemIDList); virtual;
   public
@@ -55,6 +76,7 @@ type
     PopupFormSize: TSize;
     constructor Create(AOwner: TComponent); override;
     procedure Resize; override;
+    property Settings: TCEBreadcrumbSettings read fSettings write fSettings;
     property ShowBorder: Boolean read fShowBorder write fShowBorder;
   end;
 
@@ -63,6 +85,8 @@ type
     fOnClick: TNotifyEvent;
     fParent: TCEBreadcrumb;
   protected
+    procedure DrawItem(Buffer: TBitmap32; ARect: TRect; ItemStyle: TItemStyle =
+        itNormal); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
         override;
     procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -84,10 +108,13 @@ type
     constructor Create(AOwner: TComponent); override;
   end;
 
+var
+  GlobalBreadcrumbSettings: TCEBreadcrumbSettings;
+
 implementation
 
 uses
-  dCE_Actions;
+  dCE_Actions, CE_AppSettings;
 
 {*------------------------------------------------------------------------------
   Destroy TCEBreadcrumbItem
@@ -97,6 +124,38 @@ begin
   if assigned(Namespace) then
   Namespace.Free;
   inherited;
+end;
+
+{##############################################################################}
+
+{*------------------------------------------------------------------------------
+  Draw Item
+-------------------------------------------------------------------------------}
+procedure TCEBreadcrumbItem.DrawItem(Buffer: TBitmap32; ARect: TRect;
+    ItemStyle: TItemStyle = itNormal);
+var
+  state: TSpTBXSkinStatesType;
+begin
+  state:= sknsNormal;
+  case ItemStyle of
+    itNormal: state:= sknsNormal;
+    itSelected: state:= sknsHotTrack;
+    itPushed: state:= sknsPushed;
+    itChecked: state:= sknsChecked;
+  end;
+  if Checked then
+  state:= sknsChecked;
+
+  // draw button
+  DrawMenuItem(Buffer, ARect, Checked, ItemStyle);
+
+  // draw text
+  InflateRect(ARect, -3, 0);
+  Buffer.Font.Color:= SkinManager.CurrentSkin.GetTextColor(skncToolbarItem, state);
+  if Win32Platform = VER_PLATFORM_WIN32_WINDOWS then
+  Buffer.Textout(ARect,DT_CENTER or DT_VCENTER or DT_SINGLELINE or DT_END_ELLIPSIS, Caption)
+  else
+  Buffer.TextoutW(ARect,DT_CENTER or DT_VCENTER or DT_SINGLELINE or DT_END_ELLIPSIS, Caption);
 end;
 
 {*------------------------------------------------------------------------------
@@ -181,6 +240,8 @@ begin
   FolderPopup.OnClosePopup:= OnClosePopup;
   FolderPopup.PopupFocus:= true;
   GlobalPathCtrl.RegisterNotify(self);
+
+  MaxItemWidth:= 200;
 end;
 
 {*------------------------------------------------------------------------------
@@ -189,6 +250,49 @@ end;
 procedure TCEBreadcrumb.DrawBackground;
 begin
   inherited;
+end;
+
+{*------------------------------------------------------------------------------
+  Get item position rect
+-------------------------------------------------------------------------------}
+function TCEBreadcrumb.GetItemRect(Index: Integer): TRect;
+var
+  i: Integer;
+  w, maxW: Integer;
+begin
+  if assigned(Settings) then
+  maxW:= Settings.MaxCrumbSize
+  else
+  maxW:= fMaxItemWidth;
+  
+  Result.Left:= 0;
+  for i:= 0 to fItems.Count - 1 do
+  begin
+    Inc(Result.Left, fSeparatorSize);
+    w:= TCEScrollToolbarItem(fItems.Items[i]).GetWidth(Bitmap);
+    if (maxW > 0) and (w > maxW) then
+    w:= maxW;
+    Result.Right:= Result.Left + w;
+    if i = Index then
+    begin
+      Break;
+    end
+    else
+    Result.Left:= Result.Right;
+  end;
+  Result.Top:= 0;
+  Result.Bottom:= Bitmap.Height
+end;
+
+{-------------------------------------------------------------------------------
+  Get MaxItemWidth
+-------------------------------------------------------------------------------}
+function TCEBreadcrumb.GetMaxItemWidth: Integer;
+begin
+  if assigned(Settings) then
+  Result:= Settings.MaxCrumbSize
+  else
+  Result:= fMaxItemWidth;
 end;
 
 {*------------------------------------------------------------------------------
@@ -243,6 +347,7 @@ var
   APIDL: PItemIDList;
   i: Integer;
   recreate: Boolean;
+  showAll: Boolean;
 begin
   recreate:= true;
 
@@ -280,18 +385,28 @@ begin
   item.Checked:= true;
   i:= 0;
   NS:= item.Namespace;
+  showAll:= NS.IsMyComputer;
 
   if not NS.IsDesktop then
   begin
     while assigned(NS.Parent) do
     begin
       NS:= NS.Parent;
-      item:= TCEBreadcrumbItem(InsertItem(TCEBreadcrumbItem,0));
-      item.Parent:= self;
-      APIDL:= PIDLMgr.CopyPIDL(NS.AbsolutePIDL);
-      item.Namespace:= TNamespace.Create(APIDL,nil);
-      item.Caption:= item.Namespace.NameInFolder;
-      Inc(i);
+
+      if showAll or
+         not assigned(Settings) or
+         not ((Settings.HideComputerCrumb and NS.IsMyComputer) or
+             (Settings.HideDesktopCrumb and NS.IsDesktop))
+      then
+      begin
+        item:= TCEBreadcrumbItem(InsertItem(TCEBreadcrumbItem,0));
+        item.Parent:= self;
+        APIDL:= PIDLMgr.CopyPIDL(NS.AbsolutePIDL);
+        item.Namespace:= TNamespace.Create(APIDL,nil);
+        item.Caption:= item.Namespace.NameInFolder;
+        Inc(i);
+      end;
+
       if NS.IsDesktop then
       break;
     end;
@@ -386,6 +501,7 @@ begin
   Breadcrumb.Parent:= self;
   Breadcrumb.Align:= alClient;
   Breadcrumb.SeparatorSize:= 1;
+  Breadcrumb.Settings:= GlobalBreadcrumbSettings;
   self.MinClientHeight:= Max(Breadcrumb.Constraints.MinHeight,20);
   self.ClientHeight:= 22;
 end;
@@ -400,6 +516,27 @@ begin
   Handled:= Self.Breadcrumb.IndexByPos(MousePos.X, MousePos.Y) > -1;
 end;
 
+{##############################################################################}
+// TCEBreadcrumbSettings
 
+{-------------------------------------------------------------------------------
+  Create an instance of TCEBreadcrumbSettings
+-------------------------------------------------------------------------------}
+constructor TCEBreadcrumbSettings.Create;
+begin
+  inherited Create;
+  fMaxCrumbSize:= 200;
+  fHideComputerCrumb:= true;
+  fHideDesktopCrumb:= true;
+end;
+
+{##############################################################################}
+
+initialization
+  GlobalBreadcrumbSettings:= TCEBreadcrumbSettings.Create;
+  GlobalAppSettings.AddItem('Breadcrumb', GlobalBreadcrumbSettings);
+
+finalization
+  FreeAndNil(GlobalBreadcrumbSettings);
 
 end.

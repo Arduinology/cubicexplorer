@@ -68,6 +68,7 @@ type
     procedure SetViewStyle(const Value: TEasyListStyle);
     procedure SetThumbViewStyle(const Value: TEasyListStyle);
   protected
+    fFileViewDragging: Boolean;
     fQuickView: TCEQuickView;
     fShowCaptionsInFilmstrip: Boolean;
     fShowCaptionsInThumbnails: Boolean;
@@ -344,6 +345,7 @@ begin
   Images:= SmallSysImages;
   fShowCaptionsInFilmstrip:= false;
   fShowCaptionsInThumbnails:= true;
+  fFileViewDragging:= false;
 
   // create FileView
   FileView:= TCEFileView.Create(Self);
@@ -610,7 +612,7 @@ var
   WindowPt: TPoint;
   freeTarget: Boolean;
 begin
-  if (ssMiddle in fDownShiftState) or ((ssLeft in fDownShiftState) and (ssAlt in Shift)) then
+  if not FileView.DragInitiated and ((ssMiddle in fDownShiftState) or ((ssLeft in fDownShiftState) and (ssAlt in Shift))) then
   begin
     WindowPt := FileView.Scrollbars.MapWindowToView(Point(X,Y));
     item:= FileView.Groups.ItemByPoint(WindowPt);

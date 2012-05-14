@@ -203,7 +203,6 @@ type
     TrayPopupMenu: TSpTBXPopupMenu;
     SpTBXItem92: TSpTBXItem;
     SpTBXSeparatorItem25: TSpTBXSeparatorItem;
-    SpTBXItem93: TSpTBXItem;
     SpTBXSeparatorItem2: TSpTBXSeparatorItem;
     sub_closed_tab_list: TSpTBXSubmenuItem;
     SpTBXSeparatorItem19: TSpTBXSeparatorItem;
@@ -240,6 +239,8 @@ type
     procedure sub_closed_tab_listPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure TabPopupMenuPopup(Sender: TObject);
     procedure TntFormResize(Sender: TObject);
+    procedure TrayIconClick(Sender: TObject; Button: TMouseButton; Shift:
+        TShiftState; X, Y: Integer);
     procedure TrayIconMouseUp(Sender: TObject; Button: TMouseButton; Shift:
         TShiftState; X, Y: Integer);
     procedure TrayPopupMenuPopup(Sender: TObject);
@@ -370,6 +371,9 @@ type
     procedure SetUpdateURL(const Value: WideString);
     procedure SetUseProxy(const Value: Boolean);
     procedure SetUseSystemProxy(const Value: Boolean);
+  protected
+    function GetWow64Enabled: Boolean;
+    procedure SetWow64Enabled(const Value: Boolean);
   public
     Form: TMainForm;
     constructor Create;
@@ -412,6 +416,7 @@ type
     property UpdateURL: WideString read GetUpdateURL write SetUpdateURL;
     property UseProxy: Boolean read GetUseProxy write SetUseProxy;
     property UseSystemProxy: Boolean read GetUseSystemProxy write SetUseSystemProxy;
+    property Wow64Enabled: Boolean read GetWow64Enabled write SetWow64Enabled;
   end;
 
 var
@@ -423,7 +428,7 @@ uses
   madExcept, Clipbrd, CE_Stacks, MPResources,
   fCE_OptionsDialog, fCE_StackPanel, CE_Consts, CE_CommonObjects,
   CE_ElevatedActions, CE_FileUtils, fCE_TextEditorOptions, fCE_WorkspacePanel,
-  TntComCtrls, VistaAltFixUnit2;
+  TntComCtrls;
 
 {$R *.dfm}
 
@@ -516,8 +521,6 @@ begin
   fPanels:= TComponentList.Create(false);
 
   Self.OnContextPopup:= CEActions.HandleGlobalContextPopup;
-
-  TVistaAltFix2.Create(Self);
 end;
 
 {-------------------------------------------------------------------------------
@@ -1450,7 +1453,8 @@ begin
 //////////////////// Seems to work
   if IsIconic(Handle) then
   ShowWindow(Handle, SW_RESTORE);
-  ForceForegroundWindow2(Handle);
+  SetForegroundWindow(Handle);
+  //ForceForegroundWindow2(Handle);
 ////////////////////
 end;
 
@@ -1762,13 +1766,23 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  On TrayIcon.Click
+-------------------------------------------------------------------------------}
+procedure TMainForm.TrayIconClick(Sender: TObject; Button: TMouseButton; Shift:
+    TShiftState; X, Y: Integer);
+begin
+  if Button = mbLeft then
+  ToggleVisibility;
+end;
+
+{-------------------------------------------------------------------------------
   On TrayIcon.MouseUp
 -------------------------------------------------------------------------------}
 procedure TMainForm.TrayIconMouseUp(Sender: TObject; Button: TMouseButton;
     Shift: TShiftState; X, Y: Integer);
 begin
-  if Button = mbLeft then
-  ToggleVisibility;
+  if (Button = mbLeft) and (MainForm.WindowState = wsNormal) then
+  MakeVisible;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1815,12 +1829,6 @@ var
   item: TSpTBXItem;
 begin
   PopulateBookmarkItem(TrayPopupMenu.Items, CEBookmarkPanel.BookmarkTree);
-  // separator
-  TrayPopupMenu.Items.Add(TSpTBXSeparatorItem.Create(TrayPopupMenu));  
-  // show/hide
-  item:= TSpTBXItem.Create(TrayPopupMenu);
-  item.Action:= CEActions.act_gen_showhide;
-  TrayPopupMenu.Items.Add(item);
   // separator
   TrayPopupMenu.Items.Add(TSpTBXSeparatorItem.Create(TrayPopupMenu));
   // exit
@@ -2147,6 +2155,18 @@ end;
 procedure TMainFormSettings.SetChangeCurrentDirVar(const Value: Boolean);
 begin
   GlobalPathCtrl.ChangeCurrentDirVar:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set Wow64Enabled
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetWow64Enabled: Boolean;
+begin
+  Result:= MPCommonUtilities.Wow64Enabled;
+end;
+procedure TMainFormSettings.SetWow64Enabled(const Value: Boolean);
+begin
+  MPCommonUtilities.Wow64Enabled:= Value;
 end;
 
 {##############################################################################}

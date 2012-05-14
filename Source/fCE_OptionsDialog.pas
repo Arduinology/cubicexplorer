@@ -107,7 +107,7 @@ var
 implementation
 
 uses
-  fCE_OptionsPage_Advanced, MPCommonUtilities;
+  fCE_OptionsPage_Advanced, MPCommonUtilities, VistaAltFixUnit2;
 
 {$R *.dfm}
 
@@ -175,6 +175,8 @@ begin
   end;
 
   CEGlobalTranslator.TranslateComponent(Self);
+  
+  TVistaAltFix2.Create(Self);
 end;
 
 {*------------------------------------------------------------------------------

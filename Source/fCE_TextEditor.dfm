@@ -665,6 +665,7 @@ object CETextEditor: TCETextEditor
       Tag = 401
       Category = 'View'
       Caption = 'Word Wrap'
+      ShortCut = 32855
       OnExecute = ActionExecute
       OnUpdate = ActionUpdate
     end

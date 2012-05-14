@@ -134,6 +134,7 @@ type
     procedure ClearHistory;
     procedure CreateEmptyFile;
     procedure CreateNewFolder;
+    function DragInitiated: Boolean;
     procedure EndHistoryUpdate;
     procedure GoBackInHistory;
     procedure GoFolderUp;
@@ -936,6 +937,11 @@ begin
   inherited;
   if PerFolderSettings and Active then
   StoreFolderToPropertyBag(true, true);  
+end;
+
+function TCEFileView.DragInitiated: Boolean;
+begin
+  Result := [ebcsDragSelecting, ebcsDragging, ebcsDragSelectPending, ebcsDragPending] * States <> []
 end;
 
 {-------------------------------------------------------------------------------

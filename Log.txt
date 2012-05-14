@@ -1,3 +1,15 @@
+14.5.2012
+- Fixed "CE clicks mouse" bug.
+- Small speed improvement to Bookmarks.
+- Fixed bug that opens tab when Alt+Left dragging file/folder.
+* Double click on tray now works correctly.
++ Added advanced options HideComputerCrumb, HideDesktopCrumb and MaxCrumbSize for Breadcrumb.
+
+13.5.2012
+* Shift+Enter now searches backward in Text Editor.
+- Fixed drawing issues in text file preview.
++ Added Wow64Enabled advanced setting.
+================================================================================
 12.5.2012
 * Updated French translation (thanks to BB).
 * Updated Japanese translation (thanks to Benok).

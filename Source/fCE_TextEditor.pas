@@ -1317,6 +1317,9 @@ begin
   else if Key = #13 then
   begin
     Key:= #0;
+    if GetKeyState(VK_SHIFT) < 0 then
+    FindPrevious
+    else
     FindNext;
     if not Settings.FindNextWithEnter then
     SynMemo.SetFocus;

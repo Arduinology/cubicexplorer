@@ -59,6 +59,7 @@ type
   end;
 
   TCEBookmarkSubItem = class(TSpTBXSubmenuItem)
+  private
   protected
     procedure DoDrawCaption(ACanvas: TCanvas; ClientAreaRect: TRect; State:
         TSpTBXSkinStatesType; var ACaption: WideString; var CaptionRect: TRect; var
@@ -68,8 +69,12 @@ type
         PaintStage: TSpTBXPaintStage; var AImageList: TCustomImageList; var
         AImageIndex: Integer; var ARect: TRect; var PaintDefault: Boolean);
         override;
+    procedure DoPopup(Sender: TTBCustomItem; FromLink: Boolean); override;
   public
     BookmarkData: PCEBookData;
+    BookmarkNode: PVirtualNode;
+    BookmarkTree: TCEBookmarkTree;
+    LargeIcons: Boolean;
     procedure Click; override;
   end;
 
@@ -109,36 +114,42 @@ uses
 procedure PopulateBookmarkItem(RootItem: TTBCustomItem; BookmarkTree:
     TCEBookmarkTree; OpenAllToRoot: Boolean = false; LargeIcons: Boolean =
     false);
+var
+  sep: TSpTBXSeparatorItem;
+  openAll: TCEOpenAllBookmarksItem;
+  chItem: TSpTBXItem;
+  chNode: PVirtualNode;
+  data: PCEBookData;
+begin
+  UpdatingBookmarkItems:= true;
+  try
+    RootItem.Clear;
 
-  procedure EnumNode(Node: PVirtualNode; SubItem: TTBCustomItem);
-  var
-    chItem: TSpTBXItem;
-    chNode: PVirtualNode;
-    data: PCEBookData;
-    sep: TSpTBXSeparatorItem;
-    openAll: TCEOpenAllBookmarksItem;
-  begin
+    if not assigned(BookmarkTree) then
+    Exit;
+
     // Show "Open All in Tabs" at top of the menu (Opera style)
-    if CEBookmarkPanel.Settings.ShowOpenAllItem and CEBookmarkPanel.Settings.ShowOpenAllAtTop then
+    if CEBookmarkPanel.Settings.ShowOpenAllItem and OpenAllToRoot and CEBookmarkPanel.Settings.ShowOpenAllAtTop then
     begin
-      if (SubItem is TCEBookmarkSubItem) then
-      begin
-        openAll:= TCEOpenAllBookmarksItem.Create(RootItem);
-        openAll.CustomHeight:= 24;
-        SubItem.Add(openAll);
-        sep:= TSpTBXSeparatorItem.Create(RootItem);
-        SubItem.Add(sep);
-      end
+      openAll:= TCEOpenAllBookmarksItem.Create(RootItem);
+      openAll.CustomHeight:= 24;
+      RootItem.Add(openAll);
+      sep:= TSpTBXSeparatorItem.Create(RootItem);
+      RootItem.Add(sep);
     end;
 
-    chNode:= Node.FirstChild;
+    // Add bookmark items
+    chNode:= BookmarkTree.GetFirst;
     while assigned(chNode) do
     begin
       data:= BookmarkTree.GetNodeData(chNode);
       if chNode.ChildCount > 0 then
       begin
         chItem:= TCEBookmarkSubItem.Create(RootItem);
+        TCEBookmarkSubItem(chItem).BookmarkNode:= chNode;
         TCEBookmarkSubItem(chItem).BookmarkData:= data;
+        TCEBookmarkSubItem(chItem).BookmarkTree:= BookmarkTree;
+        TCEBookmarkSubItem(chItem).LargeIcons:= LargeIcons;
         if data.BookComp.SubMenuOnly then
         chItem.Options:= chItem.Options + [tboDropdownArrow]
         else
@@ -164,48 +175,9 @@ procedure PopulateBookmarkItem(RootItem: TTBCustomItem; BookmarkTree:
       
       chItem.ImageIndex:= data.BookComp.GetImageIndex;
 
-      if chItem is TSpTBXSubmenuItem then
-      EnumNode(chNode, chItem);
-
-      SubItem.Add(chItem);
+      RootItem.Add(chItem);
       chNode:= chNode.NextSibling;
     end;
-    
-    // Show "Open All in Tabs" at bottom of the menu (Firefox style)
-    if CEBookmarkPanel.Settings.ShowOpenAllItem and not CEBookmarkPanel.Settings.ShowOpenAllAtTop then
-    begin
-      if (SubItem is TCEBookmarkSubItem) then
-      begin
-        sep:= TSpTBXSeparatorItem.Create(RootItem);
-        SubItem.Add(sep);
-        openAll:= TCEOpenAllBookmarksItem.Create(RootItem);
-        openAll.CustomHeight:= 24;
-        SubItem.Add(openAll);
-      end
-    end;
-  end;
-var
-  sep: TSpTBXSeparatorItem;
-  openAll: TCEOpenAllBookmarksItem;
-begin
-  UpdatingBookmarkItems:= true;
-  try
-    RootItem.Clear;
-
-    if not assigned(BookmarkTree) then
-    Exit;
-
-    // Show "Open All in Tabs" at top of the menu (Opera style)
-    if CEBookmarkPanel.Settings.ShowOpenAllItem and OpenAllToRoot and CEBookmarkPanel.Settings.ShowOpenAllAtTop then
-    begin
-      openAll:= TCEOpenAllBookmarksItem.Create(RootItem);
-      openAll.CustomHeight:= 24;
-      RootItem.Add(openAll);
-      sep:= TSpTBXSeparatorItem.Create(RootItem);
-      RootItem.Add(sep);
-    end;
-
-    EnumNode(BookmarkTree.RootNode, RootItem);
 
     // Show "Open All in Tabs" at bottom of the menu (Firefox style)
     if CEBookmarkPanel.Settings.ShowOpenAllItem and OpenAllToRoot and not CEBookmarkPanel.Settings.ShowOpenAllAtTop then
@@ -272,7 +244,7 @@ begin
   else if (ss = [ssLeft, ssAlt, ssShift]) or (ss = [ssLeft, ssCtrl, ssShift]) then
   BookmarkData.BookComp.MouseClick([ssMiddle, ssShift], mbMiddle);
 
-  PostMessage(CEInput.MsgInput.Handle, WM_MakeVisible, 0, 0);
+  //PostMessage(CEInput.MsgInput.Handle, WM_MakeVisible, 0, 0); // why is this called?
 end;
 
 {*------------------------------------------------------------------------------
@@ -341,7 +313,7 @@ begin
   else if (ss = [ssLeft, ssAlt, ssShift]) or (ss = [ssLeft, ssCtrl, ssShift]) then
   BookmarkData.BookComp.MouseClick([ssMiddle, ssShift], mbMiddle);
 
-  PostMessage(CEInput.MsgInput.Handle, WM_MakeVisible, 0, 0);
+  // PostMessage(CEInput.MsgInput.Handle, WM_MakeVisible, 0, 0); // why is this called?
 end;
 
 {*------------------------------------------------------------------------------
@@ -387,6 +359,89 @@ begin
 //      AImageIndex:= BookmarkData.BookComp.GetImageIndex(ItemInfo.Pushed and (ItemInfo.ComboPart = cpCombo));
 //    end;
 //  end;
+end;
+
+{-------------------------------------------------------------------------------
+  DoPopup
+-------------------------------------------------------------------------------}
+procedure TCEBookmarkSubItem.DoPopup(Sender: TTBCustomItem; FromLink: Boolean);
+var
+  chItem: TSpTBXItem;
+  chNode: PVirtualNode;
+  data: PCEBookData;
+  sep: TSpTBXSeparatorItem;
+  openAll: TCEOpenAllBookmarksItem;    
+begin
+  inherited;
+
+  if not (Sender is TCEBookmarkSubItem) then
+  Exit;
+
+  Sender.Clear;
+
+  // Show "Open All in Tabs" at top of the menu (Opera style)
+  if CEBookmarkPanel.Settings.ShowOpenAllItem and CEBookmarkPanel.Settings.ShowOpenAllAtTop then
+  begin
+    // open all item
+    openAll:= TCEOpenAllBookmarksItem.Create(Sender);
+    openAll.CustomHeight:= 24;
+    Sender.Add(openAll);
+    // separator
+    sep:= TSpTBXSeparatorItem.Create(Sender);
+    Sender.Add(sep);
+  end;
+
+  chNode:= TCEBookmarkSubItem(Sender).BookmarkNode.FirstChild;
+  while assigned(chNode) do
+  begin
+    data:= BookmarkTree.GetNodeData(chNode);
+    if chNode.ChildCount > 0 then
+    begin
+      chItem:= TCEBookmarkSubItem.Create(Sender);
+      TCEBookmarkSubItem(chItem).BookmarkData:= data;
+      TCEBookmarkSubItem(chItem).BookmarkNode:= chNode;
+      TCEBookmarkSubItem(chItem).BookmarkTree:= BookmarkTree;
+      TCEBookmarkSubItem(chItem).LargeIcons:= LargeIcons;
+      if data.BookComp.SubMenuOnly then
+      chItem.Options:= chItem.Options + [tboDropdownArrow]
+      else
+      TTBCustomItemHack(chItem).ItemStyle:= TTBCustomItemHack(chItem).ItemStyle + [tbisCombo];
+    end
+    else
+    begin
+      chItem:= TCEBookmarkItem.Create(Sender);
+      TCEBookmarkItem(chItem).BookmarkData:= data;
+    end;
+
+    chItem.Caption:= data.BookComp.Title;
+    chItem.DisplayMode:= nbdmImageAndText;
+    if LargeIcons then
+    begin
+      if data.BookComp.ImageList = SmallSysImages then
+      chItem.Images:= LargeSysImages
+      else
+      chItem.Images:= data.BookComp.ImageList;
+    end
+    else
+    chItem.Images:= data.BookComp.ImageList;
+
+    chItem.ImageIndex:= data.BookComp.GetImageIndex;
+
+    Sender.Add(chItem);
+    chNode:= chNode.NextSibling;
+  end;
+  
+  // Show "Open All in Tabs" at bottom of the menu (Firefox style)
+  if CEBookmarkPanel.Settings.ShowOpenAllItem and not CEBookmarkPanel.Settings.ShowOpenAllAtTop then
+  begin
+    // separator
+    sep:= TSpTBXSeparatorItem.Create(Sender);
+    Sender.Add(sep);
+    // open all item
+    openAll:= TCEOpenAllBookmarksItem.Create(Sender);
+    openAll.CustomHeight:= 24;
+    Sender.Add(openAll);
+  end;  
 end;
 
 {##############################################################################}

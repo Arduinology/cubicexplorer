@@ -1575,7 +1575,7 @@ begin
             path:= DecodeRelativePath(path);
             if WideFileExists(path) then
             begin
-              OpenFileInTab(path, true, true);
+              OpenFileInTab(path, true, false);
               Result:= true;
               TabOpened:= true;
             end;
@@ -1592,7 +1592,7 @@ begin
               try
                 if NS.Link then
                 begin
-                  OpenFolderInTab(nil, NS.ShellLink.TargetIDList, true, true);
+                  OpenFolderInTab(nil, NS.ShellLink.TargetIDList, true, false);
                   Result:= true;
                   TabOpened:= true;
                 end;
@@ -1619,7 +1619,7 @@ begin
               end
               else
               begin
-                OpenFolderInTab(nil, path, true, true);
+                OpenFolderInTab(nil, path, true, false);
                 Result:= true;
                 TabOpened:= true;
               end;
@@ -1630,7 +1630,7 @@ begin
               path:= DecodeRelativePath(path);
               if DirExistsVET(path, false) then
               begin
-                OpenFolderInTab(nil, path, true, true);
+                OpenFolderInTab(nil, path, true, false);
                 Result:= true;
                 TabOpened:= true;
               end

@@ -192,7 +192,7 @@ function GlobalTextEditorSettings: TCETextEditorSettings;
 implementation
 
 uses
-  fCE_TextEditor, CE_LanguageEngine;
+  fCE_TextEditor, CE_LanguageEngine, VistaAltFixUnit2;
 
 var
   fGlobalTextEditorSettings: TCETextEditorSettings;
@@ -245,6 +245,8 @@ begin
   combo_gutter_border_style.Items.Strings[0]:= _('None');
   combo_gutter_border_style.Items.Strings[1]:= _('Middle');
   combo_gutter_border_style.Items.Strings[2]:= _('Right');
+
+  TVistaAltFix2.Create(Self);
 end;
 
 {-------------------------------------------------------------------------------
