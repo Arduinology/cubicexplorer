@@ -279,36 +279,6 @@ object CEActions: TCEActions
       ShortCut = 113
       OnExecute = ActionExecute
     end
-    object act_quick_none: TTntAction
-      Tag = 701
-      Category = 'Quickview'
-      Caption = 'None'
-      OnExecute = ActionExecute
-    end
-    object act_quick_auto: TTntAction
-      Tag = 702
-      Category = 'Quickview'
-      Caption = 'Auto'
-      OnExecute = ActionExecute
-    end
-    object act_quick_text: TTntAction
-      Tag = 703
-      Category = 'Quickview'
-      Caption = 'Text'
-      OnExecute = ActionExecute
-    end
-    object act_quick_image: TTntAction
-      Tag = 704
-      Category = 'Quickview'
-      Caption = 'Image'
-      OnExecute = ActionExecute
-    end
-    object act_quick_hex: TTntAction
-      Tag = 705
-      Category = 'Quickview'
-      Caption = 'Hex'
-      OnExecute = ActionExecute
-    end
     object act_help_home: TTntAction
       Tag = 501
       Category = 'Help'

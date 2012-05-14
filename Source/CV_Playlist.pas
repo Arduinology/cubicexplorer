@@ -173,8 +173,8 @@ begin
   Self.NodeDataSize:= SizeOf(TCVPlaylistData);
   // Default values
   Self.DragMode:= dmAutomatic;
-  self.DragType:= dtVCL;  
-  Self.TreeOptions.PaintOptions:= [toHideFocusRect,toShowButtons,toShowDropmark,toShowHorzGridLines,toThemeAware,toUseBlendedImages];
+  self.DragType:= dtVCL;
+  Self.TreeOptions.PaintOptions:= [toShowButtons,toShowDropmark,toShowHorzGridLines,toThemeAware,toUseBlendedImages];
   Self.TreeOptions.SelectionOptions:= [toFullRowSelect,toMultiSelect];
   Self.LineStyle:= lsSolid;
   Self.DrawSelectionMode:= smBlendedRectangle;
@@ -542,6 +542,10 @@ begin
       Self.EndUpdate;
     end;
     DoNavigationStateChange;
+  end
+  else if CharCode = VK_RETURN then
+  begin
+    ActiveItem:= Self.FocusedNode;
   end;
 end;
 

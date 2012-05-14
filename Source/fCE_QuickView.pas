@@ -37,8 +37,8 @@ uses
   TntForms,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Contnrs, ImgList, ComCtrls, ExtCtrls, Menus;
-  
+  Dialogs, Contnrs, ImgList, ComCtrls, ExtCtrls, Menus, VirtualTrees;
+
 const
   WM_QuickViewCtrl = WM_APP + 100;
 
@@ -98,6 +98,8 @@ type
     procedure HandleNavigationStateChange(Sender: TObject); virtual;
     procedure HandleIsSupported(Sender: TObject; AExtension: WideString; var
         AIsSupported: Boolean); virtual;
+    procedure HandleListFocusChanged(Sender: TBaseVirtualTree; Node: PVirtualNode;
+        Column: TColumnIndex); virtual;
     procedure HandlePreviewClick(Sender: TObject); virtual;
     procedure HandleSeekbarAfterChange(Sender: TObject); virtual;
     procedure HandleShowHintQuery(Sender: TObject; var AHint: String; var
@@ -187,6 +189,8 @@ type
     fMediaPlayer: TCEMediaPlayerType;
     fTextExtensions: WideString;
     fMediaExtensions: WideString;
+    fOpenOnFilelistSelect: Boolean;
+    fOpenOnPlaylistSelect: Boolean;
     fPlaylistVisibility: TCEPlaylistVisibility;
     fSlideshowInterval: Integer;
     fWMPExtensions: WideString;
@@ -222,6 +226,10 @@ type
         fRememberPanelLayout;
     property MediaExtensions: WideString read fMediaExtensions write
         SetMediaExtensions;
+    property OpenOnFilelistSelect: Boolean read fOpenOnFilelistSelect write
+        fOpenOnFilelistSelect;
+    property OpenOnPlaylistSelect: Boolean read fOpenOnPlaylistSelect write
+        fOpenOnPlaylistSelect;
     property PlaylistVisibility: TCEPlaylistVisibility read fPlaylistVisibility
         write fPlaylistVisibility;
     property SlideshowInterval: Integer read fSlideshowInterval write
@@ -276,6 +284,7 @@ begin
   Playlist.OnIsSupported:= HandleIsSupported;
   Playlist.OnActiveItemChange:= HandleActiveChange;
   Playlist.OnNavigationStateChange:= HandleNavigationStateChange;
+  Playlist.OnFocusChanged:= HandleListFocusChanged;
 
   // create Filelist
   Filelist:= TCVFilelist.Create(Self);
@@ -285,6 +294,7 @@ begin
   Filelist.OnIsSupported:= HandleIsSupported;
   Filelist.OnActiveItemChange:= HandleActiveChange;
   Filelist.OnNavigationStateChange:= HandleNavigationStateChange;
+  Filelist.OnFocusChanged:= HandleListFocusChanged;
 
   // create control items
   fControlItems:= TComponentList.Create(false);
@@ -1377,6 +1387,21 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Handle List FocusChanged
+-------------------------------------------------------------------------------}
+procedure TCEQuickView.HandleListFocusChanged(Sender: TBaseVirtualTree; Node:
+    PVirtualNode; Column: TColumnIndex);
+begin
+  if assigned(Node) then
+  begin
+    if (Sender = Filelist) and GlobalQuickViewSettings.OpenOnFilelistSelect then
+    Filelist.ActiveItem:= Node
+    else if (Sender = Playlist) and GlobalQuickViewSettings.OpenOnPlaylistSelect then
+    Playlist.ActiveItem:= Node;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   OpenTextFile
 -------------------------------------------------------------------------------}
 // TODO: temporary solution
@@ -1566,11 +1591,14 @@ begin
   fMediaExtensions:= 'avi,wmv,mp4,mpg,mpeg,ogg,ogm,mkv,dvr-ms,mp3,vob,wav,flv';
   fWMPExtensions:= fMediaExtensions;
   fDirectShowExtensions:= fMediaExtensions;
+  
   fMediaPlayer:= mptWMP;
   fLoopMode:= lmNoLooping;
   fSlideshowInterval:= 5000;
   fFilePreviewBackgroundColor:= clWindow;
   fFilePreviewTextColor:= clWindowText;
+  fOpenOnFilelistSelect:= false;
+  fOpenOnPlaylistSelect:= false;
 end;
 
 {-------------------------------------------------------------------------------

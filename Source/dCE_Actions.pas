@@ -128,11 +128,6 @@ type
     act_edit_invertsel: TTntAction;
     act_edit_properties: TTntAction;
     act_edit_rename: TTntAction;
-    act_quick_none: TTntAction;
-    act_quick_auto: TTntAction;
-    act_quick_text: TTntAction;
-    act_quick_image: TTntAction;
-    act_quick_hex: TTntAction;
     act_help_home: TTntAction;
     act_help_forum: TTntAction;
     act_help_about: TTntAction;

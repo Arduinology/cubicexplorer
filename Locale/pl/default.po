@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0\n"
+"Project-Id-Version: 1.02\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1494\n"
+"CE-POT-Version: 1544\n"
 "CE-Language: Polish\n"
 "Last-Translator: Seethi <sithis15@o2.pl>\n"
 
@@ -79,6 +79,9 @@ msgstr "Przed datą:"
 
 msgid "All"
 msgstr "Wszystko"
+
+msgid "All types"
+msgstr "Wszystkie rodzaje"
 
 msgid "Allow Move"
 msgstr "Zezwalaj na przemieszczanie"
@@ -167,6 +170,9 @@ msgstr "Automatycznie rozwiń drzewo"
 msgid "Auto fit tabs"
 msgstr "Dopasuj karty automatycznie"
 
+msgid "Auto indent"
+msgstr "Automatyczne wcięcie"
+
 msgid "Auto size cells in list view style."
 msgstr "Automatycznie dostosuj rozmiar kolumn w widoku listy"
 
@@ -175,6 +181,9 @@ msgstr "Automatycznie"
 
 msgid "Back"
 msgstr "Wstecz"
+
+msgid "Background Color:"
+msgstr "Kolor tła:"
 
 msgid "Backups"
 msgstr "Kopie zapasowe"
@@ -188,11 +197,47 @@ msgstr "Przed datą:"
 msgid "Before Time:"
 msgstr "Po dacie:"
 
+msgid "Block"
+msgstr "Blok"
+
+msgid "Bookmark 1"
+msgstr "Zakładka 1"
+
+msgid "Bookmark 2"
+msgstr "Zakładka 2"
+
+msgid "Bookmark 3"
+msgstr "Zakładka 3"
+
+msgid "Bookmark 4"
+msgstr "Zakładka 4"
+
+msgid "Bookmark 5"
+msgstr "Zakładka 5"
+
+msgid "Bookmark 6"
+msgstr "Zakładka 6"
+
+msgid "Bookmark 7"
+msgstr "Zakładka 7"
+
+msgid "Bookmark 8"
+msgstr "Zakładka 8"
+
+msgid "Bookmark 9"
+msgstr "Zakładka 9"
+
 msgid "Bookmarks"
 msgstr "Zakładki"
 
 msgid "Bookmarks Panel Settings"
 msgstr "Ustawienia panelu zakładek"
+
+msgid "Border"
+msgstr "Krawędź"
+
+msgid "Border Style:"
+msgstr "Styl krawędzi"
 
 msgid "Borders"
 msgstr "Ramki"
@@ -201,7 +246,10 @@ msgid "Bottom"
 msgstr "Dół"
 
 msgid "Breadcrumb Navigation"
-msgstr "Nawigacja "Breadcrumb""
+msgstr "Nawigacja \"Breadcrumb\""
+
+msgid "Browse To"
+msgstr "Otwórz w obszarze roboczym"
 
 msgid "Browse..."
 msgstr "Przeglądaj..."
@@ -215,14 +263,23 @@ msgstr "Przyciski"
 msgid "Bytes"
 msgstr "Bajtów"
 
+msgid "CSS"
+msgstr "CSS"
+
 msgid "Cancel"
 msgstr "Anuluj"
 
 msgid "Cancelled"
 msgstr "Anulowano"
 
+msgid "Caret"
+msgstr "Kursor"
+
 msgid "Case Sensitive"
 msgstr "Uwzględniaj wielkość liter"
+
+msgid "Case sensitive"
+msgstr "Rozróżniaj rozmiar liter"
 
 msgid "Case sensitivity"
 msgstr "Uwzględnij wielkość liter"
@@ -287,6 +344,9 @@ msgstr "Zamykaj karty podwójnym kliknięciem"
 msgid "Close to tray"
 msgstr "Zamknij do zasobnika"
 
+msgid "Color:"
+msgstr "Kolor:"
+
 msgid "Column Settings"
 msgstr "Ustawienia kolumn"
 
@@ -311,11 +371,20 @@ msgstr "Zawartość"
 msgid "Continue from last time"
 msgstr "Odtwórz ostatnią sesję"
 
+msgid "Controls"
+msgstr "Sterowanie"
+
+msgid "Convert Tabs to Spaces"
+msgstr "Zamień tabulacje na spacje"
+
 msgid "Copy"
 msgstr "Kopiuj"
 
 msgid "Copy Path"
 msgstr "Skopiuj ścieżkę"
+
+msgid "Copy as HTML"
+msgstr "Kopiuj jako HTML"
 
 msgid "Copy of active tab"
 msgstr "Kopia aktywnej karty"
@@ -334,6 +403,9 @@ msgstr "Nowe tłumaczenie"
 
 msgid "Created"
 msgstr "Utworzony"
+
+msgid "Ctrl activates links"
+msgstr "Ctlr aktywuje linki"
 
 msgid "Ctrl+F4"
 msgstr "Ctrl+F4"
@@ -361,6 +433,9 @@ msgstr "Dostosuj..."
 
 msgid "Cut"
 msgstr "Wytnij"
+
+msgid "DIV wrapper class"
+msgstr "Zwijanie DIV"
 
 msgid "Daily"
 msgstr "Najnowsza"
@@ -401,6 +476,9 @@ msgstr "Usuwanie podwójnych zakładek!"
 msgid "Desktop"
 msgstr "Pulpit"
 
+msgid "Detach to Window"
+msgstr "Odłącz okno"
+
 msgid "Details"
 msgstr "Szczegóły"
 
@@ -436,6 +514,9 @@ msgstr "Czy nadpisać istniejący stos?"
 
 msgid "Do you want to reset all hotkeys for this action?"
 msgstr "Czy chcesz przywrócić wszystkie klawisze skrótów dla tej akcji?"
+
+msgid "Do you want to save changes before closing?"
+msgstr "Czy chcesz zapisać zmiany przed wyjściem?"
 
 msgid "Do you want to update?"
 msgstr "Czy chcesz aktualizować"
@@ -488,6 +569,9 @@ msgstr "Dynamiczny separator"
 msgid "Earlier this year"
 msgstr "Wcześniej w tym roku"
 
+msgid "Edge Column:"
+msgstr "W kolumnie:"
+
 msgid "Edit"
 msgstr "Edycja"
 
@@ -496,6 +580,9 @@ msgstr "Edycja sesji"
 
 msgid "Edit session properties."
 msgstr "Edycja właściwości sesji"
+
+msgid "Editor Options"
+msgstr "Opcje Edytora"
 
 msgid "Editor Options..."
 msgstr "Opcje Edytora"
@@ -515,8 +602,20 @@ msgstr "Włącz"
 msgid "Enable Auto Save"
 msgstr "Włącz zapisywanie automatyczne"
 
+msgid "Enable Playback"
+msgstr "Włącz odtwarzanie"
+
+msgid "End Color:"
+msgstr "Kolor końcowy:"
+
 msgid "English (default)"
 msgstr "Angielski (domyślny)"
+
+msgid "Enhance End Key"
+msgstr "Ulepsz przycisk \"End\""
+
+msgid "Enhance Home Key"
+msgstr "Ulepsz przycisk \"Home\""
 
 msgid "Enter each file mask on a separate line."
 msgstr "Wpisz maski plików w oddzielnych liniach"
@@ -542,6 +641,21 @@ msgstr "Wyjdź z programu po zamknięciu ostatniej karty"
 msgid "Explorer"
 msgstr "Eksplorator"
 
+msgid "Export"
+msgstr "Eksportowanie"
+
+msgid "Export as HTML..."
+msgstr "Eksportuj jako HTML"
+
+msgid "Extra Lines:"
+msgstr "Dodatkowe linie:"
+
+msgid "Failed to open file!"
+msgstr "Nie udało się otworzyć pliku!"
+
+msgid "Failed to save file!"
+msgstr "Nie udało się zapisać pliku!"
+
 msgid "File"
 msgstr "Plik"
 
@@ -560,6 +674,9 @@ msgstr "Operacje na plikach mogą wciąż trwać"
 msgid "File size format:"
 msgstr "Format rozmiaru pliku:"
 
+msgid "Filelist"
+msgstr "Lista plików"
+
 msgid "Files to update"
 msgstr "Pliki do aktualizacji"
 
@@ -575,11 +692,17 @@ msgstr "Przezrocze"
 msgid "Filters"
 msgstr "Filtry"
 
+msgid "Find"
+msgstr "Szukaj"
+
 msgid "Find Next"
 msgstr "Znajdź następny"
 
 msgid "Find Previous"
 msgstr "Znajdź poprzedni"
+
+msgid "Find:"
+msgstr "Szukaj:"
 
 msgid "Finished"
 msgstr "Zakończono"
@@ -608,14 +731,23 @@ msgstr "Foldery"
 msgid "Folders Panel Settings"
 msgstr "Ustawienia panelu folderów"
 
+msgid "Font"
+msgstr "Czcionka"
+
 msgid "For testing"
 msgstr "Testowa"
 
 msgid "Format"
 msgstr "Format"
 
+msgid "Format not supported"
+msgstr "Nieobsługiwany format"
+
 msgid "Forward"
 msgstr "Naprzód"
+
+msgid "Found"
+msgstr "Znaleziono"
 
 msgid "Four months ago"
 msgstr "Cztery miesiące temu"
@@ -644,11 +776,35 @@ msgstr "Globalne"
 msgid "Global Hotkey Settings"
 msgstr "Ustawianie globalnych skrótów klawiszowych"
 
+msgid "Gradient"
+msgstr "Gradient"
+
 msgid "Group"
 msgstr "Grupa"
 
 msgid "Group By"
 msgstr "Grupuj według"
+
+msgid "Group undo"
+msgstr "Grupowe cofanie"
+
+msgid "Gutter"
+msgstr "Margines"
+
+msgid "HTML"
+msgstr "HTML"
+
+msgid "HTML Documents"
+msgstr "Dokumenty HTML"
+
+msgid "HTML with CSS, JS or PHP"
+msgstr "HTML z CSS, JS lub PHP"
+
+msgid "Half Block"
+msgstr "Pół bloku"
+
+msgid "Half page scroll"
+msgstr "Przewijaj po pół strony"
 
 msgid "Help"
 msgstr "Pomoc"
@@ -670,6 +826,9 @@ msgstr "Wyróżnianie składni"
 
 msgid "History"
 msgstr "Historia"
+
+msgid "Horizontal Line"
+msgstr "Pozioma linia"
 
 msgid "Hotkey Settings"
 msgstr "Ustawienia skrótów klawiszowych"
@@ -701,6 +860,9 @@ msgstr "Pasek statusu"
 msgid "Insert"
 msgstr "Wstaw"
 
+msgid "Insert Caret:"
+msgstr "Kursor wprowadzania"
+
 msgid "Invalid update!"
 msgstr "Niewłaściwa aktualizacja"
 
@@ -709,6 +871,9 @@ msgstr "Odwróć zaznaczenie"
 
 msgid "Item(s)"
 msgstr "Element(y)"
+
+msgid "JavaScript"
+msgstr "JavaScript"
 
 msgid "KB"
 msgstr "KB"
@@ -742,6 +907,12 @@ msgstr "Wyglądy"
 
 msgid "Left"
 msgstr "Lewy"
+
+msgid "Length: %d Lines: %d"
+msgstr "Znaki: %d Wersy: %d"
+
+msgid "Line: %d Char: %d Sel: %d"
+msgstr "Wers: %d Znak: %d Zazn: %d"
 
 msgid "Link Name"
 msgstr "Nazwa skrótu"
@@ -785,11 +956,23 @@ msgstr "Zamroź paski narzędzi"
 msgid "Logoff"
 msgstr "Wyloguj"
 
+msgid "Loop File"
+msgstr "Powtarzaj plik"
+
+msgid "Loop Filelist"
+msgstr "Powtarzaj listę plików"
+
+msgid "Loop Playlist"
+msgstr "Powtarzaj Playlistę"
+
 msgid "MB"
 msgstr "MB"
 
 msgid "Main Menu"
 msgstr "Menu główne"
+
+msgid "Make Visible"
+msgstr "Pokaż"
 
 msgid "Manage Sessions"
 msgstr "Zarządzaj sesjami"
@@ -809,6 +992,9 @@ msgstr "Średnie"
 msgid "Menu"
 msgstr "Menu"
 
+msgid "Middle"
+msgstr "Środek"
+
 msgid "Min Level:"
 msgstr "Min poziom:"
 
@@ -823,6 +1009,9 @@ msgstr "Zmodyfikuj skrót klawiszowy"
 
 msgid "More..."
 msgstr "Więcej..."
+
+msgid "Mute"
+msgstr "Wycisz"
 
 msgid "Name"
 msgstr "Nazwa"
@@ -866,8 +1055,17 @@ msgstr "Nowy plik tekstowy"
 msgid "New version (%s) is available. Do you want to update now?"
 msgstr "Nowa wersja (%s) jest dostępna. Aktualizować teraz? "
 
+msgid "Next"
+msgstr "Następny"
+
+msgid "Next File"
+msgstr "Następny plik"
+
 msgid "No Extension"
 msgstr "Bez rozszerzenia"
+
+msgid "No Looping"
+msgstr "Bez powtarzania"
 
 msgid "No Selection"
 msgstr "Brak zaznaczenia"
@@ -880,6 +1078,9 @@ msgstr "Brak nowych aktualizacji"
 
 msgid "None"
 msgstr "Brak"
+
+msgid "Not found"
+msgstr "Nie znaleziono"
 
 msgid "Notify only about following update types"
 msgstr "Powiadamiaj mnie tylko o następujących rodzajach aktualizacji"
@@ -910,6 +1111,9 @@ msgstr "Otwórz folder zawierający"
 
 msgid "Open default tab"
 msgstr "Otwórz domyślną kartę"
+
+msgid "Open in Workspace"
+msgstr "Otwórz w obszarze roboczym"
 
 msgid "Open in current tab"
 msgstr "Otwórz w obecnej karcie"
@@ -950,11 +1154,17 @@ msgstr "Oryginalny"
 msgid "Override"
 msgstr "Zastąp"
 
+msgid "Override Caret:"
+msgstr "Kursor zamiany:"
+
 msgid "Override existing session?"
 msgstr "Nadpisać istniejącą sesję?"
 
 msgid "Override existing stack?"
 msgstr "Nadpisać istniejący stos?"
+
+msgid "PHP"
+msgstr "PHP"
 
 msgid "Panels"
 msgstr "Panele"
@@ -974,11 +1184,23 @@ msgstr "Ścieżka"
 msgid "Pause"
 msgstr "Pauza"
 
+msgid "Play"
+msgstr "Odtwarzanie"
+
+msgid "Playlist"
+msgstr "Playlista"
+
 msgid "Please choose different hotkey."
 msgstr "Wybierz inny skrót klawiszowy."
 
 msgid "Port"
 msgstr "Port"
+
+msgid "Previous"
+msgstr "Poprzedni"
+
+msgid "Previous File"
+msgstr "Poprzedni plik"
 
 msgid "Properties"
 msgstr "Właściwości"
@@ -1040,6 +1262,15 @@ msgstr "Względny"
 msgid "Reload"
 msgstr "Przeładuj"
 
+msgid "Reload failed!"
+msgstr "Przeładowanie nie powiodło się!"
+
+msgid "Reload from Disk"
+msgstr "Przeładuj z dysku"
+
+msgid "Reloaded from disk"
+msgstr "Przeładowano z dysku"
+
 msgid "Remember"
 msgstr "Zapamiętaj"
 
@@ -1057,6 +1288,12 @@ msgstr "Zamień"
 
 msgid "Replace All"
 msgstr "Zamień wszystko"
+
+msgid "Replace:"
+msgstr "Zmień:"
+
+msgid "Replaced %d texts."
+msgstr "Zamieniono %d elementów."
 
 msgid "Reset hotkeys?"
 msgstr "Przywócić domyślne skróty klawiszowe?"
@@ -1091,6 +1328,12 @@ msgstr "Wykorzystaj już otwarte karty"
 msgid "Right"
 msgstr "Prawy"
 
+msgid "Right Edge"
+msgstr "Prawa krawędź"
+
+msgid "Right mouse moves cursor"
+msgstr "Prawy przycisk myszy zmienia położenie kursora"
+
 msgid "Save"
 msgstr "Zapisz"
 
@@ -1108,6 +1351,9 @@ msgstr "Zapisz aktywną kartę z nową nazwą."
 
 msgid "Save active session."
 msgstr "Zapisz aktywną sesję."
+
+msgid "Save before closing?"
+msgstr "Zapisać przed wyjściem?"
 
 msgid "Save changes before closing?"
 msgstr "Zapisać zmiany przed zamknięciem?"
@@ -1127,11 +1373,20 @@ msgstr "Zapisz..."
 msgid "Save/Load Settings"
 msgstr "Zapisz/Wczytaj Ustawienia"
 
+msgid "Saved to \"%s\""
+msgstr "Zapisano w \"%s\""
+
 msgid "Scroll Left"
 msgstr "Przewiń w lewo"
 
 msgid "Scroll Right"
 msgstr "Przewiń w prawo"
+
+msgid "Scroll past end of file"
+msgstr "Przewijaj do końca pliku"
+
+msgid "Scroll past end of line"
+msgstr "Przewijaj do końca linii"
 
 msgid "Search"
 msgstr "Znajdź"
@@ -1153,6 +1408,9 @@ msgstr "Szukaj w katalogu"
 
 msgid "Searching from"
 msgstr "Szukanie od"
+
+msgid "Seekbar"
+msgstr "Pasek stanu"
 
 msgid "Select All"
 msgstr "Zaznacz wszystko"
@@ -1179,7 +1437,7 @@ msgid "Selected"
 msgstr "Wybrane"
 
 msgid "Selected text only"
-msgstr "Tylko wybrany tekst"
+msgstr "Tylko najbliższy"
 
 msgid "Separator"
 msgstr "Separator"
@@ -1241,6 +1499,9 @@ msgstr "Pokaż ścieżkę w pasku tytułu"
 msgid "Show Session Manager"
 msgstr "Pokaż menedżer sesji"
 
+msgid "Show Special Characters"
+msgstr "Pokazuj znaki specjalne"
+
 msgid "Show Statusbar"
 msgstr "Pokaż pasek stanu"
 
@@ -1250,8 +1511,20 @@ msgstr "Pokaż pasek narzędzi"
 msgid "Show in Groups"
 msgstr "Pokaż grupy"
 
+msgid "Show leading zeros"
+msgstr "Pokazuj poprzedzające zera"
+
+msgid "Show line numbers"
+msgstr "Pokazuj numery linii"
+
 msgid "Show more tabs"
 msgstr "Pokaż więcej kart"
+
+msgid "Show scroll hint"
+msgstr "Pokazuj numery stron przy przewijaniu"
+
+msgid "Show special characters"
+msgstr "Pokazuj znaki specjalne"
 
 msgid "Show/Hide"
 msgstr "Pokaż/Ukryj"
@@ -1286,8 +1559,17 @@ msgstr "Małe"
 msgid "Small Icons"
 msgstr "Małe ikony"
 
+msgid "Smart tab delete"
+msgstr "Inteligentne usuwanie tabulacji"
+
+msgid "Smart tabs"
+msgstr "Inteligentna tabulacja"
+
 msgid "Snapshot"
 msgstr "Snapshot"
+
+msgid "Spacing"
+msgstr "Odstępy"
 
 msgid "Stack"
 msgstr "Stos"
@@ -1304,6 +1586,12 @@ msgstr "Stosy"
 msgid "Start"
 msgstr "Start"
 
+msgid "Start Color:"
+msgstr "Kolor początkowy"
+
+msgid "Start at zero"
+msgstr "Numerowanie od zera"
+
 msgid "Start minimized to tray"
 msgstr "Uruchom zminimalizowy do zasobnika"
 
@@ -1312,6 +1600,9 @@ msgstr "Uruchamianie CubicExplorer..."
 
 msgid "Status Bar"
 msgstr "Pasek stanu"
+
+msgid "Steps"
+msgstr "Stopnie"
 
 msgid "Stop"
 msgstr "Zatrzymaj"
@@ -1352,11 +1643,20 @@ msgstr "System"
 msgid "TB"
 msgstr "TB"
 
+msgid "Tab Width:"
+msgstr "Szerokość tabulacji"
+
+msgid "Tab indent"
+msgstr "Wcięcie tabulacji"
+
 msgid "Tabs"
 msgstr "Karty"
 
 msgid "Tabs Settings"
 msgstr "Ustawienia kart"
+
+msgid "Tabs to spaces"
+msgstr "Tabulacja jako seria spacji"
 
 msgid "Target"
 msgstr "Cel"
@@ -1378,6 +1678,9 @@ msgstr "Filtrowanie tekstu"
 
 msgid "Text only"
 msgstr "Tylko tekst"
+
+msgid "The text in %s has changed."
+msgstr "Tekst w %s został zmieniony."
 
 msgid "Theme"
 msgstr "Temat"
@@ -1433,6 +1736,9 @@ msgstr "Wersja tłumaczenia"
 msgid "Translator's Email"
 msgstr "E-mail tłumacza"
 
+msgid "Translator's Email (optional)"
+msgstr "Email tłumacza (opcjonalnie)"
+
 msgid "Translator's Name"
 msgstr "Przetłumaczył:"
 
@@ -1441,6 +1747,9 @@ msgstr "Przezroczystość"
 
 msgid "Tray Icon"
 msgstr "Ikona w zasobniku"
+
+msgid "Trim trailing spaces"
+msgstr "Grupuj serie spacji"
 
 msgid "Two months ago"
 msgstr "Dwa miesiące temu"
@@ -1452,7 +1761,7 @@ msgid "Type"
 msgstr "Typ"
 
 msgid "Undo"
-msgstr "Przywróć"
+msgstr "Cofnij"
 
 msgid "Undo Delete"
 msgstr "Cofnij kasowanie"
@@ -1493,8 +1802,20 @@ msgstr "Ustawienia aktualizacji"
 msgid "Use Options->Updates to change them."
 msgstr "Wejdź w Narzędzia -> Opcje -> Aktualizacje aby je zmienić."
 
+msgid "Use custom font"
+msgstr "Użyj wybranej czcionki"
+
+msgid "Use inline CSS on copy"
+msgstr "Użyj wbudowanego CSS przy kopiowaniu"
+
+msgid "Use inline CSS on export"
+msgstr "Użyj wbudowanego CSS przy eksportowaniu"
+
+msgid "Use per folder settings"
+msgstr "Użyj oddzielnych ustawień dla folderów"
+
 msgid "Use strict filtering (wildcards are ? and *)"
-msgstr "Użyj ścisłego filtrowania (symbole to "?" i "*")"
+msgstr "Użyj ścisłego filtrowania (symbole to \"?\" i \"*\")"
 
 msgid "Use system settings"
 msgstr "Użyj ustawień systemowych"
@@ -1517,11 +1838,20 @@ msgstr "Wersja:"
 msgid "Versions"
 msgstr "Wersje"
 
+msgid "Vertical Line"
+msgstr "Pionowa linia"
+
 msgid "View"
 msgstr "Widok"
 
 msgid "View Style"
 msgstr "Widoki"
+
+msgid "Visible"
+msgstr "Widoczny"
+
+msgid "Volume"
+msgstr "Głośność"
 
 msgid "WARNING! You are about to restore %d items."
 msgstr "Uwaga: Przywracasz %d plików."
@@ -1558,6 +1888,15 @@ msgstr "Zawijaj wiersze"
 
 msgid "Word or Phrase in File Name"
 msgstr "Słowo lub fraza w nazwie pliku"
+
+msgid "Workspace"
+msgstr "Obszar roboczy"
+
+msgid "Wrap around"
+msgstr "Automatyczny powrtót do początku"
+
+msgid "Wrapped around"
+msgstr "Od początku"
 
 msgid "You have no update type notifications selected."
 msgstr "Nie masz wybranych typów aktualizacji"

@@ -7,6 +7,11 @@
 ---
 - Fixed "Select first item" issue with Per folder settings.
 - Fixed tab closing issues.
+* Text editor is now focused when file is opened.
+---
+* Updated Polish translation (thanks to Seethi).
+* Enter now opens file in QuickView's file/playlist.
++ Added OpenOnFilelistSelect and OpenOnPlaylistSelect advanced options to QuickView.
 
 13.5.2012
 * Shift+Enter now searches backward in Text Editor.
