@@ -400,13 +400,14 @@ end;
 -------------------------------------------------------------------------------}
 function TCESpTabItem.CloseTab: Boolean;
 var
-  b: Boolean;
+  closeAndFree: Boolean;
   tabSet: TCESpTabSet;
   item: TCEClosedTabHistoryItem;
 begin
   if Visible then
   begin
     Result:= True;
+    closeAndFree:= True;
     item:= nil;
     
     // Add Closed Tab History Item
@@ -416,7 +417,7 @@ begin
       item:= tabset.AddToClosedTabHistory(Self);
     end;
 
-    DoTabClosing(Result, b);
+    DoTabClosing(Result, closeAndFree);
     if Result then
     begin
       // Select previously selected tab
@@ -430,6 +431,9 @@ begin
 
       Visible:= False;
       DoTabClose;
+      tabSet.MakeSureTabIsSelected;
+      if closeAndFree then
+      Free;
     end
     else // Closed Tab History Item (tab could not close)
     begin
@@ -685,11 +689,12 @@ begin
   begin
     Result:= ATab.CloseTab;
 
-    if Result or Force then
+    if not Result and Force then
     ATab.Free;
   end
   else
   Result:= false;
+  MakeSureTabIsSelected;
 end;
 
 {-------------------------------------------------------------------------------
@@ -734,6 +739,7 @@ begin
   end
   else
   Result:= false;
+  MakeSureTabIsSelected;
 end;
 
 {-------------------------------------------------------------------------------
@@ -778,6 +784,7 @@ begin
   end
   else
   Result:= false;
+  MakeSureTabIsSelected;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1192,8 +1199,7 @@ begin
       tab:= GetTabAt(X, Y);
       if tab = fClosingTab then
       begin
-        if tab.CloseTab then
-        tab.Free;
+        tab.CloseTab;
       end;
     end;
     fClosingTab:= nil;
@@ -1532,8 +1538,7 @@ begin
       TabIV := TCESpTabItemViewer(IV);
       if (TabIV.TabCloseButtonState = sknsHotTrack) and TabIV.IsTabCloseButtonVisible then
       begin
-        if TCESpTabItem(TabIV.Item).CloseTab then
-        TabIV.Item.Free;
+        TCESpTabItem(TabIV.Item).CloseTab;
       end
       else
       begin

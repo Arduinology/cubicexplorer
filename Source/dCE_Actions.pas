@@ -1022,6 +1022,8 @@ begin
 
            quickview:= TCEQuickViewPage(MainForm.TabSet.AddTab(TCEQuickViewPage, MainForm.TabSet.Settings.NewTabSelect).Page);
            quickview.QuickView.OpenTextFile(ws);
+           if quickview.Visible then
+           quickview.QuickView.SetFocusToMediaPlayer;
          end;
     // Open Search
     651: begin
@@ -1315,12 +1317,16 @@ begin
       Result:= MainForm.TabSet.AddTab(TCEQuickViewPage, SelectTab);
       quickview:= TCEQuickViewPage(Result.Page);
       quickview.OpenFile(FilePath);
+      if quickview.Visible then
+      quickview.QuickView.SetFocusToMediaPlayer;
     end
     else
     begin
       Result:= MainForm.TabSet.AddTab(TCEQuickViewPage, SelectTab);
       quickview:= TCEQuickViewPage(Result.Page);
       quickview.QuickView.OpenTextFile(FilePath);
+      if quickview.Visible then
+      quickview.QuickView.SetFocusToMediaPlayer;
     end;
 
     if ActivateApp then

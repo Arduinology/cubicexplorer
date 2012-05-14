@@ -130,6 +130,7 @@ type
     function CanClose: Boolean; virtual;
     function GetCurrentTitle: WideString; virtual;
     procedure OpenTextFile(AFilePath: WideString); virtual;
+    procedure SetFocusToMediaPlayer;
     property Active: Boolean read fActive write SetActive;
     property ActiveFilePath: WideString read fActiveFilePath write
         SetActiveFilePath;
@@ -750,6 +751,12 @@ begin
 
     if assigned(fMediaPlayer) then
     fMediaPlayer.SetFocus;
+  end
+  else
+  begin
+    OpenTextFile(fActiveFilePath);
+    if assigned(fMediaPlayer) then
+    fMediaPlayer.SetFocus;    
   end;
 end;
 
@@ -1390,6 +1397,15 @@ begin
 
     UpdateControlStates(Self);
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  SetFocus To MediaPlayer
+-------------------------------------------------------------------------------}
+procedure TCEQuickView.SetFocusToMediaPlayer;
+begin
+  if assigned(fMediaPlayer) then
+  fMediaPlayer.SetFocus;
 end;
 
 {-------------------------------------------------------------------------------

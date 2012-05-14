@@ -1539,7 +1539,6 @@ begin
                 begin
                   if item.CloseTab then
                   begin
-                    item.Free;
                     i2:= i2 - 1;
                   end;
                 end;

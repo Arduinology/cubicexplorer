@@ -215,7 +215,7 @@ object CETextEditor: TCETextEditor
       Wrapping = twPathEllipsis
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 529
+      CustomWidth = 0
     end
     object sep_modified: TSpTBXSeparatorItem
     end

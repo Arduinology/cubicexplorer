@@ -188,6 +188,7 @@ procedure TCEQuickViewPage.SelectPage;
 begin
   GlobalPathCtrl.ActivePage:= Self;
   GlobalPathCtrl.GlobalPathCaption:= ActiveFile;
+  QuickView.SetFocusToMediaPlayer;
 end;
 
 {*------------------------------------------------------------------------------

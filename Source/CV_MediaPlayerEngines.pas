@@ -1570,7 +1570,7 @@ procedure TCVTextEngine.SetFocus;
 begin
   if assigned(fEditor) then
   begin
-    Windows.SetFocus(fEditor.Handle);
+    fEditor.SynMemo.SetFocus;
   end;
 end;
 

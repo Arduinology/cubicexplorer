@@ -4,6 +4,9 @@
 - Fixed bug that opens tab when Alt+Left dragging file/folder.
 * Double click on tray now works correctly.
 + Added advanced options HideComputerCrumb, HideDesktopCrumb and MaxCrumbSize for Breadcrumb.
+---
+- Fixed "Select first item" issue with Per folder settings.
+- Fixed tab closing issues.
 
 13.5.2012
 * Shift+Enter now searches backward in Text Editor.

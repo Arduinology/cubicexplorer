@@ -696,6 +696,8 @@ procedure TCEFileView.DoEnumFinished;
 var
   item: TExplorerItem;
 begin
+  inherited;
+
   if (View = elsList) and AutosizeListViewStyle then
   begin
     if fCellWidth > 0 then
@@ -741,7 +743,7 @@ begin
   end;
 
   // Select first item
-  if AutoSelectFirstItem and (Selection.Count = 0) then
+  if AutoSelectFirstItem and (eloThreadedEnumeration in Options) and (Selection.Count = 0) then
   begin
     item:= TExplorerItem(Self.Groups.FirstItemInRect(Self.ClientInViewportCoords));
     if assigned(item) then
@@ -751,8 +753,6 @@ begin
       item.Selected:= true;
     end;
   end;
-  
-  inherited;
 end;
 
 {-------------------------------------------------------------------------------
@@ -875,8 +875,11 @@ end;
   Do Root Change
 -------------------------------------------------------------------------------}
 procedure TCEFileView.DoRootChange;
+var
+  item: TExplorerItem;
 begin
   inherited;
+
   // TODO: Redesign history feature
   if fHistoryUpdateCount = 0 then
   begin
@@ -892,6 +895,18 @@ begin
   // per folder settings
   if PerFolderSettings and Active then
   LoadFolderFromPropertyBag(true);
+
+  // Select first item
+  if AutoSelectFirstItem and not (eloThreadedEnumeration in Options) and (Selection.Count = 0) then
+  begin
+    item:= TExplorerItem(Self.Groups.FirstItemInRect(Self.ClientInViewportCoords));
+    if assigned(item) then
+    begin
+      item.MakeVisible(emvTop);
+      item.Focused:= true;
+      item.Selected:= true;
+    end;
+  end;
 end;
 
 {-------------------------------------------------------------------------------
