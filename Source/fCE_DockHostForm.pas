@@ -105,7 +105,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEDockHostForm.FormDestroy(Sender: TObject);
 begin
-  DockServer.Free;
+  //DockServer.Free;
 end;
 
 end.

@@ -227,6 +227,8 @@ type
     procedure SetThreadedImages(const Value: Boolean);
     procedure SetUse_JumboIcons_in_InfoBar(const Value: Boolean);
   protected
+    fExtensionColors: WideString;
+    fExtensionColorsEnabled: Boolean;
     fPerFolderSettings: Boolean;
     fShowCaptionsInFilmstrip: Boolean;
     fShowCaptionsInThumbnails: Boolean;
@@ -235,6 +237,8 @@ type
     fStorageIsLoaded: Boolean;
     fUpdateCount: Integer;
     fViewStyle: TEasyListStyle;
+    procedure SetExtensionColors(const Value: WideString);
+    procedure SetExtensionColorsEnabled(const Value: Boolean);
     procedure SetPerFolderSettings(const Value: Boolean);
     procedure SetShowCaptionsInFilmstrip(const Value: Boolean);
     procedure SetShowCaptionsInThumbnails(const Value: Boolean);
@@ -271,6 +275,10 @@ type
     property CheckBoxSelection: Boolean read fCheckBoxSelection write
         SetCheckBoxSelection;
     property Columns: TCEColumnSettings read fColumns write fColumns;
+    property ExtensionColors: WideString read fExtensionColors write
+        SetExtensionColors;
+    property ExtensionColorsEnabled: Boolean read fExtensionColorsEnabled write
+        SetExtensionColorsEnabled;
     property FileSizeFormat: TVirtualFileSizeFormat read fFileSizeFormat write
         SetFileSizeFormat;
     property Filmstrip: TCEFilmstripSettings read fFilmstrip write fFilmstrip;
@@ -329,7 +337,7 @@ implementation
 
 uses
   dCE_Actions, CE_VistaFuncs, fCE_FolderPanel, CE_CommonObjects, CE_SpTabBar,
-  GR32_Math, Math, Main;
+  GR32_Math, Math, Main, ccClasses, ccStrings;
 
 {*------------------------------------------------------------------------------
   Get's called when TCEFileViewPage is created.
@@ -1218,6 +1226,40 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFileViewSettings.AssignSettingsTo(ATo: TComponent;
     AssignColumnSettings: Boolean = true);
+
+  procedure AssignExtensionColors(AFileView: TCEFileView; const AColors: WideString);
+  var
+    i: Integer;
+    list: TCCStringList;
+    value, ws: WideString;
+    color: TColor;
+    isBold, isItalic, isUnderline, isEnabled: Boolean;
+  begin
+    AFileView.ExtensionColorCodeList.Clear;
+    list:= TCCStringList.Create;
+    try
+      list.Delimiter:= '|';
+      list.DelimitedText:= AColors;
+      for i:= 0 to list.Count - 1 do
+      begin
+        ws:= list.Strings[i];
+        value:= WideGetNextItem(ws, ',');
+        if value <> '' then
+        begin
+          color:= StrToIntDef(WideGetNextItem(ws, ','), AFileView.Font.Color);
+          AFileView.ExtensionColorCodeList.Add(value, // extension
+            color, // color
+            StrToBoolDef(WideGetNextItem(ws, ','), false),  // bold
+            StrToBoolDef(WideGetNextItem(ws, ','), false),  // italic
+            StrToBoolDef(WideGetNextItem(ws, ','), false),  // underline
+            StrToBoolDef(WideGetNextItem(ws, ','), true)); // enabled
+        end;
+      end;
+    finally
+      list.Free;
+    end;
+  end;
+
 var
   options: TVirtualEasyListviewOptions;
   fileViewPage: TCEFileViewPage;
@@ -1280,6 +1322,9 @@ begin
       fileView.FullRowDblClick:= fFullRowDblClick;
       fileView.SelectPasted:= fSelectPasted;
       fileView.SortAfterPaste:= fSortAfterPaste;
+      fileView.ExtensionColorCode:= fExtensionColorsEnabled;
+      if fExtensionColorsEnabled then
+      AssignExtensionColors(fileView, fExtensionColors);
 
       // Options
       options:= fileView.Options;
@@ -1712,6 +1757,24 @@ end;
 procedure TCEFileViewSettings.SetCheckBoxSelection(const Value: Boolean);
 begin
   fCheckBoxSelection:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set ExtensionColors
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetExtensionColors(const Value: WideString);
+begin
+  fExtensionColors:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set ExtensionColorsEnabled
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetExtensionColorsEnabled(const Value: Boolean);
+begin
+  fExtensionColorsEnabled:= Value;
   SendChanges;
 end;
 

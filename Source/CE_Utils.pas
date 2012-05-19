@@ -576,8 +576,59 @@ procedure ReplaceSystemVariablePath(var Path: WideString);
 
   function ReplacePath(Path, Variable, VarPath: WideString): WideString;
   begin
-    Result := Tnt_WideStringReplace(Path, Variable, VarPath, [rfReplaceAll, rfIgnoreCase])
+    Result:= Tnt_WideStringReplace(Path, Variable, VarPath, [rfReplaceAll, rfIgnoreCase])
   end;
+
+  function CEExpandEnviromentStringForUser(APath: WideString): WideString;
+  var
+    EnviromentStringA, ResultA: AnsiString;
+    Token: THandle;
+  begin
+    if Assigned(ExpandEnvironmentStringsForUserW_MP) then
+    begin
+      if OpenProcessToken(GetCurrentProcess, TOKEN_IMPERSONATE or TOKEN_QUERY, Token) then
+      begin
+        SetLength(Result, 1024);
+        ExpandEnvironmentStringsForUserW_MP(Token, PWideChar(APath), PWideChar(@Result[1]), 1024);
+        SetLength(Result, lstrlenW(PWideChar( Result)));
+        CloseHandle(Token)
+      end
+    end
+    else
+    begin
+      if Assigned(ExpandEnvironmentStringsForUserA_MP) then
+      begin
+        if OpenProcessToken(GetCurrentProcess, TOKEN_IMPERSONATE or TOKEN_QUERY, Token) then
+        begin
+          EnviromentStringA:= APath;
+          SetLength(ResultA, 1024);
+          ExpandEnvironmentStringsForUserA_MP(Token, PAnsiChar(EnviromentStringA), PAnsiChar( @ResultA[1]), 1024);
+          SetLength(ResultA, lstrlenA(PAnsiChar( ResultA)));
+          Result:= ResultA;
+          CloseHandle(Token)
+        end
+      end
+    end
+  end;
+
+  function CEExpandEnviromentString(APath: WideString): WideString;
+  var
+    Length: Integer;
+    EnviromentStringA, ResultA: AnsiString;
+  begin
+    if Assigned(ExpandEnvironmentStringsW_MP) then
+    begin
+      Length:= ExpandEnvironmentStringsW_MP(PWideChar( APath), nil, 0);
+      if Length > 0 then
+      begin
+        SetLength(Result, Length - 1); // Includes the null
+        ExpandEnvironmentStringsW_MP( PWideChar( APath), PWideChar(@Result[1]), Length);
+      end
+    end
+    else
+    Result:= WideExpandEnviromentString(APath);
+  end;
+
 
 begin
   /// TODO: Optimize this method. 
@@ -595,24 +646,8 @@ begin
   Path := ReplacePath(Path, '%cedrive%', WideLowerCase(WideStripTrailingBackslash(WideExtractFileDrive(ExePath))));
 
   // Environment variables
-  Path:= WideExpandEnviromentStringForUser(Path);
-  Path:= WideExpandEnviromentString(Path);
-
-//  // Environment variables
-//  Path := ReplacePath(Path, '%userprofile%', WideStripTrailingBackslash(WideExpandEnviromentString('%USERPROFILE%')));
-//  Path := ReplacePath(Path, '%allusersprofile%', WideStripTrailingBackslash(WideExpandEnviromentString('%ALLUSERSPROFILE%')));
-//  Path := ReplacePath(Path, '%programfiles%', WideStripTrailingBackslash(WideExpandEnviromentString('%ProgramFiles%')));
-//  Path := ReplacePath(Path, '%systemroot%', WideStripTrailingBackslash(WideExpandEnviromentString('%SystemRoot%')));
-//  Path := ReplacePath(Path, '%systemdrive%', WideStripTrailingBackslash(WideExpandEnviromentString('%SystemDrive%')));
-//  Path := ReplacePath(Path, '%windir%', WideStripTrailingBackslash(WideExpandEnviromentString('%windir%')));
-//  Path := ReplacePath(Path, '%tmp%', WideStripTrailingBackslash(WideExpandEnviromentString('%TMP%')));
-//  Path := ReplacePath(Path, '%temp%', WideStripTrailingBackslash(WideExpandEnviromentString('%TEMP%')));
-//  Path := ReplacePath(Path, '%public%', WideStripTrailingBackslash(WideExpandEnviromentString('%PUBLIC%')));
-//  Path := ReplacePath(Path, '%programdata%', WideStripTrailingBackslash(WideExpandEnviromentString('%ProgramData%')));
-//  Path := ReplacePath(Path, '%homedrive%', WideStripTrailingBackslash(WideExpandEnviromentString('%HOMEDRIVE%')));
-//  Path := ReplacePath(Path, '%homepath%', WideStripTrailingBackslash(WideExpandEnviromentString('%HOMEPATH%')));
-//  Path := ReplacePath(Path, '%commonprogramfiles%', WideStripTrailingBackslash(WideExpandEnviromentString('%CommonProgramFiles%')));
-//  Path := ReplacePath(Path, '%appdata%', WideStripTrailingBackslash(WideExpandEnviromentString('%APPDATA%')));
+  Path:= CEExpandEnviromentStringForUser(Path);
+  Path:= CEExpandEnviromentString(Path);
 end;
 
 {##############################################################################}

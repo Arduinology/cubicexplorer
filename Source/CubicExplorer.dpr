@@ -149,14 +149,16 @@ uses
 {$R *.res}
 {$R 'CE_Resources.res'}
 
-{.$define FullDebugMode}
-
 var
   h: HWND;
   ws: WideString;
   i: Integer;
   copyDataStruct : TCopyDataStruct;
 begin
+
+{##############################################################################}
+// Handle command line parameters
+
   // Handle elevated commands
   if HandleElevatedCommands then
   Exit;
@@ -172,39 +174,47 @@ begin
   begin
     if SendMessage(h, WM_USER + 1,0,0) = 0 then
     begin
+			// make comma separated list of params
       for i:= 1 to WideParamCount do
       begin
         ws:= ws + WideParamStr(i);
         if i < WideParamCount then
         ws:= ws + ',';
       end;
+      // send params to CE
       if ws <> '' then
       begin
         copyDataStruct.dwData:= 0;
-        copyDataStruct.cbData := (1 + Length(ws))*SizeOf(WideChar);
-        copyDataStruct.lpData := PWideChar(ws);
+        copyDataStruct.cbData:= (Length(ws) + 1) * SizeOf(WideChar);
+        copyDataStruct.lpData:= PWideChar(ws);
         SendMessage(h, WM_COPYDATA, 0, Integer(@copyDataStruct));
-      end
-      else
-      begin
-        PostMessage(h, WM_MakeVisible, 0, 0);
       end;
+      // make CE visible
+      PostMessage(h, WM_MakeVisible, 0, 0);
+			// terminate
       Exit;
     end;
   end;
   //****************************************************
   //////////////////////////////////////////////////////
   
+{##############################################################################}
+// Initilize and create MainForm
+
   // Enable memory leak reporting if run on Debugger
   ReportMemoryLeaksOnShutdown:= DebugHook <> 0;
 
   Application.Initialize;
   Application.Title := 'CubicExplorer';
   Application.ShowMainForm:= false;
+
   // Create Main Form
   Application.CreateForm(TMainForm, MainForm);
   MainForm.InitializeUI;
   MainForm.BeginUIUpdate;
+
+{##############################################################################}
+// Create panels in this section
 
   // Create Folder Panel
   CEFolderPanel:= TCEFolderPanel.Create(MainForm);
@@ -233,6 +243,9 @@ begin
   // Create Workspace Panel
   CEWorkspacePanel:= TCEWorkspacePanel.Create(MainForm);
   CEWorkspacePanel.Name:= 'WorkspacePanel';
+
+{##############################################################################}
+// Run
 
   // Run Start up code.
   MainForm.StartUp;

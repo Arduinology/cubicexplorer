@@ -372,7 +372,7 @@ type
     procedure SetUseProxy(const Value: Boolean);
     procedure SetUseSystemProxy(const Value: Boolean);
   protected
-    function GetWow64Enabled: Boolean;
+    fWow64Enabled: Boolean;
     procedure SetWow64Enabled(const Value: Boolean);
   public
     Form: TMainForm;
@@ -416,7 +416,7 @@ type
     property UpdateURL: WideString read GetUpdateURL write SetUpdateURL;
     property UseProxy: Boolean read GetUseProxy write SetUseProxy;
     property UseSystemProxy: Boolean read GetUseSystemProxy write SetUseSystemProxy;
-    property Wow64Enabled: Boolean read GetWow64Enabled write SetWow64Enabled;
+    property Wow64Enabled: Boolean read fWow64Enabled write SetWow64Enabled;
   end;
 
 var
@@ -801,12 +801,17 @@ begin
   GlobalFileViewSettings.StorageFilePath:= SettingsDirPath + 'perfolder.dat';
 
   // Load Settings
-  if WideFileExists(SettingsDirPath + 'settings.xml') then
-  GlobalAppSettings.LoadFromFile(SettingsDirPath + 'settings.xml')
-  else if WideFileExists(exePath + 'settings.xml') then       
-  GlobalAppSettings.LoadFromFile(exePath + 'settings.xml')
-  else
-  GlobalAppSettings.LoadFromResource(hInstance, 'DEFAULT_SETTINGS_DATA');
+  GlobalFileViewSettings.BeginUpdate;
+  try
+    if WideFileExists(SettingsDirPath + 'settings.xml') then
+    GlobalAppSettings.LoadFromFile(SettingsDirPath + 'settings.xml')
+    else if WideFileExists(exePath + 'settings.xml') then
+    GlobalAppSettings.LoadFromFile(exePath + 'settings.xml')
+    else
+    GlobalAppSettings.LoadFromResource(hInstance, 'DEFAULT_SETTINGS_DATA');
+  finally
+    GlobalFileViewSettings.EndUpdate(true);
+  end;
   Settings.ApplyPositionInfo(Settings.StartInTray);
   if not Settings.StartInTray then
   MainForm.Show;
@@ -1873,6 +1878,7 @@ begin
   fStartInTray:= false;
   fExitOnLastTabClose:= false;
   fAutoCheckUpdates:= false;
+  fWow64Enabled:= false;
 end;
 {-------------------------------------------------------------------------------
   Get PositionInfo
@@ -2157,15 +2163,13 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Get/Set Wow64Enabled
+  Set Wow64Enabled
 -------------------------------------------------------------------------------}
-function TMainFormSettings.GetWow64Enabled: Boolean;
-begin
-  Result:= MPCommonUtilities.Wow64Enabled;
-end;
 procedure TMainFormSettings.SetWow64Enabled(const Value: Boolean);
 begin
-  MPCommonUtilities.Wow64Enabled:= Value;
+  fWow64Enabled:= Value;
+  if IsWindows64 then
+  MPCommonUtilities.Wow64Enabled:= fWow64Enabled;
 end;
 
 {##############################################################################}

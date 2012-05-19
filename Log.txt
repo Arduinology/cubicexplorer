@@ -1,3 +1,13 @@
+19.5.2012
+- Fixed possible crash on exit.
++ Added advanced options ExtensionColorsEnabled and ExtensionColors for FileView.
+
+16.5.2012
+- Fixed "Address bar won't open unicode path" bug.
+
+15.5.2012
+- Fixed "Won't restore when minimized" bug.
+================================================================================
 14.5.2012
 - Fixed "CE clicks mouse" bug.
 - Small speed improvement to Bookmarks.
