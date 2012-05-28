@@ -623,7 +623,7 @@ begin
           begin
             bufW:= AEmptyFileText;
             if IsWinVista then
-            bufW:= bufW+#0;
+            bufW:= bufW+#0; // not sure why this is needed in Vista+. in XP it will show up as a square character.
             Windows.DrawTextW(Result.Canvas.Handle, PWideChar(bufW), Length(bufW), r, DT_SINGLELINE or DT_VCENTER or DT_CENTER);
           end;
         end;

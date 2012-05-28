@@ -1,3 +1,8 @@
+28.5.2012
++ Added FullRowContextMenu advanced option to FileView.
+- Fixed SelectPreviousFolder bugs.
+---
+
 19.5.2012
 - Fixed possible crash on exit.
 + Added advanced options ExtensionColorsEnabled and ExtensionColors for FileView.

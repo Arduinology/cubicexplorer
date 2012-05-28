@@ -42,7 +42,6 @@ uses
   Graphics, Menus, ShellAPI, ShlObj, Math, ActiveX;
 
 type
-
   TCEColSetting = record
     Index: Integer;
     Position: Integer;
@@ -75,7 +74,6 @@ type
     fArrowBrowse: Boolean;
     fFolderUpOnDblClick: Boolean;
     fFullRowDblClick: Boolean;
-    fOldHistoryIndex: Integer;
     fPasteFocusSet: Boolean;
     fRightMouseButton_RockerClicks: Integer;
     fSelectPasted: Boolean;
@@ -87,11 +85,14 @@ type
     procedure SetUseKernelNotification(const Value: Boolean);
   protected
     fDoubleClicking: Boolean;
+    fFullRowContextMenu: Boolean;
     fHistoryUpdateCount: Integer;
     fLastPaste: Integer;
     fPerFolderSettings: Boolean;
+    fPrevFolderPIDL: PItemIDList;
     fSingleClickBrowsing: Boolean;
     procedure DoAfterShellNotify(ShellEvent: TVirtualShellEvent); override;
+    procedure DoContextMenu(MousePt: TPoint; var Handled: Boolean); override;
     procedure DoCustomColumnAdd; override;
     procedure DoEnumFinished; override;
     procedure DoEnumFolder(const Namespace: TNamespace; var AllowAsChild: Boolean);
@@ -162,6 +163,8 @@ type
     property AutoSelectFirstItem: Boolean read fAutoSelectFirstItem write
         fAutoSelectFirstItem;
     property ArrowBrowse: Boolean read fArrowBrowse write fArrowBrowse;
+    property FullRowContextMenu: Boolean read fFullRowContextMenu write
+        fFullRowContextMenu;
     property FullRowDblClick: Boolean read fFullRowDblClick write fFullRowDblClick;
     property SelectPasted: Boolean read fSelectPasted write fSelectPasted;
     property SelectPreviousFolder: Boolean read fSelectPreviousFolder write
@@ -361,8 +364,8 @@ begin
   EndHistoryUpdate;
   //History.ItemIndex:= -1;
   History.OnChange:= HistoryChange;
-  fOldHistoryIndex:= -1;
-
+  fPrevFolderPIDL:= nil;
+  
   ShellNewMenu:= TVirtualShellNewMenu.Create(self);
   ShellNewMenu.NewFolderItem:= true;
   ShellNewMenu.NewShortcutItem:= true;
@@ -387,6 +390,7 @@ begin
   fArrowBrowse:= true;
   fFolderUpOnDblClick:= true;
   fFullRowDblClick:= false;
+  fFullRowContextMenu:= false;
 
   Self.BackGround.CaptionShowOnlyWhenEmpty:= false;
   // Paste selection/sort
@@ -407,6 +411,8 @@ begin
   BeginHistoryUpdate;
   if fUseKernelNotification then
   ChangeNotifier.UnRegisterKernelChangeNotify(Self);
+
+  PIDLMgr.FreeAndNilPIDL(fPrevFolderPIDL);
   inherited;
 end;
 
@@ -671,6 +677,46 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Do ContextMenu
+-------------------------------------------------------------------------------}
+procedure TCEFileView.DoContextMenu(MousePt: TPoint; var Handled: Boolean);
+var
+  Item: TEasyItem;
+  Group: TEasyGroup;
+  HitInfoItem: TEasyHitInfoItem;
+  Menu: TPopupMenu;
+begin
+  if FullRowContextMenu and Selection.FullRowSelect then
+  begin
+    Group:= Groups.GroupByPoint(Scrollbars.MapWindowToView(ScreenToClient(MousePt)));
+    if Assigned(Group) then
+    begin
+      Item:= Group.ItemByPoint(Scrollbars.MapWindowToView(ScreenToClient(MousePt)));
+      if Assigned(Item) then
+      begin
+        Menu:= nil;
+        HitInfoItem.Item:= Item;
+        HitInfoItem.Column:= nil;
+        HitInfoItem.Group:= Group;
+        HitInfoItem.HitInfo:= [ehtOnLabel, ehtOnIcon];
+        DoItemContextMenu(HitInfoItem, MousePt, Menu, Handled);
+      end;
+    end;
+  end;
+
+  if not Handled then
+  begin
+    if Assigned(BackGndMenu) then
+    begin
+      BackGndMenu.ShowContextMenu(Self, RootFolderNamespace, @MousePt);
+      Handled:= true;
+    end
+    else
+      inherited;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
   Do CustomColumnAdd
 -------------------------------------------------------------------------------}
 procedure TCEFileView.DoCustomColumnAdd;
@@ -728,17 +774,20 @@ begin
   // Select previous folder
   if SelectPreviousFolder then
   begin
-    if (fOldHistoryIndex > -1) and (fOldHistoryIndex < History.Count) then
+    if assigned(fPrevFolderPIDL) then
     begin
-      Selection.ClearAll;
-      item:= FindItemByPIDL(History.Items[fOldHistoryIndex].AbsolutePIDL);
-      if assigned(item) then
-      begin
-        item.MakeVisible(emvTop);
-        item.Focused:= true;
-        item.Selected:= true;
+      try
+        Selection.ClearAll;
+        item:= FindItemByPIDL(fPrevFolderPIDL);
+        if assigned(item) then
+        begin
+          item.MakeVisible(emvTop);
+          item.Focused:= true;
+          item.Selected:= true;
+        end;
+      finally
+        PIDLMgr.FreeAndNilPIDL(fPrevFolderPIDL);
       end;
-      fOldHistoryIndex:= -1;
     end;
   end;
 
@@ -981,7 +1030,10 @@ begin
   if Self.EditManager.Editing then
   Self.EditManager.EndEdit;
 
-  fOldHistoryIndex:= History.ItemIndex;
+  PIDLMgr.FreeAndNilPIDL(fPrevFolderPIDL);
+  if History.Count > 0 then
+  fPrevFolderPIDL:= PIDLMgr.CopyPIDL(History.Items[History.ItemIndex].AbsolutePIDL);
+
   History.Back;
 end;
 
@@ -996,7 +1048,9 @@ begin
   if Self.EditManager.Editing then
   Self.EditManager.EndEdit;
 
-  fOldHistoryIndex:= History.ItemIndex;
+  PIDLMgr.FreeAndNilPIDL(fPrevFolderPIDL);
+  fPrevFolderPIDL:= PIDLMgr.CopyPIDL(Self.RootFolderNamespace.AbsolutePIDL);
+
   BrowseToPrevLevel;
 end;
 
@@ -1010,6 +1064,10 @@ begin
   
   if Self.EditManager.Editing then
   Self.EditManager.EndEdit;
+
+  PIDLMgr.FreeAndNilPIDL(fPrevFolderPIDL);
+  if History.ItemIndex+2 < History.Count then
+  fPrevFolderPIDL:= PIDLMgr.CopyPIDL(History.Items[History.ItemIndex+2].AbsolutePIDL);
   
   History.Next;
 end;

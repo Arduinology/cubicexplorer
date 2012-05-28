@@ -229,6 +229,7 @@ type
   protected
     fExtensionColors: WideString;
     fExtensionColorsEnabled: Boolean;
+    fFullRowContextMenu: Boolean;
     fPerFolderSettings: Boolean;
     fShowCaptionsInFilmstrip: Boolean;
     fShowCaptionsInThumbnails: Boolean;
@@ -239,6 +240,7 @@ type
     fViewStyle: TEasyListStyle;
     procedure SetExtensionColors(const Value: WideString);
     procedure SetExtensionColorsEnabled(const Value: Boolean);
+    procedure SetFullRowContextMenu(const Value: Boolean);
     procedure SetPerFolderSettings(const Value: Boolean);
     procedure SetShowCaptionsInFilmstrip(const Value: Boolean);
     procedure SetShowCaptionsInThumbnails(const Value: Boolean);
@@ -285,6 +287,8 @@ type
     property FolderUpOnDblClick: Boolean read fFolderUpOnDblClick write
         SetFolderUpOnDblClick;
     property FontSize: Integer read fFontSize write SetFontSize;
+    property FullRowContextMenu: Boolean read fFullRowContextMenu write
+        SetFullRowContextMenu;
     property FullRowDblClick: Boolean read fFullRowDblClick write
         SetFullRowDblClick;
     property FullRowSelect: Boolean read fFullRowSelect write SetFullRowSelect;
@@ -1189,6 +1193,7 @@ begin
   fStorageIsLoaded:= false;
   fShowCaptionsInFilmstrip:= false;
   fShowCaptionsInThumbnails:= true;
+  fFullRowContextMenu:= false;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1295,6 +1300,7 @@ begin
     fileViewPage.FileView.PerFolderSettings:= fPerFolderSettings;
   end;
 
+  // FileView
   if assigned(fileView) then
   begin
     fileView.BeginUpdate;
@@ -1325,6 +1331,7 @@ begin
       fileView.ExtensionColorCode:= fExtensionColorsEnabled;
       if fExtensionColorsEnabled then
       AssignExtensionColors(fileView, fExtensionColors);
+      fileView.FullRowContextMenu:= fFullRowContextMenu;
 
       // Options
       options:= fileView.Options;
@@ -1800,6 +1807,12 @@ end;
 procedure TCEFileViewSettings.SetFontSize(const Value: Integer);
 begin
   fFontSize:= Value;
+end;
+
+procedure TCEFileViewSettings.SetFullRowContextMenu(const Value: Boolean);
+begin
+  fFullRowContextMenu:= Value;
+  SendChanges;
 end;
 
 {-------------------------------------------------------------------------------
