@@ -2,6 +2,8 @@
 + Added FullRowContextMenu advanced option to FileView.
 - Fixed SelectPreviousFolder bugs.
 ---
+- Fixed resize bug in FilmStrip view style.
+- Fixed "Selection and scroll position lost on Refresh".
 
 19.5.2012
 - Fixed possible crash on exit.

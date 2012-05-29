@@ -801,10 +801,17 @@ end;
   Handle FileView Resize
 -------------------------------------------------------------------------------}
 procedure TCEFileViewPage.HandleFileViewResize(Sender: TObject);
+var
+  h: Integer;
 begin
   if fViewStyle = elsFilmStrip then
   begin
-    FileView.CellSizes.FilmStrip.SetSize(Round(FileView.ClientHeight*1.2), FileView.ClientHeight-2);
+    if FileView.Header.ShowInAllViews then
+    h:= FileView.ClientHeight-2 - FileView.Header.Height
+    else
+    h:= FileView.ClientHeight-2;
+
+    FileView.CellSizes.FilmStrip.SetSize(Round(h*1.2), h);
   end;
 end;
 

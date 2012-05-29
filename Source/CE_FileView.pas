@@ -91,6 +91,7 @@ type
     fPerFolderSettings: Boolean;
     fPrevFolderPIDL: PItemIDList;
     fSingleClickBrowsing: Boolean;
+    fTopNodePIDL: PItemIDList;
     procedure DoAfterShellNotify(ShellEvent: TVirtualShellEvent); override;
     procedure DoContextMenu(MousePt: TPoint; var Handled: Boolean); override;
     procedure DoCustomColumnAdd; override;
@@ -142,6 +143,7 @@ type
     procedure GoForwardInHistory;
     procedure PasteFromClipboard; override;
     procedure PasteShortcutFromClipboard;
+    procedure Rebuild(RestoreTopNode: Boolean = False); override;
     procedure SelectedFilesDelete(ShiftKeyState: TExecuteVerbShift = evsCurrent);
         override;
     procedure SetFocus; override;
@@ -413,6 +415,7 @@ begin
   ChangeNotifier.UnRegisterKernelChangeNotify(Self);
 
   PIDLMgr.FreeAndNilPIDL(fPrevFolderPIDL);
+  PIDLMgr.FreeAndNilPIDL(fTopNodePIDL);
   inherited;
 end;
 
@@ -771,23 +774,31 @@ begin
     Self.BackGround.CaptionShow:= false;
   end;
 
-  // Select previous folder
-  if SelectPreviousFolder then
+  // Restore top node
+  if assigned(fTopNodePIDL) then
   begin
-    if assigned(fPrevFolderPIDL) then
+    item:= FindItemByPIDL(fTopNodePIDL);
+    if assigned(item) then
     begin
-      try
-        Selection.ClearAll;
-        item:= FindItemByPIDL(fPrevFolderPIDL);
-        if assigned(item) then
-        begin
-          item.MakeVisible(emvTop);
-          item.Focused:= true;
-          item.Selected:= true;
-        end;
-      finally
-        PIDLMgr.FreeAndNilPIDL(fPrevFolderPIDL);
+      item.MakeVisible(emvTop);
+    end;
+    PIDLMgr.FreeAndNilPIDL(fTopNodePIDL);
+  end;
+
+  // Select previous folder
+  if assigned(fPrevFolderPIDL) then
+  begin
+    try
+      Selection.ClearAll;
+      item:= FindItemByPIDL(fPrevFolderPIDL);
+      if assigned(item) then
+      begin
+        item.MakeVisible(emvTop);
+        item.Focused:= true;
+        item.Selected:= true;
       end;
+    finally
+      PIDLMgr.FreeAndNilPIDL(fPrevFolderPIDL);
     end;
   end;
 
@@ -797,6 +808,7 @@ begin
     item:= TExplorerItem(Self.Groups.FirstItemInRect(Self.ClientInViewportCoords));
     if assigned(item) then
     begin
+      if not assigned(OldTopNode) then
       item.MakeVisible(emvTop);
       item.Focused:= true;
       item.Selected:= true;
@@ -1030,9 +1042,12 @@ begin
   if Self.EditManager.Editing then
   Self.EditManager.EndEdit;
 
-  PIDLMgr.FreeAndNilPIDL(fPrevFolderPIDL);
-  if History.Count > 0 then
-  fPrevFolderPIDL:= PIDLMgr.CopyPIDL(History.Items[History.ItemIndex].AbsolutePIDL);
+  if SelectPreviousFolder then
+  begin
+    PIDLMgr.FreeAndNilPIDL(fPrevFolderPIDL);
+    if History.Count > 0 then
+    fPrevFolderPIDL:= PIDLMgr.CopyPIDL(History.Items[History.ItemIndex].AbsolutePIDL);
+  end;
 
   History.Back;
 end;
@@ -1048,8 +1063,11 @@ begin
   if Self.EditManager.Editing then
   Self.EditManager.EndEdit;
 
-  PIDLMgr.FreeAndNilPIDL(fPrevFolderPIDL);
-  fPrevFolderPIDL:= PIDLMgr.CopyPIDL(Self.RootFolderNamespace.AbsolutePIDL);
+  if SelectPreviousFolder then
+  begin
+    PIDLMgr.FreeAndNilPIDL(fPrevFolderPIDL);
+    fPrevFolderPIDL:= PIDLMgr.CopyPIDL(Self.RootFolderNamespace.AbsolutePIDL);
+  end;
 
   BrowseToPrevLevel;
 end;
@@ -1065,9 +1083,12 @@ begin
   if Self.EditManager.Editing then
   Self.EditManager.EndEdit;
 
-  PIDLMgr.FreeAndNilPIDL(fPrevFolderPIDL);
-  if History.ItemIndex+2 < History.Count then
-  fPrevFolderPIDL:= PIDLMgr.CopyPIDL(History.Items[History.ItemIndex+2].AbsolutePIDL);
+  if SelectPreviousFolder then
+  begin
+    PIDLMgr.FreeAndNilPIDL(fPrevFolderPIDL);
+    if History.ItemIndex+2 < History.Count then
+    fPrevFolderPIDL:= PIDLMgr.CopyPIDL(History.Items[History.ItemIndex+2].AbsolutePIDL);
+  end;
   
   History.Next;
 end;
@@ -1247,6 +1268,38 @@ begin
   end
 end;
 
+{-------------------------------------------------------------------------------
+  Rebuild
+-------------------------------------------------------------------------------}
+procedure TCEFileView.Rebuild(RestoreTopNode: Boolean = False);
+var
+  ns: TNamespace;
+  item: TExplorerItem;
+begin
+  if not assigned(fPrevFolderPIDL) and assigned(Self.Selection.FocusedItem) then
+  begin
+    if Self.ValidateNamespace(Self.Selection.FocusedItem, ns) then
+    begin
+      fPrevFolderPIDL:= PIDLMgr.CopyPIDL(ns.AbsolutePIDL);
+    end;
+  end;
+
+  if RestoreTopNode then
+  begin
+    item:= Groups.FirstItemInRect(Scrollbars.MapWindowRectToViewRect( Rect( 0, 0, ClientWidth, ClientHeight))) as TExplorerItem;
+    if Assigned(item) then
+    begin
+      PIDLMgr.FreePIDL(fTopNodePIDL);
+      fTopNodePIDL:= PIDLMgr.CopyPIDL(item.Namespace.AbsolutePIDL);
+    end;
+  end;
+
+  inherited Rebuild(false);
+end;
+
+{-------------------------------------------------------------------------------
+  SelectedFilesDelete
+-------------------------------------------------------------------------------}
 procedure TCEFileView.SelectedFilesDelete(ShiftKeyState: TExecuteVerbShift =
     evsCurrent);
 var
