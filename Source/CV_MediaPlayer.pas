@@ -912,18 +912,29 @@ end;
   Paint
 -------------------------------------------------------------------------------}
 procedure TCVMediaPlayer.Paint;
+var
+  r: TRect;
+  ws: WideString;
+  s: String;
 begin
   // Paint background
   if assigned(Engine) then
   begin
-    if Engine.GetStatus = mpsClosed then
+    if (Engine.GetStatus = mpsClosed) or (Engine.GetStatus = mpsError) then
     begin
       Canvas.Brush.Color:= clGray;
       Canvas.FillRect(ClientRect);
+      if (Engine.GetStatus = mpsError) then
+      begin
+        Canvas.Font.Color:= clBlack;
+        r:= ClientRect;
+        ws:= Engine.GetStatusText;
+        DrawTextW(Canvas.Handle, PWideChar(ws), Length(ws), r, DT_CENTER or DT_SINGLELINE or DT_VCENTER);
+      end;
     end
     else
     begin
-      Canvas.Brush.Color:= clLime;
+      Canvas.Brush.Color:= clBlack;
       Canvas.FillRect(ClientRect);
     end;
   end

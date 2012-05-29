@@ -1,3 +1,6 @@
+29.5.2012
+- Fixed "CE won't show when opening bookmark from tray" bug.
+
 28.5.2012
 + Added FullRowContextMenu advanced option to FileView.
 - Fixed SelectPreviousFolder bugs.

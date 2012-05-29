@@ -26,7 +26,7 @@ interface
 
 uses
   // CubicCore
-  ccTypes, ccFileUtils, ccClasses,
+  ccTypes, ccFileUtils, ccClasses, ccStrings,
   // CubicViewer
   CV_MediaPlayer,
   // CubicExplorer
@@ -530,6 +530,7 @@ function TCVDSEngine.OpenFile(AFilePath: WideString): Boolean;
 var
   hr: Integer;
   s: String;
+  c: Integer;
 begin
   
   Result:= false;
@@ -550,6 +551,7 @@ begin
     
     SetLength(s, 255);
     AMGetErrorText(hr, PChar(s), 255);
+    AnsiTrunkFromNull(s);
     fErrorMsg:= s;
     ChangeStatus(mpsError);
     

@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: CE 0.96.0.1528 - 2012.04.30\n"
+"Project-Id-Version: CE 0.96.0.1550 - 2012.05.19\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1528\n"
+"CE-POT-Version: 1550\n"
 "CE-Language: Italian\n"
 "Last-Translator: Folgore101 <andrea.gramegna@gmail.com>\n"
 
@@ -82,6 +82,9 @@ msgstr "Dopo l'Ora:"
 
 msgid "All"
 msgstr "Tutto"
+
+msgid "All types"
+msgstr "Tutti i tipi"
 
 msgid "Allow Move"
 msgstr "Permetti lo Spostamento"
@@ -254,6 +257,9 @@ msgstr "Basso"
 msgid "Breadcrumb Navigation"
 msgstr "Navigazione Breadcrumb"
 
+msgid "Browse To"
+msgstr "Sfoglia"
+
 msgid "Browse..."
 msgstr "Cerca..."
 
@@ -407,6 +413,9 @@ msgstr "Crea nuova traduzione"
 msgid "Created"
 msgstr "Generato"
 
+msgid "Ctrl activates links"
+msgstr "Ctrl attiva collegamenti"
+
 msgid "CubicExplore Home Page"
 msgstr "Homepage di CubicExplorer"
 
@@ -518,6 +527,9 @@ msgstr "Vuoi sovrascrivere lo stack esistente?"
 msgid "Do you want to reset all hotkeys for this action?"
 msgstr "Vuoi ripristinare tutti i tasti di scelta rapida per questa azione?"
 
+msgid "Do you want to save changes before closing?"
+msgstr "Desideri salvare le modifiche prima di chiudere?"
+
 msgid "Do you want to update?"
 msgstr "Vuoi aggiornare?"
 
@@ -598,6 +610,9 @@ msgstr "Svuota Cestino"
 
 msgid "Empty Stack"
 msgstr "Stack vuoto"
+
+msgid "Empty file"
+msgstr "File vuoto"
 
 msgid "Empty folder"
 msgstr "Cartella vuota"
@@ -803,6 +818,9 @@ msgstr "Colonna"
 msgid "HTML"
 msgstr "HTML"
 
+msgid "HTML Documents"
+msgstr "Documenti HTML"
+
 msgid "HTML with CSS, JS or PHP"
 msgstr "HTML con CSS, JS o PHP"
 
@@ -983,6 +1001,9 @@ msgstr "MB"
 msgid "Main Menu"
 msgstr "Menù Principale"
 
+msgid "Make Visible"
+msgstr "Rendi visibile"
+
 msgid "Manage Sessions"
 msgstr "Gestione Sessioni"
 
@@ -1120,6 +1141,9 @@ msgstr "Apri Cartella Superiore"
 
 msgid "Open default tab"
 msgstr "Apri scheda di default"
+
+msgid "Open in Workspace"
+msgstr "Aperi nell'area di lavoro"
 
 msgid "Open in current tab"
 msgstr "Apri nella scheda corrente"
@@ -1366,6 +1390,9 @@ msgstr "Salva sessione attiva con un nuovo nome"
 
 msgid "Save active session."
 msgstr "Salva sessione attiva"
+
+msgid "Save before closing?"
+msgstr "Salvare prima della chiusura?"
 
 msgid "Save changes before closing?"
 msgstr "Salva modifiche prima di chiudere?"
@@ -1703,6 +1730,9 @@ msgstr "Filtro Testo"
 msgid "Text only"
 msgstr "Solo testo"
 
+msgid "The text in %s has changed."
+msgstr "Il testo in %s è stato modificato."
+
 msgid "Theme"
 msgstr "Aspetto"
 
@@ -1835,6 +1865,9 @@ msgstr "Usa CSS in linea su copia"
 msgid "Use inline CSS on export"
 msgstr "Usa CSS in linea all'esportazione"
 
+msgid "Use per folder settings"
+msgstr "Utilizza per le impostazioni delle cartelle"
+
 msgid "Use strict filtering (wildcards are ? and *)"
 msgstr "Usa livello massimo di filtraggio (caratteri jolly: ? e * )"
 
@@ -1912,6 +1945,9 @@ msgstr "A capo automatico"
 
 msgid "Word or Phrase in File Name"
 msgstr "Parola o Frase nel Nome del File"
+
+msgid "Workspace"
+msgstr "Area di lavoro"
 
 msgid "Wrap around"
 msgstr "Avvolgi intorno"

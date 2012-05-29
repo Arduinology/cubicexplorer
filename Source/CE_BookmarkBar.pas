@@ -244,7 +244,8 @@ begin
   else if (ss = [ssLeft, ssAlt, ssShift]) or (ss = [ssLeft, ssCtrl, ssShift]) then
   BookmarkData.BookComp.MouseClick([ssMiddle, ssShift], mbMiddle);
 
-  //PostMessage(CEInput.MsgInput.Handle, WM_MakeVisible, 0, 0); // why is this called?
+  // make CE visible (we want this because users might open bookmarks from tray)
+  PostMessage(CEInput.MsgInput.Handle, WM_MakeVisible, 0, 0);
 end;
 
 {*------------------------------------------------------------------------------
