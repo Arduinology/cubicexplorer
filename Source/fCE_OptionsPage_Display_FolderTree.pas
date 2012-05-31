@@ -38,6 +38,7 @@ type
     check_autocollapse: TTntCheckBox;
     check_autoexpand: TTntCheckBox;
     check_newtabdefault: TTntCheckBox;
+    check_browse_zip: TTntCheckBox;
   private
     { Private declarations }
   public
@@ -75,6 +76,7 @@ begin
   CEFolderPanel.Settings.AutoExpand:= check_autoexpand.Checked;
   CEFolderPanel.Settings.AutoCollapse:= check_autocollapse.Checked;
   CEFolderPanel.Settings.OpenInNewTab:= check_newtabdefault.Checked;
+  CEFolderPanel.Settings.BrowseZipFolders:= check_browse_zip.Checked;
 end;
 
 procedure TCE_OptionsPage_Display_FolderTree.RefreshSettings;
@@ -83,6 +85,7 @@ begin
   check_autoexpand.Checked:= CEFolderPanel.Settings.AutoExpand;
   check_autocollapse.Checked:= CEFolderPanel.Settings.AutoCollapse;
   check_newtabdefault.Checked:= CEFolderPanel.Settings.OpenInNewTab;
+  check_browse_zip.Checked:= CEFolderPanel.Settings.BrowseZipFolders;
 end;
 
 {##############################################################################}

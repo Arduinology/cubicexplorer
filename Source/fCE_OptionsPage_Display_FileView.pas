@@ -24,15 +24,28 @@ unit fCE_OptionsPage_Display_FileView;
 interface
 
 uses
+  // CubicCore
+  ccClasses, ccStrings,
   // CE Units
-  fCE_OptionsDialog, fCE_OptionsCustomPage, CE_LanguageEngine,
+  fCE_OptionsDialog, fCE_OptionsCustomPage, CE_LanguageEngine, 
   // Tnt
-  TntStdCtrls,
+  TntStdCtrls, TntComCtrls, TntSysUtils,
+  // Virtual Trees
+  VirtualTrees,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, SpTBXItem, SpTBXControls, SpTBXEditors;
+  Dialogs, StdCtrls, ComCtrls, ExtCtrls;
 
 type
+  PExtListData = ^AExtListData;
+  AExtListData = record
+    fExtensions: WideString;
+    fBold: Boolean;
+    fItalic: Boolean;
+    fUnderline: Boolean;
+    fColor: TColor;
+  end;
+
   TCE_OptionsPage_Display_FileView = class(TCEOptionsCustomPage)
     check_fullrowselect: TTntCheckBox;
     check_selectprev: TTntCheckBox;
@@ -44,9 +57,39 @@ type
     combo_sizeformat: TTntComboBox;
     TntLabel1: TTntLabel;
     check_perfolder: TTntCheckBox;
+    TntPageControl1: TTntPageControl;
+    sheet_options: TTntTabSheet;
+    sheet_colors: TTntTabSheet;
+    check_gridlines: TTntCheckBox;
+    check_browse_zip: TTntCheckBox;
+    list_exts: TVirtualStringTree;
+    but_add: TTntButton;
+    but_delete: TTntButton;
+    check_ext_bold: TTntCheckBox;
+    check_ext_italic: TTntCheckBox;
+    check_ext_underline: TTntCheckBox;
+    color_extension: TColorBox;
+    check_extension_colors: TTntCheckBox;
+    TntLabel2: TTntLabel;
     procedure HandleChange(Sender: TObject);
+    procedure list_extsGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
+      Column: TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
+    procedure list_extsNewText(Sender: TBaseVirtualTree; Node: PVirtualNode;
+      Column: TColumnIndex; NewText: WideString);
+    procedure list_extsFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
+    procedure but_addClick(Sender: TObject);
+    procedure list_extsFocusChanged(Sender: TBaseVirtualTree;
+      Node: PVirtualNode; Column: TColumnIndex);
+    procedure HandleExtColorChange(Sender: TObject);
+    procedure but_deleteClick(Sender: TObject);
+    procedure list_extsEdited(Sender: TBaseVirtualTree; Node: PVirtualNode;
+      Column: TColumnIndex);
+    procedure list_extsEditCancelled(Sender: TBaseVirtualTree;
+      Column: TColumnIndex);
   private
     { Private declarations }
+  protected
+    fExtValuesChanging: Boolean;
   public
     constructor Create(AOwner: TComponent); override;
     procedure ApplySettings; override;
@@ -79,15 +122,46 @@ begin
   combo_sizeformat.Items.Add(_('Actual'));
   combo_sizeformat.Items.Add(_('Disk Usage'));
   combo_sizeformat.Items.Add(_('Text'));
+
+  list_exts.NodeDataSize:= SizeOf(AExtListData);
+
+  fExtValuesChanging:= false;
 end;
 
 {-------------------------------------------------------------------------------
   Apply Settings
 -------------------------------------------------------------------------------}
 procedure TCE_OptionsPage_Display_FileView.ApplySettings;
+
+  procedure WriteExtensionColors;
+  var
+    node: PVirtualNode;
+    data: PExtListData;
+    value: WideString;
+  begin
+    node:= list_exts.GetFirst;
+    value:= '';
+    while assigned(node) do
+    begin
+      data:= list_exts.GetNodeData(node);
+      if value <> '' then
+      value:= value + '|';
+      
+      value:= value + WideReplaceChar(',', ';', data.fExtensions) + ',' +  // exts
+              IntToStr(data.fColor) + ',' +                        // color
+              BoolToStr(data.fBold) + ',' +                        // bold
+              BoolToStr(data.fItalic) + ',' +                      // italic
+              BoolToStr(data.fUnderline);                          // underline
+
+      node:= list_exts.GetNext(node);
+    end;
+    GlobalFileViewSettings.ExtensionColors:= value;
+  end;
+
 begin
   GlobalFileViewSettings.BeginUpdate;
   try
+    // options
     GlobalFileViewSettings.FullRowSelect:= check_fullrowselect.Checked;
     GlobalFileViewSettings.SelectPreviousFolder:= check_selectprev.Checked;
     GlobalFileViewSettings.AutoSelectFirstItem:= check_autoselect.Checked;
@@ -96,22 +170,211 @@ begin
     GlobalFileViewSettings.ShowInfoTips:= check_infotips.Checked;
     GlobalFileViewSettings.SingleClickBrowse:= check_singleclick.Checked;
     GlobalFileViewSettings.PerFolderSettings:= check_perfolder.Checked;
+    GlobalFileViewSettings.ShowGridLines:= check_gridlines.Checked;
+    GlobalFileViewSettings.BrowseZipFolders:= check_browse_zip.Checked;
     GlobalFileViewSettings.FileSizeFormat:= TVirtualFileSizeFormat(combo_sizeformat.ItemIndex);
+
+    // colors
+    GlobalFileViewSettings.ExtensionColorsEnabled:= check_extension_colors.Checked;
+    WriteExtensionColors;
   finally
     GlobalFileViewSettings.EndUpdate(true);
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Handle Change
+-------------------------------------------------------------------------------}
 procedure TCE_OptionsPage_Display_FileView.HandleChange(Sender: TObject);
 begin
+  // enables the Apply button.
   inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  HandleExtColorChange
+-------------------------------------------------------------------------------}
+procedure TCE_OptionsPage_Display_FileView.HandleExtColorChange(
+  Sender: TObject);
+var
+  data: PExtListData;
+begin
+  if fExtValuesChanging then
+  Exit;
+  
+  if Assigned(list_exts.FocusedNode) then
+  begin
+    data:= list_exts.GetNodeData(list_exts.FocusedNode);
+    data.fBold:= check_ext_bold.Checked;
+    data.fItalic:= check_ext_italic.Checked;
+    data.fUnderline:= check_ext_underline.Checked;
+    data.fColor:= color_extension.Selected;
+  end;
+  HandleChange(Sender);
+end;
+
+{-------------------------------------------------------------------------------
+  On but_add.Click
+-------------------------------------------------------------------------------}
+procedure TCE_OptionsPage_Display_FileView.but_addClick(Sender: TObject);
+var
+  node: PVirtualNode;
+begin
+  node:= list_exts.AddChild(nil);
+  list_exts.Selected[node]:= true;
+  list_exts.FocusedNode:= node;
+  list_exts.EditNode(node, 0);
+end;
+
+{-------------------------------------------------------------------------------
+  On but_delete.Click
+-------------------------------------------------------------------------------}
+procedure TCE_OptionsPage_Display_FileView.but_deleteClick(Sender: TObject);
+begin
+  list_exts.DeleteSelectedNodes;
+  HandleChange(Sender);
+end;
+
+{-------------------------------------------------------------------------------
+  On list_exts.FreeNode
+-------------------------------------------------------------------------------}
+procedure TCE_OptionsPage_Display_FileView.list_extsFreeNode(
+  Sender: TBaseVirtualTree; Node: PVirtualNode);
+var
+  data: PExtListData;
+begin
+  data:= Sender.GetNodeData(Node);
+  data.fExtensions:= '';
+end;
+
+procedure TCE_OptionsPage_Display_FileView.list_extsEditCancelled(
+  Sender: TBaseVirtualTree; Column: TColumnIndex);
+var
+  data: PExtListData;
+begin
+  if assigned(Sender.FocusedNode) then
+  begin
+    data:= Sender.GetNodeData(Sender.FocusedNode);
+    if data.fExtensions = '' then
+    Sender.DeleteNode(Sender.FocusedNode);
+  end;
+end;
+
+procedure TCE_OptionsPage_Display_FileView.list_extsEdited(
+  Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex);
+var
+  data: PExtListData;
+begin
+  data:= Sender.GetNodeData(Node);
+  if data.fExtensions = '' then
+  Sender.DeleteNode(Node);
+end;
+
+{-------------------------------------------------------------------------------
+  On list_exts.FocusChanged
+-------------------------------------------------------------------------------}
+procedure TCE_OptionsPage_Display_FileView.list_extsFocusChanged(
+  Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex);
+var
+  data: PExtListData;
+begin
+  if assigned(Node) then
+  begin
+    data:= Sender.GetNodeData(Node);
+    fExtValuesChanging:= true;
+    try
+      check_ext_bold.Checked:= data.fBold;
+      check_ext_italic.Checked:= data.fItalic;
+      check_ext_underline.Checked:= data.fUnderline;
+      color_extension.Selected:= data.fColor;
+    finally
+      fExtValuesChanging:= false;
+    end;
+  end;
+
+  but_delete.Enabled:= assigned(Node);
+  check_ext_bold.Enabled:= but_delete.Enabled;
+  check_ext_italic.Enabled:= but_delete.Enabled;
+  check_ext_underline.Enabled:= but_delete.Enabled;
+  color_extension.Enabled:= but_delete.Enabled;
+end;
+
+{-------------------------------------------------------------------------------
+  On list_exts.GetText
+-------------------------------------------------------------------------------}
+procedure TCE_OptionsPage_Display_FileView.list_extsGetText(
+  Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex;
+  TextType: TVSTTextType; var CellText: WideString);
+var
+  data: PExtListData;
+begin
+  data:= Sender.GetNodeData(Node);
+  CellText:= data.fExtensions;
+end;
+
+{-------------------------------------------------------------------------------
+  On list_exts.NewText
+-------------------------------------------------------------------------------}
+procedure TCE_OptionsPage_Display_FileView.list_extsNewText(
+  Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex;
+  NewText: WideString);
+var
+  data: PExtListData;
+begin
+  if NewText <> '' then
+  begin
+    data:= Sender.GetNodeData(Node);
+    data.fExtensions:= WideReplaceChar(' ', '', NewText);
+  end
+  else
+  begin
+    list_exts.DeleteNode(Node);
+  end;
+  HandleChange(Sender);
 end;
 
 {-------------------------------------------------------------------------------
   Refresh Settings
 -------------------------------------------------------------------------------}
 procedure TCE_OptionsPage_Display_FileView.RefreshSettings;
+
+  procedure ReadExtensionColors;
+  var
+    list: TCCStringList;
+    i: Integer;
+    ws, value: WideString;
+    data: PExtListData;
+    node: PVirtualNode;
+  begin
+    list_exts.Clear;
+    list:= TCCStringList.Create;
+    try
+      list.Delimiter:= '|';
+      list.DelimitedText:= GlobalFileViewSettings.ExtensionColors;
+      for i:= 0 to list.Count - 1 do
+      begin
+        ws:= list.Strings[i];
+        value:= WideGetNextItem(ws, ',');
+        value:= WideReplaceChar(';', ',', value);
+        if value <> '' then
+        begin
+          node:= list_exts.AddChild(nil);
+          data:= list_exts.GetNodeData(node);
+
+          data.fExtensions:= value;
+          data.fColor:= StrToIntDef(WideGetNextItem(ws, ','), clWindowText); // color
+          data.fBold:= StrToBoolDef(WideGetNextItem(ws, ','), false);  // bold
+          data.fItalic:= StrToBoolDef(WideGetNextItem(ws, ','), false);  // italic
+          data.fUnderline:= StrToBoolDef(WideGetNextItem(ws, ','), false);  // underline
+        end;
+      end;
+    finally
+      list.Free;
+    end;
+  end;
+
 begin
+  // options
   check_fullrowselect.Checked:= GlobalFileViewSettings.FullRowSelect;
   check_selectprev.Checked:= GlobalFileViewSettings.SelectPreviousFolder;
   check_autoselect.Checked:= GlobalFileViewSettings.AutoSelectFirstItem;
@@ -120,7 +383,13 @@ begin
   check_infotips.Checked:= GlobalFileViewSettings.ShowInfoTips;
   check_singleclick.Checked:= GlobalFileViewSettings.SingleClickBrowse;
   check_perfolder.Checked:= GlobalFileViewSettings.PerFolderSettings;
+  check_gridlines.Checked:= GlobalFileViewSettings.ShowGridLines;
+  check_browse_zip.Checked:= GlobalFileViewSettings.BrowseZipFolders;
   combo_sizeformat.ItemIndex:= Ord(GlobalFileViewSettings.FileSizeFormat);
+
+  // colors
+  check_extension_colors.Checked:= GlobalFileViewSettings.ExtensionColorsEnabled;
+  ReadExtensionColors;
 end;
 
 {##############################################################################}

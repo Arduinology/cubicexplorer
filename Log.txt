@@ -1,5 +1,13 @@
+31.5.2012
++ Added options for Extension Colors.
++ Added Zip browsing options to Fileview and Folders.
+
+30.5.2012
+- Fixed "QuickView crashes on file end" bug.
+
 29.5.2012
 - Fixed "CE won't show when opening bookmark from tray" bug.
+* Updated Italian translation (thanks to Folgore101).
 
 28.5.2012
 + Added FullRowContextMenu advanced option to FileView.

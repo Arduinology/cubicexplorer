@@ -1123,8 +1123,9 @@ begin
     begin
       if (status = mpsDone) or ((status = mpsError) and fIsSlideshowPlaying) then
       begin
-        PlayNextFile;
-        status:= fMediaPlayer.GetStatus;
+        PostMessage(Self.Handle, WM_QuickViewCtrl, 100, 0);
+        //PlayNextFile;
+        //status:= fMediaPlayer.GetStatus;
       end;
       fIsSlideshowPlaying:= (status <> mpsClosed) and (status <> mpsStopped);
     end;
@@ -1509,8 +1510,8 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEQuickView.WMQuickViewCtrl(var Message: TMessage);
 begin
-  // Close
   case Message.WParam of
+    // Close
     2: begin
       if CanClose then
       begin
@@ -1520,6 +1521,10 @@ begin
         if assigned(fOnEditorClose) then
         fOnEditorClose(Self);
       end;
+    end;
+    // PlayNextFile
+    100: begin
+      PlayNextFile;
     end;
   end;
 

@@ -26,4 +26,13 @@ inherited CE_OptionsPage_Display_FolderTree: TCE_OptionsPage_Display_FolderTree
     TabOrder = 2
     OnClick = HandleChange
   end
+  object check_browse_zip: TTntCheckBox
+    Left = 16
+    Top = 85
+    Width = 401
+    Height = 17
+    Caption = 'Show Zip files'
+    TabOrder = 3
+    OnClick = HandleChange
+  end
 end

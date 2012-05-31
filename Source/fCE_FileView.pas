@@ -1259,12 +1259,12 @@ procedure TCEFileViewSettings.AssignSettingsTo(ATo: TComponent;
         if value <> '' then
         begin
           color:= StrToIntDef(WideGetNextItem(ws, ','), AFileView.Font.Color);
-          AFileView.ExtensionColorCodeList.Add(value, // extension
+          AFileView.ExtensionColorCodeList.Add('.' + value, // extension
             color, // color
             StrToBoolDef(WideGetNextItem(ws, ','), false),  // bold
             StrToBoolDef(WideGetNextItem(ws, ','), false),  // italic
             StrToBoolDef(WideGetNextItem(ws, ','), false),  // underline
-            StrToBoolDef(WideGetNextItem(ws, ','), true)); // enabled
+            true);                                          // enabled
         end;
       end;
     finally
