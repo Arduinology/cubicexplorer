@@ -34,7 +34,7 @@ uses
   VirtualTrees,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, ExtCtrls;
+  Dialogs, StdCtrls, ComCtrls, ExtCtrls, TntExtCtrls;
 
 type
   PExtListData = ^AExtListData;
@@ -54,8 +54,6 @@ type
     check_sortfoldersfirst: TTntCheckBox;
     check_infotips: TTntCheckBox;
     check_singleclick: TTntCheckBox;
-    combo_sizeformat: TTntComboBox;
-    TntLabel1: TTntLabel;
     check_perfolder: TTntCheckBox;
     TntPageControl1: TTntPageControl;
     sheet_options: TTntTabSheet;
@@ -71,6 +69,17 @@ type
     color_extension: TColorBox;
     check_extension_colors: TTntCheckBox;
     TntLabel2: TTntLabel;
+    sheet_display: TTntTabSheet;
+    TntLabel1: TTntLabel;
+    combo_sizeformat: TTntComboBox;
+    color_background: TColorBox;
+    TntLabel3: TTntLabel;
+    TntGroupBox1: TTntGroupBox;
+    TntLabel14: TTntLabel;
+    but_font: TTntButton;
+    color_font: TColorBox;
+    panel_font: TTntPanel;
+    FontDlg: TFontDialog;
     procedure HandleChange(Sender: TObject);
     procedure list_extsGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
@@ -86,6 +95,10 @@ type
       Column: TColumnIndex);
     procedure list_extsEditCancelled(Sender: TBaseVirtualTree;
       Column: TColumnIndex);
+    procedure FontDlgApply(Sender: TObject; Wnd: HWND);
+    procedure color_fontSelect(Sender: TObject);
+    procedure but_fontClick(Sender: TObject);
+    procedure color_backgroundSelect(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -126,6 +139,17 @@ begin
   list_exts.NodeDataSize:= SizeOf(AExtListData);
 
   fExtValuesChanging:= false;
+end;
+
+{-------------------------------------------------------------------------------
+  On FontDlg.Apply
+-------------------------------------------------------------------------------}
+procedure TCE_OptionsPage_Display_FileView.FontDlgApply(Sender: TObject;
+  Wnd: HWND);
+begin
+  panel_font.Font.Assign(FontDlg.Font);
+  panel_font.Caption:= FontDlg.Font.Name + ' ' + IntToStr(FontDlg.Font.Size) + 'pt';
+  ApplySettings;
 end;
 
 {-------------------------------------------------------------------------------
@@ -173,6 +197,10 @@ begin
     GlobalFileViewSettings.ShowGridLines:= check_gridlines.Checked;
     GlobalFileViewSettings.BrowseZipFolders:= check_browse_zip.Checked;
     GlobalFileViewSettings.FileSizeFormat:= TVirtualFileSizeFormat(combo_sizeformat.ItemIndex);
+
+    // display
+    GlobalFileViewSettings.BackgroundColor:= color_background.Selected;
+    GlobalFileViewSettings.Font.Assign(panel_font.Font);
 
     // colors
     GlobalFileViewSettings.ExtensionColorsEnabled:= check_extension_colors.Checked;
@@ -236,6 +264,39 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  On but_font.Click
+-------------------------------------------------------------------------------}
+procedure TCE_OptionsPage_Display_FileView.but_fontClick(Sender: TObject);
+begin
+  FontDlg.Font.Assign(panel_font.Font);
+  if FontDlg.Execute then
+  begin
+    panel_font.Font.Assign(FontDlg.Font);
+    panel_font.Caption:= FontDlg.Font.Name + ' ' + IntToStr(FontDlg.Font.Size) + 'pt';
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  On color_font.Select
+-------------------------------------------------------------------------------}
+procedure TCE_OptionsPage_Display_FileView.color_fontSelect(Sender: TObject);
+begin
+  panel_font.Font.Color:= color_font.Selected;
+  color_extension.DefaultColorColor:= panel_font.Font.Color;
+  HandleChange(Sender);
+end;
+
+{-------------------------------------------------------------------------------
+  On color_background.Select
+-------------------------------------------------------------------------------}
+procedure TCE_OptionsPage_Display_FileView.color_backgroundSelect(
+  Sender: TObject);
+begin
+  panel_font.Color:= color_background.Selected;
+  HandleChange(Sender);
+end;
+
+{-------------------------------------------------------------------------------
   On list_exts.FreeNode
 -------------------------------------------------------------------------------}
 procedure TCE_OptionsPage_Display_FileView.list_extsFreeNode(
@@ -247,6 +308,9 @@ begin
   data.fExtensions:= '';
 end;
 
+{-------------------------------------------------------------------------------
+  On list_exts.EditCancelled
+-------------------------------------------------------------------------------}
 procedure TCE_OptionsPage_Display_FileView.list_extsEditCancelled(
   Sender: TBaseVirtualTree; Column: TColumnIndex);
 var
@@ -260,6 +324,9 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  On list_exts.Edited
+-------------------------------------------------------------------------------}
 procedure TCE_OptionsPage_Display_FileView.list_extsEdited(
   Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex);
 var
@@ -386,6 +453,16 @@ begin
   check_gridlines.Checked:= GlobalFileViewSettings.ShowGridLines;
   check_browse_zip.Checked:= GlobalFileViewSettings.BrowseZipFolders;
   combo_sizeformat.ItemIndex:= Ord(GlobalFileViewSettings.FileSizeFormat);
+
+  // display
+  color_background.Handle; // <-- hack around bug in TColorBox (http://qc.embarcadero.com/wc/qcmain.aspx?d=85895).
+  color_background.Selected:= GlobalFileViewSettings.BackgroundColor;
+  panel_font.Color:= GlobalFileViewSettings.BackgroundColor;
+  panel_font.Font.Assign(GlobalFileViewSettings.Font);
+  panel_font.Caption:= GlobalFileViewSettings.Font.Name + ' ' + IntToStr(GlobalFileViewSettings.Font.Size) + 'pt';
+  color_font.Handle;
+  color_font.Selected:= panel_font.Font.Color;
+  color_extension.DefaultColorColor:= color_font.Selected;
 
   // colors
   check_extension_colors.Checked:= GlobalFileViewSettings.ExtensionColorsEnabled;

@@ -176,7 +176,6 @@ type
     fFileSizeFormat: TVirtualFileSizeFormat;
     fFilmstrip: TCEFilmstripSettings;
     fFolderUpOnDblClick: Boolean;
-    fFontSize: Integer;
     fFullRowDblClick: Boolean;
     fGroupBy: TCEGroupBySettings;
     fInfoBarSize: Integer;
@@ -209,7 +208,6 @@ type
     procedure SetCheckBoxSelection(const Value: Boolean);
     procedure SetFileSizeFormat(const Value: TVirtualFileSizeFormat);
     procedure SetFolderUpOnDblClick(const Value: Boolean);
-    procedure SetFontSize(const Value: Integer);
     procedure SetFullRowDblClick(const Value: Boolean);
     procedure SetSelectPasted(const Value: Boolean);
     procedure SetShowInfoTips(const Value: Boolean);
@@ -227,8 +225,10 @@ type
     procedure SetThreadedImages(const Value: Boolean);
     procedure SetUse_JumboIcons_in_InfoBar(const Value: Boolean);
   protected
+    fBackgroundColor: TColor;
     fExtensionColors: WideString;
     fExtensionColorsEnabled: Boolean;
+    fFont: TFont;
     fFullRowContextMenu: Boolean;
     fPerFolderSettings: Boolean;
     fShowCaptionsInFilmstrip: Boolean;
@@ -238,8 +238,10 @@ type
     fStorageIsLoaded: Boolean;
     fUpdateCount: Integer;
     fViewStyle: TEasyListStyle;
+    procedure SetBackgroundColor(const Value: TColor);
     procedure SetExtensionColors(const Value: WideString);
     procedure SetExtensionColorsEnabled(const Value: Boolean);
+    procedure SetFont(const Value: TFont);
     procedure SetFullRowContextMenu(const Value: Boolean);
     procedure SetPerFolderSettings(const Value: Boolean);
     procedure SetShowCaptionsInFilmstrip(const Value: Boolean);
@@ -271,6 +273,7 @@ type
         SetAutoSelectFirstItem;
     property AutosizeListViewStyle: Boolean read fAutosizeListViewStyle write
         SetAutosizeListViewStyle;
+    property BackgroundColor: TColor read fBackgroundColor write SetBackgroundColor;
     property BrowseZipFolders: Boolean read fBrowseZipFolders write
         SetBrowseZipFolders;
     property CellSizes: TCECellSizeSettings read fCellSizes write fCellSizes;
@@ -286,7 +289,7 @@ type
     property Filmstrip: TCEFilmstripSettings read fFilmstrip write fFilmstrip;
     property FolderUpOnDblClick: Boolean read fFolderUpOnDblClick write
         SetFolderUpOnDblClick;
-    property FontSize: Integer read fFontSize write SetFontSize;
+    property Font: TFont read fFont write SetFont;
     property FullRowContextMenu: Boolean read fFullRowContextMenu write
         SetFullRowContextMenu;
     property FullRowDblClick: Boolean read fFullRowDblClick write
@@ -802,7 +805,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFileViewPage.HandleFileViewResize(Sender: TObject);
 var
-  h: Integer;
+  h,w: Integer;
 begin
   if fViewStyle = elsFilmStrip then
   begin
@@ -811,7 +814,8 @@ begin
     else
     h:= FileView.ClientHeight-2;
 
-    FileView.CellSizes.FilmStrip.SetSize(Round(h*1.2), h);
+    w:= Round((h - (FileView.Canvas.TextHeight('|') * 2)) * 1.2);
+    FileView.CellSizes.FilmStrip.SetSize(w, h);
   end;
 end;
 
@@ -1190,7 +1194,6 @@ begin
   fSingleClickBrowse:= false;
   fFileSizeFormat:= vfsfDefault;
   fArrowBrowse:= true;
-  fFontSize:= -1;
   fFolderUpOnDblClick:= true;
   fFullRowDblClick:= false;
   fSelectPasted:= true;
@@ -1201,6 +1204,9 @@ begin
   fShowCaptionsInFilmstrip:= false;
   fShowCaptionsInThumbnails:= true;
   fFullRowContextMenu:= false;
+  fBackgroundColor:= clWindow;
+  fFont:= TFont.Create;
+  SetDesktopIconFonts(fFont);
 end;
 
 {*------------------------------------------------------------------------------
@@ -1214,6 +1220,7 @@ begin
   fCellSizes.Free;
   fFilmstrip.Free;
   fStorage.Free;
+  fFont.Free;
   inherited;
 end;
 
@@ -1259,6 +1266,9 @@ procedure TCEFileViewSettings.AssignSettingsTo(ATo: TComponent;
         if value <> '' then
         begin
           color:= StrToIntDef(WideGetNextItem(ws, ','), AFileView.Font.Color);
+          if color = clDefault then
+          color:= fFont.Color;
+          
           AFileView.ExtensionColorCodeList.Add('.' + value, // extension
             color, // color
             StrToBoolDef(WideGetNextItem(ws, ','), false),  // bold
@@ -1276,6 +1286,7 @@ var
   options: TVirtualEasyListviewOptions;
   fileViewPage: TCEFileViewPage;
   fileView: TCEFileView;
+  textHeight: Integer;
 begin
   if not assigned(ATo) then
   Exit;
@@ -1352,46 +1363,128 @@ begin
       // Misc
       fileView.FileSizeFormat:= fFileSizeFormat;
       fileView.ArrowBrowse:= fArrowBrowse;
-      if FontSize > 0 then
-      fileView.Font.Size:= FontSize
+      
+      if fBackgroundColor = clDefault then
+      fileView.Color:= clWindow
       else
-      SetDesktopIconFonts(fileView.Font);
+      fileView.Color:= fBackgroundColor;
+      fileView.Font.Assign(fFont);
 
-      // Cell Sizes
+      // ==== Cell Sizes ====
+      textHeight:= fileView.Canvas.TextHeight('|');
+
+      // Large icons
       if (CellSizes.LargeIcons_Width < 1) or (CellSizes.LargeIcons_Height < 1) then
-      fileView.CellSizes.Icon.RestoreDefaults
+      begin
+        fileView.CellSizes.Icon.RestoreDefaults;
+        
+        if CellSizes.LargeIcons_Width > 0 then
+        fileView.CellSizes.Icon.Width:= CellSizes.LargeIcons_Width;
+
+        if CellSizes.LargeIcons_Height > 0 then
+        fileView.CellSizes.Icon.Height:= CellSizes.LargeIcons_Height
+        else
+        fileView.CellSizes.Icon.Height:= Max((textHeight*2) + 48, fileView.CellSizes.Icon.Height);
+      end
       else
       fileView.CellSizes.Icon.SetSize(CellSizes.LargeIcons_Width, CellSizes.LargeIcons_Height);
 
+      // Small Icons
       if (CellSizes.SmallIcons_Width < 1) or (CellSizes.SmallIcons_Height < 1) then
-      fileView.CellSizes.SmallIcon.RestoreDefaults
+      begin
+        fileView.CellSizes.SmallIcon.RestoreDefaults;
+        if CellSizes.SmallIcons_Width > 0 then
+        fileView.CellSizes.SmallIcon.Width:= CellSizes.SmallIcons_Width;
+
+        if CellSizes.SmallIcons_Height > 0 then
+        fileView.CellSizes.SmallIcon.Height:= CellSizes.SmallIcons_Height
+        else
+        fileView.CellSizes.SmallIcon.Height:= Max(textHeight, 18);
+      end
       else
       fileView.CellSizes.SmallIcon.SetSize(CellSizes.SmallIcons_Width, CellSizes.SmallIcons_Height);
 
+      // List
       if (CellSizes.List_Width < 1) or (CellSizes.List_Height < 1) then
-      fileView.CellSizes.List.RestoreDefaults
+      begin
+        fileView.CellSizes.List.RestoreDefaults;
+        if CellSizes.List_Width > 0 then
+        fileView.CellSizes.List.Width:= CellSizes.List_Width;
+
+        if CellSizes.List_Height > 0 then
+        fileView.CellSizes.List.Height:= CellSizes.List_Height
+        else
+        fileView.CellSizes.List.Height:= Max(textHeight, 18);
+      end
       else
       fileView.CellSizes.List.SetSize(CellSizes.List_Width, CellSizes.List_Height);
 
+      // Details
       if (CellSizes.Details_Width < 1) or (CellSizes.Details_Height < 1) then
-      fileView.CellSizes.Report.RestoreDefaults
+      begin
+        fileView.CellSizes.Report.RestoreDefaults;
+        if CellSizes.Details_Width > 0 then
+        fileView.CellSizes.Report.Width:= CellSizes.Details_Width;
+
+        if CellSizes.Details_Height > 0 then
+        fileView.CellSizes.Report.Height:= CellSizes.Details_Height
+        else
+        fileView.CellSizes.Report.Height:= Max(textHeight, 18);
+      end
       else
       fileView.CellSizes.Report.SetSize(CellSizes.Details_Width, CellSizes.Details_Height);
 
+      // Tiles
       if (CellSizes.Tiles_Width < 1) or (CellSizes.Tiles_Height < 1) then
-      fileView.CellSizes.Tile.RestoreDefaults
+      begin
+        fileView.CellSizes.Tile.RestoreDefaults;
+        
+        if CellSizes.Tiles_Width > 0 then
+        fileView.CellSizes.Tile.Width:= CellSizes.Tiles_Width;
+
+        if CellSizes.Tiles_Height > 0 then
+        fileView.CellSizes.Tile.Height:= CellSizes.Tiles_Height
+        else
+        fileView.CellSizes.Tile.Height:= Max((textHeight*3) + 8, fileView.CellSizes.Tile.Height);
+      end
       else
       fileView.CellSizes.Tile.SetSize(CellSizes.Tiles_Width, CellSizes.Tiles_Height);
 
+      // Thumbnails
       if (CellSizes.Thumbnails_Width < 1) or (CellSizes.Thumbnails_Height < 1) then
-      fileView.CellSizes.Thumbnail.RestoreDefaults
+      begin
+        fileView.CellSizes.Thumbnail.RestoreDefaults;
+        
+        if CellSizes.Thumbnails_Width > 0 then
+        fileView.CellSizes.Thumbnail.Width:= CellSizes.Thumbnails_Width;
+
+        if CellSizes.Thumbnails_Height > 0 then
+        fileView.CellSizes.Thumbnail.Height:= CellSizes.Thumbnails_Height
+        else
+        begin
+          fileView.CellSizes.Thumbnail.Height:= (textHeight*2) + fileView.CellSizes.Thumbnail.Width;
+        end;
+      end
       else
       fileView.CellSizes.Thumbnail.SetSize(CellSizes.Thumbnails_Width, CellSizes.Thumbnails_Height);
 
+      // Filmstrip
       if not assigned(fileViewPage) then
       begin
         if (CellSizes.Filmstrip_Width < 1) or (CellSizes.Filmstrip_Height < 1) then
-        fileView.CellSizes.FilmStrip.RestoreDefaults
+        begin
+          fileView.CellSizes.Thumbnail.RestoreDefaults;
+        
+          if CellSizes.Filmstrip_Width > 0 then
+          fileView.CellSizes.FilmStrip.Width:= CellSizes.Filmstrip_Width;
+
+          if CellSizes.Filmstrip_Height > 0 then
+          fileView.CellSizes.FilmStrip.Height:= CellSizes.Filmstrip_Height
+          else
+          begin
+            fileView.CellSizes.FilmStrip.Height:= (textHeight*2) + fileView.CellSizes.FilmStrip.Width;
+          end;
+        end
         else
         fileView.CellSizes.FilmStrip.SetSize(CellSizes.Filmstrip_Width, CellSizes.Filmstrip_Height);
       end;
@@ -1757,6 +1850,15 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
+  Set BackgroundColor
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetBackgroundColor(const Value: TColor);
+begin
+  fBackgroundColor:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
   Set BrowseZipFolders
 -------------------------------------------------------------------------------}
 procedure TCEFileViewSettings.SetBrowseZipFolders(const Value: Boolean);
@@ -1809,13 +1911,17 @@ begin
 end;
 
 {-------------------------------------------------------------------------------
-  Set FontSize
+  Set Font
 -------------------------------------------------------------------------------}
-procedure TCEFileViewSettings.SetFontSize(const Value: Integer);
+procedure TCEFileViewSettings.SetFont(const Value: TFont);
 begin
-  fFontSize:= Value;
+  fFont.Assign(Value);
+  SendChanges;
 end;
 
+{-------------------------------------------------------------------------------
+  Set FullRowContextMenu
+-------------------------------------------------------------------------------}
 procedure TCEFileViewSettings.SetFullRowContextMenu(const Value: Boolean);
 begin
   fFullRowContextMenu:= Value;

@@ -4,18 +4,11 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
     Top = 3
     Width = 435
     Height = 330
-    ActivePage = sheet_options
+    ActivePage = sheet_display
     TabOrder = 0
     object sheet_options: TTntTabSheet
       Caption = 'Options'
       ExplicitHeight = 305
-      object TntLabel1: TTntLabel
-        Left = 16
-        Top = 230
-        Width = 76
-        Height = 13
-        Caption = 'File size format:'
-      end
       object check_fullrowselect: TTntCheckBox
         Left = 16
         Top = 16
@@ -79,23 +72,13 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
         TabOrder = 6
         OnClick = HandleChange
       end
-      object combo_sizeformat: TTntComboBox
-        Left = 16
-        Top = 249
-        Width = 145
-        Height = 21
-        Style = csDropDownList
-        ItemHeight = 13
-        TabOrder = 7
-        OnChange = HandleChange
-      end
       object check_perfolder: TTntCheckBox
         Left = 16
         Top = 149
         Width = 401
         Height = 17
         Caption = 'Use per folder settings'
-        TabOrder = 8
+        TabOrder = 7
         OnClick = HandleChange
       end
       object check_gridlines: TTntCheckBox
@@ -104,7 +87,7 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
         Width = 401
         Height = 17
         Caption = 'Show gridlines'
-        TabOrder = 9
+        TabOrder = 8
         OnClick = HandleChange
       end
       object check_browse_zip: TTntCheckBox
@@ -113,8 +96,102 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
         Width = 401
         Height = 17
         Caption = 'Browse Zip Files'
-        TabOrder = 10
+        TabOrder = 9
         OnClick = HandleChange
+      end
+    end
+    object sheet_display: TTntTabSheet
+      Caption = 'Display'
+      ExplicitLeft = 0
+      object TntLabel1: TTntLabel
+        Left = 200
+        Top = 14
+        Width = 76
+        Height = 13
+        Caption = 'File size format:'
+      end
+      object TntLabel3: TTntLabel
+        Left = 16
+        Top = 212
+        Width = 82
+        Height = 13
+        Caption = 'Background color'
+      end
+      object combo_sizeformat: TTntComboBox
+        Left = 200
+        Top = 33
+        Width = 145
+        Height = 21
+        Style = csDropDownList
+        ItemHeight = 13
+        TabOrder = 0
+        OnChange = HandleChange
+      end
+      object color_background: TColorBox
+        Left = 16
+        Top = 231
+        Width = 145
+        Height = 22
+        DefaultColorColor = clWindow
+        Selected = clDefault
+        Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeDefault, cbCustomColor, cbPrettyNames]
+        ItemHeight = 16
+        TabOrder = 1
+        OnSelect = color_backgroundSelect
+      end
+      object TntGroupBox1: TTntGroupBox
+        Left = 16
+        Top = 14
+        Width = 159
+        Height = 178
+        Caption = 'Font'
+        TabOrder = 2
+        DesignSize = (
+          159
+          178)
+        object TntLabel14: TTntLabel
+          Left = 16
+          Top = 118
+          Width = 29
+          Height = 13
+          Caption = 'Color:'
+        end
+        object but_font: TTntButton
+          Left = 16
+          Top = 87
+          Width = 127
+          Height = 25
+          Anchors = [akLeft, akTop, akRight]
+          Caption = 'Font'
+          TabOrder = 0
+          WordWrap = True
+          OnClick = but_fontClick
+        end
+        object color_font: TColorBox
+          Left = 24
+          Top = 137
+          Width = 119
+          Height = 22
+          DefaultColorColor = clWindowText
+          NoneColorColor = clNone
+          Selected = clDefault
+          Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeDefault, cbCustomColor, cbPrettyNames]
+          Anchors = [akLeft, akTop, akRight]
+          ItemHeight = 16
+          TabOrder = 1
+          OnSelect = color_fontSelect
+        end
+        object panel_font: TTntPanel
+          Left = 8
+          Top = 24
+          Width = 143
+          Height = 49
+          Anchors = [akLeft, akTop, akRight]
+          BevelOuter = bvNone
+          Color = clWindow
+          ParentBackground = False
+          TabOrder = 2
+        end
       end
     end
     object sheet_colors: TTntTabSheet
@@ -160,7 +237,7 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
         Width = 154
         Height = 22
         DefaultColorColor = clWindowText
-        Selected = clWindowText
+        Selected = clDefault
         Style = [cbStandardColors, cbExtendedColors, cbSystemColors, cbIncludeDefault, cbCustomColor, cbPrettyNames]
         ItemHeight = 16
         TabOrder = 2
@@ -233,5 +310,16 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
         OnClick = HandleChange
       end
     end
+  end
+  object FontDlg: TFontDialog
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Options = [fdEffects, fdApplyButton]
+    OnApply = FontDlgApply
+    Left = 400
+    Top = 34
   end
 end
