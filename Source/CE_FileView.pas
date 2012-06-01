@@ -32,7 +32,7 @@ uses
   MPCommonObjects, MPCommonUtilities, MPShellUtilities,
   EasyListview, VirtualExplorerEasyListview, VirtualResources,
   VirtualExplorerTree,  VirtualShellHistory,
-  VirtualShellNewMenu, VirtualShellNotifier,
+  VirtualShellNewMenu, VirtualShellNotifier, VirtualThumbnails,
   // SpTBX, TB2K
   SpTBXItem, TB2Item,
   // Tnt Controls
@@ -42,6 +42,8 @@ uses
   Graphics, Menus, ShellAPI, ShlObj, Math, ActiveX;
 
 type
+  TCustomThumbsManagerAccess = class(TCustomThumbsManager);
+
   TCEColSetting = record
     Index: Integer;
     Position: Integer;
@@ -144,6 +146,7 @@ type
     procedure PasteFromClipboard; override;
     procedure PasteShortcutFromClipboard;
     procedure Rebuild(RestoreTopNode: Boolean = False); override;
+    procedure ClearThumbnailCache; virtual;
     procedure SelectedFilesDelete(ShiftKeyState: TExecuteVerbShift = evsCurrent);
         override;
     procedure SetFocus; override;
@@ -1295,6 +1298,18 @@ begin
   end;
 
   inherited Rebuild(false);
+end;
+
+{-------------------------------------------------------------------------------
+  ClearThumbnailCache
+-------------------------------------------------------------------------------}
+procedure TCEFileView.ClearThumbnailCache;
+var
+  ws: WideString;
+begin
+  ws:= TCustomThumbsManagerAccess(Self.ThumbsManager).GetAlbumFileToLoad(Self.RootFolderNamespace.NameForParsing);
+  if WideFileExists(ws) then
+  WideDeleteFile(ws);
 end;
 
 {-------------------------------------------------------------------------------

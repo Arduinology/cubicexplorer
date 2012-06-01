@@ -1,3 +1,8 @@
+1.6.2012
++ Added Thumbnail settings for FileView.
+* Updated French translation (thanks to BB).
+* Updated Slovak translation (thanks to Sepp Winkler).
+
 31.5.2012
 + Added options for Extension Colors.
 + Added Zip browsing options to Fileview and Folders.

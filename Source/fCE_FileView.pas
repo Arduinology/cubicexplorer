@@ -44,7 +44,8 @@ uses
   TntSysUtils,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ShlObj, Menus, JvAppStorage, Contnrs, StrUtils, ExtCtrls, ActiveX;
+  Dialogs, ShlObj, Menus, JvAppStorage, Contnrs, StrUtils, ExtCtrls, ActiveX,
+  VirtualThumbnails;
 
 type
   TEasyEditManagerHack = class(TEasyEditManager);
@@ -161,6 +162,42 @@ type
     property ViewStyle: TEasyListStyle read GetViewStyle write SetViewStyle;
   end;
 
+  TCEThumbnailSettings = class(TPersistent)
+  private
+  protected
+    fLoadAllAtOnce: Boolean;
+    fMaxThumbHeight: Integer;
+    fMaxThumbWidth: Integer;
+    fStorageCompressed: Boolean;
+    fStorageFilename: WideString;
+    fStorageRepositoryFolder: WideString;
+    fStorageType: TThumbsAlbumStorage;
+    fStretch: Boolean;
+    fUseExifThumbnail: Boolean;
+    fUseExifOrientation: Boolean;
+    fUseFoldersShellExtraction: Boolean;
+    fUseShellExtraction: Boolean;
+    fUseStorage: Boolean;
+    fUseSubsampling: Boolean;
+  public
+    constructor Create; virtual;
+  published
+    property LoadAllAtOnce: Boolean read fLoadAllAtOnce write fLoadAllAtOnce default False;
+    property MaxThumbHeight: Integer read fMaxThumbHeight write fMaxThumbHeight default 512;
+    property MaxThumbWidth: Integer read fMaxThumbWidth write fMaxThumbWidth default 512;
+    property StorageCompressed: Boolean read fStorageCompressed write fStorageCompressed default True;
+    property StorageFilename: WideString read fStorageFilename write fStorageFilename;
+    property StorageRepositoryFolder: WideString read fStorageRepositoryFolder write fStorageRepositoryFolder;
+    property StorageType: TThumbsAlbumStorage read fStorageType write fStorageType default tasRepository;
+    property Stretch: Boolean read fStretch write fStretch default True;
+    property UseExifThumbnail: Boolean read fUseExifThumbnail write fUseExifThumbnail default True;
+    property UseExifOrientation: Boolean read fUseExifOrientation write fUseExifOrientation default True;
+    property UseFoldersShellExtraction: Boolean read fUseFoldersShellExtraction write fUseFoldersShellExtraction default True;
+    property UseShellExtraction: Boolean read fUseShellExtraction write fUseShellExtraction default True;
+    property UseStorage: Boolean read fUseStorage write fUseStorage default false;
+    property UseSubsampling: Boolean read fUseSubsampling write fUseSubsampling default True;
+  end;  
+
   TCEFileViewSettings = class(TPersistent)
   private
     fArrowBrowse: Boolean;
@@ -236,6 +273,7 @@ type
     fStorage: TRootNodeStorage;
     fStorageFilePath: WideString;
     fStorageIsLoaded: Boolean;
+    fThumbnails: TCEThumbnailSettings;
     fUpdateCount: Integer;
     fViewStyle: TEasyListStyle;
     procedure SetBackgroundColor(const Value: TColor);
@@ -330,10 +368,12 @@ type
     property ThreadedEnumeration: Boolean read fThreadedEnumeration write
         SetThreadedEnumeration;
     property ThreadedImages: Boolean read fThreadedImages write SetThreadedImages;
+    property Thumbnails: TCEThumbnailSettings read fThumbnails;
     property Use_JumboIcons_in_InfoBar: Boolean read fUse_JumboIcons_in_InfoBar
         write SetUse_JumboIcons_in_InfoBar;
     property ViewStyle: TEasyListStyle read fViewStyle write fViewStyle;
   end;
+
 
 var
   GlobalFileViewSettings: TCEFileViewSettings;
@@ -1207,6 +1247,7 @@ begin
   fBackgroundColor:= clWindow;
   fFont:= TFont.Create;
   SetDesktopIconFonts(fFont);
+  fThumbnails:= TCEThumbnailSettings.Create;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1221,6 +1262,7 @@ begin
   fFilmstrip.Free;
   fStorage.Free;
   fFont.Free;
+  fThumbnails.Free;
   inherited;
 end;
 
@@ -1323,7 +1365,7 @@ begin
   begin
     fileView.BeginUpdate;
     try
-      // Toggles
+    // ==== Toggles ====
       fileView.SmoothScroll:= fSmoothScroll;
       if fHiddenFiles then
       fileView.FileObjects:= [foFolders,foNonFolders,foHidden] //,foShareable,foNetworkPrinters]
@@ -1346,12 +1388,10 @@ begin
       fileView.FullRowDblClick:= fFullRowDblClick;
       fileView.SelectPasted:= fSelectPasted;
       fileView.SortAfterPaste:= fSortAfterPaste;
-      fileView.ExtensionColorCode:= fExtensionColorsEnabled;
-      if fExtensionColorsEnabled then
-      AssignExtensionColors(fileView, fExtensionColors);
       fileView.FullRowContextMenu:= fFullRowContextMenu;
+      fileView.ArrowBrowse:= fArrowBrowse;
 
-      // Options
+    // ==== Options ====
       options:= fileView.Options;
       if fBrowseZipFolders then Include(options, eloBrowseExecuteZipFolder) else Exclude(options, eloBrowseExecuteZipFolder);
       if fThreadedImages then Include(options, eloThreadedImages) else Exclude(options, eloThreadedImages);
@@ -1360,17 +1400,51 @@ begin
       if fShowInfoTips then Include(options, eloQueryInfoHints) else Exclude(options, eloQueryInfoHints);
       fileView.Options:= options;
 
-      // Misc
+    // ==== Misc ====
+
+      // display
       fileView.FileSizeFormat:= fFileSizeFormat;
-      fileView.ArrowBrowse:= fArrowBrowse;
-      
+
       if fBackgroundColor = clDefault then
       fileView.Color:= clWindow
       else
       fileView.Color:= fBackgroundColor;
       fileView.Font.Assign(fFont);
+      // colors
+      fileView.ExtensionColorCode:= fExtensionColorsEnabled;
+      if fExtensionColorsEnabled then
+      AssignExtensionColors(fileView, fExtensionColors);
+      // thumbnails
+      fileView.ThumbsManager.AutoLoad:= Thumbnails.fUseStorage;
+      fileView.ThumbsManager.AutoSave:= Thumbnails.fUseStorage;
+      fileView.ThumbsManager.LoadAllAtOnce:= Thumbnails.fLoadAllAtOnce;
+      
+      if Thumbnails.fMaxThumbHeight <= 0 then
+      fileView.ThumbsManager.MaxThumbHeight:= 2048
+      else
+      fileView.ThumbsManager.MaxThumbHeight:= Thumbnails.fMaxThumbHeight;
 
-      // ==== Cell Sizes ====
+      if Thumbnails.fMaxThumbWidth <= 0 then
+      fileView.ThumbsManager.MaxThumbWidth:= 2048
+      else
+      fileView.ThumbsManager.MaxThumbWidth:= Thumbnails.fMaxThumbWidth;
+
+      fileView.ThumbsManager.StorageCompressed:= Thumbnails.StorageCompressed;
+      fileView.ThumbsManager.StorageFilename:= Thumbnails.StorageFilename;
+      if Thumbnails.StorageRepositoryFolder <> '' then
+      fileView.ThumbsManager.StorageRepositoryFolder:= Thumbnails.StorageRepositoryFolder
+      else
+      fileView.ThumbsManager.StorageRepositoryFolder:= SettingsDirPath + 'Thumbnails\';
+      fileView.ThumbsManager.StorageType:= Thumbnails.StorageType;
+      fileView.ThumbsManager.Stretch:= Thumbnails.fStretch;
+      fileView.ThumbsManager.UseExifThumbnail:= Thumbnails.fUseExifThumbnail;
+      fileView.ThumbsManager.UseExifOrientation:= Thumbnails.fUseExifOrientation;
+      fileView.ThumbsManager.UseFoldersShellExtraction:= Thumbnails.fUseFoldersShellExtraction;
+      fileView.ThumbsManager.UseShellExtraction:= Thumbnails.fUseShellExtraction;
+      fileView.ThumbsManager.UseSubsampling:= Thumbnails.fUseSubsampling;
+
+
+    // ==== Cell Sizes ====
       textHeight:= fileView.Canvas.TextHeight('|');
 
       // Large icons
@@ -2190,6 +2264,31 @@ end;
 procedure TCEFileViewPageSettings.SetViewStyle(const Value: TEasyListStyle);
 begin
   FileViewPage.ViewStyle:= Value;
+end;
+
+{##############################################################################}
+// TCEThumbnailSettings
+
+{-------------------------------------------------------------------------------
+  Create an instance of TCEThumbnailSettings
+-------------------------------------------------------------------------------}
+constructor TCEThumbnailSettings.Create;
+begin
+  inherited;
+  fLoadAllAtOnce:= false;
+  fMaxThumbHeight:= 512;
+  fMaxThumbWidth:= 512;
+  fStorageCompressed:= true;
+  fStorageFilename:= 'Thumbnails.album';
+  fStorageRepositoryFolder:= '';
+  fStorageType:= tasRepository;
+  fStretch:= true;
+  fUseExifOrientation:= true;
+  fUseExifThumbnail:= true;
+  fUseFoldersShellExtraction:= true;
+  fUseShellExtraction:= true;
+  fUseStorage:= false;
+  fUseSubsampling:= true;
 end;
 
 {##############################################################################}

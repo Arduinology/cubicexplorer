@@ -3852,8 +3852,8 @@ begin
           VFF := ThumbsManager.IsValidImageFileFormat(NS);
           if VFF <> vffInvalid then
           begin
-            ThumbSize.X := Max(RectWidth(RectArray.IconRect), ThumbsManager.MaxThumbWidth);
-            ThumbSize.Y := Max(RectHeight(RectArray.IconRect), ThumbsManager.MaxThumbHeight);
+            ThumbSize.X := Min(RectWidth(RectArray.IconRect), ThumbsManager.MaxThumbWidth);
+            ThumbSize.Y := Min(RectHeight(RectArray.IconRect), ThumbsManager.MaxThumbHeight);
             Enqueue(NS, Item, ThumbSize, VFF = vffUnknown, False);
           end;
         end
@@ -4897,8 +4897,8 @@ begin
           VFF := ThumbsManager.IsValidImageFileFormat(NS);
           if VFF <> vffInvalid then
           begin
-            ThumbSize.X := Max(RectWidth(RectArray.IconRect), ThumbsManager.MaxThumbWidth);
-            ThumbSize.Y := Max(RectHeight(RectArray.IconRect), ThumbsManager.MaxThumbHeight);
+            ThumbSize.X := Min(RectWidth(RectArray.IconRect), ThumbsManager.MaxThumbWidth);
+            ThumbSize.Y := Min(RectHeight(RectArray.IconRect), ThumbsManager.MaxThumbHeight);
             Enqueue(NS, Item, ThumbSize, VFF = vffUnknown, False);
           end;
         end
@@ -4930,8 +4930,8 @@ begin
       VFF := ThumbsManager.IsValidImageFileFormat(NS);
       if VFF <> vffInvalid then
       begin
-        ThumbSize.X := Max(RectWidth(ARect), ThumbsManager.MaxThumbWidth);
-        ThumbSize.Y := Max(RectHeight(ARect), ThumbsManager.MaxThumbHeight);
+        ThumbSize.X := Min(RectWidth(ARect), ThumbsManager.MaxThumbWidth);
+        ThumbSize.Y := Min(RectHeight(ARect), ThumbsManager.MaxThumbHeight);
         Enqueue(NS, Item, ThumbSize, VFF = vffUnknown, False);
         end;
       end;
@@ -4941,8 +4941,8 @@ begin
       begin
         ExplorerItem := TExplorerItem( Item);
         // Force the thumbnail loaded
-        ThumbSize.X := Max(RectWidth(ARect), ThumbsManager.MaxThumbWidth);
-        ThumbSize.Y := Max(RectHeight(ARect), ThumbsManager.MaxThumbHeight);
+        ThumbSize.X := Min(RectWidth(ARect), ThumbsManager.MaxThumbWidth);
+        ThumbSize.Y := Min(RectHeight(ARect), ThumbsManager.MaxThumbHeight);
         T := SpCreateThumbInfoFromFile(ExplorerItem.Namespace, ThumbSize.X, ThumbSize.Y, True, True, True, True, Color);
         if Assigned(T) then
         try
@@ -4959,8 +4959,8 @@ begin
       end;
       if (nsThreadedImageLoaded in NS.States) and ValidateThumbnail(Item, T) then
       begin
-        ThumbSize.X := Max(RectWidth(ARect), ThumbsManager.MaxThumbWidth);
-        ThumbSize.Y := Max(RectHeight(ARect), ThumbsManager.MaxThumbHeight);
+        ThumbSize.X := Min(RectWidth(ARect), ThumbsManager.MaxThumbWidth);
+        ThumbSize.Y := Min(RectHeight(ARect), ThumbsManager.MaxThumbHeight);
         Sz := T.ThumbSize;
         if (T.ImageWidth = 0) or (T.ImageHeight = 0) then
           Sz := T.ThumbSize
@@ -7404,8 +7404,8 @@ begin
         Item.View.ItemRectArray(Item, nil, Controller.Canvas, Item.Caption, RectArray);
         VFF := IsValidImageFileFormat(NS);
         if VFF <> vffInvalid then begin
-          ThumbSize.X := Max(RectWidth(RectArray.IconRect), MaxThumbWidth);
-          ThumbSize.Y := Max(RectHeight(RectArray.IconRect), MaxThumbHeight);
+          ThumbSize.X := Min(RectWidth(RectArray.IconRect), MaxThumbWidth);
+          ThumbSize.Y := Min(RectHeight(RectArray.IconRect), MaxThumbHeight);
           Controller.Enqueue(NS, Item, ThumbSize, VFF = vffUnknown, False);
         end;
       end;

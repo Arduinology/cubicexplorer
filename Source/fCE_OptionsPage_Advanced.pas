@@ -80,8 +80,12 @@ begin
   ImageIndex:= 3;
   PageListPosition:= 4;
   AddComponents;
+  Inspector.Root.ExpandItems(false);
 end;
 
+{-------------------------------------------------------------------------------
+  On Inspector.ItemValueChanged
+-------------------------------------------------------------------------------}
 procedure TCEOptionsPage_Advanced.InspectorItemValueChanged(Sender: TObject;
   Item: TJvCustomInspectorItem);
 begin
@@ -101,6 +105,7 @@ begin
   for i:= 0 to GlobalAppSettings.Count - 1 do
   begin
     item:= GlobalAppSettings.Items[i];
+    if item.ShowInEditor then
     Inspector.AddComponent(item.ObjectToSave, item.NodeName);
   end;
 end;
@@ -126,6 +131,7 @@ begin
   TmpRect := Rects[iprItem];
   if (Item = TJvCustomInspectorHack(Inspector).Selected) and (not TJvCustomInspectorItemHack(Item).IsCategory) then
   begin
+    TmpRect.Left:= Rects[iprButtonArea].Right - 2;
     Canvas.Brush.Color:= clHighlight;
     Canvas.FillRect(TmpRect);
     TmpRect:= Rects[iprValueArea];
@@ -149,9 +155,16 @@ begin
     PaintDivider(TmpRect.Left + TJvCustomInspectorHack(Inspector).DividerAbs, Pred(TmpRect.Top), TmpRect.Bottom);
     Canvas.Font.Color:= clWindowText;
     Canvas.Font.Style:= [];
+
+    TmpRect.Right:= Rects[iprButtonArea].Right-3;
+    Canvas.Brush.Color:= clBtnFace;
+    Canvas.FillRect(TmpRect);
   end
   else
   begin
+    if Item.Expanded then
+    Canvas.Brush.Color:= clWindow
+    else
     Canvas.Brush.Color:= clBtnFace;
     Canvas.FillRect(TmpRect);
     Canvas.Font.Color:= clBtnText;

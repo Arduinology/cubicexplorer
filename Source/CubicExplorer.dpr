@@ -144,7 +144,8 @@ uses
   CE_SynExporters in 'CE_SynExporters.pas',
   fCE_TextEditor in 'fCE_TextEditor.pas' {CETextEditor: TFrame},
   fCE_TextEditorOptions in 'fCE_TextEditorOptions.pas' {CETextEditorOptionsForm: TTntForm},
-  fCE_WorkspacePanel in 'fCE_WorkspacePanel.pas' {CEWorkspacePanel};
+  fCE_WorkspacePanel in 'fCE_WorkspacePanel.pas' {CEWorkspacePanel},
+  VirtualThumbnails in 'Components\Mustangpeak\VSTools\VirtualThumbnails.pas';
 
 {$R *.res}
 {$R 'CE_Resources.res'}

@@ -614,7 +614,6 @@ procedure ReplaceSystemVariablePath(var Path: WideString);
   function CEExpandEnviromentString(APath: WideString): WideString;
   var
     Length: Integer;
-    EnviromentStringA, ResultA: AnsiString;
   begin
     if Assigned(ExpandEnvironmentStringsW_MP) then
     begin

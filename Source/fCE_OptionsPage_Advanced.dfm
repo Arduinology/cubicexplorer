@@ -4,9 +4,8 @@ inherited CEOptionsPage_Advanced: TCEOptionsPage_Advanced
     Top = 3
     Width = 435
     Height = 306
-    BevelKind = bkFlat
     Divider = 200
-    ItemHeight = 16
+    ItemHeight = 17
     TabStop = True
     TabOrder = 0
     OnItemValueChanged = InspectorItemValueChanged

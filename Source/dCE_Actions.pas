@@ -382,12 +382,12 @@ begin
   // Hotkey Settings
   HotkeySettings:= TCEHotkeySettings.Create;
   HotkeySettings.Actions:= ActionList;
-  GlobalAppSettings.AddItem('Hotkeys', HotkeySettings);
+  GlobalAppSettings.AddItem('Hotkeys', HotkeySettings, false, false, '', '', false);
   // Global Hotkey Settings
   GlobalHotkeys:= TCEGlobalHotkeys.Create;
   GlobalHotkeys.Actions:= ActionList;
   GlobalHotkeys.MsgHandle:= MainForm.Handle;
-  GlobalAppSettings.AddItem('GlobalHotkeys', GlobalHotkeys);
+  GlobalAppSettings.AddItem('GlobalHotkeys', GlobalHotkeys, false, false, '', '', false);
 end;
 
 {*------------------------------------------------------------------------------
@@ -973,7 +973,11 @@ begin
          end;
     606: begin
            if GlobalPathCtrl.ActivePage is TCEFileViewPage then
-           TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.Rebuild(true);
+           begin
+             if GlobalFileViewSettings.Thumbnails.UseStorage then
+             TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.ClearThumbnailCache; // refresh thumbnails
+             TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.Rebuild(true);
+           end;
            CEFolderPanel.FolderTree.Refresh;
            CEWorkspacePanel.FileView.Rebuild(true);
            MainForm.DriveToolbar.Populate;

@@ -4,108 +4,97 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
     Top = 3
     Width = 435
     Height = 330
-    ActivePage = sheet_display
+    ActivePage = sheet_options
     TabOrder = 0
     object sheet_options: TTntTabSheet
       Caption = 'Options'
-      ExplicitHeight = 305
-      object check_fullrowselect: TTntCheckBox
-        Left = 16
-        Top = 16
-        Width = 401
-        Height = 17
-        Caption = 'Highlight row completely'
-        TabOrder = 0
-        OnClick = HandleChange
-      end
       object check_selectprev: TTntCheckBox
         Left = 16
-        Top = 35
+        Top = 11
         Width = 401
         Height = 17
         Caption = 'Select previous folder'
-        TabOrder = 1
+        TabOrder = 0
         OnClick = HandleChange
       end
       object check_autoselect: TTntCheckBox
         Left = 16
-        Top = 54
+        Top = 30
         Width = 401
         Height = 17
         Caption = 'Select first item automatically'
-        TabOrder = 2
+        TabOrder = 1
         OnClick = HandleChange
       end
       object check_autosize_liststyle: TTntCheckBox
         Left = 16
-        Top = 73
+        Top = 49
         Width = 401
         Height = 17
         Caption = 'Auto size cells in list view style.'
-        TabOrder = 3
+        TabOrder = 2
         OnClick = HandleChange
       end
       object check_sortfoldersfirst: TTntCheckBox
         Left = 16
-        Top = 92
+        Top = 68
         Width = 401
         Height = 17
         Caption = 'Always sort folders first.'
-        TabOrder = 4
+        TabOrder = 3
         OnClick = HandleChange
       end
       object check_infotips: TTntCheckBox
         Left = 16
-        Top = 111
+        Top = 87
         Width = 401
         Height = 17
         Caption = 'Show InfoTips'
-        TabOrder = 5
+        TabOrder = 4
         OnClick = HandleChange
       end
       object check_singleclick: TTntCheckBox
         Left = 16
-        Top = 130
+        Top = 106
         Width = 401
         Height = 17
         Caption = 'Single click browsing'
-        TabOrder = 6
+        TabOrder = 5
         OnClick = HandleChange
       end
       object check_perfolder: TTntCheckBox
         Left = 16
-        Top = 149
+        Top = 125
         Width = 401
         Height = 17
         Caption = 'Use per folder settings'
-        TabOrder = 7
-        OnClick = HandleChange
-      end
-      object check_gridlines: TTntCheckBox
-        Left = 16
-        Top = 168
-        Width = 401
-        Height = 17
-        Caption = 'Show gridlines'
-        TabOrder = 8
+        TabOrder = 6
         OnClick = HandleChange
       end
       object check_browse_zip: TTntCheckBox
         Left = 16
-        Top = 187
+        Top = 144
         Width = 401
         Height = 17
         Caption = 'Browse Zip Files'
-        TabOrder = 9
+        TabOrder = 7
+        OnClick = HandleChange
+      end
+      object check_remember_thumbs: TTntCheckBox
+        Left = 16
+        Top = 163
+        Width = 401
+        Height = 17
+        Caption = 'Remember thumbnails'
+        TabOrder = 8
         OnClick = HandleChange
       end
     end
     object sheet_display: TTntTabSheet
       Caption = 'Display'
-      ExplicitLeft = 0
       object TntLabel1: TTntLabel
-        Left = 200
-        Top = 14
+        Left = 192
+        Top = 74
         Width = 76
         Height = 13
         Caption = 'File size format:'
@@ -118,8 +107,8 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
         Caption = 'Background color'
       end
       object combo_sizeformat: TTntComboBox
-        Left = 200
-        Top = 33
+        Left = 192
+        Top = 93
         Width = 145
         Height = 21
         Style = csDropDownList
@@ -193,10 +182,27 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
           TabOrder = 2
         end
       end
+      object check_gridlines: TTntCheckBox
+        Left = 192
+        Top = 22
+        Width = 232
+        Height = 17
+        Caption = 'Show gridlines'
+        TabOrder = 3
+        OnClick = HandleChange
+      end
+      object check_fullrowselect: TTntCheckBox
+        Left = 192
+        Top = 45
+        Width = 232
+        Height = 17
+        Caption = 'Highlight row completely'
+        TabOrder = 4
+        OnClick = HandleChange
+      end
     end
     object sheet_colors: TTntTabSheet
       Caption = 'Colors'
-      ExplicitLeft = 0
       object TntLabel2: TTntLabel
         Left = 16
         Top = 278
@@ -319,7 +325,7 @@ inherited CE_OptionsPage_Display_FileView: TCE_OptionsPage_Display_FileView
     Font.Style = []
     Options = [fdEffects, fdApplyButton]
     OnApply = FontDlgApply
-    Left = 400
-    Top = 34
+    Left = 376
+    Top = 18
   end
 end

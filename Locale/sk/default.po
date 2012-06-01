@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.05\n"
+"Project-Id-Version: 2.06\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1512\n"
+"CE-POT-Version: 1528\n"
 "CE-Language: Slovak\n"
 "Last-Translator: Sepp Winkler <sepp.winkler@gmail.com>\n"
 
@@ -170,6 +170,9 @@ msgstr "Automaticky rozbaliť strom"
 msgid "Auto fit tabs"
 msgstr "Automaticky roztiahnuť karty"
 
+msgid "Auto indent"
+msgstr "Automatické odsadenie"
+
 msgid "Auto size cells in list view style."
 msgstr "Automatická veľkosť buniek zoznamu"
 
@@ -178,6 +181,9 @@ msgstr "Automaticky"
 
 msgid "Back"
 msgstr "Späť"
+
+msgid "Background Color:"
+msgstr "Farba pozadia:"
 
 msgid "Backups"
 msgstr "Zálohy"
@@ -191,11 +197,47 @@ msgstr "Pred dátumom:"
 msgid "Before Time:"
 msgstr "Pred časom:"
 
+msgid "Block"
+msgstr "Blok"
+
+msgid "Bookmark 1"
+msgstr "Záložka 1"
+
+msgid "Bookmark 2"
+msgstr "Záložka 2"
+
+msgid "Bookmark 3"
+msgstr "Záložka 3"
+
+msgid "Bookmark 4"
+msgstr "Záložka 4"
+
+msgid "Bookmark 5"
+msgstr "Záložka 5"
+
+msgid "Bookmark 6"
+msgstr "Záložka 6"
+
+msgid "Bookmark 7"
+msgstr "Záložka 7"
+
+msgid "Bookmark 8"
+msgstr "Záložka 8"
+
+msgid "Bookmark 9"
+msgstr "Záložka 9"
+
 msgid "Bookmarks"
 msgstr "Záložky"
 
 msgid "Bookmarks Panel Settings"
 msgstr "Nastavenia panela záložiek"
+
+msgid "Border"
+msgstr "Okraj"
+
+msgid "Border Style:"
+msgstr "Štýl okraju:"
 
 msgid "Borders"
 msgstr "Ohraničenia"
@@ -218,14 +260,23 @@ msgstr "Tlačidlá"
 msgid "Bytes"
 msgstr "Bytov"
 
+msgid "CSS"
+msgstr "CSS"
+
 msgid "Cancel"
 msgstr "Zrušiť"
 
 msgid "Cancelled"
 msgstr "Zrušené"
 
+msgid "Caret"
+msgstr "Vynechávka"
+
 msgid "Case Sensitive"
 msgstr "Rozlíšiť malé/veľké"
+
+msgid "Case sensitive"
+msgstr "malé / VEĽKÉ"
 
 msgid "Case sensitivity"
 msgstr "Rozlišovanie malých/veľkých"
@@ -290,6 +341,9 @@ msgstr "Zatvoriť kartu dvojklikom"
 msgid "Close to tray"
 msgstr "Zatvoriť do oblasti oznámení"
 
+msgid "Color:"
+msgstr "Farba:"
+
 msgid "Column Settings"
 msgstr "Nastavenia stĺpca"
 
@@ -320,11 +374,17 @@ msgstr "Pokračovať z posledného"
 msgid "Controls"
 msgstr "Ovládanie"
 
+msgid "Convert Tabs to Spaces"
+msgstr "Previesť tabulátory na medzery"
+
 msgid "Copy"
 msgstr "Kopírovať"
 
 msgid "Copy Path"
 msgstr "Kopírovať cestu"
+
+msgid "Copy as HTML"
+msgstr "Kopírovať ako HTML"
 
 msgid "Copy of active tab"
 msgstr "Kópia aktívnej karty"
@@ -367,6 +427,9 @@ msgstr "Prispôsobenia..."
 
 msgid "Cut"
 msgstr "Vystrihnúť"
+
+msgid "DIV wrapper class"
+msgstr "DIV wrapper class"
 
 msgid "Daily"
 msgstr "Denne"
@@ -506,6 +569,9 @@ msgstr "Dynamická medzera"
 msgid "Earlier this year"
 msgstr "Pred týmto rokom"
 
+msgid "Edge Column:"
+msgstr "Krajný stĺpec:"
+
 msgid "Edit"
 msgstr "Upraviť"
 
@@ -514,6 +580,9 @@ msgstr "Upraviť reláciu"
 
 msgid "Edit session properties."
 msgstr "Upraviť vlastnosti relácie."
+
+msgid "Editor Options"
+msgstr "Možnosti editora"
 
 msgid "Editor Options..."
 msgstr "Editor možností..."
@@ -533,8 +602,20 @@ msgstr "Povoliť"
 msgid "Enable Auto Save"
 msgstr "Povoliť automatické uloženie"
 
+msgid "Enable Playback"
+msgstr "Povoliť prehrávanie"
+
+msgid "End Color:"
+msgstr "Farba ukončenia:"
+
 msgid "English (default)"
 msgstr "Anglicky (predvolené)"
+
+msgid "Enhance End Key"
+msgstr "Rozšíriť kláves End"
+
+msgid "Enhance Home Key"
+msgstr "Rozšíriť kláves Home"
 
 msgid "Enter each file mask on a separate line."
 msgstr "Vložte každú súborovú masku do samostatného riadku."
@@ -559,6 +640,21 @@ msgstr "Ukončiť program pri zatvorení poslednej karty"
 
 msgid "Explorer"
 msgstr "Prieskumník"
+
+msgid "Export"
+msgstr "Export"
+
+msgid "Export as HTML..."
+msgstr "Exportovať ako HTML..."
+
+msgid "Extra Lines:"
+msgstr "Extra riadky:"
+
+msgid "Failed to open file!"
+msgstr "Zlyhalo otvorenie súboru!"
+
+msgid "Failed to save file!"
+msgstr "Zlyhalo uloženie súboru!"
 
 msgid "File"
 msgstr "Súbor"
@@ -596,11 +692,17 @@ msgstr "Filmový pás"
 msgid "Filters"
 msgstr "Filtre"
 
+msgid "Find"
+msgstr "Nájsť"
+
 msgid "Find Next"
 msgstr "Nájsť ďalší"
 
 msgid "Find Previous"
 msgstr "Nájsť predchádzajúci"
+
+msgid "Find:"
+msgstr "Nájsť:"
 
 msgid "Finished"
 msgstr "Dokončené"
@@ -632,6 +734,9 @@ msgstr "Zložky"
 msgid "Folders Panel Settings"
 msgstr "Nastavenia panelu zložiek"
 
+msgid "Font"
+msgstr "Písmo"
+
 msgid "For testing"
 msgstr "Na testovanie"
 
@@ -643,6 +748,9 @@ msgstr "Nepodporovaný formát"
 
 msgid "Forward"
 msgstr "Dopredu"
+
+msgid "Found"
+msgstr "Nájdené"
 
 msgid "Four months ago"
 msgstr "Pred štyrmi mesiacmi"
@@ -671,11 +779,32 @@ msgstr "Všeobecné"
 msgid "Global Hotkey Settings"
 msgstr "Nastvenia všeobecných klávesových skratiek"
 
+msgid "Gradient"
+msgstr "Gradient"
+
 msgid "Group"
 msgstr "Skupina"
 
 msgid "Group By"
 msgstr "Zoskupiť podľa"
+
+msgid "Group undo"
+msgstr "Hromadné späť"
+
+msgid "Gutter"
+msgstr "Prázdna medzera"
+
+msgid "HTML"
+msgstr "HTML"
+
+msgid "HTML with CSS, JS or PHP"
+msgstr "HTML s CSS, JS alebo PHP"
+
+msgid "Half Block"
+msgstr "Polovičný blok"
+
+msgid "Half page scroll"
+msgstr "Posun polovice stránky"
 
 msgid "Help"
 msgstr "Pomocník"
@@ -697,6 +826,9 @@ msgstr "Zvýrazňovač"
 
 msgid "History"
 msgstr "História"
+
+msgid "Horizontal Line"
+msgstr "Vodorovná čiara"
 
 msgid "Hotkey Settings"
 msgstr "Nastavenia klávesových skratiek"
@@ -728,6 +860,9 @@ msgstr "Informačný panel"
 msgid "Insert"
 msgstr "Vložiť"
 
+msgid "Insert Caret:"
+msgstr "Vložiť vynechávku:"
+
 msgid "Invalid update!"
 msgstr "Nesprávna aktualizácia!"
 
@@ -739,6 +874,9 @@ msgstr "Počet položiek"
 
 msgid "Item(s)"
 msgstr "Položka(y)"
+
+msgid "JavaScript"
+msgstr "JavaScript"
 
 msgid "KB"
 msgstr "KB"
@@ -775,6 +913,12 @@ msgstr "Rozloženia"
 
 msgid "Left"
 msgstr "Vľavo"
+
+msgid "Length: %d Lines: %d"
+msgstr "Dĺžka: %d Riadkov: %d"
+
+msgid "Line: %d Char: %d Sel: %d"
+msgstr "Riadok: %d Znakov: %d Sel: %d"
 
 msgid "Link Name"
 msgstr "Názov zástupcu"
@@ -851,6 +995,9 @@ msgstr "Stredné"
 msgid "Menu"
 msgstr "Menu"
 
+msgid "Middle"
+msgstr "Stred"
+
 msgid "Min Level:"
 msgstr "Min. úroveň:"
 
@@ -865,6 +1012,9 @@ msgstr "Zmeniť klávesovú skratku"
 
 msgid "More..."
 msgstr "Viac..."
+
+msgid "Mute"
+msgstr "Stlmiť"
 
 msgid "Name"
 msgstr "Názov"
@@ -908,6 +1058,12 @@ msgstr "Nový textový súbor"
 msgid "New version (%s) is available. Do you want to update now?"
 msgstr "Nová verzia (%s) je dostupná. Chcete aktualizovať teraz?"
 
+msgid "Next"
+msgstr "Ďalší"
+
+msgid "Next File"
+msgstr "Ďalší súbor"
+
 msgid "No Extension"
 msgstr "Bez prípony"
 
@@ -925,6 +1081,9 @@ msgstr "Žiadne nové aktualizácie"
 
 msgid "None"
 msgstr "Nič"
+
+msgid "Not found"
+msgstr "Nenájdené"
 
 msgid "Notify only about following update types"
 msgstr "Upozorniť iba na nasledujúce typy aktualizácií"
@@ -995,11 +1154,17 @@ msgstr "Pôvodné"
 msgid "Override"
 msgstr "Vyradiť"
 
+msgid "Override Caret:"
+msgstr "Ignorovacia vynechávka:"
+
 msgid "Override existing session?"
 msgstr "Prepísať existujúcu konfiguráciu?"
 
 msgid "Override existing stack?"
 msgstr "Prepísať existujúci box?"
+
+msgid "PHP"
+msgstr "PHP"
 
 msgid "Panels"
 msgstr "Panely"
@@ -1019,6 +1184,9 @@ msgstr "Cesta"
 msgid "Pause"
 msgstr "Pozastaviť"
 
+msgid "Play"
+msgstr "Prehrať"
+
 msgid "Playlist"
 msgstr "Zoznam titulov"
 
@@ -1027,6 +1195,12 @@ msgstr "Zvoľte inú klávesovú skratku."
 
 msgid "Port"
 msgstr "Port"
+
+msgid "Previous"
+msgstr "Predchádzajúci"
+
+msgid "Previous File"
+msgstr "Predchádzajúci súbor:"
 
 msgid "Properties"
 msgstr "Vlastnosti"
@@ -1091,6 +1265,15 @@ msgstr "Relatívne"
 msgid "Reload"
 msgstr "Znova načítať"
 
+msgid "Reload failed!"
+msgstr "Znovunačítanie zlyhalo!"
+
+msgid "Reload from Disk"
+msgstr "Znovunačítať z disku"
+
+msgid "Reloaded from disk"
+msgstr "Znovunačítané z disku"
+
 msgid "Remember"
 msgstr "Zapamätať"
 
@@ -1108,6 +1291,12 @@ msgstr "Nahradiť"
 
 msgid "Replace All"
 msgstr "Nahradiť všetko"
+
+msgid "Replace:"
+msgstr "Nahradiť:"
+
+msgid "Replaced %d texts."
+msgstr "Nahradené %d texty"
 
 msgid "Reset hotkeys?"
 msgstr "Resetovať klávesové kratky?"
@@ -1141,6 +1330,12 @@ msgstr "Znova použiť otvorené karty"
 
 msgid "Right"
 msgstr "Vpravo"
+
+msgid "Right Edge"
+msgstr "Pravý okraj"
+
+msgid "Right mouse moves cursor"
+msgstr "Pravé tlačidlo posúva kurzor"
 
 msgid "Safe Operations Only"
 msgstr "Len bezpečné operácie"
@@ -1181,11 +1376,20 @@ msgstr "Uložiť..."
 msgid "Save/Load Settings"
 msgstr "Uložiť/načítať nastavenia"
 
+msgid "Saved to \"%s\""
+msgstr "Uložené do \"%s\""
+
 msgid "Scroll Left"
 msgstr "Posunúť vľavo"
 
 msgid "Scroll Right"
 msgstr "Posunúť vpravo"
+
+msgid "Scroll past end of file"
+msgstr "Prejsť na posledný koniec súboru"
+
+msgid "Scroll past end of line"
+msgstr "Prejsť na posledný koniec riadku"
 
 msgid "Search"
 msgstr "Hľadať"
@@ -1298,6 +1502,9 @@ msgstr "Zobraziť cestu v hlavičke okna"
 msgid "Show Session Manager"
 msgstr "Zobraziť správcu relácií"
 
+msgid "Show Special Characters"
+msgstr "Zobraziť špeciálne znaky"
+
 msgid "Show Statusbar"
 msgstr "Zobraziť stavový riadok"
 
@@ -1307,8 +1514,20 @@ msgstr "Zobraziť panel nástrojov"
 msgid "Show in Groups"
 msgstr "Zobraziť zoskupené"
 
+msgid "Show leading zeros"
+msgstr "Zobraziť počiatočné nuly"
+
+msgid "Show line numbers"
+msgstr "Zobraziť čísla riadkov"
+
 msgid "Show more tabs"
 msgstr "Zobraziť viac kariet"
+
+msgid "Show scroll hint"
+msgstr "Zobraziť tip posunu"
+
+msgid "Show special characters"
+msgstr "Zobraziť špeciálne znaky"
 
 msgid "Show/Hide"
 msgstr "Zobraziť/Skryť"
@@ -1343,8 +1562,17 @@ msgstr "Malé"
 msgid "Small Icons"
 msgstr "Malé ikony"
 
+msgid "Smart tab delete"
+msgstr "Inteligentné tab mazanie"
+
+msgid "Smart tabs"
+msgstr "Inteligentný tabelátor"
+
 msgid "Snapshot"
 msgstr "Snímka"
+
+msgid "Spacing"
+msgstr "Medzery"
 
 msgid "Stack"
 msgstr "Box"
@@ -1361,6 +1589,12 @@ msgstr "Boxy"
 msgid "Start"
 msgstr "Štart"
 
+msgid "Start Color:"
+msgstr "Farba začiatku:"
+
+msgid "Start at zero"
+msgstr "Začať na nule"
+
 msgid "Start minimized to tray"
 msgstr "Spustiť minimalizovaný v oblasti oznámení"
 
@@ -1369,6 +1603,9 @@ msgstr "CubicExplorer štartuje..."
 
 msgid "Status Bar"
 msgstr "Stavový riadok"
+
+msgid "Steps"
+msgstr "Kroky"
 
 msgid "Stop"
 msgstr "Stop"
@@ -1409,11 +1646,20 @@ msgstr "Vypnúť"
 msgid "TB"
 msgstr "TB"
 
+msgid "Tab Width:"
+msgstr "Šírka tabelátora:"
+
+msgid "Tab indent"
+msgstr "Odsadenie tabelátora"
+
 msgid "Tabs"
 msgstr "Karty"
 
 msgid "Tabs Settings"
 msgstr "Nastavenia kariet"
+
+msgid "Tabs to spaces"
+msgstr "Tabelátory na medzery"
 
 msgid "Target"
 msgstr "Cieľ"
@@ -1505,6 +1751,9 @@ msgstr "Priehľadnosť"
 msgid "Tray Icon"
 msgstr "Ikona oblasti oznámení"
 
+msgid "Trim trailing spaces"
+msgstr "Odstrániť zbytočné medzery"
+
 msgid "Two months ago"
 msgstr "Pred dvomi mesiacmi"
 
@@ -1556,6 +1805,15 @@ msgstr "Nastavenia aktualizácií"
 msgid "Use Options->Updates to change them."
 msgstr "Použiť možnosti->Aktualizácie na ich zmenu"
 
+msgid "Use custom font"
+msgstr "Použiť vlastné písmo"
+
+msgid "Use inline CSS on copy"
+msgstr "Použiť inline CSS na kópii"
+
+msgid "Use inline CSS on export"
+msgstr "Použiť inline CSS na exporte"
+
 msgid "Use strict filtering (wildcards are ? and *)"
 msgstr "Použiť prísne filtrovanie (náhradné znaky sú ? a *)"
 
@@ -1580,11 +1838,20 @@ msgstr "Verzia:"
 msgid "Versions"
 msgstr "Verzie"
 
+msgid "Vertical Line"
+msgstr "Zvislá čiara"
+
 msgid "View"
 msgstr "Zobraziť"
 
 msgid "View Style"
 msgstr "Štýl zobrazenia"
+
+msgid "Visible"
+msgstr "Viditeľný"
+
+msgid "Volume"
+msgstr "Hlasitosť"
 
 msgid "WARNING! You are about to restore %d items."
 msgstr "UPOZORNENIE! Obnoví sa %d položiek."
@@ -1624,6 +1891,12 @@ msgstr "Zalamovanie slov"
 
 msgid "Word or Phrase in File Name"
 msgstr "Slovo alebo fráza v názve súboru"
+
+msgid "Wrap around"
+msgstr "Zalomiť okolo"
+
+msgid "Wrapped around"
+msgstr "Zalomené okolo"
 
 msgid "You are about to save over existing stack."
 msgstr "Idete prepísať existujúci box."

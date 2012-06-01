@@ -47,7 +47,6 @@ type
   end;
 
   TCE_OptionsPage_Display_FileView = class(TCEOptionsCustomPage)
-    check_fullrowselect: TTntCheckBox;
     check_selectprev: TTntCheckBox;
     check_autoselect: TTntCheckBox;
     check_autosize_liststyle: TTntCheckBox;
@@ -58,7 +57,6 @@ type
     TntPageControl1: TTntPageControl;
     sheet_options: TTntTabSheet;
     sheet_colors: TTntTabSheet;
-    check_gridlines: TTntCheckBox;
     check_browse_zip: TTntCheckBox;
     list_exts: TVirtualStringTree;
     but_add: TTntButton;
@@ -80,6 +78,9 @@ type
     color_font: TColorBox;
     panel_font: TTntPanel;
     FontDlg: TFontDialog;
+    check_gridlines: TTntCheckBox;
+    check_fullrowselect: TTntCheckBox;
+    check_remember_thumbs: TTntCheckBox;
     procedure HandleChange(Sender: TObject);
     procedure list_extsGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
@@ -197,6 +198,7 @@ begin
     GlobalFileViewSettings.ShowGridLines:= check_gridlines.Checked;
     GlobalFileViewSettings.BrowseZipFolders:= check_browse_zip.Checked;
     GlobalFileViewSettings.FileSizeFormat:= TVirtualFileSizeFormat(combo_sizeformat.ItemIndex);
+    GlobalFileViewSettings.Thumbnails.UseStorage:= check_remember_thumbs.Checked;
 
     // display
     GlobalFileViewSettings.BackgroundColor:= color_background.Selected;
@@ -453,6 +455,7 @@ begin
   check_gridlines.Checked:= GlobalFileViewSettings.ShowGridLines;
   check_browse_zip.Checked:= GlobalFileViewSettings.BrowseZipFolders;
   combo_sizeformat.ItemIndex:= Ord(GlobalFileViewSettings.FileSizeFormat);
+  check_remember_thumbs.Checked:= GlobalFileViewSettings.Thumbnails.UseStorage;
 
   // display
   color_background.Handle; // <-- hack around bug in TColorBox (http://qc.embarcadero.com/wc/qcmain.aspx?d=85895).

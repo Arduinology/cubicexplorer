@@ -4,12 +4,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1528\n"
+"CE-POT-Version: 1550\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
-"POT-Creation-Date:                                            \n"
-"PO-Revision-Date:                                            \n"
-"Language-Team:                                            \n"
+"POT-Creation-Date:                                                      \n"
+"PO-Revision-Date:                                                      \n"
+"Language-Team:                                                      \n"
 
 msgid "%d file(s) failed to download!"
 msgstr "Échec du téléchargement de %d fichier(s) !"
@@ -85,6 +85,9 @@ msgstr "Après l'heure :"
 
 msgid "All"
 msgstr "Tout"
+
+msgid "All types"
+msgstr "Tous les fichiers"
 
 msgid "Allow Move"
 msgstr "Autoriser les déplacements"
@@ -257,6 +260,9 @@ msgstr "Bas"
 msgid "Breadcrumb Navigation"
 msgstr "Fil d'Ariane"
 
+msgid "Browse To"
+msgstr "Naviguer jusqu'à"
+
 msgid "Browse..."
 msgstr "Parcourir..."
 
@@ -413,6 +419,9 @@ msgstr "Créer une nouvelle traduction"
 msgid "Created"
 msgstr "Créé"
 
+msgid "Ctrl activates links"
+msgstr "La touche Ctrl active les liens"
+
 msgid "CubicExplore Home Page"
 msgstr "Page d'acceuil de CubicExplorer"
 
@@ -521,6 +530,9 @@ msgstr "Voulez-vous remplacer le panier qui porte déjà ce nom ?"
 msgid "Do you want to reset all hotkeys for this action?"
 msgstr "Voulez-vous réinitialiser tous les raccourcis clavier pour cette action ?"
 
+msgid "Do you want to save changes before closing?"
+msgstr "Voulez-vous sauver les modifications avant de fermer ?"
+
 msgid "Do you want to update?"
 msgstr "Voulez-vous mettre à jour CubicExplorer ?"
 
@@ -601,6 +613,9 @@ msgstr "Vider la corbeille"
 
 msgid "Empty Stack"
 msgstr " Panier vide"
+
+msgid "Empty file"
+msgstr "Fichier vide"
 
 msgid "Empty folder"
 msgstr "Dossier vide"
@@ -806,6 +821,9 @@ msgstr "Gouttière"
 msgid "HTML"
 msgstr "HTML"
 
+msgid "HTML Documents"
+msgstr "Documents HTML"
+
 msgid "HTML with CSS, JS or PHP"
 msgstr "HTML avec CSS, JS ou PHP"
 
@@ -989,6 +1007,9 @@ msgstr "Mo"
 msgid "Main Menu"
 msgstr "Menu principal"
 
+msgid "Make Visible"
+msgstr "Rendre visible"
+
 msgid "Manage Sessions"
 msgstr "Gérer les sessions"
 
@@ -1132,6 +1153,9 @@ msgstr "Ouvrir le dossier contenant"
 
 msgid "Open default tab"
 msgstr " Ouvrir l'onglet par défaut"
+
+msgid "Open in Workspace"
+msgstr "Ouvrir dans l'espace de travail"
 
 msgid "Open in current tab"
 msgstr "Ouvrir dans l'onglet actif"
@@ -1356,7 +1380,7 @@ msgid "Right Edge"
 msgstr "Marge droite ( ligne verticale )"
 
 msgid "Right mouse moves cursor"
-msgstr "Le bouton droit de la souris déplace le curseur"
+msgstr "Le clic droit déplace le curseur"
 
 msgid "Safe Operations Only"
 msgstr "Opérations sûres seulement"
@@ -1378,6 +1402,9 @@ msgstr "Sauver la session active sous un nouveau nom"
 
 msgid "Save active session."
 msgstr "Sauver la session active"
+
+msgid "Save before closing?"
+msgstr "Enregistrer avant la fermeture ?"
 
 msgid "Save changes before closing?"
 msgstr "Voulez-vous sauver les modifications avant de fermer ?"
@@ -1712,6 +1739,9 @@ msgstr "Filtre par un texte"
 msgid "Text only"
 msgstr "Textes seulement"
 
+msgid "The text in %s has changed."
+msgstr "Le texte dans %s a changé."
+
 msgid "Theme"
 msgstr "Thème"
 
@@ -1833,16 +1863,19 @@ msgid "Updates Settings"
 msgstr "Paramètres des mises à jour"
 
 msgid "Use Options->Updates to change them."
-msgstr "Allez dans "Options"->"Mises à jour" pour faire votre choix."
+msgstr "Allez dans \"Options\"->\"Mises à jour\" pour faire votre choix."
 
 msgid "Use custom font"
 msgstr "Police personnalisée"
 
 msgid "Use inline CSS on copy"
-msgstr "Utiliser des CSS alignés lors de la copie"
+msgstr "Utiliser des CSS de style inline (en ligne) lors de la copie"
 
 msgid "Use inline CSS on export"
-msgstr "Utiliser des CSS alignés lors de l'export"
+msgstr "Utiliser des CSS de style inline (en ligne) lors de l'export"
+
+msgid "Use per folder settings"
+msgstr " Réglages personnalisés par dossier (mode d'affichage, tri, colonnes, ...)"
 
 msgid "Use strict filtering (wildcards are ? and *)"
 msgstr "Filtrage strict (les caractères génériques sont ? et *)"
@@ -1921,6 +1954,9 @@ msgstr "Retour automatique à la ligne"
 
 msgid "Word or Phrase in File Name"
 msgstr "Mot ou phrase dans le nom du fichier :"
+
+msgid "Workspace"
+msgstr "Espace de travail"
 
 msgid "Wrap around"
 msgstr "Boucler, si limite du fichier atteinte"
