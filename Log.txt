@@ -1,3 +1,10 @@
+4.6.2012
+* Updated Finnish language (thanks to hannes).
++ Added HideShortcutExtension advanced setting for FileView.
+
+2.6.2012
+- Fixed "tab text doesn't use theme color" bug.
+================================================================================
 1.6.2012
 + Added Thumbnail settings for FileView.
 * Updated French translation (thanks to BB).

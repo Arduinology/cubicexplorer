@@ -82,6 +82,7 @@ type
     procedure SetFullSizeColumn(const Value: Integer);
     procedure SpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
+    fHideShortcutExtension: Boolean;
     function BrowseObject(pidl: PItemIDList; flags: UINT): HResult; stdcall;
     procedure CEColumnHeaderMenuItemClick(Sender: TObject);
     procedure CEColumnSettingCallback(Sender: TObject);
@@ -171,6 +172,8 @@ type
         SetCheckBoxSelection;
     property ContextMenuShowing: Boolean read fContextMenuShowing;
     property FullSizeColumn: Integer read fFullSizeColumn write SetFullSizeColumn;
+    property HideShortcutExtension: Boolean read fHideShortcutExtension write
+        fHideShortcutExtension;
     property ScrollSize: Integer read fScrollSize write fScrollSize;
     property ScrollStep: Integer read fScrollStep write fScrollStep;
     property ShowExtension: Boolean read fShowExtension write fShowExtension;
@@ -336,6 +339,7 @@ begin
   fScrollSize:= 80;
   fScrollStep:= 10;
   fSmoothScroll:= false;
+  fHideShortcutExtension:= true;
   CheckBoxSelection:= false;
   
   ScrollAnimTimer:= TTimer.Create(Self);
@@ -714,7 +718,7 @@ begin
           if fShowExtension then 
           begin
             // Recycle bin item
-            if assigned(NS.Parent) and NS.Parent.IsRecycleBin then 
+            if (fHideShortcutExtension and NS.Link) or (assigned(NS.Parent) and NS.Parent.IsRecycleBin) then
             NS.FShellCache.Data.InFolderName:= WideExtractFileName(NS.DisplayNameOf(SHGDN_NORMAL))
             // Normal file
             else

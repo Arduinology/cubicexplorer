@@ -267,6 +267,7 @@ type
     fExtensionColorsEnabled: Boolean;
     fFont: TFont;
     fFullRowContextMenu: Boolean;
+    fHideShortcutExtension: Boolean;
     fPerFolderSettings: Boolean;
     fShowCaptionsInFilmstrip: Boolean;
     fShowCaptionsInThumbnails: Boolean;
@@ -281,6 +282,7 @@ type
     procedure SetExtensionColorsEnabled(const Value: Boolean);
     procedure SetFont(const Value: TFont);
     procedure SetFullRowContextMenu(const Value: Boolean);
+    procedure SetHideShortcutExtension(const Value: Boolean);
     procedure SetPerFolderSettings(const Value: Boolean);
     procedure SetShowCaptionsInFilmstrip(const Value: Boolean);
     procedure SetShowCaptionsInThumbnails(const Value: Boolean);
@@ -304,7 +306,8 @@ type
     property StorageFilePath: WideString read fStorageFilePath write
         fStorageFilePath;
   published
-    property ArrowBrowse: Boolean read fArrowBrowse write SetArrowBrowse;
+    property ArrowBrowse: Boolean read fArrowBrowse write SetArrowBrowse default
+        true;
     property SelectPreviousFolder: Boolean read fSelectPreviousFolder write
         SetSelectPreviousFolder;
     property AutoSelectFirstItem: Boolean read fAutoSelectFirstItem write
@@ -313,7 +316,7 @@ type
         SetAutosizeListViewStyle;
     property BackgroundColor: TColor read fBackgroundColor write SetBackgroundColor;
     property BrowseZipFolders: Boolean read fBrowseZipFolders write
-        SetBrowseZipFolders;
+        SetBrowseZipFolders default false;
     property CellSizes: TCECellSizeSettings read fCellSizes write fCellSizes;
     property CheckBoxSelection: Boolean read fCheckBoxSelection write
         SetCheckBoxSelection;
@@ -323,44 +326,49 @@ type
     property ExtensionColorsEnabled: Boolean read fExtensionColorsEnabled write
         SetExtensionColorsEnabled;
     property FileSizeFormat: TVirtualFileSizeFormat read fFileSizeFormat write
-        SetFileSizeFormat;
+        SetFileSizeFormat default vfsfDefault;
     property Filmstrip: TCEFilmstripSettings read fFilmstrip write fFilmstrip;
     property FolderUpOnDblClick: Boolean read fFolderUpOnDblClick write
-        SetFolderUpOnDblClick;
+        SetFolderUpOnDblClick default true;
     property Font: TFont read fFont write SetFont;
     property FullRowContextMenu: Boolean read fFullRowContextMenu write
-        SetFullRowContextMenu;
+        SetFullRowContextMenu default false;
     property FullRowDblClick: Boolean read fFullRowDblClick write
-        SetFullRowDblClick;
+        SetFullRowDblClick default false;
     property FullRowSelect: Boolean read fFullRowSelect write SetFullRowSelect;
     property GroupBy: TCEGroupBySettings read fGroupBy write fGroupBy;
     property HiddenFiles: Boolean read fHiddenFiles write SetHiddenFiles;
+    property HideShortcutExtension: Boolean read fHideShortcutExtension write
+        SetHideShortcutExtension default true;
     property InfoBarSize: Integer read fInfoBarSize write fInfoBarSize;
     property PerFolderSettings: Boolean read fPerFolderSettings write
         SetPerFolderSettings;
-    property ShowInfoTips: Boolean read fShowInfoTips write SetShowInfoTips;
+    property ShowInfoTips: Boolean read fShowInfoTips write SetShowInfoTips default
+        true;
     property RememberPanelLayout: Boolean read fRememberPanelLayout write
         fRememberPanelLayout;
     property RememberInnerToolbarLayout: Boolean read fRememberInnerToolbarLayout
         write fRememberInnerToolbarLayout;
     property RememberOuterToolbarLayout: Boolean read fRememberOuterToolbarLayout
         write fRememberOuterToolbarLayout;
-    property SelectPasted: Boolean read fSelectPasted write SetSelectPasted;
+    property SelectPasted: Boolean read fSelectPasted write SetSelectPasted default
+        true;
     property ShowCaptionsInFilmstrip: Boolean read fShowCaptionsInFilmstrip write
-        SetShowCaptionsInFilmstrip;
+        SetShowCaptionsInFilmstrip default true;
     property ShowExtensions: Boolean read fShowExtensions write SetShowExtensions;
     property ShowGridLines: Boolean read fShowGridLines write SetShowGridLines;
     property ShowHeaderAlways: Boolean read fShowHeaderAlways write
         SetShowHeaderAlways;
     property ShowInfoBar: Boolean read fShowInfoBar write SetShowInfoBar;
     property ShowCaptionsInThumbnails: Boolean read fShowCaptionsInThumbnails write
-        SetShowCaptionsInThumbnails;
+        SetShowCaptionsInThumbnails default true;
     property SingleClickBrowse: Boolean read fSingleClickBrowse write
-        SetSingleClickBrowse;
+        SetSingleClickBrowse default false;
     property SingleClickExecute: Boolean read fSingleClickExecute write
         SetSingleClickExecute;
     property SmoothScroll: Boolean read fSmoothScroll write SetSmoothScroll;
-    property SortAfterPaste: Boolean read fSortAfterPaste write SetSortAfterPaste;
+    property SortAfterPaste: Boolean read fSortAfterPaste write SetSortAfterPaste
+        default true;
     property SortFolderFirstAlways: Boolean read fSortFolderFirstAlways write
         SetSortFolderFirstAlways;
     property ThreadedDetails: Boolean read fThreadedDetails write
@@ -1241,13 +1249,14 @@ begin
   fPerFolderSettings:= false;
   fStorageFilePath:= '';
   fStorageIsLoaded:= false;
-  fShowCaptionsInFilmstrip:= false;
+  fShowCaptionsInFilmstrip:= true;
   fShowCaptionsInThumbnails:= true;
   fFullRowContextMenu:= false;
   fBackgroundColor:= clWindow;
   fFont:= TFont.Create;
   SetDesktopIconFonts(fFont);
   fThumbnails:= TCEThumbnailSettings.Create;
+  fHideShortcutExtension:= true;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1390,6 +1399,7 @@ begin
       fileView.SortAfterPaste:= fSortAfterPaste;
       fileView.FullRowContextMenu:= fFullRowContextMenu;
       fileView.ArrowBrowse:= fArrowBrowse;
+      fileView.HideShortcutExtension:= fHideShortcutExtension;
 
     // ==== Options ====
       options:= fileView.Options;
@@ -2008,6 +2018,15 @@ end;
 procedure TCEFileViewSettings.SetFullRowDblClick(const Value: Boolean);
 begin
   fFullRowDblClick:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set HideShortcutExtension
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetHideShortcutExtension(const Value: Boolean);
+begin
+  fHideShortcutExtension:= Value;
   SendChanges;
 end;
 

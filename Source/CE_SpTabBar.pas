@@ -2485,6 +2485,7 @@ begin
        (Self.Item.Parent.ParentComponent is TSpTBXToolbar) then
     begin
       AFont.Assign(TSpTBXToolbar(Self.Item.Parent.ParentComponent).Font);
+      AFont.Color:= GetTextColor(State);
     end;
   end
   else

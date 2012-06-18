@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.06\n"
+"Project-Id-Version: 2.07\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1528\n"
+"CE-POT-Version: 1562\n"
 "CE-Language: Slovak\n"
 "Last-Translator: Sepp Winkler <sepp.winkler@gmail.com>\n"
 
@@ -82,6 +82,9 @@ msgstr "Po čase:"
 
 msgid "All"
 msgstr "Všetko"
+
+msgid "All types"
+msgstr "Všetky typy"
 
 msgid "Allow Move"
 msgstr "Povoliť presunutie"
@@ -185,6 +188,9 @@ msgstr "Späť"
 msgid "Background Color:"
 msgstr "Farba pozadia:"
 
+msgid "Background color"
+msgstr "Farba pozadia"
+
 msgid "Backups"
 msgstr "Zálohy"
 
@@ -199,6 +205,9 @@ msgstr "Pred časom:"
 
 msgid "Block"
 msgstr "Blok"
+
+msgid "Bold"
+msgstr "Tučné"
 
 msgid "Bookmark 1"
 msgstr "Záložka 1"
@@ -247,6 +256,12 @@ msgstr "Dole"
 
 msgid "Breadcrumb Navigation"
 msgstr "Segmentová navigácia"
+
+msgid "Browse To"
+msgstr "Prechádzať"
+
+msgid "Browse Zip Files"
+msgstr "Prechádzať Zip archívy"
 
 msgid "Browse..."
 msgstr "Prechádzať..."
@@ -344,6 +359,9 @@ msgstr "Zatvoriť do oblasti oznámení"
 msgid "Color:"
 msgstr "Farba:"
 
+msgid "Colors"
+msgstr "Farby"
+
 msgid "Column Settings"
 msgstr "Nastavenia stĺpca"
 
@@ -403,6 +421,9 @@ msgstr "Vytvoriť nový preklad."
 
 msgid "Created"
 msgstr "Vytvorené"
+
+msgid "Ctrl activates links"
+msgstr "Ctrl aktivuje linky"
 
 msgid "CubicExplore Home Page"
 msgstr "Domovská stránka CubicExplorer"
@@ -515,6 +536,9 @@ msgstr "Chcete prepísať existujúci box?"
 msgid "Do you want to reset all hotkeys for this action?"
 msgstr "Prajete si resetovať všetky klávesové skratky v tejto akcii?"
 
+msgid "Do you want to save changes before closing?"
+msgstr "Chcete pred ukončením uložiť zmeny?"
+
 msgid "Do you want to update?"
 msgstr "Prajete si aktualizovať?"
 
@@ -592,6 +616,9 @@ msgstr "Vyprázdniť kôš"
 
 msgid "Empty Stack"
 msgstr "Vyprázdniť Box"
+
+msgid "Empty file"
+msgstr "Prázdny súbor"
 
 msgid "Empty folder"
 msgstr "Prázdna zložka"
@@ -797,6 +824,9 @@ msgstr "Prázdna medzera"
 msgid "HTML"
 msgstr "HTML"
 
+msgid "HTML Documents"
+msgstr "HTML dokumenty"
+
 msgid "HTML with CSS, JS or PHP"
 msgstr "HTML s CSS, JS alebo PHP"
 
@@ -868,6 +898,9 @@ msgstr "Nesprávna aktualizácia!"
 
 msgid "Invert Selection"
 msgstr "Opačný výber"
+
+msgid "Italic"
+msgstr "Kurzíva"
 
 msgid "Item Count"
 msgstr "Počet položiek"
@@ -976,6 +1009,9 @@ msgstr "MB"
 
 msgid "Main Menu"
 msgstr "Hlavné menu"
+
+msgid "Make Visible"
+msgstr "Zviditeľniť"
 
 msgid "Manage Sessions"
 msgstr "Spravovať relácie"
@@ -1114,6 +1150,9 @@ msgstr "Otvoriť obsahujúcu zložku"
 
 msgid "Open default tab"
 msgstr "Otvoriť predvolenú kartu"
+
+msgid "Open in Workspace"
+msgstr "Otvoriť v pracovnom panely"
 
 msgid "Open in current tab"
 msgstr "Otvoriť na aktuálnej karte"
@@ -1277,6 +1316,9 @@ msgstr "Znovunačítané z disku"
 msgid "Remember"
 msgstr "Zapamätať"
 
+msgid "Remember thumbnails"
+msgstr "Zapamätať si náhľady"
+
 msgid "Remove from Stack"
 msgstr "Odstrániť z boxu"
 
@@ -1357,6 +1399,9 @@ msgstr "Uložiť aktívnu reláciu s novým menom."
 
 msgid "Save active session."
 msgstr "Uložiť aktívnu reláciu."
+
+msgid "Save before closing?"
+msgstr "Uložiť pred ukončením?"
 
 msgid "Save changes before closing?"
 msgstr "Uložiť zmeny pred ukončením?"
@@ -1510,6 +1555,12 @@ msgstr "Zobraziť stavový riadok"
 
 msgid "Show Toolbar"
 msgstr "Zobraziť panel nástrojov"
+
+msgid "Show Zip files"
+msgstr "Zobraziť Zip archívy"
+
+msgid "Show gridlines"
+msgstr "Zobraziť mriežku"
 
 msgid "Show in Groups"
 msgstr "Zobraziť zoskupené"
@@ -1685,6 +1736,9 @@ msgstr "Textový filter"
 msgid "Text only"
 msgstr "Iba text"
 
+msgid "The text in %s has changed."
+msgstr "Text v %s sa zmenil."
+
 msgid "Theme"
 msgstr "Téma"
 
@@ -1763,6 +1817,9 @@ msgstr "Pred dvomi týždňami"
 msgid "Type"
 msgstr "Typ"
 
+msgid "Underline"
+msgstr "Podčiarknuté"
+
 msgid "Undo"
 msgstr "Späť"
 
@@ -1805,14 +1862,23 @@ msgstr "Nastavenia aktualizácií"
 msgid "Use Options->Updates to change them."
 msgstr "Použiť možnosti->Aktualizácie na ich zmenu"
 
+msgid "Use comma separated list of extensions. For example: txt,doc,rtf"
+msgstr "Zadajte zoznam prípon oddelených čiarkou. Napríklad: txt,doc,rtf"
+
 msgid "Use custom font"
 msgstr "Použiť vlastné písmo"
+
+msgid "Use extension colors"
+msgstr "Použiť farby prípon"
 
 msgid "Use inline CSS on copy"
 msgstr "Použiť inline CSS na kópii"
 
 msgid "Use inline CSS on export"
 msgstr "Použiť inline CSS na exporte"
+
+msgid "Use per folder settings"
+msgstr "Použiť samostatné nastavenia zložiek"
 
 msgid "Use strict filtering (wildcards are ? and *)"
 msgstr "Použiť prísne filtrovanie (náhradné znaky sú ? a *)"
@@ -1891,6 +1957,9 @@ msgstr "Zalamovanie slov"
 
 msgid "Word or Phrase in File Name"
 msgstr "Slovo alebo fráza v názve súboru"
+
+msgid "Workspace"
+msgstr "Pracovný panel"
 
 msgid "Wrap around"
 msgstr "Zalomiť okolo"
