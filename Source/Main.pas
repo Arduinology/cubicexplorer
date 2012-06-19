@@ -373,6 +373,8 @@ type
     procedure SetUseSystemProxy(const Value: Boolean);
   protected
     fWow64Enabled: Boolean;
+    function GetFullscreen: Boolean;
+    procedure SetFullscreen(const Value: Boolean);
     procedure SetWow64Enabled(const Value: Boolean);
   public
     Form: TMainForm;
@@ -403,6 +405,7 @@ type
     property CloseToTray: Boolean read fCloseToTray write fCloseToTray;
     property ExitOnLastTabClose: Boolean read fExitOnLastTabClose write
         fExitOnLastTabClose;
+    property Fullscreen: Boolean read GetFullscreen write SetFullscreen;
     property LastUpdateCheck: TDateTime read GetLastUpdateCheck write
         SetLastUpdateCheck;
     property LockToolbars: Boolean read GetLockToolbars write SetLockToolbars;
@@ -1051,9 +1054,16 @@ begin
   fFullscreen:= Value;
   if fFullscreen then
   begin
-    fOldWindowState:= Self.WindowState;
-    Self.BorderStyle:= bsNone;
-    Self.WindowState:= wsMaximized;
+    Self.Hide;
+    try
+      fOldWindowState:= Self.WindowState;
+      Self.BorderStyle:= bsNone;
+      if Self.WindowState = wsMaximized then
+      Self.WindowState:= wsNormal;
+      Self.WindowState:= wsMaximized;
+    finally
+      Self.Show;
+    end;
   end
   else
   begin
@@ -2160,6 +2170,19 @@ end;
 procedure TMainFormSettings.SetChangeCurrentDirVar(const Value: Boolean);
 begin
   GlobalPathCtrl.ChangeCurrentDirVar:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set Fullscreen
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetFullscreen: Boolean;
+begin
+  Result:= Form.Fullscreen;
+end;
+
+procedure TMainFormSettings.SetFullscreen(const Value: Boolean);
+begin
+  Form.Fullscreen:= Value;
 end;
 
 {-------------------------------------------------------------------------------

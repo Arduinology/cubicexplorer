@@ -1,5 +1,12 @@
+19.6.2012
+- Fixed "Fullscreen mode makes CE too big" bug.
+* CE now remembers Fullscreen mode on restart.
+
+13.6.2012
+* Updated Slovak translation (thanks to Sepp Winkler).
+
 4.6.2012
-* Updated Finnish language (thanks to hannes).
+* Updated Finnish translation (thanks to hannes).
 + Added HideShortcutExtension advanced setting for FileView.
 
 2.6.2012
