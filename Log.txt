@@ -1,3 +1,7 @@
+22.6.2012
+* PHP highlighter now also works inside JavaScript or CSS block.
++ Added "Colorize multi highlighter sections" option to Text Editor.
+
 19.6.2012
 - Fixed "Fullscreen mode makes CE too big" bug.
 * CE now remembers Fullscreen mode on restart.

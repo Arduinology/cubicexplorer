@@ -215,6 +215,8 @@ type
     TBControlItem1: TTBControlItem;
     edit_replace: TSpTBXEdit;
     TBControlItem2: TTBControlItem;
+    SynMultiJScriptSyn: TSynMultiSyn;
+    SynMultiCSSSyn: TSynMultiSyn;
     procedure ActionExecute(Sender: TObject);
     procedure ActionUpdate(Sender: TObject);
     procedure edit_findKeyPress(Sender: TObject; var Key: Char);
@@ -262,6 +264,8 @@ type
     procedure ShowSearchReplace(AShowReplace: Boolean = false); virtual;
     function CanClose: Boolean; virtual;
     procedure HideSearchReplace(AHideReplace: Boolean = false); virtual;
+    procedure UpdateHighlighterColors(ActiveHighlighter: TSynCustomHighlighter =
+        nil); virtual;
     procedure UpdateStats; virtual;
     property ActiveFileName: WideString read fActiveFileName;
     property ActiveFilePath: WideString read fActiveFilePath;
@@ -366,7 +370,9 @@ begin
       Highlighter:= Self.Components[i] as TSynCustomHighlighter;
       // only one highlighter for each language
       if (Highlighters.IndexOf(Highlighter.GetLanguageName) = -1) and
-         (Highlighter <> SynMultiHighlighter) then
+         (Highlighter <> SynMultiHighlighter) and
+         (Highlighter <> SynMultiJScriptSyn) and
+         (Highlighter <> SynMultiCSSSyn) then
       Highlighters.AddObject(Highlighter.GetLanguageName, Highlighter);
     end;
   end;
@@ -960,6 +966,7 @@ begin
           if (j > 0) and ((j + ExtLen > Length(Filter)) or (Filter[j + ExtLen] = ';')) then
           begin
             // assign highglighter
+            UpdateHighlighterColors(Highlighter);
             SynMemo.Highlighter:= Highlighter;
             Exit;
           end
@@ -973,6 +980,7 @@ begin
     if i3 > -1 then
     begin
       Highlighter:= TSynCustomHighlighter(Highlighters.Objects[i3]);
+      UpdateHighlighterColors(Highlighter);
       SynMemo.Highlighter:= Highlighter;
     end;
   end;
@@ -1134,6 +1142,7 @@ begin
   // manual highlighter
   if fActiveHighlighter > -1 then
   begin
+    UpdateHighlighterColors(TSynCustomHighlighter(Highlighters.Objects[fActiveHighlighter]));
     SynMemo.Highlighter:= TSynCustomHighlighter(Highlighters.Objects[fActiveHighlighter]);
   end
   // automatic highlighter
@@ -1396,6 +1405,46 @@ begin
   begin
     fActiveFileName:= _('New text file');
     Caption:= 'CubicNotepad';
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  UpdateHighlighterColors
+-------------------------------------------------------------------------------}
+procedure TCETextEditor.UpdateHighlighterColors(ActiveHighlighter:
+    TSynCustomHighlighter = nil);
+begin
+  if not assigned(ActiveHighlighter) then
+  ActiveHighlighter:= SynMemo.Highlighter;
+
+  // Change Multi Highlighter colors
+  if (ActiveHighlighter = SynMultiHighlighter) and (Settings.ColorizeMultiHighlighterBackground) then
+  begin
+    // CSS
+    SynMultiHighlighter.Schemes.Items[0].MarkerAttri.Background:= $00E3E6F1; 
+    SynCssSyn1.SpaceAttri.Background:= $00E3E6F1;
+    // JavaScript
+    SynMultiHighlighter.Schemes.Items[1].MarkerAttri.Background:= $00E7F4E7; 
+    SynJScriptSyn1.SpaceAttri.Background:= $00E7F4E7;
+    // PHP
+    SynMultiHighlighter.Schemes.Items[2].MarkerAttri.Background:= $00F3E6E6; 
+    SynPHPSyn1.SpaceAttri.Background:= $00F3E6E6;
+    SynMultiJScriptSyn.Schemes.Items[0].MarkerAttri.Background:= $00F3E6E6;
+    SynMultiCSSSyn.Schemes.Items[0].MarkerAttri.Background:= $00F3E6E6;
+  end
+  else
+  begin
+    // CSS
+    SynMultiHighlighter.Schemes.Items[0].MarkerAttri.Background:= $00ABB8DC;
+    SynCssSyn1.SpaceAttri.Background:= clNone;
+    // JavaScript
+    SynMultiHighlighter.Schemes.Items[1].MarkerAttri.Background:= $0096CE93; 
+    SynJScriptSyn1.SpaceAttri.Background:= clNone;
+    // PHP
+    SynMultiHighlighter.Schemes.Items[2].MarkerAttri.Background:= $00E0BBBA;
+    SynPHPSyn1.SpaceAttri.Background:= clNone;
+    SynMultiJScriptSyn.Schemes.Items[0].MarkerAttri.Background:= $00E0BBBA;
+    SynMultiCSSSyn.Schemes.Items[0].MarkerAttri.Background:= $00E0BBBA;
   end;
 end;
 

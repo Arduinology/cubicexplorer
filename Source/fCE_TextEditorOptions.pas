@@ -21,6 +21,7 @@ type
   protected
     fBackgroundColor: TColor;
     fCloseWithEsc: Boolean;
+    fColorizeMultiHighlighterBackground: Boolean;
     fCtrlActivatesLinks: Boolean;
     fEditorList: TObjectList;
     fEnablePlayback: Boolean;
@@ -54,6 +55,9 @@ type
   published
     property BackgroundColor: TColor read fBackgroundColor write fBackgroundColor;
     property CloseWithEsc: Boolean read fCloseWithEsc write fCloseWithEsc;
+    property ColorizeMultiHighlighterBackground: Boolean read
+        fColorizeMultiHighlighterBackground write
+        fColorizeMultiHighlighterBackground;
     property CtrlActivatesLinks: Boolean read fCtrlActivatesLinks write
         fCtrlActivatesLinks;
     property EnablePlayback: Boolean read fEnablePlayback write fEnablePlayback;
@@ -162,6 +166,7 @@ type
     color_export_background_color: TColorBox;
     check_export_tabs_to_spaces: TTntCheckBox;
     check_ctrl_activates_links: TTntCheckBox;
+    check_multi_highlighter_background: TTntCheckBox;
     procedure TntFormCreate(Sender: TObject);
     procedure but_applyClick(Sender: TObject);
     procedure but_fontClick(Sender: TObject);
@@ -271,6 +276,8 @@ begin
   combo_insert_caret.ItemIndex:= Ord(AFrom.InsertCaret);
   combo_override_caret.ItemIndex:= Ord(AFrom.OverwriteCaret);
   // background color
+  color_background.Handle;
+  color_background.DefaultColorColor:= clWindow;
   color_background.Selected:= AFrom.BackgroundColor;
   panel_font.Color:= AFrom.BackgroundColor;
   // gutter options
@@ -318,6 +325,7 @@ begin
   check_export_tabs_to_spaces.Checked:= eoConvertTabsToSpaces in AFrom.ExportOptions;
   // misc
   check_ctrl_activates_links.Checked:= AFrom.CtrlActivatesLinks;
+  check_multi_highlighter_background.Checked:= AFrom.ColorizeMultiHighlighterBackground;
 end;
 
 {-------------------------------------------------------------------------------
@@ -408,6 +416,7 @@ begin
   ATo.ExportWrapperClass:= edit_export_wrapper_class.Text;
   // misc
   ATo.CtrlActivatesLinks:= check_ctrl_activates_links.Checked;
+  ATo.ColorizeMultiHighlighterBackground:= check_multi_highlighter_background.Checked;
 end;
 
 {-------------------------------------------------------------------------------
@@ -563,6 +572,7 @@ begin
   fCtrlActivatesLinks:= true;
   fFindNextWithEnter:= true;
   fCloseWithEsc:= true;
+  fColorizeMultiHighlighterBackground:= true;
 end;
 
 {-------------------------------------------------------------------------------
@@ -617,6 +627,7 @@ begin
   if Dest is TCETextEditor then
   begin
     TCETextEditor(Dest).URIOpener.CtrlActivatesLinks:= Self.CtrlActivatesLinks;
+    TCETextEditor(Dest).UpdateHighlighterColors;
     Dest:= TCETextEditor(Dest).SynMemo;
   end;
 

@@ -215,7 +215,7 @@ object CETextEditor: TCETextEditor
       Wrapping = twPathEllipsis
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 0
+      CustomWidth = 529
     end
     object sep_modified: TSpTBXSeparatorItem
     end
@@ -1082,7 +1082,7 @@ object CETextEditor: TCETextEditor
         CaseSensitive = False
         StartExpr = '<[ \t]*style\b[^>]*>'
         EndExpr = '</[ \t]*style[ \t]*>'
-        Highlighter = SynCssSyn1
+        Highlighter = SynMultiCSSSyn
         MarkerAttri.Background = 11253980
         MarkerAttri.Foreground = clBlack
         SchemeName = 'CSS'
@@ -1093,7 +1093,7 @@ object CETextEditor: TCETextEditor
         CaseSensitive = False
         StartExpr = '<[ \t]*script\b[^>]*>'
         EndExpr = '</[ \t]*script[ \t]*>'
-        Highlighter = SynJScriptSyn1
+        Highlighter = SynMultiJScriptSyn
         MarkerAttri.Background = 9883283
         MarkerAttri.Foreground = clBlack
         SchemeName = 'JavaScript'
@@ -1172,6 +1172,44 @@ object CETextEditor: TCETextEditor
     Editor = SynMemo
     URIHighlighter = SynURISyn1
     Left = 120
+    Top = 200
+  end
+  object SynMultiJScriptSyn: TSynMultiSyn
+    DefaultFilter = 
+      'HTML, JS and PHP (*.htm;*.html;*.php;*.php3;*.phtml;*.js)|*.htm;' +
+      '*.html;*.php;*.php3;*.phtml;*.js'
+    Schemes = <
+      item
+        StartExpr = '<\?[ \t]*php\b'
+        EndExpr = '\?>'
+        Highlighter = SynPHPSyn1
+        MarkerAttri.Background = 14728122
+        MarkerAttri.Foreground = clBlack
+        SchemeName = 'PHP'
+        StartExprW = '<\?[ \t]*php\b'
+        EndExprW = '\?>'
+      end>
+    DefaultHighlighter = SynJScriptSyn1
+    DefaultLanguageName = 'JavaScript'
+    Left = 288
+    Top = 200
+  end
+  object SynMultiCSSSyn: TSynMultiSyn
+    DefaultFilter = 'Cascading Stylesheets (*.css)|*.css'
+    Schemes = <
+      item
+        StartExpr = '<\?[ \t]*php\b'
+        EndExpr = '\?>'
+        Highlighter = SynPHPSyn1
+        MarkerAttri.Background = 14728122
+        MarkerAttri.Foreground = clBlack
+        SchemeName = 'PHP'
+        StartExprW = '<\?[ \t]*php\b'
+        EndExprW = '\?>'
+      end>
+    DefaultHighlighter = SynCssSyn1
+    DefaultLanguageName = 'CSS'
+    Left = 320
     Top = 200
   end
 end
