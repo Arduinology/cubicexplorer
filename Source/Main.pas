@@ -2179,7 +2179,6 @@ function TMainFormSettings.GetFullscreen: Boolean;
 begin
   Result:= Form.Fullscreen;
 end;
-
 procedure TMainFormSettings.SetFullscreen(const Value: Boolean);
 begin
   Form.Fullscreen:= Value;

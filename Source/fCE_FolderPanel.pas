@@ -190,6 +190,7 @@ procedure TCEFolderPanel.GlobalPathChanged(Sender: TObject; NewPath:
 begin
   if FolderTree.AutoCollapse then
   FolderTree.FullCollapse;
+
   FolderTree.BrowseTo(NewPath, true, true, false, false);
 
   if Settings.CenterOnBrowse then
@@ -204,6 +205,7 @@ procedure TCEFolderPanel.GlobalPIDLChanged(Sender: TObject; NewPIDL:
 begin
   if FolderTree.AutoCollapse then
   FolderTree.FullCollapse;
+
   FolderTree.BrowseToByPIDL(NewPIDL, true, true, false, false);
 
   if Settings.CenterOnBrowse then

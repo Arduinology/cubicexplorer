@@ -162,13 +162,23 @@ begin
   for i:= 0 to fGlobalPathCtrls.Count - 1 do
   begin
     if Supports(fGlobalPathCtrls.Items[i], ICEPathChangeHandler, PathHandler) then
-    PathHandler.GlobalPathChanged(Sender, NewPath);
+    begin
+      try
+        PathHandler.GlobalPathChanged(Sender, NewPath);
+      except
+      end;
+    end;
   end; 
   // Active Component
   if Assigned(fActivePage) and (Sender <> fActivePage) then
   begin
     if Supports(fActivePage, ICEPathChangeHandler, PathHandler) then
-    PathHandler.GlobalPathChanged(Sender, NewPath);
+    begin
+      try
+        PathHandler.GlobalPathChanged(Sender, NewPath);
+      except
+      end;
+    end;
   end;
 
   fCurrentPath:= NewPath;
@@ -201,14 +211,24 @@ begin
     if fGlobalPathCtrls.Items[i] <> Sender then
     begin
       if Supports(fGlobalPathCtrls.Items[i], ICEPathChangeHandler, PathHandler) then
-      PathHandler.GlobalPIDLChanged(Sender, APIDL);
+      begin
+        try
+          PathHandler.GlobalPIDLChanged(Sender, APIDL);
+        except
+        end;
+      end;
     end;
   end;
   // Active Component
   if Assigned(fActivePage) and (Sender <> fActivePage) then
   begin
    if Supports(fActivePage, ICEPathChangeHandler, PathHandler) then
-    PathHandler.GlobalPIDLChanged(Sender, APIDL);
+   begin
+     try
+       PathHandler.GlobalPIDLChanged(Sender, APIDL);
+     except
+     end;
+   end;
   end;
 
   fCurrentPath:= PIDLToCEPath(APIDL);

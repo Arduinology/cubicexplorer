@@ -1,3 +1,7 @@
+29.6.2012
+* Updated Romanian translation (thanks to Silviu).
+* Updated French translation (thanks to BB).
+
 22.6.2012
 * PHP highlighter now also works inside JavaScript or CSS block.
 + Added "Colorize multi highlighter sections" option to Text Editor.

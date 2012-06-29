@@ -1077,3 +1077,13 @@ msgstr ""
 #: fCE_WorkspacePanel.dfm:32
 msgid "combo_path"
 msgstr ""
+
+#. CETextEditor..SynMultiJScriptSyn....DefaultFilter
+#: fCE_TextEditor.dfm:1180
+msgid "HTML, JS and PHP (*.htm;*.html;*.php;*.php3;*.phtml;*.js)|*.htm;*.html;*.php;*.php3;*.phtml;*.js"
+msgstr ""
+
+#. CETextEditor..SynMultiCSSSyn..DefaultFilter
+#: fCE_TextEditor.dfm:1198
+msgid "Cascading Stylesheets (*.css)|*.css"
+msgstr ""

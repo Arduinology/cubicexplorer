@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-06-01 15:25\n"
-"PO-Revision-Date: 2012-06-01 15:25\n"
+"POT-Creation-Date: 2012-06-29 16:16\n"
+"PO-Revision-Date: 2012-06-29 16:16\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,7 +65,7 @@ msgstr ""
 #: fCE_SessionManager.dfm:131
 #: fCE_OptionsPage_Tabs.pas:79
 #. Create TabSet
-#: Main.pas:582
+#: Main.pas:585
 msgid "Tabs"
 msgstr ""
 
@@ -280,7 +280,7 @@ msgstr ""
 #. CEFolderPanel..Caption
 #: fCE_FolderPanel.dfm:2
 #: fCE_OptionsPage_Display_FolderTree.pas:64
-#: Main.pas:1232
+#: Main.pas:1242
 msgid "Folders"
 msgstr ""
 
@@ -384,7 +384,7 @@ msgstr ""
 #. add bookmark item
 #: fCE_WorkspacePanel.pas:695
 #. Create BookmarkBar
-#: Main.pas:617
+#: Main.pas:620
 msgid "Bookmarks"
 msgstr ""
 
@@ -740,7 +740,7 @@ msgstr ""
 #. MainForm..TopToolDock..MainToolbar..sessionsMenuItem..Caption
 #: Main.dfm:363
 #. Create SessionsBar
-#: Main.pas:627
+#: Main.pas:630
 msgid "Sessions"
 msgstr ""
 
@@ -1000,7 +1000,7 @@ msgstr ""
 
 #. CEActions..ActionList..act_stack_open..Caption
 #: dCE_Actions.dfm:742
-#: Main.pas:1209
+#: Main.pas:1219
 msgid "Open"
 msgstr ""
 
@@ -1754,7 +1754,7 @@ msgstr ""
 #. CETextEditorOptionsForm..Font.Name
 #: fCE_TextEditorOptions.dfm:12
 #. CETextEditorOptionsForm..FontDlg..Font.Name
-#: fCE_TextEditorOptions.dfm:729
+#: fCE_TextEditorOptions.dfm:740
 #. CEUpdateDlg..Font.Name
 #: fCE_UpdateDlg.dfm:11
 #. CEVersionMgrForm..Font.Name
@@ -1932,7 +1932,7 @@ msgstr ""
 #. CEOptionsDialog..BottomPanel..but_ok..Caption
 #: fCE_OptionsDialog.dfm:158
 #. CETextEditorOptionsForm..but_ok..Caption
-#: fCE_TextEditorOptions.dfm:720
+#: fCE_TextEditorOptions.dfm:731
 msgid "OK"
 msgstr ""
 
@@ -1951,7 +1951,7 @@ msgstr ""
 #. CENewTranslationDlg..but_cancel..Caption
 #: fCE_PoEditor_NewForm.dfm:83
 #. CETextEditorOptionsForm..but_cancel..Caption
-#: fCE_TextEditorOptions.dfm:710
+#: fCE_TextEditorOptions.dfm:721
 #. CEUpdateDlg..but_cancel..Caption
 #: fCE_UpdateDlg.dfm:46
 msgid "Cancel"
@@ -1964,7 +1964,7 @@ msgstr ""
 #. CEPoEditor..ActionList..act_apply..Caption
 #: fCE_PoEditor.dfm:413
 #. CETextEditorOptionsForm..but_apply..Caption
-#: fCE_TextEditorOptions.dfm:700
+#: fCE_TextEditorOptions.dfm:711
 msgid "Apply"
 msgstr ""
 
@@ -2235,7 +2235,7 @@ msgstr ""
 #. CETextEditor..DockBottom..toolbar_find..but_search_options..Caption
 #: fCE_TextEditor.dfm:341
 #. CETextEditorOptionsForm..PageControl..sheet_options..Caption
-#: fCE_TextEditorOptions.dfm:477
+#: fCE_TextEditorOptions.dfm:479
 msgid "Options"
 msgstr ""
 
@@ -2313,9 +2313,9 @@ msgstr ""
 #. CETextEditorOptionsForm..PageControl..sheet_display..TntGroupBox1..but_font..Caption
 #: fCE_TextEditorOptions.dfm:143
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_gutter_font..Caption
-#: fCE_TextEditorOptions.dfm:304
+#: fCE_TextEditorOptions.dfm:306
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_gutter_font..but_gutter_font..Caption
-#: fCE_TextEditorOptions.dfm:331
+#: fCE_TextEditorOptions.dfm:333
 msgid "Font"
 msgstr ""
 
@@ -2326,9 +2326,9 @@ msgstr ""
 #. CETextEditorOptionsForm..PageControl..sheet_display..TntGroupBox1..TntLabel14..Caption
 #: fCE_TextEditorOptions.dfm:135
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_gutter_font..TntLabel15..Caption
-#: fCE_TextEditorOptions.dfm:314
+#: fCE_TextEditorOptions.dfm:316
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_border..TntLabel12..Caption
-#: fCE_TextEditorOptions.dfm:441
+#: fCE_TextEditorOptions.dfm:443
 msgid "Color:"
 msgstr ""
 
@@ -2898,7 +2898,7 @@ msgstr ""
 #: CE_StatusBar.pas:166
 #: CE_StatusBar.pas:193
 #: fCE_SearchPage.pas:333
-#: Main.pas:1234
+#: Main.pas:1244
 msgid "KB"
 msgstr ""
 
@@ -2920,7 +2920,7 @@ msgstr ""
 #: CE_StatusBar.pas:161
 #: CE_StatusBar.pas:168
 #: fCE_SearchPage.pas:334
-#: Main.pas:1235
+#: Main.pas:1245
 msgid "MB"
 msgstr ""
 
@@ -3178,7 +3178,7 @@ msgstr ""
 #. CETextEditor..StatusBar..but_insertmode..Caption
 #: fCE_TextEditor.dfm:233
 #. Insert Mode
-#: fCE_TextEditor.pas:1253
+#: fCE_TextEditor.pas:1262
 msgid "Insert"
 msgstr ""
 
@@ -3370,6 +3370,8 @@ msgstr ""
 
 #. CETextEditor..SynMultiHighlighter......SchemeName
 #: fCE_TextEditor.dfm:1088
+#. CETextEditor..SynMultiCSSSyn..DefaultLanguageName
+#: fCE_TextEditor.dfm:1211
 msgid "CSS"
 msgstr ""
 
@@ -3389,6 +3391,8 @@ msgstr ""
 
 #. CETextEditor..SynMultiHighlighter......SchemeName
 #: fCE_TextEditor.dfm:1099
+#. CETextEditor..SynMultiJScriptSyn..DefaultLanguageName
+#: fCE_TextEditor.dfm:1193
 msgid "JavaScript"
 msgstr ""
 
@@ -3396,6 +3400,14 @@ msgstr ""
 #: fCE_TextEditor.dfm:1104
 #. CETextEditor..SynMultiHighlighter......StartExprW
 #: fCE_TextEditor.dfm:1110
+#. CETextEditor..SynMultiJScriptSyn......StartExpr
+#: fCE_TextEditor.dfm:1183
+#. CETextEditor..SynMultiJScriptSyn......StartExprW
+#: fCE_TextEditor.dfm:1189
+#. CETextEditor..SynMultiCSSSyn......StartExpr
+#: fCE_TextEditor.dfm:1201
+#. CETextEditor..SynMultiCSSSyn......StartExprW
+#: fCE_TextEditor.dfm:1207
 msgid "<\\?[ \\t]*php\\b"
 msgstr ""
 
@@ -3403,17 +3415,40 @@ msgstr ""
 #: fCE_TextEditor.dfm:1105
 #. CETextEditor..SynMultiHighlighter......EndExprW
 #: fCE_TextEditor.dfm:1111
+#. CETextEditor..SynMultiJScriptSyn......EndExpr
+#: fCE_TextEditor.dfm:1184
+#. CETextEditor..SynMultiJScriptSyn......EndExprW
+#: fCE_TextEditor.dfm:1190
+#. CETextEditor..SynMultiCSSSyn......EndExpr
+#: fCE_TextEditor.dfm:1202
+#. CETextEditor..SynMultiCSSSyn......EndExprW
+#: fCE_TextEditor.dfm:1208
 msgid "\\?>"
 msgstr ""
 
 #. CETextEditor..SynMultiHighlighter......SchemeName
 #: fCE_TextEditor.dfm:1109
+#. CETextEditor..SynMultiJScriptSyn......SchemeName
+#: fCE_TextEditor.dfm:1188
+#. CETextEditor..SynMultiCSSSyn......SchemeName
+#: fCE_TextEditor.dfm:1206
 msgid "PHP"
 msgstr ""
 
 #. CETextEditor..SynMultiHighlighter..DefaultLanguageName
 #: fCE_TextEditor.dfm:1114
 msgid "HTML"
+msgstr ""
+
+#. CETextEditor..SynMultiJScriptSyn....DefaultFilter
+#: fCE_TextEditor.dfm:1180
+msgid "HTML, JS and PHP (*.htm;*.html;*.php;*.php3;*.phtml;*.js)|*.htm;*.html"
+";*.php;*.php3;*.phtml;*.js"
+msgstr ""
+
+#. CETextEditor..SynMultiCSSSyn..DefaultFilter
+#: fCE_TextEditor.dfm:1198
+msgid "Cascading Stylesheets (*.css)|*.css"
 msgstr ""
 
 #. CETextEditorOptionsForm..Caption
@@ -3424,9 +3459,9 @@ msgstr ""
 #. CETextEditorOptionsForm..PageControl..sheet_display..TntLabel9..Caption
 #: fCE_TextEditorOptions.dfm:39
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..TntLabel1..Caption
-#: fCE_TextEditorOptions.dfm:250
+#: fCE_TextEditorOptions.dfm:252
 #. CETextEditorOptionsForm..PageControl..sheet_export..check_export_use_background..Caption
-#: fCE_TextEditorOptions.dfm:662
+#: fCE_TextEditorOptions.dfm:673
 msgid "Background Color:"
 msgstr ""
 
@@ -3456,244 +3491,249 @@ msgid "Tab Width:"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_display..group_caret..Caption
-#: fCE_TextEditorOptions.dfm:177
+#: fCE_TextEditorOptions.dfm:178
 msgid "Caret"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_display..group_caret..TntLabel7..Caption
-#: fCE_TextEditorOptions.dfm:187
+#: fCE_TextEditorOptions.dfm:188
 msgid "Insert Caret:"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_display..group_caret..TntLabel8..Caption
-#: fCE_TextEditorOptions.dfm:194
+#: fCE_TextEditorOptions.dfm:195
 msgid "Override Caret:"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_display..group_caret..combo_insert_caret..Text
-#: fCE_TextEditorOptions.dfm:204
-#. CETextEditorOptionsForm..PageControl..sheet_display..group_caret..combo_insert_caret....Items.Strings
-#: fCE_TextEditorOptions.dfm:206
-#. CETextEditorOptionsForm..PageControl..sheet_display..group_caret..combo_override_caret....Items.Strings
-#: fCE_TextEditorOptions.dfm:222
-#: fCE_TextEditorOptions.pas:239
-msgid "Vertical Line"
-msgstr ""
-
+#: fCE_TextEditorOptions.dfm:205
 #. CETextEditorOptionsForm..PageControl..sheet_display..group_caret..combo_insert_caret....Items.Strings
 #: fCE_TextEditorOptions.dfm:207
 #. CETextEditorOptionsForm..PageControl..sheet_display..group_caret..combo_override_caret....Items.Strings
 #: fCE_TextEditorOptions.dfm:223
-#: fCE_TextEditorOptions.pas:240
-msgid "Horizontal Line"
+#: fCE_TextEditorOptions.pas:244
+msgid "Vertical Line"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_display..group_caret..combo_insert_caret....Items.Strings
 #: fCE_TextEditorOptions.dfm:208
 #. CETextEditorOptionsForm..PageControl..sheet_display..group_caret..combo_override_caret....Items.Strings
 #: fCE_TextEditorOptions.dfm:224
-#: fCE_TextEditorOptions.pas:241
-msgid "Half Block"
+#: fCE_TextEditorOptions.pas:245
+msgid "Horizontal Line"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_display..group_caret..combo_insert_caret....Items.Strings
 #: fCE_TextEditorOptions.dfm:209
-#. CETextEditorOptionsForm..PageControl..sheet_display..group_caret..combo_override_caret..Text
-#: fCE_TextEditorOptions.dfm:220
 #. CETextEditorOptionsForm..PageControl..sheet_display..group_caret..combo_override_caret....Items.Strings
 #: fCE_TextEditorOptions.dfm:225
-#: fCE_TextEditorOptions.pas:242
+#: fCE_TextEditorOptions.pas:246
+msgid "Half Block"
+msgstr ""
+
+#. CETextEditorOptionsForm..PageControl..sheet_display..group_caret..combo_insert_caret....Items.Strings
+#: fCE_TextEditorOptions.dfm:210
+#. CETextEditorOptionsForm..PageControl..sheet_display..group_caret..combo_override_caret..Text
+#: fCE_TextEditorOptions.dfm:221
+#. CETextEditorOptionsForm..PageControl..sheet_display..group_caret..combo_override_caret....Items.Strings
+#: fCE_TextEditorOptions.dfm:226
+#: fCE_TextEditorOptions.pas:247
 msgid "Block"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..Caption
-#: fCE_TextEditorOptions.dfm:241
+#: fCE_TextEditorOptions.dfm:243
 msgid "Gutter"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..check_gutter_visible..Caption
-#: fCE_TextEditorOptions.dfm:258
+#: fCE_TextEditorOptions.dfm:260
 msgid "Visible"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..check_gutter_line_numbers..Caption
-#: fCE_TextEditorOptions.dfm:267
+#: fCE_TextEditorOptions.dfm:269
 msgid "Show line numbers"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..check_gutter_start_at_zero..Caption
-#: fCE_TextEditorOptions.dfm:276
+#: fCE_TextEditorOptions.dfm:278
 msgid "Start at zero"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..check_gutter_show_leading_zeros..Caption
-#: fCE_TextEditorOptions.dfm:285
+#: fCE_TextEditorOptions.dfm:287
 msgid "Show leading zeros"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_gutter_font..check_gutter_font..Caption
-#: fCE_TextEditorOptions.dfm:322
+#: fCE_TextEditorOptions.dfm:324
 msgid "Use custom font"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_gutter_gradient..Caption
-#: fCE_TextEditorOptions.dfm:363
+#: fCE_TextEditorOptions.dfm:365
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_gutter_gradient..check_gutter_gradient..Caption
-#: fCE_TextEditorOptions.dfm:415
+#: fCE_TextEditorOptions.dfm:417
 msgid "Gradient"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_gutter_gradient..TntLabel10..Caption
-#: fCE_TextEditorOptions.dfm:373
+#: fCE_TextEditorOptions.dfm:375
 msgid "End Color:"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_gutter_gradient..TntLabel6..Caption
-#: fCE_TextEditorOptions.dfm:380
+#: fCE_TextEditorOptions.dfm:382
 msgid "Start Color:"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_gutter_gradient..TntLabel11..Caption
-#: fCE_TextEditorOptions.dfm:387
+#: fCE_TextEditorOptions.dfm:389
 msgid "Steps"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_border..Caption
-#: fCE_TextEditorOptions.dfm:431
+#: fCE_TextEditorOptions.dfm:433
 msgid "Border"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_border..TntLabel13..Caption
-#: fCE_TextEditorOptions.dfm:448
+#: fCE_TextEditorOptions.dfm:450
 msgid "Border Style:"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_border..combo_gutter_border_style..Text
-#: fCE_TextEditorOptions.dfm:468
+#: fCE_TextEditorOptions.dfm:470
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_border..combo_gutter_border_style....Items.Strings
-#: fCE_TextEditorOptions.dfm:471
-#: fCE_TextEditorOptions.pas:246
+#: fCE_TextEditorOptions.dfm:473
+#: fCE_TextEditorOptions.pas:251
 msgid "Middle"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_border..combo_gutter_border_style....Items.Strings
-#: fCE_TextEditorOptions.dfm:470
+#: fCE_TextEditorOptions.dfm:472
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem57..Caption
 #: Main.dfm:272
 #. add None item
-#: fCE_TextEditor.pas:816
-#: fCE_TextEditorOptions.pas:245
+#: fCE_TextEditor.pas:822
+#: fCE_TextEditorOptions.pas:250
 msgid "None"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_border..combo_gutter_border_style....Items.Strings
-#: fCE_TextEditorOptions.dfm:472
-#: fCE_TextEditorOptions.pas:247
+#: fCE_TextEditorOptions.dfm:474
+#: fCE_TextEditorOptions.pas:252
 msgid "Right"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_options..check_auto_indent..Caption
-#: fCE_TextEditorOptions.dfm:487
+#: fCE_TextEditorOptions.dfm:489
 msgid "Auto indent"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_options..check_enhance_home_key..Caption
-#: fCE_TextEditorOptions.dfm:496
+#: fCE_TextEditorOptions.dfm:498
 msgid "Enhance Home Key"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_options..check_enhance_end_key..Caption
-#: fCE_TextEditorOptions.dfm:505
+#: fCE_TextEditorOptions.dfm:507
 msgid "Enhance End Key"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_options..check_group_undo..Caption
-#: fCE_TextEditorOptions.dfm:514
+#: fCE_TextEditorOptions.dfm:516
 msgid "Group undo"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_options..check_half_page_scroll..Caption
-#: fCE_TextEditorOptions.dfm:523
+#: fCE_TextEditorOptions.dfm:525
 msgid "Half page scroll"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_options..check_right_mouse_moves_cursor..Caption
-#: fCE_TextEditorOptions.dfm:532
+#: fCE_TextEditorOptions.dfm:534
 msgid "Right mouse moves cursor"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_options..check_scroll_past_eol..Caption
-#: fCE_TextEditorOptions.dfm:541
+#: fCE_TextEditorOptions.dfm:543
 msgid "Scroll past end of line"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_options..check_scroll_past_eof..Caption
-#: fCE_TextEditorOptions.dfm:550
+#: fCE_TextEditorOptions.dfm:552
 msgid "Scroll past end of file"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_options..check_show_scroll_hint..Caption
-#: fCE_TextEditorOptions.dfm:559
+#: fCE_TextEditorOptions.dfm:561
 msgid "Show scroll hint"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_options..check_show_special_chars..Caption
-#: fCE_TextEditorOptions.dfm:568
+#: fCE_TextEditorOptions.dfm:570
 msgid "Show special characters"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_options..check_smart_tabs..Caption
-#: fCE_TextEditorOptions.dfm:577
+#: fCE_TextEditorOptions.dfm:579
 msgid "Smart tabs"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_options..check_smart_tab_delete..Caption
-#: fCE_TextEditorOptions.dfm:586
+#: fCE_TextEditorOptions.dfm:588
 msgid "Smart tab delete"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_options..check_tab_indent..Caption
-#: fCE_TextEditorOptions.dfm:595
+#: fCE_TextEditorOptions.dfm:597
 msgid "Tab indent"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_options..check_tabs_to_spaces..Caption
-#: fCE_TextEditorOptions.dfm:604
+#: fCE_TextEditorOptions.dfm:606
 msgid "Tabs to spaces"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_options..check_trim_trailing_spaces..Caption
-#: fCE_TextEditorOptions.dfm:613
+#: fCE_TextEditorOptions.dfm:615
 msgid "Trim trailing spaces"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_options..check_ctrl_activates_links..Caption
-#: fCE_TextEditorOptions.dfm:622
+#: fCE_TextEditorOptions.dfm:624
 msgid "Ctrl activates links"
 msgstr ""
 
+#. CETextEditorOptionsForm..PageControl..sheet_options..check_multi_highlighter_background..Caption
+#: fCE_TextEditorOptions.dfm:633
+msgid "Colorize multi highlighter sections"
+msgstr ""
+
 #. CETextEditorOptionsForm..PageControl..sheet_export..Caption
-#: fCE_TextEditorOptions.dfm:627
+#: fCE_TextEditorOptions.dfm:638
 msgid "Export"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_export..TntLabel16..Caption
-#: fCE_TextEditorOptions.dfm:636
+#: fCE_TextEditorOptions.dfm:647
 msgid "DIV wrapper class"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_export..check_inline_css_on_copy..Caption
-#: fCE_TextEditorOptions.dfm:644
+#: fCE_TextEditorOptions.dfm:655
 msgid "Use inline CSS on copy"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_export..check_inline_css_on_export..Caption
-#: fCE_TextEditorOptions.dfm:653
+#: fCE_TextEditorOptions.dfm:664
 msgid "Use inline CSS on export"
 msgstr ""
 
 #. CETextEditorOptionsForm..PageControl..sheet_export..check_export_tabs_to_spaces..Caption
-#: fCE_TextEditorOptions.dfm:689
+#: fCE_TextEditorOptions.dfm:700
 msgid "Convert Tabs to Spaces"
 msgstr ""
 
@@ -3858,7 +3898,7 @@ msgstr ""
 msgid "Connection error!"
 msgstr ""
 
-#: CE_BaseFileView.pas:317
+#: CE_BaseFileView.pas:320
 #. Show Empty Folder text
 #: CE_FileView.pas:770
 #. Show Empty Folder text
@@ -3867,7 +3907,7 @@ msgid "Empty folder"
 msgstr ""
 
 #. Add "More..." item
-#: CE_BaseFileView.pas:1416
+#: CE_BaseFileView.pas:1420
 #. More... item
 #: CE_ToolbarButtons.pas:545
 #. More... item
@@ -4147,8 +4187,8 @@ msgstr ""
 #: CE_VersionUpdater.pas:1325
 #. time label
 #: fCE_QuickView.pas:1273
-#: fCE_TextEditor.pas:783
-#: fCE_TextEditor.pas:916
+#: fCE_TextEditor.pas:789
+#: fCE_TextEditor.pas:922
 msgid "Error"
 msgstr ""
 
@@ -4525,89 +4565,89 @@ msgid "Enable Auto Save"
 msgstr ""
 
 #. initialize values
-#: fCE_TextEditor.pas:353
+#: fCE_TextEditor.pas:357
 msgid "Length: %d Lines: %d"
 msgstr ""
 
-#: fCE_TextEditor.pas:354
+#: fCE_TextEditor.pas:358
 msgid "Line: %d Char: %d Sel: %d"
 msgstr ""
 
 #. add multi highlighter to top of the Highlighter list
-#: fCE_TextEditor.pas:376
+#: fCE_TextEditor.pas:382
 msgid "HTML with CSS, JS or PHP"
 msgstr ""
 
 #. Export as HTML
-#: fCE_TextEditor.pas:441
+#: fCE_TextEditor.pas:447
 msgid "HTML Documents"
 msgstr ""
 
-#: fCE_TextEditor.pas:441
+#: fCE_TextEditor.pas:447
 msgid "All types"
 msgstr ""
 
 #. wrap around
-#: fCE_TextEditor.pas:711
+#: fCE_TextEditor.pas:717
 msgid "Wrapped around"
 msgstr ""
 
-#: fCE_TextEditor.pas:715
+#: fCE_TextEditor.pas:721
 msgid "Not found"
 msgstr ""
 
-#: fCE_TextEditor.pas:719
+#: fCE_TextEditor.pas:725
 msgid "Found"
 msgstr ""
 
-#: fCE_TextEditor.pas:782
+#: fCE_TextEditor.pas:788
 msgid "Failed to open file!"
 msgstr ""
 
 #. add Automatic item
-#: fCE_TextEditor.pas:824
+#: fCE_TextEditor.pas:830
 msgid "Automatic"
 msgstr ""
 
-#: fCE_TextEditor.pas:866
+#: fCE_TextEditor.pas:872
 msgid "Reloaded from disk"
 msgstr ""
 
-#: fCE_TextEditor.pas:869
+#: fCE_TextEditor.pas:875
 msgid "Reload failed!"
 msgstr ""
 
-#: fCE_TextEditor.pas:912
+#: fCE_TextEditor.pas:918
 msgid "Saved to \"%s\""
 msgstr ""
 
-#: fCE_TextEditor.pas:919
+#: fCE_TextEditor.pas:925
 msgid "Failed to save file!"
 msgstr ""
 
-#: fCE_TextEditor.pas:1119
+#: fCE_TextEditor.pas:1127
 msgid "Replaced %d texts."
 msgstr ""
 
-#: fCE_TextEditor.pas:1216
-#: fCE_TextEditor.pas:1218
-#: fCE_TextEditor.pas:1397
+#: fCE_TextEditor.pas:1225
+#: fCE_TextEditor.pas:1227
+#: fCE_TextEditor.pas:1406
 msgid "New text file"
 msgstr ""
 
-#: fCE_TextEditor.pas:1255
+#: fCE_TextEditor.pas:1264
 msgid "Override"
 msgstr ""
 
-#: fCE_TextEditor.pas:1275
+#: fCE_TextEditor.pas:1284
 msgid "The text in %s has changed."
 msgstr ""
 
-#: fCE_TextEditor.pas:1276
+#: fCE_TextEditor.pas:1285
 msgid "Do you want to save changes before closing?"
 msgstr ""
 
-#: fCE_TextEditor.pas:1278
+#: fCE_TextEditor.pas:1287
 msgid "Save before closing?"
 msgstr ""
 
@@ -4652,150 +4692,150 @@ msgid "Published:"
 msgstr ""
 
 #. Create FolderCombo Toolbar
-#: Main.pas:598
+#: Main.pas:601
 msgid "Address Bar"
 msgstr ""
 
 #. Create DriveToolbar
-#: Main.pas:606
+#: Main.pas:609
 msgid "Drives"
 msgstr ""
 
 #. Create BreadcrumbBar
-#: Main.pas:637
+#: Main.pas:640
 msgid "Breadcrumb Navigation"
 msgstr ""
 
 #. Check if dialogs are present. If so, show a warning.
-#: Main.pas:958
+#: Main.pas:961
 msgid "Dialog found!"
 msgstr ""
 
-#: Main.pas:959
+#: Main.pas:962
 msgid "File operation might be still running!"
 msgstr ""
 
-#: Main.pas:959
+#: Main.pas:962
 msgid "Are you sure you want to quit?"
 msgstr ""
 
 #. Add default menu items
-#: Main.pas:1107
+#: Main.pas:1117
 msgid "English (default)"
 msgstr ""
 
 #. TabBar Left/Right arrow hints
-#: Main.pas:1204
+#: Main.pas:1214
 msgid "Show more tabs"
 msgstr ""
 
 #. VSTools strings
-#: Main.pas:1208
+#: Main.pas:1218
 msgid "Warning"
 msgstr ""
 
-#: Main.pas:1211
+#: Main.pas:1221
 msgid "Last hour"
 msgstr ""
 
-#: Main.pas:1212
+#: Main.pas:1222
 msgid "Last twenty-four hours"
 msgstr ""
 
-#: Main.pas:1213
+#: Main.pas:1223
 msgid "This week"
 msgstr ""
 
-#: Main.pas:1214
+#: Main.pas:1224
 msgid "Two weeks ago"
 msgstr ""
 
-#: Main.pas:1215
+#: Main.pas:1225
 msgid "Three weeks ago"
 msgstr ""
 
-#: Main.pas:1216
+#: Main.pas:1226
 msgid "A month ago"
 msgstr ""
 
-#: Main.pas:1217
+#: Main.pas:1227
 msgid "Two months ago"
 msgstr ""
 
-#: Main.pas:1218
+#: Main.pas:1228
 msgid "Three months ago"
 msgstr ""
 
-#: Main.pas:1219
+#: Main.pas:1229
 msgid "Four months ago"
 msgstr ""
 
-#: Main.pas:1220
+#: Main.pas:1230
 msgid "Five months ago"
 msgstr ""
 
-#: Main.pas:1221
+#: Main.pas:1231
 msgid "Six months ago"
 msgstr ""
 
-#: Main.pas:1222
+#: Main.pas:1232
 msgid "Earlier this year"
 msgstr ""
 
-#: Main.pas:1223
+#: Main.pas:1233
 msgid "A long time ago"
 msgstr ""
 
-#: Main.pas:1225
+#: Main.pas:1235
 msgid "Zero"
 msgstr ""
 
-#: Main.pas:1226
+#: Main.pas:1236
 msgid "Tiny"
 msgstr ""
 
-#: Main.pas:1227
+#: Main.pas:1237
 msgid "Small"
 msgstr ""
 
-#: Main.pas:1228
+#: Main.pas:1238
 msgid "Medium"
 msgstr ""
 
-#: Main.pas:1229
+#: Main.pas:1239
 msgid "Large"
 msgstr ""
 
-#: Main.pas:1230
+#: Main.pas:1240
 msgid "Gigantic"
 msgstr ""
 
-#: Main.pas:1231
+#: Main.pas:1241
 msgid "System Folders"
 msgstr ""
 
-#: Main.pas:1236
+#: Main.pas:1246
 msgid "TB"
 msgstr ""
 
-#: Main.pas:1703
+#: Main.pas:1713
 msgid "New version (%s) is available. Do you want to update "
 "now?"
 msgstr ""
 
-#: Main.pas:1709
+#: Main.pas:1719
 msgid "Build:"
 msgstr ""
 
-#: Main.pas:1710
+#: Main.pas:1720
 msgid "Update type:"
 msgstr ""
 
-#: Main.pas:1713
+#: Main.pas:1723
 msgid "New Version Available"
 msgstr ""
 
-#: Main.pas:1714
+#: Main.pas:1724
 msgid "Do you want to update?"
 msgstr ""
 

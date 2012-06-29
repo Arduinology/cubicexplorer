@@ -4,12 +4,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1550\n"
+"CE-POT-Version: 1563\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
-"POT-Creation-Date:                                                      \n"
-"PO-Revision-Date:                                                      \n"
-"Language-Team:                                                      \n"
+"POT-Creation-Date:                                                            \n"
+"PO-Revision-Date:                                                            \n"
+"Language-Team:                                                            \n"
 
 msgid "%d file(s) failed to download!"
 msgstr "Échec du téléchargement de %d fichier(s) !"
@@ -197,6 +197,9 @@ msgstr "Précédent"
 msgid "Background Color:"
 msgstr "Couleur d'arrière-plan :"
 
+msgid "Background color"
+msgstr "Couleur de l'arrière-plan :"
+
 msgid "Backups"
 msgstr "Sauvegardes"
 
@@ -211,6 +214,9 @@ msgstr "Avant l'heure :"
 
 msgid "Block"
 msgstr "Rectangle plein"
+
+msgid "Bold"
+msgstr "Gras"
 
 msgid "Bookmark 1"
 msgstr "Repère 1"
@@ -262,6 +268,9 @@ msgstr "Fil d'Ariane"
 
 msgid "Browse To"
 msgstr "Naviguer jusqu'à"
+
+msgid "Browse Zip Files"
+msgstr " Naviguer à l'intérieur des fichiers Zip"
 
 msgid "Browse..."
 msgstr "Parcourir..."
@@ -358,6 +367,9 @@ msgstr " Fermer dans la zone de notification"
 
 msgid "Color:"
 msgstr "Couleur :"
+
+msgid "Colors"
+msgstr "Couleurs"
 
 msgid "Column Settings"
 msgstr "Paramètres des colonnes"
@@ -510,7 +522,7 @@ msgid "Disk Usage"
 msgstr "Occupation disque"
 
 msgid "Display"
-msgstr "Visuel"
+msgstr "Apparence"
 
 msgid "Display Mode"
 msgstr "Mode d'affichage "
@@ -899,6 +911,9 @@ msgstr "Mise à jour invalide !"
 msgid "Invert Selection"
 msgstr "Inverser la sélection"
 
+msgid "Italic"
+msgstr "Italique"
+
 msgid "Item Count"
 msgstr "Nb max d'éléments"
 
@@ -1113,7 +1128,7 @@ msgid "No file loaded."
 msgstr "Aucun fichier chargé"
 
 msgid "No new updates"
-msgstr "Aucune mise à jour n'est disponible"
+msgstr "Aucune mise à jour n'est disponible."
 
 msgid "None"
 msgstr "Aucun(e)"
@@ -1164,7 +1179,7 @@ msgid "Open in new tab"
 msgstr "Ouvrir dans un nouvel onglet"
 
 msgid "Open in new tab by default"
-msgstr " Ouvrir dans un nouvel onglet"
+msgstr " Ouvrir chaque dossier cliqué dans un nouvel onglet"
 
 msgid "Open last used"
 msgstr " Ouvrir le dernier utilisé"
@@ -1321,6 +1336,9 @@ msgstr "Mémoriser"
 
 msgid "Remember Tabs"
 msgstr "Mémoriser les onglets"
+
+msgid "Remember thumbnails"
+msgstr " Se souvenir des miniatures"
 
 msgid "Remove from Stack"
 msgstr "Retirer du panier"
@@ -1561,6 +1579,12 @@ msgstr "Afficher la barre d'état"
 
 msgid "Show Toolbar"
 msgstr "Afficher la barre d'outils"
+
+msgid "Show Zip files"
+msgstr " Afficher les fichiers Zip"
+
+msgid "Show gridlines"
+msgstr " Afficher le quadrillage"
 
 msgid "Show in Groups"
 msgstr "Afficher en groupes"
@@ -1820,6 +1844,9 @@ msgstr "Il y a deux semaines"
 msgid "Type"
 msgstr "Type"
 
+msgid "Underline"
+msgstr "Souligné"
+
 msgid "Undo"
 msgstr "Annuler"
 
@@ -1865,8 +1892,14 @@ msgstr "Paramètres des mises à jour"
 msgid "Use Options->Updates to change them."
 msgstr "Allez dans \"Options\"->\"Mises à jour\" pour faire votre choix."
 
+msgid "Use comma separated list of extensions. For example: txt,doc,rtf"
+msgstr "Créez des listes d'extensions séparées par des virgules. Par exemple : txt,doc,rtf"
+
 msgid "Use custom font"
 msgstr "Police personnalisée"
+
+msgid "Use extension colors"
+msgstr " Utiliser des couleurs de police différentes selon les extensions de fichiers"
 
 msgid "Use inline CSS on copy"
 msgstr "Utiliser des CSS de style inline (en ligne) lors de la copie"

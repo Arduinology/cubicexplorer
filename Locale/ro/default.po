@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1434\n"
+"CE-POT-Version: 1562\n"
 "CE-Language: Romanian\n"
 "Last-Translator: Stefan Arhip <stedanarh@yahoo.com>\n"
 
@@ -83,6 +83,9 @@ msgstr "Dupa Ora:"
 msgid "All"
 msgstr "Toate"
 
+msgid "All types"
+msgstr "Toate tipurile"
+
 msgid "Allow Move"
 msgstr "Permite mutarea"
 
@@ -111,7 +114,7 @@ msgid "Apply changes now?"
 msgstr "Aplica modificarile acum?"
 
 msgid "Apply changes."
-msgstr "Aplica modificari."
+msgstr "Aplica modificarile."
 
 msgid "Archiver"
 msgstr "Arhivator"
@@ -130,6 +133,12 @@ msgstr "Esti sigur ca vrei sa stergi sesiunea aceasta?"
 
 msgid "Are you sure you want to do that?"
 msgstr "Esti sigur ca vrei sa faci asta?"
+
+msgid "Are you sure you want to quit?"
+msgstr "Sunteti sigur ca doriti sa inchideti?"
+
+msgid "Are you sure you want to restore default layout?"
+msgstr "Sunteti sigur ca verti sa restabiliti setarile initiale? "
 
 msgid "Are you sure you want to restore?"
 msgstr "Esti sigur ca vrei sa restabilesti?"
@@ -164,6 +173,9 @@ msgstr "Expandare automata arbore"
 msgid "Auto fit tabs"
 msgstr "Autodimensionare tab-uri"
 
+msgid "Auto indent"
+msgstr "Auto aliniere"
+
 msgid "Auto size cells in list view style."
 msgstr "Marime automata a celulelor in stilul de vedere lista."
 
@@ -172,6 +184,12 @@ msgstr "Automat"
 
 msgid "Back"
 msgstr "Inapoi"
+
+msgid "Background Color:"
+msgstr "Culoare de fundal:"
+
+msgid "Background color"
+msgstr "Culoare de fundal"
 
 msgid "Backups"
 msgstr "Copii de rezerva"
@@ -185,11 +203,50 @@ msgstr "Inainte de Data:"
 msgid "Before Time:"
 msgstr "Inainte de Ora:"
 
+msgid "Block"
+msgstr "Bloc"
+
+msgid "Bold"
+msgstr "Ingrosat"
+
+msgid "Bookmark 1"
+msgstr "Favorit 1"
+
+msgid "Bookmark 2"
+msgstr "Favorit 2"
+
+msgid "Bookmark 3"
+msgstr "Favorit 3"
+
+msgid "Bookmark 4"
+msgstr "Favorit 4"
+
+msgid "Bookmark 5"
+msgstr "Favorit 5"
+
+msgid "Bookmark 6"
+msgstr "Favorit 6"
+
+msgid "Bookmark 7"
+msgstr "Favorit 7"
+
+msgid "Bookmark 8"
+msgstr "Favorit 8"
+
+msgid "Bookmark 9"
+msgstr "Favorit 9"
+
 msgid "Bookmarks"
 msgstr "Favorite"
 
 msgid "Bookmarks Panel Settings"
 msgstr "Setari Panou Favorite"
+
+msgid "Border"
+msgstr "Bordura"
+
+msgid "Border Style:"
+msgstr "Typul de bordura"
 
 msgid "Borders"
 msgstr "Margini"
@@ -199,6 +256,12 @@ msgstr "Baza"
 
 msgid "Breadcrumb Navigation"
 msgstr "Navigare Breadcrumb"
+
+msgid "Browse To"
+msgstr "Navigati la"
+
+msgid "Browse Zip Files"
+msgstr "Navigati in fisierele ZIP"
 
 msgid "Browse..."
 msgstr "Cauta..."
@@ -212,14 +275,23 @@ msgstr "Butoane"
 msgid "Bytes"
 msgstr "Octeti"
 
+msgid "CSS"
+msgstr "CSS"
+
 msgid "Cancel"
 msgstr "Anulare"
 
 msgid "Cancelled"
 msgstr "Anulat"
 
+msgid "Caret"
+msgstr ""
+
 msgid "Case Sensitive"
 msgstr "Senzitiv tip litera"
+
+msgid "Case sensitive"
+msgstr ""
 
 msgid "Case sensitivity"
 msgstr "Senzitivitate tip litera"
@@ -284,6 +356,12 @@ msgstr "Inchide tab-ul prin dublu-click"
 msgid "Close to tray"
 msgstr "Trimite aplicatia in tray la inchidere"
 
+msgid "Color:"
+msgstr "Culoare:"
+
+msgid "Colors"
+msgstr "Culori:"
+
 msgid "Column Settings"
 msgstr "Setari coloane"
 
@@ -308,11 +386,20 @@ msgstr "Continut"
 msgid "Continue from last time"
 msgstr "Continua din data trecuta"
 
+msgid "Controls"
+msgstr "Controale"
+
+msgid "Convert Tabs to Spaces"
+msgstr "Converteste tab-urile la spatii"
+
 msgid "Copy"
 msgstr "Copiaza"
 
 msgid "Copy Path"
 msgstr "Copiaza Calea"
+
+msgid "Copy as HTML"
+msgstr "Copiaza ca HTML"
 
 msgid "Copy of active tab"
 msgstr "Copiaza tabul activ"
@@ -331,6 +418,9 @@ msgstr "Creaza o traducere noua."
 
 msgid "Created"
 msgstr "Creat"
+
+msgid "Ctrl activates links"
+msgstr "Ctrl activeaza link-urile"
 
 msgid "CubicExplore Home Page"
 msgstr "Pagina Oficiala CubicExplorer"
@@ -356,6 +446,9 @@ msgstr "Personalizator..."
 msgid "Cut"
 msgstr "Taie"
 
+msgid "DIV wrapper class"
+msgstr ""
+
 msgid "Daily"
 msgstr "Zilnic"
 
@@ -377,6 +470,9 @@ msgstr "Data Modificare"
 msgid "Default"
 msgstr "Implicit"
 
+msgid "Default File Manager"
+msgstr "Managerul de fisiere initial"
+
 msgid "Default hotkeys become available after restart!"
 msgstr "Scurtaturile implicite sunt disponibile dupa repornire!"
 
@@ -389,8 +485,14 @@ msgstr "Se sterg mai multe Semne de carte!"
 msgid "Desktop"
 msgstr "Desktop"
 
+msgid "Detach to Window"
+msgstr "Desprinde de fereastra"
+
 msgid "Details"
 msgstr "Detalii"
+
+msgid "Dialog found!"
+msgstr "Dialog gasit!"
 
 msgid "Direction"
 msgstr "Directie"
@@ -421,6 +523,9 @@ msgstr "Vrei sa suprascrii stiva curenta?"
 
 msgid "Do you want to reset all hotkeys for this action?"
 msgstr "Chiar vrei sa resetezi toate scurtaturile pentru aceasta actiune?"
+
+msgid "Do you want to save changes before closing?"
+msgstr "Doriti sa salvati modificarile inainte de a inchide?"
 
 msgid "Do you want to update?"
 msgstr "Vrei sa actualizezi?"
@@ -476,8 +581,14 @@ msgstr "Spatiator dinamic"
 msgid "Earlier this year"
 msgstr "La inceputul anului curent"
 
+msgid "Edge Column:"
+msgstr "Marginea coloanei:"
+
 msgid "Edit"
 msgstr "Editeaza"
+
+msgid "Editor Options"
+msgstr "Editor optiuni"
 
 msgid "Editor Options..."
 msgstr "Editor Optiuni..."
@@ -488,6 +599,9 @@ msgstr "Goleste Cosul de Gunoi"
 msgid "Empty Stack"
 msgstr "Stiva Goala"
 
+msgid "Empty file"
+msgstr "Fisiere goale"
+
 msgid "Empty folder"
 msgstr "Director gol"
 
@@ -497,11 +611,32 @@ msgstr "Activat"
 msgid "Enable Auto Save"
 msgstr "Activeaza Autosalvarea"
 
+msgid "Enable Playback"
+msgstr ""
+
+msgid "End Color:"
+msgstr ""
+
 msgid "English (default)"
 msgstr "Engleza (implicit)"
 
+msgid "Enhance End Key"
+msgstr ""
+
+msgid "Enhance Home Key"
+msgstr ""
+
 msgid "Enter each file mask on a separate line."
 msgstr "Introdu fiecare masca de fisiere pe o linie separata"
+
+msgid "Error"
+msgstr ""
+
+msgid "Error: Could not connect!"
+msgstr ""
+
+msgid "Exclude"
+msgstr ""
 
 msgid "Exclude File Masks:"
 msgstr "Exclude Mastile de Fisiere:"
@@ -515,6 +650,21 @@ msgstr "Inchide programul cand se inchide ultimul tab"
 msgid "Explorer"
 msgstr "Explorator"
 
+msgid "Export"
+msgstr ""
+
+msgid "Export as HTML..."
+msgstr ""
+
+msgid "Extra Lines:"
+msgstr ""
+
+msgid "Failed to open file!"
+msgstr ""
+
+msgid "Failed to save file!"
+msgstr ""
+
 msgid "File"
 msgstr "Fisier"
 
@@ -527,8 +677,14 @@ msgstr "Nume Masca Fisier"
 msgid "File Search"
 msgstr "Cauta Fisier"
 
+msgid "File operation might be still running!"
+msgstr ""
+
 msgid "File size format:"
 msgstr "Formatul dimensiunii de fisier:"
+
+msgid "Filelist"
+msgstr ""
 
 msgid "Files to update"
 msgstr "Fisiere de actualizat"
@@ -545,11 +701,17 @@ msgstr "Diafilm"
 msgid "Filters"
 msgstr "Filtre"
 
+msgid "Find"
+msgstr ""
+
 msgid "Find Next"
 msgstr "Cauta Urmator"
 
 msgid "Find Previous"
 msgstr "Cauta Precedent"
+
+msgid "Find:"
+msgstr ""
 
 msgid "Finished"
 msgstr "Terminat"
@@ -581,11 +743,23 @@ msgstr "Directoare"
 msgid "Folders Panel Settings"
 msgstr "Panou Setari Directoare"
 
+msgid "Font"
+msgstr ""
+
+msgid "For testing"
+msgstr ""
+
 msgid "Format"
 msgstr "Format"
 
+msgid "Format not supported"
+msgstr ""
+
 msgid "Forward"
 msgstr "Inainte"
+
+msgid "Found"
+msgstr ""
 
 msgid "Four months ago"
 msgstr "Acum patru luni"
@@ -614,11 +788,35 @@ msgstr "Global"
 msgid "Global Hotkey Settings"
 msgstr "Setari scurtaturi globale"
 
+msgid "Gradient"
+msgstr ""
+
 msgid "Group"
 msgstr "Grupeaza"
 
 msgid "Group By"
 msgstr "Grupeaza Dupa"
+
+msgid "Group undo"
+msgstr ""
+
+msgid "Gutter"
+msgstr ""
+
+msgid "HTML"
+msgstr ""
+
+msgid "HTML Documents"
+msgstr ""
+
+msgid "HTML with CSS, JS or PHP"
+msgstr ""
+
+msgid "Half Block"
+msgstr ""
+
+msgid "Half page scroll"
+msgstr ""
 
 msgid "Help"
 msgstr "Ajutor"
@@ -640,6 +838,9 @@ msgstr "Luminizator"
 
 msgid "History"
 msgstr "Istorie"
+
+msgid "Horizontal Line"
+msgstr ""
 
 msgid "Hotkey Settings"
 msgstr "Setari Scurtaturi"
@@ -671,14 +872,23 @@ msgstr "Bara de informare"
 msgid "Insert"
 msgstr "Insereaza"
 
+msgid "Insert Caret:"
+msgstr ""
+
 msgid "Invalid update!"
 msgstr "Actualizare invalida!"
 
 msgid "Invert Selection"
 msgstr "Inverseaza Selectia"
 
+msgid "Italic"
+msgstr ""
+
 msgid "Item(s)"
 msgstr "Articol(e)"
+
+msgid "JavaScript"
+msgstr ""
 
 msgid "KB"
 msgstr "KO"
@@ -715,6 +925,12 @@ msgstr "Aspecte"
 
 msgid "Left"
 msgstr "Stanga"
+
+msgid "Length: %d Lines: %d"
+msgstr ""
+
+msgid "Line: %d Char: %d Sel: %d"
+msgstr ""
 
 msgid "Link Name"
 msgstr "Denumire legatura"
@@ -755,11 +971,23 @@ msgstr "Incuie Bara de unelte"
 msgid "Logoff"
 msgstr "Deconectare utilizator"
 
+msgid "Loop File"
+msgstr ""
+
+msgid "Loop Filelist"
+msgstr ""
+
+msgid "Loop Playlist"
+msgstr ""
+
 msgid "MB"
 msgstr "MO"
 
 msgid "Main Menu"
 msgstr "Meniu Principal"
+
+msgid "Make Visible"
+msgstr ""
 
 msgid "Manage Sessions"
 msgstr "Administrare Sesiuni"
@@ -779,6 +1007,9 @@ msgstr "Mediu"
 msgid "Menu"
 msgstr "Meniu"
 
+msgid "Middle"
+msgstr ""
+
 msgid "Min Level:"
 msgstr "Nivel Minim:"
 
@@ -793,6 +1024,9 @@ msgstr "Schimba scurtatura"
 
 msgid "More..."
 msgstr "Mai mult..."
+
+msgid "Mute"
+msgstr ""
 
 msgid "Name"
 msgstr "Nume"
@@ -812,6 +1046,9 @@ msgstr "Nou"
 msgid "New Category"
 msgstr "Categorie noua"
 
+msgid "New File"
+msgstr ""
+
 msgid "New Folder"
 msgstr "Director Nou"
 
@@ -824,11 +1061,23 @@ msgstr "Este disponibila o noua versiune"
 msgid "New Window"
 msgstr "Fereastra noua"
 
+msgid "New text file"
+msgstr ""
+
 msgid "New version (%s) is available. Do you want to update now?"
 msgstr "Este disponibila o noua versiune (%s). Vrei sa actualizezi acum?"
 
+msgid "Next"
+msgstr ""
+
+msgid "Next File"
+msgstr ""
+
 msgid "No Extension"
 msgstr "Fara Extensie"
+
+msgid "No Looping"
+msgstr ""
 
 msgid "No Selection"
 msgstr "Nimic selectat"
@@ -841,6 +1090,9 @@ msgstr "Nu exista o versiune mai noua"
 
 msgid "None"
 msgstr "Nimic"
+
+msgid "Not found"
+msgstr ""
 
 msgid "Notify only about following update types"
 msgstr "Notifica doar cand"
@@ -871,6 +1123,9 @@ msgstr "Deschide continutul directorului"
 
 msgid "Open default tab"
 msgstr "Deschide tabul implicit"
+
+msgid "Open in Workspace"
+msgstr ""
 
 msgid "Open in current tab"
 msgstr "Deschide in tab-ul curent"
@@ -911,11 +1166,17 @@ msgstr "Original"
 msgid "Override"
 msgstr "Inlocuieste"
 
+msgid "Override Caret:"
+msgstr ""
+
 msgid "Override existing session?"
 msgstr "Se suprascrie sesiunea existenta?"
 
 msgid "Override existing stack?"
 msgstr "Se suprascrie stiva existenta?"
+
+msgid "PHP"
+msgstr ""
 
 msgid "Panels"
 msgstr "Panouri"
@@ -932,11 +1193,26 @@ msgstr "Lipeste Scurtatura"
 msgid "Path"
 msgstr "Cale"
 
+msgid "Pause"
+msgstr ""
+
+msgid "Play"
+msgstr ""
+
+msgid "Playlist"
+msgstr ""
+
 msgid "Please choose different hotkey."
 msgstr "Te rog alege o alta scurtatura."
 
 msgid "Port"
 msgstr "Port"
+
+msgid "Previous"
+msgstr ""
+
+msgid "Previous File"
+msgstr ""
 
 msgid "Properties"
 msgstr "Proprietati"
@@ -980,6 +1256,15 @@ msgstr "Improspateaza"
 msgid "Refresh Fileview"
 msgstr "Reimprospatare vedere fisier"
 
+msgid "Register"
+msgstr ""
+
+msgid "Registered successfully!"
+msgstr ""
+
+msgid "Registration failed!"
+msgstr ""
+
 msgid "Regular expression"
 msgstr "Expresie Regulara"
 
@@ -989,8 +1274,20 @@ msgstr "Relativ"
 msgid "Reload"
 msgstr "Reincarca"
 
+msgid "Reload failed!"
+msgstr ""
+
+msgid "Reload from Disk"
+msgstr ""
+
+msgid "Reloaded from disk"
+msgstr ""
+
 msgid "Remember"
 msgstr "Aminteste"
+
+msgid "Remember thumbnails"
+msgstr ""
 
 msgid "Remove from Stack"
 msgstr "Scoate din Stiva"
@@ -1006,6 +1303,12 @@ msgstr "Inlocuieste"
 
 msgid "Replace All"
 msgstr "Inlocuieste Tot"
+
+msgid "Replace:"
+msgstr ""
+
+msgid "Replaced %d texts."
+msgstr ""
 
 msgid "Reset hotkeys?"
 msgstr "Se reseteaza scurtaturile?"
@@ -1025,6 +1328,9 @@ msgstr "Restaurare"
 msgid "Restore All"
 msgstr "Restaurare toate"
 
+msgid "Restore Default Layout"
+msgstr ""
+
 msgid "Restore List"
 msgstr "Restaurare Lista"
 
@@ -1036,6 +1342,12 @@ msgstr "Refoloseste taburile deja deschise"
 
 msgid "Right"
 msgstr "Dreapta"
+
+msgid "Right Edge"
+msgstr ""
+
+msgid "Right mouse moves cursor"
+msgstr ""
 
 msgid "Save"
 msgstr "Salveaza"
@@ -1051,6 +1363,9 @@ msgstr "Salveaza Stiva"
 
 msgid "Save active session."
 msgstr "Salveaza sesiunea activa."
+
+msgid "Save before closing?"
+msgstr ""
 
 msgid "Save changes before closing?"
 msgstr "Salveaza schimbarile inainte de a inchide?"
@@ -1070,11 +1385,20 @@ msgstr "Salveaza..."
 msgid "Save/Load Settings"
 msgstr "Salveaza/Incarca Setari"
 
+msgid "Saved to \"%s\""
+msgstr ""
+
 msgid "Scroll Left"
 msgstr "Derulare Stanga"
 
 msgid "Scroll Right"
 msgstr "Derulare Dreapta"
+
+msgid "Scroll past end of file"
+msgstr ""
+
+msgid "Scroll past end of line"
+msgstr ""
 
 msgid "Search"
 msgstr "Cauta"
@@ -1087,6 +1411,9 @@ msgstr "Cauta incepand de la cursor"
 
 msgid "Searching from"
 msgstr "Cauta din"
+
+msgid "Seekbar"
+msgstr ""
 
 msgid "Select All"
 msgstr "Selecteaza Tot"
@@ -1175,17 +1502,38 @@ msgstr "Arata Calea in Bara de Titlu"
 msgid "Show Session Manager"
 msgstr "Arata Managerul de Sesiuni"
 
+msgid "Show Special Characters"
+msgstr ""
+
 msgid "Show Statusbar"
 msgstr "Arata Bara de Stare"
 
 msgid "Show Toolbar"
 msgstr "Arata Bara cu Unelte"
 
+msgid "Show Zip files"
+msgstr ""
+
+msgid "Show gridlines"
+msgstr ""
+
 msgid "Show in Groups"
 msgstr "Arata in Grupuri"
 
+msgid "Show leading zeros"
+msgstr ""
+
+msgid "Show line numbers"
+msgstr ""
+
 msgid "Show more tabs"
 msgstr "Arata mai multe tab-uri"
+
+msgid "Show scroll hint"
+msgstr ""
+
+msgid "Show special characters"
+msgstr ""
 
 msgid "Show/Hide"
 msgstr "Afiseaza/Ascunde"
@@ -1220,6 +1568,18 @@ msgstr "Mic"
 msgid "Small Icons"
 msgstr "Icoane Mici"
 
+msgid "Smart tab delete"
+msgstr ""
+
+msgid "Smart tabs"
+msgstr ""
+
+msgid "Snapshot"
+msgstr ""
+
+msgid "Spacing"
+msgstr ""
+
 msgid "Stack"
 msgstr "Stiva"
 
@@ -1229,17 +1589,35 @@ msgstr "Numele stivei"
 msgid "Stack Settings"
 msgstr "Setarile Stivei"
 
+msgid "Stacks"
+msgstr ""
+
+msgid "Start Color:"
+msgstr ""
+
+msgid "Start at zero"
+msgstr ""
+
 msgid "Start minimized to tray"
 msgstr "Porneste minimizat in tray"
 
+msgid "Starting CubicExplorer..."
+msgstr ""
+
 msgid "Status Bar"
 msgstr "Bara Stare"
+
+msgid "Steps"
+msgstr ""
 
 msgid "Stop"
 msgstr "Stop"
 
 msgid "Stretch"
 msgstr "Fortat"
+
+msgid "Stretcher"
+msgstr ""
 
 msgid "Strict"
 msgstr "Strict"
@@ -1268,11 +1646,20 @@ msgstr "Sistem de Putere"
 msgid "TB"
 msgstr "TO"
 
+msgid "Tab Width:"
+msgstr ""
+
+msgid "Tab indent"
+msgstr ""
+
 msgid "Tabs"
 msgstr "Taburi"
 
 msgid "Tabs Settings"
 msgstr "Setari Taburi"
+
+msgid "Tabs to spaces"
+msgstr ""
 
 msgid "Target"
 msgstr "Tinta"
@@ -1297,6 +1684,9 @@ msgstr "Filtru Text"
 
 msgid "Text only"
 msgstr "Doar text"
+
+msgid "The text in %s has changed."
+msgstr ""
 
 msgid "Theme"
 msgstr "Mulaj"
@@ -1355,6 +1745,9 @@ msgstr "Versiune Traducere"
 msgid "Translator's Email"
 msgstr "Email Traducator"
 
+msgid "Translator's Email (optional)"
+msgstr ""
+
 msgid "Translator's Name"
 msgstr "Nume Traducator"
 
@@ -1363,6 +1756,9 @@ msgstr "Transparenta"
 
 msgid "Tray Icon"
 msgstr "Pictograma pentru tray"
+
+msgid "Trim trailing spaces"
+msgstr ""
 
 msgid "Two months ago"
 msgstr "Acum doua luni"
@@ -1373,6 +1769,9 @@ msgstr "Acum doua saptamani"
 msgid "Type"
 msgstr "Tip"
 
+msgid "Underline"
+msgstr ""
+
 msgid "Undo"
 msgstr "Anuleaza"
 
@@ -1381,6 +1780,15 @@ msgstr "Anuleaza stergerea"
 
 msgid "Undo Tab Close"
 msgstr "Anuleaza inchiderea tab-ului"
+
+msgid "Unregister"
+msgstr ""
+
+msgid "Unregistered successfully!"
+msgstr ""
+
+msgid "Unregistration failed!"
+msgstr ""
 
 msgid "Untitled"
 msgstr "Fara Titlu"
@@ -1406,6 +1814,24 @@ msgstr "Setarile actualizarii"
 msgid "Use Options->Updates to change them."
 msgstr "Pentru modificare foloseste Unelte->Actualizari"
 
+msgid "Use comma separated list of extensions. For example: txt,doc,rtf"
+msgstr ""
+
+msgid "Use custom font"
+msgstr ""
+
+msgid "Use extension colors"
+msgstr ""
+
+msgid "Use inline CSS on copy"
+msgstr ""
+
+msgid "Use inline CSS on export"
+msgstr ""
+
+msgid "Use per folder settings"
+msgstr ""
+
 msgid "Use strict filtering (wildcards are ? and *)"
 msgstr "Foloseste filtrare stricta (caracterele de substitutie sunt ? si *)"
 
@@ -1430,11 +1856,20 @@ msgstr "Versiune:"
 msgid "Versions"
 msgstr "Versiuni"
 
+msgid "Vertical Line"
+msgstr ""
+
 msgid "View"
 msgstr "Vedere"
 
 msgid "View Style"
 msgstr "Stil Vedere"
+
+msgid "Visible"
+msgstr ""
+
+msgid "Volume"
+msgstr ""
 
 msgid "WARNING! You are about to restore %d items."
 msgstr "ATENTIE! Esti pe cale sa restaurezi %d articole."
@@ -1474,6 +1909,15 @@ msgstr "Ajustare cuvinte"
 
 msgid "Word or Phrase in File Name"
 msgstr "Cuvant sau Fraza in Nume Fisier"
+
+msgid "Workspace"
+msgstr ""
+
+msgid "Wrap around"
+msgstr ""
+
+msgid "Wrapped around"
+msgstr ""
 
 msgid "You have no update type notifications selected."
 msgstr "Nu ai selectat nici o tip de notificare pentru actualizari"
