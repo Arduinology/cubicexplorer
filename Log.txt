@@ -1,3 +1,6 @@
+6.7.2012
+* QuickView panel now works with search results.
+================================================================================
 29.6.2012
 * Updated Romanian translation (thanks to Silviu).
 * Updated French translation (thanks to BB).

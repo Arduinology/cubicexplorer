@@ -52,6 +52,7 @@ inherited CESearchPage: TCESearchPage
     OnContextMenuShow = ResultViewContextMenuShow
     OnHintCustomInfo = ResultViewHintCustomInfo
     OnItemContextMenu = ResultViewItemContextMenu
+    OnItemSelectionsChanged = ResultViewItemSelectionsChanged
     OnMouseDown = ResultViewMouseDown
     OnMouseUp = ResultViewMouseUp
   end

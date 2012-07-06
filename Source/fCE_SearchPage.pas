@@ -161,6 +161,7 @@ type
     procedure ResultViewHintCustomInfo(Sender: TCustomEasyListview;
       TargetObj: TEasyCollectionItem; Info: TEasyHintInfo);
     procedure edit_wordphraseChange(Sender: TObject);
+    procedure ResultViewItemSelectionsChanged(Sender: TCustomEasyListview);
   private
     fStatus: WideString;
     fOpenFolderID: Integer;
@@ -666,6 +667,38 @@ procedure TCESearchPage.ResultViewItemContextMenu(Sender: TCustomEasyListview;
 begin
   if not Handled then
   Handled:= not fShowItemContextMenu;
+end;
+
+{-------------------------------------------------------------------------------
+  On ResultView.ItemSelectionsChanged
+-------------------------------------------------------------------------------}
+procedure TCESearchPage.ResultViewItemSelectionsChanged(
+  Sender: TCustomEasyListview);
+var
+  NS: TNamespace;
+  Item: TEasyItem;
+  lastItem, tmpItem: TEasyItem;
+begin
+  if not Self.Active then
+  Exit;
+
+  if assigned(ResultView.Selection.FocusedItem) and (ResultView.Selection.Count > 0) then
+  Item:= ResultView.Selection.FocusedItem
+  else
+  Item:= ResultView.Selection.First;
+
+  if Assigned(Item) then
+  begin
+    ResultView.ValidateNamespace(Item, NS);
+    if assigned(NS) then
+    begin
+      GlobalPathCtrl.ChangeFocusedPath(Self, NS.NameForParsing);
+    end;
+  end
+  else
+  begin
+    GlobalPathCtrl.ChangeFocusedPath(Self, '');
+  end;
 end;
 
 {-------------------------------------------------------------------------------
