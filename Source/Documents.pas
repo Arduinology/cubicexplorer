@@ -131,6 +131,8 @@ Unit Documents;
 // 668 = Switch to Next Tab
 // 669 = Switch to Previous Tab
 // 670 = Tabs list
+// 671 = Copy Selected Here
+// 672 = Move Selected Here
 
 // **** QuickView (700) ****
 

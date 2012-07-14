@@ -233,7 +233,7 @@ var
     node: PVirtualNode;
     data: PFilterItem;
   begin
-    if ns.Folder then 
+    if ns.Folder and (LowerCase(ns.Extension) <> '.zip') then 
     begin
       // update folder node
       data:= Self.GetNodeData(fShowFoldersNode);

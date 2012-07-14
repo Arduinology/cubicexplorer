@@ -225,6 +225,9 @@ type
     SpTBXSeparatorItem32: TSpTBXSeparatorItem;
     PanelsPopupMenu: TSpTBXPopupMenu;
     SpTBXItem99: TSpTBXItem;
+    sep_tabs_copymove: TSpTBXSeparatorItem;
+    SpTBXItem93: TSpTBXItem;
+    SpTBXItem100: TSpTBXItem;
     procedure AutoUpdateTimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -1823,6 +1826,7 @@ end;
 procedure TMainForm.TabPopupMenuPopup(Sender: TObject);
 begin
   sub_closed_tab_list.Enabled:= TabSet.CanUndoTabClose;
+  CEActions.UpdateAll;
 end;
 
 {-------------------------------------------------------------------------------

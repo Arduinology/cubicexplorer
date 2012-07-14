@@ -558,6 +558,14 @@ object MainForm: TMainForm
     OnPopup = TabPopupMenuPopup
     Left = 96
     Top = 64
+    object SpTBXItem100: TSpTBXItem
+      Action = CEActions.act_tabs_copyhere
+    end
+    object SpTBXItem93: TSpTBXItem
+      Action = CEActions.act_tabs_movehere
+    end
+    object sep_tabs_copymove: TSpTBXSeparatorItem
+    end
     object SpTBXItem14: TSpTBXItem
       Action = CEActions.act_tabs_addtab
     end

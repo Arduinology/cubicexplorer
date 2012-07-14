@@ -784,7 +784,7 @@ begin
         data.fLastProgress:= GetTickCount;
         msg:= TCEDownloadProgressMsg.Create;
         try
-          if http.Document.Size > 0 then
+          if http.DownloadSize > 0 then
           msg.Percent:= Min(Ceil((100 / http.DownloadSize) * http.Document.Size), 100)
           else
           msg.Percent:= 0;

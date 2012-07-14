@@ -1,3 +1,12 @@
+14.7.2012
++ Added "Copy/Move Selected Here" items in tab's right click menu.
+* Changed UI updating as a possible fix for hanging issues.
+* QuickView now updates on tab change.
+- Fixed "Zip extensions not showing in Filters panel" bug.
+
+13.7.2012
+- Fixed "manage wireless networks" Opens "My Documents" bug.
+
 6.7.2012
 * QuickView panel now works with search results.
 ================================================================================

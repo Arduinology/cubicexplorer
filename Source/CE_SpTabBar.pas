@@ -1179,7 +1179,10 @@ begin
   if Shift = [ssMiddle] then
   fClosingTab:= GetTabAt(X, Y)
   else
-  fClosingTab:= nil;
+  begin
+    fActivePopupTab:= GetTabAt(X, Y);
+    fClosingTab:= nil;
+  end;
 end;
 
 {-------------------------------------------------------------------------------

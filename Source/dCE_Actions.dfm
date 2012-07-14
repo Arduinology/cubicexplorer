@@ -799,6 +799,24 @@ object CEActions: TCEActions
       ShortCut = 16453
       OnExecute = ActionExecute
     end
+    object act_tabs_copyhere: TTntAction
+      Tag = 671
+      Category = 'Tabs'
+      Caption = 'Copy Selected Here'
+      Hint = 'Copy Selected Here'
+      ImageIndex = 1
+      Visible = False
+      OnExecute = ActionExecute
+    end
+    object act_tabs_movehere: TTntAction
+      Tag = 672
+      Category = 'Tabs'
+      Caption = 'Move Selected Here'
+      Hint = 'Move Selected Here'
+      ImageIndex = 2
+      Visible = False
+      OnExecute = ActionExecute
+    end
   end
   object UpdateTimer: TTimer
     Enabled = False

@@ -239,6 +239,8 @@ type
     act_workspace_back: TTntAction;
     act_workspace_forward: TTntAction;
     act_workspace_open: TTntAction;
+    act_tabs_movehere: TTntAction;
+    act_tabs_copyhere: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -1126,6 +1128,7 @@ end;
 procedure ExecuteTabsCategory(ActionID: Integer);
 var
   pidl: PItemIDList;
+  SrcFileView, DestFileView: TCustomVirtualExplorerEasyListview;
 begin
   if not assigned(MainForm.TabSet.ActivePopupTab) then
   begin
@@ -1181,6 +1184,27 @@ begin
     668: MainForm.TabSet.SelectNextTab(true);
     // Swith to Previous Tab
     669: MainForm.TabSet.SelectNextTab(false);
+    // Copy/Move Selected Here
+    671, 672: begin
+       if assigned(MainForm.TabSet.ActivePopupTab) and
+          ((MainForm.TabSet.ActiveTab.Page is TCEFileViewPage) or (MainForm.TabSet.ActiveTab.Page is TCESearchPage)) and
+          (MainForm.TabSet.ActivePopupTab.Page is TCEFileViewPage) then
+       begin
+         if (MainForm.TabSet.ActiveTab.Page is TCESearchPage) then
+         SrcFileView:= TCESearchPage(MainForm.TabSet.ActiveTab.Page).ResultView
+         else
+         SrcFileView:= TCEFileViewPage(MainForm.TabSet.ActiveTab.Page).FileView;
+         
+         DestFileView:= TCEFileViewPage(MainForm.TabSet.ActivePopupTab.Page).FileView;
+
+         if ActionID = 672 then
+         SrcFileView.CutToClipboard
+         else
+         SrcFileView.CopyToClipboard;
+
+         DestFileView.PasteFromClipboard;
+       end;
+    end;
   end;
 
   MainForm.TabSet.ActivePopupTab:= nil; // popup has closed so set this to nil
@@ -1194,6 +1218,25 @@ begin
   case ActionID of
     661..662,664: TargetAction.Enabled:= assigned(MainForm.TabSet.ActivePopupTab) or (MainForm.TabSet.GetActiveTab <> nil);
     667: TargetAction.Enabled:= MainForm.TabSet.CanUndoTabClose;
+    671, 672: begin
+      if assigned(MainForm.TabSet.ActivePopupTab) and assigned(MainForm.TabSet.ActiveTab) and (MainForm.TabSet.ActivePopupTab <> MainForm.TabSet.ActiveTab) then
+      begin
+        TargetAction.Visible:= ((MainForm.TabSet.ActiveTab.Page is TCEFileViewPage) or (MainForm.TabSet.ActiveTab.Page is TCESearchPage)) and
+                               (MainForm.TabSet.ActivePopupTab.Page is TCEFileViewPage);
+        if TargetAction.Visible then
+        begin
+          if (MainForm.TabSet.ActiveTab.Page is TCEFileViewPage) then
+          TargetAction.Enabled:= TCEFileViewPage(MainForm.TabSet.ActiveTab.Page).FileView.Selection.Count > 0
+          else
+          TargetAction.Enabled:= TCESearchPage(MainForm.TabSet.ActiveTab.Page).ResultView.Selection.Count > 0
+        end;
+      end
+      else
+      begin
+        TargetAction.Visible:= false;
+      end;
+      MainForm.sep_tabs_copymove.Visible:= TargetAction.Visible;
+    end;
     670: TargetAction.Enabled:= MainForm.TabSet.TabCount > 1;
   end;
 end;
@@ -1502,7 +1545,7 @@ begin
     list.Delimiter:= ',';
     list.StrictDelimiter:= true;
     list.DelimitedText:= Str;
-    
+
     i:= 0;
     TabOpened:= false;
     IsShortcut:= false;
@@ -1611,14 +1654,15 @@ begin
           if not TabOpened then
           begin
             ReplaceSystemVariablePath(path);
-            
+
             if path[1] = ':' then
             begin
+
               // Open Control Panel in explorer.exe. CE won't work properly with Vista+ control panels.
               if IsWindowsVista and (Pos('::{26EE0668-A00A-44D7-9371-BEB064C98683}', path) = 1) then
               begin
+                path:= 'shell:' + path;
                 path2:= WideExpandEnviromentString('%windir%\explorer.exe');
-
                 ShellExecuteW(0, 'open', PWideChar(path2), PWideChar(path), '', SW_SHOWNORMAL);
                 Result:= false;
               end
@@ -1932,6 +1976,7 @@ begin
              (Pos('::{21EC2020-3AEA-1069-A2DD-08002B30309D}', ws) = 1) then
           begin
             path:= WideExpandEnviromentString('%windir%\explorer.exe');
+            ws:= 'shell:' + ws;
             ShellExecuteW(0, 'open', PWideChar(path), PWideChar(ws), '', SW_SHOWNORMAL);
             Result:= true;
           end;
@@ -1973,7 +2018,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEActions.ApplicationEventsActivate(Sender: TObject);
 begin
-  UpdateAll;
+  //UpdateAll;  // why is this called here?
 end;
 
 {*------------------------------------------------------------------------------
@@ -2178,10 +2223,18 @@ var
   act: TTntAction;
   i: Integer;
 begin
-  for i:= 0 to ActionList.ActionCount - 1 do
-  begin
-    act:= TTntAction(ActionList.Actions[i]);
-    UpdateCEAction(act.Tag, act);
+  if MainForm.CEIsClosing then
+  Exit;
+
+  UpdateTimer.Enabled:= false;
+  try
+    for i:= 0 to ActionList.ActionCount - 1 do
+    begin
+      act:= TTntAction(ActionList.Actions[i]);
+      UpdateCEAction(act.Tag, act);
+    end;
+  finally
+    UpdateTimer.Enabled:= true;
   end;
 end;
 

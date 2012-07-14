@@ -780,6 +780,9 @@ end;
   Makes Self as a Active Component in GlobalPathCtrl
 -------------------------------------------------------------------------------}
 procedure TCEFileViewPage.SelectPage;
+var
+  NS: TNamespace;
+  Item: TEasyItem;
 begin
   inherited;
   if not GlobalFileViewSettings.PerFolderSettings then
@@ -796,6 +799,21 @@ begin
   GlobalPathCtrl.ChangeGlobalPathPIDL(Self, FileView.RootFolderNamespace.AbsolutePIDL);
   GlobalPathCtrl.GlobalPathCaption:= FileView.RootFolderNamespace.NameParseAddress;
   FileView.SetFocus;
+
+  // Change focued path
+  if assigned(FileView.Selection.FocusedItem) and (FileView.Selection.Count > 0) then
+  Item:= FileView.Selection.FocusedItem
+  else
+  Item:= FileView.Selection.First;
+  
+  if Assigned(Item) then
+  begin
+    FileView.ValidateNamespace(Item, NS);
+    if assigned(NS) then
+    GlobalPathCtrl.ChangeFocusedPath(Self, NS.NameForParsing);
+  end
+  else
+  GlobalPathCtrl.ChangeFocusedPath(Self, '');
 end;
 
 {*------------------------------------------------------------------------------
