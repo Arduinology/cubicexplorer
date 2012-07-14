@@ -976,14 +976,14 @@ begin
     606: begin
            if GlobalPathCtrl.ActivePage is TCEFileViewPage then
            begin
-             if GlobalFileViewSettings.Thumbnails.UseStorage then
-             TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.ClearThumbnailCache; // refresh thumbnails
+//             if GlobalFileViewSettings.Thumbnails.UseStorage then
+//             TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.ClearThumbnailCache; // refresh thumbnails
              TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.Rebuild(true);
            end;
-           CEFolderPanel.FolderTree.Refresh;
-           CEWorkspacePanel.FileView.Rebuild(true);
-           MainForm.DriveToolbar.Populate;
-           MainForm.StatusBar.UpdateLabels(true);
+//           CEFolderPanel.FolderTree.Refresh;
+//           CEWorkspacePanel.FileView.Rebuild(true);
+//           MainForm.DriveToolbar.Populate;
+//           MainForm.StatusBar.UpdateLabels(true);
          end;
     607: begin
            ExecuteTabsCategory(664);

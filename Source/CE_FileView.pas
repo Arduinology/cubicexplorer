@@ -427,6 +427,8 @@ end;
 -------------------------------------------------------------------------------}
 function TCEFileView.AddCustomItem(Group: TEasyGroup; NS: TNamespace;
     LockoutSort: Boolean): TExplorerItem;
+var
+  state: TEasyStorageObjectStates;
 begin
   Result:= inherited AddCustomItem(Group, NS, True);
   if SelectPasted and (fLastPaste > 0) then
@@ -996,6 +998,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCEFileView.DoRootRebuild;
 begin
+  fLastPaste:= 0;
   inherited;
 end;
 

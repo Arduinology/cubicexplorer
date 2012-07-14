@@ -3,6 +3,9 @@
 * Changed UI updating as a possible fix for hanging issues.
 * QuickView now updates on tab change.
 - Fixed "Zip extensions not showing in Filters panel" bug.
+---
+- Fixed "CE hangs if F5 is pressed while copying file" bug.
+- Fixed crash on start if tab bar has a stretcher item.
 
 13.7.2012
 - Fixed "manage wireless networks" Opens "My Documents" bug.

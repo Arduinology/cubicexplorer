@@ -1445,7 +1445,6 @@ procedure LoadToolbarItems(Toolbar: TSpTBXToolbar; ToolbarNode:
       else if SameText(chNode.Name, 'stretcher') then
       begin
         item:= TCEToolbarStretcherItem.Create(Toolbar);
-        Toolbar.Items.Add(item);
       end
       // Right Align Spacer
       // TODO: Depricated, remove this!
