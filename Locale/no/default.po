@@ -1,24 +1,36 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.5\n"
+"Project-Id-Version: 1.6\n"
 "POT-Creation-Date: 2007-08-21 23:06\n"
 "PO-Revision-Date: 2007-09-13 12:25+0200\n"
-"Last-Translator: Stein Skjervold <steinskjervold@hotmail.com>\n"
+"Last-Translator: Lars Hallstrøm Eriksen <lars.h.eriksen@hallstrom.no>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: dxgettext 1.2.1\n"
-"Language-Team:              \n"
+"Language-Team:                 \n"
 "X-Poedit-Language: Norwegian Bokmal\n"
 "X-Poedit-Country: NORWAY\n"
-"CE-POT-Version: 1320\n"
+"CE-POT-Version: 1570\n"
 "CE-Language: Norwegian Bokmaal\n"
+
+msgid "%d file(s) failed to download!"
+msgstr "%d fil(er) lot seg ikke laste ned!"
 
 msgid "%d folder(s) searched and %d item(s) found in %.3f second(s)"
 msgstr "%d folder(e) gjennomsøkt, %d element(er) funnet"
 
+msgid "%d of %d"
+msgstr "%d av %d"
+
 msgid "..."
 msgstr "..."
+
+msgid "A long time ago"
+msgstr "For lenge siden"
+
+msgid "A month ago"
+msgstr "For en måned siden"
 
 msgid "About CubicExplorer"
 msgstr "Om Cubicexplorer"
@@ -27,10 +39,13 @@ msgid "About..."
 msgstr "Om..."
 
 msgid "Accessed"
-msgstr ""
+msgstr "Aksessert"
 
 msgid "Actions"
 msgstr "Handling"
+
+msgid "Actual"
+msgstr "Faktisk"
 
 msgid "Add"
 msgstr "Ny"
@@ -44,8 +59,14 @@ msgstr "Legg til Kategori"
 msgid "Add History Item"
 msgstr "Legg til element i historikk"
 
+msgid "Add Session"
+msgstr "Legg til økt"
+
 msgid "Add Tab"
 msgstr "Ny fane"
+
+msgid "Address"
+msgstr "Adresse"
 
 msgid "Address Bar"
 msgstr "Adresselinje"
@@ -65,6 +86,12 @@ msgstr "Før dato:"
 msgid "All"
 msgstr "Alle"
 
+msgid "All types"
+msgstr "Alle typer"
+
+msgid "Allow Move"
+msgstr "Tillat flytt"
+
 msgid "Always On Top"
 msgstr "Alltid øverst"
 
@@ -83,14 +110,41 @@ msgstr "Programrevisjon"
 msgid "Apply"
 msgstr "Utfør"
 
+msgid "Apply Changes"
+msgstr "Utfør endringer"
+
+msgid "Apply changes now?"
+msgstr "Utfør endringer nå?"
+
 msgid "Apply changes."
 msgstr "Foreta endringer"
+
+msgid "Archiver"
+msgstr "Arkiverer"
 
 msgid "Are you sure you want to clear session history?"
 msgstr "Vil du tømme historikken for fanegrupper?"
 
+msgid "Are you sure you want to clear the list?"
+msgstr "Er du sikker på at du vil tømme lista?"
+
+msgid "Are you sure you want to delete selected bookmarks?"
+msgstr "Er du sikker på at du vil slette valgte bokmerker?"
+
 msgid "Are you sure you want to delete this session?"
 msgstr "Vil du slette denne fanegruppen?"
+
+msgid "Are you sure you want to do that?"
+msgstr "Er du sikker på at du vi gjøre det?"
+
+msgid "Are you sure you want to quit?"
+msgstr "Er du sikker på at du vil avslutte?"
+
+msgid "Are you sure you want to restore default layout?"
+msgstr "Er du sikker på at du vil gjenopprette standard layout?"
+
+msgid "Are you sure you want to restore?"
+msgstr "Er du sikker på at du vil gjenopprette?"
 
 msgid "Arrange By"
 msgstr "Sorter etter"
@@ -128,6 +182,9 @@ msgstr "Utvid tre automatisk"
 msgid "Auto fit tabs"
 msgstr "Auto-tilpass fanestørrelse"
 
+msgid "Auto indent"
+msgstr "Auto-innrykk"
+
 msgid "Auto size cells in list view style."
 msgstr "Tilpass celle-størrelse i liste-visning"
 
@@ -136,6 +193,15 @@ msgstr "Automatisk"
 
 msgid "Back"
 msgstr "Tilbake"
+
+msgid "Background Color:"
+msgstr "Bakgrunnsfarge:"
+
+msgid "Background color"
+msgstr "Bakgrunnsfarge"
+
+msgid "Backups"
+msgstr "Sikkerhetskopier"
 
 msgid "Backward"
 msgstr "Bakover"
@@ -146,11 +212,50 @@ msgstr "Før dato:"
 msgid "Before Time:"
 msgstr "Før tid:"
 
+msgid "Block"
+msgstr "blokk"
+
+msgid "Bold"
+msgstr "Fet"
+
+msgid "Bookmark 1"
+msgstr "Bokmerke 1"
+
+msgid "Bookmark 2"
+msgstr "Bokmerke 2"
+
+msgid "Bookmark 3"
+msgstr "Bokmerke 3"
+
+msgid "Bookmark 4"
+msgstr "Bokmerke 4"
+
+msgid "Bookmark 5"
+msgstr "Bokmerke 5"
+
+msgid "Bookmark 6"
+msgstr "Bokmerke 6"
+
+msgid "Bookmark 7"
+msgstr "Bokmerke 7"
+
+msgid "Bookmark 8"
+msgstr "Bokmerke 8"
+
+msgid "Bookmark 9"
+msgstr "Bokmerke 9"
+
 msgid "Bookmarks"
 msgstr "Bokmerker"
 
 msgid "Bookmarks Panel Settings"
 msgstr "Innstillinger for Bokmerkepanel"
+
+msgid "Border"
+msgstr "Kant"
+
+msgid "Border Style:"
+msgstr "Kantstil:"
 
 msgid "Borders"
 msgstr "Vis rammer"
@@ -161,8 +266,17 @@ msgstr "Bunn"
 msgid "Breadcrumb Navigation"
 msgstr "Navigasjonssti"
 
+msgid "Browse To"
+msgstr "Naviger til"
+
+msgid "Browse Zip Files"
+msgstr "Naviger zip-filer"
+
 msgid "Browse..."
 msgstr "Finn.."
+
+msgid "Build:"
+msgstr ""
 
 msgid "Buttons"
 msgstr "Knapper"
@@ -170,20 +284,41 @@ msgstr "Knapper"
 msgid "Bytes"
 msgstr "Bytes"
 
+msgid "CSS"
+msgstr "CSS"
+
 msgid "Cancel"
 msgstr "Avbryt"
 
 msgid "Cancelled"
 msgstr "Avbrutt"
 
+msgid "Caret"
+msgstr ""
+
 msgid "Case Sensitive"
 msgstr "Versalsensitiv"
+
+msgid "Case sensitive"
+msgstr "Skill mellom store og små bokstaver"
 
 msgid "Case sensitivity"
 msgstr "Versalsensitiv"
 
 msgid "Change order by dragging"
 msgstr "Endre rekkefølge ved å dra"
+
+msgid "Check For Updates"
+msgstr "Se etter oppdateringer"
+
+msgid "Check for updates"
+msgstr "Se etter oppdateringer"
+
+msgid "Check for updates on startup"
+msgstr "Se etter oppdateringer ved oppstart"
+
+msgid "Checkbox Selection"
+msgstr "Valg i avkrysningsboks"
 
 msgid "Clear Filters"
 msgstr "Fjern filtre"
@@ -197,11 +332,17 @@ msgstr "Fjern liste"
 msgid "Clear Results"
 msgstr "Fjern resultater"
 
+msgid "Clear Stack"
+msgstr "Slett stakk"
+
 msgid "Clear filter history"
 msgstr "Fjern filterhistorikk"
 
 msgid "Clear filters on folder change"
 msgstr "Tøm filtre ved ny mappe"
+
+msgid "Clear session history?"
+msgstr "Slette minne for økt?"
 
 msgid "Close"
 msgstr "Lukk"
@@ -224,6 +365,15 @@ msgstr "Lukk fane ved dobbelklikk"
 msgid "Close to tray"
 msgstr "Lukk til oppgavelinje"
 
+msgid "Color:"
+msgstr "Farge:"
+
+msgid "Colorize multi highlighter sections"
+msgstr ""
+
+msgid "Colors"
+msgstr "Farger"
+
 msgid "Column Settings"
 msgstr "Innstillinger for kolonner"
 
@@ -233,11 +383,29 @@ msgstr "Komprimert"
 msgid "Computer Management (experiment)"
 msgstr "Computer Management (experiment)"
 
+msgid "Confirm"
+msgstr "Bekreft"
+
+msgid "Connection error!"
+msgstr "Oppkoblingsfeil!"
+
+msgid "Contact File"
+msgstr ""
+
+msgid "Contains hidden items"
+msgstr "Inneholder skjulte elementer"
+
 msgid "Content"
 msgstr "Innhold"
 
 msgid "Continue from last time"
 msgstr "Fortsett fra sist gang"
+
+msgid "Controls"
+msgstr ""
+
+msgid "Convert Tabs to Spaces"
+msgstr "Konverter tabulatorer til mellomrom"
 
 msgid "Copy"
 msgstr "Kopier"
@@ -247,6 +415,9 @@ msgstr "Copy In test"
 
 msgid "Copy Path"
 msgstr "Kopier sti"
+
+msgid "Copy as HTML"
+msgstr "Kopier som HTML"
 
 msgid "Copy of active tab"
 msgstr "Kopier aktiv fane"
@@ -269,14 +440,23 @@ msgstr "Lag ny oversettelse"
 msgid "Created"
 msgstr "Opprettet"
 
+msgid "Ctrl activates links"
+msgstr "Ctrl aktiverer lenker"
+
 msgid "CubicExplore Home Page"
 msgstr "CubicExplorers hjemmeside"
 
 msgid "CubicExplorer"
 msgstr "CubicExplorer"
 
+msgid "CubicExplorer Home Page"
+msgstr "CubicExplorer hjemmeside"
+
 msgid "CubicExplorer Options"
 msgstr "Innstillinger"
+
+msgid "Current version:"
+msgstr "Gjeldende versjon:"
 
 msgid "Custom..."
 msgstr "Velg mappe..."
@@ -289,6 +469,15 @@ msgstr "Tilpass..."
 
 msgid "Cut"
 msgstr "Klipp ut"
+
+msgid "DIV wrapper class"
+msgstr ""
+
+msgid "Daily"
+msgstr "Daglig"
+
+msgid "Date"
+msgstr "Dato"
 
 msgid "Date && Time"
 msgstr "Dato && Tid"
@@ -305,11 +494,17 @@ msgstr "Endret dato"
 msgid "Default"
 msgstr "Standard"
 
+msgid "Default File Manager"
+msgstr "Standard filbehandler"
+
 msgid "Default hotkeys become available after restart!"
 msgstr "Filtre blir aktive ved restart"
 
 msgid "Delete"
 msgstr "Slett"
+
+msgid "Deleting multiple bookmarks!"
+msgstr "Sletter et antall bokmerker!"
 
 msgid "Demo Crash"
 msgstr "Demo Crash"
@@ -317,14 +512,23 @@ msgstr "Demo Crash"
 msgid "Desktop"
 msgstr "Gå til Skrivebord"
 
+msgid "Detach to Window"
+msgstr ""
+
 msgid "Details"
 msgstr "Detaljer"
+
+msgid "Dialog found!"
+msgstr ""
 
 msgid "Direction"
 msgstr "Retning"
 
 msgid "Disconnect Network Drive..."
 msgstr "Koble fra nettverksstasjon"
+
+msgid "Disk Usage"
+msgstr "Diskbruk"
 
 msgid "Display"
 msgstr "Vis"
@@ -335,11 +539,23 @@ msgstr "Vis"
 msgid "Display Settings"
 msgstr "Vis innstillinger"
 
+msgid "Do you really want to update?"
+msgstr "Ønsker du virkelig å oppdatere?"
+
 msgid "Do you want to override existing session?"
-msgstr ""
+msgstr "Ønsker du å overstyre gjeldende økt?"
+
+msgid "Do you want to override existing stack?"
+msgstr "Ønsker du å overstyre gjeldende stakk?"
 
 msgid "Do you want to reset all hotkeys for this action?"
 msgstr "Vil du resette hurtigtastene for denne handlingen?"
+
+msgid "Do you want to save changes before closing?"
+msgstr "Ønsker du å lagre endringer før du lukker?"
+
+msgid "Do you want to update?"
+msgstr "Ønsker du å oppdatere?"
 
 msgid "Do you want to use it anyway?"
 msgstr "Vil du bruke den uansett?"
@@ -347,11 +563,17 @@ msgstr "Vil du bruke den uansett?"
 msgid "Donate"
 msgstr "Doner"
 
+msgid "Download"
+msgstr "Last ned"
+
+msgid "Download failed!"
+msgstr "Nedlasting mislyktes!"
+
 msgid "Drag Handle"
 msgstr "Vis hendler"
 
 msgid "Drag and Drop to reorder the columns. "
-msgstr ""
+msgstr "Dra-og-slipp for å endre rekkefølge på kolonnene."
 
 msgid "Drag buttons to/from toolbars"
 msgstr "Trekk knapper til/fra verktøylinjer"
@@ -377,8 +599,23 @@ msgstr "Kopier hurtigtast"
 msgid "Duplicate Tab"
 msgstr "Kopier fane"
 
+msgid "Duplicate name"
+msgstr ""
+
+msgid "Dynamic Spacer"
+msgstr ""
+
+msgid "Earlier this year"
+msgstr "Tidligere i år"
+
+msgid "Edge Column:"
+msgstr ""
+
 msgid "Edit"
 msgstr "Rediger"
+
+msgid "Editor Options"
+msgstr "Innstillinger av editor"
 
 msgid "Editor Options..."
 msgstr "Redigeringsvalg"
@@ -386,14 +623,47 @@ msgstr "Redigeringsvalg"
 msgid "Empty Recycle Bin"
 msgstr "Tøm papirkurven"
 
+msgid "Empty Stack"
+msgstr "Tøm stakk"
+
+msgid "Empty file"
+msgstr "Tom fil"
+
 msgid "Empty folder"
-msgstr "Tøm mappe"
+msgstr "Tom mappe"
+
+msgid "Enable"
+msgstr "Aktiver"
+
+msgid "Enable Auto Save"
+msgstr "Aktiver autolagring"
+
+msgid "Enable Playback"
+msgstr ""
+
+msgid "End Color:"
+msgstr ""
 
 msgid "English (default)"
 msgstr "English (default)"
 
+msgid "Enhance End Key"
+msgstr ""
+
+msgid "Enhance Home Key"
+msgstr ""
+
 msgid "Enter each file mask on a separate line."
 msgstr ""
+
+msgid "Error"
+msgstr "Feil"
+
+msgid "Error: Could not connect!"
+msgstr "Feil: Kunne ikke koble til!"
+
+msgid "Exclude"
+msgstr "Utelat"
 
 msgid "Exclude File Masks:"
 msgstr "Eksluder filmasker:"
@@ -403,6 +673,24 @@ msgstr "Avslutt"
 
 msgid "Exit program when last tab is closed"
 msgstr "Lukk CE når siste fane lukkes"
+
+msgid "Explorer"
+msgstr ""
+
+msgid "Export"
+msgstr "Eksporter"
+
+msgid "Export as HTML..."
+msgstr "Eksporter som HTML..."
+
+msgid "Extra Lines:"
+msgstr ""
+
+msgid "Failed to open file!"
+msgstr "Kunne ikke åpne fila!"
+
+msgid "Failed to save file!"
+msgstr "Kunne ikke lagre fila!"
 
 msgid "File"
 msgstr "Fil"
@@ -416,6 +704,18 @@ msgstr "Maske for filnavn"
 msgid "File Search"
 msgstr "Søk"
 
+msgid "File operation might be still running!"
+msgstr ""
+
+msgid "File size format:"
+msgstr "Format på filstørrelse:"
+
+msgid "Filelist"
+msgstr "Fil-liste"
+
+msgid "Files to update"
+msgstr "Filer å oppdatere"
+
 msgid "Fileview"
 msgstr "Filvisning"
 
@@ -428,14 +728,26 @@ msgstr "Filmstripe"
 msgid "Filters"
 msgstr "Filter"
 
+msgid "Find"
+msgstr "Finn"
+
 msgid "Find Next"
 msgstr "Finn neste"
 
 msgid "Find Previous"
 msgstr "Finn forrige"
 
+msgid "Find:"
+msgstr "Finn:"
+
 msgid "Finished"
 msgstr "Ferdig"
+
+msgid "Five months ago"
+msgstr "For fem måneder siden"
+
+msgid "Fixed Spacer"
+msgstr ""
 
 msgid "Focus"
 msgstr "Fokus"
@@ -455,11 +767,29 @@ msgstr "Mapper"
 msgid "Folders Panel Settings"
 msgstr "Innstillinger for Mappepanel"
 
+msgid "Font"
+msgstr "Skrifttype"
+
+msgid "For testing"
+msgstr ""
+
 msgid "Format"
 msgstr "Format"
 
+msgid "Format not supported"
+msgstr "Format ikke støttet"
+
 msgid "Forward"
 msgstr "Frem"
+
+msgid "Found"
+msgstr "Funnet"
+
+msgid "Four months ago"
+msgstr "For fire måneder siden"
+
+msgid "Full expand on stack load"
+msgstr ""
 
 msgid "Fullscreen"
 msgstr "Fullskjerm"
@@ -473,20 +803,53 @@ msgstr "Generelt"
 msgid "General Settings"
 msgstr "Generelle innstillinger"
 
+msgid "Gigantic"
+msgstr "Gigantisk"
+
 msgid "Global"
 msgstr "Global"
 
 msgid "Global Hotkey Settings"
 msgstr "Globale hurtigtaster"
 
+msgid "Gradient"
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
 msgid "Group By"
 msgstr "Grupper etter"
+
+msgid "Group undo"
+msgstr ""
+
+msgid "Gutter"
+msgstr ""
+
+msgid "HTML"
+msgstr "HTML"
+
+msgid "HTML Documents"
+msgstr "HTML-dokumenter"
+
+msgid "HTML with CSS, JS or PHP"
+msgstr "HTML med CSS, JS eller PHP"
+
+msgid "Half Block"
+msgstr ""
+
+msgid "Half page scroll"
+msgstr ""
 
 msgid "Help"
 msgstr "Hjelp"
 
 msgid "Hex"
 msgstr "Hex"
+
+msgid "Hibernate"
+msgstr ""
 
 msgid "Hidden"
 msgstr "Skjult"
@@ -500,6 +863,9 @@ msgstr "Uthever"
 msgid "History"
 msgstr "Historikk"
 
+msgid "Horizontal Line"
+msgstr "Vannrett linje"
+
 msgid "Hotkey Settings"
 msgstr "Hurtigtaster"
 
@@ -511,6 +877,9 @@ msgstr "Ikon over tekst"
 
 msgid "Icon only"
 msgstr "Kun ikon"
+
+msgid "If not, all changes will be lost."
+msgstr "Hvis ikke vil alle endringer gå tapt."
 
 msgid "Image"
 msgstr "Bilde"
@@ -527,11 +896,23 @@ msgstr "Infolinje"
 msgid "Insert"
 msgstr "Sett inn"
 
+msgid "Insert Caret:"
+msgstr ""
+
+msgid "Invalid update!"
+msgstr "Ugyldig oppdatering!"
+
 msgid "Invert Selection"
 msgstr "Inverter utvalg"
 
+msgid "Italic"
+msgstr "Kursiv"
+
 msgid "Item(s)"
 msgstr "Enhet(er)"
+
+msgid "JavaScript"
+msgstr "JavaScript"
 
 msgid "KB"
 msgstr "KB"
@@ -542,8 +923,20 @@ msgstr "Språk"
 msgid "Language Editor"
 msgstr "Språkeditor"
 
+msgid "Large"
+msgstr "Stor"
+
 msgid "Large Icons"
 msgstr "Store ikoner"
+
+msgid "Last check:"
+msgstr "Siste sjekk:"
+
+msgid "Last hour"
+msgstr "Siste timen"
+
+msgid "Last twenty-four hours"
+msgstr "Siste tjuefire timer"
 
 msgid "Launch Files Only"
 msgstr "Åpne bare filer"
@@ -553,6 +946,12 @@ msgstr "Layout"
 
 msgid "Left"
 msgstr "Venstre"
+
+msgid "Length: %d Lines: %d"
+msgstr ""
+
+msgid "Line: %d Char: %d Sel: %d"
+msgstr ""
 
 msgid "Link Name"
 msgstr "Lenkenavn"
@@ -578,6 +977,24 @@ msgstr "Henter.."
 msgid "Location"
 msgstr "Plassering"
 
+msgid "Lock"
+msgstr "Lås"
+
+msgid "Lock Toolbars"
+msgstr "Lås verktøylinjer"
+
+msgid "Logoff"
+msgstr "Avlogging"
+
+msgid "Loop File"
+msgstr ""
+
+msgid "Loop Filelist"
+msgstr ""
+
+msgid "Loop Playlist"
+msgstr ""
+
 msgid "MB"
 msgstr "MB"
 
@@ -586,6 +1003,9 @@ msgstr "Meny"
 
 msgid "MainMenu"
 msgstr "Hovedmeny"
+
+msgid "Make Visible"
+msgstr "Gjør synlig"
 
 msgid "Manage Sessions"
 msgstr "Håndter økter"
@@ -599,8 +1019,14 @@ msgstr "Koble til nettverksstasjon"
 msgid "Max Level:"
 msgstr "Max nivå:"
 
+msgid "Medium"
+msgstr "Medium"
+
 msgid "Menu"
 msgstr "Meny"
+
+msgid "Middle"
+msgstr ""
 
 msgid "Min Level:"
 msgstr "Min nivå:"
@@ -617,6 +1043,9 @@ msgstr "Endre  ."
 msgid "More..."
 msgstr "Mer..."
 
+msgid "Mute"
+msgstr "Demp"
+
 msgid "Name"
 msgstr "Navn"
 
@@ -632,11 +1061,41 @@ msgstr "Naviger"
 msgid "New"
 msgstr "Ny"
 
+msgid "New Category"
+msgstr "Ny kategori"
+
+msgid "New File"
+msgstr "Ny fil"
+
 msgid "New Folder"
 msgstr "Ny mappe"
 
+msgid "New Shortcut"
+msgstr "Ny snarvei"
+
+msgid "New Version Available"
+msgstr "Ny versjon tilgjengelig"
+
+msgid "New Window"
+msgstr "Nytt vindu"
+
+msgid "New text file"
+msgstr "Ny tekstfil"
+
+msgid "New version (%s) is available. Do you want to update now?"
+msgstr "Ny versjon (%s) er tilgjengelig. Ønsker du å oppdatere nå?"
+
+msgid "Next"
+msgstr "Neste"
+
+msgid "Next File"
+msgstr "Neste fil"
+
 msgid "No Extension"
 msgstr "Ikke vis filtype"
+
+msgid "No Looping"
+msgstr ""
 
 msgid "No Selection"
 msgstr "Ingen valg"
@@ -644,14 +1103,32 @@ msgstr "Ingen valg"
 msgid "No file loaded."
 msgstr "Ingen fil er valgt"
 
+msgid "No new updates"
+msgstr "Ingen nye oppdateringer"
+
 msgid "None"
 msgstr "Ingen"
+
+msgid "Not found"
+msgstr "Ikke funnet"
+
+msgid "Notify only about following update types"
+msgstr "Varsle kun om følgende typer oppdateringer"
 
 msgid "OK"
 msgstr "OK"
 
+msgid "Official"
+msgstr "Offisiell"
+
 msgid "On Startup"
 msgstr "Oppstart  "
+
+msgid "One or more files are missing!"
+msgstr "En eller flere filer mangler!"
+
+msgid "Open"
+msgstr "Åpne"
 
 msgid "Open All in Tabs"
 msgstr "Åpne alle"
@@ -665,8 +1142,20 @@ msgstr "Åpne mappe"
 msgid "Open default tab"
 msgstr "Åpne standard fane"
 
+msgid "Open in Workspace"
+msgstr "Åpne i workspace"
+
+msgid "Open in current tab"
+msgstr "Åpne i gjeldende fane"
+
+msgid "Open in new tab"
+msgstr "Åpne i ny fane"
+
 msgid "Open in new tab by default"
 msgstr "Åpne i ny fane som standard"
+
+msgid "Open last used"
+msgstr "Åpne siste brukte"
 
 msgid "Open new tab as"
 msgstr "Ny Fane   "
@@ -674,8 +1163,14 @@ msgstr "Ny Fane   "
 msgid "Open new tab next to current"
 msgstr "Åpne ny fane ved siden av aktive"
 
+msgid "Open selected"
+msgstr "Åpne valgte"
+
 msgid "Open..."
 msgstr "Åpne"
+
+msgid "Opening..."
+msgstr "Åpner..."
 
 msgid "Options"
 msgstr "Valg"
@@ -689,8 +1184,23 @@ msgstr "Original"
 msgid "Override"
 msgstr "Overstyr"
 
+msgid "Override Caret:"
+msgstr ""
+
+msgid "Override existing session?"
+msgstr "Overstyre gjeldende økt?"
+
+msgid "Override existing stack?"
+msgstr "Overstyre gjeldende stakk?"
+
+msgid "PHP"
+msgstr "PHP"
+
 msgid "Panels"
 msgstr "Panel"
+
+msgid "Password"
+msgstr "Passord"
 
 msgid "Paste"
 msgstr "Lim inn"
@@ -704,8 +1214,23 @@ msgstr "Sti"
 msgid "Pause"
 msgstr "Pause"
 
+msgid "Play"
+msgstr "Spill"
+
+msgid "Playlist"
+msgstr "Spilleliste"
+
 msgid "Please choose different hotkey."
 msgstr "Velg annen hurtigtast"
+
+msgid "Port"
+msgstr "Port"
+
+msgid "Previous"
+msgstr "Forrige"
+
+msgid "Previous File"
+msgstr "Forrige fil"
 
 msgid "Properties"
 msgstr "Egenskaper"
@@ -713,8 +1238,17 @@ msgstr "Egenskaper"
 msgid "Properties..."
 msgstr "Egenskaper"
 
+msgid "Proxy Login"
+msgstr "Proxy-logginn"
+
+msgid "Proxy Settings"
+msgstr "Proxy-innstillinger"
+
 msgid "Publish Translation"
 msgstr "Publiser oversettelse"
+
+msgid "Published:"
+msgstr "Utgitt:"
 
 msgid "Quick Options"
 msgstr "Hurtigvalg"
@@ -728,11 +1262,29 @@ msgstr "Hurtigvisning"
 msgid "Read Only"
 msgstr "Kun les"
 
+msgid "Reboot"
+msgstr "Start PC på nytt"
+
+msgid "Recycle Bin"
+msgstr "Papirkurven"
+
 msgid "Redo"
 msgstr "Gjenta"
 
 msgid "Refresh"
 msgstr "Oppdater"
+
+msgid "Refresh Fileview"
+msgstr "Oppdater filvisning"
+
+msgid "Register"
+msgstr "Registrer"
+
+msgid "Registered successfully!"
+msgstr "Registrering vellykket!"
+
+msgid "Registration failed!"
+msgstr "Registrering mislyktes!"
 
 msgid "Regular expression"
 msgstr "Vanlig uttrykk"
@@ -743,8 +1295,29 @@ msgstr "Relativ"
 msgid "Reload"
 msgstr "Last inn på nytt"
 
+msgid "Reload failed!"
+msgstr ""
+
+msgid "Reload from Disk"
+msgstr ""
+
+msgid "Reloaded from disk"
+msgstr ""
+
+msgid "Remember"
+msgstr "Husk"
+
 msgid "Remember Tabs"
 msgstr "Husk faner"
+
+msgid "Remember thumbnails"
+msgstr "Husk forhåndsvisningsikoner"
+
+msgid "Remove from Stack"
+msgstr "Fjern fra stakk"
+
+msgid "Removing all items from Stack!"
+msgstr "Fjerner alle elementer fra stakk!"
 
 msgid "Rename"
 msgstr "Gi nytt navn"
@@ -755,17 +1328,50 @@ msgstr "Erstatt"
 msgid "Replace All"
 msgstr "Erstatt alle"
 
+msgid "Replace:"
+msgstr "Erstatt:"
+
+msgid "Replaced %d texts."
+msgstr "Erstattet %d tekster."
+
 msgid "Reset hotkeys?"
 msgstr "Tilbakestill hurtigtaster?"
 
 msgid "Reset to default"
 msgstr "Tilbakestill"
 
+msgid "Restart CubicExplorer Now?"
+msgstr "Starte CubicExplorer på nytt nå?"
+
+msgid "Restart needed!"
+msgstr "Nødvendig å starte på nytt!"
+
+msgid "Restore"
+msgstr "Gjenopprett"
+
+msgid "Restore All"
+msgstr "Gjenopprett alle"
+
+msgid "Restore Default Layout"
+msgstr "Gjenopprett standard layout"
+
+msgid "Restore List"
+msgstr "Gjenopprett liste"
+
+msgid "Restoring multiple items!"
+msgstr "Gjenoppretter flere elementer!"
+
 msgid "Reuse already open tabs"
 msgstr "Bruk allerede åpne faner"
 
 msgid "Right"
 msgstr "Høyre"
+
+msgid "Right Edge"
+msgstr "Høyre kant"
+
+msgid "Right mouse moves cursor"
+msgstr "Høyre mus beveger markør"
 
 msgid "Save"
 msgstr "Lagre"
@@ -776,8 +1382,14 @@ msgstr "Lagre som"
 msgid "Save Session"
 msgstr "Lagre gruppe"
 
+msgid "Save Stack"
+msgstr "Lagre stakk"
+
 msgid "Save active session."
 msgstr "Lagre aktiv gruppe"
+
+msgid "Save before closing?"
+msgstr "Lagre før du lukker?"
 
 msgid "Save changes before closing?"
 msgstr "Lagre endringer?"
@@ -797,11 +1409,20 @@ msgstr "Lagre..."
 msgid "Save/Load Settings"
 msgstr "Lagre innstillinger"
 
+msgid "Saved to \"%s\""
+msgstr "Lagret til \"%s\""
+
 msgid "Scroll Left"
 msgstr "Rull til venstre"
 
 msgid "Scroll Right"
 msgstr "Rull til høyre"
+
+msgid "Scroll past end of file"
+msgstr "Rull forbi slutten av fila"
+
+msgid "Scroll past end of line"
+msgstr "Rull forbi slutten av linja"
 
 msgid "Search"
 msgstr "Søk"
@@ -824,8 +1445,14 @@ msgstr "Søk i mappe"
 msgid "Searching from"
 msgstr "Let fra"
 
+msgid "Seekbar"
+msgstr ""
+
 msgid "Select All"
 msgstr "Velg alle"
+
+msgid "Select Session"
+msgstr "Velg økt"
 
 msgid "Select default folder for new tabs."
 msgstr "Velg mappe for nye faner"
@@ -839,6 +1466,9 @@ msgstr "Gå til første element"
 msgid "Select previous folder"
 msgstr "Velg forrige mappe"
 
+msgid "Select target folder"
+msgstr "Velg målmappe"
+
 msgid "Selected"
 msgstr "Valgte"
 
@@ -847,6 +1477,12 @@ msgstr "Kun valgt tekst"
 
 msgid "Separator"
 msgstr "Delelinje"
+
+msgid "Separators"
+msgstr "Skillemarkører"
+
+msgid "Session"
+msgstr "Økt"
 
 msgid "Session Name"
 msgstr "Gruppenavn"
@@ -902,20 +1538,44 @@ msgstr "Vis sti i tittellinjen"
 msgid "Show Session Manager"
 msgstr "Vis gruppebehandler"
 
+msgid "Show Special Characters"
+msgstr "Vis spesialtegn"
+
 msgid "Show Statusbar"
 msgstr "Vis statusbar"
 
 msgid "Show Toolbar"
 msgstr "Vis verktøylinje"
 
+msgid "Show Zip files"
+msgstr "Vil zip-filer"
+
+msgid "Show gridlines"
+msgstr "Vis rutemønster"
+
 msgid "Show in Groups"
 msgstr "Vis i grupper"
+
+msgid "Show leading zeros"
+msgstr "Vis ledende nuller"
+
+msgid "Show line numbers"
+msgstr "Vis linjenumre"
 
 msgid "Show more tabs"
 msgstr "Vis flere faner"
 
+msgid "Show scroll hint"
+msgstr "Vis rullehint"
+
+msgid "Show special characters"
+msgstr "Vis spesialtegn"
+
 msgid "Show/Hide"
 msgstr "Vis/Skjul"
+
+msgid "Shut down"
+msgstr "Avslutt"
 
 msgid "Single Instance Only"
 msgstr "Bruk kun ett åpent vindu av CE"
@@ -926,38 +1586,83 @@ msgstr "Bruk ett klikk"
 msgid "Single click mode"
 msgstr "Enklikks-modus"
 
+msgid "Six months ago"
+msgstr "For seks måneder siden"
+
 msgid "Size"
 msgstr "Størrelse"
 
 msgid "Size && Attributes"
 msgstr "Størrelse && Attributter"
 
+msgid "Sleep"
+msgstr ""
+
+msgid "Small"
+msgstr "Liten"
+
 msgid "Small Icons"
 msgstr "Små ikoner"
+
+msgid "Smart tab delete"
+msgstr "Smart sletting av faner"
+
+msgid "Smart tabs"
+msgstr "Smarte faner"
 
 msgid "Smooth Scroll"
 msgstr "Myk scrolling"
 
+msgid "Snapshot"
+msgstr "Øyeblikksbilde"
+
 msgid "Solitaire (experiment)"
 msgstr "Solitaire (eksperiment)"
+
+msgid "Spacing"
+msgstr ""
 
 msgid "Stack"
 msgstr "Samlinger"
 
+msgid "Stack Name"
+msgstr ""
+
+msgid "Stack Settings"
+msgstr ""
+
+msgid "Stacks"
+msgstr ""
+
 msgid "Start"
 msgstr "Start"
+
+msgid "Start Color:"
+msgstr "Start-farge:"
+
+msgid "Start at zero"
+msgstr "Start på null"
 
 msgid "Start minimized to tray"
 msgstr "Start minimert til oppgavelinjen"
 
+msgid "Starting CubicExplorer..."
+msgstr "Starter CubicExplorer..."
+
 msgid "Status Bar"
 msgstr "Statuslinje"
+
+msgid "Steps"
+msgstr "Trinn"
 
 msgid "Stop"
 msgstr "Stopp"
 
 msgid "Stretch"
 msgstr "Strekk verktøylinjene"
+
+msgid "Stretcher"
+msgstr ""
 
 msgid "Strict"
 msgstr "Strengt"
@@ -972,7 +1677,7 @@ msgid "Switch to Next Tab"
 msgstr "Bytt til neste fane"
 
 msgid "Switch to a new tab immediately"
-msgstr "Bytt til neste fane med en gang"
+msgstr "Bytt til ny fane med en gang"
 
 msgid "Swith to Previous Tab"
 msgstr "Bytt til forrige fane"
@@ -980,11 +1685,29 @@ msgstr "Bytt til forrige fane"
 msgid "System"
 msgstr "System"
 
+msgid "System Folders"
+msgstr "Systemmapper"
+
+msgid "System Power"
+msgstr ""
+
+msgid "TB"
+msgstr ""
+
+msgid "Tab Width:"
+msgstr "Tabulatorbredde:"
+
+msgid "Tab indent"
+msgstr "Tabulatorinnrykk"
+
 msgid "Tabs"
 msgstr "Faner"
 
 msgid "Tabs Settings"
 msgstr "Faner"
+
+msgid "Tabs to spaces"
+msgstr "Tabulatorer til mellomrom"
 
 msgid "Target"
 msgstr "Mål"
@@ -995,14 +1718,32 @@ msgstr "Målmappe"
 msgid "Text"
 msgstr "Tekst"
 
+msgid "Text Document"
+msgstr "Tekstdokument"
+
 msgid "Text Editor"
 msgstr "Teksteditor"
+
+msgid "Text Filter"
+msgstr "Tekstfilter"
 
 msgid "Text only"
 msgstr "Kun tekst"
 
+msgid "The text in %s has changed."
+msgstr "Teksten i %s er endret."
+
 msgid "Theme"
 msgstr "Temaer"
+
+msgid "This week"
+msgstr "Denne uka"
+
+msgid "Three months ago"
+msgstr "For tre måneder siden"
+
+msgid "Three weeks ago"
+msgstr "For tre uker siden"
 
 msgid "Thumbnails"
 msgstr "Miniatyrbilder"
@@ -1015,6 +1756,9 @@ msgstr "Miniatyrbildestil"
 
 msgid "Tiles"
 msgstr "Side ved side"
+
+msgid "Tiny"
+msgstr "Knøttliten"
 
 msgid "Toolbars"
 msgstr "Verktøylinjer"
@@ -1029,7 +1773,7 @@ msgid "Total Size"
 msgstr "Total størrelse"
 
 msgid "Translate CubicExplorer"
-msgstr "Oversett Cubicexplorer"
+msgstr "Oversett CubicExplorer"
 
 msgid "Translation"
 msgstr "Oversettelse"
@@ -1041,7 +1785,10 @@ msgid "Translation Version"
 msgstr "Oversettelsesversjon"
 
 msgid "Translator's Email"
-msgstr "Oversetters epost"
+msgstr "Oversetters E-post"
+
+msgid "Translator's Email (optional)"
+msgstr "Oversetters E-post (valgfri)"
 
 msgid "Translator's Name"
 msgstr "Oversetters navn"
@@ -1052,20 +1799,95 @@ msgstr "Gjennomsiktighet"
 msgid "Tray Icon"
 msgstr "Oppgavelinje   "
 
+msgid "Trim trailing spaces"
+msgstr "Fjern etterfølgende mellomrom"
+
+msgid "Two months ago"
+msgstr "For to måneder siden"
+
+msgid "Two weeks ago"
+msgstr "For to uker siden"
+
 msgid "Type"
 msgstr "Type"
+
+msgid "Underline"
+msgstr "Understrek"
 
 msgid "Undo"
 msgstr "Angre"
 
+msgid "Undo Delete"
+msgstr "Angre sletting"
+
 msgid "Undo Tab Close"
 msgstr "Gjenåpne lukket fane"
+
+msgid "Unregister"
+msgstr "Avregistrer"
+
+msgid "Unregistered successfully!"
+msgstr "Avregistrering fullført!"
+
+msgid "Unregistration failed!"
+msgstr "Avregistrering mislyktes!"
 
 msgid "Untitled"
 msgstr "Uten navn"
 
+msgid "Update"
+msgstr "Oppdater"
+
+msgid "Update CubicExplorer"
+msgstr "Oppdater CubicExplorer"
+
+msgid "Update type:"
+msgstr "Oppdater type:"
+
+msgid "Updates"
+msgstr "Oppdateringer"
+
+msgid "Updates Settings"
+msgstr "Innstillinger for oppdateringer"
+
+msgid "Use Options->Updates to change them."
+msgstr "Bruk Innstillinger->Oppdateringer for å endre dem."
+
+msgid "Use comma separated list of extensions. For example: txt,doc,rtf"
+msgstr "Bruk kommadelt liste over filendelser. For eksempel: txt,doc,rtf"
+
+msgid "Use custom font"
+msgstr ""
+
+msgid "Use extension colors"
+msgstr ""
+
+msgid "Use inline CSS on copy"
+msgstr ""
+
+msgid "Use inline CSS on export"
+msgstr ""
+
+msgid "Use per folder settings"
+msgstr "Bruk mappeinnstillinger"
+
 msgid "Use strict filtering (wildcards are ? and *)"
 msgstr "Bruk streng filtrering (? og * er jokertegn)"
+
+msgid "Use system settings"
+msgstr "Bruk systeminnstillinger"
+
+msgid "Use this version"
+msgstr "Bruk  denne versjonen"
+
+msgid "Username"
+msgstr "Brukernavn"
+
+msgid "Version"
+msgstr "Versjon"
+
+msgid "Version Manager"
+msgstr ""
 
 msgid "Version:"
 msgstr "Versjon:"
@@ -1073,14 +1895,41 @@ msgstr "Versjon:"
 msgid "Version: 0.8.0."
 msgstr "Versjon 0.8.0"
 
+msgid "Versions"
+msgstr "Versjoner"
+
+msgid "Vertical Line"
+msgstr "Loddrett linje"
+
 msgid "View"
 msgstr "Vis"
 
 msgid "View Style"
 msgstr "Vis som"
 
+msgid "Visible"
+msgstr "Synlig"
+
+msgid "Volume"
+msgstr "Volum"
+
+msgid "WARNING! You are about to restore %d items."
+msgstr "ADVARSEL! Du er i ferd med å gjenopprette %d elementer."
+
+msgid "WARNING: Real file operations below"
+msgstr ""
+
+msgid "Warning"
+msgstr "Advarsel"
+
+msgid "Warning: changes are made immediately!"
+msgstr "Advarsel: endringer utføres med en gang!"
+
+msgid "Warning: password will be saved in clear text!"
+msgstr "Advarsel: passordet vil blir lagret i klartekst!"
+
 msgid "When I open folder/file in a new tab, switch to it immediately "
-msgstr "Bytt til ny fane"
+msgstr "Når jeg åpner en mappe/fil i en ny fane, bytt til fanen med en gang"
 
 msgid "Whole Word"
 msgstr "Hele ord"
@@ -1100,9 +1949,33 @@ msgstr "Tekstbryting"
 msgid "Word or Phrase in File Name"
 msgstr "Ord eller frase i filnavn"
 
+msgid "Workspace"
+msgstr ""
+
+msgid "Wrap around"
+msgstr ""
+
+msgid "Wrapped around"
+msgstr ""
+
+msgid "You have no update type notifications selected."
+msgstr "Du har ikke valgt noen typer oppdateringer for varsling."
+
+msgid "Zero"
+msgstr "Null"
+
+msgid "already exists. Please choose another name."
+msgstr "finnes allerede. Vennligst velg et annet navn."
+
 msgid "is already assigned to"
 msgstr "er allerede tilegnet"
 
 msgid "is already in use!"
 msgstr "er allerede i bruk.."
+
+msgid "item"
+msgstr "element"
+
+msgid "items"
+msgstr "elementer"
 

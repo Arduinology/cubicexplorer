@@ -275,6 +275,7 @@ type
     fStorageFilePath: WideString;
     fStorageIsLoaded: Boolean;
     fThumbnails: TCEThumbnailSettings;
+    fTrackChangesInMappedDrives: Boolean;
     fUpdateCount: Integer;
     fViewStyle: TEasyListStyle;
     procedure SetBackgroundColor(const Value: TColor);
@@ -286,6 +287,7 @@ type
     procedure SetPerFolderSettings(const Value: Boolean);
     procedure SetShowCaptionsInFilmstrip(const Value: Boolean);
     procedure SetShowCaptionsInThumbnails(const Value: Boolean);
+    procedure SetTrackChangesInMappedDrives(const Value: Boolean);
   public
     constructor Create;
     destructor Destroy; override;
@@ -377,6 +379,8 @@ type
         SetThreadedEnumeration;
     property ThreadedImages: Boolean read fThreadedImages write SetThreadedImages;
     property Thumbnails: TCEThumbnailSettings read fThumbnails;
+    property TrackChangesInMappedDrives: Boolean read fTrackChangesInMappedDrives
+        write SetTrackChangesInMappedDrives;
     property Use_JumboIcons_in_InfoBar: Boolean read fUse_JumboIcons_in_InfoBar
         write SetUse_JumboIcons_in_InfoBar;
     property ViewStyle: TEasyListStyle read fViewStyle write fViewStyle;
@@ -1275,6 +1279,7 @@ begin
   SetDesktopIconFonts(fFont);
   fThumbnails:= TCEThumbnailSettings.Create;
   fHideShortcutExtension:= true;
+  fTrackChangesInMappedDrives:= true;
 end;
 
 {*------------------------------------------------------------------------------
@@ -1426,6 +1431,7 @@ begin
       if fThreadedEnumeration then Include(options, eloThreadedEnumeration) else Exclude(options, eloThreadedEnumeration);
       if fThreadedDetails then Include(options, eloThreadedDetails) else Exclude(options, eloThreadedDetails);
       if fShowInfoTips then Include(options, eloQueryInfoHints) else Exclude(options, eloQueryInfoHints);
+      if fTrackChangesInMappedDrives then Include(options, eloTrackChangesInMappedDrives) else Exclude(options, eloTrackChangesInMappedDrives);
       fileView.Options:= options;
 
     // ==== Misc ====
@@ -2173,6 +2179,16 @@ end;
 procedure TCEFileViewSettings.SetThreadedImages(const Value: Boolean);
 begin
   fThreadedImages:= Value;
+  SendChanges;
+end;
+
+{-------------------------------------------------------------------------------
+  Set TrackChangesInMappedDrives
+-------------------------------------------------------------------------------}
+procedure TCEFileViewSettings.SetTrackChangesInMappedDrives(const Value:
+    Boolean);
+begin
+  fTrackChangesInMappedDrives:= Value;
   SendChanges;
 end;
 
