@@ -828,7 +828,7 @@ msgid "HTML Documents"
 msgstr "Documentos HTML"
 
 msgid "HTML with CSS, JS or PHP"
-msgstr ""
+msgstr "HTML con CSS, JS o PHP"
 
 msgid "Half Block"
 msgstr ""
@@ -1071,7 +1071,7 @@ msgid "New Category"
 msgstr "Nueva categoría"
 
 msgid "New File"
-msgstr ""
+msgstr "Nuevo Archivo"
 
 msgid "New Folder"
 msgstr "Nueva Carpeta"
@@ -1095,10 +1095,10 @@ msgid "New version (%s) is available. Do you want to update now?"
 msgstr "Disponible nueva versión (%s). ¿Quieres actualizar ahora?"
 
 msgid "Next"
-msgstr ""
+msgstr "Siguiente"
 
 msgid "Next File"
-msgstr ""
+msgstr "Siguiente Archivo"
 
 msgid "No Extension"
 msgstr "Sin extensión"
@@ -1119,7 +1119,7 @@ msgid "None"
 msgstr "Ninguna"
 
 msgid "Not found"
-msgstr ""
+msgstr "No encontrado"
 
 msgid "Notify only about following update types"
 msgstr "Notificar solamente sobre actualizaciones de estos tipos"
@@ -1311,13 +1311,13 @@ msgid "Reload"
 msgstr "Recargar"
 
 msgid "Reload failed!"
-msgstr ""
+msgstr "¡Recarga fallida!"
 
 msgid "Reload from Disk"
-msgstr ""
+msgstr "Recargar desde disco"
 
 msgid "Reloaded from disk"
-msgstr ""
+msgstr "Recargado desde disco"
 
 msgid "Remember"
 msgstr "Recordar"
@@ -1656,7 +1656,7 @@ msgid "Start minimized to tray"
 msgstr "Comenzar minimizado en la bandeja"
 
 msgid "Starting CubicExplorer..."
-msgstr ""
+msgstr "Iniciando CubicExplorer..."
 
 msgid "Status Bar"
 msgstr "Barra de Estado"
@@ -1743,7 +1743,7 @@ msgid "Text only"
 msgstr "Sólo texto"
 
 msgid "The text in %s has changed."
-msgstr ""
+msgstr "El texto en %s ha cambiado."
 
 msgid "Theme"
 msgstr "Tema"
@@ -1803,7 +1803,7 @@ msgid "Translator's Email"
 msgstr "E-Mail del traductor"
 
 msgid "Translator's Email (optional)"
-msgstr ""
+msgstr "Email del traductor (opcional)"
 
 msgid "Translator's Name"
 msgstr "Nombre del traductor"
@@ -1878,7 +1878,7 @@ msgid "Use custom font"
 msgstr ""
 
 msgid "Use extension colors"
-msgstr ""
+msgstr "Usar colores en extensiones"
 
 msgid "Use inline CSS on copy"
 msgstr ""

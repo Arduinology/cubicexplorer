@@ -1,3 +1,11 @@
+11.10.2012
+* Updated Spanish translation.
+
+5.10.2012
++ Added TrackChangesInMappedDrives advanced options in FileView and FolderTree.
+* Updated Spanish translation.
+* Updated Norwegian translation.
+
 14.7.2012
 + Added "Copy/Move Selected Here" items in tab's right click menu.
 * Changed UI updating as a possible fix for hanging issues.
@@ -698,3 +706,4 @@
 * "Auto Save History" is now disabled by default.
 * Save Session dialog now uses the active session name as default.
 * Manage Sessions dialog uses themes now.
+
