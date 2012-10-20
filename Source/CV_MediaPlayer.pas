@@ -26,7 +26,7 @@ interface
 
 uses
   // CubicCore
-  ccFileUtils, ccInterfaces,
+  ccFileUtils, ccInterface,
   // System Units
   Windows, SysUtils, Classes, Controls, Messages, Types, ExtCtrls, Contnrs,
   cUtils;
@@ -41,6 +41,7 @@ const
   IID_ICVMediaEngineAudio: TGUID   = '{74205AAD-17EB-4E7C-82C4-933412EBCC5B}';
   IID_ICVMediaEngineStill: TGUID   = '{F0A1381F-55F6-4509-8A93-8D87A807BE12}';
   IID_ICVMediaEngineEditor: TGUID  = '{B81F8A3A-F77B-475B-BE7E-F44CEA14A9E2}';
+  IID_ICCWindowCtrl: TGUID  = '{F9700921-BB93-4C4E-8238-6239D356B046}';
 
 type
 {-------------------------------------------------------------------------------
@@ -283,6 +284,16 @@ type
     // - MediaPlayer will call this to set a EditorClose event handler.
     // - If the engine want's to close itself, it can call the AHandler.
     procedure SetEditorCloseEvent(AHandler: TNotifyEvent); stdcall;
+  end;
+
+{-------------------------------------------------------------------------------
+  ICCWindowCtrl
+-------------------------------------------------------------------------------}
+  ICCWindowCtrl = interface(IInterface)
+  ['{F9700921-BB93-4C4E-8238-6239D356B046}']
+    procedure SetBounds(ARect: TRect); stdcall;
+    procedure SetFocus; stdcall;
+    procedure SetParentWindow(AParentWindow: HWND); stdcall;
   end;
 
 {-------------------------------------------------------------------------------

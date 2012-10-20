@@ -976,14 +976,14 @@ begin
     606: begin
            if GlobalPathCtrl.ActivePage is TCEFileViewPage then
            begin
-//             if GlobalFileViewSettings.Thumbnails.UseStorage then
-//             TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.ClearThumbnailCache; // refresh thumbnails
+             if GlobalFileViewSettings.Thumbnails.UseStorage then
+             TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.ClearThumbnailCache; // refresh thumbnails
              TCEFileViewPage(GlobalPathCtrl.ActivePage).FileView.Rebuild(true);
            end;
-//           CEFolderPanel.FolderTree.Refresh;
-//           CEWorkspacePanel.FileView.Rebuild(true);
-//           MainForm.DriveToolbar.Populate;
-//           MainForm.StatusBar.UpdateLabels(true);
+           CEFolderPanel.FolderTree.Refresh;
+           CEWorkspacePanel.FileView.Rebuild(true);
+           MainForm.DriveToolbar.Populate;
+           MainForm.StatusBar.UpdateLabels(true);
          end;
     607: begin
            ExecuteTabsCategory(664);
@@ -1214,6 +1214,8 @@ end;
   Tabs Category  Update
 -------------------------------------------------------------------------------}
 procedure UpdateTabsCategory(ActionID: Integer; TargetAction: TTntAction);
+var
+  b: Boolean;
 begin
   case ActionID of
     661..662,664: TargetAction.Enabled:= assigned(MainForm.TabSet.ActivePopupTab) or (MainForm.TabSet.GetActiveTab <> nil);
@@ -1221,8 +1223,15 @@ begin
     671, 672: begin
       if assigned(MainForm.TabSet.ActivePopupTab) and assigned(MainForm.TabSet.ActiveTab) and (MainForm.TabSet.ActivePopupTab <> MainForm.TabSet.ActiveTab) then
       begin
-        TargetAction.Visible:= ((MainForm.TabSet.ActiveTab.Page is TCEFileViewPage) or (MainForm.TabSet.ActiveTab.Page is TCESearchPage)) and
-                               (MainForm.TabSet.ActivePopupTab.Page is TCEFileViewPage);
+        // TODO: hunting bug here, remove this!:
+        b:= MainForm.TabSet.ActiveTab.Page is TCEFileViewPage;
+        b:= b or (MainForm.TabSet.ActiveTab.Page is TCESearchPage);
+        b:= b and (MainForm.TabSet.ActivePopupTab.Page is TCEFileViewPage);
+        TargetAction.Visible:= b;
+
+//        TargetAction.Visible:= ((MainForm.TabSet.ActiveTab.Page is TCEFileViewPage) or (MainForm.TabSet.ActiveTab.Page is TCESearchPage)) and
+//                               (MainForm.TabSet.ActivePopupTab.Page is TCEFileViewPage);
+
         if TargetAction.Visible then
         begin
           if (MainForm.TabSet.ActiveTab.Page is TCEFileViewPage) then

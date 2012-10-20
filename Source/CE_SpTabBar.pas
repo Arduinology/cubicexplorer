@@ -1177,7 +1177,10 @@ procedure TCESpTabSet.HandleMouseDown(Sender: TObject; Button: TMouseButton;
     Shift: TShiftState; X, Y: Integer);
 begin
   if Shift = [ssMiddle] then
-  fClosingTab:= GetTabAt(X, Y)
+  begin
+    fClosingTab:= GetTabAt(X, Y);
+    fActivePopupTab:= nil;
+  end
   else
   begin
     fActivePopupTab:= GetTabAt(X, Y);
@@ -1413,7 +1416,8 @@ end;
 procedure TCESpTabSet.TabDeleting(Item: TSpTBXTabItem; FreeTabSheet: Boolean =
     True);
 begin
-  // Do Nothing
+  if fActivePopupTab = Item then
+  fActivePopupTab:= nil;
 end;
 
 {-------------------------------------------------------------------------------

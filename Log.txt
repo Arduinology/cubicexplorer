@@ -1,3 +1,6 @@
+20.10.2012
+- Possible fix for random crash when closing a tab.
+
 11.10.2012
 * Updated Spanish translation.
 
@@ -5,7 +8,7 @@
 + Added TrackChangesInMappedDrives advanced options in FileView and FolderTree.
 * Updated Spanish translation.
 * Updated Norwegian translation.
-
+================================================================================
 14.7.2012
 + Added "Copy/Move Selected Here" items in tab's right click menu.
 * Changed UI updating as a possible fix for hanging issues.
