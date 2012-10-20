@@ -69,6 +69,42 @@ var
   CE_ProxyUsername: String = '';
   CE_ProxyPassword: String = '';
 
+{-------------------------------------------------------------------------------
+  Kiosk options
+-------------------------------------------------------------------------------}
+  // layout
+  CE_Kiosk_Lock_Toolbars: Boolean = false;
+  CE_Kiosk_Lock_Panels: Boolean = false;
+  // menu items
+  CE_Kiosk_Show_FileMenu: Boolean = true;
+  CE_Kiosk_Show_EditMenu: Boolean = true;
+  CE_Kiosk_Show_ViewMenu: Boolean = true;
+  CE_Kiosk_Show_BookmarksMenu: Boolean = true;
+  CE_Kiosk_Show_SessionsMenu: Boolean = true;
+  CE_Kiosk_Show_ToolsMenu: Boolean = true;
+  CE_Kiosk_Show_HelpMenu: Boolean = true;
+  // file operations
+  CE_Kiosk_Enable_Copy: Boolean = true;
+  CE_Kiosk_Enable_Cut: Boolean = true;
+  CE_Kiosk_Enable_Paste: Boolean = true;
+  CE_Kiosk_Enable_Duplicate: Boolean = true;
+  CE_Kiosk_Enable_Delete: Boolean = true;
+  CE_Kiosk_Enable_UndoDelete: Boolean = true;
+  CE_Kiosk_Enable_Rename: Boolean = true;
+  CE_Kiosk_Enable_NewFile: Boolean = true;
+  CE_Kiosk_Enable_NewFolder: Boolean = true;
+  CE_Kiosk_Enable_CreateSymbolicLink: Boolean = true;
+  CE_Kiosk_Enable_FileProperties: Boolean = true;
+  // file view
+  CE_Kiosk_Enable_ShowHiddenFiles: Boolean = true;
+  CE_Kiosk_Enable_ShowExtensions: Boolean = true;
+  // options
+  CE_Kiosk_Enable_OptionsDlg: Boolean = true;
+  CE_Kiosk_Enable_Customizer: Boolean = true;
+  CE_Kiosk_Enable_VersionMgr: Boolean = true;
+  CE_Kiosk_Enable_ThemeChange: Boolean = true;
+  CE_Kiosk_Enable_LanguageChange: Boolean = true;
+  
 implementation
 
 end.

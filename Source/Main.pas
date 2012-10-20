@@ -37,6 +37,7 @@ uses
   CE_ToolbarButtons, CE_TBActions, CE_LanguageCodes, CE_LanguageEngine,
   CE_LanguageUtils, CE_Sessions, CE_SpTabBar,
   CE_AppSettings, CE_Toolbar, AppCommand,
+  CEJvDockVSNetStyleTBX,
   // Toolbar2000
   TB2Dock, TB2Item, TB2Toolbar, TB2ToolWindow, TB2ExtItems,
   // SpTBX
@@ -228,6 +229,8 @@ type
     sep_tabs_copymove: TSpTBXSeparatorItem;
     SpTBXItem93: TSpTBXItem;
     SpTBXItem100: TSpTBXItem;
+    SpTBXSeparatorItem17: TSpTBXSeparatorItem;
+    item_lock_panels: TSpTBXItem;
     procedure AutoUpdateTimerTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -377,7 +380,9 @@ type
   protected
     fWow64Enabled: Boolean;
     function GetFullscreen: Boolean;
+    function GetLockPanels: Boolean;
     procedure SetFullscreen(const Value: Boolean);
+    procedure SetLockPanels(const Value: Boolean);
     procedure SetWow64Enabled(const Value: Boolean);
   public
     Form: TMainForm;
@@ -411,6 +416,7 @@ type
     property Fullscreen: Boolean read GetFullscreen write SetFullscreen;
     property LastUpdateCheck: TDateTime read GetLastUpdateCheck write
         SetLastUpdateCheck;
+    property LockPanels: Boolean read GetLockPanels write SetLockPanels;
     property LockToolbars: Boolean read GetLockToolbars write SetLockToolbars;
     property MinimizeToTray: Boolean read fMinimizeToTray write fMinimizeToTray;
     property ProxyAddress: WideString read GetProxyAddress write SetProxyAddress;
@@ -2186,6 +2192,18 @@ end;
 procedure TMainFormSettings.SetFullscreen(const Value: Boolean);
 begin
   Form.Fullscreen:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  Get/Set LockPanels
+-------------------------------------------------------------------------------}
+function TMainFormSettings.GetLockPanels: Boolean;
+begin
+  Result:= CE_LockPanels;
+end;
+procedure TMainFormSettings.SetLockPanels(const Value: Boolean);
+begin
+  CE_LockPanels:= Value;
 end;
 
 {-------------------------------------------------------------------------------

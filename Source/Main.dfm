@@ -236,6 +236,11 @@ object MainForm: TMainForm
           object SpTBXItem99: TSpTBXItem
             Action = CEActions.act_view_workspace
           end
+          object SpTBXSeparatorItem17: TSpTBXSeparatorItem
+          end
+          object item_lock_panels: TSpTBXItem
+            Action = CEActions.act_view_lock_panels
+          end
         end
         object SpTBXItem87: TSpTBXItem
           Action = CEActions.act_view_infobar

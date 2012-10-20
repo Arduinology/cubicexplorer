@@ -26,7 +26,7 @@ interface
 uses
   // CE Units
   CE_GlobalCtrl,  dCE_Images, CE_TBActions, CE_Utils, CE_LanguageEngine,
-  CE_SpTabBar, CE_AppSettings,
+  CE_SpTabBar, CE_AppSettings, CEJvDockVSNetStyleTBX,
   // PngControls
   PngImageList,
   // EasyListview & VSTools
@@ -241,6 +241,7 @@ type
     act_workspace_open: TTntAction;
     act_tabs_movehere: TTntAction;
     act_tabs_copyhere: TTntAction;
+    act_view_lock_panels: TTntAction;
     procedure ActionExecute(Sender: TObject);
     procedure ApplicationEventsActivate(Sender: TObject);
     procedure UpdateTimerTimer(Sender: TObject);
@@ -740,6 +741,7 @@ begin
     370: MainForm.Fullscreen:= not MainForm.Fullscreen;
     371: MainForm.OpenSkin;
     390: MainForm.LockToolbars:= not MainForm.LockToolbars;
+    391: CE_LockPanels:= not CE_LockPanels;
   end;
 end;
 
@@ -783,6 +785,7 @@ begin
     370: TargetAction.Checked:= MainForm.Fullscreen;
     372..374: TargetAction.Enabled:= GlobalPathCtrl.ActivePage is TCEFileViewPage;
     390: TargetAction.Checked:= MainForm.LockToolbars;
+    391: TargetAction.Checked:= CE_LockPanels;
   end;
 end;
 
