@@ -145,7 +145,8 @@ uses
   fCE_TextEditor in 'fCE_TextEditor.pas' {CETextEditor: TFrame},
   fCE_TextEditorOptions in 'fCE_TextEditorOptions.pas' {CETextEditorOptionsForm: TTntForm},
   fCE_WorkspacePanel in 'fCE_WorkspacePanel.pas' {CEWorkspacePanel},
-  VirtualThumbnails in 'Components\Mustangpeak\VSTools\VirtualThumbnails.pas';
+  VirtualThumbnails in 'Components\Mustangpeak\VSTools\VirtualThumbnails.pas',
+  fCV_SumatraPDF in 'fCV_SumatraPDF.pas' {SumatraPDF: TFrame};
 
 {$R *.res}
 {$R 'CE_Resources.res'}

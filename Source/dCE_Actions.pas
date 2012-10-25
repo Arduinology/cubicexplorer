@@ -2235,10 +2235,11 @@ var
   act: TTntAction;
   i: Integer;
 begin
+  UpdateTimer.Enabled:= false;
+
   if MainForm.CEIsClosing then
   Exit;
-
-  UpdateTimer.Enabled:= false;
+  
   try
     for i:= 0 to ActionList.ActionCount - 1 do
     begin

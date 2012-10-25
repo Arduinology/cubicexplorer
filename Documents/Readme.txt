@@ -2,10 +2,11 @@ Copyright 2006-2012 Marko Savolainen.
 
 Homepage - http://www.cubicreality.com
 Support - http://www.cubicreality.com/forum
+Donate - http://www.cubicreality.com/donate
 
-==================================================================
-   CubicExplorer uses the following 3rd party Delphi components
-==================================================================
+==========================================================
+   CubicExplorer uses the following 3rd party libraries
+==========================================================
 
 - VirtualShellTools and EasyListview
 http://www.mustangpeak.net
@@ -28,9 +29,6 @@ http://club.telepolis.com/silverpointdev/sptbxlib/index.htm
 - Graphics32
 http://www.graphics32.org
 
-- ATBinHex
-http://atorg.net.ru/other/atbinhex.htm
-
 - JVCL
 http://jvcl.sourceforge.net
 
@@ -41,15 +39,15 @@ http://mh-nexus.de/unisynedit.htm
 http://www.7-zip.org
 
 
-==================================================================
+==========================================================
 
-  Many thanks to all developers of those great components.
+ Many thanks to all developers of those great components.
   
-  A special thanks goes to Jim Kueneman for his great work on
-  VirtualShellTools and EasyListview. Without VirtualShellTools,
-  CubicExplorer would not exist.
+ A special thanks to Jim Kueneman for his great work on
+ VirtualShellTools and EasyListview. Without them,
+ CubicExplorer would not exist.
 
-==================================================================
+==========================================================
 
 Thank you for using CubicExplorer.
 

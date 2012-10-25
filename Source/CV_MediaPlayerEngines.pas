@@ -28,7 +28,7 @@ uses
   // CubicCore
   ccTypes, ccFileUtils, ccClasses, ccStrings,
   // CubicViewer
-  CV_MediaPlayer,
+  CV_MediaPlayer, CV_ImageView,
   // CubicExplorer
   fCE_TextEditor,
   // DirectShow
@@ -37,9 +37,11 @@ uses
   WMPLib_TLB,
   // GraphicEx
   GraphicEx,
+  // TNT
+  TntRegistry,
   // System Units
   ActiveX, SysUtils, Types, Windows, ExtCtrls, Controls, Messages, Classes,
-  CV_ImageView, GR32, StdCtrls;
+  StdCtrls, fCV_SumatraPDF;
 
 {==============================================================================}
 const
@@ -47,6 +49,7 @@ const
   ID_CVWmpEngine: TGUID         = '{B41DD245-09F2-4DA8-AB8D-47751BA82D03}';
   ID_CVImageEngine: TGUID       = '{621F4159-A3C0-4A88-B257-43E296E8BFA6}';
   ID_CVTextEngine: TGUID        = '{4C7CB4CE-0761-4A87-8C16-FEDFFF24CBC2}';
+  ID_CVPDFEngine: TGUID         = '{72D40CD7-D19A-41F1-A71A-DC4F4F1C3C0A}';
 
 type
 
@@ -61,10 +64,8 @@ type
     VWin: IVideoWindow;
     BasicVideo: IBasicVideo;
     BasicAudio: IBasicAudio;
-    fBoundsRect: TRect;
     fErrorMsg: WideString;
     fMessageHandle: HWND;
-    fParentWindow: HWND;
     fTitle: WideString;
     fVideoRect: TRect;
     fVideoSize: TPoint;
@@ -133,10 +134,8 @@ type
   TCVWMPEngine = class(TCVCustomMediaEngine, ICVMediaEngineControl,
     ICVMediaEngineSeeking, ICVMediaEngineVideo, ICVMediaEngineAudio)
   protected
-    fBoundsRect: TRect;
     fErrorMsg: WideString;
     fIsDone: Boolean;
-    fParentWindow: HWND;
     fTitle: WideString;
     fVolume: Integer;
     fWMP: TWindowsMediaPlayer;
@@ -193,21 +192,12 @@ type
   end;
 
 {-------------------------------------------------------------------------------
-  TCVImageEngine
+  TCVImageEngine (ImageViewer engine)
 -------------------------------------------------------------------------------}
-  TCVImageEngineTask = class(TObject)
-  public
-    Bitmap: TBitmap32;
-    FilePath: WideString;
-    destructor Destroy; override;
-  end;
-
   TCVImageEngine = class(TCVCustomMediaEngine, ICVMediaEngineControl,
     ICVMediaEngineStill)
   protected
-    fBoundsRect: TRect;
     fImageView: TCVImageViewPanel;
-    fParentWindow: HWND;
     fPlayInterval: Cardinal;
     fPlayTimer: TTimer;
     fPlayTimerTick: Cardinal;
@@ -251,10 +241,8 @@ type
   TCVTextEngine = class(TCVCustomMediaEngine, ICVMediaEngineControl,
       ICVMediaEngineStill, ICVMediaEngineEditor)
   protected
-    fBoundsRect: TRect;
     fCloseEventHandler: TNotifyEvent;
     fEditor: TCETextEditor;
-    fParentWindow: HWND;
     fPlayInterval: Cardinal;
     fPlayTimer: TTimer;
     fPlayTimerTick: Cardinal;
@@ -307,6 +295,40 @@ type
     property PlayInterval: Cardinal read fPlayInterval write fPlayInterval;
   end;
 
+{-------------------------------------------------------------------------------
+  TCVSumatraEngine
+-------------------------------------------------------------------------------}
+  TCVSumatraEngine = class(TCVCustomMediaEngine, ICVMediaEngineControl,
+      ICVMediaEngineStill)
+  protected
+    fSumatra: TSumatraPDF;
+    procedure DoError(Sender: TObject); virtual;
+    function GetPlaybackEnabled: Boolean; override; stdcall;
+    procedure HandleActiveFileChange(Sender: TObject); virtual;
+    procedure InternalCreateSumatraPDF; virtual;
+  public
+    constructor Create; override;
+    destructor Destroy; override;
+    procedure Close; override; stdcall;
+    function GetID: TGUID; override; stdcall;
+    function GetStatusText: WideString; override; stdcall;
+    // GetTitle
+    // - Return the title of currently loaded media
+    function GetTitle: WideString; override; stdcall;
+    function HasControl: Boolean; virtual; stdcall;
+    function IsStill: Boolean; virtual; stdcall;
+    function OpenFile(AFilePath: WideString): Boolean; override; stdcall;
+    procedure Pause; virtual; stdcall;
+    procedure Play; virtual; stdcall;
+    procedure SetBounds(ARect: TRect); override; stdcall;
+    // SetFocus
+    procedure SetFocus; override; stdcall;
+    procedure SetParentWindow(AParentWindow: HWND); override; stdcall;
+    procedure SetSlideshowInterval(AInterval: Integer); virtual; stdcall;
+    procedure Stop; virtual; stdcall;
+  published
+  end;
+
 const
   WM_MediaEventNotify = WM_USER + 1;
 
@@ -315,7 +337,7 @@ implementation
 
 uses
   Graphics, GR32_Resamplers, GR32_LowLevel, CE_LanguageEngine, Forms,
-  fCE_TextEditorOptions;
+  fCE_TextEditorOptions, CE_Utils;
 
 {##############################################################################}
 // TCVDSEngine
@@ -689,7 +711,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCVDSEngine.SetBounds(ARect: TRect);
 begin
-  fBoundsRect:= ARect;
+  inherited;
   ResizeVideo;
 end;
 
@@ -698,7 +720,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCVDSEngine.SetParentWindow(AParentWindow: HWND);
 begin
-  fParentWindow:= AParentWindow;
+  inherited;
 
   // Initialize VideoWindow
   if assigned(VWin) and (fParentWindow <> 0) then
@@ -805,7 +827,6 @@ end;
 constructor TCVWMPEngine.Create;
 begin
   inherited;
-  fParentWindow:= 0;
   fVolume:= 75;
   fIsDone:= false;
 end;
@@ -1043,7 +1064,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCVWMPEngine.SetBounds(ARect: TRect);
 begin
-  fBoundsRect:= ARect;
+  inherited;
   if assigned(fWMP) then
   fWMP.BoundsRect:= ARect;
 end;
@@ -1053,7 +1074,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCVWMPEngine.SetParentWindow(AParentWindow: HWND);
 begin
-  fParentWindow:= AParentWindow;
+  inherited;
   if assigned(fWMP) then
   fWMP.ParentWindow:= AParentWindow;
 end;
@@ -1132,8 +1153,6 @@ constructor TCVImageEngine.Create;
 begin
   inherited;
   fTaskTag:= GetTickCount;
-  fBoundsRect:= Rect(0,0,0,0);
-  fParentWindow:= 0;
   fPlayInterval:= 3000;
   // create PlayTimer
   fPlayTimer:= TTimer.Create(nil);
@@ -1290,7 +1309,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCVImageEngine.SetBounds(ARect: TRect);
 begin
-  fBoundsRect:= ARect;
+  inherited;
   if assigned(fImageView) then
   fImageView.BoundsRect:= fBoundsRect;
 end;
@@ -1311,7 +1330,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCVImageEngine.SetParentWindow(AParentWindow: HWND);
 begin
-  fParentWindow:= AParentWindow;
+  inherited;
   if assigned(fImageView) and (fParentWindow <> 0) then
   begin
     fImageView.ParentWindow:= fParentWindow;
@@ -1342,19 +1361,6 @@ begin
 end;
 
 {##############################################################################}
-// TCVImageEngineTask
-
-{-------------------------------------------------------------------------------
-  Destroy TCVImageEngineTask
--------------------------------------------------------------------------------}
-destructor TCVImageEngineTask.Destroy;
-begin
-  if assigned(Bitmap) then
-  FreeAndNil(Bitmap);
-  inherited;
-end;
-
-{##############################################################################}
 // TCVTextEngine
 
 {-------------------------------------------------------------------------------
@@ -1364,8 +1370,6 @@ constructor TCVTextEngine.Create;
 begin
   inherited;
   // initilize values
-  fBoundsRect:= Rect(0,0,0,0);
-  fParentWindow:= 0;
   fPlayInterval:= 3000;
   PlaybackEnabled:= false;
   // create PlayTimer
@@ -1429,7 +1433,10 @@ end;
 -------------------------------------------------------------------------------}
 function TCVTextEngine.GetTitle: WideString;
 begin
-  Result:= fEditor.ActiveFileName;
+  if assigned(fEditor) then
+  Result:= fEditor.ActiveFileName
+  else
+  Result:= '';
 end;
 
 {-------------------------------------------------------------------------------
@@ -1550,7 +1557,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCVTextEngine.SetBounds(ARect: TRect);
 begin
-  fBoundsRect:= ARect;
+  inherited;
   if assigned(fEditor) then
   fEditor.BoundsRect:= fBoundsRect;
 end;
@@ -1581,7 +1588,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCVTextEngine.SetParentWindow(AParentWindow: HWND);
 begin
-  fParentWindow:= AParentWindow;
+  inherited;
   if assigned(fEditor) and (fParentWindow <> 0) then
   begin
     fEditor.ParentWindow:= fParentWindow;
@@ -1611,4 +1618,206 @@ begin
   end;
 end;
 
+{##############################################################################}
+// TCVSumatraEngine
+
+{-------------------------------------------------------------------------------
+  Create an instance of TCVSumatraEngine
+-------------------------------------------------------------------------------}
+constructor TCVSumatraEngine.Create;
+begin
+  inherited;
+
+  // supported:
+  // cbr,cbz,chm,djvu,mobi,pdf,xps
+
+
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy TCVSumatraEngine
+-------------------------------------------------------------------------------}
+destructor TCVSumatraEngine.Destroy;
+begin
+  if assigned(fSumatra) then
+  FreeAndNil(fSumatra);
+
+  inherited;
+end;
+
+{-------------------------------------------------------------------------------
+  Close
+-------------------------------------------------------------------------------}
+procedure TCVSumatraEngine.Close;
+begin
+  if assigned(fSumatra) then
+  begin
+    fSumatra.Close;
+    FreeAndNil(fSumatra);
+  end;
+  ChangeStatus(mpsClosed);
+end;
+
+{-------------------------------------------------------------------------------
+  DoError
+-------------------------------------------------------------------------------}
+procedure TCVSumatraEngine.DoError(Sender: TObject);
+begin
+  ChangeStatus(mpsError);
+end;
+
+{-------------------------------------------------------------------------------
+  GetID
+-------------------------------------------------------------------------------}
+function TCVSumatraEngine.GetID: TGUID;
+begin
+  Result:= ID_CVPDFEngine;
+end;
+
+{-------------------------------------------------------------------------------
+  GetPlaybackEnabled
+-------------------------------------------------------------------------------}
+function TCVSumatraEngine.GetPlaybackEnabled: Boolean;
+begin
+  Result:= true;
+end;
+
+{-------------------------------------------------------------------------------
+  Get StatusText
+-------------------------------------------------------------------------------}
+function TCVSumatraEngine.GetStatusText: WideString;
+begin
+  inherited GetStatusText;
+  if fStatus = mpsError then
+  Result:= fSumatra.LastError;
+end;
+
+{-------------------------------------------------------------------------------
+  Get Title
+-------------------------------------------------------------------------------}
+function TCVSumatraEngine.GetTitle: WideString;
+begin
+  if assigned(fSumatra) then
+  Result:= fSumatra.ActiveFileName
+  else
+  Result:= '';
+end;
+
+{-------------------------------------------------------------------------------
+  Handle ActiveFileChange
+-------------------------------------------------------------------------------}
+procedure TCVSumatraEngine.HandleActiveFileChange(Sender: TObject);
+begin
+  DoTitleChanged;
+end;
+
+{-------------------------------------------------------------------------------
+  Has Control
+-------------------------------------------------------------------------------}
+function TCVSumatraEngine.HasControl: Boolean;
+begin
+  Result:= true;
+end;
+
+{-------------------------------------------------------------------------------
+  IsStill
+-------------------------------------------------------------------------------}
+function TCVSumatraEngine.IsStill: Boolean;
+begin
+  Result:= true;
+end;
+
+{-------------------------------------------------------------------------------
+  Internal Create SumatraPDF
+-------------------------------------------------------------------------------}
+procedure TCVSumatraEngine.InternalCreateSumatraPDF;
+begin
+  if not assigned(fSumatra) then
+  begin
+    fSumatra:= TSumatraPDF.Create(nil);
+    fSumatra.OnError:= DoError;
+    fSumatra.OnActiveFileChange:= HandleActiveFileChange;
+    fSumatra.BorderStyle:= bsNone;
+    if fParentWindow <> 0 then
+    begin
+      fSumatra.ParentWindow:= fParentWindow;
+      fSumatra.BoundsRect:= fBoundsRect;
+      fSumatra.Visible:= true;
+    end;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  OpenFile
+-------------------------------------------------------------------------------}
+function TCVSumatraEngine.OpenFile(AFilePath: WideString): Boolean;
+begin
+  Result:= false;
+  InternalCreateSumatraPDF;
+  if assigned(fSumatra) then
+  Result:= fSumatra.OpenFile(AFilePath);
+end;
+
+{-------------------------------------------------------------------------------
+  Pause
+-------------------------------------------------------------------------------}
+procedure TCVSumatraEngine.Pause;
+begin
+  // TODO -cMM: TCVSumatraEngine.Pause default body inserted
+end;
+
+{-------------------------------------------------------------------------------
+  Play
+-------------------------------------------------------------------------------}
+procedure TCVSumatraEngine.Play;
+begin
+  // TODO -cMM: TCVSumatraEngine.Play default body inserted
+end;
+
+{-------------------------------------------------------------------------------
+  Set Bounds
+-------------------------------------------------------------------------------}
+procedure TCVSumatraEngine.SetBounds(ARect: TRect);
+begin
+  inherited;
+  if assigned(fSumatra) then
+  fSumatra.BoundsRect:= ARect;
+end;
+
+{-------------------------------------------------------------------------------
+  SetFocus
+-------------------------------------------------------------------------------}
+procedure TCVSumatraEngine.SetFocus;
+begin
+  if assigned(fSumatra) then
+  Windows.SetFocus(fSumatra.SumatraWindow);
+end;
+
+{-------------------------------------------------------------------------------
+  Set Parent Window
+-------------------------------------------------------------------------------}
+procedure TCVSumatraEngine.SetParentWindow(AParentWindow: HWND);
+begin
+  inherited;
+  if assigned(fSumatra) then
+  fSumatra.ParentWindow:= AParentWindow;
+end;
+
+{-------------------------------------------------------------------------------
+  SetSlideshowInterval
+-------------------------------------------------------------------------------}
+procedure TCVSumatraEngine.SetSlideshowInterval(AInterval: Integer);
+begin
+  // TODO -cMM: TCVSumatraEngine.SetSlideshowInterval default body inserted
+end;
+
+{-------------------------------------------------------------------------------
+  Stop
+-------------------------------------------------------------------------------}
+procedure TCVSumatraEngine.Stop;
+begin
+  // TODO -cMM: TCVSumatraEngine.Stop default body inserted
+end;
+
 end.
+

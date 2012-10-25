@@ -301,6 +301,8 @@ type
 -------------------------------------------------------------------------------}
   TCVCustomMediaEngine = class(TInterfacedObject, ICVMediaEngine, ICCWindowCtrl)
   protected
+    fBoundsRect: TRect;
+    fParentWindow: HWND;
     fPlaybackEnabled: Boolean;
     fStatus: TCVMediaPlayerStatus;
     fStatusChangedEvent: TCVEngineNotifyEvent;
@@ -908,7 +910,7 @@ begin
   begin
     fEngineWindow.SetParentWindow(Self.Handle);
     fEngineWindow.SetBounds(Self.ClientRect);
-  end;
+  end; 
 end;
 
 {-------------------------------------------------------------------------------
@@ -1055,6 +1057,8 @@ begin
   fPlaybackEnabled:= true;
   fStatusChangedEvent:= nil;
   fTitleChangedEvent:= nil;
+  fBoundsRect:= Rect(0,0,0,0);
+  fParentWindow:= 0;  
 end;
 
 {-------------------------------------------------------------------------------
@@ -1163,7 +1167,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCVCustomMediaEngine.SetBounds(ARect: TRect);
 begin
-  // override from descendant
+  fBoundsRect:= ARect;
 end;
 
 {-------------------------------------------------------------------------------
@@ -1179,7 +1183,7 @@ end;
 -------------------------------------------------------------------------------}
 procedure TCVCustomMediaEngine.SetParentWindow(AParentWindow: HWND);
 begin
-  // override from descendant
+  fParentWindow:= AParentWindow;
 end;
 
 {-------------------------------------------------------------------------------

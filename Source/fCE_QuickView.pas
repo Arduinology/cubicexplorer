@@ -442,7 +442,7 @@ begin
   begin
     fMediaPlayer:= TCVMediaPlayer.Create(nil);
     fMediaPlayer.Parent:= panel_content;
-    fMediaPlayer.Color:= clBlack;
+    fMediaPlayer.Color:= clGray;
     fMediaPlayer.Align:= alClient;
     fMediaPlayer.Volume:= fLastVolume;
     fMediaPlayer.Mute:= fLastMute;
@@ -1629,18 +1629,31 @@ begin
 
   if (AExtension[1] = '.') then
   Delete(AExtension, 1, 1);
+  AExtension:= WideLowerCase(AExtension);
 
   list:= TCCStringList.Create;
   try
     list.Delimiter:= ',';
+    // sumatra
+    if (AExtension = 'pdf') or (AExtension = 'xps') or (AExtension = 'djvu') then
+    begin
+      Result:= TCVSumatraEngine.Create;
+      Exit;
+    end;
     // images
     list.DelimitedText:= fImageExtensions;
     if list.IndexOf(AExtension) > -1 then
-    Result:= TCVImageEngine.Create;
+    begin
+      Result:= TCVImageEngine.Create;
+      Exit;
+    end;
     // text
     list.DelimitedText:= fTextExtensions;
     if list.IndexOf(AExtension) > -1 then
-    Result:= TCVTextEngine.Create;
+    begin
+      Result:= TCVTextEngine.Create;
+      Exit;
+    end;
     // media
     if fMediaPlayer <> mptAuto then
     begin
@@ -1689,7 +1702,8 @@ begin
 
   if (AExtension[1] = '.') then
   Delete(AExtension, 1, 1);
-
+  AExtension:= WideLowerCase(AExtension);
+  
   list:= TCCStringList.Create;
   try
     list.Delimiter:= ',';
@@ -1708,7 +1722,11 @@ begin
       else
       list.DelimitedText:= fImageExtensions +','+ fMediaExtensions;
     end;
-    
+
+    list.Add('pdf');
+    list.Add('xps');
+    list.Add('djvu');
+
     Result:= list.IndexOf(AExtension) > -1;
   finally
     list.Free;
