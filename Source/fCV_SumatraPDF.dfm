@@ -9,9 +9,21 @@ object SumatraPDF: TSumatraPDF
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
+  object label_status: TTntLabel
+    Left = 0
+    Top = 25
+    Width = 544
+    Height = 296
+    Align = alClient
+    Alignment = taCenter
+    Layout = tlCenter
+    ExplicitWidth = 3
+    ExplicitHeight = 13
+  end
   object TopDock: TSpTBXDock
     Left = 0
     Top = 0

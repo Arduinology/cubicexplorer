@@ -6,7 +6,7 @@
 
 20.10.2012
 - Possible fix for random crash when closing a tab.
--->
+---
 + Added Lock Panels options.
 
 11.10.2012

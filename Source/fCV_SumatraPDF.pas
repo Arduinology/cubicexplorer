@@ -6,14 +6,14 @@ uses
   // CubicCore
   ccFileUtils,
   // CubicExplorer
-  CE_Toolbar,
+  CE_Toolbar, CE_Utils,
   // Tnt
   TntRegistry, TntActnList, TntDialogs, TntForms,
   // SpTBX
   TB2Dock, TB2Toolbar, SpTBXItem, TB2Item,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, ActnList;
+  Dialogs, ExtCtrls, ActnList, StdCtrls, TntStdCtrls;
 
 type
   TSumatraPDF = class(TTntForm)
@@ -111,6 +111,7 @@ type
     act_file_save_as: TTntAction;
     SpTBXSeparatorItem10: TSpTBXSeparatorItem;
     SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    label_status: TTntLabel;
     procedure ActionExecute(Sender: TObject);
     procedure ActionUpdate(Sender: TObject);
   private
@@ -124,12 +125,15 @@ type
     fOnActiveFileChange: TNotifyEvent;
     fOnCloseClick: TNotifyEvent;
     fOnError: TNotifyEvent;
+    fPluginMode: Boolean;
     fProcessInfo: TProcessInformation;
+    fRestrict: Boolean;
     fShowBookmarks: Boolean;
     fSumatraWindow: HWND;
     fTimeout: Integer;
     fTimer: TTimer;
     procedure DoError(const AErrorMsg: WideString); virtual;
+    function GetExePath: WideString; virtual;
     function GetShowBookmarks: Boolean; virtual;
     function InternalOpen(const AFilePath: WideString; APluginMode: Boolean = true;
         ARestrictedMode: Boolean = false): Boolean; virtual;
@@ -144,6 +148,8 @@ type
     property ActiveFileName: WideString read fActiveFileName;
     property ActiveFilePath: WideString read fActiveFilePath;
     property LastError: WideString read fLastError;
+    property PluginMode: Boolean read fPluginMode write fPluginMode;
+    property Restrict: Boolean read fRestrict write fRestrict;
     property SumatraWindow: HWND read fSumatraWindow;
     property Timeout: Integer read fTimeout write fTimeout;
     { Public declarations }
@@ -329,6 +335,31 @@ begin
   end;
 end;
 
+{-------------------------------------------------------------------------------
+  Find Sumatra Window
+-------------------------------------------------------------------------------}
+function Enum_FindSumatraWnd(Wnd: HWND; ACaller: TSumatraPDF): Boolean;
+    stdcall;
+var
+  pPid: DWORD;
+  s: array [0..254] of Char;
+begin
+  Result:= true;
+
+  GetWindowThreadProcessId(Wnd, pPid);
+  if pPid = ACaller.fProcessInfo.dwProcessId then
+  begin
+    // get class name
+    FillChar(s, 255, #0);
+    GetClassName(Wnd, s, 255);
+    if s = 'SUMATRA_PDF_FRAME' then
+    begin
+      ACaller.fSumatraWindow:= Wnd;
+      Result:= false; // stop enumeration
+    end;
+  end;
+end;
+
 {##############################################################################}
 // TSumatraPDF
 
@@ -343,11 +374,12 @@ begin
   fSumatraWindow:= 0;
   fBookmarksWindow:= 0;
 
-  fTimeout:= 30000; // 30s
+  fTimeout:= 5000; // 5s
   fExePath:= '';
   fShowBookmarks:= true;
   fActiveFilePath:= '';
-  
+  fPluginMode:= false;
+  fRestrict:= false;
   
   // create timer
   fTimer:= TTimer.Create(nil);
@@ -394,6 +426,7 @@ begin
   end;
   
   // clear values
+  label_status.Caption:= 'Closed';
   FillChar(fProcessInfo, SizeOf(TProcessInformation), #0);
   fSumatraWindow:= 0;
   fBookmarksWindow:= 0;
@@ -406,6 +439,7 @@ end;
 procedure TSumatraPDF.DoError(const AErrorMsg: WideString);
 begin
   fLastError:= AErrorMsg;
+  label_status.Caption:= fLastError;
   if assigned(fOnError) then
   fOnError(Self);
 end;
@@ -422,41 +456,17 @@ var
   t: Integer;
   reg: TTntRegistry;
   h: HWND;
+  style: Integer;
 begin
   Result:= false;
 
-  // find executable
-  if WideFileExists(fExePath) then
-  exe:= fExePath
-  else
-  begin
-    if WideFileExists(AppDirPath + 'Plugins\SumatraPDF.exe') then
-    exe:= AppDirPath + 'Plugins\SumatraPDF.exe'
-    else if WideFileExists(AppDirPath + 'Sumatra.PDF.exe') then
-    exe:= AppDirPath + 'Sumatra.PDF.exe'
-    else
-    begin
-      reg:= TTntRegistry.Create;
-      try
-        reg.RootKey:= HKEY_CURRENT_USER;
-        if reg.OpenKeyReadOnly('\Software\Microsoft\Windows\CurrentVersion\App Paths\SumatraPDF.exe') then
-        exe:= reg.ReadString('');
+  // get exe path
+  exe:= GetExePath;
 
-        if exe = '' then
-        begin
-          reg.RootKey:= HKEY_LOCAL_MACHINE;
-          if reg.OpenKeyReadOnly('\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SumatraPDF.exe') then
-          exe:= reg.ReadString('');
-        end;
-      finally
-        reg.Free;
-      end;
-    end;
-  end;
-  // exit if executable is not found
+  // exit if exe is not found
   if not WideFileExists(exe) then
   begin
-    DoError('SumatraPDF not found, please install it first.');
+    DoError('SumatraPDF not found, please install it first!');
     Exit;
   end;
 
@@ -479,8 +489,8 @@ begin
   params:= params + '-plugin ' + IntToStr(Self.Handle) + ' ';
     // -page
   params:= params + '-page 1 ';
-    // -view
-  params:= params + '-zoom "fit width" ';
+    // -zoom and view
+  params:= params + '-zoom "fit width" -view "continuous single page"';
     // file
   params:= params + '"' + AFilePath + '"';
 
@@ -511,16 +521,16 @@ begin
 
       // find window
       if APluginMode then
-      fSumatraWindow:= GetWindow(Self.Handle, GW_CHILD)
+      fSumatraWindow:= FindWindowEx(Self.Handle, 0, 'SUMATRA_PDF_FRAME', nil)
       else
-      fSumatraWindow:= FindWindow('SUMATRA_PDF_FRAME', nil);
+      EnumWindows(@Enum_FindSumatraWnd, LongInt(Self));
 
-      // time out after 30s
+      // time out if window is not found
       if (fSumatraWindow = 0) and ((GetTickCount - t) > fTimeout) then
       begin
         // terminate process
         Close;
-        DoError('Error: Could not find SumatraPDF''s window!');
+        DoError('Error: SumatraPDF failed to start!');
         Exit;
       end;
     until (fSumatraWindow <> 0);
@@ -532,17 +542,26 @@ begin
     // Setup window
     if not APluginMode then
     begin
+      // set window style
+      style:= GetWindowLong(fSumatraWindow, GWL_STYLE);
+      style:= style and not WS_POPUP and not WS_BORDER and not WS_CAPTION and not WS_THICKFRAME;
+      style:= style or WS_CHILD;
+      SetWindowLong(fSumatraWindow, GWL_STYLE, style);
       // set parent
       Windows.SetParent(fSumatraWindow, Self.Handle);
-      // set window style
-      SetWindowLong(fSumatraWindow, GWL_STYLE, WS_CHILDWINDOW);
+      // set position/visibility
+      Windows.MoveWindow(fSumatraWindow, ClientRect.Left, ClientRect.Top+toolbar_menu.Height,
+                 ClientRect.Left + ClientWidth, ClientRect.Top + ClientHeight-toolbar_menu.Height, true);
+      Windows.ShowWindow(fSumatraWindow, SW_SHOW);
+      
+      UpdateWindow(fSumatraWindow);
     end;
 
     // set position
     SetWindowPos(fSumatraWindow, HWND_TOP,
                  ClientRect.Left, ClientRect.Top+toolbar_menu.Height,
                  ClientRect.Left + ClientWidth, ClientRect.Top + ClientHeight-toolbar_menu.Height,
-                 SWP_SHOWWINDOW or SWP_NOACTIVATE);
+                 SWP_FRAMECHANGED or SWP_SHOWWINDOW or SWP_NOACTIVATE);
 
     // set bookmark visibility
     SetShowBookmarks(fShowBookmarks);
@@ -585,13 +604,16 @@ begin
   Close;
   h:= GetActiveWindow;
   try
-    if InternalOpen(AFilePath, true, false) then
+    label_status.Caption:= 'Opening...';
+    Application.ProcessMessages;
+    if InternalOpen(AFilePath, fPluginMode, fRestrict) then
     begin
       Result:= true;
       fActiveFilePath:= AFilePath;
       fActiveFileName:= WideExtractFileName(AFilePath);
       if assigned(fOnActiveFileChange) then
       fOnActiveFileChange(Self);
+      label_status.Caption:= '';
     end;
   finally
     SetActiveWindow(h);
@@ -686,6 +708,51 @@ begin
 
   case TTntAction(Sender).Tag of
     IDM_VIEW_BOOKMARKS: TTntAction(Sender).Checked:= ShowBookmarks;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  Get Exe Path
+-------------------------------------------------------------------------------}
+function TSumatraPDF.GetExePath: WideString;
+var
+  reg: TTntRegistry;
+begin
+  Result:= '';
+  // use user provided path
+  if WideFileExists(fExePath) then
+  Result:= fExePath
+  // try to find SumatraPDF.exe
+  else
+  begin
+    // look from settings folder first
+    if WideFileExists(SettingsDirPath + 'Plugins\SumatraPDF.exe') then
+    Result:= SettingsDirPath + 'Plugins\SumatraPDF.exe'
+    // then install folder
+    else if WideFileExists(AppDirPath + 'Plugins\SumatraPDF.exe') then
+    Result:= AppDirPath + 'Plugins\SumatraPDF.exe'
+    else if WideFileExists(AppDirPath + 'Sumatra.PDF.exe') then
+    Result:= AppDirPath + 'Sumatra.PDF.exe'
+    // then see if sumatra is installed in the system
+    else
+    begin
+      reg:= TTntRegistry.Create;
+      try
+        // installed for current user
+        reg.RootKey:= HKEY_CURRENT_USER;
+        if reg.OpenKeyReadOnly('\Software\Microsoft\Windows\CurrentVersion\App Paths\SumatraPDF.exe') then
+        Result:= reg.ReadString('');
+        // installed for all users
+        if Result = '' then
+        begin
+          reg.RootKey:= HKEY_LOCAL_MACHINE;
+          if reg.OpenKeyReadOnly('\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SumatraPDF.exe') then
+          Result:= reg.ReadString('');
+        end;
+      finally
+        reg.Free;
+      end;
+    end;
   end;
 end;
 

@@ -1672,7 +1672,7 @@ end;
 function TCVSumatraEngine.GetID: TGUID;
 begin
   Result:= ID_CVPDFEngine;
-end;
+end;                                               
 
 {-------------------------------------------------------------------------------
   GetPlaybackEnabled
