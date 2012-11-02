@@ -10,12 +10,12 @@
 + Added Lock Panels options.
 
 11.10.2012
-* Updated Spanish translation.
+* Updated Spanish translation. (thanks to juanmanuel)
 
 5.10.2012
 + Added TrackChangesInMappedDrives advanced options in FileView and FolderTree.
-* Updated Spanish translation.
-* Updated Norwegian translation.
+* Updated Spanish translation. (thanks to juanmanuel)
+* Updated Norwegian translation. (thanks to lars.h.eriksen)
 ================================================================================
 14.7.2012
 + Added "Copy/Move Selected Here" items in tab's right click menu.

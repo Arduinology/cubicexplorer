@@ -36,7 +36,6 @@ object SumatraPDF: TSumatraPDF
       DragHandleStyle = dhNone
       Stretch = True
       TabOrder = 0
-      Caption = 'toolbar_menu'
       object sub_file: TSpTBXSubmenuItem
         Caption = 'File'
         object SpTBXItem3: TSpTBXItem

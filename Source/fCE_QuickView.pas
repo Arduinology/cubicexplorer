@@ -1634,8 +1634,9 @@ begin
   list:= TCCStringList.Create;
   try
     list.Delimiter:= ',';
-    // sumatra
-    if (AExtension = 'pdf') or (AExtension = 'xps') or (AExtension = 'djvu') then
+    // sumatra (cbr,cbz,chm,djvu,pdf,xps)
+    if (AExtension = 'cbr') or (AExtension = 'cbz') or (AExtension = 'chm') or
+       (AExtension = 'djvu') or (AExtension = 'pdf') or (AExtension = 'xps') then
     begin
       Result:= TCVSumatraEngine.Create;
       Exit;
@@ -1723,9 +1724,13 @@ begin
       list.DelimitedText:= fImageExtensions +','+ fMediaExtensions;
     end;
 
-    list.Add('pdf');
-    list.Add('xps');
+    // sumatra (cbr,cbz,chm,djvu,pdf,xps)
+    list.Add('cbr');
+    list.Add('cbz');
+    list.Add('chm');
     list.Add('djvu');
+    list.Add('pdf');
+    list.Add('xps');    
 
     Result:= list.IndexOf(AExtension) > -1;
   finally

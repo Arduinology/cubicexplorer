@@ -6,7 +6,7 @@ uses
   // CubicCore
   ccFileUtils,
   // CubicExplorer
-  CE_Toolbar, CE_Utils,
+  CE_Toolbar, CE_Utils, CE_LanguageEngine,
   // Tnt
   TntRegistry, TntActnList, TntDialogs, TntForms,
   // SpTBX
@@ -385,7 +385,10 @@ begin
   fTimer:= TTimer.Create(nil);
   fTimer.Enabled:= false;
   fTimer.Interval:= 1000;
-  fTimer.OnTimer:= OnTimer;  
+  fTimer.OnTimer:= OnTimer;
+
+  // Translate
+  CEGlobalTranslator.TranslateComponent(Self);
 end;
 
 {-------------------------------------------------------------------------------

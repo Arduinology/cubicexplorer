@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-07-15 10:09\n"
-"PO-Revision-Date: 2012-07-15 10:09\n"
+"POT-Creation-Date: 2012-11-02 11:41\n"
+"PO-Revision-Date: 2012-11-02 11:41\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,11 +20,11 @@ msgstr ""
 #. CEActions..ActionList..act_view_workspace..Caption
 #: dCE_Actions.dfm:219
 #. CEActions..ActionList..act_workspace_folder_up..Category
-#: dCE_Actions.dfm:782
+#: dCE_Actions.dfm:788
 #. CEActions..ActionList..act_workspace_back..Category
-#: dCE_Actions.dfm:789
+#: dCE_Actions.dfm:795
 #. CEActions..ActionList..act_workspace_open..Category
-#: dCE_Actions.dfm:796
+#: dCE_Actions.dfm:802
 #. CEWorkspacePanel..Caption
 #: fCE_WorkspacePanel.dfm:2
 #. CEWorkspacePanel..TopDock..WorkspaceToolbar..Caption
@@ -36,6 +36,8 @@ msgstr ""
 #: dCE_Actions.dfm:14
 #. CEActions..ActionList..act_navi_forward..Caption
 #: dCE_Actions.dfm:55
+#. SumatraPDF..ActionList..act_goto_forward..Caption
+#: fCV_SumatraPDF.dfm:360
 msgid "Forward"
 msgstr ""
 
@@ -58,18 +60,18 @@ msgstr ""
 #. CEActions..ActionList..act_tabs_prev..Category
 #: dCE_Actions.dfm:606
 #. CEActions..ActionList..act_tabs_menu..Category
-#: dCE_Actions.dfm:726
+#: dCE_Actions.dfm:732
 #. CEActions..ActionList..act_tabs_menu..Caption
-#: dCE_Actions.dfm:727
+#: dCE_Actions.dfm:733
 #. CEActions..ActionList..act_tabs_copyhere..Category
-#: dCE_Actions.dfm:804
+#: dCE_Actions.dfm:810
 #. CEActions..ActionList..act_tabs_movehere..Category
-#: dCE_Actions.dfm:813
+#: dCE_Actions.dfm:819
 #. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..group_loadsave..check_tabs..Caption
 #: fCE_SessionManager.dfm:131
 #: fCE_OptionsPage_Tabs.pas:79
 #. Create TabSet
-#: Main.pas:588
+#: Main.pas:594
 msgid "Tabs"
 msgstr ""
 
@@ -94,7 +96,7 @@ msgstr ""
 #. CEActions..ActionList..act_gen_new_instance..Category
 #: dCE_Actions.dfm:660
 #. CEActions..ActionList..act_gen_makevisible..Category
-#: dCE_Actions.dfm:776
+#: dCE_Actions.dfm:782
 #. BookmarkPropDlg..PageControl..GeneralSheet..Caption
 #: fCE_BookmarkPropDlg.dfm:36
 #: fCE_OptionsPage_General.pas:77
@@ -162,8 +164,10 @@ msgstr ""
 #: dCE_Actions.dfm:653
 #. CEActions..ActionList..act_view_lock_toolbars..Category
 #: dCE_Actions.dfm:690
+#. CEActions..ActionList..act_view_lock_panels..Category
+#: dCE_Actions.dfm:696
 #. CEActions..BackgroundCMItems_up..View1..Caption
-#: dCE_Actions.dfm:839
+#: dCE_Actions.dfm:845
 #. CETextEditor..TopDock..toolbar_main..SpTBXSubmenuItem4..Caption
 #: fCE_TextEditor.dfm:126
 #. CETextEditor..ActionList..act_wordwrap..Category
@@ -180,25 +184,51 @@ msgstr ""
 #: fCE_TextEditor.dfm:780
 #. CEWorkspacePanel..BackgroundCMItems_up..View1..Caption
 #: fCE_WorkspacePanel.dfm:46
+#. SumatraPDF..TopDock..toolbar_menu..sub_view..Caption
+#: fCV_SumatraPDF.dfm:56
+#. SumatraPDF..ActionList..act_view_single_page..Category
+#: fCV_SumatraPDF.dfm:216
+#. SumatraPDF..ActionList..act_view_facing..Category
+#: fCV_SumatraPDF.dfm:224
+#. SumatraPDF..ActionList..act_view_book_view..Category
+#: fCV_SumatraPDF.dfm:232
+#. SumatraPDF..ActionList..act_view_continuosly..Category
+#: fCV_SumatraPDF.dfm:240
+#. SumatraPDF..ActionList..act_view_rotate_left..Category
+#: fCV_SumatraPDF.dfm:247
+#. SumatraPDF..ActionList..act_view_rotate_right..Category
+#: fCV_SumatraPDF.dfm:255
+#. SumatraPDF..ActionList..act_view_presentation..Category
+#: fCV_SumatraPDF.dfm:263
+#. SumatraPDF..ActionList..act_view_fullscreen..Category
+#: fCV_SumatraPDF.dfm:271
+#. SumatraPDF..ActionList..act_view_bookmarks..Category
+#: fCV_SumatraPDF.dfm:279
+#. SumatraPDF..ActionList..act_view_select_all..Category
+#: fCV_SumatraPDF.dfm:287
+#. SumatraPDF..ActionList..act_view_copy_selection..Category
+#: fCV_SumatraPDF.dfm:295
+#. SumatraPDF..ActionList..act_view_settings..Category
+#: fCV_SumatraPDF.dfm:303
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..Caption
 #: Main.dfm:195
 #. MainForm..TopToolDock..ViewToolbar..Caption
-#: Main.dfm:455
+#: Main.dfm:460
 msgid "View"
 msgstr ""
 
 #. CEActions..ActionList..act_view_dropstack..Caption
 #: dCE_Actions.dfm:40
 #. CEActions..ActionList..act_stack_open..Category
-#: dCE_Actions.dfm:741
+#: dCE_Actions.dfm:747
 #. CEActions..ActionList..act_stack_save..Category
-#: dCE_Actions.dfm:748
+#: dCE_Actions.dfm:754
 #. CEActions..ActionList..act_stack_remove..Category
-#: dCE_Actions.dfm:755
+#: dCE_Actions.dfm:761
 #. CEActions..ActionList..act_stack_clear..Category
-#: dCE_Actions.dfm:762
+#: dCE_Actions.dfm:768
 #. CEActions..ActionList..act_stack_allowmove..Category
-#: dCE_Actions.dfm:769
+#: dCE_Actions.dfm:775
 #. CEStackPanel..Caption
 #: fCE_StackPanel.dfm:2
 #: fCE_OptionsPage_Display_Stack.pas:72
@@ -220,9 +250,9 @@ msgstr ""
 #. CEActions..ActionList..act_help_checkupdates..Category
 #: dCE_Actions.dfm:667
 #. CEActions..ActionList..act_help_restore_layout..Category
-#: dCE_Actions.dfm:720
+#: dCE_Actions.dfm:726
 #. MainForm..TopToolDock..MainToolbar..helpMenuItem..Caption
-#: Main.dfm:414
+#: Main.dfm:419
 msgid "Help"
 msgstr ""
 
@@ -250,23 +280,25 @@ msgstr ""
 #. CEActions..ActionList..act_navi_quickview..Category
 #: dCE_Actions.dfm:524
 #. CEActions..ActionList..act_navi_refresh_current..Category
-#: dCE_Actions.dfm:696
+#: dCE_Actions.dfm:702
 #. MainForm..TopToolDock..NavigationToolbar..Caption
-#: Main.dfm:487
+#: Main.dfm:492
 msgid "Navigation"
 msgstr ""
 
 #. CEActions..ActionList..act_navi_back..Caption
 #: dCE_Actions.dfm:63
 #. CEActions..ActionList..act_workspace_back..Caption
-#: dCE_Actions.dfm:790
+#: dCE_Actions.dfm:796
+#. SumatraPDF..ActionList..act_goto_back..Caption
+#: fCV_SumatraPDF.dfm:352
 msgid "Back"
 msgstr ""
 
 #. CEActions..ActionList..act_navi_folderup..Caption
 #: dCE_Actions.dfm:71
 #. CEActions..ActionList..act_workspace_folder_up..Caption
-#: dCE_Actions.dfm:783
+#: dCE_Actions.dfm:789
 msgid "Folder Up"
 msgstr ""
 
@@ -284,7 +316,7 @@ msgstr ""
 #. CEFolderPanel..Caption
 #: fCE_FolderPanel.dfm:2
 #: fCE_OptionsPage_Display_FolderTree.pas:64
-#: Main.pas:1245
+#: Main.pas:1251
 msgid "Folders"
 msgstr ""
 
@@ -319,7 +351,7 @@ msgstr ""
 #. CEActions..ActionList..act_edit_create_symlink..Category
 #: dCE_Actions.dfm:569
 #. CEActions..ActionList..act_edit_newemptyfile..Category
-#: dCE_Actions.dfm:733
+#: dCE_Actions.dfm:739
 #. CETextEditor..TopDock..toolbar_main..SpTBXSubmenuItem2..Caption
 #: fCE_TextEditor.dfm:68
 #. CETextEditor..ActionList..act_undo..Category
@@ -341,7 +373,7 @@ msgstr ""
 #. MainForm..TopToolDock..MainToolbar..editMenuItem..Caption
 #: Main.dfm:138
 #. MainForm..TopToolDock..EditToolbar..Caption
-#: Main.dfm:525
+#: Main.dfm:530
 msgid "Edit"
 msgstr ""
 
@@ -382,13 +414,15 @@ msgstr ""
 #: fCE_TextEditor.dfm:774
 #. CETextEditor..EditorPopupMenu..SpTBXSubmenuItem5..Caption
 #: fCE_TextEditor.dfm:1141
+#. SumatraPDF..ActionList..act_view_bookmarks..Caption
+#: fCV_SumatraPDF.dfm:280
 #. MainForm..TopToolDock..MainToolbar..bookmarkMenuItem..Caption
-#: Main.dfm:360
+#: Main.dfm:365
 #: fCE_OptionsPage_Display_Bookmarks.pas:65
 #. add bookmark item
 #: fCE_WorkspacePanel.pas:695
 #. Create BookmarkBar
-#: Main.pas:623
+#: Main.pas:629
 msgid "Bookmarks"
 msgstr ""
 
@@ -431,9 +465,9 @@ msgstr ""
 #. CEActions..ActionList..act_filters_clear..Category
 #: dCE_Actions.dfm:639
 #. CEActions..ActionList..act_filters_strict..Category
-#: dCE_Actions.dfm:704
+#: dCE_Actions.dfm:710
 #. CEActions..ActionList..act_filters_exclude..Category
-#: dCE_Actions.dfm:712
+#: dCE_Actions.dfm:718
 #. CEFiltersPanel..Caption
 #: fCE_FiltersPanel.dfm:2
 #. CEFiltersPanel..TopDock..FiltersToolbar..Caption
@@ -488,7 +522,7 @@ msgstr ""
 #. CEActions..ActionList..act_view_groupby..Caption
 #: dCE_Actions.dfm:179
 #. CEActions..BackgroundCMItems_up..MenuItem_GroupBy..Caption
-#: dCE_Actions.dfm:876
+#: dCE_Actions.dfm:882
 #. CEWorkspacePanel..BackgroundCMItems_up..MenuItem_GroupBy..Caption
 #: fCE_WorkspacePanel.dfm:105
 msgid "Group By"
@@ -565,6 +599,8 @@ msgstr ""
 #: dCE_Actions.dfm:253
 #. CETextEditor..ActionList..act_select_all..Caption
 #: fCE_TextEditor.dfm:627
+#. SumatraPDF..ActionList..act_view_select_all..Caption
+#: fCV_SumatraPDF.dfm:288
 msgid "Select All"
 msgstr ""
 
@@ -577,6 +613,8 @@ msgstr ""
 #: dCE_Actions.dfm:269
 #. CEBookmarkPanel..BookmarkPopupMenu..but_properties..Caption
 #: fCE_BookmarkPanel.dfm:67
+#. SumatraPDF..ActionList..act_file_properties..Caption
+#: fCV_SumatraPDF.dfm:209
 msgid "Properties..."
 msgstr ""
 
@@ -639,7 +677,7 @@ msgstr ""
 #. CEActions..ActionList..act_tools_systempower..Category
 #: dCE_Actions.dfm:681
 #. MainForm..TopToolDock..MainToolbar..toolsMenuItem..Caption
-#: Main.dfm:392
+#: Main.dfm:397
 msgid "Tools"
 msgstr ""
 
@@ -707,6 +745,8 @@ msgstr ""
 
 #. CEActions..ActionList..act_view_fullscreen..Caption
 #: dCE_Actions.dfm:413
+#. SumatraPDF..ActionList..act_view_fullscreen..Caption
+#: fCV_SumatraPDF.dfm:272
 msgid "Fullscreen"
 msgstr ""
 
@@ -724,6 +764,8 @@ msgstr ""
 #: dCE_Actions.dfm:435
 #. CETextEditor..ActionList..act_options..Caption
 #: fCE_TextEditor.dfm:690
+#. SumatraPDF..ActionList..act_view_settings..Caption
+#: fCV_SumatraPDF.dfm:304
 msgid "Options..."
 msgstr ""
 
@@ -742,9 +784,9 @@ msgstr ""
 #. CEActions..ActionList..act_sessions_enablehistory..Category
 #: dCE_Actions.dfm:575
 #. MainForm..TopToolDock..MainToolbar..sessionsMenuItem..Caption
-#: Main.dfm:363
+#: Main.dfm:368
 #. Create SessionsBar
-#: Main.pas:633
+#: Main.pas:639
 msgid "Sessions"
 msgstr ""
 
@@ -777,7 +819,7 @@ msgstr ""
 #. CEActions..ActionList..act_view_arrangeby..Caption
 #: dCE_Actions.dfm:456
 #. CEActions..BackgroundCMItems_up..MenuItem_ArragneBy..Caption
-#: dCE_Actions.dfm:873
+#: dCE_Actions.dfm:879
 #. CEWorkspacePanel..BackgroundCMItems_up..MenuItem_ArragneBy..Caption
 #: fCE_WorkspacePanel.dfm:102
 msgid "Arrange By"
@@ -967,49 +1009,54 @@ msgstr ""
 msgid "Lock Toolbars"
 msgstr ""
 
-#. CEActions..ActionList..act_navi_refresh_current..Caption
+#. CEActions..ActionList..act_view_lock_panels..Caption
 #: dCE_Actions.dfm:697
+msgid "Lock Panels"
+msgstr ""
+
+#. CEActions..ActionList..act_navi_refresh_current..Caption
+#: dCE_Actions.dfm:703
 msgid "Refresh Fileview"
 msgstr ""
 
 #. CEActions..ActionList..act_filters_strict..Caption
-#: dCE_Actions.dfm:705
+#: dCE_Actions.dfm:711
 msgid "Strict"
 msgstr ""
 
 #. CEActions..ActionList..act_filters_strict..Hint
-#: dCE_Actions.dfm:706
+#: dCE_Actions.dfm:712
 msgid "Use strict filtering (wildcards are ? and "
 "*)"
 msgstr ""
 
 #. CEActions..ActionList..act_filters_exclude..Caption
-#: dCE_Actions.dfm:713
+#: dCE_Actions.dfm:719
 #. CEActions..ActionList..act_filters_exclude..Hint
-#: dCE_Actions.dfm:714
+#: dCE_Actions.dfm:720
 msgid "Exclude"
 msgstr ""
 
 #. CEActions..ActionList..act_help_restore_layout..Caption
-#: dCE_Actions.dfm:721
-#: dCE_Actions.pas:866
+#: dCE_Actions.dfm:727
+#: dCE_Actions.pas:869
 msgid "Restore Default Layout"
 msgstr ""
 
 #. CEActions..ActionList..act_edit_newemptyfile..Caption
-#: dCE_Actions.dfm:734
+#: dCE_Actions.dfm:740
 #: CE_FileView.pas:615
 msgid "New File"
 msgstr ""
 
 #. CEActions..ActionList..act_stack_open..Caption
-#: dCE_Actions.dfm:742
-#: Main.pas:1222
+#: dCE_Actions.dfm:748
+#: Main.pas:1228
 msgid "Open"
 msgstr ""
 
 #. CEActions..ActionList..act_stack_save..Caption
-#: dCE_Actions.dfm:749
+#: dCE_Actions.dfm:755
 #. CEPoEditor..ActionList..act_save..Caption
 #: fCE_PoEditor.dfm:399
 #. CETextEditor..ActionList..act_save..Caption
@@ -1020,7 +1067,7 @@ msgid "Save"
 msgstr ""
 
 #. CEActions..ActionList..act_stack_remove..Caption
-#: dCE_Actions.dfm:756
+#: dCE_Actions.dfm:762
 #. Add "Remove from Stack" item
 #: CE_StackTree.pas:456
 #: CE_StackTree.pas:458
@@ -1028,49 +1075,49 @@ msgid "Remove from Stack"
 msgstr ""
 
 #. CEActions..ActionList..act_stack_clear..Caption
-#: dCE_Actions.dfm:763
+#: dCE_Actions.dfm:769
 msgid "Clear List"
 msgstr ""
 
 #. CEActions..ActionList..act_stack_allowmove..Caption
-#: dCE_Actions.dfm:770
+#: dCE_Actions.dfm:776
 msgid "Allow Move"
 msgstr ""
 
 #. CEActions..ActionList..act_gen_makevisible..Caption
-#: dCE_Actions.dfm:777
+#: dCE_Actions.dfm:783
 msgid "Make Visible"
 msgstr ""
 
 #. CEActions..ActionList..act_workspace_open..Caption
-#: dCE_Actions.dfm:797
+#: dCE_Actions.dfm:803
 msgid "Browse To"
 msgstr ""
 
 #. CEActions..ActionList..act_tabs_copyhere..Caption
-#: dCE_Actions.dfm:805
+#: dCE_Actions.dfm:811
 #. CEActions..ActionList..act_tabs_copyhere..Hint
-#: dCE_Actions.dfm:806
+#: dCE_Actions.dfm:812
 msgid "Copy Selected Here"
 msgstr ""
 
 #. CEActions..ActionList..act_tabs_movehere..Caption
-#: dCE_Actions.dfm:814
+#: dCE_Actions.dfm:820
 #. CEActions..ActionList..act_tabs_movehere..Hint
-#: dCE_Actions.dfm:815
+#: dCE_Actions.dfm:821
 msgid "Move Selected Here"
 msgstr ""
 
 #. CEActions..BackgroundCMItems_up..N1..Caption
-#: dCE_Actions.dfm:870
+#: dCE_Actions.dfm:876
 #. CEActions..BackgroundCMItems_up..N2..Caption
-#: dCE_Actions.dfm:882
+#: dCE_Actions.dfm:888
 #. CEActions..BackgroundCMItems_up..N4..Caption
-#: dCE_Actions.dfm:894
-#. CEActions..BackgroundCMItems_up..N5..Caption
 #: dCE_Actions.dfm:900
+#. CEActions..BackgroundCMItems_up..N5..Caption
+#: dCE_Actions.dfm:906
 #. CEActions..BackgroundCMItems_down..N3..Caption
-#: dCE_Actions.dfm:910
+#: dCE_Actions.dfm:916
 #. CEWorkspacePanel..BackgroundCMItems_up..View1..N3..Caption
 #: fCE_WorkspacePanel.dfm:90
 #. CEWorkspacePanel..BackgroundCMItems_up..N1..Caption
@@ -1702,7 +1749,7 @@ msgstr ""
 #. CEAboutBox..Font.Name
 #: fCE_AboutBox.dfm:13
 #. CEAboutBox..Panel1..BuildLabel..Font.Name
-#: fCE_AboutBox.dfm:1043
+#: fCE_AboutBox.dfm:1042
 #. BookmarkPropDlg..Font.Name
 #: fCE_BookmarkPropDlg.dfm:12
 #. CEFormColumnSettings..Font.Name
@@ -1779,6 +1826,8 @@ msgstr ""
 #: fCE_VersionMgrForm.dfm:13
 #. CEVersionMgrForm..TabControl..sheet_versions..ItemList..Header.Font.Name
 #: fCE_VersionMgrForm.dfm:81
+#. SumatraPDF..Font.Name
+#: fCV_SumatraPDF.dfm:10
 #. MainForm..Font.Name
 #: Main.dfm:11
 msgid "Tahoma"
@@ -1796,13 +1845,14 @@ msgid "Courier New"
 msgstr ""
 
 #. CEAboutBox..SynMemo1....Lines.UnicodeStrings
-#: fCE_AboutBox.dfm:1005
+#: fCE_AboutBox.dfm:1004
 msgid "Copyright 2006-2012 Marko Savolainen.\n"
 "\nHomepage - http://www.cubicreality.com\n"
 "Support - http://www.cubicreality.com/forum\n"
-"\n==================================================================\n"
-"   CubicExplorer uses the following 3rd party Delphi components\n"
-"==================================================================\n"
+"Donate - http://www.cubicreality.com/donate\n"
+"\n==========================================================\n"
+"   CubicExplorer uses the following 3rd party libraries\n"
+"==========================================================\n"
 "\n- VirtualShellTools and EasyListview\nhttp://www.mustangpeak.net\n\n"
 "- Virtual Treeview and GraphicEx\n"
 "http://www.soft-gems.net\n"
@@ -1813,26 +1863,25 @@ msgid "Copyright 2006-2012 Marko Savolainen.\n"
 "http://www.jrsoftware.org\n"
 "\n- SpTBXLib\n"
 "http://club.telepolis.com/silverpointdev/sptbxlib/index.htm\n"
-"\n- Graphics32\nhttp://www.graphics32.org\n\n- ATBinHex\n"
-"http://atorg.net.ru/other/atbinhex.htm\n"
-"\n- JVCL\nhttp://jvcl.sourceforge.net\n\n- Unicode SynEdit\n"
-"http://mh-nexus.de/unisynedit.htm\n"
-"\n-7-zip library (7z.dll). Licensed under the GNU LGPL.\n"
+"\n- Graphics32\nhttp://www.graphics32.org\n\n- JVCL\n"
+"http://jvcl.sourceforge.net\n"
+"\n- Unicode SynEdit\nhttp://mh-nexus.de/unisynedit.htm\n\n"
+"-7-zip library (7z.dll). Licensed under the GNU LGPL.\n"
 "http://www.7-zip.org\n"
-"\n\n==================================================================\n\n"
-"  Many thanks to all developers of those great components.\n"
+"\n\n==========================================================\n\n"
+" Many thanks to all developers of those great components.\n"
 "  \n"
-"  A special thanks goes to Jim Kueneman for his great work on\n"
-"  VirtualShellTools and EasyListview. Without VirtualShellTools,\n"
-"  CubicExplorer would not exist.\n"
-"\n==================================================================\n\n"
+" A special thanks to Jim Kueneman for his great work on\n"
+" VirtualShellTools and EasyListview. Without them,\n"
+" CubicExplorer would not exist.\n"
+"\n==========================================================\n\n"
 "Thank you for using CubicExplorer.\n"
 "\nRegards,\n"
 "Marko Savolainen."
 msgstr ""
 
 #. CEAboutBox..Panel1..but_close..Caption
-#: fCE_AboutBox.dfm:1029
+#: fCE_AboutBox.dfm:1028
 #. CEToolbarCustomizer..SpTBXPanel1..but_close..Caption
 #: fCE_Customizer.dfm:42
 #. CESessionManager..SpTBXPanel2..but_close..Caption
@@ -1845,19 +1894,21 @@ msgstr ""
 #: fCE_TextEditor.dfm:572
 #. CEVersionMgrForm..panel_bottom..but_close..Caption
 #: fCE_VersionMgrForm.dfm:193
+#. SumatraPDF..ActionList..act_file_close..Caption
+#: fCV_SumatraPDF.dfm:202
 #. show close button
 #: fCE_QuickView.pas:1185
 msgid "Close"
 msgstr ""
 
 #. CEAboutBox..Panel1..BuildLabel..Caption
-#: fCE_AboutBox.dfm:1039
+#: fCE_AboutBox.dfm:1038
 #: fCE_AboutBox.pas:108
 msgid "Version:"
 msgstr ""
 
 #. CEAboutBox..VersionLabel..Font.Name
-#: fCE_AboutBox.dfm:1059
+#: fCE_AboutBox.dfm:1058
 msgid "Arial"
 msgstr ""
 
@@ -1869,7 +1920,7 @@ msgstr ""
 #. CEBookmarkPanel..BookmarkPopupMenu..but_open_new_tab..Caption
 #: fCE_BookmarkPanel.dfm:27
 #. Add "Open in new tab" item
-#: dCE_Actions.pas:1878
+#: dCE_Actions.pas:1890
 #: fCE_BookmarkPanel.pas:237
 msgid "Open in new tab"
 msgstr ""
@@ -2087,7 +2138,7 @@ msgstr ""
 #. CEOptionsPage_Display..TntLabel1..Caption
 #: fCE_OptionsPage_Display.dfm:7
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem6..Caption
-#: Main.dfm:249
+#: Main.dfm:254
 msgid "Theme"
 msgstr ""
 
@@ -2479,10 +2530,10 @@ msgstr ""
 
 #. CEOptionsPage_General..TntGroupBox2..Caption
 #: fCE_OptionsPage_General.dfm:118
-#: dCE_Actions.pas:1749
-#: dCE_Actions.pas:1751
 #: dCE_Actions.pas:1761
 #: dCE_Actions.pas:1763
+#: dCE_Actions.pas:1773
+#: dCE_Actions.pas:1775
 msgid "Default File Manager"
 msgstr ""
 
@@ -2692,7 +2743,7 @@ msgstr ""
 #. CENewTranslationDlg..TntLabel1..Caption
 #: fCE_PoEditor_NewForm.dfm:39
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..LanguageMenuItem..Caption
-#: Main.dfm:260
+#: Main.dfm:265
 msgid "Language"
 msgstr ""
 
@@ -2735,6 +2786,8 @@ msgstr ""
 #: fCE_PoEditor.dfm:419
 #. CETextEditor..ActionList..act_saveas..Caption
 #: fCE_TextEditor.dfm:564
+#. SumatraPDF..ActionList..act_file_save_as..Caption
+#: fCV_SumatraPDF.dfm:193
 #. Save As...
 #: fCE_StackPanel.pas:480
 msgid "Save As..."
@@ -2916,7 +2969,7 @@ msgstr ""
 #: CE_StatusBar.pas:166
 #: CE_StatusBar.pas:193
 #: fCE_SearchPage.pas:334
-#: Main.pas:1247
+#: Main.pas:1253
 msgid "KB"
 msgstr ""
 
@@ -2938,7 +2991,7 @@ msgstr ""
 #: CE_StatusBar.pas:161
 #: CE_StatusBar.pas:168
 #: fCE_SearchPage.pas:335
-#: Main.pas:1248
+#: Main.pas:1254
 msgid "MB"
 msgstr ""
 
@@ -3183,6 +3236,16 @@ msgstr ""
 #: fCE_TextEditor.dfm:571
 #. CETextEditor..ActionList..act_export_html..Category
 #: fCE_TextEditor.dfm:674
+#. SumatraPDF..TopDock..toolbar_menu..sub_file..Caption
+#: fCV_SumatraPDF.dfm:40
+#. SumatraPDF..ActionList..act_file_open..Category
+#: fCV_SumatraPDF.dfm:185
+#. SumatraPDF..ActionList..act_file_save_as..Category
+#: fCV_SumatraPDF.dfm:192
+#. SumatraPDF..ActionList..act_file_close..Category
+#: fCV_SumatraPDF.dfm:201
+#. SumatraPDF..ActionList..act_file_properties..Category
+#: fCV_SumatraPDF.dfm:208
 #. MainForm..TopToolDock..MainToolbar..fileMenuItem..Caption
 #: Main.dfm:88
 msgid "File"
@@ -3258,6 +3321,8 @@ msgstr ""
 
 #. CETextEditor..ActionList..act_open..Caption
 #: fCE_TextEditor.dfm:540
+#. SumatraPDF..ActionList..act_file_open..Caption
+#: fCV_SumatraPDF.dfm:186
 msgid "Open..."
 msgstr ""
 
@@ -3632,7 +3697,7 @@ msgstr ""
 #. CETextEditorOptionsForm..PageControl..sheet_gutter..group_border..combo_gutter_border_style....Items.Strings
 #: fCE_TextEditorOptions.dfm:472
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem57..Caption
-#: Main.dfm:272
+#: Main.dfm:277
 #. add None item
 #: fCE_TextEditor.pas:822
 #: fCE_TextEditorOptions.pas:250
@@ -3835,10 +3900,237 @@ msgstr ""
 msgid "combo_path"
 msgstr ""
 
+#. SumatraPDF..TopDock..toolbar_menu..sub_goto..Caption
+#: fCV_SumatraPDF.dfm:92
+msgid "Go To"
+msgstr ""
+
+#. SumatraPDF..TopDock..toolbar_menu..sub_zoom..Caption
+#: fCV_SumatraPDF.dfm:123
+#. SumatraPDF..ActionList..act_zoom_fit_page..Category
+#: fCV_SumatraPDF.dfm:375
+#. SumatraPDF..ActionList..act_zoom_actual_size..Category
+#: fCV_SumatraPDF.dfm:383
+#. SumatraPDF..ActionList..act_zoom_fit_width..Category
+#: fCV_SumatraPDF.dfm:391
+#. SumatraPDF..ActionList..act_zoom_fit_content..Category
+#: fCV_SumatraPDF.dfm:399
+#. SumatraPDF..ActionList..act_zoom_custom..Category
+#: fCV_SumatraPDF.dfm:407
+#. SumatraPDF..ActionList..act_zoom_6400..Category
+#: fCV_SumatraPDF.dfm:415
+#. SumatraPDF..ActionList..act_zoom_3200..Category
+#: fCV_SumatraPDF.dfm:422
+#. SumatraPDF..ActionList..act_zoom_1600..Category
+#: fCV_SumatraPDF.dfm:429
+#. SumatraPDF..ActionList..act_zoom_800..Category
+#: fCV_SumatraPDF.dfm:436
+#. SumatraPDF..ActionList..act_zoom_400..Category
+#: fCV_SumatraPDF.dfm:443
+#. SumatraPDF..ActionList..act_zoom_200..Category
+#: fCV_SumatraPDF.dfm:450
+#. SumatraPDF..ActionList..act_zoom_150..Category
+#: fCV_SumatraPDF.dfm:457
+#. SumatraPDF..ActionList..act_zoom_125..Category
+#: fCV_SumatraPDF.dfm:464
+#. SumatraPDF..ActionList..act_zoom_100..Category
+#: fCV_SumatraPDF.dfm:471
+#. SumatraPDF..ActionList..act_zoom_50..Category
+#: fCV_SumatraPDF.dfm:478
+#. SumatraPDF..ActionList..act_zoom_25..Category
+#: fCV_SumatraPDF.dfm:485
+#. SumatraPDF..ActionList..act_zoom_12_5..Category
+#: fCV_SumatraPDF.dfm:492
+#. SumatraPDF..ActionList..act_zoom_8_33..Category
+#: fCV_SumatraPDF.dfm:499
+msgid "Zoom"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_view_single_page..Caption
+#: fCV_SumatraPDF.dfm:217
+msgid "Single Page"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_view_facing..Caption
+#: fCV_SumatraPDF.dfm:225
+msgid "Facing"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_view_book_view..Caption
+#: fCV_SumatraPDF.dfm:233
+msgid "Book View"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_view_continuosly..Caption
+#: fCV_SumatraPDF.dfm:241
+msgid "Show pages continuously"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_view_rotate_left..Caption
+#: fCV_SumatraPDF.dfm:248
+msgid "Rotate Left"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_view_rotate_right..Caption
+#: fCV_SumatraPDF.dfm:256
+msgid "Rotate Right"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_view_presentation..Caption
+#: fCV_SumatraPDF.dfm:264
+msgid "Presentation"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_view_copy_selection..Caption
+#: fCV_SumatraPDF.dfm:296
+msgid "Copy Selection"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_goto_next_page..Category
+#: fCV_SumatraPDF.dfm:311
+#. SumatraPDF..ActionList..act_goto_prev_page..Category
+#: fCV_SumatraPDF.dfm:319
+#. SumatraPDF..ActionList..act_goto_first_page..Category
+#: fCV_SumatraPDF.dfm:327
+#. SumatraPDF..ActionList..act_goto_last_page..Category
+#: fCV_SumatraPDF.dfm:335
+#. SumatraPDF..ActionList..act_goto_page..Category
+#: fCV_SumatraPDF.dfm:343
+#. SumatraPDF..ActionList..act_goto_back..Category
+#: fCV_SumatraPDF.dfm:351
+#. SumatraPDF..ActionList..act_goto_forward..Category
+#: fCV_SumatraPDF.dfm:359
+#. SumatraPDF..ActionList..act_goto_find..Category
+#: fCV_SumatraPDF.dfm:367
+msgid "GoTo"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_goto_next_page..Caption
+#: fCV_SumatraPDF.dfm:312
+msgid "Next Page"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_goto_prev_page..Caption
+#: fCV_SumatraPDF.dfm:320
+msgid "Previous Page"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_goto_first_page..Caption
+#: fCV_SumatraPDF.dfm:328
+msgid "First Page"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_goto_last_page..Caption
+#: fCV_SumatraPDF.dfm:336
+msgid "Last Page"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_goto_page..Caption
+#: fCV_SumatraPDF.dfm:344
+msgid "Page..."
+msgstr ""
+
+#. SumatraPDF..ActionList..act_goto_find..Caption
+#: fCV_SumatraPDF.dfm:368
+msgid "Find..."
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_fit_page..Caption
+#: fCV_SumatraPDF.dfm:376
+msgid "Fit Page"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_actual_size..Caption
+#: fCV_SumatraPDF.dfm:384
+msgid "Actual Size"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_fit_width..Caption
+#: fCV_SumatraPDF.dfm:392
+msgid "Fit Width"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_fit_content..Caption
+#: fCV_SumatraPDF.dfm:400
+msgid "Fit Content"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_custom..Caption
+#: fCV_SumatraPDF.dfm:408
+msgid "Custom Zoom..."
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_6400..Caption
+#: fCV_SumatraPDF.dfm:416
+msgid "6400%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_3200..Caption
+#: fCV_SumatraPDF.dfm:423
+msgid "3200%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_1600..Caption
+#: fCV_SumatraPDF.dfm:430
+msgid "1600%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_800..Caption
+#: fCV_SumatraPDF.dfm:437
+msgid "800%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_400..Caption
+#: fCV_SumatraPDF.dfm:444
+msgid "400%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_200..Caption
+#: fCV_SumatraPDF.dfm:451
+msgid "200%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_150..Caption
+#: fCV_SumatraPDF.dfm:458
+msgid "150%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_125..Caption
+#: fCV_SumatraPDF.dfm:465
+msgid "125%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_100..Caption
+#: fCV_SumatraPDF.dfm:472
+msgid "100%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_50..Caption
+#: fCV_SumatraPDF.dfm:479
+#. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem62..Caption
+#: Main.dfm:312
+msgid "50%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_25..Caption
+#: fCV_SumatraPDF.dfm:486
+msgid "25%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_12_5..Caption
+#: fCV_SumatraPDF.dfm:493
+msgid "12.5%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_8_33..Caption
+#: fCV_SumatraPDF.dfm:500
+msgid "8.33%"
+msgstr ""
+
 #. MainForm..Caption
 #: Main.dfm:4
 #. MainForm..TrayIcon..Hint
-#: Main.dfm:608
+#: Main.dfm:613
 msgid "CubicExplorer"
 msgstr ""
 
@@ -3858,57 +4150,52 @@ msgid "Panels"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..Caption
-#: Main.dfm:267
+#: Main.dfm:272
 msgid "Transparency"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem58..Caption
-#: Main.dfm:279
+#: Main.dfm:284
 msgid "10%"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem59..Caption
-#: Main.dfm:286
+#: Main.dfm:291
 msgid "20%"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem60..Caption
-#: Main.dfm:293
+#: Main.dfm:298
 msgid "30%"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem61..Caption
-#: Main.dfm:300
+#: Main.dfm:305
 msgid "40%"
 msgstr ""
 
-#. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem62..Caption
-#: Main.dfm:307
-msgid "50%"
-msgstr ""
-
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem63..Caption
-#: Main.dfm:314
+#: Main.dfm:319
 msgid "60%"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem64..Caption
-#: Main.dfm:321
+#: Main.dfm:326
 msgid "70%"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem65..Caption
-#: Main.dfm:328
+#: Main.dfm:333
 msgid "80%"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..AlphaSubmenuItem..SpTBXItem66..Caption
-#: Main.dfm:335
+#: Main.dfm:340
 msgid "90%"
 msgstr ""
 
 #. MainForm..TopToolDock..MainToolbar..sessionsMenuItem..sessionHistoryMenuItem..Caption
-#: Main.dfm:373
+#: Main.dfm:378
 msgid "History"
 msgstr ""
 
@@ -3927,11 +4214,11 @@ msgstr ""
 #. Add "More..." item
 #: CE_BaseFileView.pas:1420
 #. More... item
-#: CE_ToolbarButtons.pas:545
+#: CE_ToolbarButtons.pas:543
 #. More... item
-#: CE_ToolbarButtons.pas:697
-#: dCE_Actions.pas:2070
-#: dCE_Actions.pas:2109
+#: CE_ToolbarButtons.pas:695
+#: dCE_Actions.pas:2082
+#: dCE_Actions.pas:2121
 #: fCE_WorkspacePanel.pas:148
 #: fCE_WorkspacePanel.pas:187
 msgid "More..."
@@ -4081,79 +4368,79 @@ msgstr ""
 msgid "New Category"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:405
+#: CE_ToolbarButtons.pas:403
 msgid "Folder Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:411
+#: CE_ToolbarButtons.pas:409
 msgid "Name Only"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:420
+#: CE_ToolbarButtons.pas:418
 msgid "Short Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:426
+#: CE_ToolbarButtons.pas:424
 msgid "Short Folder Path"
 msgstr ""
 
-#: CE_ToolbarButtons.pas:432
+#: CE_ToolbarButtons.pas:430
 msgid "Short Name Only"
 msgstr ""
 
 #. Grouped toggle item
-#: CE_ToolbarButtons.pas:671
+#: CE_ToolbarButtons.pas:669
 #. Sho in Groups
-#: dCE_Actions.pas:2079
+#: dCE_Actions.pas:2091
 #. Sho in Groups
 #: fCE_WorkspacePanel.pas:157
 msgid "Show in Groups"
 msgstr ""
 
 #. Add Recycle Bin Item
-#: CE_ToolbarButtons.pas:967
+#: CE_ToolbarButtons.pas:965
 msgid "Recycle Bin"
 msgstr ""
 
 #. Add Restore List
-#: CE_ToolbarButtons.pas:985
+#: CE_ToolbarButtons.pas:983
 #. Populate items
-#: CE_ToolbarButtons.pas:1083
+#: CE_ToolbarButtons.pas:1081
 msgid "Restore List"
 msgstr ""
 
 #. Add Restore All
-#: CE_ToolbarButtons.pas:993
+#: CE_ToolbarButtons.pas:991
 msgid "Restore All"
 msgstr ""
 
 #. Lock
-#: CE_ToolbarButtons.pas:1175
+#: CE_ToolbarButtons.pas:1173
 msgid "Lock"
 msgstr ""
 
 #. Logoff
-#: CE_ToolbarButtons.pas:1182
+#: CE_ToolbarButtons.pas:1180
 msgid "Logoff"
 msgstr ""
 
 #. Sleep
-#: CE_ToolbarButtons.pas:1194
+#: CE_ToolbarButtons.pas:1192
 msgid "Sleep"
 msgstr ""
 
 #. Hibernate
-#: CE_ToolbarButtons.pas:1204
+#: CE_ToolbarButtons.pas:1202
 msgid "Hibernate"
 msgstr ""
 
 #. Reboot
-#: CE_ToolbarButtons.pas:1214
+#: CE_ToolbarButtons.pas:1212
 msgid "Reboot"
 msgstr ""
 
 #. Shut down
-#: CE_ToolbarButtons.pas:1221
+#: CE_ToolbarButtons.pas:1219
 msgid "Shut down"
 msgstr ""
 
@@ -4210,33 +4497,33 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: CV_MediaPlayerEngines.pas:1224
+#: CV_MediaPlayerEngines.pas:1243
 msgid "Format not supported"
 msgstr ""
 
-#: dCE_Actions.pas:867
+#: dCE_Actions.pas:870
 msgid "Are you sure you want to restore default "
 "layout?"
 msgstr ""
 
-#: dCE_Actions.pas:1749
+#: dCE_Actions.pas:1761
 msgid "Registered successfully!"
 msgstr ""
 
-#: dCE_Actions.pas:1751
+#: dCE_Actions.pas:1763
 msgid "Registration failed!"
 msgstr ""
 
-#: dCE_Actions.pas:1761
+#: dCE_Actions.pas:1773
 msgid "Unregistered successfully!"
 msgstr ""
 
-#: dCE_Actions.pas:1763
+#: dCE_Actions.pas:1775
 msgid "Unregistration failed!"
 msgstr ""
 
 #. Add "Open in Workspace" item
-#: dCE_Actions.pas:1885
+#: dCE_Actions.pas:1897
 msgid "Open in Workspace"
 msgstr ""
 
@@ -4710,150 +4997,150 @@ msgid "Published:"
 msgstr ""
 
 #. Create FolderCombo Toolbar
-#: Main.pas:604
+#: Main.pas:610
 msgid "Address Bar"
 msgstr ""
 
 #. Create DriveToolbar
-#: Main.pas:612
+#: Main.pas:618
 msgid "Drives"
 msgstr ""
 
 #. Create BreadcrumbBar
-#: Main.pas:643
+#: Main.pas:649
 msgid "Breadcrumb Navigation"
 msgstr ""
 
 #. Check if dialogs are present. If so, show a warning.
-#: Main.pas:964
+#: Main.pas:970
 msgid "Dialog found!"
 msgstr ""
 
-#: Main.pas:965
+#: Main.pas:971
 msgid "File operation might be still running!"
 msgstr ""
 
-#: Main.pas:965
+#: Main.pas:971
 msgid "Are you sure you want to quit?"
 msgstr ""
 
 #. Add default menu items
-#: Main.pas:1120
+#: Main.pas:1126
 msgid "English (default)"
 msgstr ""
 
 #. TabBar Left/Right arrow hints
-#: Main.pas:1217
+#: Main.pas:1223
 msgid "Show more tabs"
 msgstr ""
 
 #. VSTools strings
-#: Main.pas:1221
+#: Main.pas:1227
 msgid "Warning"
 msgstr ""
 
-#: Main.pas:1224
+#: Main.pas:1230
 msgid "Last hour"
 msgstr ""
 
-#: Main.pas:1225
+#: Main.pas:1231
 msgid "Last twenty-four hours"
 msgstr ""
 
-#: Main.pas:1226
+#: Main.pas:1232
 msgid "This week"
 msgstr ""
 
-#: Main.pas:1227
+#: Main.pas:1233
 msgid "Two weeks ago"
 msgstr ""
 
-#: Main.pas:1228
+#: Main.pas:1234
 msgid "Three weeks ago"
 msgstr ""
 
-#: Main.pas:1229
+#: Main.pas:1235
 msgid "A month ago"
 msgstr ""
 
-#: Main.pas:1230
+#: Main.pas:1236
 msgid "Two months ago"
 msgstr ""
 
-#: Main.pas:1231
+#: Main.pas:1237
 msgid "Three months ago"
 msgstr ""
 
-#: Main.pas:1232
+#: Main.pas:1238
 msgid "Four months ago"
 msgstr ""
 
-#: Main.pas:1233
+#: Main.pas:1239
 msgid "Five months ago"
 msgstr ""
 
-#: Main.pas:1234
+#: Main.pas:1240
 msgid "Six months ago"
 msgstr ""
 
-#: Main.pas:1235
+#: Main.pas:1241
 msgid "Earlier this year"
 msgstr ""
 
-#: Main.pas:1236
+#: Main.pas:1242
 msgid "A long time ago"
 msgstr ""
 
-#: Main.pas:1238
+#: Main.pas:1244
 msgid "Zero"
 msgstr ""
 
-#: Main.pas:1239
+#: Main.pas:1245
 msgid "Tiny"
 msgstr ""
 
-#: Main.pas:1240
+#: Main.pas:1246
 msgid "Small"
 msgstr ""
 
-#: Main.pas:1241
+#: Main.pas:1247
 msgid "Medium"
 msgstr ""
 
-#: Main.pas:1242
+#: Main.pas:1248
 msgid "Large"
 msgstr ""
 
-#: Main.pas:1243
+#: Main.pas:1249
 msgid "Gigantic"
 msgstr ""
 
-#: Main.pas:1244
+#: Main.pas:1250
 msgid "System Folders"
 msgstr ""
 
-#: Main.pas:1249
+#: Main.pas:1255
 msgid "TB"
 msgstr ""
 
-#: Main.pas:1716
+#: Main.pas:1722
 msgid "New version (%s) is available. Do you want to update "
 "now?"
 msgstr ""
 
-#: Main.pas:1722
+#: Main.pas:1728
 msgid "Build:"
 msgstr ""
 
-#: Main.pas:1723
+#: Main.pas:1729
 msgid "Update type:"
 msgstr ""
 
-#: Main.pas:1726
+#: Main.pas:1732
 msgid "New Version Available"
 msgstr ""
 
-#: Main.pas:1727
+#: Main.pas:1733
 msgid "Do you want to update?"
 msgstr ""
 
