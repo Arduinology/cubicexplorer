@@ -212,9 +212,11 @@ object MainForm: TMainForm
         end
         object toolbarsMenuItem: TSpTBXSubmenuItem
           Caption = 'Toolbars'
+          ImageIndex = 75
         end
         object sub_panels: TSpTBXSubmenuItem
           Caption = 'Panels'
+          ImageIndex = 73
           object SpTBXItem26: TSpTBXItem
             Action = CEActions.act_view_folders
           end
@@ -543,6 +545,7 @@ object MainForm: TMainForm
     end
   end
   object ToolbarPopupMenu: TSpTBXPopupMenu
+    Images = CE_Images.SmallIcons
     Left = 16
     Top = 64
     object SpTBXItem52: TSpTBXItem
@@ -636,6 +639,7 @@ object MainForm: TMainForm
     Top = 96
   end
   object PanelsPopupMenu: TSpTBXPopupMenu
+    Images = CE_Images.SmallIcons
     LinkSubitems = sub_panels
     Left = 16
     Top = 96

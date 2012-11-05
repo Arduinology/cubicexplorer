@@ -734,8 +734,8 @@ begin
     // then install folder
     else if WideFileExists(AppDirPath + 'Plugins\SumatraPDF.exe') then
     Result:= AppDirPath + 'Plugins\SumatraPDF.exe'
-    else if WideFileExists(AppDirPath + 'Sumatra.PDF.exe') then
-    Result:= AppDirPath + 'Sumatra.PDF.exe'
+    else if WideFileExists(AppDirPath + 'SumatraPDF.exe') then
+    Result:= AppDirPath + 'SumatraPDF.exe'
     // then see if sumatra is installed in the system
     else
     begin

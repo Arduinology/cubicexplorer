@@ -689,12 +689,14 @@ object CEActions: TCEActions
       Tag = 390
       Category = 'View'
       Caption = 'Lock Toolbars'
+      ImageIndex = 76
       OnExecute = ActionExecute
     end
     object act_view_lock_panels: TTntAction
       Tag = 391
       Category = 'View'
       Caption = 'Lock Panels'
+      ImageIndex = 74
       OnExecute = ActionExecute
     end
     object act_navi_refresh_current: TTntAction
