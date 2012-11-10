@@ -1,10 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: CE 0.96.0.1550 - 2012.05.19\n"
+"Project-Id-Version: CE 0.96.0.1578 - 2012.10.04\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1550\n"
+"CE-POT-Version: 1578\n"
 "CE-Language: Italian\n"
 "Last-Translator: Folgore101 <andrea.gramegna@gmail.com>\n"
 
@@ -22,6 +22,42 @@ msgstr "%d di %d"
 
 msgid "..."
 msgstr "..."
+
+msgid "100%"
+msgstr "100%"
+
+msgid "12.5%"
+msgstr "12.5%"
+
+msgid "125%"
+msgstr "125%"
+
+msgid "150%"
+msgstr "150%"
+
+msgid "1600%"
+msgstr "1600%"
+
+msgid "200%"
+msgstr "200%"
+
+msgid "25%"
+msgstr "25%"
+
+msgid "3200%"
+msgstr "3200%"
+
+msgid "400%"
+msgstr "400%"
+
+msgid "6400%"
+msgstr "6400%"
+
+msgid "8.33%"
+msgstr "8.33%"
+
+msgid "800%"
+msgstr "800%"
 
 msgid "A long time ago"
 msgstr "Molto tempo fa"
@@ -43,6 +79,9 @@ msgstr "Azioni"
 
 msgid "Actual"
 msgstr "Attuale"
+
+msgid "Actual Size"
+msgstr "Dimensioni effettive"
 
 msgid "Add"
 msgstr "Aggiungi"
@@ -194,6 +233,9 @@ msgstr "Precedente"
 msgid "Background Color:"
 msgstr "Colore di sfondo:"
 
+msgid "Background color"
+msgstr "Colore di sfondo"
+
 msgid "Backups"
 msgstr "Backup"
 
@@ -208,6 +250,12 @@ msgstr "Prima dell'Ora"
 
 msgid "Block"
 msgstr "Blocco"
+
+msgid "Bold"
+msgstr "Grassetto"
+
+msgid "Book View"
+msgstr "Vista Libro"
 
 msgid "Bookmark 1"
 msgstr "Segnalibro 1"
@@ -259,6 +307,9 @@ msgstr "Navigazione Breadcrumb"
 
 msgid "Browse To"
 msgstr "Sfoglia"
+
+msgid "Browse Zip Files"
+msgstr "Sfoglia i File Zip"
 
 msgid "Browse..."
 msgstr "Cerca..."
@@ -356,6 +407,12 @@ msgstr "Chiudi nel tray"
 msgid "Color:"
 msgstr "Colore:"
 
+msgid "Colorize multi highlighter sections"
+msgstr "Colora le sezioni multiple evidenziate"
+
+msgid "Colors"
+msgstr "Colori"
+
 msgid "Column Settings"
 msgstr "Impostazioni Colonna"
 
@@ -392,6 +449,12 @@ msgstr "Copia"
 msgid "Copy Path"
 msgstr "Copia Percorso"
 
+msgid "Copy Selected Here"
+msgstr "Copia Selezionato Qui"
+
+msgid "Copy Selection"
+msgstr "Copia Selezione"
+
 msgid "Copy as HTML"
 msgstr "Copia come HTML"
 
@@ -427,6 +490,9 @@ msgstr "Opzioni CubicExplorer"
 
 msgid "Current version:"
 msgstr "Versione corrente:"
+
+msgid "Custom Zoom..."
+msgstr "Zoom personalizzato..."
 
 msgid "Custom..."
 msgstr "Personalizzato..."
@@ -671,6 +737,9 @@ msgstr "Esporta come HTML..."
 msgid "Extra Lines:"
 msgstr "Linee extra:"
 
+msgid "Facing"
+msgstr "Fronte"
+
 msgid "Failed to open file!"
 msgstr "Impossibile aprire il file!"
 
@@ -722,11 +791,26 @@ msgstr "Trova Successivo"
 msgid "Find Previous"
 msgstr "Trova Precedente"
 
+msgid "Find..."
+msgstr "Trova..."
+
 msgid "Find:"
 msgstr "Trova:"
 
 msgid "Finished"
 msgstr "Finito"
+
+msgid "First Page"
+msgstr "Prima Pagina"
+
+msgid "Fit Content"
+msgstr "Adatta al Contenuto"
+
+msgid "Fit Page"
+msgstr "Adatta Pagina"
+
+msgid "Fit Width"
+msgstr "Adatta alla Larghezza"
 
 msgid "Five months ago"
 msgstr "Cinque mesi fa"
@@ -799,6 +883,12 @@ msgstr "Globale"
 
 msgid "Global Hotkey Settings"
 msgstr "Tasti di scelta rapida delle Impostazioni Globali"
+
+msgid "Go To"
+msgstr "Vai a"
+
+msgid "GoTo"
+msgstr "Vai a"
 
 msgid "Gradient"
 msgstr "Gradiente"
@@ -893,6 +983,9 @@ msgstr "Aggiornamento non valido!"
 msgid "Invert Selection"
 msgstr "Inverti Selezione"
 
+msgid "Italic"
+msgstr "Corsivo"
+
 msgid "Item Count"
 msgstr "Conteggio"
 
@@ -916,6 +1009,9 @@ msgstr "Grande"
 
 msgid "Large Icons"
 msgstr "Icone Grandi"
+
+msgid "Last Page"
+msgstr "Ultima Pagina"
 
 msgid "Last check:"
 msgstr "Ultimo controllo:"
@@ -980,6 +1076,9 @@ msgstr "Posizione"
 msgid "Lock"
 msgstr "Blocca"
 
+msgid "Lock Panels"
+msgstr "Blocca Pannelli"
+
 msgid "Lock Toolbars"
 msgstr "Blocca la Barre degli Strumenti"
 
@@ -1040,6 +1139,9 @@ msgstr "Modifica tasti di scelta rapida"
 msgid "More..."
 msgstr "Altro..."
 
+msgid "Move Selected Here"
+msgstr "Sposta Selezionato Qui"
+
 msgid "Mute"
 msgstr "Muto"
 
@@ -1090,6 +1192,9 @@ msgstr "Successivo"
 
 msgid "Next File"
 msgstr "File Successivo"
+
+msgid "Next Page"
+msgstr "Pagina Successiva"
 
 msgid "No Extension"
 msgstr "Nessuna Estensione"
@@ -1196,6 +1301,9 @@ msgstr "Sovrascrivi lo stack esistente?"
 msgid "PHP"
 msgstr "PHP"
 
+msgid "Page..."
+msgstr "Pagina..."
+
 msgid "Panels"
 msgstr "Pannelli"
 
@@ -1229,11 +1337,17 @@ msgstr "PngImage31"
 msgid "Port"
 msgstr "Porta"
 
+msgid "Presentation"
+msgstr "Presentazione"
+
 msgid "Previous"
 msgstr "Precedente"
 
 msgid "Previous File"
 msgstr "File Precedente"
+
+msgid "Previous Page"
+msgstr "Pagina Precedente"
 
 msgid "Properties"
 msgstr "Proprietà"
@@ -1313,6 +1427,9 @@ msgstr "Ricorda"
 msgid "Remember Tabs"
 msgstr "Ricorda Schede"
 
+msgid "Remember thumbnails"
+msgstr "Ricorda miniature"
+
 msgid "Remove from Stack"
 msgstr "Rimuovi dallo Stack"
 
@@ -1372,6 +1489,12 @@ msgstr "Bordo Destro"
 
 msgid "Right mouse moves cursor"
 msgstr "Tasto destro del mouse sposta il cursore"
+
+msgid "Rotate Left"
+msgstr "Ruota a  Sinistra"
+
+msgid "Rotate Right"
+msgstr "Ruota a Destra"
 
 msgid "Save"
 msgstr "Salva"
@@ -1550,6 +1673,12 @@ msgstr "Mostra Barra di Stato"
 msgid "Show Toolbar"
 msgstr "Mostra Barra degli Strumenti"
 
+msgid "Show Zip files"
+msgstr "Mostra i file Zip"
+
+msgid "Show gridlines"
+msgstr "Mostra griglia"
+
 msgid "Show in Groups"
 msgstr "Mostra in Gruppi"
 
@@ -1561,6 +1690,9 @@ msgstr "Visualizza i numeri di riga"
 
 msgid "Show more tabs"
 msgstr "Mostra più schede"
+
+msgid "Show pages continuously"
+msgstr "Mostra pagine continue"
 
 msgid "Show scroll hint"
 msgstr "Visualizza suggerimento scorrevole"
@@ -1576,6 +1708,9 @@ msgstr "Spegni"
 
 msgid "Single Instance Only"
 msgstr "Usa soltanto una Singola Istanza di CubicExplorer"
+
+msgid "Single Page"
+msgstr "Pagina Singola"
 
 msgid "Single click browsing"
 msgstr "Navigazione con un singolo click"
@@ -1814,6 +1949,9 @@ msgstr "Due settimane fa"
 msgid "Type"
 msgstr "Tipo"
 
+msgid "Underline"
+msgstr "Sottolineato"
+
 msgid "Undo"
 msgstr "Annulla"
 
@@ -1856,8 +1994,14 @@ msgstr "Aggiornamenti Impostazioni"
 msgid "Use Options->Updates to change them."
 msgstr "Usa Opzioni->Aggiornamenti per cambiarli"
 
+msgid "Use comma separated list of extensions. For example: txt,doc,rtf"
+msgstr "Utilizza un elenco di estensioni separate da virgole. Per esempio: txt,doc,rtf"
+
 msgid "Use custom font"
 msgstr "Carattere personalizzato"
+
+msgid "Use extension colors"
+msgstr "Utilizza colori estensioni"
 
 msgid "Use inline CSS on copy"
 msgstr "Usa CSS in linea su copia"
@@ -1960,6 +2104,9 @@ msgstr "Non hai selezionato il tipo di notifiche di aggiornamento"
 
 msgid "Zero"
 msgstr "Zero"
+
+msgid "Zoom"
+msgstr "Zoom"
 
 msgid "already exists. Please choose another name."
 msgstr "esiste già. Si prega di scegliere un altro nome"
