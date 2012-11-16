@@ -436,11 +436,13 @@ begin
       if (PropInfo^.PropType^.Kind in [tkString, tkLString, tkWString, tkClass]) then
       begin
         PropName:= PropInfo^.Name;
-        if IgnoredProperties.Find(PropName, tmp) then
-        continue;
 
         // Ignore the Name
-        if PropName = 'Name' then
+        if (Length(PropName) = 4) and SameText(PropName, 'Name') then
+        continue;
+
+        // Ignore property?
+        if IgnoredProperties.Find(PropName, tmp) then
         continue;
 
         // class property
@@ -462,6 +464,8 @@ begin
 
           fTranslatedCount:= fTranslatedCount + 1;
 
+          if old = '50%' then
+          ws:= old;
           if (old <> '') and (Assigned(PropInfo) and (PropInfo^.SetProc <> nil)) then
           begin
             ws:= po.GetText(old);

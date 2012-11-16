@@ -1291,9 +1291,10 @@ begin
   CEGlobalTranslator.IncludeClasses.Add(TSpTBXLabelItem);
   CEGlobalTranslator.IncludeClasses.Add(TTntTabSheet);
 
+  //CEGlobalTranslator.IgnoredProperties.Add('Name'); <-- name is ignored always
+  //CEGlobalTranslator.IgnoredProperties.Add('Category'); <-- hotkeys list shows the category for actions so keep it translated.
   CEGlobalTranslator.IgnoredProperties.Add('HelpKeyword');
   CEGlobalTranslator.IgnoredProperties.Add('ImeName');
-  CEGlobalTranslator.IgnoredProperties.Add('Name');
   CEGlobalTranslator.RegisterIgnoredClassHandler(TSpTBXItem, MenuItemTranslateHandler);
 end;
 
@@ -1456,30 +1457,11 @@ procedure TMainForm.MakeVisible;
 begin
   if TrayIcon.Active and not TrayIcon.ApplicationVisible then
   TrayIcon.ShowApplication;
-
-//////////////////// Doesn't bring on top always, taskbar button just blinks.
-//  if IsIconic(Handle) then
-//  begin
-//    ShowWindow(Handle, SW_RESTORE);
-//  end;
-//
-//  Application.BringToFront;
-////////////////////
-
-//////////////////// Brings window to top but doesn't activate the window.
-//  ForceForegroundWindow(Handle);
-////////////////////
-
-//////////////////// Doesn't bring on top always, taskbar button just blinks.
-//  SwitchToThisWindow(Handle, false);
-////////////////////
-
-//////////////////// Seems to work
+  // restore if needed
   if IsIconic(Handle) then
   ShowWindow(Handle, SW_RESTORE);
+  // set foreground
   SetForegroundWindow(Handle);
-  //ForceForegroundWindow2(Handle);
-////////////////////
 end;
 
 {-------------------------------------------------------------------------------

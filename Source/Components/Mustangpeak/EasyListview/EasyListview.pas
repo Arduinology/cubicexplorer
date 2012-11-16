@@ -14666,9 +14666,13 @@ begin
 end;
 
 procedure TCustomEasyListview.CMFontChanged(var Message: TMessage);
+var
+  old: TColor;
 begin
   inherited;
+  old:= EditManager.Font.Color;
   EditManager.Font.Assign(Font);
+  EditManager.Font.Color:= old;
   Groups.Rebuild(True)
 end;
 

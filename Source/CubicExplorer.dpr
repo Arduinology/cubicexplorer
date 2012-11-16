@@ -192,6 +192,7 @@ begin
         SendMessage(h, WM_COPYDATA, 0, Integer(@copyDataStruct));
       end;
       // make CE visible
+      SetForegroundWindow(h);
       PostMessage(h, WM_MakeVisible, 0, 0);
 			// terminate
       Exit;

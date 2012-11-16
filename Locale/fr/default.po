@@ -4,12 +4,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"CE-POT-Version: 1563\n"
+"CE-POT-Version: 1578\n"
 "CE-Language: French\n"
 "Last-Translator: BB <courriel.bb@laposte.net>\n"
-"POT-Creation-Date:                                                            \n"
-"PO-Revision-Date:                                                            \n"
-"Language-Team:                                                            \n"
+"POT-Creation-Date:                                                             \n"
+"PO-Revision-Date:                                                             \n"
+"Language-Team:                                                             \n"
 
 msgid "%d file(s) failed to download!"
 msgstr "Échec du téléchargement de %d fichier(s) !"
@@ -46,6 +46,9 @@ msgstr "Actions"
 
 msgid "Actual"
 msgstr "Réel"
+
+msgid "Actual Size"
+msgstr "Taille réelle"
 
 msgid "Add"
 msgstr "Ajouter"
@@ -218,6 +221,9 @@ msgstr "Rectangle plein"
 msgid "Bold"
 msgstr "Gras"
 
+msgid "Book View"
+msgstr "Comme un livre"
+
 msgid "Bookmark 1"
 msgstr "Repère 1"
 
@@ -368,6 +374,9 @@ msgstr " Fermer dans la zone de notification"
 msgid "Color:"
 msgstr "Couleur :"
 
+msgid "Colorize multi highlighter sections"
+msgstr "Coloriser les sections en utilisant le surligneur multiple"
+
 msgid "Colors"
 msgstr "Couleurs"
 
@@ -410,6 +419,12 @@ msgstr "Copier"
 msgid "Copy Path"
 msgstr "Copier le chemin"
 
+msgid "Copy Selected Here"
+msgstr "Copier la sélection ici"
+
+msgid "Copy Selection"
+msgstr "Copier la sélection"
+
 msgid "Copy as HTML"
 msgstr "Copier au format HTML"
 
@@ -445,6 +460,9 @@ msgstr "Options de CubicExplorer"
 
 msgid "Current version:"
 msgstr "Version actuelle :"
+
+msgid "Custom Zoom..."
+msgstr "Zoom personnalisé..."
 
 msgid "Custom..."
 msgstr " Personnalisé..."
@@ -686,6 +704,9 @@ msgstr "Exporter au format HTML..."
 msgid "Extra Lines:"
 msgstr "Interlignes :"
 
+msgid "Facing"
+msgstr "Double page"
+
 msgid "Failed to open file!"
 msgstr "L'ouverture du fichier a échoué !"
 
@@ -737,11 +758,26 @@ msgstr "Rechercher le suivant"
 msgid "Find Previous"
 msgstr "Rechercher le précédent"
 
+msgid "Find..."
+msgstr "Rechercher..."
+
 msgid "Find:"
 msgstr "Rechercher :"
 
 msgid "Finished"
 msgstr "Terminé"
+
+msgid "First Page"
+msgstr "Première page"
+
+msgid "Fit Content"
+msgstr "Ajuster au contenu"
+
+msgid "Fit Page"
+msgstr "Page entière"
+
+msgid "Fit Width"
+msgstr "Pleine largeur"
 
 msgid "Five months ago"
 msgstr "Il y a cinq mois"
@@ -814,6 +850,12 @@ msgstr "Raccourcis globaux"
 
 msgid "Global Hotkey Settings"
 msgstr "Agissent même si CE est en arrière-plan ou minimisé dans la zone de notif."
+
+msgid "Go To"
+msgstr "Atteindre"
+
+msgid "GoTo"
+msgstr "Aller à"
 
 msgid "Gradient"
 msgstr "Dégradé de couleurs"
@@ -938,6 +980,9 @@ msgstr "Gros"
 msgid "Large Icons"
 msgstr "Grandes icônes"
 
+msgid "Last Page"
+msgstr "Dernière page"
+
 msgid "Last check:"
 msgstr "Dernière vérification le :"
 
@@ -1000,6 +1045,9 @@ msgstr "Emplacement :"
 
 msgid "Lock"
 msgstr "Verrouiller"
+
+msgid "Lock Panels"
+msgstr "Verrouiller les volets"
 
 msgid "Lock Toolbars"
 msgstr "Verrouiller les barres d'outils"
@@ -1064,6 +1112,9 @@ msgstr "Modifier le raccourci"
 msgid "More..."
 msgstr "Plus..."
 
+msgid "Move Selected Here"
+msgstr "Déplacer la sélection ici"
+
 msgid "Mute"
 msgstr "Muet"
 
@@ -1114,6 +1165,9 @@ msgstr "Suivant"
 
 msgid "Next File"
 msgstr "Fichier suivant"
+
+msgid "Next Page"
+msgstr "Page suivante"
 
 msgid "No Extension"
 msgstr "Pas d'extension"
@@ -1223,6 +1277,9 @@ msgstr "Remplacer le panier existant ?"
 msgid "PHP"
 msgstr "PHP"
 
+msgid "Page..."
+msgstr "Page..."
+
 msgid "Panels"
 msgstr "Volets"
 
@@ -1253,11 +1310,17 @@ msgstr "S'il vous plaît, choisissez un raccourci clavier différent."
 msgid "Port"
 msgstr "Port :"
 
+msgid "Presentation"
+msgstr "Présentation"
+
 msgid "Previous"
 msgstr "Précédent"
 
 msgid "Previous File"
 msgstr "Fichier précédent"
+
+msgid "Previous Page"
+msgstr "Page précédente"
 
 msgid "Properties"
 msgstr "Propriétés"
@@ -1399,6 +1462,12 @@ msgstr "Marge droite ( ligne verticale )"
 
 msgid "Right mouse moves cursor"
 msgstr "Le clic droit déplace le curseur"
+
+msgid "Rotate Left"
+msgstr "Rotation antihoraire"
+
+msgid "Rotate Right"
+msgstr "Rotation horaire"
 
 msgid "Safe Operations Only"
 msgstr "Opérations sûres seulement"
@@ -1598,6 +1667,9 @@ msgstr "Afficher les numéros de ligne"
 msgid "Show more tabs"
 msgstr "Afficher plus d'onglets"
 
+msgid "Show pages continuously"
+msgstr "Afficher les pages en continu"
+
 msgid "Show scroll hint"
 msgstr "Afficher la bulle d'information lors du défilement"
 
@@ -1612,6 +1684,9 @@ msgstr "Arrêter l'ordinateur"
 
 msgid "Single Instance Only"
 msgstr " N'autoriser qu'une seule instance de CubicExplorer"
+
+msgid "Single Page"
+msgstr "Une seule page"
 
 msgid "Single click browsing"
 msgstr " Navigation par simple-clic (ouvrir les dossiers avec un seul clic souris)"
@@ -2005,6 +2080,9 @@ msgstr "Vous n'avez pas sélectionné les types de mise à jour à rechercher."
 
 msgid "Zero"
 msgstr "Zéro"
+
+msgid "Zoom"
+msgstr "Zoom"
 
 msgid "already exists. Please choose another name."
 msgstr "existe déjà. S'il vous plaît, choisissez un autre nom."

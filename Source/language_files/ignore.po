@@ -1111,3 +1111,84 @@ msgstr ""
 #: fCE_TextEditor.dfm:1198
 msgid "Cascading Stylesheets (*.css)|*.css"
 msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_6400..Caption
+#: fCV_SumatraPDF.dfm:416
+msgid "6400%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_3200..Caption
+#: fCV_SumatraPDF.dfm:423
+msgid "3200%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_1600..Caption
+#: fCV_SumatraPDF.dfm:430
+msgid "1600%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_800..Caption
+#: fCV_SumatraPDF.dfm:437
+msgid "800%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_400..Caption
+#: fCV_SumatraPDF.dfm:444
+msgid "400%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_200..Caption
+#: fCV_SumatraPDF.dfm:451
+msgid "200%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_150..Caption
+#: fCV_SumatraPDF.dfm:458
+msgid "150%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_125..Caption
+#: fCV_SumatraPDF.dfm:465
+msgid "125%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_100..Caption
+#: fCV_SumatraPDF.dfm:472
+msgid "100%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_25..Caption
+#: fCV_SumatraPDF.dfm:486
+msgid "25%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_12_5..Caption
+#: fCV_SumatraPDF.dfm:493
+msgid "12.5%"
+msgstr ""
+
+#. SumatraPDF..ActionList..act_zoom_8_33..Caption
+#: fCV_SumatraPDF.dfm:500
+msgid "8.33%"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5245
+# dCE_Images.dfm:9408
+msgid "PngImage74"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5272
+# dCE_Images.dfm:9428
+msgid "PngImage75"
+msgstr ""
+
+#. CE_Images..MediumIcons......Name
+#. CE_Images..SmallIcons......Name
+#: dCE_Images.dfm:5312
+# dCE_Images.dfm:9454
+msgid "PngImage76"
+msgstr ""

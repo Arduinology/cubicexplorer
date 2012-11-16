@@ -607,7 +607,7 @@ begin
   Close;
   h:= GetActiveWindow;
   try
-    label_status.Caption:= 'Opening...';
+    label_status.Caption:= _('Opening...');
     Application.ProcessMessages;
     if InternalOpen(AFilePath, fPluginMode, fRestrict) then
     begin

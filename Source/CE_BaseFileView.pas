@@ -304,6 +304,8 @@ begin
   self.Header.Height:= 18;
   self.ShowInactive:= false;
   self.EditManager.Enabled:= true;
+  self.EditManager.Color:= clWindow;
+  self.EditManager.Font.Color:= clWindowText;
   self.Selection.MultiSelect:= true;
   self.Selection.EnableDragSelect:= true;
   self.Selection.FullRowSelect:= true;
