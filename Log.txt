@@ -3,6 +3,8 @@
 - Fixed translation issues.
 - Fixed Rename edit's font color issue.
 - Fixed "Bring CE to front" bug.
+---
+- Fixed "Ctrl+W closes wrong tab" bug.
 
 10.11.2012
 * Updated Italian translation. (thanks to Folgore101)

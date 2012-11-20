@@ -860,6 +860,7 @@ begin
     fActiveTabHistory.Insert(0, fActiveTab);
 
     fActiveTab:= tab;
+    fActivePopupTab:= tab;
   end;
 
   // Hide everything else
