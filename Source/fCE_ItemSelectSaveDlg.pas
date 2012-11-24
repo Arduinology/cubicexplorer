@@ -49,6 +49,8 @@ type
     fShowExistsWarning: Boolean;
     procedure SetAllowEmptyText(const Value: Boolean);
     { Private declarations }
+  protected
+    procedure CreateParams(var Params: TCreateParams); override;
   public
     constructor Create(AOwner: TComponent); override;
     { Public declarations }
@@ -116,6 +118,15 @@ procedure TCEItemSelectSaveDlg.comboChange(Sender: TObject);
 begin
   if not fAllowEmptyText then
   but_ok.Enabled:= combo.Text <> '';
+end;
+
+{-------------------------------------------------------------------------------
+  CreateParams
+-------------------------------------------------------------------------------}
+procedure TCEItemSelectSaveDlg.CreateParams(var Params: TCreateParams);
+begin
+  inherited CreateParams(Params);
+  Params.WndParent:= Application.MainFormHandle;
 end;
 
 {-------------------------------------------------------------------------------

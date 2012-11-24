@@ -5,7 +5,7 @@
 ; - Relative path works.
 ; - If the folder doesn't exist, it will be created when CubicExplorer starts. Parent folder must exist for it to work!
 ; - If this file is missing or the folder can't be found or created, settings are saved in the same folder as CubicExplorer.exe.
-; - use [READONLY] in front of the path to prevent CubicExplorer from saving.
+; - use [READONLY] in front of the path to prevent CubicExplorer from saving. For example: [READONLY]C:\MySettings\
 ; - Comment lines should start with ; character.
 ;
 ; System Variables supported in path:

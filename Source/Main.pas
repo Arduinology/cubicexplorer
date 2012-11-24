@@ -24,11 +24,13 @@ unit Main;
 interface
 
 uses
+  // CubicCore
+  ccStrings,
   // CE Frames   
   fCE_ExtAppPage, fCE_FiltersPanel, fCE_BookmarkPropDlg,
   fCE_DockHostForm, fCE_DockableForm, fCE_TabPage, fCE_FileView,
   fCE_FolderPanel, fCE_QuickViewPanel, fCE_BookmarkPanel, fCE_Customizer,
-  fCE_PoEditor, CE_VersionUpdater,
+  fCE_PoEditor, CE_VersionUpdater, fCE_PluginLog,
   // CE Data Modules
   dCE_Actions, dCE_Images, dCE_Input,
   // CE Units
@@ -37,7 +39,7 @@ uses
   CE_ToolbarButtons, CE_TBActions, CE_LanguageCodes, CE_LanguageEngine,
   CE_LanguageUtils, CE_Sessions, CE_SpTabBar,
   CE_AppSettings, CE_Toolbar, AppCommand,
-  CEJvDockVSNetStyleTBX,
+  CEJvDockVSNetStyleTBX, CE_Plugins, CE_PluginsIntf,
   // Toolbar2000
   TB2Dock, TB2Item, TB2Toolbar, TB2ToolWindow, TB2ExtItems,
   // SpTBX
@@ -496,32 +498,6 @@ begin
   // - we added the curtain panel in design time because otherwise toolbars will
   //  flash on screen before the curtain is drawn.
   panel_curtain.BringToFront;
-  
-  ShowWindow(Application.Handle, SW_HIDE);
-  SetWindowLong(Application.Handle, GWL_EXSTYLE,
-    GetWindowLong(Application.Handle, GWL_EXSTYLE) and not WS_EX_APPWINDOW
-    or WS_EX_TOOLWINDOW);
-  ShowWindow(Application.Handle, SW_SHOW);
-
-  ChangeNotifier.RegisterShellChangeNotify(Self);
-  fLanguageList:= TTntStringList.Create;
-  fLanguageList.NameValueSeparator:= '=';
-  fIsReady:= false;
-  fUpdatingCount:= 0;
-  fCEIsClosing:= false;
-  fPathInTitle:= false;
-  fSaveSettingsOnClose:= true;
-  SetVistaFont(Self.Font);
-  Settings:= TMainFormSettings.Create;
-  Settings.Form:= Self;
-  GlobalAppSettings.AddItem('MainForm', Settings, true, true);
-
-  StackDirPath:= SettingsDirPath + 'Stacks\';
-  
-  if Assigned(MP_SHSetInstanceExplorer) then
-  MP_SHSetInstanceExplorer(ExplorerThreadInstance);
-  if Assigned(MP_SHSetThreadRef) then
-  MP_SHSetThreadRef(ExplorerThreadInstance);
 
   // Fix date formating bug in Delphi
   if IsWindowsVista then
@@ -530,9 +506,41 @@ begin
     GetFormatSettings;
   end;
 
+  // fix taskbar button for Vista+
+  ShowWindow(Application.Handle, SW_HIDE);
+  SetWindowLong(Application.Handle, GWL_EXSTYLE,
+    GetWindowLong(Application.Handle, GWL_EXSTYLE) and not WS_EX_APPWINDOW
+    or WS_EX_TOOLWINDOW);
+  ShowWindow(Application.Handle, SW_SHOW);
+
+  // create instance
+  fLanguageList:= TTntStringList.Create;
+  fLanguageList.NameValueSeparator:= '=';
+    // mainform settings
+  Settings:= TMainFormSettings.Create;
+  Settings.Form:= Self;
+  GlobalAppSettings.AddItem('MainForm', Settings, true, true);
+
   fPanels:= TComponentList.Create(false);
 
+  // init values
+  fIsReady:= false;
+  fUpdatingCount:= 0;
+  fCEIsClosing:= false;
+  fPathInTitle:= false;
+  fSaveSettingsOnClose:= true;
+  StackDirPath:= SettingsDirPath + 'Stacks\';
+
+  SetVistaFont(Self.Font);
   Self.OnContextPopup:= CEActions.HandleGlobalContextPopup;
+
+  // VSTools stuff
+  ChangeNotifier.RegisterShellChangeNotify(Self);
+
+  if Assigned(MP_SHSetInstanceExplorer) then
+  MP_SHSetInstanceExplorer(ExplorerThreadInstance);
+  if Assigned(MP_SHSetThreadRef) then
+  MP_SHSetThreadRef(ExplorerThreadInstance);
 end;
 
 {-------------------------------------------------------------------------------
@@ -551,9 +559,17 @@ end;
 procedure TMainForm.FormDestroy(Sender: TObject);
 begin
   ChangeNotifier.UnRegisterShellChangeNotify(Self);
+
   fIsReady:= false;
   CEActions.UpdateTimer.Enabled:= false;
+
+  // unload plugins
+  GlobalPluginHost.Finalize;
+
+  // finalize UI
   FinalizeUI;
+
+  // free instances
   fLanguageList.Free;
   Settings.Free;
   fPanels.Free;
@@ -828,6 +844,15 @@ begin
   if not Settings.StartInTray then
   MainForm.Show;
 
+  // TODO: remove this!!!!
+  //ShowPluginLog;
+
+  // Load Plugins
+  GlobalPluginHost.LoadPlugins(ExePath + 'Plugins\', 'dll', true);
+  if not WideIsSameText(SettingsDirPath, ExePath) then
+  GlobalPluginHost.LoadPlugins(SettingsDirPath + 'Plugins\', 'dll', true);
+  GlobalPluginHost.SetSettingsFolder(SettingsDirPath + 'Plugins\.settings\');
+
   // Load Bookmarks
   CEBookmarkPanel.BookmarkMenuItems.Add(BookmarkToolbar.Items);
   CEBookmarkPanel.BookmarkMenuItems.Add(bookmarkMenuItem);
@@ -881,6 +906,8 @@ begin
 
   // Start Update timer
   CEActions.UpdateTimer.Enabled:= true;
+
+
 
   // Testing stuff!!!
   if DebugHook <> 0 then

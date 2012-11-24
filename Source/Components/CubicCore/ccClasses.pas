@@ -560,9 +560,11 @@ var
   P: PWideChar;
   I, Num: Integer;
 begin
+  // 30.10.2012 - removed quotes from the resulting text - Marko.
+
   Num:= GetCount;
   if (Num = 1) and (GetP(0)^ = '') then
-  Result := AQuoteChar + '' + AQuoteChar // Compiler wants it this way
+  Result:= ''// AQuoteChar + '' + AQuoteChar // Compiler wants it this way
   else
   begin
     Result:= '';
@@ -582,8 +584,8 @@ begin
         end;
       end;
       
-      if P[0] <> WideChar(0) then
-      S:= WideQuotedStr(S, AQuoteChar);
+      //if P[0] <> WideChar(0) then
+      //S:= WideQuotedStr(S, AQuoteChar);
 
       Result:= Result + S + ADelimiter;
     end;
@@ -1424,13 +1426,16 @@ var
   list: TCCStringList;
   {$ENDIF}
 begin
+  // 30.10.2012 - removed quotes from the resulting text - Marko.
+
   Num:= GetCount;
   if (Num = 1) and (GetP(0)^ = '') then
-  Result := AQuoteChar + '' + AQuoteChar // Compiler wants it this way
+  Result:= ''// AQuoteChar + '' + AQuoteChar 
   else
   begin
     {$IFDEF MSWINDOWS}
     list:= TCCStringList.Create;
+    list.LineSeparator:= '';
     try
     {$ENDIF}
       Result:= '';
@@ -1450,8 +1455,8 @@ begin
           end;
         end;
 
-        if P[0] <> WideChar(0) then
-        S:= WideQuotedStr(S, AQuoteChar);
+        //if P[0] <> WideChar(0) then
+        //S:= WideQuotedStr(S, AQuoteChar);
 
         {$IFDEF MSWINDOWS}
         list.Add(S + ADelimiter); // This is faster than concatenating with + sign.

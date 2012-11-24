@@ -146,7 +146,12 @@ uses
   fCE_TextEditorOptions in 'fCE_TextEditorOptions.pas' {CETextEditorOptionsForm: TTntForm},
   fCE_WorkspacePanel in 'fCE_WorkspacePanel.pas' {CEWorkspacePanel},
   VirtualThumbnails in 'Components\Mustangpeak\VSTools\VirtualThumbnails.pas',
-  fCV_SumatraPDF in 'fCV_SumatraPDF.pas' {SumatraPDF: TFrame};
+  fCV_SumatraPDF in 'fCV_SumatraPDF.pas' {SumatraPDF: TFrame},
+  CE_Plugins in 'CE_Plugins.pas',
+  CE_PluginsIntf in 'CE_PluginsIntf.pas',
+  fCE_PluginLog in 'fCE_PluginLog.pas' {CEPluginLog},
+  fCE_OptionsPage_Plugins in 'fCE_OptionsPage_Plugins.pas' {CEOptionsPage_Plugins: TFrame},
+  fCE_PluginSettingsForm in 'fCE_PluginSettingsForm.pas' {CEPluginSettingsForm};
 
 {$R *.res}
 {$R 'CE_Resources.res'}

@@ -3,14 +3,14 @@
 	<PersonalityInfo>
 		<Option>
 			<Option Name="Personality">Delphi.Personality</Option>
-			<Option Name="ProjectType"></Option>
+			<Option Name="ProjectType">VCLApplication</Option>
 			<Option Name="Version">1.0</Option>
-			<Option Name="GUID">{1108A652-7B46-4A7B-9F49-D7827E418F1A}</Option>
+			<Option Name="GUID">{32C26C77-3B94-462C-ABCE-A500670B7097}</Option>
 		</Option>
 	</PersonalityInfo>
 	<Delphi.Personality>
 		<Source>
-			<Source Name="MainSource">CubicExplorer.dpr</Source>
+			<Source Name="MainSource">SamplePluginLib.dpr</Source>
 		</Source>
 		<FileVersion>
 			<FileVersion Name="Version">7.0</FileVersion>
@@ -106,7 +106,7 @@
 			<Compiler Name="CodePage"></Compiler>
 		</Compiler>
 		<Linker>
-			<Linker Name="MapFile">3</Linker>
+			<Linker Name="MapFile">0</Linker>
 			<Linker Name="OutputObjs">0</Linker>
 			<Linker Name="GenerateHpps">False</Linker>
 			<Linker Name="ConsoleApp">1</Linker>
@@ -119,19 +119,19 @@
 			<Linker Name="ExeDescription"></Linker>
 		</Linker>
 		<Directories>
-			<Directories Name="OutputDir">..</Directories>
-			<Directories Name="UnitOutputDir">..\dcu</Directories>
+			<Directories Name="OutputDir">..\Plugins</Directories>
+			<Directories Name="UnitOutputDir">..\DCU</Directories>
 			<Directories Name="PackageDLLOutputDir"></Directories>
-			<Directories Name="PackageDCPOutputDir">..\dcu</Directories>
-			<Directories Name="SearchPath">Components\fcl-xml;Components\jvcl;Components\DirectX;Components\CRS-AppSettings</Directories>
-			<Directories Name="Packages">rtl;vcl;vclx;dbrtl;vcldb;tb2k_d10;tbx_d10;OverbyteIcsDel100Package;Png10;VirtualTreesD10;S404_r100;S404br100;MPHexEditor_D7;mbTBXLibD9D;SortGridD10;madBasic_;madDisAsm_;madExcept_;PerlRegExD2006;KHexEditor_R7;SynEdit_R2006;SynWeb_R2006;ATBinHexD2006;Jcl;bdertl;JvUIBD10R;mbTBXJvLibD10D;delphi10;vclactnband;vclie;VclSmp;xmlrtl;inet;inetdbbde;inetdbxpress;TUOScript100;GR32_BDS2006;GR32_DSGN_BDS2006;JclVcl;JvCoreD10R;JvSystemD10R;JvStdCtrlsD10R;JvAppFrmD10R;JvBandsD10R;JvDBD10R;JvDlgsD10R;JvBDED10R;JvCustomD10R;JvDotNetCtrlsD10R;JvEDID10R;JvCryptD10R;JvGlobusD10R;JvHMID10R;JvInterpreterD10R;JvJansD10R;JvManagedThreadsD10R;JvCtrlsD10R;JvCmpD10R;JvMMD10R;JvNetD10R;JvPageCompsD10R;JvPluginD10R;JvPrintPreviewD10R;JvRuntimeDesignD10R;JvTimeFrameworkD10R;JvValidatorsD10R;JvWizardD10R;JvXPCtrlsD10R;OverbyteIcsSslDel100Package;JvCore;JvSystem;JvStdCtrls;JvControls;JvPageComps</Directories>
-			<Directories Name="Conditionals">madExcept</Directories>
+			<Directories Name="PackageDCPOutputDir">..\DCU</Directories>
+			<Directories Name="SearchPath"></Directories>
+			<Directories Name="Packages">vcl;rtl;vclx;dbrtl;vcldb;xmlrtl;vclie;inet;inetdbbde;inetdbxpress;VclSmp;soaprtl;dsnap;bdertl;teeui;teedb;tee;vcldbx;dsnapcon;websnap;webdsnap;vclactnband;AbbreviaVCL;GR32_DSGN_RS2006;GR32_RS2006;OverbyteIcsD2006Run;tb2k_d10;PngComponentsD10;madBasic_;madDisAsm_;madExcept_;EmbeddedWebBrowser_D2006;CE_Actions;JclVcl;Jcl;JvCore;JvSystem;JvStdCtrls;JvAppFrm;JvBands;JvDB;JvDlgs;JvBDE;JvControls;JvCmp;JvCrypt;JvCustom;JvDocking;JvDotNetCtrls;JvGlobus;JvHMI;JvJans;JvManagedThreads;JvMM;JvNet;JvPascalInterpreter;JclDeveloperTools;JvPluginSystem;JvPrintPreview;JvRuntimeDesign;JvTimeFramework;JvWizards;JvXPCtrls;SynEdit_R2006;JclContainers;VampyreImagingPackage.D2006</Directories>
+			<Directories Name="Conditionals"></Directories>
 			<Directories Name="DebugSourceDirs"></Directories>
 			<Directories Name="UsePackages">False</Directories>
 		</Directories>
 		<Parameters>
 			<Parameters Name="RunParams"></Parameters>
-			<Parameters Name="HostApplication"></Parameters>
+			<Parameters Name="HostApplication">D:\Delphi\Ohjelmat\CubicExplorer\Trunk\CubicExplorer.exe</Parameters>
 			<Parameters Name="Launcher"></Parameters>
 			<Parameters Name="UseLauncher">False</Parameters>
 			<Parameters Name="DebugCWD"></Parameters>
@@ -145,36 +145,53 @@
 			<Language Name="RootDir"></Language>
 		</Language>
 		<VersionInfo>
-			<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
-			<VersionInfo Name="AutoIncBuild">True</VersionInfo>
-			<VersionInfo Name="MajorVer">0</VersionInfo>
-			<VersionInfo Name="MinorVer">96</VersionInfo>
+			<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+			<VersionInfo Name="AutoIncBuild">False</VersionInfo>
+			<VersionInfo Name="MajorVer">1</VersionInfo>
+			<VersionInfo Name="MinorVer">0</VersionInfo>
 			<VersionInfo Name="Release">0</VersionInfo>
-			<VersionInfo Name="Build">1582</VersionInfo>
+			<VersionInfo Name="Build">0</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">False</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
 			<VersionInfo Name="Private">False</VersionInfo>
 			<VersionInfo Name="DLL">False</VersionInfo>
-			<VersionInfo Name="Locale">1033</VersionInfo>
+			<VersionInfo Name="Locale">1035</VersionInfo>
 			<VersionInfo Name="CodePage">1252</VersionInfo>
 		</VersionInfo>
 		<VersionInfoKeys>
-			<VersionInfoKeys Name="CompanyName">Cubic Reality Software</VersionInfoKeys>
-			<VersionInfoKeys Name="FileDescription">File Manager</VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">0.96.0.1582</VersionInfoKeys>
+			<VersionInfoKeys Name="CompanyName"></VersionInfoKeys>
+			<VersionInfoKeys Name="FileDescription"></VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName"></VersionInfoKeys>
-			<VersionInfoKeys Name="LegalCopyright">Marko Savolainen 2006-2012</VersionInfoKeys>
+			<VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
 			<VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys>
-			<VersionInfoKeys Name="ProductName">CubicExplorer</VersionInfoKeys>
-			<VersionInfoKeys Name="ProductVersion">SVN Snapshot</VersionInfoKeys>
+			<VersionInfoKeys Name="ProductName"></VersionInfoKeys>
+			<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
 			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
 		</VersionInfoKeys>  
+    
+    
+    
+    
     <Excluded_Packages>
+      <Excluded_Packages Name="c:\program files (x86)\borland\bds\4.0\Bin\dcltee100.bpl">TeeChart Components</Excluded_Packages>
+      <Excluded_Packages Name="C:\Program Files (x86)\madCollection\madBasic\BDS4\madHelp_.bpl">madHelp 1.1a  -  www.madshi.net</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Marko\Documents\Borland Studio Projects\Bpl\FrameViewer2006.bpl">ThtmlViewer, TFrameViewer, and TFrameBrowser</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Marko\Documents\Borland Studio Projects\Bpl\JvDotNetCtrlsDesign100.bpl">JVCL DotNet Controls</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Marko\Documents\Borland Studio Projects\Bpl\JvWizardsDesign100.bpl">JVCL Wizard</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Marko\Documents\Borland Studio Projects\Bpl\JvXPCtrlsDesign100.bpl">JVCL XP Controls</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Marko\Documents\Borland Studio Projects\Bpl\JclRepositoryExpert100.bpl">JCL Package containing repository wizards</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Marko\Documents\Borland Studio Projects\Bpl\JclStackTraceViewerExpert100.bpl">JCL Stack Trace Viewer</Excluded_Packages>
+      <Excluded_Packages Name="c:\program files (x86)\borland\bds\4.0\Bin\dcl31w100.bpl">Delphi 1.0 Compatibility Components</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Marko\Documents\Borland Studio Projects\Bpl\DScintillaDesign.bpl">DScintilla runtime package</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Marko\Documents\Borland Studio Projects\Bpl\JclDebugExpert100.bpl">JCL Debug IDE extension</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Marko\Documents\Borland Studio Projects\Bpl\JclSIMDViewExpert100.bpl">JCL Debug Window of XMM registers</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Marko\Documents\Borland Studio Projects\Bpl\JvControlsDesign100.bpl">JVCL Visual Controls</Excluded_Packages>
       <Excluded_Packages Name="C:\Users\Marko\Documents\Borland Studio Projects\Bpl\JvDlgsDesign100.bpl">JVCL Dialog Components</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Marko\Documents\Borland Studio Projects\Bpl\JvPageCompsDesign100.bpl">JVCL Page Style Components</Excluded_Packages>
+      <Excluded_Packages Name="C:\Users\Marko\Documents\Borland Studio Projects\Bpl\JvStdCtrlsDesign100.bpl">JVCL Standard Controls</Excluded_Packages>
     </Excluded_Packages>
   </Delphi.Personality>
-	<StarTeamAssociation></StarTeamAssociation>
-	<StarTeamNonRelativeFiles></StarTeamNonRelativeFiles>
 </BorlandProject>

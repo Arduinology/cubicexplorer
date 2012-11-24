@@ -52,6 +52,8 @@ type
     procedure TntFormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
+  protected
+    procedure CreateParams(var Params: TCreateParams); override;
   public
     ParentLinkFolderPath: WideString;
     { Public declarations }
@@ -134,6 +136,15 @@ begin
       end;
     end;
   end;
+end;
+
+{-------------------------------------------------------------------------------
+  CreateParams
+-------------------------------------------------------------------------------}
+procedure TCreateSymlinkDlg.CreateParams(var Params: TCreateParams);
+begin
+  inherited CreateParams(Params);
+  Params.WndParent:= Application.MainFormHandle;
 end;
 
 {-------------------------------------------------------------------------------

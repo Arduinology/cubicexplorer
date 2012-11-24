@@ -14,8 +14,6 @@ object CEPoEditor: TCEPoEditor
     TabOrder = 2
     Borders = False
     TBXStyleBackground = True
-    ExplicitTop = 25
-    ExplicitHeight = 476
     object label_startup: TSpTBXLabel
       Left = 0
       Top = 0
@@ -25,7 +23,6 @@ object CEPoEditor: TCEPoEditor
       Align = alClient
       AutoSize = False
       Alignment = taCenter
-      ExplicitHeight = 476
     end
   end
   object SpTBXDock1: TSpTBXDock
@@ -103,7 +100,6 @@ object CEPoEditor: TCEPoEditor
       Height = 450
       Caption = 'Word List'
       ImageIndex = -1
-      ExplicitHeight = 451
       TabItem = 'SpTBXTabItem1'
       object horz_splitter: TSpTBXSplitter
         Left = 2
@@ -113,7 +109,6 @@ object CEPoEditor: TCEPoEditor
         Cursor = crSizeNS
         Align = alBottom
         ResizeStyle = rsPattern
-        ExplicitTop = 371
       end
       object Translation_panel: TPanel
         Left = 2
@@ -123,7 +118,6 @@ object CEPoEditor: TCEPoEditor
         Align = alBottom
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitTop = 376
         object vert_splitter: TSpTBXSplitter
           Left = 201
           Top = 0
@@ -208,7 +202,6 @@ object CEPoEditor: TCEPoEditor
         Height = 370
         Align = alClient
         TabOrder = 1
-        ExplicitHeight = 371
         object PoList: TVirtualStringTree
           Left = 2
           Top = 2
@@ -243,7 +236,6 @@ object CEPoEditor: TCEPoEditor
           OnMouseDown = PoListMouseDown
           OnMouseUp = PoListMouseUp
           OnNewText = PoListNewText
-          ExplicitHeight = 367
           Columns = <
             item
               Position = 0
@@ -265,7 +257,6 @@ object CEPoEditor: TCEPoEditor
       Height = 450
       Caption = 'Translation'
       ImageIndex = -1
-      ExplicitHeight = 451
       TabItem = 'SpTBXTabItem2'
       object SpTBXPanel1: TSpTBXPanel
         Left = 12
@@ -344,7 +335,7 @@ object CEPoEditor: TCEPoEditor
           Width = 145
           Height = 21
           Style = csDropDownList
-          ItemHeight = 0
+          ItemHeight = 13
           TabOrder = 0
           OnChange = LanguageListChange
         end

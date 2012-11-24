@@ -42,10 +42,13 @@ const
   LNOTIFY_CLEAR = 1;
 
   // Msg type (MTYPE)
+  MTYPE_TICK    = -1;
   MTYPE_NORMAL  = 0;
   MTYPE_HINT    = 1;
   MTYPE_WARNING = 2;
   MTYPE_ERROR   = 3;
+
+  MTYPE_STRS: array [MTYPE_TICK..MTYPE_ERROR] of string = ('Tick', 'Normal', 'Hint', 'Warning', 'Error');
   
 type
   ICCLogListener = interface;
@@ -84,6 +87,7 @@ type
     // Log
     // - Add new log message.
     // - Returns the tick of added msg.
+    // - If AMsgType = MTYPE_TICK, no message will be added, only tick is returned.
     function Log(const AMsg: WideString; AMsgType: Integer; ASender: Pointer):
         Int64; stdcall;
 
@@ -136,17 +140,11 @@ type
   public
     constructor Create; virtual;
     destructor Destroy; override;
-    // Clear
-    // - Clear all log messages.
     procedure Clear; virtual; stdcall;
     function GetItem(AIndex: Integer; out AItem: ALogItem): Boolean; virtual; stdcall;
     function Log(const AMsg: WideString; AMsgType: Integer; ASender: Pointer):
         Int64; virtual; stdcall;
-    // RegisterListener
-    // - Register listener.
     procedure RegisterListener(AListener: ICCLogListener); virtual; stdcall;
-    // UnregisterListerner
-    // - Unregister listener.
     procedure UnregisterListener(AListener: ICCLogListener); virtual; stdcall;
     property Count: Integer read GetCount;
     property Enabled: Boolean read GetEnabled write SetEnabled;
@@ -337,6 +335,12 @@ function TCCLog.Log(const AMsg: WideString; AMsgType: Integer; ASender:
 var
   data: PLogItem;
 begin
+  if AMsgType = MTYPE_TICK then
+  begin
+    StartTimer(Result);
+    Exit;
+  end;
+
   fItems.Lock;
   try
     if fEnabled then

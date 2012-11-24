@@ -53,6 +53,8 @@ type
     procedure but_closeClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure TntFormKeyPress(Sender: TObject; var Key: Char);
+  protected
+    procedure CreateParams(var Params: TCreateParams); override;
   public
 
   end;
@@ -85,6 +87,15 @@ end;
 procedure TCEAboutBox.but_closeClick(Sender: TObject);
 begin
   PostMessage(self.Handle, WM_CLOSE,0,0);
+end;
+
+{-------------------------------------------------------------------------------
+  CreateParams
+-------------------------------------------------------------------------------}
+procedure TCEAboutBox.CreateParams(var Params: TCreateParams);
+begin
+  inherited CreateParams(Params);
+  Params.WndParent:= Application.MainFormHandle;
 end;
 
 {*------------------------------------------------------------------------------

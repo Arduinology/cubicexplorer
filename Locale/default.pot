@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-11-16 10:34\n"
-"PO-Revision-Date: 2012-11-16 10:34\n"
+"POT-Creation-Date: 2012-11-24 09:52\n"
+"PO-Revision-Date: 2012-11-24 09:52\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +55,7 @@ msgstr ""
 #: dCE_Actions.dfm:588 dCE_Actions.dfm:597 dCE_Actions.dfm:606
 #: dCE_Actions.dfm:734 dCE_Actions.dfm:735 dCE_Actions.dfm:812
 #: dCE_Actions.dfm:821 fCE_SessionManager.dfm:131 fCE_OptionsPage_Tabs.pas:79
-#: Main.pas:594
+#: Main.pas:610
 msgid "Tabs"
 msgstr ""
 
@@ -230,7 +230,7 @@ msgstr ""
 #. CEActions..ActionList..act_view_folders..Caption
 #. CEFolderPanel..Caption
 #: dCE_Actions.dfm:86  fCE_FolderPanel.dfm:2
-#: fCE_OptionsPage_Display_FolderTree.pas:64 Main.pas:1251
+#: fCE_OptionsPage_Display_FolderTree.pas:64 Main.pas:1278
 msgid "Folders"
 msgstr ""
 
@@ -305,14 +305,14 @@ msgstr ""
 #: fCE_TextEditor.dfm:752 fCE_TextEditor.dfm:759 fCE_TextEditor.dfm:774
 #: fCE_TextEditor.dfm:1141 fCV_SumatraPDF.dfm:280 Main.dfm:367
 #: fCE_OptionsPage_Display_Bookmarks.pas:65 fCE_WorkspacePanel.pas:695
-#: Main.pas:629
+#: Main.pas:645
 msgid "Bookmarks"
 msgstr ""
 
 #. CEActions..ActionList..act_view_large..Caption
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..check_largeIcons..Caption
 #. CEWorkspacePanel..BackgroundCMItems_up..View1..item_large_icons..Caption
-#: dCE_Actions.dfm:109  fCE_Customizer.dfm:221 fCE_WorkspacePanel.dfm:49
+#: dCE_Actions.dfm:109  fCE_Customizer.dfm:220 fCE_WorkspacePanel.dfm:49
 msgid "Large Icons"
 msgstr ""
 
@@ -370,7 +370,7 @@ msgstr ""
 
 #. CEActions..ActionList..act_view_loadskin..Hint
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet3..but_loadTheme..Hint
-#: dCE_Actions.dfm:159  fCE_Customizer.dfm:157
+#: dCE_Actions.dfm:159  fCE_Customizer.dfm:156
 msgid "Load theme from file"
 msgstr ""
 
@@ -437,8 +437,8 @@ msgstr ""
 #: dCE_Actions.dfm:245  fCE_BookmarkPanel.dfm:77
 #: fCE_OptionsPage_Display_FileView.dfm:236
 #: fCE_OptionsPage_GlobalHotkeys.dfm:123 fCE_OptionsPage_Hotkeys.dfm:127
-#: fCE_SessionManager.dfm:88 fCE_TextEditor.dfm:619 fCE_VersionMgrForm.pas:344
-#: fCE_VersionMgrForm.pas:570
+#: fCE_SessionManager.dfm:88 fCE_TextEditor.dfm:619 fCE_VersionMgrForm.pas:354
+#: fCE_VersionMgrForm.pas:580
 msgid "Delete"
 msgstr ""
 
@@ -529,7 +529,7 @@ msgstr ""
 #. CEActions..ActionList..act_edit_newfile..Caption
 #. CEPoEditor..ActionList..act_new..Caption
 #. CETextEditor..ActionList..act_new..Caption
-#: dCE_Actions.dfm:350  fCE_PoEditor.dfm:406 fCE_TextEditor.dfm:533
+#: dCE_Actions.dfm:350  fCE_PoEditor.dfm:397 fCE_TextEditor.dfm:533
 msgid "New"
 msgstr ""
 
@@ -608,7 +608,7 @@ msgstr ""
 #. Create SessionsBar
 #: dCE_Actions.dfm:441  dCE_Actions.dfm:448 dCE_Actions.dfm:532
 #: dCE_Actions.dfm:539 dCE_Actions.dfm:554 dCE_Actions.dfm:555
-#: dCE_Actions.dfm:575 Main.dfm:370 Main.pas:639
+#: dCE_Actions.dfm:575 Main.dfm:370 Main.pas:655
 msgid "Sessions"
 msgstr ""
 
@@ -835,14 +835,14 @@ msgid "New File"
 msgstr ""
 
 #. CEActions..ActionList..act_stack_open..Caption
-#: dCE_Actions.dfm:750  Main.pas:1228
+#: dCE_Actions.dfm:750  Main.pas:1255
 msgid "Open"
 msgstr ""
 
 #. CEActions..ActionList..act_stack_save..Caption
 #. CEPoEditor..ActionList..act_save..Caption
 #. CETextEditor..ActionList..act_save..Caption
-#: dCE_Actions.dfm:757  fCE_PoEditor.dfm:399 fCE_TextEditor.dfm:556
+#: dCE_Actions.dfm:757  fCE_PoEditor.dfm:390 fCE_TextEditor.dfm:556
 #: CE_Sessions.pas:238 fCE_StackPanel.pas:329
 msgid "Save"
 msgstr ""
@@ -892,6 +892,7 @@ msgstr ""
 
 #. CEAboutBox..Panel1..but_close..Caption
 #. CEToolbarCustomizer..SpTBXPanel1..but_close..Caption
+#. CEPluginLog..panel_bottom..but_close..Caption
 #. CESessionManager..SpTBXPanel2..but_close..Caption
 #. CETextEditor..DockBottom..toolbar_find..but_close_search..Caption
 #. CETextEditor..DockBottom..toolbar_replace..but_replace_close..Caption
@@ -899,14 +900,15 @@ msgstr ""
 #. CEVersionMgrForm..panel_bottom..but_close..Caption
 #. SumatraPDF..ActionList..act_file_close..Caption
 #. show close button
-#: fCE_AboutBox.dfm:1028  fCE_Customizer.dfm:42 fCE_SessionManager.dfm:39
-#: fCE_TextEditor.dfm:305 fCE_TextEditor.dfm:388 fCE_TextEditor.dfm:572
-#: fCE_VersionMgrForm.dfm:193 fCV_SumatraPDF.dfm:202 fCE_QuickView.pas:1185
+#: fCE_AboutBox.dfm:1027  fCE_Customizer.dfm:41 fCE_PluginLog.dfm:62
+#: fCE_SessionManager.dfm:39 fCE_TextEditor.dfm:305 fCE_TextEditor.dfm:388
+#: fCE_TextEditor.dfm:572 fCE_VersionMgrForm.dfm:193 fCV_SumatraPDF.dfm:202
+#: fCE_QuickView.pas:1185
 msgid "Close"
 msgstr ""
 
 #. CEAboutBox..Panel1..BuildLabel..Caption
-#: fCE_AboutBox.dfm:1038  fCE_AboutBox.pas:108
+#: fCE_AboutBox.dfm:1037  fCE_AboutBox.pas:119
 msgid "Version:"
 msgstr ""
 
@@ -981,10 +983,12 @@ msgstr ""
 #. CEItemSelectSaveDlg..panel_background..but_ok..Caption
 #. CELoginPromptDlg..but_ok..Caption
 #. CEOptionsDialog..BottomPanel..but_ok..Caption
+#. CEPluginSettingsForm..panel_bottom..but_ok..Caption
 #. CETextEditorOptionsForm..but_ok..Caption
 #: fCE_BookmarkPropDlg.dfm:140  fCE_ColumnFormSpTBX.dfm:52
 #: fCE_ItemSelectSaveDlg.dfm:52 fCE_LoginPromptDlg.dfm:77
-#: fCE_OptionsDialog.dfm:158 fCE_TextEditorOptions.dfm:731
+#: fCE_OptionsDialog.dfm:157 fCE_PluginSettingsForm.dfm:58
+#: fCE_TextEditorOptions.dfm:731
 msgid "OK"
 msgstr ""
 
@@ -994,23 +998,26 @@ msgstr ""
 #. CEItemSelectSaveDlg..panel_background..but_cancel..Caption
 #. CELoginPromptDlg..but_cancel..Caption
 #. CEOptionsDialog..BottomPanel..but_cancel..Caption
+#. CEPluginSettingsForm..panel_bottom..but_cancel..Caption
 #. CENewTranslationDlg..but_cancel..Caption
 #. CETextEditorOptionsForm..but_cancel..Caption
 #. CEUpdateDlg..but_cancel..Caption
 #: fCE_BookmarkPropDlg.dfm:152  fCE_ColumnFormSpTBX.dfm:63
 #: fCE_CreateSymlink.dfm:100 fCE_ItemSelectSaveDlg.dfm:63
-#: fCE_LoginPromptDlg.dfm:88 fCE_OptionsDialog.dfm:169
-#: fCE_PoEditor_NewForm.dfm:83 fCE_TextEditorOptions.dfm:721
-#: fCE_UpdateDlg.dfm:46
+#: fCE_LoginPromptDlg.dfm:88 fCE_OptionsDialog.dfm:168
+#: fCE_PluginSettingsForm.dfm:48 fCE_PoEditor_NewForm.dfm:83
+#: fCE_TextEditorOptions.dfm:721 fCE_UpdateDlg.dfm:46
 msgid "Cancel"
 msgstr ""
 
 #. BookmarkPropDlg..but_Apply..Caption
 #. CEOptionsDialog..BottomPanel..but_apply..Caption
+#. CEPluginSettingsForm..panel_bottom..but_apply..Caption
 #. CEPoEditor..ActionList..act_apply..Caption
 #. CETextEditorOptionsForm..but_apply..Caption
-#: fCE_BookmarkPropDlg.dfm:163  fCE_OptionsDialog.dfm:179
-#: fCE_PoEditor.dfm:413 fCE_TextEditorOptions.dfm:711
+#: fCE_BookmarkPropDlg.dfm:163  fCE_OptionsDialog.dfm:178
+#: fCE_PluginSettingsForm.dfm:37 fCE_PoEditor.dfm:404
+#: fCE_TextEditorOptions.dfm:711
 msgid "Apply"
 msgstr ""
 
@@ -1064,14 +1071,14 @@ msgstr ""
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..Caption
 #. CETextEditor..TopDock..toolbar_main..SpTBXSubmenuItem4..SpTBXSubmenuItem6..Caption
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..toolbarsMenuItem..Caption
-#: fCE_Customizer.dfm:76  fCE_Customizer.dfm:190 fCE_TextEditor.dfm:136
+#: fCE_Customizer.dfm:75  fCE_Customizer.dfm:189 fCE_TextEditor.dfm:136
 #: Main.dfm:214
 msgid "Toolbars"
 msgstr ""
 
 #. CEToolbarCustomizer..TabControl..tab_buttons..Caption
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet2..Caption
-#: fCE_Customizer.dfm:80  fCE_Customizer.dfm:90
+#: fCE_Customizer.dfm:79  fCE_Customizer.dfm:89
 msgid "Buttons"
 msgstr ""
 
@@ -1079,7 +1086,7 @@ msgstr ""
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet3..Caption
 #. CEOptionsPage_Display..TntLabel1..Caption
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..SpTBXSubmenuItem6..Caption
-#: fCE_Customizer.dfm:83  fCE_Customizer.dfm:137
+#: fCE_Customizer.dfm:82  fCE_Customizer.dfm:136
 #: fCE_OptionsPage_Display.dfm:7 Main.dfm:256
 msgid "Theme"
 msgstr ""
@@ -1087,29 +1094,31 @@ msgstr ""
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet2..ActionTree......WideText
 #. TCEOptionsPage_GlobalHotkeys..HotkeyList......WideText
 #. TCEOptionsPage_Hotkeys..HotkeyList......WideText
+#. CEPluginSettingsForm..panel_content..tree_settings......WideText
 #. CESessionManager..SpTBXTabControl1..SpTBXTabSheet1..SpTBXLabel1..Caption
-#: fCE_Customizer.dfm:128  fCE_OptionsPage_GlobalHotkeys.dfm:48
-#: fCE_OptionsPage_Hotkeys.dfm:48 fCE_SessionManager.dfm:170
+#: fCE_Customizer.dfm:127  fCE_OptionsPage_GlobalHotkeys.dfm:48
+#: fCE_OptionsPage_Hotkeys.dfm:48 fCE_PluginSettingsForm.dfm:101
+#: fCE_SessionManager.dfm:170
 msgid "Name"
 msgstr ""
 
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..group_displayMode..Caption
-#: fCE_Customizer.dfm:210 
+#: fCE_Customizer.dfm:209 
 msgid "Display Mode"
 msgstr ""
 
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..check_borders..Caption
-#: fCE_Customizer.dfm:231 
+#: fCE_Customizer.dfm:230 
 msgid "Borders"
 msgstr ""
 
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..check_stretch..Caption
-#: fCE_Customizer.dfm:241 
+#: fCE_Customizer.dfm:240 
 msgid "Stretch"
 msgstr ""
 
 #. CEToolbarCustomizer..TabControl..SpTBXTabSheet1..check_dragHandle..Caption
-#: fCE_Customizer.dfm:251 
+#: fCE_Customizer.dfm:250 
 msgid "Drag Handle"
 msgstr ""
 
@@ -1459,7 +1468,8 @@ msgid "Use system settings"
 msgstr ""
 
 #. CE_OptionsPage_General_Updates..group_proxy..check_proxy..Caption
-#: fCE_OptionsPage_General_Updates.dfm:83 
+#. CEPluginLog..panel_bottom..check_enable..Caption
+#: fCE_OptionsPage_General_Updates.dfm:83  fCE_PluginLog.dfm:50
 msgid "Enable"
 msgstr ""
 
@@ -1495,6 +1505,26 @@ msgstr ""
 #. TCEOptionsPage_Hotkeys..TntGroupBox1..but_reset..Caption
 #: fCE_OptionsPage_Hotkeys.dfm:137 
 msgid "Reset to default"
+msgstr ""
+
+#. CEOptionsPage_Plugins..TntPageControl1..TntTabSheet1..Caption
+#: fCE_OptionsPage_Plugins.dfm:10 
+msgid "Active Plugins"
+msgstr ""
+
+#. CEOptionsPage_Plugins..TntPageControl1..TntTabSheet1..but_plugin_settings..Caption
+#: fCE_OptionsPage_Plugins.dfm:77  fCE_PluginSettingsForm.pas:174
+msgid "Settings"
+msgstr ""
+
+#. CEOptionsPage_Plugins..TntPageControl1..sheet_formats..Caption
+#: fCE_OptionsPage_Plugins.dfm:93 
+msgid "Formats"
+msgstr ""
+
+#. CEOptionsPage_Plugins..TntPageControl1..sheet_libraries..Caption
+#: fCE_OptionsPage_Plugins.dfm:115 
+msgid "Libraries"
 msgstr ""
 
 #. CEOptionsPage_Tabs..NewTabGroup..Caption
@@ -1552,8 +1582,18 @@ msgstr ""
 msgid "Exit program when last tab is closed"
 msgstr ""
 
+#. CEPluginLog..Caption
+#: fCE_PluginLog.dfm:4 
+msgid "Plugin Log"
+msgstr ""
+
+#. CEPluginSettingsForm..panel_content..tree_settings......WideText
+#: fCE_PluginSettingsForm.dfm:106 
+msgid "Value"
+msgstr ""
+
 #. CEPoEditor..panel_startup..label_startup..Caption
-#: fCE_PoEditor.dfm:24 
+#: fCE_PoEditor.dfm:22 
 msgid "Select existing translation or create new."
 msgstr ""
 
@@ -1561,73 +1601,73 @@ msgstr ""
 #. CEPoEditor..TabControl..WordsSheet..Translation_panel..PoItemStrMsg_panel..TntLabel5..Caption
 #. CEPoEditor..TabControl..WordsSheet..PoList_panel..PoList......WideText
 #. CEPoEditor..TabControl..SettingsSheet..Caption
-#: fCE_PoEditor.dfm:93  fCE_PoEditor.dfm:185 fCE_PoEditor.dfm:256
-#: fCE_PoEditor.dfm:266 fCE_PoEditor.pas:237
+#: fCE_PoEditor.dfm:90  fCE_PoEditor.dfm:179 fCE_PoEditor.dfm:248
+#: fCE_PoEditor.dfm:258 fCE_PoEditor.pas:238
 msgid "Translation"
 msgstr ""
 
 #. CEPoEditor..TabControl..SpTBXTabItem1..Caption
 #. CEPoEditor..TabControl..WordsSheet..Caption
-#: fCE_PoEditor.dfm:97  fCE_PoEditor.dfm:104
+#: fCE_PoEditor.dfm:94  fCE_PoEditor.dfm:101
 msgid "Word List"
 msgstr ""
 
 #. CEPoEditor..TabControl..WordsSheet..Translation_panel..PoItemStrID_panel..TntLabel6..Caption
 #. CEPoEditor..TabControl..WordsSheet..PoList_panel..PoList......WideText
 #. Init stuff
-#: fCE_PoEditor.dfm:148  fCE_PoEditor.dfm:251 fCE_PoEditor.pas:236
+#: fCE_PoEditor.dfm:142  fCE_PoEditor.dfm:243 fCE_PoEditor.pas:237
 msgid "Original"
 msgstr ""
 
 #. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel1..Caption
-#: fCE_PoEditor.dfm:281 
+#: fCE_PoEditor.dfm:272 
 msgid "Translator's Name"
 msgstr ""
 
 #. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel2..Caption
-#: fCE_PoEditor.dfm:289 
+#: fCE_PoEditor.dfm:280 
 msgid "Translator's Email (optional)"
 msgstr ""
 
 #. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel3..Caption
 #. CENewTranslationDlg..TntLabel1..Caption
 #. MainForm..TopToolDock..MainToolbar..viewMenuItem..LanguageMenuItem..Caption
-#: fCE_PoEditor.dfm:297  fCE_PoEditor_NewForm.dfm:39 Main.dfm:267
+#: fCE_PoEditor.dfm:288  fCE_PoEditor_NewForm.dfm:39 Main.dfm:267
 msgid "Language"
 msgstr ""
 
 #. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..TntLabel4..Caption
-#: fCE_PoEditor.dfm:305 
+#: fCE_PoEditor.dfm:296 
 msgid "Translation Version"
 msgstr ""
 
 #. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..label1..Caption
-#: fCE_PoEditor.dfm:314 
+#: fCE_PoEditor.dfm:305 
 msgid "Application Revision:"
 msgstr ""
 
 #. CEPoEditor..TabControl..SettingsSheet..SpTBXPanel1..label2..Caption
-#: fCE_PoEditor.dfm:323 
+#: fCE_PoEditor.dfm:314 
 msgid "Translation Revision:"
 msgstr ""
 
 #. CEPoEditor..TabControl..SettingsSheet..SpTBXButton1..Caption
-#: fCE_PoEditor.dfm:387 
+#: fCE_PoEditor.dfm:378 
 msgid "Publish Translation"
 msgstr ""
 
 #. CEPoEditor..ActionList..act_save..Hint
-#: fCE_PoEditor.dfm:400 
+#: fCE_PoEditor.dfm:391 
 msgid "Save changes."
 msgstr ""
 
 #. CEPoEditor..ActionList..act_new..Hint
-#: fCE_PoEditor.dfm:407 
+#: fCE_PoEditor.dfm:398 
 msgid "Create new translation."
 msgstr ""
 
 #. CEPoEditor..ActionList..act_apply..Hint
-#: fCE_PoEditor.dfm:414 
+#: fCE_PoEditor.dfm:405 
 msgid "Apply changes."
 msgstr ""
 
@@ -1635,7 +1675,7 @@ msgstr ""
 #. CETextEditor..ActionList..act_saveas..Caption
 #. SumatraPDF..ActionList..act_file_save_as..Caption
 #. Save As...
-#: fCE_PoEditor.dfm:419  fCE_TextEditor.dfm:564 fCV_SumatraPDF.dfm:193
+#: fCE_PoEditor.dfm:410  fCE_TextEditor.dfm:564 fCV_SumatraPDF.dfm:193
 #: fCE_StackPanel.pas:480
 msgid "Save As..."
 msgstr ""
@@ -1763,7 +1803,7 @@ msgstr ""
 #: fCE_SearchPage.dfm:237  fCE_SearchPage.dfm:240 fCE_SearchPage.dfm:276
 #: fCE_SearchPage.dfm:279 CE_StatusBar.pas:78 CE_StatusBar.pas:159
 #: CE_StatusBar.pas:166 CE_StatusBar.pas:193 fCE_SearchPage.pas:334
-#: Main.pas:1253
+#: Main.pas:1280
 msgid "KB"
 msgstr ""
 
@@ -1778,7 +1818,7 @@ msgstr ""
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_size_attributes..group_size..combo_size_atleast....Items.Strings
 #. CESearchPage..SearchPanel..CriteriaTabControl..sheet_size_attributes..group_size..combo_size_atmost....Items.Strings
 #: fCE_SearchPage.dfm:241  fCE_SearchPage.dfm:280 CE_StatusBar.pas:161
-#: CE_StatusBar.pas:168 fCE_SearchPage.pas:335 Main.pas:1254
+#: CE_StatusBar.pas:168 fCE_SearchPage.pas:335 Main.pas:1281
 msgid "MB"
 msgstr ""
 
@@ -2476,18 +2516,18 @@ msgstr ""
 
 #. CEVersionMgrForm..TabControl..sheet_versions..ItemList......WideText
 #. Translate
-#: fCE_VersionMgrForm.dfm:98  fCE_VersionMgrForm.pas:174
+#: fCE_VersionMgrForm.dfm:98  fCE_VersionMgrForm.pas:175
 msgid "Version"
 msgstr ""
 
 #. #-#-#-#-#  tmp.po (PACKAGE VERSION)  #-#-#-#-#
 #. CEVersionMgrForm..TabControl..sheet_versions..ItemList......WideText
-#: fCE_VersionMgrForm.dfm:103  fCE_VersionMgrForm.pas:175
+#: fCE_VersionMgrForm.dfm:103  fCE_VersionMgrForm.pas:176
 msgid "Type"
 msgstr ""
 
 #. CEVersionMgrForm..TabControl..sheet_versions..ItemList......WideText
-#: fCE_VersionMgrForm.dfm:108  fCE_VersionMgrForm.pas:176
+#: fCE_VersionMgrForm.dfm:108  fCE_VersionMgrForm.pas:177
 msgid "Date"
 msgstr ""
 
@@ -2502,8 +2542,8 @@ msgid "Use this version"
 msgstr ""
 
 #. CEVersionMgrForm..TabControl..sheet_versions..but_download..Caption
-#: fCE_VersionMgrForm.dfm:168  fCE_VersionMgrForm.pas:231
-#: fCE_VersionMgrForm.pas:564
+#: fCE_VersionMgrForm.dfm:168  fCE_VersionMgrForm.pas:232
+#: fCE_VersionMgrForm.pas:574
 msgid "Download"
 msgstr ""
 
@@ -2982,79 +3022,79 @@ msgstr ""
 msgid "Session"
 msgstr ""
 
-#: fCE_CreateSymlink.pas:109 
+#: fCE_CreateSymlink.pas:111 
 msgid "already exists. Please choose another name."
 msgstr ""
 
-#: fCE_CreateSymlink.pas:110 
+#: fCE_CreateSymlink.pas:112 
 msgid "Duplicate name"
 msgstr ""
 
-#: fCE_CreateSymlink.pas:151 
+#: fCE_CreateSymlink.pas:162 
 msgid "Select target folder"
 msgstr ""
 
 #. Add Separator category to ActionList
-#: fCE_Customizer.pas:265 
+#: fCE_Customizer.pas:266 
 msgid "Separators"
 msgstr ""
 
 #. Add Separator item to ActionList
-#: fCE_Customizer.pas:272 
+#: fCE_Customizer.pas:273 
 msgid "Separator"
 msgstr ""
 
 #. Add Dynamic Spacer item to ActionList
-#: fCE_Customizer.pas:280 
+#: fCE_Customizer.pas:281 
 msgid "Dynamic Spacer"
 msgstr ""
 
 #. Add Fixed Spacer item to ActionList
-#: fCE_Customizer.pas:288 
+#: fCE_Customizer.pas:289 
 msgid "Fixed Spacer"
 msgstr ""
 
 #. Add Stretcher item to ActionList
-#: fCE_Customizer.pas:296 
+#: fCE_Customizer.pas:297 
 msgid "Stretcher"
 msgstr ""
 
 #. Populate Theme list
 #. Populate Theme list
-#: fCE_Customizer.pas:324  fCE_Customizer.pas:545 fCE_Customizer.pas:583
+#: fCE_Customizer.pas:325  fCE_Customizer.pas:546 fCE_Customizer.pas:584
 msgid "Author"
 msgstr ""
 
 #. Populate group_displayMode
-#: fCE_Customizer.pas:346  fCE_OptionsPage_Display_FileView.pas:134
+#: fCE_Customizer.pas:347  fCE_OptionsPage_Display_FileView.pas:134
 msgid "Default"
 msgstr ""
 
-#: fCE_Customizer.pas:347 
+#: fCE_Customizer.pas:348 
 msgid "Icon only"
 msgstr ""
 
-#: fCE_Customizer.pas:348 
+#: fCE_Customizer.pas:349 
 msgid "Icon above text"
 msgstr ""
 
-#: fCE_Customizer.pas:349 
+#: fCE_Customizer.pas:350 
 msgid "Text only"
 msgstr ""
 
-#: fCE_Customizer.pas:568 
+#: fCE_Customizer.pas:569 
 msgid "Drag buttons to/from toolbars"
 msgstr ""
 
-#: fCE_OptionsDialog.pas:387 
+#: fCE_OptionsDialog.pas:388  fCE_PluginSettingsForm.pas:226
 msgid "Apply changes now?"
 msgstr ""
 
-#: fCE_OptionsDialog.pas:389 
+#: fCE_OptionsDialog.pas:390  fCE_PluginSettingsForm.pas:228
 msgid "If not, all changes will be lost."
 msgstr ""
 
-#: fCE_OptionsDialog.pas:390 
+#: fCE_OptionsDialog.pas:391  fCE_PluginSettingsForm.pas:229
 msgid "Apply Changes"
 msgstr ""
 
@@ -3167,6 +3207,11 @@ msgstr ""
 msgid "Do you want to use it anyway?"
 msgstr ""
 
+#. init options page
+#: fCE_OptionsPage_Plugins.pas:73  fCE_OptionsPage_Plugins.pas:74
+msgid "Plugins"
+msgstr ""
+
 #: fCE_OptionsPage_Tabs.pas:80 
 msgid "Tabs Settings"
 msgstr ""
@@ -3175,15 +3220,15 @@ msgstr ""
 msgid "Select default folder for new tabs."
 msgstr ""
 
-#: fCE_PoEditor.pas:875 
+#: fCE_PoEditor.pas:879 
 msgid "Language Editor"
 msgstr ""
 
-#: fCE_PoEditor.pas:900 
+#: fCE_PoEditor.pas:918 
 msgid "Save changes before closing?"
 msgstr ""
 
-#: fCE_PoEditor.pas:901 
+#: fCE_PoEditor.pas:919 
 msgid "Save changes?"
 msgstr ""
 
@@ -3382,186 +3427,186 @@ msgstr ""
 
 #. Last Check
 #. Success
-#: fCE_VersionMgrForm.pas:163  fCE_VersionMgrForm.pas:305
+#: fCE_VersionMgrForm.pas:164  fCE_VersionMgrForm.pas:315
 msgid "Last check:"
 msgstr ""
 
-#: fCE_VersionMgrForm.pas:165 
+#: fCE_VersionMgrForm.pas:166 
 msgid "Current version:"
 msgstr ""
 
-#: fCE_VersionMgrForm.pas:252 
+#: fCE_VersionMgrForm.pas:253 
 msgid "Invalid update!"
 msgstr ""
 
-#: fCE_VersionMgrForm.pas:253 
+#: fCE_VersionMgrForm.pas:254 
 msgid "One or more files are missing!"
 msgstr ""
 
-#: fCE_VersionMgrForm.pas:254 
+#: fCE_VersionMgrForm.pas:255 
 msgid "Do you really want to update?"
 msgstr ""
 
-#: fCE_VersionMgrForm.pas:289 
+#: fCE_VersionMgrForm.pas:299 
 msgid "%d of %d"
 msgstr ""
 
-#: fCE_VersionMgrForm.pas:364  fCE_VersionMgrForm.pas:366
+#: fCE_VersionMgrForm.pas:374  fCE_VersionMgrForm.pas:376
 msgid "Download failed!"
 msgstr ""
 
-#: fCE_VersionMgrForm.pas:364 
+#: fCE_VersionMgrForm.pas:374 
 msgid "%d file(s) failed to download!"
 msgstr ""
 
-#: fCE_VersionMgrForm.pas:551 
+#: fCE_VersionMgrForm.pas:561 
 msgid "Published:"
 msgstr ""
 
 #. Create FolderCombo Toolbar
-#: Main.pas:610 
+#: Main.pas:626 
 msgid "Address Bar"
 msgstr ""
 
 #. Create DriveToolbar
-#: Main.pas:618 
+#: Main.pas:634 
 msgid "Drives"
 msgstr ""
 
 #. Create BreadcrumbBar
-#: Main.pas:649 
+#: Main.pas:665 
 msgid "Breadcrumb Navigation"
 msgstr ""
 
 #. Check if dialogs are present. If so, show a warning.
-#: Main.pas:970 
+#: Main.pas:997 
 msgid "Dialog found!"
 msgstr ""
 
-#: Main.pas:971 
+#: Main.pas:998 
 msgid "File operation might be still running!"
 msgstr ""
 
-#: Main.pas:971 
+#: Main.pas:998 
 msgid "Are you sure you want to quit?"
 msgstr ""
 
 #. Add default menu items
-#: Main.pas:1126 
+#: Main.pas:1153 
 msgid "English (default)"
 msgstr ""
 
 #. TabBar Left/Right arrow hints
-#: Main.pas:1223 
+#: Main.pas:1250 
 msgid "Show more tabs"
 msgstr ""
 
 #. VSTools strings
-#: Main.pas:1227 
+#: Main.pas:1254 
 msgid "Warning"
 msgstr ""
 
-#: Main.pas:1230 
+#: Main.pas:1257 
 msgid "Last hour"
 msgstr ""
 
-#: Main.pas:1231 
+#: Main.pas:1258 
 msgid "Last twenty-four hours"
 msgstr ""
 
-#: Main.pas:1232 
+#: Main.pas:1259 
 msgid "This week"
 msgstr ""
 
-#: Main.pas:1233 
+#: Main.pas:1260 
 msgid "Two weeks ago"
 msgstr ""
 
-#: Main.pas:1234 
+#: Main.pas:1261 
 msgid "Three weeks ago"
 msgstr ""
 
-#: Main.pas:1235 
+#: Main.pas:1262 
 msgid "A month ago"
 msgstr ""
 
-#: Main.pas:1236 
+#: Main.pas:1263 
 msgid "Two months ago"
 msgstr ""
 
-#: Main.pas:1237 
+#: Main.pas:1264 
 msgid "Three months ago"
 msgstr ""
 
-#: Main.pas:1238 
+#: Main.pas:1265 
 msgid "Four months ago"
 msgstr ""
 
-#: Main.pas:1239 
+#: Main.pas:1266 
 msgid "Five months ago"
 msgstr ""
 
-#: Main.pas:1240 
+#: Main.pas:1267 
 msgid "Six months ago"
 msgstr ""
 
-#: Main.pas:1241 
+#: Main.pas:1268 
 msgid "Earlier this year"
 msgstr ""
 
-#: Main.pas:1242 
+#: Main.pas:1269 
 msgid "A long time ago"
 msgstr ""
 
-#: Main.pas:1244 
+#: Main.pas:1271 
 msgid "Zero"
 msgstr ""
 
-#: Main.pas:1245 
+#: Main.pas:1272 
 msgid "Tiny"
 msgstr ""
 
-#: Main.pas:1246 
+#: Main.pas:1273 
 msgid "Small"
 msgstr ""
 
-#: Main.pas:1247 
+#: Main.pas:1274 
 msgid "Medium"
 msgstr ""
 
-#: Main.pas:1248 
+#: Main.pas:1275 
 msgid "Large"
 msgstr ""
 
-#: Main.pas:1249 
+#: Main.pas:1276 
 msgid "Gigantic"
 msgstr ""
 
-#: Main.pas:1250 
+#: Main.pas:1277 
 msgid "System Folders"
 msgstr ""
 
-#: Main.pas:1255 
+#: Main.pas:1282 
 msgid "TB"
 msgstr ""
 
-#: Main.pas:1704 
+#: Main.pas:1731 
 msgid "New version (%s) is available. Do you want to update now?"
 msgstr ""
 
-#: Main.pas:1710 
+#: Main.pas:1737 
 msgid "Build:"
 msgstr ""
 
-#: Main.pas:1711 
+#: Main.pas:1738 
 msgid "Update type:"
 msgstr ""
 
-#: Main.pas:1714 
+#: Main.pas:1741 
 msgid "New Version Available"
 msgstr ""
 
-#: Main.pas:1715 
+#: Main.pas:1742 
 msgid "Do you want to update?"
 msgstr ""
 

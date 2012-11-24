@@ -78,7 +78,7 @@ begin
   PageTitle:= _('Advanced Settings');
   PagePath:= 'Advanced';
   ImageIndex:= 3;
-  PageListPosition:= 4;
+  PageListPosition:= 5;
   AddComponents;
   Inspector.Root.ExpandItems(false);
 end;

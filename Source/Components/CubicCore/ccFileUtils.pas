@@ -83,14 +83,17 @@ type
   function WideExtractFilePath(const FileName: WideString): WideString;
   function WideExtractFileName(const FileName: WideString): WideString;
   function WideExtractFileDrive(const FileName: WideString): WideString;
-  function WideExtractFileExt(const FileName: WideString): WideString;
-  function WideExtractRelativePath(const BaseName, DestName: WideString): 
+  function WideExtractFileExt(const FileName: WideString; RemoveDot: Boolean =
+      false): WideString;
+  function WideExtractRelativePath(const BaseName, DestName: WideString):
     WideString; 
   function WideSetCurrentDir(const Dir: WideString): Boolean;
   function WideExpandFileName(const FileName: WideString): WideString; overload;
   function WideGetCurrentDir: WideString;
   function WideFileAge(const FileName: WideString): Integer; overload;
   function WideDeleteFile(const FileName: WideString): Boolean;
+  function WideCreateDir(const ADirPath: WideString): Boolean;
+  function WideForceDirectories(ADirPath: WideString): Boolean;
 
 var
   AppPath: WideString = '';
@@ -358,8 +361,11 @@ end;
   WideDirectoryExists
 -------------------------------------------------------------------------------}
 function WideDirectoryExists(const Dir: WideString): Boolean;
+var
+  attr: Integer;
 begin
-  Result:= (WideFileGetAttr(Dir) and faDirectory) = faDirectory;
+  attr:= WideFileGetAttr(Dir);
+  Result:= (attr > -1) and ((attr and faDirectory) = faDirectory);
 end;
 
 {-------------------------------------------------------------------------------
@@ -495,15 +501,28 @@ end;
 {$ENDIF}
 
 {-------------------------------------------------------------------------------
-  WideExtractFileExt (Includes dot before ext.)
+  WideExtractFileExt
 -------------------------------------------------------------------------------}
-function WideExtractFileExt(const FileName: WideString): WideString;
+function WideExtractFileExt(const FileName: WideString; RemoveDot: Boolean =
+    false): WideString;
 var
   i: Integer;
+  ch: PWideChar;
 begin
   i:= WideLastDelimiter('.' + DriveDelim + PathDelim, FileName);
   if (i > 0) and (FileName[i] = '.') then
-  Result:= Copy(FileName, i, MaxInt)
+  begin
+    Result:= Copy(FileName, i, MaxInt);
+    if RemoveDot and (Length(Result) > 0) then
+    begin
+      ch:= Pointer(Result);
+      if (ch^ = '.') then
+      begin
+        Inc(ch);
+        Result:= ch;
+      end;
+    end;
+  end
   else
   Result:= '';
 end;
@@ -644,6 +663,41 @@ begin
   {$ELSE}
   Result:= DeleteFile(UTF8Encode(FileName));
   {$ENDIF}
+end;
+
+{-------------------------------------------------------------------------------
+  WideCreateDir
+-------------------------------------------------------------------------------}
+function WideCreateDir(const ADirPath: WideString): Boolean;
+begin
+  {$IFDEF MSWINDOWS}
+  Result:= CreateDirectoryW(PWideChar(ADirPath), nil);
+  {$ELSE}
+  Result:= CreateDir(UTF8Encode(ADirPath));
+  {$ENDIF}
+end;
+
+{-------------------------------------------------------------------------------
+  WideForceDirectories
+-------------------------------------------------------------------------------}
+function WideForceDirectories(ADirPath: WideString): Boolean;
+begin
+  if ADirPath <> '' then
+  begin
+    Result:= True;
+    ADirPath:= WideExcludeTrailingPathDelimiter(ADirPath);
+
+    if (Length(ADirPath) < 3) or
+        WideDirectoryExists(ADirPath) or
+        (WideExtractFilePath(ADirPath) = ADirPath) then
+    Exit;
+
+    Result:= WideForceDirectories(WideExtractFilePath(ADirPath));
+    if Result then
+    Result:= WideCreateDir(ADirPath)
+  end
+  else
+  Result:= false;
 end;
 
 {==============================================================================}
