@@ -233,7 +233,7 @@ var
     node: PVirtualNode;
     data: PFilterItem;
   begin
-    if ns.Folder and (LowerCase(ns.Extension) <> '.zip') then 
+    if ns.Folder and (LowerCase(ns.Extension) <> '.zip') and (LowerCase(ns.Extension) <> '.cab') then 
     begin
       // update folder node
       data:= Self.GetNodeData(fShowFoldersNode);
@@ -326,7 +326,7 @@ begin
         if item.Visible then
         begin
           // files
-          if not ns.Folder then
+          if not ns.Folder or ((LowerCase(ns.Extension) = '.zip') or (LowerCase(ns.Extension) = '.cab'))  then
           begin
             if not ExcludeFromResults then
               item.Visible:= fShowAllExtensions or
