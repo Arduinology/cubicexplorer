@@ -1,0 +1,372 @@
+[Skin]
+Name=Grey Pastels
+ColorBtnFace=clBtnFace
+OfficeStatusBar=0
+OfficeIcons=1
+TitleBarBorderSize=4
+
+[Dock]
+Normal.Body=1, $009A9A9A, $00828282
+Normal.Borders=0, $009F9F9F, $00747474
+
+[DockablePanel]
+Normal.Body=1, $009A9A9A, $00828282
+Normal.Borders=0, $009F9F9F, $00535353, clNone, $007B7B7B
+
+[DockablePanelTitleBar]
+Normal.Body=3, $00585858, $00666666, $00636363, $00606060
+Normal.Borders=0, $00585858, $005F5F5F
+Normal.TextColor=clWhite
+
+[Gutter]
+Normal.Body=2, $00A0A0A0, $008F8F8F
+Normal.Borders=0
+
+[MenuBar]
+Normal.Body=3, $00535353, $00686868, $006F6F6F, $00767676
+Normal.Borders=1
+Normal.TextColor=$00535353
+
+[OpenToolbarItem]
+Normal.Body=5, $0076C3FE, $00509CF1, $00469BF0, $0066CCFD
+Normal.Borders=2, $00686868, $00686868, $006DC5FE, $001CB4FD
+Normal.TextColor=$00E576B8
+
+[Panel]
+Normal.Body=2, $007F7F7F, $00818181
+Normal.Borders=1, $009B9B9B, $006F6F6F
+Normal.TextColor=$00393939
+
+[Popup]
+Normal.Body=1, $006F6F6F, $00646464
+Normal.Borders=0, $00797979, $005A5A5A
+Normal.TextColor=$00FF83F8
+
+[Separator]
+Normal.Body=0, $00787878
+Normal.Borders=0
+
+[Splitter]
+Normal.Body=1, $00626262, $00444444
+Normal.Borders=0
+
+[StatusBar]
+Normal.Body=2, $00535353, $00585858
+Normal.Borders=0
+Normal.TextColor=$00A3A3A3
+
+[StatusBarGrip]
+Normal.Body=1, $00444444, $00676767
+Normal.Borders=1
+
+[TabBackground]
+Normal.Body=2, $00848484, $008A8A8A
+Normal.Borders=0, $00606060, $00585858, $0056B7FE, $0053B8F8
+Normal.TextColor=$004DFFFF
+
+[TabToolbar]
+Normal.Body=3, $00434343, $00555555, $005A5A5A, $00606060
+Normal.Borders=0
+Normal.TextColor=$00BEBEBE
+
+[Toolbar]
+Normal.Body=0
+Normal.Borders=1, $00999999, $00757575
+
+[ToolbarGrip]
+Normal.Body=1, $00757575, $00999999
+Normal.Borders=0, $0073B973
+
+[Window]
+Normal.Body=0
+Normal.Borders=0, $00282828, $007B7B7B, $007B7B7B, $00535353
+
+[WindowTitleBar]
+Normal.Body=2, $00535353, $00585858
+Normal.Borders=0
+Normal.TextColor=clWhite
+
+[MenuBarItem]
+Normal.Body=0
+Normal.Borders=0
+Normal.TextColor=$00FAFAFA
+Disabled.Body=0, clBlue
+Disabled.Borders=0
+Disabled.TextColor=$00646464
+HotTrack.Body=0, $00565656
+HotTrack.Borders=1, $00565656, $00565656
+HotTrack.TextColor=$00CEFFF5
+Pushed.Body=5, $004D4DFF, $004991F1, $00398FEE, $0066CFFD
+Pushed.Borders=1, clOlive, $00565656
+Pushed.TextColor=$00434343
+Checked.Body=5, clGreen, $004991F1, $00398FEE, $0066CFFD
+Checked.Borders=1, $004D4DFF, $0069CCAA
+Checked.TextColor=$00A8F0FF
+CheckedAndHotTrack.Body=0, $0073FFFF
+CheckedAndHotTrack.Borders=0, clHighlight, $0083E9FF
+CheckedAndHotTrack.TextColor=$00A8F0FF
+
+[MenuItem]
+Normal.Body=0
+Normal.Borders=0
+Normal.TextColor=clWhite
+Disabled.Body=0
+Disabled.Borders=0
+Disabled.TextColor=$005C5C5C
+HotTrack.Body=5, $00B7B7B7, $00A5A5A5, $009E9E9E, $00BABABA
+HotTrack.Borders=2, $006F6F6F, $00696969, $00B7B7B7, $00B7B7B7
+HotTrack.TextColor=$0032231B
+Pushed.Body=0, $007373FF
+Pushed.Borders=0, clBtnShadow, $00FFF283
+Pushed.TextColor=$003A3A3A
+Checked.Body=5, $0076C3FE, $00509CF1, $00469BF0, $0066CCFD
+Checked.Borders=2, $00777777, $00747474, $006DC5FE, $001CB4FD
+Checked.TextColor=$00B5E8FD
+CheckedAndHotTrack.Body=5, $0076C5FE, $003E89F0, $002986ED, $0066CFFD
+CheckedAndHotTrack.Borders=2, $00767676, $00737373, $0056B7FE, $0021A0FE
+CheckedAndHotTrack.TextColor=$001F2D3A
+
+[ToolbarItem]
+Normal.Body=0
+Normal.Borders=0
+Normal.TextColor=$00323232
+Disabled.Body=0
+Disabled.Borders=0
+Disabled.TextColor=$00787878
+HotTrack.Body=3, $00575757, $005D5D5D, $00686868, $00727272
+HotTrack.Borders=2, $004D4D4D, $008C8C8C, $00535353, clNone
+HotTrack.TextColor=$00D7FFF7
+Pushed.Body=3, $004E4E4E, $00545454, $005E5E5E, $00676767
+Pushed.Borders=2, $00454545, $008A8A8A, $004B4B4B, clNone
+Pushed.TextColor=$00BEFFF3
+Checked.Body=3, $00777777, $007C7C7C, $00828282, $00878787
+Checked.Borders=2, $006E6E6E, $00929292, $00747474, clNone
+Checked.TextColor=$00CEFFF5
+CheckedAndHotTrack.Body=3, $00575757, $005D5D5D, $00686868, $00727272
+CheckedAndHotTrack.Borders=2, $004D4D4D, $008C8C8C, $00535353, clNone
+CheckedAndHotTrack.TextColor=$00B7FFF2
+
+[Button]
+Normal.Body=5, $00FBFBF7, $00ECECE8, $00ECECE6, $00FBFBF4
+Normal.Borders=1, $007C7C7C, $00909090, $006C6C6C, $00A5A5A5
+Normal.TextColor=$0032231B
+Disabled.Body=5, $00CBCBCB, $00C4C4C4, $00C2C2C2, $00CACACA
+Disabled.Borders=1, $007C7C7C, $00909090, $006C6C6C, $00A5A5A5
+Disabled.TextColor=$00ACACAC
+HotTrack.Body=5, $00B7DEFF, $009DD6FF, $0080D2FF, $0095E8FF
+HotTrack.Borders=1, $007C7C7C, $00909090, $006C6C6C, $00A5A5A5
+HotTrack.TextColor=$0040527B
+Pushed.Body=5, $00C2E3FF, $00A4DBFF, $0085D7FF, $009AEDFF
+Pushed.Borders=1, $007C7C7C, $00909090, $006C6C6C, $00A5A5A5
+Pushed.TextColor=$00485E8A
+Checked.Body=5, $00DDEFFF, $00C4E1FF, $00AEDDFF, $00CCEEFF
+Checked.Borders=1, $007C7C7C, $00909090, $006C6C6C, $00A5A5A5
+Checked.TextColor=$00425C80
+CheckedAndHotTrack.Body=5, $00B7DEFF, $009DD6FF, $0080D2FF, $0095E8FF
+CheckedAndHotTrack.Borders=1, $007C7C7C, $00909090, $006C6C6C, $00A5A5A5
+CheckedAndHotTrack.TextColor=$0040527B
+
+[CheckBox]
+Normal.Body=5, $00FBFBF7, $00ECECE8, $00ECECE6, $00FBFBF4
+Normal.Borders=1, $009C9C9C, $009B9B9B, $00FBFBF7, $00F3F3ED
+Normal.TextColor=$0032231B
+Disabled.Body=5, $00B7B7B7, $00B0B0B0, $00AFAFAF, $00B6B6B6
+Disabled.Borders=1, $009C9C9C, $009B9B9B, $00B7B7B7, $00B3B3B3
+Disabled.TextColor=$009B9B9B
+HotTrack.Body=5, $00B7DEFF, $009DD6FF, $0080D2FF, $0095E8FF
+HotTrack.Borders=1, $008E8E8E, $008D8D8D, $00B7DEFF, $008ADDFF
+HotTrack.TextColor=$0032231B
+Pushed.Body=5, $00C2E3FF, $00A4DBFF, $0085D7FF, $009AEDFF
+Pushed.Borders=1, $008E8E8E, $008D8D8D, $00C2E3FF, $008FE2FF
+Pushed.TextColor=$0032231B
+Checked.Body=5, $00FBFBF7, $00ECECE8, $00ECECE6, $00FBFBF4
+Checked.Borders=1, $009C9C9C, $009B9B9B, $00FBFBF7, $00F3F3ED
+Checked.TextColor=$0032231B
+CheckedAndHotTrack.Body=5, $00B7DEFF, $009DD6FF, $0080D2FF, $0095E8FF
+CheckedAndHotTrack.Borders=1, $008E8E8E, $008D8D8D, $00B7DEFF, $008ADDFF
+CheckedAndHotTrack.TextColor=$0032231B
+
+[EditButton]
+Normal.Body=5, $00FBFBF7, $00ECECE8, $00ECECE6, $00FBFBF4
+Normal.Borders=0, $00E6E6DF, $00ECECE8, $00FBFBF7, clNone
+Normal.TextColor=$0032231B
+Disabled.Body=5, $00E2E2E2, $00DADADA, $00D8D8D8, $00E0E0E0
+Disabled.Borders=0, $00D8D8D8, $00D6D6D6, $00DFDFDF, clNone
+Disabled.TextColor=$00B9B9B9
+HotTrack.Body=5, $00B7DEFF, $009DD6FF, $0080D2FF, $0095E8FF
+HotTrack.Borders=0, $0079D0FF, $009DD6FF, $00B7DEFF, clNone
+HotTrack.TextColor=$0040527B
+Pushed.Body=5, $00C2E3FF, $00A4DBFF, $0085D7FF, $009AEDFF
+Pushed.Borders=0, $0084D7FF, $00A4DBFF, $00C2E3FF, clNone
+Pushed.TextColor=$00485E8A
+Checked.Body=5, $00DDEEFF, $00C6E2FF, $00B9DCFF, $00DFF4FF
+Checked.Borders=0, $00B7DBFF, $00C6E2FF, $00DDEEFF, clNone
+Checked.TextColor=$00425C80
+CheckedAndHotTrack.Body=5, $00B7DEFF, $009DD6FF, $0080D2FF, $0095E8FF
+CheckedAndHotTrack.Borders=0, $0079D0FF, $009DD6FF, $00B7DEFF, clNone
+CheckedAndHotTrack.TextColor=$0040527B
+
+[EditFrame]
+Normal.Body=0, $004DA64D, $00CC69A3
+Normal.Borders=1, $00838383, $00909090, $00737373, $00A5A5A5
+Normal.TextColor=$0096FFBE
+Disabled.Body=0
+Disabled.Borders=1, $00838383, $00909090, $00737373, $00A5A5A5
+Disabled.TextColor=$00E576DF
+HotTrack.Body=0, $0073FFFF
+HotTrack.Borders=0, $00838383, $00909090, $00737373, $00A5A5A5
+HotTrack.TextColor=$00BBD8FF
+Pushed.Body=0, $0069C4CC
+Pushed.Borders=0, $00838383, $00909090, $00737373, $00A5A5A5
+Pushed.TextColor=$000000CC
+Checked.Body=0, clBlue
+Checked.Borders=1, $00838383, $00909090, $00737373, $00A5A5A5
+Checked.TextColor=clBlue
+CheckedAndHotTrack.Body=0
+CheckedAndHotTrack.Borders=0, $00838383, $00909090, $00737373, $00A5A5A5
+
+[Header]
+Normal.Body=5, $00B7B7B7, $00A5A5A5, $00929292, $00BABABA
+Normal.Borders=0, $00B7B7B7, $00929292
+Normal.TextColor=$00323232
+HotTrack.Body=5, $00949494, $00858585, $00767676, $00969696
+HotTrack.Borders=0, $00949494, $00767676
+HotTrack.TextColor=clWhite
+Checked.Body=5, $00787878, $006C6C6C, $005F5F5F, $00797979
+Checked.Borders=0, $00787878, $005F5F5F
+Checked.TextColor=clWhite
+
+[Label]
+Normal.Body=0, clBlue
+Normal.Borders=0, $00000099
+Normal.TextColor=$0032231B
+Disabled.Body=0
+Disabled.Borders=0
+Disabled.TextColor=$00BEBEBE
+HotTrack.Body=0
+HotTrack.Borders=0, $0000B2B2
+HotTrack.TextColor=$0083D9FE
+Pushed.Body=0
+Pushed.Borders=0
+Pushed.TextColor=$00AA7A5E
+Checked.Body=0
+Checked.Borders=0
+Checked.TextColor=$00B5E8FD
+CheckedAndHotTrack.Body=0
+CheckedAndHotTrack.Borders=0
+CheckedAndHotTrack.TextColor=$000000E5
+
+[ListItem]
+Normal.Body=6, clGreen, $00FFD5BB, $0076E5D2, clNone
+Normal.Borders=0, $00F3F3EF, $00F3F3ED
+Normal.TextColor=$00353535
+Disabled.Body=0, $00FFBFBF
+Disabled.Borders=0, $004D4DFF, clBlack
+Disabled.TextColor=clSilver
+HotTrack.Body=5, $00FBFBF7, $00F4F4F2, $00F5F5F3, $00FBFBF4
+HotTrack.Borders=2, $00A6A6A6, $00A5A5A5, $00FBFBF7, $00F3F3ED
+HotTrack.TextColor=$0032231B
+Pushed.Body=5, $00C2E3FF, $00A4DBFF, $0085D7FF, $009AEDFF
+Pushed.Borders=1, $00A6A6A6, $00A5A5A5, $00C2E3FF, $008FE2FF
+Pushed.TextColor=$00FFE0CD
+Checked.Body=5, $00B7EAFF, $00A4E3FF, $00B0E3FF, $0095E8FF
+Checked.Borders=1, $00B0B0B0, $00AFAFAF, $00B7DEFF, $0097E0FF
+Checked.TextColor=$004A4A4A
+CheckedAndHotTrack.Body=5, $00FBFBF7, $00F4F4F2, $00F5F5F3, $00FBFBF4
+CheckedAndHotTrack.Borders=2, $00A6A6A6, $00A5A5A5, $00FBFBF7, $00F3F3ED
+CheckedAndHotTrack.TextColor=$0083D9FE
+
+[ProgressBar]
+Normal.Body=2, $00535353, $00585858
+Normal.Borders=1, $00818181, $008D8D8D, $00676767, $009E9E9E
+Normal.TextColor=$003D3D3D
+Disabled.Body=0, clBlue
+Disabled.Borders=1, $00818181, $008D8D8D, $00676767, $009E9E9E
+Disabled.TextColor=clRed
+HotTrack.Body=5, $00FBFBF7, $00ECECE8, $00ECECE6, $00FBFBF4
+HotTrack.Borders=1, $00818181, $008D8D8D, $00676767, $009E9E9E
+HotTrack.TextColor=$0040527B
+Pushed.Body=0, $009999FF
+Pushed.Borders=1, $00818181, $008D8D8D, $00676767, $009E9E9E
+Pushed.TextColor=$00485E8A
+Checked.Body=5, clGreen, $00ECECE8, $00ECECE6, $00FBFBF4
+Checked.Borders=1, $00818181, $008D8D8D, $00676767, $009E9E9E
+Checked.TextColor=$00007300
+CheckedAndHotTrack.Body=0, $0073B973
+CheckedAndHotTrack.Borders=1, $00818181, $008D8D8D, $00676767, $009E9E9E
+CheckedAndHotTrack.TextColor=clBlue
+
+[RadioButton]
+Normal.Body=5, $00FBFBF7, $00ECECE8, $00ECECE6, $00FBFBF4
+Normal.Borders=1, $009C9C9C, $009B9B9B, $00FBFBF7, $00F3F3ED
+Normal.TextColor=$0032231B
+Disabled.Body=5, $00B7B7B7, $00B0B0B0, $00AFAFAF, $00B6B6B6
+Disabled.Borders=2, $009C9C9C, $009B9B9B, $00B7B7B7, $00B3B3B3
+Disabled.TextColor=$009B9B9B
+HotTrack.Body=5, $00B7DEFF, $009DD6FF, $0080D2FF, $0095E8FF
+HotTrack.Borders=2, $008E8E8E, $008D8D8D, $00B7DEFF, $008ADDFF
+HotTrack.TextColor=$0032231B
+Pushed.Body=5, $00C2E3FF, $00A4DBFF, $0085D7FF, $009AEDFF
+Pushed.Borders=2, $008E8E8E, $008D8D8D, $00C2E3FF, $008FE2FF
+Pushed.TextColor=$0032231B
+Checked.Body=5, $00FBFBF7, $00ECECE8, $00ECECE6, $00FBFBF4
+Checked.Borders=2, $009C9C9C, $009B9B9B, $00FBFBF7, $00F3F3ED
+Checked.TextColor=$0032231B
+CheckedAndHotTrack.Body=5, $00B7DEFF, $009DD6FF, $0080D2FF, $0095E8FF
+CheckedAndHotTrack.Borders=2, $008E8E8E, $008D8D8D, $00B7DEFF, $008ADDFF
+CheckedAndHotTrack.TextColor=$0032231B
+
+[Tab]
+Normal.Body=0
+Normal.Borders=0, clNone, $004A4A4A
+Normal.TextColor=$00DADADA
+Disabled.Body=0
+Disabled.Borders=0
+Disabled.TextColor=$00585858
+HotTrack.Body=3, $00444444, $00494949, $00575757, $006E6E6E
+HotTrack.Borders=2, $00454545, $00646464, $00444444, clNone
+HotTrack.TextColor=clWhite
+Pushed.Body=1, $00444444, $005A5A5A
+Pushed.Borders=0
+Pushed.TextColor=$00FF4D4D
+Checked.Body=5, $0076C3FE, $00509CF1, $00469BF0, $0066CCFD
+Checked.Borders=2, $00545454, $00545454, $006DC5FE, $001CB4FD
+Checked.TextColor=$00434343
+CheckedAndHotTrack.Body=5, $0076C5FE, $003E89F0, $002986ED, $0066CFFD
+CheckedAndHotTrack.Borders=2, $00545454, $00545454, $0056B7FE, $0021A0FE
+CheckedAndHotTrack.TextColor=clWhite
+
+[TrackBar]
+Normal.Body=2, $00535353, $00585858
+Normal.Borders=1, $00818181, $008D8D8D, $00676767, $009E9E9E
+Disabled.Body=0, $00FF7373
+Disabled.Borders=1, $00818181, $008D8D8D, $00676767, $009E9E9E
+HotTrack.Body=0, $00C3AEA7
+HotTrack.Borders=1, $00818181, $008D8D8D, $00676767, $009E9E9E
+Pushed.Body=0, $00FFA8FA
+Pushed.Borders=1, $00818181, $008D8D8D, $00676767, $009E9E9E
+Checked.Body=0, $00FF4D4D
+Checked.Borders=1, $00818181, $008D8D8D, $00676767, $009E9E9E
+CheckedAndHotTrack.Body=0, clYellow
+CheckedAndHotTrack.Borders=1, $00818181, $008D8D8D, $00676767, $009E9E9E
+
+[TrackBarButton]
+Normal.Body=5, $00FBFBF7, $00ECECE8, $00ECECE6, $00FBFBF4
+Normal.Borders=2, $00FBFBF7, $00F3F3ED
+Normal.TextColor=$00FF2626
+Disabled.Body=5, $00BEBEBE, $00AEAEAE, $009D9D9D, $00C1C1C1
+Disabled.Borders=2, $00BEBEBE, $00AFAFAF
+Disabled.TextColor=$00E5CA76
+HotTrack.Body=5, $00B7DEFF, $009DD6FF, $0080D2FF, $0095E8FF
+HotTrack.Borders=2, $00B7DEFF, $008ADDFF
+HotTrack.TextColor=clRed
+Pushed.Body=5, $00C2E3FF, $00A4DBFF, $0085D7FF, $009AEDFF
+Pushed.Borders=2, $00C2E3FF, $008FE2FF
+Pushed.TextColor=clYellow
+Checked.Body=5, $00DDEEFF, $00C6E2FF, $00B9DCFF, $00DFF4FF
+Checked.Borders=2, $00DDEEFF, $00CCE8FF
+Checked.TextColor=$00FF83F8
+CheckedAndHotTrack.Body=5, $00B7DEFF, $009DD6FF, $0080D2FF, $0095E8FF
+CheckedAndHotTrack.Borders=2, $00B7DEFF, $008ADDFF
+CheckedAndHotTrack.TextColor=$00269326
+

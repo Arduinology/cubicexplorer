@@ -1,3 +1,6 @@
+* Updated French translation (thanks to BB).
++ Added new skin, Grey Pastels (thanks to BB).
+================================================================================
 24.11.2012
 + Added Plugin Host and option dialog page for it.
 
