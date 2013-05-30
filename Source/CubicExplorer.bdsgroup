@@ -10,8 +10,7 @@
 	</PersonalityInfo>
 	<Default.Personality>  <Projects>
       <Projects Name="CubicExplorer.exe">CubicExplorer.bdsproj</Projects>
-      <Projects Name="SamplePluginLib.dll">SamplePluginLib.bdsproj</Projects>
-      <Projects Name="Targets">CubicExplorer.exe SamplePluginLib.dll</Projects>
+      <Projects Name="Targets">CubicExplorer.exe</Projects>
     </Projects>
     <Dependencies/>
   </Default.Personality>

@@ -22,6 +22,7 @@ const
 type
   TCEPluginFactoryLibraryHost = class;
   TCEPluginFactoryLibrary = class;
+  TCEPluginPermissions = class;
 
 {-------------------------------------------------------------------------------
   ICEPluginHostAccess
@@ -58,6 +59,7 @@ type
     fInstances: TInterfaceList;
     fLogger: ICCLog;
     fLibraries: TCEPluginFactoryLibraryHost;
+    fPermissions: ICEPluginPermissions;
     fSettingsFolder: WideString;
     procedure AddPluginItem(const AFactory: ICEPluginFactory; const AInfo:
         ICEPluginInfo; ALibrary: TCEPluginFactoryLibrary = nil); virtual;
@@ -103,6 +105,9 @@ type
         stdcall;
     function Log(const AMessage: WideString; AMsgType: Integer; const ASender:
         IInterface): Int64; virtual; stdcall;
+    // Permissions
+    // - Returns an instance of ICEPluginPermissions.
+    function Permissions: ICEPluginPermissions; virtual; stdcall;
     procedure RegisterFactory(const AFactory: ICEPluginFactory); virtual; stdcall;
     function SaveDefaults(const AFilePath: WideString): Boolean; virtual; stdcall;
     function WriteSettingsToDisk(const APluginID: TGUID; Force: Boolean): Boolean;
@@ -118,6 +123,107 @@ type
     property Logger: ICCLog read fLogger write fLogger;
     property SettingsFolder: WideString read GetSettingsFolder write
         SetSettingsFolder;
+  end;
+
+{-------------------------------------------------------------------------------
+  TCEPluginPermissions
+-------------------------------------------------------------------------------}
+  PCEPermissionItem = ^TCEPermissionItem;
+  TCEPermissionItem = record
+    ALibrary: WideString;
+    APluginIDs: WideString;
+  end;
+
+  TCEPluginPermissions = class(TInterfacedObject, ICEPluginPermissions)
+  protected
+    fAllowed: TList;
+    fBlockByDefault: Boolean;
+    fBlocked: TList;
+    fItemSize: Cardinal;
+    function AllocItem: PCEPermissionItem; virtual;
+    function FindItemByLibrary(AList: TList; const ALibrary: WideString; out Item:
+        PCEPermissionItem): Integer; virtual;
+    procedure FreeItem(Item: PCEPermissionItem); virtual;
+  public
+    constructor Create; virtual;
+    destructor Destroy; override;
+    // ClearAllowedItems
+    // - Clear all Allowed items.
+    // - Returns the number of items deleted.
+    function ClearAllowedItems: Integer; virtual; stdcall;
+    // ClearBlockedItems
+    // - Clear all Blocked items.
+    // - Returns the number of items deleted.
+    function ClearBlockedItems: Integer; virtual; stdcall;
+    // DeleteAllowedItem
+    // - Delete Allowed item by it's index.
+    // - Valid Index range is from 0 to GetAllowedCount-1.
+    // - Returns TRUE if item was deleted, else FALSE.
+    function DeleteAllowedItem(Index: Integer): Boolean; virtual; stdcall;
+    // DeleteBlockedItem
+    // - Delete Blocked item by it's index.
+    // - Valid Index range is from 0 to GetBlockedCount-1.
+    // - Returns TRUE if item was deleted, else FALSE.
+    function DeleteBlockedItem(Index: Integer): Boolean; virtual; stdcall;
+    // GetAllowedCount
+    // - Returns the number of Allowed items.
+    function GetAllowedCount: Integer; virtual; stdcall;
+    // GetAllowedItem
+    // - Returns an Allowed item by it's index.
+    // - Valid Index range is from 0 to GetAllowedCount-1.
+    // - If Index is not in valid range and ALibrary is not empty, the item
+    //   is searched by ALibrary.
+    // - Returns the index of item if it's found, else -1.
+    function GetAllowedItem(Index: Integer; var ALibrary: WideString; out
+        APluginIDs: WideString): Integer; virtual; stdcall;
+    // GetBlockByDefault
+    // - Returns TRUE if non allowed plugins are blocked by default, else TRUE.
+    function GetBlockByDefault: Boolean; virtual; stdcall;
+    // GetBlockedCount
+    // - Returns the number of Blocked items.
+    function GetBlockedCount: Integer; virtual; stdcall;
+    // GetBlockedItem
+    // - Returns an Blocked item by it's index.
+    // - Valid Index range is from 0 to GetBlockedCount-1.
+    // - If Index is not in valid range and ALibrary is not empty, the item
+    //   is searched by ALibrary.
+    // - Returns the index of item if it's found, else -1.
+    function GetBlockedItem(Index: Integer; out ALibrary, APluginIDs: WideString):
+        Integer; virtual; stdcall;
+    // IsAllowed
+    // - Returns FALSE if specified item is in Blocked list.
+    // - Returns FALSE if BlockByDefault=TRUE and the specified item is not in the
+    //   Allowed list.
+    // - Returns TRUE if specified item is in the Allowed list (even if it's in
+    //   the Blocked list also).
+    // - Returns TRUE if BlockByDefault=FALSE and the specified item is not in the
+    //   Blocked list.
+    function IsAllowed(const ALibrary: WideString; const APluginID: WideString):
+        Boolean; virtual; stdcall;
+    // SetAllowedItem
+    // - Add allowed item.
+    // - ALibrary is an absolute or relative (to exe) path of the plugin library.
+    //   If ALibrary = *, all libraries will be included.
+    // - If ALibrary already exists on the list, APluginIDs will be appended to it.
+    // - APluginIDs should be a semicolon separated list of plugin IDs that
+    //   should be allowed.
+    // - Returns the index of the item added.
+    function SetAllowedItem(const ALibrary: WideString; const APluginIDs:
+        WideString): Integer; virtual; stdcall;
+    // SetBlockByDefault
+    // - If Value=TRUE, non allowed plugins are blocked by default.
+    // - If Value=FALSE, non allowed plugins will be registered by default.
+    procedure SetBlockByDefault(Value: Boolean); virtual; stdcall;
+    // SetBlockedItem
+    // - Add Blocked item.
+    // - ALibrary is an absolute or relative (to exe) path of the plugin library.
+    //   If ALibrary = *, all libraries will be included.
+    // - If ALibrary already exists on the list, APluginIDs will be appended to it.
+    // - APluginIDs should be a semicolon separated list of plugin IDs that
+    //   should be allowed.
+    // - Returns the index of the item added.
+    function SetBlockedItem(const ALibrary: WideString; const APluginIDs:
+        WideString): Integer; virtual; stdcall;
   end;
 
 {-------------------------------------------------------------------------------
@@ -385,6 +491,8 @@ begin
 
   fLibraries:= TCEPluginFactoryLibraryHost.Create;
 
+  fPermissions:= TCEPluginPermissions.Create;
+
   // initialize values
   fSettingsFolder:= AppDirPath + 'Plugins\.settings\';
 end;
@@ -406,6 +514,7 @@ begin
   FreeAndNil(fPlugins);
   FreeAndNil(fDefaults);
   FreeAndNil(fLibraries);
+  fPermissions:= nil;
 
   inherited Destroy;
 end;
@@ -989,7 +1098,7 @@ begin
           begin
             // unregister factory just in case
             UnRegisterFactory(factory);
-            
+
             // add plugins
             c:= factory.GetPluginCount-1;
             for j:= 0 to c do
@@ -1197,6 +1306,17 @@ begin
   end
   else
   Result:= -1;
+end;
+
+{-------------------------------------------------------------------------------
+  Permissions
+-------------------------------------------------------------------------------}
+function TCEPluginHost.Permissions: ICEPluginPermissions;
+begin
+  if IsAlive then
+  Result:= fPermissions
+  else
+  Result:= nil;
 end;
 
 {-------------------------------------------------------------------------------
@@ -2612,6 +2732,368 @@ end;
 procedure TCECustomPlugin.SaveSettings(const ASettings: ICEPluginSettings);
 begin
   // override from descendant
+end;
+
+{##############################################################################}
+// TCEPluginPermissions
+
+{-------------------------------------------------------------------------------
+  Create an instance of TCEPluginPermissions
+-------------------------------------------------------------------------------}
+constructor TCEPluginPermissions.Create;
+begin
+  inherited Create;
+  // create instances
+  fAllowed:= TList.Create;
+  fBlocked:= TList.Create;
+  // init values
+  fItemSize:= SizeOf(TCEPermissionItem);
+  fBlockByDefault:= true;
+end;
+
+{-------------------------------------------------------------------------------
+  Destroy TCEPluginPermissions
+-------------------------------------------------------------------------------}
+destructor TCEPluginPermissions.Destroy;
+begin
+  // clear items
+  ClearAllowedItems;
+  ClearBlockedItems;
+  // free instances
+  fAllowed.Free;
+  fBlocked.Free;
+  inherited Destroy;
+end;
+
+{-------------------------------------------------------------------------------
+  AllocItem
+-------------------------------------------------------------------------------}
+function TCEPluginPermissions.AllocItem: PCEPermissionItem;
+begin
+  Result:= AllocMem(fItemSize);
+end;
+
+{-------------------------------------------------------------------------------
+  FreeItem
+-------------------------------------------------------------------------------}
+procedure TCEPluginPermissions.FreeItem(Item: PCEPermissionItem);
+begin
+  Item.ALibrary:= '';
+  Item.APluginIDs:= '';
+  FreeMem(Item);
+end;
+
+{-------------------------------------------------------------------------------
+  FindItemByLibrary
+-------------------------------------------------------------------------------}
+function TCEPluginPermissions.FindItemByLibrary(AList: TList; const ALibrary:
+    WideString; out Item: PCEPermissionItem): Integer;
+var
+  i: Integer;
+begin
+  for Result:= 0 to AList.Count - 1 do
+  begin
+    Item:= AList.Items[i];
+    if WideIsSameText(Item.ALibrary, ALibrary) then
+    Exit;
+  end;
+  Item:= nil;
+  Result:= -1;
+end;
+
+{-------------------------------------------------------------------------------
+  ClearAllowedItems
+-------------------------------------------------------------------------------}
+function TCEPluginPermissions.ClearAllowedItems: Integer;
+var
+  i: Integer;
+begin
+  for i:= 0 to fAllowed.Count - 1 do
+  begin
+    FreeItem(fAllowed.Items[i]);
+  end;
+  fAllowed.Clear;
+end;
+
+{-------------------------------------------------------------------------------
+  ClearBlockedItems
+-------------------------------------------------------------------------------}
+function TCEPluginPermissions.ClearBlockedItems: Integer;
+var
+  i: Integer;
+begin
+  for i:= 0 to fBlocked.Count - 1 do
+  begin
+    FreeItem(fBlocked.Items[i]);
+  end;
+  fBlocked.Clear;
+end;
+
+{-------------------------------------------------------------------------------
+  DeleteAllowedItem
+-------------------------------------------------------------------------------}
+function TCEPluginPermissions.DeleteAllowedItem(Index: Integer): Boolean;
+begin
+  if (Index >= 0) and (Index < fAllowed.Count) then
+  begin
+    FreeItem(fAllowed.Items[Index]);
+    fAllowed.Delete(Index);
+    Result:= true;
+  end
+  else
+  Result:= false;
+end;
+
+{-------------------------------------------------------------------------------
+  DeleteBlockedItem
+-------------------------------------------------------------------------------}
+function TCEPluginPermissions.DeleteBlockedItem(Index: Integer): Boolean;
+begin
+  if (Index >= 0) and (Index < fBlocked.Count) then
+  begin
+    FreeItem(fBlocked.Items[Index]);
+    fBlocked.Delete(Index);
+    Result:= true;
+  end
+  else
+  Result:= false;
+end;
+
+{-------------------------------------------------------------------------------
+  GetAllowedCount
+-------------------------------------------------------------------------------}
+function TCEPluginPermissions.GetAllowedCount: Integer;
+begin
+  Result:= fAllowed.Count;
+end;
+
+{-------------------------------------------------------------------------------
+  GetAllowedItem
+-------------------------------------------------------------------------------}
+function TCEPluginPermissions.GetAllowedItem(Index: Integer; var ALibrary:
+    WideString; out APluginIDs: WideString): Integer;
+var
+  item: PCEPermissionItem;
+begin
+  // get by index
+  if (Index >= 0) and (Index < fAllowed.Count) then
+  begin
+    item:= fAllowed.Items[Index];
+    ALibrary:= item.ALibrary;
+    APluginIDs:= item.APluginIDs;
+    Result:= Index;
+  end
+  // get by library
+  else if ALibrary <> '' then
+  begin
+    Result:= FindItemByLibrary(fAllowed, ALibrary, item);
+    if assigned(item) then
+    APluginIDs:= item.APluginIDs;
+  end
+  // do nothing
+  else
+  Result:= -1;
+end;
+
+{-------------------------------------------------------------------------------
+  GetBlockByDefault
+-------------------------------------------------------------------------------}
+function TCEPluginPermissions.GetBlockByDefault: Boolean;
+begin
+  Result:= fBlockByDefault;
+end;
+
+{-------------------------------------------------------------------------------
+  GetBlockedCount
+-------------------------------------------------------------------------------}
+function TCEPluginPermissions.GetBlockedCount: Integer;
+begin
+  Result:= fBlocked.Count;
+end;
+
+{-------------------------------------------------------------------------------
+  GetBlockedItem
+-------------------------------------------------------------------------------}
+function TCEPluginPermissions.GetBlockedItem(Index: Integer; out ALibrary,
+    APluginIDs: WideString): Integer;
+var
+  item: PCEPermissionItem;
+begin
+  // get by index
+  if (Index >= 0) and (Index < fBlocked.Count) then
+  begin
+    item:= fBlocked.Items[Index];
+    ALibrary:= item.ALibrary;
+    APluginIDs:= item.APluginIDs;
+    Result:= Index;
+  end
+  // get by library
+  else if ALibrary <> '' then
+  begin
+    Result:= FindItemByLibrary(fBlocked, ALibrary, item);
+    if assigned(item) then
+    APluginIDs:= item.APluginIDs;
+  end
+  // do nothing
+  else
+  Result:= -1;
+end;
+
+{-------------------------------------------------------------------------------
+  IsAllowed
+-------------------------------------------------------------------------------}
+function TCEPluginPermissions.IsAllowed(const ALibrary: WideString; const
+    APluginID: WideString): Boolean;
+
+  // CheckPluginID
+  // - Returns TRUE if APluginID is in AItem.APluginIDs, else FALSE.
+  function CheckPluginID(AItem: PCEPermissionItem): Boolean;
+  var
+    ws: WideString;
+  begin
+    Result:= false;
+    ws:= AItem.APluginIDs;
+    while ws <> '' do
+    begin
+      if WideIsSameText(WideGetNextItem(ws, ';', true), APluginID) then
+      begin
+        Result:= true;
+        break;
+      end;
+    end;
+  end;
+
+var
+  i: Integer;
+  item: PCEPermissionItem;
+begin
+  Result:= false;
+  
+  // search from allowed list
+  for i:= 0 to fAllowed.Count - 1 do
+  begin
+    item:= fAllowed.Items[i];
+    if WideIsSameText(item.ALibrary, '*') or WideIsSameText(item.ALibrary, ALibrary) then
+    Result:= CheckPluginID(item);
+
+    if Result then
+    Exit; // item is allowed, nothing more to do -->
+  end;
+
+  // check if item is not blocked
+  if not fBlockByDefault then
+  begin
+    for i:= 0 to fBlocked.Count - 1 do
+    begin
+      item:= fBlocked.Items[i];
+      if WideIsSameText(item.ALibrary, '*') or WideIsSameText(item.ALibrary, ALibrary) then
+      begin
+        if CheckPluginID(item) then
+        Exit; // item was blocked, nothing more to do -->
+      end;
+    end;
+
+    // item was not found in blocked list, nor was it blocked by default, so it's allowed.
+    Result:= true;
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  SetAllowedItem
+-------------------------------------------------------------------------------}
+function TCEPluginPermissions.SetAllowedItem(const ALibrary: WideString; const
+    APluginIDs: WideString): Integer;
+var
+  item: PCEPermissionItem;
+  listDest: TStringList;
+  ws, id: WideString;
+begin
+  // update existing item
+  Result:= FindItemByLibrary(fAllowed, ALibrary, item);
+  if Result > -1 then
+  begin
+    listDest:= TStringList.Create;
+    listDest.Delimiter:= ';';
+    listDest.CaseSensitive:= false;
+    listDest.Duplicates:= dupIgnore;
+    listDest.Sorted:= true;
+    try
+      listDest.DelimitedText:= item.APluginIDs;
+
+      ws:= APluginIDs;
+      while ws <> '' do
+      begin
+        id:= WideGetNextItem(ws, ';', true);
+        if Length(id) = 38 then // guid is 38 character long (brackets included)
+        listDest.Add(id);
+      end;
+
+      item.APluginIDs:= listDest.DelimitedText;
+    finally
+      listDest.Free;
+    end;
+  end
+  // add new item
+  else
+  begin
+    item:= AllocItem;
+    item.ALibrary:= ALibrary;
+    item.APluginIDs:= APluginIDs;
+    Result:= fAllowed.Add(item);
+  end;
+end;
+
+{-------------------------------------------------------------------------------
+  SetBlockByDefault
+-------------------------------------------------------------------------------}
+procedure TCEPluginPermissions.SetBlockByDefault(Value: Boolean);
+begin
+  fBlockByDefault:= Value;
+end;
+
+{-------------------------------------------------------------------------------
+  SetBlockedItem
+-------------------------------------------------------------------------------}
+function TCEPluginPermissions.SetBlockedItem(const ALibrary: WideString; const
+    APluginIDs: WideString): Integer;
+var
+  item: PCEPermissionItem;
+  listDest: TStringList;
+  ws, id: WideString;
+begin
+  // update existing item
+  Result:= FindItemByLibrary(fBlocked, ALibrary, item);
+  if Result > -1 then
+  begin
+    listDest:= TStringList.Create;
+    listDest.Delimiter:= ';';
+    listDest.CaseSensitive:= false;
+    listDest.Duplicates:= dupIgnore;
+    listDest.Sorted:= true;
+    try
+      listDest.DelimitedText:= item.APluginIDs;
+
+      ws:= APluginIDs;
+      while ws <> '' do
+      begin
+        id:= WideGetNextItem(ws, ';', true);
+        if Length(id) = 38 then // guid is 38 character long (brackets included)
+        listDest.Add(id);
+      end;
+
+      item.APluginIDs:= listDest.DelimitedText;
+    finally
+      listDest.Free;
+    end;
+  end
+  // add new item
+  else
+  begin
+    item:= AllocItem;
+    item.ALibrary:= ALibrary;
+    item.APluginIDs:= APluginIDs;
+    Result:= fBlocked.Add(item);
+  end;
 end;
 
 {##############################################################################}

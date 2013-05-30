@@ -151,7 +151,9 @@ uses
   CE_PluginsIntf in 'CE_PluginsIntf.pas',
   fCE_PluginLog in 'fCE_PluginLog.pas' {CEPluginLog},
   fCE_OptionsPage_Plugins in 'fCE_OptionsPage_Plugins.pas' {CEOptionsPage_Plugins: TFrame},
-  fCE_PluginSettingsForm in 'fCE_PluginSettingsForm.pas' {CEPluginSettingsForm};
+  fCE_PluginSettingsForm in 'fCE_PluginSettingsForm.pas' {CEPluginSettingsForm},
+  SpTBXChromeLightGreySkin in 'Components\SpSkins\SpTBXChromeLightGreySkin.pas',
+  SpTBXChromeDarkGreySkin in 'Components\SpSkins\SpTBXChromeDarkGreySkin.pas';
 
 {$R *.res}
 {$R 'CE_Resources.res'}

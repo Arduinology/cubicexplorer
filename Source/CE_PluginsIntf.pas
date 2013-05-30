@@ -19,6 +19,7 @@ const
   IID_ICEPluginHost: TGUID        = '{2E65FE65-9FC3-4792-BF73-8E463DF808B6}';
   IID_ICEPluginSettingsEditor     = '{6CF81877-4406-4BF2-AB40-608FB2729DFF}';
   IID_ICEPluginSettingsEditorHost = '{A7912987-AE76-4FB4-A81E-595A43DB5685}';
+  IID_ICEPluginPermissions        = '{D682C654-EB96-42CE-96EE-425C22346093}';
 
   // Log Msg type (MTYPE)
   MTYPE_TICK    = -1;
@@ -44,6 +45,7 @@ type
   ICEPluginHost               = interface;
   ICEPluginSettingsEditor     = interface;
   ICEPluginSettingsEditorHost = interface;
+  ICEPluginPermissions        = interface;
   
 {-------------------------------------------------------------------------------
   ICEPlugin
@@ -414,7 +416,7 @@ type
         stdcall;
 
     // GetPluginDataCount
-    // - Returns the number of PluginData items.
+    // - Returns the number of PluginData items (registered plugins).
     function GetPluginDataCount: Integer; stdcall;
 
     // GetPluginData
@@ -554,6 +556,10 @@ type
     //   is called.
     procedure SendNotify(const ASender: IInterface; const APluginID: TGUID;
         ANotify: Integer; AParam1, AParam2: Integer); stdcall;
+
+    // Permissions
+    // - Returns an instance of ICEPluginPermissions.
+    function Permissions: ICEPluginPermissions; stdcall;
   end;
 
 {-------------------------------------------------------------------------------
@@ -607,6 +613,102 @@ type
     // - This method enables the Apply button and makes sure editor's
     //   SaveSettings is called before destroying it.
     procedure ValueHasChanged(const AEditor: ICEPluginSettingsEditor); stdcall;
+  end;
+
+{-------------------------------------------------------------------------------
+  ICEPluginPermissions
+-------------------------------------------------------------------------------}
+  ICEPluginPermissions = interface(IInterface)
+  ['{D682C654-EB96-42CE-96EE-425C22346093}']
+    // GetAllowedCount
+    // - Returns the number of Allowed items.
+    function GetAllowedCount: Integer; stdcall;
+
+    // GetAllowedItem
+    // - Returns an Allowed item by it's index.
+    // - Valid Index range is from 0 to GetAllowedCount-1.
+    // - If Index is not in valid range and ALibrary is not empty, the item
+    //   is searched by ALibrary.
+    // - Returns the index of item if it's found, else -1.
+    function GetAllowedItem(Index: Integer; var ALibrary: WideString; out
+        APluginIDs: WideString): Integer; stdcall;
+
+    // SetAllowedItem
+    // - Add allowed item.
+    // - ALibrary is an absolute or relative (to exe) path of the plugin library.
+    //   If ALibrary = *, all libraries will be included.
+    // - If ALibrary already exists on the list, APluginIDs will be appended to it.
+    // - APluginIDs should be a semicolon separated list of plugin IDs that
+    //   should be allowed.
+    // - Returns the index of the item added.
+    function SetAllowedItem(const ALibrary: WideString; const APluginIDs:
+        WideString): Integer; stdcall;
+
+    // DeleteAllowedItem
+    // - Delete Allowed item by it's index.
+    // - Valid Index range is from 0 to GetAllowedCount-1.
+    // - Returns TRUE if item was deleted, else FALSE.
+    function DeleteAllowedItem(Index: Integer): Boolean; stdcall;
+
+    // ClearAllowedItems
+    // - Clear all Allowed items.
+    // - Returns the number of items deleted.
+    function ClearAllowedItems: Integer; stdcall;
+
+    // GetBlockedCount
+    // - Returns the number of Blocked items.
+    function GetBlockedCount: Integer; stdcall;
+
+    // GetBlockedItem
+    // - Returns an Blocked item by it's index.
+    // - Valid Index range is from 0 to GetBlockedCount-1.
+    // - If Index is not in valid range and ALibrary is not empty, the item
+    //   is searched by ALibrary.
+    // - Returns the index of item if it's found, else -1.
+    function GetBlockedItem(Index: Integer; out ALibrary, APluginIDs: WideString):
+        Integer; stdcall;
+
+    // SetBlockedItem
+    // - Add Blocked item.
+    // - ALibrary is an absolute or relative (to exe) path of the plugin library.
+    //   If ALibrary = *, all libraries will be included.
+    // - If ALibrary already exists on the list, APluginIDs will be appended to it.
+    // - APluginIDs should be a semicolon separated list of plugin IDs that
+    //   should be allowed.
+    // - Returns the index of the item added.
+    function SetBlockedItem(const ALibrary: WideString; const APluginIDs:
+        WideString): Integer; stdcall;
+
+    // DeleteBlockedItem
+    // - Delete Blocked item by it's index.
+    // - Valid Index range is from 0 to GetBlockedCount-1.
+    // - Returns TRUE if item was deleted, else FALSE.
+    function DeleteBlockedItem(Index: Integer): Boolean; stdcall;
+
+    // ClearBlockedItems
+    // - Clear all Blocked items.
+    // - Returns the number of items deleted.
+    function ClearBlockedItems: Integer; stdcall;
+
+    // GetBlockByDefault
+    // - Returns TRUE if non allowed plugins are blocked by default, else TRUE.
+    function GetBlockByDefault: Boolean; stdcall;
+
+    // SetBlockByDefault
+    // - If Value=TRUE, non allowed plugins are blocked by default.
+    // - If Value=FALSE, non allowed plugins will be registered by default.
+    procedure SetBlockByDefault(Value: Boolean); stdcall;
+
+    // IsAllowed
+    // - Returns FALSE if specified item is in Blocked list.
+    // - Returns FALSE if BlockByDefault=TRUE and the specified item is not in the
+    //   Allowed list.
+    // - Returns TRUE if specified item is in the Allowed list (even if it's in
+    //   the Blocked list also).
+    // - Returns TRUE if BlockByDefault=FALSE and the specified item is not in the
+    //   Blocked list.
+    function IsAllowed(const ALibrary: WideString; const APluginID: WideString):
+        Boolean; stdcall;
   end;
 
 implementation

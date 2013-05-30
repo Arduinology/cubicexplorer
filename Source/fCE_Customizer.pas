@@ -158,6 +158,10 @@ begin
   CEToolbarCustomizer.ParentComponent:= ParentComponent;
   CEToolbarCustomizer.SetupForm;
   CEToolbarCustomizer.Show;
+
+  // switch to Buttons tab
+  CEToolbarCustomizer.tab_buttons.Click;
+  CEToolbarCustomizer.TabControlActiveTabChange(nil, 1);
 end;
 
 {##############################################################################}

@@ -6,12 +6,17 @@ uses
   // CC
   ccStrings, ccFileUtils,
   // CE
-  CE_LanguageEngine, fCE_OptionsCustomPage, fCE_OptionsDialog, dCE_Images,
+  CE_LanguageEngine, fCE_OptionsCustomPage, fCE_OptionsDialog, dCE_Images,             
   CE_Plugins, CE_PluginsIntf, fCE_PluginSettingsForm,
+  // Tnt
+  TntStdCtrls,  TntExtCtrls, TntComCtrls,
+  // SpTBX
+  SpTBXControls, SpTBXItem,
+  // VirtualTrees
+  VirtualTrees,
   // System Units
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, SpTBXTabs, TB2Item, SpTBXItem, ComCtrls, TntComCtrls, VirtualTrees,
-  SpTBXControls, ExtCtrls, TntExtCtrls, StdCtrls, TntStdCtrls, ImagingComponents;
+  Dialogs, ComCtrls, ExtCtrls, StdCtrls;
 
 type
   PPlugData = ^APlugData;
@@ -35,7 +40,6 @@ type
     but_plugin_settings: TTntButton;
     memo_plugin_desc: TTntMemo;
     label_plugin_version: TTntLabel;
-    Image1: TImage;
     procedure tree_plug_FreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure tree_plug_GetHint(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; var LineBreakStyle: TVTTooltipLineBreakStyle;

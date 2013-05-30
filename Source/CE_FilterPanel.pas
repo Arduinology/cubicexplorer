@@ -240,7 +240,7 @@ var
       data.Count:= data.Count + 1;
     end
     else
-    begin
+    begin                                                                      
       node:= FindByExtension(ns.Extension);
       if not assigned(node) then
       begin
